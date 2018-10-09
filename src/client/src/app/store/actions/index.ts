@@ -1,6 +1,5 @@
 
 import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
-import { ITokenResponse } from '@cinerino/api-abstract-client/lib/service/ownershipInfo';
 import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
 import { factory } from '@cinerino/api-javascript-client';
 import { Action } from '@ngrx/store';
@@ -21,6 +20,7 @@ export enum ActionTypes {
     GetScreeningEventReservations = '[User] Get Screening Reservations',
     GetScreeningEventReservationsSuccess = '[User] Get Screening Events Reservations Success',
     GetScreeningEventReservationsFail = '[User] Get Screening Events Reservations Fail',
+    InitializeQrcodeToken = '[User] Initialize Qrcode Token',
     ConvertQrcodeToToken = '[User] Convert Qrcode To Token',
     ConvertQrcodeToTokenSuccess = '[User] Convert Qrcode To Token Success',
     ConvertQrcodeToTokenFail = '[User] Convert Qrcode To Token Fail',
@@ -131,11 +131,27 @@ export class GetScreeningEventReservationsFail implements Action {
 }
 
 /**
+ * InitializeQrcodeToken
+ */
+export class InitializeQrcodeToken implements Action {
+    public readonly type = ActionTypes.InitializeQrcodeToken;
+    constructor(public payload?: {}) { }
+}
+
+/**
  * ConvertQrcodeToToken
  */
 export class ConvertQrcodeToToken implements Action {
     public readonly type = ActionTypes.ConvertQrcodeToToken;
-    constructor(public payload: { params: { code: string } }) { }
+    constructor(public payload: {
+        params: {
+            code: string;
+            screeningEventReservations: {
+                totalCount: number;
+                data: IScreeningEventReservation[];
+            };
+        }
+    }) { }
 }
 
 /**
@@ -144,9 +160,12 @@ export class ConvertQrcodeToToken implements Action {
 export class ConvertQrcodeToTokenSuccess implements Action {
     public readonly type = ActionTypes.ConvertQrcodeToTokenSuccess;
     constructor(public payload: {
-        token: string;
-        reservationByToken: { id: string };
-        checkTokenActions: ITokenResponse;
+        token?: string;
+        decodeResult?: factory.ownershipInfo.IOwnershipInfo<IScreeningEventReservation>;
+        availableReservation?: factory.chevre.reservation.event.ISearchConditions;
+        checkTokenActions: ISearchResult<factory.action.check.token.IAction[]>;
+        isAvailable: boolean;
+        statusCode: number;
     }) { }
 }
 
@@ -164,7 +183,7 @@ export class ConvertQrcodeToTokenFail implements Action {
  */
 export class Admission implements Action {
     public readonly type = ActionTypes.Admission;
-    constructor(public payload: { params: { token: string } }) { }
+    constructor(public payload: { params: { token: string; iat: number; } }) { }
 }
 
 /**
@@ -172,7 +191,7 @@ export class Admission implements Action {
  */
 export class AdmissionSuccess implements Action {
     public readonly type = ActionTypes.AdmissionSuccess;
-    constructor(public payload?: {}) { }
+    constructor(public payload: { token: string; iat: number; }) { }
 }
 
 /**
@@ -199,6 +218,7 @@ export type Actions =
     | GetScreeningEventReservations
     | GetScreeningEventReservationsSuccess
     | GetScreeningEventReservationsFail
+    | InitializeQrcodeToken
     | ConvertQrcodeToToken
     | ConvertQrcodeToTokenSuccess
     | ConvertQrcodeToTokenFail

@@ -1,25 +1,160 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
+import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
+import { factory } from '@cinerino/api-javascript-client';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Actions, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import jsqr from 'jsqr';
+import * as moment from 'moment';
+import { Observable, race } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
+import {
+    ActionTypes,
+    Admission,
+    ConvertQrcodeToToken,
+    GetScreeningEventReservations,
+    InitializeQrcodeToken
+} from '../../../store/actions';
+import * as reducers from '../../../store/reducers';
+import { AlertModalComponent } from '../../parts/alert-modal/alert-modal.component';
 
 @Component({
     selector: 'app-admission',
     templateUrl: './admission.component.html',
     styleUrls: ['./admission.component.scss']
 })
-export class AdmissionComponent implements OnInit {
+export class AdmissionComponent implements OnInit, OnDestroy {
+    public screeningEventReservations: Observable<{
+        totalCount: number;
+        data: IScreeningEventReservation[];
+    }>;
+    public screeningEvent: Observable<factory.chevre.event.screeningEvent.IEvent | undefined>;
+    public qrcodeToken: Observable<{
+        token?: string;
+        decodeResult?: factory.ownershipInfo.IOwnershipInfo<IScreeningEventReservation>;
+        checkTokenActions: ISearchResult<factory.action.check.token.IAction[]>;
+        isAvailable: boolean;
+        statusCode: number;
+    } | undefined>;
+    public qrcodeTokenList: Observable<{ token: string; iat: number; }[]>;
 
     public stream: MediaStream | null;
+    public isShowVideo: boolean;
     public video: HTMLVideoElement;
-    public code: string | null;
     public scanLoop: any;
-    constructor() { }
+    public admissionLoop: any;
+    public moment: typeof moment = moment;
+
+    constructor(
+        private store: Store<reducers.IState>,
+        private actions: Actions,
+        private router: Router,
+        private modal: NgbModal
+    ) { }
 
     public ngOnInit() {
-        this.code = null;
         this.stream = null;
         this.video = <HTMLVideoElement>document.getElementById('video');
-        this.video.width = 300;
-        this.video.height = 300;
+        this.video.width = window.outerWidth;
+        this.video.height = 150;
+        this.screeningEventReservations = this.store.pipe(select(reducers.getScreeningEventReservations));
+        this.screeningEvent = this.store.pipe(select(reducers.getScreeningEvent));
+        this.qrcodeToken = this.store.pipe(select(reducers.getQrcodeToken));
+        this.qrcodeTokenList = this.store.pipe(select(reducers.getQrcodeTokenList));
+        this.store.dispatch(new InitializeQrcodeToken());
+        this.getScreeningEventReservations();
+        this.admission();
+    }
+
+    public getScreeningEventReservations() {
+        this.screeningEvent.subscribe((screeningEvent) => {
+            if (screeningEvent === undefined) {
+                this.router.navigate(['/error']);
+                return;
+            }
+            this.store.dispatch(new GetScreeningEventReservations({
+                params: {
+                    sort: { reservationNumber: factory.chevre.sortType.Ascending },
+                    reservationStatuses: [
+                        factory.chevre.reservationStatusType.ReservationConfirmed,
+                        factory.chevre.reservationStatusType.ReservationCancelled,
+                        factory.chevre.reservationStatusType.ReservationHold,
+                        factory.chevre.reservationStatusType.ReservationPending
+                    ],
+                    reservationFor: {
+                        typeOf: factory.chevre.eventType.ScreeningEvent,
+                        id: screeningEvent.id
+                    }
+                }
+            }));
+        }).unsubscribe();
+
+        const success = this.actions.pipe(
+            ofType(ActionTypes.GetScreeningEventReservationsSuccess),
+            tap(() => {
+                this.store.pipe(select(reducers.getScreeningEventReservations)).subscribe((screeningEventReservation) => {
+                    console.log(screeningEventReservation);
+                }).unsubscribe();
+            })
+        );
+
+        const fail = this.actions.pipe(
+            ofType(ActionTypes.GetScreeningEventReservationsFail),
+            tap(() => {
+                this.router.navigate(['/error']);
+            })
+        );
+        race(success, fail).pipe(take(1)).subscribe();
+    }
+
+    public convertQrcodeToToken(code: string) {
+        this.screeningEventReservations.subscribe((screeningEventReservations) => {
+            this.store.dispatch(new ConvertQrcodeToToken({ params: { code, screeningEventReservations } }));
+        }).unsubscribe();
+
+        const success = this.actions.pipe(
+            ofType(ActionTypes.ConvertQrcodeToTokenSuccess),
+            tap(() => {
+                this.store.pipe(select(reducers.getQrcodeToken)).subscribe((qrcodeToken) => {
+                    console.log(qrcodeToken);
+                }).unsubscribe();
+            })
+        );
+
+        const fail = this.actions.pipe(
+            ofType(ActionTypes.ConvertQrcodeToTokenFail),
+            tap(() => {
+                this.openAlert({
+                    title: 'エラー',
+                    body: '読み込みに失敗しました。'
+                });
+            })
+        );
+        race(success, fail).pipe(take(1)).subscribe();
+    }
+
+    public admission() {
+        const admissionLoopTime = 180000; // 3分に一回
+        this.admissionLoop = setInterval(() => {
+            this.qrcodeTokenList.subscribe((qrcodeTokenList) => {
+                qrcodeTokenList.forEach((qrcodeToken) => {
+                    this.store.dispatch(new Admission({ params: qrcodeToken }));
+                });
+            }).unsubscribe();
+        }, admissionLoopTime);
+
+        const success = this.actions.pipe(
+            ofType(ActionTypes.AdmissionSuccess),
+            tap(() => { })
+        );
+
+        const fail = this.actions.pipe(
+            ofType(ActionTypes.GetTheatersFail),
+            tap(() => { })
+        );
+        race(success, fail).pipe(take(1)).subscribe();
     }
 
     public async start() {
@@ -35,10 +170,12 @@ export class AdmissionComponent implements OnInit {
             this.scanLoop = setInterval(() => {
                 const code = this.scan();
                 if (code !== null) {
-                    this.code = code;
+                    // 読み取り完了
                     this.stop();
+                    this.convertQrcodeToToken(code);
                 }
             }, scanLoopTime);
+            this.isShowVideo = true;
         } catch (error) {
             console.error(error);
         }
@@ -52,6 +189,7 @@ export class AdmissionComponent implements OnInit {
             track.stop();
         });
         this.stream = null;
+        this.isShowVideo = false;
     }
 
     public scan() {
@@ -73,6 +211,22 @@ export class AdmissionComponent implements OnInit {
             return null;
         }
         return qrcode.data;
+    }
+
+    public ngOnDestroy() {
+        clearInterval(this.scanLoop);
+        clearInterval(this.admissionLoop);
+    }
+
+    public openAlert(args: {
+        title: string;
+        body: string;
+    }) {
+        const modalRef = this.modal.open(AlertModalComponent, {
+            centered: true
+        });
+        modalRef.componentInstance.title = args.title;
+        modalRef.componentInstance.body = args.body;
     }
 
 }

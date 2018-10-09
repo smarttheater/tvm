@@ -2,10 +2,10 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as helmet from 'helmet';
-import session from './middlewares/session/session.middleware';
 import basicAuth from './middlewares/basicAuth/basic-auth.middleware';
 import benchmarks from './middlewares/benchmarks/benchmarks.middleware';
 import ipFilter from './middlewares/ipFilter/ip-filter.middleware';
+import session from './middlewares/session/session.middleware';
 import router from './routes/router';
 
 /**

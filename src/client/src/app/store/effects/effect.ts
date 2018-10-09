@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
+import { factory } from '@cinerino/api-javascript-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { OK } from 'http-status';
 import * as decode from 'jwt-decode';
 import { map, mergeMap } from 'rxjs/operators';
 import { CinerinoService } from '../../services/cinerino.service';
@@ -101,13 +104,38 @@ export class Effects {
             // console.log(payload);
             try {
                 await this.cinerino.getServices();
-                const { token } = await this.cinerino.admin.ownershipInfo.getToken(payload.params);
-                const decodeResult = decode<any>(token);
-                const reservationByToken = <{ id: string }>decodeResult.typeOfGood;
-                const checkTokenActions = await this.cinerino.admin.ownershipInfo.searchCheckTokenActions({ id: decodeResult.id });
-                return new ConvertQrcodeToTokenSuccess({ token, reservationByToken, checkTokenActions });
             } catch (error) {
-                return new ConvertQrcodeToTokenFail({ error: error });
+                return new ConvertQrcodeToTokenFail({ error });
+            }
+            const code = payload.params.code;
+            const screeningEventReservations = payload.params.screeningEventReservations;
+            let token: string;
+            try {
+                const getTokenResult = await this.cinerino.admin.ownershipInfo.getToken({ code });
+                token = getTokenResult.token;
+            } catch (error) {
+                const checkTokenActions = { totalCount: 0, data: [] };
+                const isAvailable = false;
+                const statusCode = error.code;
+                return new ConvertQrcodeToTokenSuccess({ checkTokenActions, isAvailable, statusCode });
+            }
+            try {
+                const decodeResult = decode<factory.ownershipInfo.IOwnershipInfo<IScreeningEventReservation>>(token);
+                const checkTokenActions = await this.cinerino.admin.ownershipInfo.searchCheckTokenActions({ id: decodeResult.id });
+                // 利用可能判定
+                console.log(screeningEventReservations.data
+                    .filter((r) => r.reservationStatus === factory.chevre.reservationStatusType.ReservationConfirmed));
+
+                const availableReservation = screeningEventReservations.data
+                    .filter((r) => r.reservationStatus === factory.chevre.reservationStatusType.ReservationConfirmed)
+                    .find((r) => r.id === decodeResult.typeOfGood.id);
+                const isAvailable = availableReservation !== undefined;
+                const statusCode = OK;
+                return new ConvertQrcodeToTokenSuccess({
+                    token, decodeResult, availableReservation, checkTokenActions, isAvailable, statusCode
+                });
+            } catch (error) {
+                return new ConvertQrcodeToTokenFail({ error });
             }
         })
     );
@@ -124,7 +152,7 @@ export class Effects {
             try {
                 await this.cinerino.getServices();
                 this.cinerino.reservation.findScreeningEventReservationByToken(payload.params);
-                return new AdmissionSuccess();
+                return new AdmissionSuccess(payload.params);
             } catch (error) {
                 return new AdmissionFail({ error: error });
             }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
 import { factory } from '@cinerino/api-javascript-client';
-import SortType from '@cinerino/factory/lib/factory/sortType';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -79,7 +78,7 @@ export class ScheduleComponent implements OnInit {
                     locationBranchCodes: [this.theaterCode]
                 },
                 sort: {
-                    doorTime: SortType.Ascending
+                    doorTime: factory.sortType.Ascending
                 }
             }
         }));

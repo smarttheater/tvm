@@ -19,9 +19,9 @@
         <ul *ngIf="(screeningEvents | async).totalCount !== 0">
             <li *ngFor="let screeningEvent of (screeningEvents | async).data" class="bg-primary text-white mb-2 px-3 py-2" (click)="select(screeningEvent)">
                 <p>{{ screeningEvent.name.ja }}</p>
-                <p class="small-texxt">{{ screeningEvent.location.name.ja }}</p>
-                <p class="small-texxt">開場時間 {{ moment(screeningEvent.doorTime).format('MM/DD HH:mm') }}</p>
-                <p class="small-texxt">上映時間 {{ moment(screeningEvent.startDate).format('HH:mm') }} - {{ moment(screeningEvent.endDate).format('HH:mm') }}</p>
+                <p class="small-text">{{ screeningEvent.location.name.ja }}</p>
+                <p class="small-text">開場時間 {{ moment(screeningEvent.doorTime).format('MM/DD HH:mm') }}</p>
+                <p class="small-text">上映時間 {{ moment(screeningEvent.startDate).format('HH:mm') }} - {{ moment(screeningEvent.endDate).format('HH:mm') }}</p>
             </li>
         </ul>
     </div>

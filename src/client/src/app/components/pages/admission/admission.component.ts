@@ -140,7 +140,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
     }
 
     public admission() {
-        const admissionLoopTime = 180000; // 3分に一回
+        const admissionLoopTime = 60000; // 1分に一回
         this.admissionLoop = setInterval(() => {
             this.qrcodeTokenList.subscribe((qrcodeTokenList) => {
                 qrcodeTokenList.forEach((qrcodeToken) => {
@@ -175,7 +175,6 @@ export class AdmissionComponent implements OnInit, OnDestroy {
                 const code = this.scan();
                 if (code !== null) {
                     // 読み取り完了
-                    this.stop();
                     this.convertQrcodeToToken(code);
                 }
             }, scanLoopTime);

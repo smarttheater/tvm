@@ -58,7 +58,6 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         this.stream = null;
         this.video = <HTMLVideoElement>document.getElementById('video');
         this.video.width = window.outerWidth;
-        this.video.height = 150;
         this.screeningEventReservations = this.store.pipe(select(reducers.getScreeningEventReservations));
         this.screeningEvent = this.store.pipe(select(reducers.getScreeningEvent));
         this.qrcodeToken = this.store.pipe(select(reducers.getQrcodeToken));
@@ -66,6 +65,11 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         this.store.dispatch(new InitializeQrcodeToken());
         this.getScreeningEventReservations();
         this.admission();
+    }
+
+    public ngOnDestroy() {
+        clearInterval(this.scanLoop);
+        clearInterval(this.admissionLoop);
     }
 
     public getScreeningEventReservations() {
@@ -211,11 +215,6 @@ export class AdmissionComponent implements OnInit, OnDestroy {
             return null;
         }
         return qrcode.data;
-    }
-
-    public ngOnDestroy() {
-        clearInterval(this.scanLoop);
-        clearInterval(this.admissionLoop);
     }
 
     public openAlert(args: {

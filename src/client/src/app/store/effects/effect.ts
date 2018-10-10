@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
 import { factory } from '@cinerino/api-javascript-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { OK } from 'http-status';
 import * as decode from 'jwt-decode';
 import { map, mergeMap } from 'rxjs/operators';
+import { IDecodeResult } from '../../model';
 import { CinerinoService } from '../../services/cinerino.service';
 import {
     ActionTypes,
@@ -120,7 +120,7 @@ export class Effects {
                 return new ConvertQrcodeToTokenSuccess({ checkTokenActions, isAvailable, statusCode });
             }
             try {
-                const decodeResult = decode<factory.ownershipInfo.IOwnershipInfo<IScreeningEventReservation>>(token);
+                const decodeResult = decode<IDecodeResult>(token);
                 const checkTokenActions = await this.cinerino.admin.ownershipInfo.searchCheckTokenActions({ id: decodeResult.id });
                 // 利用可能判定
                 console.log(screeningEventReservations.data

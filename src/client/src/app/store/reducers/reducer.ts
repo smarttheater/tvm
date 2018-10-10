@@ -1,6 +1,7 @@
 import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
 import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
 import { factory } from '@cinerino/api-javascript-client';
+import { IDecodeResult } from '../../model';
 import { Actions, ActionTypes } from '../actions';
 
 
@@ -20,13 +21,16 @@ export interface IState {
     };
     qrcodeToken?: {
         token?: string;
-        decodeResult?: factory.ownershipInfo.IOwnershipInfo<IScreeningEventReservation>;
+        decodeResult?: IDecodeResult;
         availableReservation?: factory.chevre.reservation.event.ISearchConditions;
         checkTokenActions: ISearchResult<factory.action.check.token.IAction[]>;
         isAvailable: boolean;
         statusCode: number;
     };
-    qrcodeTokenList: { token: string; iat: number }[];
+    qrcodeTokenList: {
+        token: string;
+        decodeResult: IDecodeResult;
+    }[];
 }
 
 /**
@@ -108,6 +112,10 @@ export function reducer(
             const qrcodeToken = undefined;
             return { ...state, qrcodeToken };
         }
+        case ActionTypes.InitializeQrcodeTokenList: {
+            state.qrcodeTokenList = [];
+            return { ...state };
+        }
         case ActionTypes.ConvertQrcodeToToken: {
             return { ...state, loading: true, error: null };
         }
@@ -119,7 +127,7 @@ export function reducer(
                 && qrcodeToken.decodeResult !== undefined) {
                 qrcodeTokenList.push({
                     token: qrcodeToken.token,
-                    iat: (<any>qrcodeToken.decodeResult).iat
+                    decodeResult: qrcodeToken.decodeResult
                 });
             }
             return { ...state, loading: false, error: null, qrcodeToken, qrcodeTokenList };
@@ -133,8 +141,10 @@ export function reducer(
         }
         case ActionTypes.AdmissionSuccess: {
             const token = action.payload.token;
-            const iat = action.payload.iat;
-            const qrcodeTokenList = state.qrcodeTokenList.filter(qrcode => qrcode.token !== token && qrcode.iat !== iat);
+            const decodeResult = action.payload.decodeResult;
+            const qrcodeTokenList = state.qrcodeTokenList.filter((qrcode) => {
+                return qrcode.token !== token && qrcode.decodeResult.iat !== decodeResult.iat;
+            });
             return { ...state, error: null, qrcodeTokenList };
         }
         case ActionTypes.AdmissionFail: {

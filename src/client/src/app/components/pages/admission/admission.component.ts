@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
 import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
@@ -10,12 +10,12 @@ import jsqr from 'jsqr';
 import * as moment from 'moment';
 import { Observable, race } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+import { IDecodeResult } from '../../../model';
 import {
     ActionTypes,
     Admission,
     ConvertQrcodeToToken,
-    GetScreeningEventReservations,
-    InitializeQrcodeToken
+    GetScreeningEventReservations
 } from '../../../store/actions';
 import * as reducers from '../../../store/reducers';
 import { AlertModalComponent } from '../../parts/alert-modal/alert-modal.component';
@@ -33,12 +33,15 @@ export class AdmissionComponent implements OnInit, OnDestroy {
     public screeningEvent: Observable<factory.chevre.event.screeningEvent.IEvent | undefined>;
     public qrcodeToken: Observable<{
         token?: string;
-        decodeResult?: factory.ownershipInfo.IOwnershipInfo<IScreeningEventReservation>;
+        decodeResult?: IDecodeResult;
         checkTokenActions: ISearchResult<factory.action.check.token.IAction[]>;
         isAvailable: boolean;
         statusCode: number;
     } | undefined>;
-    public qrcodeTokenList: Observable<{ token: string; iat: number; }[]>;
+    public qrcodeTokenList: Observable<{
+        token: string;
+        decodeResult: IDecodeResult;
+    }[]>;
 
     public stream: MediaStream | null;
     public isShowVideo: boolean;
@@ -46,6 +49,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
     public scanLoop: any;
     public admissionLoop: any;
     public moment: typeof moment = moment;
+    public inputCode: string;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -55,14 +59,14 @@ export class AdmissionComponent implements OnInit, OnDestroy {
     ) { }
 
     public ngOnInit() {
+        this.inputCode = '';
         this.stream = null;
         this.video = <HTMLVideoElement>document.getElementById('video');
-        this.video.width = window.outerWidth;
+        this.video.width = window.innerWidth;
         this.screeningEventReservations = this.store.pipe(select(reducers.getScreeningEventReservations));
         this.screeningEvent = this.store.pipe(select(reducers.getScreeningEvent));
         this.qrcodeToken = this.store.pipe(select(reducers.getQrcodeToken));
         this.qrcodeTokenList = this.store.pipe(select(reducers.getQrcodeTokenList));
-        this.store.dispatch(new InitializeQrcodeToken());
         this.getScreeningEventReservations();
         this.admission();
     }
@@ -70,6 +74,74 @@ export class AdmissionComponent implements OnInit, OnDestroy {
     public ngOnDestroy() {
         clearInterval(this.scanLoop);
         clearInterval(this.admissionLoop);
+    }
+
+    @HostListener('document:keypress', ['$event'])
+    public handleKeyboardEvent(event: KeyboardEvent) {
+        const KEY_ENTER = 'Enter';
+        const KEY_ESCAPE = 'Escape';
+        if (event.key === KEY_ENTER && this.inputCode.length > 0) {
+            // 読み取り完了
+            this.convertQrcodeToToken(this.inputCode);
+            this.inputCode = '';
+        } else if (event.key !== KEY_ESCAPE) {
+            this.inputCode += event.key;
+        }
+    }
+
+    public async start() {
+        try {
+            const constraints = {
+                audio: false,
+                video: { facingMode: { exact: 'environment' } }
+            };
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            this.stream = stream;
+            this.video.srcObject = this.stream;
+            const scanLoopTime = 500;
+            this.scanLoop = setInterval(() => {
+                const code = this.scan();
+                if (code !== null) {
+                    // 読み取り完了
+                    this.convertQrcodeToToken(code);
+                }
+            }, scanLoopTime);
+            this.isShowVideo = true;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    public stop() {
+        if (this.stream === null) {
+            return;
+        }
+        this.stream.getVideoTracks().forEach((track) => {
+            track.stop();
+        });
+        this.stream = null;
+        this.isShowVideo = false;
+    }
+
+    public scan() {
+        if (this.stream === null) {
+            return null;
+        }
+        // キャンバスへ反映
+        const canvas = <HTMLCanvasElement>document.getElementById('canvas');
+        const context = <CanvasRenderingContext2D>canvas.getContext('2d');
+        const width = this.video.offsetWidth;
+        const height = this.video.offsetHeight;
+        canvas.setAttribute('width', String(width));
+        canvas.setAttribute('height', String(height));
+        context.drawImage(this.video, 0, 0, width, height);
+        // QRコードデコード
+        const imageData = context.getImageData(0, 0, width, height);
+        const qrcode = jsqr(imageData.data, width, height);
+        if (qrcode === null) {
+            return null;
+        }
+        return qrcode.data;
     }
 
     public getScreeningEventReservations() {
@@ -159,61 +231,6 @@ export class AdmissionComponent implements OnInit, OnDestroy {
             tap(() => { })
         );
         race(success, fail).pipe(take(1)).subscribe();
-    }
-
-    public async start() {
-        try {
-            const constraints = {
-                audio: false,
-                video: { facingMode: { exact: 'environment' } }
-            };
-            const stream = await navigator.mediaDevices.getUserMedia(constraints);
-            this.stream = stream;
-            this.video.srcObject = this.stream;
-            const scanLoopTime = 500;
-            this.scanLoop = setInterval(() => {
-                const code = this.scan();
-                if (code !== null) {
-                    // 読み取り完了
-                    this.convertQrcodeToToken(code);
-                }
-            }, scanLoopTime);
-            this.isShowVideo = true;
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    public stop() {
-        if (this.stream === null) {
-            return;
-        }
-        this.stream.getVideoTracks().forEach((track) => {
-            track.stop();
-        });
-        this.stream = null;
-        this.isShowVideo = false;
-    }
-
-    public scan() {
-        if (this.stream === null) {
-            return null;
-        }
-        // キャンバスへ反映
-        const canvas = <HTMLCanvasElement>document.getElementById('canvas');
-        const context = <CanvasRenderingContext2D>canvas.getContext('2d');
-        const width = this.video.offsetWidth;
-        const height = this.video.offsetHeight;
-        canvas.setAttribute('width', String(width));
-        canvas.setAttribute('height', String(height));
-        context.drawImage(this.video, 0, 0, width, height);
-        // QRコードデコード
-        const imageData = context.getImageData(0, 0, width, height);
-        const qrcode = jsqr(imageData.data, width, height);
-        if (qrcode === null) {
-            return null;
-        }
-        return qrcode.data;
     }
 
     public openAlert(args: {

@@ -11,6 +11,8 @@ import {
     ActionTypes,
     GetScreeningEvents,
     GetTheaters,
+    InitializeQrcodeToken,
+    InitializeQrcodeTokenList,
     SelectScreeningEvent
 } from '../../../store/actions';
 import * as reducers from '../../../store/reducers';
@@ -99,6 +101,8 @@ export class ScheduleComponent implements OnInit {
 
     public select(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
         this.store.dispatch(new SelectScreeningEvent({ screeningEvent }));
+        this.store.dispatch(new InitializeQrcodeToken());
+        this.store.dispatch(new InitializeQrcodeTokenList());
         this.router.navigate(['/admission']);
     }
 

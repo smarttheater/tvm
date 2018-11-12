@@ -91,6 +91,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
 
     public async start() {
         try {
+            this.inputCode = '';
             const constraints = {
                 audio: false,
                 video: { facingMode: { exact: 'environment' } }
@@ -101,7 +102,11 @@ export class AdmissionComponent implements OnInit, OnDestroy {
             const scanLoopTime = 500;
             this.scanLoop = setInterval(() => {
                 const code = this.scan();
+                if (this.inputCode === code) {
+                    return;
+                }
                 if (code !== null) {
+                    this.inputCode = code;
                     // 読み取り完了
                     this.convertQrcodeToToken(code);
                 }

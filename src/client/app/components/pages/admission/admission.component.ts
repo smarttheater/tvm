@@ -42,6 +42,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         token: string;
         decodeResult: IDecodeResult;
     }[]>;
+    public isLoading: Observable<boolean>;
 
     public stream: MediaStream | null;
     public isShowVideo: boolean;
@@ -63,6 +64,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         this.stream = null;
         this.video = <HTMLVideoElement>document.getElementById('video');
         this.video.width = window.innerWidth;
+        this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.screeningEventReservations = this.store.pipe(select(reducers.getScreeningEventReservations));
         this.screeningEvent = this.store.pipe(select(reducers.getScreeningEvent));
         this.qrcodeToken = this.store.pipe(select(reducers.getQrcodeToken));

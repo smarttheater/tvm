@@ -7,21 +7,24 @@
         <button *ngIf="stream === null" type="button" class="btn btn-primary btn-block" (click)="start()">カメラで読込</button>
         <button *ngIf="stream !== null" type="button" class="btn btn-danger btn-block" (click)="stop()">カメラを停止</button>
     </div>
-    <div class="mb-3">
+    <div *ngIf="!(isLoading | async)" class="mb-3">
         <div *ngIf="qrcodeToken | async">
             <div *ngIf="(qrcodeToken | async).isAvailable" class="p-4 bg-success text-white text-center">
-                <div class="large-x-text font-weight-bold mb-2">OK</div>
+                <div class="flash-text large-x-text font-weight-bold mb-2">OK</div>
                 <p>座席: {{ (qrcodeToken | async).availableReservation.reservedTicket.ticketedSeat.seatNumber }}</p>
                 <p>入場回数: {{ (qrcodeToken | async).checkTokenActions.totalCount }}</p>
             </div>
             <div *ngIf="!(qrcodeToken | async).isAvailable" class="p-4 bg-warning text-white text-center">
-                <div class="large-x-text font-weight-bold mb-2">NG</div>
+                <div class="flash-text large-x-text font-weight-bold mb-2">NG</div>
                 <p *ngIf="(qrcodeToken | async).statusCode === 200">上映会をご確認ください</p>
                 <p *ngIf="(qrcodeToken | async).statusCode !== 200">QRコードをご確認ください<br>ステータスコード: {{ (qrcodeToken |
                     async).statusCode }}</p>
             </div>
         </div>
-        <p class="text-center" *ngIf="!(qrcodeToken | async)">QRコードを読み取ってください</p>
+        <div *ngIf="!(qrcodeToken | async)" class="p-4 bg-dark text-white text-center">
+            <div class="large-x-text font-weight-bold mb-2">Waiting</div>
+            <p>QRコードを読み取ってください</p>
+        </div>
     </div>
     <div class="border p-3 mb-3">
         <p>{{ (screeningEvent | async).name.ja }}</p>

@@ -1,6 +1,4 @@
 
-import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
-import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
 import { factory } from '@cinerino/api-javascript-client';
 import { Action } from '@ngrx/store';
 import { IDecodeResult } from '../../model';
@@ -17,12 +15,15 @@ export enum ActionTypes {
     GetScreeningEvents = '[User] Get Screening Events',
     GetScreeningEventsSuccess = '[User] Get Screening Events Success',
     GetScreeningEventsFail = '[User] Get Screening Events Fail',
+    GetScreeningEvent = '[User] Get Screening Event',
+    GetScreeningEventSuccess = '[User] Get Screening Event Success',
+    GetScreeningEventFail = '[User] Get Screening Event Fail',
     SelectScreeningEvent = '[User] Select Screening Event',
     GetScreeningEventReservations = '[User] Get Screening Reservations',
     GetScreeningEventReservationsSuccess = '[User] Get Screening Events Reservations Success',
     GetScreeningEventReservationsFail = '[User] Get Screening Events Reservations Fail',
     InitializeQrcodeToken = '[User] Initialize Qrcode Token',
-    InitializeQrcodeTokenList = '[User] Initialize Qrcode Token List',
+    InitializeUsentList = '[User] Initialize Usent List',
     ConvertQrcodeToToken = '[User] Convert Qrcode To Token',
     ConvertQrcodeToTokenSuccess = '[User] Convert Qrcode To Token Success',
     ConvertQrcodeToTokenFail = '[User] Convert Qrcode To Token Fail',
@@ -44,7 +45,9 @@ export class Delete implements Action {
  */
 export class GetTheaters implements Action {
     public readonly type = ActionTypes.GetTheaters;
-    constructor(public payload: { params: factory.organization.movieTheater.ISearchConditions }) { }
+    constructor(public payload: {
+        params: factory.organization.ISearchConditions<factory.organizationType.MovieTheater>
+    }) { }
 }
 
 /**
@@ -52,7 +55,7 @@ export class GetTheaters implements Action {
  */
 export class GetTheatersSuccess implements Action {
     public readonly type = ActionTypes.GetTheatersSuccess;
-    constructor(public payload: { movieTheaters: ISearchResult<factory.organization.movieTheater.IOrganization[]> }) { }
+    constructor(public payload: { movieTheaters: factory.organization.IOrganization<factory.organizationType.MovieTheater>[] }) { }
 }
 
 /**
@@ -68,7 +71,31 @@ export class GetTheatersFail implements Action {
  */
 export class SelectTheater implements Action {
     public readonly type = ActionTypes.SelectTheater;
-    constructor(public payload: { movieTheater: factory.organization.movieTheater.IOrganization }) { }
+    constructor(public payload: { movieTheater: factory.organization.IOrganization<factory.organizationType.MovieTheater> }) { }
+}
+
+/**
+ * GetScreeningEvent
+ */
+export class GetScreeningEvent implements Action {
+    public readonly type = ActionTypes.GetScreeningEvent;
+    constructor(public payload: { params: { id: string; } }) { }
+}
+
+/**
+ * GetScreeningEventSuccess
+ */
+export class GetScreeningEventSuccess implements Action {
+    public readonly type = ActionTypes.GetScreeningEventSuccess;
+    constructor(public payload: { screeningEvent: factory.chevre.event.screeningEvent.IEvent }) { }
+}
+
+/**
+ * GetScreeningEventFail
+ */
+export class GetScreeningEventFail implements Action {
+    public readonly type = ActionTypes.GetScreeningEventFail;
+    constructor(public payload: { error: Error }) { }
 }
 
 /**
@@ -84,7 +111,7 @@ export class GetScreeningEvents implements Action {
  */
 export class GetScreeningEventsSuccess implements Action {
     public readonly type = ActionTypes.GetScreeningEventsSuccess;
-    constructor(public payload: { screeningEvents: ISearchResult<factory.chevre.event.screeningEvent.IEvent[]> }) { }
+    constructor(public payload: { screeningEvents: factory.chevre.event.screeningEvent.IEvent[] }) { }
 }
 
 /**
@@ -117,10 +144,7 @@ export class GetScreeningEventReservations implements Action {
 export class GetScreeningEventReservationsSuccess implements Action {
     public readonly type = ActionTypes.GetScreeningEventReservationsSuccess;
     constructor(public payload: {
-        screeningEventReservations: {
-            totalCount: number;
-            data: IScreeningEventReservation[];
-        }
+        screeningEventReservations: factory.chevre.reservation.event.IReservation<factory.chevre.event.screeningEvent.IEvent>[]
     }) { }
 }
 
@@ -141,10 +165,10 @@ export class InitializeQrcodeToken implements Action {
 }
 
 /**
- * InitializeQrcodeTokenList
+ * InitializeUsentList
  */
-export class InitializeQrcodeTokenList implements Action {
-    public readonly type = ActionTypes.InitializeQrcodeTokenList;
+export class InitializeUsentList implements Action {
+    public readonly type = ActionTypes.InitializeUsentList;
     constructor(public payload?: {}) { }
 }
 
@@ -156,10 +180,7 @@ export class ConvertQrcodeToToken implements Action {
     constructor(public payload: {
         params: {
             code: string;
-            screeningEventReservations: {
-                totalCount: number;
-                data: IScreeningEventReservation[];
-            };
+            screeningEventReservations: factory.chevre.reservation.event.IReservation<factory.chevre.event.screeningEvent.IEvent>[];
         }
     }) { }
 }
@@ -173,7 +194,7 @@ export class ConvertQrcodeToTokenSuccess implements Action {
         token?: string;
         decodeResult?: IDecodeResult;
         availableReservation?: factory.chevre.reservation.event.ISearchConditions;
-        checkTokenActions: ISearchResult<factory.action.check.token.IAction[]>;
+        checkTokenActions: factory.action.check.token.IAction[];
         isAvailable: boolean;
         statusCode: number;
     }) { }
@@ -193,7 +214,7 @@ export class ConvertQrcodeToTokenFail implements Action {
  */
 export class Admission implements Action {
     public readonly type = ActionTypes.Admission;
-    constructor(public payload: { params: { token: string; decodeResult: IDecodeResult; } }) { }
+    constructor(public payload: { token: string; decodeResult: IDecodeResult }) { }
 }
 
 /**
@@ -201,7 +222,7 @@ export class Admission implements Action {
  */
 export class AdmissionSuccess implements Action {
     public readonly type = ActionTypes.AdmissionSuccess;
-    constructor(public payload: { token: string; decodeResult: IDecodeResult; }) { }
+    constructor(public payload: { token: string; decodeResult: IDecodeResult }) { }
 }
 
 /**
@@ -209,7 +230,7 @@ export class AdmissionSuccess implements Action {
  */
 export class AdmissionFail implements Action {
     public readonly type = ActionTypes.AdmissionFail;
-    constructor(public payload: { error: Error }) { }
+    constructor(public payload: { error: Error, token: string; decodeResult: IDecodeResult }) { }
 }
 
 /**
@@ -221,6 +242,9 @@ export type Actions =
     | GetTheatersSuccess
     | GetTheatersFail
     | SelectTheater
+    | GetScreeningEvent
+    | GetScreeningEventSuccess
+    | GetScreeningEventFail
     | GetScreeningEvents
     | GetScreeningEventsSuccess
     | GetScreeningEventsFail
@@ -229,7 +253,7 @@ export type Actions =
     | GetScreeningEventReservationsSuccess
     | GetScreeningEventReservationsFail
     | InitializeQrcodeToken
-    | InitializeQrcodeTokenList
+    | InitializeUsentList
     | ConvertQrcodeToToken
     | ConvertQrcodeToTokenSuccess
     | ConvertQrcodeToTokenFail

@@ -5,7 +5,7 @@ import { OK } from 'http-status';
 import * as decode from 'jwt-decode';
 import { map, mergeMap } from 'rxjs/operators';
 import { IDecodeResult } from '../../model';
-import { CinerinoService } from '../../services/cinerino.service';
+import { CinerinoService } from '../../services';
 import {
     ActionTypes,
     Admission,
@@ -14,12 +14,15 @@ import {
     ConvertQrcodeToToken,
     ConvertQrcodeToTokenFail,
     ConvertQrcodeToTokenSuccess,
+    GetScreeningEvent,
+    GetScreeningEventFail,
     GetScreeningEventReservations,
     GetScreeningEventReservationsFail,
     GetScreeningEventReservationsSuccess,
     GetScreeningEvents,
     GetScreeningEventsFail,
     GetScreeningEventsSuccess,
+    GetScreeningEventSuccess,
     GetTheaters,
     GetTheatersFail,
     GetTheatersSuccess
@@ -47,10 +50,30 @@ export class Effects {
             // console.log(payload);
             try {
                 await this.cinerino.getServices();
-                const movieTheaters = await this.cinerino.organization.searchMovieTheaters(payload.params);
+                const movieTheatersResult = await this.cinerino.organization.searchMovieTheaters(payload.params);
+                const movieTheaters = movieTheatersResult.data;
                 return new GetTheatersSuccess({ movieTheaters });
             } catch (error) {
                 return new GetTheatersFail({ error: error });
+            }
+        })
+    );
+
+    /**
+     * getScreeningEvent
+     */
+    @Effect()
+    public getScreeningEvent = this.actions.pipe(
+        ofType<GetScreeningEvent>(ActionTypes.GetScreeningEvent),
+        map(action => action.payload),
+        mergeMap(async (payload) => {
+            // console.log(payload);
+            try {
+                await this.cinerino.getServices();
+                const screeningEvent = await this.cinerino.event.findScreeningEventById(payload.params);
+                return new GetScreeningEventSuccess({ screeningEvent });
+            } catch (error) {
+                return new GetScreeningEventFail({ error: error });
             }
         })
     );
@@ -66,7 +89,8 @@ export class Effects {
             // console.log(payload);
             try {
                 await this.cinerino.getServices();
-                const screeningEvents = await this.cinerino.event.searchScreeningEvents(payload.params);
+                const screeningEventsResult = await this.cinerino.event.searchScreeningEvents(payload.params);
+                const screeningEvents = screeningEventsResult.data;
                 return new GetScreeningEventsSuccess({ screeningEvents });
             } catch (error) {
                 return new GetScreeningEventsFail({ error: error });
@@ -85,7 +109,21 @@ export class Effects {
             // console.log(payload);
             try {
                 await this.cinerino.getServices();
-                const screeningEventReservations = await this.cinerino.reservation.searchScreeningEventReservations(payload.params);
+                const limit = 100;
+                const params = payload.params;
+                params.limit = limit;
+                const screeningEventReservationsResult = await this.cinerino.reservation.searchScreeningEventReservations(params);
+                let screeningEventReservations = screeningEventReservationsResult.data;
+                if (screeningEventReservationsResult.totalCount > limit) {
+                    const pageCount = Math.floor(screeningEventReservationsResult.totalCount / limit);
+                    for (let i = 0; i < pageCount; i++) {
+                        params.page = i + 2;
+                        const screeningEventReservationsPageResult =
+                            await this.cinerino.reservation.searchScreeningEventReservations(params);
+                        screeningEventReservations = screeningEventReservations.concat(screeningEventReservationsPageResult.data);
+                    }
+                }
+
                 return new GetScreeningEventReservationsSuccess({ screeningEventReservations });
             } catch (error) {
                 return new GetScreeningEventReservationsFail({ error: error });
@@ -114,19 +152,17 @@ export class Effects {
                 const getTokenResult = await this.cinerino.admin.ownershipInfo.getToken({ code });
                 token = getTokenResult.token;
             } catch (error) {
-                const checkTokenActions = { totalCount: 0, data: [] };
+                const checkTokenActions: factory.action.check.token.IAction[] = [];
                 const isAvailable = false;
                 const statusCode = error.code;
                 return new ConvertQrcodeToTokenSuccess({ checkTokenActions, isAvailable, statusCode });
             }
             try {
                 const decodeResult = decode<IDecodeResult>(token);
-                const checkTokenActions = await this.cinerino.admin.ownershipInfo.searchCheckTokenActions({ id: decodeResult.id });
+                const checkTokenActionsResult = await this.cinerino.admin.ownershipInfo.searchCheckTokenActions({ id: decodeResult.id });
+                const checkTokenActions = checkTokenActionsResult.data;
                 // 利用可能判定
-                console.log(screeningEventReservations.data
-                    .filter((r) => r.reservationStatus === factory.chevre.reservationStatusType.ReservationConfirmed));
-
-                const availableReservation = screeningEventReservations.data
+                const availableReservation = screeningEventReservations
                     .filter((r) => r.reservationStatus === factory.chevre.reservationStatusType.ReservationConfirmed)
                     .find((r) => r.id === decodeResult.typeOfGood.id);
                 const isAvailable = availableReservation !== undefined;
@@ -149,12 +185,15 @@ export class Effects {
         map(action => action.payload),
         mergeMap(async (payload) => {
             // console.log(payload);
+            const token = payload.token;
+            const decodeResult = payload.decodeResult;
             try {
                 await this.cinerino.getServices();
-                this.cinerino.reservation.findScreeningEventReservationByToken(payload.params);
-                return new AdmissionSuccess(payload.params);
+                await this.cinerino.reservation.findScreeningEventReservationByToken({ token });
+
+                return new AdmissionSuccess({ token, decodeResult });
             } catch (error) {
-                return new AdmissionFail({ error: error });
+                return new AdmissionFail({ error, token, decodeResult });
             }
         })
     );

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
 import { factory } from '@cinerino/api-javascript-client';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
+import { SwiperComponent, SwiperConfigInterface, SwiperDirective } from 'ngx-swiper-wrapper';
 import { Observable, race } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import {
@@ -12,7 +12,6 @@ import {
     GetScreeningEvents,
     GetTheaters,
     InitializeQrcodeToken,
-    InitializeQrcodeTokenList,
     SelectScreeningEvent
 } from '../../../store/actions';
 import * as reducers from '../../../store/reducers';
@@ -23,12 +22,15 @@ import * as reducers from '../../../store/reducers';
     styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
-    public screeningEvents: Observable<ISearchResult<factory.chevre.event.screeningEvent.IEvent[]>>;
-    public movieTheaters: Observable<ISearchResult<factory.organization.movieTheater.IOrganization[]>>;
+    public screeningEvents: Observable<factory.chevre.event.screeningEvent.IEvent[]>;
+    public movieTheaters: Observable<factory.organization.IOrganization<factory.organizationType.MovieTheater>[]>;
     public theaterCode: string;
     public dates: string[];
-    public date: string;
+    public selectedDate: string;
     public moment: typeof moment = moment;
+    public swiperConfig: SwiperConfigInterface;
+    @ViewChild(SwiperComponent) public componentRef: SwiperComponent;
+    @ViewChild(SwiperDirective) public directiveRef: SwiperDirective;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -43,8 +45,29 @@ export class ScheduleComponent implements OnInit {
         for (let i = 0; i < 7; i++) {
             this.dates.push(moment().add(i, 'days').format('YYYYMMDD'));
         }
-        this.date = this.dates[0];
+        this.swiperConfig = {
+            spaceBetween: 10,
+            slidesPerView: 7,
+            breakpoints: {
+                320: { slidesPerView: 2 },
+                767: { slidesPerView: 3 },
+                1024: { slidesPerView: 5 }
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            }
+        };
+        this.selectedDate = this.dates[0];
         this.getTheaters();
+    }
+
+    /**
+     * resize
+     */
+    public resize() {
+        this.directiveRef.update();
+        this.directiveRef.setIndex(0, 0, false);
     }
 
     public getTheaters() {
@@ -54,9 +77,9 @@ export class ScheduleComponent implements OnInit {
             ofType(ActionTypes.GetTheatersSuccess),
             tap(() => {
                 this.store.pipe(select(reducers.getMovieTheaters)).subscribe((movieTheaters) => {
-                    this.theaterCode = movieTheaters.data[0].location.branchCode;
-                    this.getScreeningEvents();
+                    this.theaterCode = movieTheaters[0].location.branchCode;
                 }).unsubscribe();
+                this.getScreeningEvents(this.selectedDate);
             })
         );
 
@@ -69,13 +92,14 @@ export class ScheduleComponent implements OnInit {
         race(success, fail).pipe(take(1)).subscribe();
     }
 
-    public getScreeningEvents() {
+    public getScreeningEvents(date: string) {
+        this.selectedDate = date;
         this.store.dispatch(new GetScreeningEvents({
             params: {
-                endFrom: (this.date === moment().format('YYYYMMDD'))
-                    ? moment().toDate()
-                    : moment(this.date).toDate(),
-                endThrough: moment(this.date).add(1, 'days').toDate(),
+                typeOf: factory.chevre.eventType.ScreeningEvent,
+                eventStatuses: [factory.chevre.eventStatusType.EventScheduled],
+                startFrom: moment(this.selectedDate).toDate(),
+                startThrough: moment(this.selectedDate).add(1, 'days').toDate(),
                 superEvent: {
                     locationBranchCodes: [this.theaterCode]
                 },
@@ -102,7 +126,6 @@ export class ScheduleComponent implements OnInit {
     public select(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
         this.store.dispatch(new SelectScreeningEvent({ screeningEvent }));
         this.store.dispatch(new InitializeQrcodeToken());
-        this.store.dispatch(new InitializeQrcodeTokenList());
         this.router.navigate(['/admission']);
     }
 

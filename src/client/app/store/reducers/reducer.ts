@@ -1,5 +1,3 @@
-import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
-import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
 import { factory } from '@cinerino/api-javascript-client';
 import { IDecodeResult } from '../../model';
 import { Actions, ActionTypes } from '../actions';
@@ -11,23 +9,20 @@ import { Actions, ActionTypes } from '../actions';
 export interface IState {
     loading: boolean;
     error: string | null;
-    movieTheaters: ISearchResult<factory.organization.movieTheater.IOrganization[]>;
-    movieTheater?: factory.organization.movieTheater.IOrganization;
-    screeningEvents: ISearchResult<factory.chevre.event.screeningEvent.IEvent[]>;
+    movieTheaters: factory.organization.IOrganization<factory.organizationType.MovieTheater>[];
+    movieTheater?: factory.organization.IOrganization<factory.organizationType.MovieTheater>;
+    screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
     screeningEvent?: factory.chevre.event.screeningEvent.IEvent;
-    screeningEventReservations: {
-        totalCount: number;
-        data: IScreeningEventReservation[];
-    };
+    screeningEventReservations: factory.chevre.reservation.event.IReservation<factory.chevre.event.screeningEvent.IEvent>[];
     qrcodeToken?: {
         token?: string;
         decodeResult?: IDecodeResult;
         availableReservation?: factory.chevre.reservation.event.ISearchConditions;
-        checkTokenActions: ISearchResult<factory.action.check.token.IAction[]>;
+        checkTokenActions: factory.action.check.token.IAction[];
         isAvailable: boolean;
         statusCode: number;
     };
-    qrcodeTokenList: {
+    usentList: {
         token: string;
         decodeResult: IDecodeResult;
     }[];
@@ -39,10 +34,10 @@ export interface IState {
 export const initialState: IState = {
     loading: false,
     error: null,
-    movieTheaters: { totalCount: 0, data: [] },
-    screeningEvents: { totalCount: 0, data: [] },
-    screeningEventReservations: { totalCount: 0, data: [] },
-    qrcodeTokenList: []
+    movieTheaters: [],
+    screeningEvents: [],
+    screeningEventReservations: [],
+    usentList: []
 };
 
 function getInitialState(): IState {
@@ -51,7 +46,8 @@ function getInitialState(): IState {
         return initialState;
     }
     const data: { App: IState } = JSON.parse(json);
-    return data.App;
+
+    return Object.assign(initialState, data.App);
 }
 
 /**
@@ -82,6 +78,17 @@ export function reducer(
             const movieTheater = action.payload.movieTheater;
             return { ...state, loading: false, error: null, movieTheater };
         }
+        case ActionTypes.GetScreeningEvent: {
+            return { ...state };
+        }
+        case ActionTypes.GetScreeningEventSuccess: {
+            const screeningEvent = action.payload.screeningEvent;
+            return { ...state, error: null, screeningEvent };
+        }
+        case ActionTypes.GetScreeningEventFail: {
+            const error = action.payload.error;
+            return { ...state, error: JSON.stringify(error) };
+        }
         case ActionTypes.GetScreeningEvents: {
             return { ...state, loading: true };
         }
@@ -98,22 +105,22 @@ export function reducer(
             return { ...state, loading: false, error: null, screeningEvent };
         }
         case ActionTypes.GetScreeningEventReservations: {
-            return { ...state, loading: true };
+            return { ...state };
         }
         case ActionTypes.GetScreeningEventReservationsSuccess: {
-            const screeningEventReservations = action.payload.screeningEventReservations;
-            return { ...state, loading: false, error: null, screeningEventReservations };
+            state.screeningEventReservations = action.payload.screeningEventReservations;
+            return { ...state, error: null };
         }
         case ActionTypes.GetScreeningEventReservationsFail: {
             const error = action.payload.error;
-            return { ...state, loading: false, error: JSON.stringify(error) };
+            return { ...state, error: JSON.stringify(error) };
         }
         case ActionTypes.InitializeQrcodeToken: {
             const qrcodeToken = undefined;
             return { ...state, qrcodeToken };
         }
-        case ActionTypes.InitializeQrcodeTokenList: {
-            state.qrcodeTokenList = [];
+        case ActionTypes.InitializeUsentList: {
+            state.usentList = [];
             return { ...state };
         }
         case ActionTypes.ConvertQrcodeToToken: {
@@ -121,16 +128,8 @@ export function reducer(
         }
         case ActionTypes.ConvertQrcodeToTokenSuccess: {
             const qrcodeToken = action.payload;
-            const qrcodeTokenList = state.qrcodeTokenList;
-            if (qrcodeToken.isAvailable
-                && qrcodeToken.token !== undefined
-                && qrcodeToken.decodeResult !== undefined) {
-                qrcodeTokenList.push({
-                    token: qrcodeToken.token,
-                    decodeResult: qrcodeToken.decodeResult
-                });
-            }
-            return { ...state, loading: false, error: null, qrcodeToken, qrcodeTokenList };
+
+            return { ...state, loading: false, error: null, qrcodeToken };
         }
         case ActionTypes.ConvertQrcodeToTokenFail: {
             const error = action.payload.error;
@@ -140,15 +139,20 @@ export function reducer(
             return { ...state, error: null };
         }
         case ActionTypes.AdmissionSuccess: {
-            const token = action.payload.token;
             const decodeResult = action.payload.decodeResult;
-            const qrcodeTokenList = state.qrcodeTokenList.filter((qrcode) => {
-                return qrcode.token !== token && qrcode.decodeResult.iat !== decodeResult.iat;
-            });
-            return { ...state, error: null, qrcodeTokenList };
+            const usentList = state.usentList.filter(usent => usent.decodeResult.id !== decodeResult.id);
+            state.usentList = usentList;
+            return { ...state, error: null };
         }
         case ActionTypes.AdmissionFail: {
             const error = action.payload.error;
+            const token = action.payload.token;
+            const decodeResult = action.payload.decodeResult;
+            const findResult = state.usentList.find(usent => usent.decodeResult.id === decodeResult.id);
+            if (findResult === undefined) {
+                state.usentList.push({ token, decodeResult });
+            }
+
             return { ...state, error: JSON.stringify(error) };
         }
         default: {
@@ -168,4 +172,4 @@ export const getScreeningEvents = (state: IState) => state.screeningEvents;
 export const getScreeningEvent = (state: IState) => state.screeningEvent;
 export const getScreeningEventReservations = (state: IState) => state.screeningEventReservations;
 export const getQrcodeToken = (state: IState) => state.qrcodeToken;
-export const getQrcodeTokenList = (state: IState) => state.qrcodeTokenList;
+export const getUsentList = (state: IState) => state.usentList;

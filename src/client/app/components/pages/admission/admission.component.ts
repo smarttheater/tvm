@@ -1,7 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ISearchResult } from '@cinerino/api-abstract-client/lib/service';
-import { IScreeningEventReservation } from '@cinerino/api-abstract-client/lib/service/reservation';
 import { factory } from '@cinerino/api-javascript-client';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Actions, ofType } from '@ngrx/effects';
@@ -15,6 +13,7 @@ import {
     ActionTypes,
     Admission,
     ConvertQrcodeToToken,
+    GetScreeningEvent,
     GetScreeningEventReservations
 } from '../../../store/actions';
 import * as reducers from '../../../store/reducers';
@@ -26,29 +25,24 @@ import { AlertModalComponent } from '../../parts/alert-modal/alert-modal.compone
     styleUrls: ['./admission.component.scss']
 })
 export class AdmissionComponent implements OnInit, OnDestroy {
-    public screeningEventReservations: Observable<{
-        totalCount: number;
-        data: IScreeningEventReservation[];
-    }>;
+    public screeningEventReservations:
+        Observable<factory.chevre.reservation.event.IReservation<factory.chevre.event.screeningEvent.IEvent>[]>;
     public screeningEvent: Observable<factory.chevre.event.screeningEvent.IEvent | undefined>;
     public qrcodeToken: Observable<{
         token?: string;
         decodeResult?: IDecodeResult;
-        checkTokenActions: ISearchResult<factory.action.check.token.IAction[]>;
+        checkTokenActions: factory.action.check.token.IAction[];
         isAvailable: boolean;
         statusCode: number;
     } | undefined>;
-    public qrcodeTokenList: Observable<{
-        token: string;
-        decodeResult: IDecodeResult;
-    }[]>;
+    public usentList: Observable<{ token: string; decodeResult: IDecodeResult }[]>;
     public isLoading: Observable<boolean>;
 
     public stream: MediaStream | null;
     public isShowVideo: boolean;
     public video: HTMLVideoElement;
     public scanLoop: any;
-    public admissionLoop: any;
+    public updateLoop: any;
     public moment: typeof moment = moment;
     public inputCode: string;
 
@@ -68,14 +62,14 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         this.screeningEventReservations = this.store.pipe(select(reducers.getScreeningEventReservations));
         this.screeningEvent = this.store.pipe(select(reducers.getScreeningEvent));
         this.qrcodeToken = this.store.pipe(select(reducers.getQrcodeToken));
-        this.qrcodeTokenList = this.store.pipe(select(reducers.getQrcodeTokenList));
+        this.usentList = this.store.pipe(select(reducers.getUsentList));
         this.getScreeningEventReservations();
-        this.admission();
+        this.update();
     }
 
     public ngOnDestroy() {
         clearInterval(this.scanLoop);
-        clearInterval(this.admissionLoop);
+        clearInterval(this.updateLoop);
     }
 
     @HostListener('document:keypress', ['$event'])
@@ -161,10 +155,10 @@ export class AdmissionComponent implements OnInit, OnDestroy {
                 params: {
                     sort: { reservationNumber: factory.chevre.sortType.Ascending },
                     reservationStatuses: [
-                        factory.chevre.reservationStatusType.ReservationConfirmed,
-                        factory.chevre.reservationStatusType.ReservationCancelled,
-                        factory.chevre.reservationStatusType.ReservationHold,
-                        factory.chevre.reservationStatusType.ReservationPending
+                        factory.chevre.reservationStatusType.ReservationConfirmed
+                        // factory.chevre.reservationStatusType.ReservationCancelled,
+                        // factory.chevre.reservationStatusType.ReservationHold,
+                        // factory.chevre.reservationStatusType.ReservationPending
                     ],
                     reservationFor: {
                         typeOf: factory.chevre.eventType.ScreeningEvent,
@@ -176,11 +170,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
 
         const success = this.actions.pipe(
             ofType(ActionTypes.GetScreeningEventReservationsSuccess),
-            tap(() => {
-                this.store.pipe(select(reducers.getScreeningEventReservations)).subscribe((screeningEventReservation) => {
-                    console.log(screeningEventReservation);
-                }).unsubscribe();
-            })
+            tap(() => { })
         );
 
         const fail = this.actions.pipe(
@@ -192,6 +182,10 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         race(success, fail).pipe(take(1)).subscribe();
     }
 
+    /**
+     * QRコードをトークンへ変換
+     * @param {string} code
+     */
     public convertQrcodeToToken(code: string) {
         this.screeningEventReservations.subscribe((screeningEventReservations) => {
             this.store.dispatch(new ConvertQrcodeToToken({ params: { code, screeningEventReservations } }));
@@ -200,9 +194,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         const success = this.actions.pipe(
             ofType(ActionTypes.ConvertQrcodeToTokenSuccess),
             tap(() => {
-                this.store.pipe(select(reducers.getQrcodeToken)).subscribe((qrcodeToken) => {
-                    console.log(qrcodeToken);
-                }).unsubscribe();
+                this.admission();
             })
         );
 
@@ -218,15 +210,49 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         race(success, fail).pipe(take(1)).subscribe();
     }
 
+    public update() {
+        const loopTime = 60000; // 1分に一回
+        clearInterval(this.updateLoop);
+        this.updateLoop = setInterval(() => {
+            this.getScreeningEventReservations();
+            this.admissionAll();
+            this.getScreeningEvent();
+        }, loopTime);
+    }
+
+    public getScreeningEvent() {
+        this.screeningEvent.subscribe((screeningEvent) => {
+            if (screeningEvent === undefined) {
+                this.router.navigate(['/error']);
+                return;
+            }
+            const id = screeningEvent.id;
+            this.store.dispatch(new GetScreeningEvent({ params: { id } }));
+        }).unsubscribe();
+
+        const success = this.actions.pipe(
+            ofType(ActionTypes.GetScreeningEventSuccess),
+            tap(() => { })
+        );
+
+        const fail = this.actions.pipe(
+            ofType(ActionTypes.GetScreeningEventFail),
+            tap(() => { })
+        );
+        race(success, fail).pipe(take(1)).subscribe();
+    }
+
     public admission() {
-        const admissionLoopTime = 60000; // 1分に一回
-        this.admissionLoop = setInterval(() => {
-            this.qrcodeTokenList.subscribe((qrcodeTokenList) => {
-                qrcodeTokenList.forEach((qrcodeToken) => {
-                    this.store.dispatch(new Admission({ params: qrcodeToken }));
-                });
-            }).unsubscribe();
-        }, admissionLoopTime);
+        this.qrcodeToken.subscribe((qrcodeToken) => {
+            if (qrcodeToken === undefined
+                || qrcodeToken.token === undefined
+                || qrcodeToken.decodeResult === undefined) {
+                return;
+            }
+            const token = qrcodeToken.token;
+            const decodeResult = qrcodeToken.decodeResult;
+            this.store.dispatch(new Admission({ token, decodeResult }));
+        }).unsubscribe();
 
         const success = this.actions.pipe(
             ofType(ActionTypes.AdmissionSuccess),
@@ -234,7 +260,28 @@ export class AdmissionComponent implements OnInit, OnDestroy {
         );
 
         const fail = this.actions.pipe(
-            ofType(ActionTypes.GetTheatersFail),
+            ofType(ActionTypes.AdmissionFail),
+            tap(() => { })
+        );
+        race(success, fail).pipe(take(1)).subscribe();
+    }
+
+    public admissionAll() {
+        this.usentList.subscribe((usentList) => {
+            usentList.forEach((usent) => {
+                const token = usent.token;
+                const decodeResult = usent.decodeResult;
+                this.store.dispatch(new Admission({ token, decodeResult }));
+            });
+        }).unsubscribe();
+
+        const success = this.actions.pipe(
+            ofType(ActionTypes.AdmissionSuccess),
+            tap(() => { })
+        );
+
+        const fail = this.actions.pipe(
+            ofType(ActionTypes.AdmissionFail),
             tap(() => { })
         );
         race(success, fail).pipe(take(1)).subscribe();

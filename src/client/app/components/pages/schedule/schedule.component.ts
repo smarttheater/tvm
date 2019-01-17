@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { SwiperComponent, SwiperConfigInterface, SwiperDirective } from 'ngx-swiper-wrapper';
 import { Observable, race } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+import { IScreeningEventFilm, screeningEventsToFilmEvents } from '../../../functions';
 import {
     ActionTypes,
     GetScreeningEvents,
@@ -29,6 +30,7 @@ export class ScheduleComponent implements OnInit {
     public selectedDate: string;
     public moment: typeof moment = moment;
     public swiperConfig: SwiperConfigInterface;
+    public screeningFilmEvents: IScreeningEventFilm[];
     @ViewChild(SwiperComponent) public componentRef: SwiperComponent;
     @ViewChild(SwiperDirective) public directiveRef: SwiperDirective;
 
@@ -42,11 +44,12 @@ export class ScheduleComponent implements OnInit {
         this.screeningEvents = this.store.pipe(select(reducers.getScreeningEvents));
         this.movieTheaters = this.store.pipe(select(reducers.getMovieTheaters));
         this.dates = [];
+        this.screeningFilmEvents = [];
         for (let i = 0; i < 7; i++) {
             this.dates.push(moment().add(i, 'days').format('YYYYMMDD'));
         }
         this.swiperConfig = {
-            spaceBetween: 10,
+            spaceBetween: 1,
             slidesPerView: 7,
             breakpoints: {
                 320: { slidesPerView: 2 },
@@ -111,7 +114,11 @@ export class ScheduleComponent implements OnInit {
 
         const success = this.actions.pipe(
             ofType(ActionTypes.GetScreeningEventsSuccess),
-            tap(() => { })
+            tap(() => {
+                this.screeningEvents.subscribe((screeningEvents) => {
+                    this.screeningFilmEvents = screeningEventsToFilmEvents({screeningEvents});
+                }).unsubscribe();
+            })
         );
 
         const fail = this.actions.pipe(
@@ -123,7 +130,7 @@ export class ScheduleComponent implements OnInit {
         race(success, fail).pipe(take(1)).subscribe();
     }
 
-    public select(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
+    public selectSchedule(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
         this.store.dispatch(new SelectScreeningEvent({ screeningEvent }));
         this.store.dispatch(new InitializeQrcodeToken());
         this.router.navigate(['/admission']);

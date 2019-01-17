@@ -11,6 +11,8 @@ import * as reducers from '../../../store/reducers';
 export class BaseComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     public isLoading: Observable<boolean>;
+    public process: Observable<string>;
+
     constructor(
         private store: Store<reducers.IState>,
         private changeDetectorRef: ChangeDetectorRef
@@ -18,6 +20,7 @@ export class BaseComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     public ngOnInit() {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
+        this.process = this.store.pipe(select(reducers.getProcess));
     }
 
     public ngAfterViewChecked() {
@@ -26,6 +29,7 @@ export class BaseComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     public ngOnDestroy() {
         this.isLoading.subscribe().unsubscribe();
+        this.process.subscribe().unsubscribe();
     }
 
 }

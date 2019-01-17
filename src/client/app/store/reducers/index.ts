@@ -14,6 +14,7 @@ export { IState, reducer } from './reducer';
  */
 export const getFeatureState = createFeatureSelector<reducer.IState>('App');
 export const getLoading = createSelector(getFeatureState, reducer.getLoading);
+export const getProcess = createSelector(getFeatureState, reducer.getProcess);
 export const getError = createSelector(getFeatureState, reducer.getError);
 export const getMovieTheaters = createSelector(getFeatureState, reducer.getMovieTheaters);
 export const getMovieTheater = createSelector(getFeatureState, reducer.getMovieTheater);

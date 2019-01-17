@@ -29,6 +29,7 @@ import { HeaderComponent } from './components/parts/header/header.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
 import { StoreModule } from './store.module';
 import { CoreStoreModule } from './store/core/store';
+import { PurchaseScheduleFilmComponent } from './components/parts/purchase-schedule-film/purchase-schedule-film.component';
 
 // tslint:disable-next-line:no-stateless-class
 @NgModule({
@@ -50,6 +51,7 @@ import { CoreStoreModule } from './store/core/store';
         AuthSigninComponent,
         AuthSignoutComponent,
         AuthIndexComponent,
+        PurchaseScheduleFilmComponent,
     ],
     entryComponents: [
         AlertModalComponent,

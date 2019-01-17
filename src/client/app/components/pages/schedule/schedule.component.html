@@ -1,5 +1,9 @@
+<div class="contents-width mx-auto px-3 pt-5">
+    <h2 class="text-large mb-4 text-center"><strong>スケジュール選択</strong></h2>
+    <p class="mb-4">スケジュールを選択してください</p>
+</div>
+
 <div class="p-3">
-    <p class="mb-3">スケジュールを選択してください</p>
     <div class="condition">
         <div class="mb-3">
             <select class="p-2" [(ngModel)]="theaterCode" (change)="getScreeningEvents(selectedDate)">
@@ -7,57 +11,38 @@
                     movieTheater.name.ja }}</option>
             </select>
         </div>
-        <div class="mb-3">
-            <div class="swiper-cover position-relative">
-                <div class="swiper-container mb-3" #swiper [swiper]="swiperConfig" (resize)="resize()">
-                    <div class="swiper-wrapper">
-                        <div *ngFor="let date of dates" class="swiper-slide">
-                            <div class="py-4 text-center pointer" [ngClass]="{'bg-primary text-white': date === selectedDate}"
-                                (click)="getScreeningEvents(date)">{{ moment(date).format('MM/DD (ddd)') }}</div>
+    </div>
+</div>
+
+<div class="bg-light-gray">
+    <div class="contents-width mx-auto px-5 py-4">
+        <div class="schedule-slider position-relative">
+            <div class="swiper-container mb-3" #swiper [swiper]="swiperConfig" (resize)="resize()">
+                <div class="swiper-wrapper">
+                    <div *ngFor="let scheduleDate of dates" class="swiper-slide pointer">
+                        <div class="text-center text-white py-4" [class.bg-secondary]="scheduleDate !== selectedDate"
+                            [class.bg-primary]="scheduleDate === selectedDate" (click)="getScreeningEvents(scheduleDate)">
+                            <div>
+                                {{ moment(scheduleDate).format('MM') }}/<span class="text-large">{{
+                                    moment(scheduleDate).format('DD') }}</span>({{
+                                moment(scheduleDate).format('ddd') }})
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
             </div>
-            <!-- <select class="p-2" [(ngModel)]="date" (change)="getScreeningEvents()">
-                <option *ngFor="let date of dates" [value]="date">{{ moment(date).format('YYYY/MM/DD (ddd)') }}</option>
-            </select> -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
+        <!-- <select class="p-2" [(ngModel)]="date" (change)="getScreeningEvents()">
+            <option *ngFor="let date of dates" [value]="date">{{ moment(date).format('YYYY/MM/DD (ddd)') }}</option>
+        </select> -->
     </div>
+</div>
 
-    <div class="screeningEvents">
-        <p *ngIf="(screeningEvents | async).length === 0">スケジュールがありません。</p>
-        <ul *ngIf="(screeningEvents | async).length > 0">
-            <li *ngFor="let screeningEvent of (screeningEvents | async)" class="mb-2 px-3 py-2 border shadow-sm" [ngClass]="{ 
-            'bg-white': !(moment(screeningEvent.endDate).unix() < moment().unix()), 
-            'bg-dark text-light': moment(screeningEvent.endDate).unix() < moment().unix()
-            }"
-                (click)="select(screeningEvent)">
-                <div class="mb-2">
-                    <p><strong>{{ screeningEvent.name.ja }}</strong></p>
-                    <p *ngIf="screeningEvent.workPerformed.headline" class="small-text">{{ screeningEvent.workPerformed.headline }}</p>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <div *ngIf="screeningEvent.workPerformed.contentRating" class="small-text text-dark bg-white py-1 px-3 mr-2">{{ screeningEvent.workPerformed.contentRating }}</div>
-                    <div *ngIf="screeningEvent.superEvent.dubLanguage" class="small-text text-dark bg-white py-1 px-3 mr-2">吹替版</div>
-                    <div *ngIf="screeningEvent.superEvent.subtitleLanguage" class="small-text text-dark bg-white py-1 px-3 mr-2">字幕版</div>
-                    <div *ngIf="screeningEvent.workPerformed.duration !== null" class="small-text mr-2">{{ moment.duration(screeningEvent.workPerformed.duration).asMinutes() }}分</div>
-                </div>
-                <p>
-                    <span *ngIf="screeningEvent.location.address" class="mr-2">{{ screeningEvent.location.address.en }}</span>
-                    <span>{{ screeningEvent.location.name.ja }}</span>
-                </p>
-                <div class="d-md-flex mb-2">
-                    <p class="mr-3"><strong class="mr-2">開場</strong>{{ moment(screeningEvent.doorTime).format('MM/DD (ddd) HH:mm') }}</p>
-                    <p><strong class="mr-2">上映</strong>{{ moment(screeningEvent.startDate).format('HH:mm') }} - {{
-                        moment(screeningEvent.endDate).format('HH:mm') }}</p>
-                </div>
-                <div class="d-md-flex">
-                    <p class="mr-3"><strong class="mr-2">予約</strong>{{ screeningEvent.maximumAttendeeCapacity - screeningEvent.remainingAttendeeCapacity }}</p>
-                    <p><strong class="mr-2">入場</strong>{{ screeningEvent.attendeeCount }}</p>
-                </div>
-            </li>
-        </ul>
-    </div>
+<div class="contents-width mx-auto p-3">
+    <p *ngIf="selectedDate" class="text-primary text-large mb-3">{{ moment(selectedDate).format('YYYY/MM/DD (ddd)') }}</p>
+    <p *ngIf="screeningFilmEvents.length === 0" class="mb-3">スケジュールがありません。</p>
+    <app-purchase-schedule-film *ngFor="let screeningFilmEvent of screeningFilmEvents" [screeningFilmEvent]="screeningFilmEvent"
+        (select)="selectSchedule($event)" class="mb-3"></app-purchase-schedule-film>
 </div>

@@ -8,6 +8,7 @@ import { Actions, ActionTypes } from '../actions';
  */
 export interface IState {
     loading: boolean;
+    process: string;
     error: string | null;
     movieTheaters: factory.organization.IOrganization<factory.organizationType.MovieTheater>[];
     movieTheater?: factory.organization.IOrganization<factory.organizationType.MovieTheater>;
@@ -33,6 +34,7 @@ export interface IState {
  */
 export const initialState: IState = {
     loading: false,
+    process: '',
     error: null,
     movieTheaters: [],
     screeningEvents: [],
@@ -64,19 +66,19 @@ export function reducer(
             return { ...state };
         }
         case ActionTypes.GetTheaters: {
-            return { ...state, loading: true };
+            return { ...state, loading: true, process: '劇場情報を取得しています'};
         }
         case ActionTypes.GetTheatersSuccess: {
             const movieTheaters = action.payload.movieTheaters;
-            return { ...state, loading: false, error: null, movieTheaters };
+            return { ...state, loading: false,  process: '', error: null, movieTheaters };
         }
         case ActionTypes.GetTheatersFail: {
             const error = action.payload.error;
-            return { ...state, loading: false, error: JSON.stringify(error) };
+            return { ...state, loading: false,  process: '', error: JSON.stringify(error) };
         }
         case ActionTypes.SelectTheater: {
             const movieTheater = action.payload.movieTheater;
-            return { ...state, loading: false, error: null, movieTheater };
+            return { ...state, loading: false,  process: '', error: null, movieTheater };
         }
         case ActionTypes.GetScreeningEvent: {
             return { ...state };
@@ -90,19 +92,19 @@ export function reducer(
             return { ...state, error: JSON.stringify(error) };
         }
         case ActionTypes.GetScreeningEvents: {
-            return { ...state, loading: true };
+            return { ...state, loading: true, process: 'スケジュールを取得しています'};
         }
         case ActionTypes.GetScreeningEventsSuccess: {
             const screeningEvents = action.payload.screeningEvents;
-            return { ...state, loading: false, error: null, screeningEvents };
+            return { ...state, loading: false,  process: '', error: null, screeningEvents };
         }
         case ActionTypes.GetScreeningEventsFail: {
             const error = action.payload.error;
-            return { ...state, loading: false, error: JSON.stringify(error) };
+            return { ...state, loading: false,  process: '', error: JSON.stringify(error) };
         }
         case ActionTypes.SelectScreeningEvent: {
             const screeningEvent = action.payload.screeningEvent;
-            return { ...state, loading: false, error: null, screeningEvent };
+            return { ...state, loading: false,  process: '', error: null, screeningEvent };
         }
         case ActionTypes.GetScreeningEventReservations: {
             return { ...state };
@@ -129,11 +131,11 @@ export function reducer(
         case ActionTypes.ConvertQrcodeToTokenSuccess: {
             const qrcodeToken = action.payload;
 
-            return { ...state, loading: false, error: null, qrcodeToken };
+            return { ...state, loading: false,  process: '', error: null, qrcodeToken };
         }
         case ActionTypes.ConvertQrcodeToTokenFail: {
             const error = action.payload.error;
-            return { ...state, loading: false, error: JSON.stringify(error) };
+            return { ...state, loading: false,  process: '', error: JSON.stringify(error) };
         }
         case ActionTypes.Admission: {
             return { ...state, error: null };
@@ -165,6 +167,7 @@ export function reducer(
  * Selectors
  */
 export const getLoading = (state: IState) => state.loading;
+export const getProcess = (state: IState) => state.process;
 export const getError = (state: IState) => state.error;
 export const getMovieTheaters = (state: IState) => state.movieTheaters;
 export const getMovieTheater = (state: IState) => state.movieTheater;

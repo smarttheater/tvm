@@ -27,9 +27,9 @@ import { FooterComponent } from './components/parts/footer/footer.component';
 import { HeaderMenuComponent } from './components/parts/header-menu/header-menu.component';
 import { HeaderComponent } from './components/parts/header/header.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
+import { PurchaseScheduleFilmComponent } from './components/parts/purchase-schedule-film/purchase-schedule-film.component';
 import { StoreModule } from './store.module';
 import { CoreStoreModule } from './store/core/store';
-import { PurchaseScheduleFilmComponent } from './components/parts/purchase-schedule-film/purchase-schedule-film.component';
 
 // tslint:disable-next-line:no-stateless-class
 @NgModule({

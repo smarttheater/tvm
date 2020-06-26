@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "admission": {
+    "pos": {
       "root": "src/client",
       "sourceRoot": "src/client",
       "projectType": "application",
@@ -11,6 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/client",
             "index": "src/client/index.html",
             "main": "src/client/main.ts",
@@ -21,20 +22,49 @@
               "src/client/favicon.ico"
             ],
             "styles": [
-              "src/client/styles.scss",
-              "node_modules/swiper/dist/css/swiper.css"
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/swiper/css/swiper.css",
+              "node_modules/intl-tel-input/build/css/intlTelInput.css",
+              "src/client/styles.scss"
             ],
             "scripts": [
-              "node_modules/swiper/dist/js/swiper.js"
+              "src/client/assets/lib/star-web-print/StarWebPrintTrader.js",
+              "src/client/assets/lib/star-web-print/StarWebPrintBuilder.js",
+              "src/client/assets/lib/epson/epos-2.14.0.js",
+              "node_modules/swiper/js/swiper.js",
+              "src/client/assets/lib/ejs.min.js"
             ]
           },
           "configurations": {
             "local": {
-              "outputPath": "./dist/client",
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "outputPath": "./dist/client/development",
               "watch": true
             },
-            "default": {
-              "outputPath": "./dist/client",
+            "development": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "outputPath": "./dist/client/development",
+              "sourceMap": false,
+              "aot": true
+            },
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "outputPath": "./dist/client/production",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -42,15 +72,17 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "index": "src/client/index.production.html",
+              "statsJson": true
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "admission:build",
+            "browserTarget": "pos:build",
             "port": 3333,
             "ssl": true,
             "sslKey": "ssl/server.key",
@@ -58,20 +90,20 @@
           },
           "configurations": {
             "dev": {
-              "browserTarget": "admission:build:dev"
+              "browserTarget": "pos:build:dev"
             },
             "test": {
-              "browserTarget": "admission:build:test"
+              "browserTarget": "pos:build:test"
             },
             "production": {
-              "browserTarget": "admission:build:production"
+              "browserTarget": "pos:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "admission:build"
+            "browserTarget": "pos:build"
           }
         },
         "test": {
@@ -108,7 +140,7 @@
         }
       }
     },
-    "admission-e2e": {
+    "pos-e2e": {
       "root": "src/client",
       "sourceRoot": "src/client/e2e",
       "projectType": "application",
@@ -117,7 +149,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "admission:serve"
+            "devServerTarget": "pos:serve"
           }
         },
         "lint": {
@@ -134,20 +166,19 @@
       }
     }
   },
-  "defaultProject": "admission",
+  "defaultProject": "pos",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss",
-      "spec": false
+      "style": "scss",
+      "skipTests": true
     },
     "@schematics/angular:directive": {
       "prefix": "app"
     }
   },
   "cli": {
-    "warnings": {
-      "typescriptMismatch": false
-    }
+    "warnings": {},
+    "analytics": "78f8271a-b5f8-442e-9f70-3d2678e9386d"
   }
 }

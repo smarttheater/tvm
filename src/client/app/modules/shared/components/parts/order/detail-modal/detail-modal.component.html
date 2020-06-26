@@ -1,0 +1,145 @@
+<div class="p-3 scroll-vertical text-small">
+    <div class="mb-4">
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.orderDate' | translate }}]</p>
+                <p class="col-md-8">{{ moment(order.orderDate).format('YYYY/MM/DD (ddd) HH:mm') }}</p>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.confirmationNumber' | translate }}]</p>
+                <p class="col-md-8">{{ order.confirmationNumber }}</p>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.orderNumber' | translate }}]</p>
+                <p class="col-md-8">{{ order.orderNumber }}</p>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.event' | translate }}]</p>
+                <div class="col-md-8">
+                    <div *ngFor="let eventOrder of eventOrders" class="mb-3">
+                        <div class="mb-1">
+                            <p class="font-weight-bold text-large">{{ eventOrder.event.name | changeLanguage }}</p>
+                            <p class="text-small"
+                                *ngIf="eventOrder.event.superEvent.headline && (eventOrder.event.superEvent.headline | changeLanguage)">
+                                {{ eventOrder.event.superEvent.headline | changeLanguage }}</p>
+                            <!-- <p class="text-small"
+                                    *ngIf="eventOrder.event.superEvent.description && (eventOrder.event.superEvent.description | changeLanguage)">{{
+                                            eventOrder.event.superEvent.description | changeLanguage }}</p> -->
+                        </div>
+                        <p class="mb-1">
+                            {{ eventOrder.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{ eventOrder.event.endDate | formatDate: 'HH:mm' }}
+                        </p>
+                        <p class="text-small mb-1">
+                            <span
+                                class="theater-name">{{ eventOrder.event.superEvent.location.name | changeLanguage }}</span>
+                            <span class="screen-name">&nbsp;/&nbsp;<span *ngIf="eventOrder.event.location.address | changeLanguage"
+                                    class="mr-2">{{ eventOrder.event.location.address | changeLanguage }}</span>{{ eventOrder.event.location.name | changeLanguage }}</span>
+                            <span
+                                *ngIf="eventOrder.event.workPerformed?.duration && moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() > 0">
+                                &nbsp;/&nbsp;<span
+                                    class="mr-1">{{ 'common.duration' | translate }}</span>{{ moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() }}{{ 'common.date.minute' | translate }}
+                            </span>
+                        </p>
+                        <div *ngFor="let acceptedOffer of eventOrder.data">
+                            <p>[{{ 'common.reservationNumber' | translate }}]
+                                {{ acceptedOffer.itemOffered.reservationNumber }}</p>
+                            <p>[{{ 'common.reservationId' | translate }}] {{ acceptedOffer.itemOffered.id }}</p>
+                            <app-item-list [acceptedOffers]="[acceptedOffer]"></app-item-list>
+                        </div>
+                        <div *ngIf="eventOrder.data[0].itemOffered.additionalTicketText" class="additional-ticket-text">
+                            <p>[{{ 'common.additionalTicketText' | translate }}]</p>
+                            <p>{{ eventOrder.data[0].itemOffered.additionalTicketText }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.customer' | translate }}]</p>
+                <div class="col-md-8">
+                    <p>{{ order.customer.familyName }} {{ order.customer.givenName }}</p>
+                    <p>{{ order.customer.email }}</p>
+                    <p *ngIf="order.customer.telephone">{{ order.customer.telephone | libphonenumberFormat }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.price' | translate }}]</p>
+                <p class="col-md-8">
+                    {{ order.price | currency : 'JPY' }}
+                </p>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.orderStatus' | translate }}]</p>
+                <p class="col-md-8">{{ order.orderStatus }}<span *ngIf="order.dateReturned">&nbsp;/&nbsp;{{ moment(order.dateReturned).format('YYYY/MM/DD (ddd) HH:mm') }}</span></p>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.paymentMethod' | translate }}]</p>
+                <div class="col-md-8">
+                    <p *ngFor="let paymentMethod of order.paymentMethods">
+                        <span
+                            *ngIf="!(paymentMethod.typeOf === paymentMethodType.Others && paymentMethod.name !== paymentMethodType.Others)">
+                            {{ paymentMethod.name }}&nbsp;/&nbsp;{{ paymentMethod.totalPaymentDue.value | currency : paymentMethod.totalPaymentDue.currency }}
+                        </span>
+                        <span
+                            *ngIf="paymentMethod.typeOf === paymentMethodType.Others && paymentMethod.name !== paymentMethodType.Others">
+                            {{ paymentMethod.typeOf }}[{{ paymentMethod.name }}]&nbsp;/&nbsp;{{ paymentMethod.totalPaymentDue.value | currency : paymentMethod.totalPaymentDue.currency }}
+                        </span>
+
+                    </p>
+                    <div *ngIf="qrcode" class="mt-2"><img class="border" [src]="qrcode" alt=""></div>
+                </div>
+            </div>
+        </div>
+        <div class="py-3 border-bottom border-gray">
+            <div class="row align-items-center">
+                <p class="mb-2 mb-md-0 col-md-4">[{{ 'common.etc' | translate }}]</p>
+                <div class="col-md-8">
+                    <p *ngIf="getTransactionAgentIdentifier(order, 'linyId')">
+                        [linyId]<br>
+                        {{ getTransactionAgentIdentifier(order, 'linyId')?.value }}
+                    </p>
+                    <p *ngIf="getTransactionAgentIdentifier(order, 'userAgent')">
+                        [platform]<br>
+                        name: {{ platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).name }}<br>
+                        version:
+                        {{ platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).version }}<br>
+                        product: <span
+                            *ngIf="platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).product">{{ platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).product }}</span><span
+                            *ngIf="!platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).product">-</span><br>
+                        layout: {{ platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).layout }}<br>
+                        os: {{ platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).os }}<br>
+                        ({{ platform.parse(getTransactionAgentIdentifier(order, 'userAgent')?.value).description }})
+                    </p>
+                    <p
+                        *ngIf="getTransactionAgentIdentifier(order, 'posId') && getTransactionAgentIdentifier(order, 'posName')">
+                        [POS]<br>
+                        id: {{ getTransactionAgentIdentifier(order, 'posId')?.value }}<br>
+                        name: {{ getTransactionAgentIdentifier(order, 'posName')?.value }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="buttons mx-auto text-center">
+        <a *ngFor="let link of environment.ORDER_LINK" class="btn btn-primary btn-block py-3 mb-3" target="_blank"
+            [href]="createOrderLink(order, link)">{{ link.name | changeLanguage }}</a>
+        <button type="button" class="btn btn-link btn-sm"
+            (click)="modal.hide()">{{ 'common.close' | translate }}</button>
+    </div>
+
+</div>

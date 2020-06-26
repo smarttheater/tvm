@@ -1,72 +1,39 @@
 /**
  * NgModule
  */
-
-// tslint:disable:no-submodule-imports max-line-length
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SwiperModule } from 'ngx-swiper-wrapper';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { Functions } from '.';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './components/app/app.component';
-import { AdmissionComponent } from './components/pages/admission/admission.component';
-import { AuthIndexComponent } from './components/pages/auth/auth-index/auth-index.component';
-import { AuthSigninComponent } from './components/pages/auth/auth-signin/auth-signin.component';
-import { AuthSignoutComponent } from './components/pages/auth/auth-signout/auth-signout.component';
-import { BaseComponent } from './components/pages/base/base.component';
-import { ErrorComponent } from './components/pages/error/error.component';
-import { IndexComponent } from './components/pages/index/index.component';
-import { NotfoundComponent } from './components/pages/notfound/notfound.component';
-import { ScheduleComponent } from './components/pages/schedule/schedule.component';
-import { AlertModalComponent } from './components/parts/alert-modal/alert-modal.component';
-import { ConfirmModalComponent } from './components/parts/confirm-modal/confirm-modal.component';
-import { ContentsComponent } from './components/parts/contents/contents.component';
-import { FooterComponent } from './components/parts/footer/footer.component';
-import { HeaderMenuComponent } from './components/parts/header-menu/header-menu.component';
-import { HeaderComponent } from './components/parts/header/header.component';
-import { LoadingComponent } from './components/parts/loading/loading.component';
-import { PurchaseScheduleFilmComponent } from './components/parts/purchase-schedule-film/purchase-schedule-film.component';
+import { AppComponent } from './app/app.component';
+import { CoreModule } from './modules/core/core.module';
+import { SharedModule } from './modules/shared/shared.module';
 import { StoreModule } from './store.module';
 import { CoreStoreModule } from './store/core/store';
 
-// tslint:disable-next-line:no-stateless-class
+
 @NgModule({
     declarations: [
         AppComponent,
-        NotfoundComponent,
-        ContentsComponent,
-        HeaderComponent,
-        HeaderMenuComponent,
-        FooterComponent,
-        AlertModalComponent,
-        LoadingComponent,
-        ErrorComponent,
-        BaseComponent,
-        ConfirmModalComponent,
-        IndexComponent,
-        ScheduleComponent,
-        AdmissionComponent,
-        AuthSigninComponent,
-        AuthSignoutComponent,
-        AuthIndexComponent,
-        PurchaseScheduleFilmComponent,
-    ],
-    entryComponents: [
-        AlertModalComponent,
-        ConfirmModalComponent
     ],
     imports: [
         BrowserModule,
-        HttpClientModule,
+        BrowserAnimationsModule,
+        HammerModule,
         AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
         StoreModule,
         CoreStoreModule,
-        NgbModule,
-        SwiperModule
+        CoreModule,
+        SharedModule,
+        ModalModule.forRoot(),
+        BsDatepickerModule.forRoot(),
+        PaginationModule.forRoot(),
+        TranslateModule.forRoot(Functions.Translate.getTranslateModuleConfig())
     ],
     providers: [],
     bootstrap: [AppComponent]

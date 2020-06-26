@@ -21,7 +21,7 @@ const redisClient = redis.createClient(
 const sessionStore = new (connectRedis(session))({ client: redisClient });
 
 export default session({
-    secret: 'admission-session-secret',
+    secret: 'frontend-session-secret',
     resave: false,
     rolling: true,
     saveUninitialized: false,

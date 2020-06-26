@@ -4,19 +4,20 @@
 
 import * as fs from 'fs';
 import * as https from 'https';
+import { AddressInfo } from 'net';
 import * as app from './app/app';
 
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '443');
+const port = normalizePort((process.env.PORT === undefined || process.env.PORT === '') ? '443' : process.env.PORT);
 // tslint:disable-next-line:no-backbone-get-set-outside-model
 app.set('port', port);
 
-const privateKey  = fs.readFileSync('./ssl/server.key', 'utf8');
+const privateKey = fs.readFileSync('./ssl/server.key', 'utf8');
 const certificate = fs.readFileSync('./ssl/server.crt', 'utf8');
 
-const credentials = {key: privateKey, cert: certificate};
+const credentials = { key: privateKey, cert: certificate };
 
 /**
  * Create HTTPS server.
@@ -65,18 +66,15 @@ function onError(error: any) {
         : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-        default:
-            throw error;
+    if (error.code === 'EACCES') {
+        console.error(bind + ' requires elevated privileges');
+        process.exit(1);
     }
+    if (error.code === 'EADDRINUSE') {
+        console.error(bind + ' is already in use');
+        process.exit(1);
+    }
+    throw error;
 }
 
 /**
@@ -84,7 +82,7 @@ function onError(error: any) {
  */
 
 function onListening() {
-    const addr = server.address();
+    const addr = <string | AddressInfo>server.address();
     // tslint:disable-next-line:no-unused-variable
     const bind = typeof addr === 'string'
         ? 'pipe ' + addr

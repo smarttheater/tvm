@@ -3,10 +3,9 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "baseUrl": "./",
-    "module": "es2015",
     "types": ["node"],
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
     "charset": "utf8",
     "diagnostics": false,
     "disableSizeLimit": false,
@@ -36,12 +35,15 @@
     "suppressExcessPropertyErrors": false,
     "suppressImplicitAnyIndexErrors": false
   },
-  "exclude": [
-    "test.ts",
-    "**/*.d.ts",
-    "**/*.spec.ts"
-  ],
   "angularCompilerOptions": {
-    "disableTypeScriptVersionCheck": true
-  }
+    "disableTypeScriptVersionCheck": true,
+    "fullTemplateTypeCheck": true
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "src/client/**/*.d.ts"
+  ]
 }

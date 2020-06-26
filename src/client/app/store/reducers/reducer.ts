@@ -1,6 +1,10 @@
-import { factory } from '@cinerino/api-javascript-client';
-import { IDecodeResult } from '../../model';
-import { Actions, ActionTypes } from '../actions';
+import { Action } from '@ngrx/store';
+import { getEnvironment } from '../../../environments/environment';
+import * as masterReducer from './master.reducer';
+import * as orderReducer from './order.reducer';
+import * as purchaseReducer from './purchase.reducer';
+import * as userReducer from './user.reducer';
+import * as utilReducer from './util.reducer';
 
 
 /**
@@ -10,23 +14,10 @@ export interface IState {
     loading: boolean;
     process: string;
     error: string | null;
-    movieTheaters: factory.organization.IOrganization<factory.organizationType.MovieTheater>[];
-    movieTheater?: factory.organization.IOrganization<factory.organizationType.MovieTheater>;
-    screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
-    screeningEvent?: factory.chevre.event.screeningEvent.IEvent;
-    screeningEventReservations: factory.chevre.reservation.event.IReservation<factory.chevre.event.screeningEvent.IEvent>[];
-    qrcodeToken?: {
-        token?: string;
-        decodeResult?: IDecodeResult;
-        availableReservation?: factory.chevre.reservation.event.ISearchConditions;
-        checkTokenActions: factory.action.check.token.IAction[];
-        isAvailable: boolean;
-        statusCode: number;
-    };
-    usentList: {
-        token: string;
-        decodeResult: IDecodeResult;
-    }[];
+    purchaseData: purchaseReducer.IPurchaseState;
+    userData: userReducer.IUserState;
+    masterData: masterReducer.IMasterState;
+    orderData: orderReducer.IOrderState;
 }
 
 /**
@@ -36,20 +27,26 @@ export const initialState: IState = {
     loading: false,
     process: '',
     error: null,
-    movieTheaters: [],
-    screeningEvents: [],
-    screeningEventReservations: [],
-    usentList: []
+    purchaseData: purchaseReducer.purchaseInitialState,
+    userData: userReducer.userInitialState,
+    masterData: masterReducer.masterInitialState,
+    orderData: orderReducer.orderInitialState,
 };
 
-function getInitialState(): IState {
-    const json = localStorage.getItem('state');
-    if (json === undefined || json === null) {
+export function getInitialState(): IState {
+    const environment = getEnvironment();
+    const saveJson = (<Storage>(<any>window)[environment.STORAGE_TYPE]).getItem(environment.STORAGE_NAME);
+    if (saveJson === undefined || saveJson === null) {
         return initialState;
     }
-    const data: { App: IState } = JSON.parse(json);
+    const saveData: { App: IState } = JSON.parse(saveJson);
+    const sessonJson = sessionStorage.getItem('SESSION_STATE');
+    const sessionData = (sessonJson === undefined || sessonJson === null) ? { App: {} } : JSON.parse(sessonJson);
+    const data: IState = { ...initialState, ...saveData.App, ...sessionData.App };
+    (<any>data).userData.seller = undefined;
+    data.loading = false;
 
-    return Object.assign(initialState, data.App);
+    return data;
 }
 
 /**
@@ -59,107 +56,20 @@ function getInitialState(): IState {
  */
 export function reducer(
     state = getInitialState(),
-    action: Actions
+    action: Action
 ): IState {
-    switch (action.type) {
-        case ActionTypes.Delete: {
-            return { ...state };
-        }
-        case ActionTypes.GetTheaters: {
-            return { ...state, loading: true, process: '劇場情報を取得しています'};
-        }
-        case ActionTypes.GetTheatersSuccess: {
-            const movieTheaters = action.payload.movieTheaters;
-            return { ...state, loading: false,  process: '', error: null, movieTheaters };
-        }
-        case ActionTypes.GetTheatersFail: {
-            const error = action.payload.error;
-            return { ...state, loading: false,  process: '', error: JSON.stringify(error) };
-        }
-        case ActionTypes.SelectTheater: {
-            const movieTheater = action.payload.movieTheater;
-            return { ...state, loading: false,  process: '', error: null, movieTheater };
-        }
-        case ActionTypes.GetScreeningEvent: {
-            return { ...state };
-        }
-        case ActionTypes.GetScreeningEventSuccess: {
-            const screeningEvent = action.payload.screeningEvent;
-            return { ...state, error: null, screeningEvent };
-        }
-        case ActionTypes.GetScreeningEventFail: {
-            const error = action.payload.error;
-            return { ...state, error: JSON.stringify(error) };
-        }
-        case ActionTypes.GetScreeningEvents: {
-            return { ...state, loading: true, process: 'スケジュールを取得しています'};
-        }
-        case ActionTypes.GetScreeningEventsSuccess: {
-            const screeningEvents = action.payload.screeningEvents;
-            return { ...state, loading: false,  process: '', error: null, screeningEvents };
-        }
-        case ActionTypes.GetScreeningEventsFail: {
-            const error = action.payload.error;
-            return { ...state, loading: false,  process: '', error: JSON.stringify(error) };
-        }
-        case ActionTypes.SelectScreeningEvent: {
-            const screeningEvent = action.payload.screeningEvent;
-            return { ...state, loading: false,  process: '', error: null, screeningEvent };
-        }
-        case ActionTypes.GetScreeningEventReservations: {
-            return { ...state };
-        }
-        case ActionTypes.GetScreeningEventReservationsSuccess: {
-            state.screeningEventReservations = action.payload.screeningEventReservations;
-            return { ...state, error: null };
-        }
-        case ActionTypes.GetScreeningEventReservationsFail: {
-            const error = action.payload.error;
-            return { ...state, error: JSON.stringify(error) };
-        }
-        case ActionTypes.InitializeQrcodeToken: {
-            const qrcodeToken = undefined;
-            return { ...state, qrcodeToken };
-        }
-        case ActionTypes.InitializeUsentList: {
-            state.usentList = [];
-            return { ...state };
-        }
-        case ActionTypes.ConvertQrcodeToToken: {
-            return { ...state, loading: true, error: null };
-        }
-        case ActionTypes.ConvertQrcodeToTokenSuccess: {
-            const qrcodeToken = action.payload;
-
-            return { ...state, loading: false,  process: '', error: null, qrcodeToken };
-        }
-        case ActionTypes.ConvertQrcodeToTokenFail: {
-            const error = action.payload.error;
-            return { ...state, loading: false,  process: '', error: JSON.stringify(error) };
-        }
-        case ActionTypes.Admission: {
-            return { ...state, error: null };
-        }
-        case ActionTypes.AdmissionSuccess: {
-            const decodeResult = action.payload.decodeResult;
-            const usentList = state.usentList.filter(usent => usent.decodeResult.id !== decodeResult.id);
-            state.usentList = usentList;
-            return { ...state, error: null };
-        }
-        case ActionTypes.AdmissionFail: {
-            const error = action.payload.error;
-            const token = action.payload.token;
-            const decodeResult = action.payload.decodeResult;
-            const findResult = state.usentList.find(usent => usent.decodeResult.id === decodeResult.id);
-            if (findResult === undefined) {
-                state.usentList.push({ token, decodeResult });
-            }
-
-            return { ...state, error: JSON.stringify(error) };
-        }
-        default: {
-            return state;
-        }
+    if (/\[Purchase\]/.test(action.type)) {
+        return purchaseReducer.reducer(state, action);
+    } else if (/\[User\]/.test(action.type)) {
+        return userReducer.reducer(state, action);
+    } else if (/\[Master\]/.test(action.type)) {
+        return masterReducer.reducer(state, action);
+    } else if (/\[Order\]/.test(action.type)) {
+        return orderReducer.reducer(state, action);
+    } else if (/\[Util\]/.test(action.type)) {
+        return utilReducer.reducer(state, action);
+    } else {
+        return state;
     }
 }
 
@@ -167,12 +77,9 @@ export function reducer(
  * Selectors
  */
 export const getLoading = (state: IState) => state.loading;
-export const getProcess = (state: IState) => state.process;
+export const getProcess = (state: IState) => `process.${state.process}`;
 export const getError = (state: IState) => state.error;
-export const getMovieTheaters = (state: IState) => state.movieTheaters;
-export const getMovieTheater = (state: IState) => state.movieTheater;
-export const getScreeningEvents = (state: IState) => state.screeningEvents;
-export const getScreeningEvent = (state: IState) => state.screeningEvent;
-export const getScreeningEventReservations = (state: IState) => state.screeningEventReservations;
-export const getQrcodeToken = (state: IState) => state.qrcodeToken;
-export const getUsentList = (state: IState) => state.usentList;
+export const getPurchase = (state: IState) => state.purchaseData;
+export const getUser = (state: IState) => state.userData;
+export const getMaster = (state: IState) => state.masterData;
+export const getOrder = (state: IState) => state.orderData;

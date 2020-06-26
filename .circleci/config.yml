@@ -33,7 +33,7 @@ jobs:
             - ./node_modules
       - run:
           name: compile typescript
-          command: npm run build
+          command: npm run build-server
   test:
     docker:
       - image: circleci/node:latest
@@ -89,7 +89,7 @@ jobs:
           command: |
             git remote add production-staging ${DEPLOY_TARGET_REPOSITORY_PRODUCTION}
             git push production-staging $CIRCLE_BRANCH:master -f -v
-# Used for orchestrating all jobs.
+  # Used for orchestrating all jobs.
 workflows:
   version: 2
 
@@ -99,12 +99,12 @@ workflows:
       - test:
           requires:
             - build
-      - deploy2development:
-          requires:
-            - test
-          filters:
-            branches:
-              only: develop
+      # - deploy2development:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: develop
       - prerelease:
           requires:
             - test

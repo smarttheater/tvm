@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { CinerinoService } from '../services';
+import { CinerinoService } from '../services/cinerino.service';
 
 @Injectable({
     providedIn: 'root'

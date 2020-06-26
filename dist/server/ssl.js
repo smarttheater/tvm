@@ -9,7 +9,7 @@ const app = require("./app/app");
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '443');
+const port = normalizePort((process.env.PORT === undefined || process.env.PORT === '') ? '443' : process.env.PORT);
 // tslint:disable-next-line:no-backbone-get-set-outside-model
 app.set('port', port);
 const privateKey = fs.readFileSync('./ssl/server.key', 'utf8');
@@ -53,18 +53,15 @@ function onError(error) {
         ? 'Pipe ' + port
         : 'Port ' + port;
     // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-        default:
-            throw error;
+    if (error.code === 'EACCES') {
+        console.error(bind + ' requires elevated privileges');
+        process.exit(1);
     }
+    if (error.code === 'EADDRINUSE') {
+        console.error(bind + ' is already in use');
+        process.exit(1);
+    }
+    throw error;
 }
 /**
  * Event listener for HTTP server "listening" event.

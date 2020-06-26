@@ -1,0 +1,273 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { factory } from '@cinerino/api-javascript-client';
+import { select, Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { CountryISO, NgxIntlTelInputComponent, SearchCountryField, TooltipLabel, } from 'ngx-intl-tel-input';
+import { Observable } from 'rxjs';
+import { Models } from '../../../../..';
+import { getEnvironment } from '../../../../../../environments/environment';
+import { MasterService, OrderService, UserService, UtilService } from '../../../../../services';
+import * as reducers from '../../../../../store/reducers';
+import { LibphonenumberFormatPipe } from '../../../../shared/pipes/libphonenumber-format.pipe';
+
+@Component({
+    selector: 'app-setting',
+    templateUrl: './setting.component.html',
+    styleUrls: ['./setting.component.scss']
+})
+export class SettingComponent implements OnInit {
+    public settingForm: FormGroup;
+    public user: Observable<reducers.IUserState>;
+    public master: Observable<reducers.IMasterState>;
+    public error: Observable<string | null>;
+    public isLoading: Observable<boolean>;
+    public posList: { id: string; name: string; typeOf: string; }[];
+    public printers = Models.Util.Printer.printers;
+    public connectionType = Models.Util.Printer.ConnectionType;
+    public viewType = Models.Util.ViewType;
+    public theaters: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom[];
+    public environment = getEnvironment();
+    public SearchCountryField = SearchCountryField;
+    public TooltipLabel = TooltipLabel;
+    public CountryISO = CountryISO;
+    @ViewChild('intlTelInput') private intlTelInput: NgxIntlTelInputComponent;
+
+    constructor(
+        private formBuilder: FormBuilder,
+        private store: Store<reducers.IState>,
+        private utilService: UtilService,
+        private userService: UserService,
+        private masterService: MasterService,
+        private orderService: OrderService,
+        private translate: TranslateService,
+        private router: Router
+    ) { }
+
+    /**
+     * 初期化
+     */
+    public async ngOnInit() {
+        this.user = this.store.pipe(select(reducers.getUser));
+        this.error = this.store.pipe(select(reducers.getError));
+        this.isLoading = this.store.pipe(select(reducers.getLoading));
+        this.posList = [];
+        this.theaters = [];
+        try {
+            this.theaters = await this.masterService.getTheaters();
+            await this.createSettlingForm();
+        } catch (error) {
+            console.error(error);
+            this.router.navigate(['/error']);
+        }
+        setTimeout(() => {
+            if (this.intlTelInput === undefined) {
+                return;
+            }
+            const findResult = this.intlTelInput.allCountries.find(c => c.iso2 === CountryISO.Japan);
+            if (findResult === undefined) {
+                return;
+            }
+            findResult.placeHolder = this.translate.instant('form.placeholder.telephone');
+        }, 0);
+    }
+
+    /**
+     * フォーム作成
+     */
+    private async createSettlingForm() {
+        const profile = this.environment.PROFILE;
+        this.settingForm = this.formBuilder.group({
+            theaterBranchCode: ['', [Validators.required]],
+            posId: [''],
+            printerType: [Models.Util.Printer.ConnectionType.None],
+            printerIpAddress: ['']
+        });
+        profile.forEach(p => {
+            const validators: ValidatorFn[] = [];
+            if (p.required !== undefined && p.required) {
+                validators.push(Validators.required);
+            }
+            if (p.maxLength !== undefined) {
+                validators.push(Validators.maxLength(p.maxLength));
+            }
+            if (p.minLength !== undefined) {
+                validators.push(Validators.minLength(p.minLength));
+            }
+            if (p.pattern !== undefined) {
+                validators.push(Validators.pattern(p.pattern));
+            }
+            if (p.key === 'email') {
+                validators.push(Validators.email);
+            }
+            if (p.key === 'telephone') {
+                // validators.push((control: AbstractControl) => {
+                //     const field = control.root.get('telephone');
+                //     if (field !== null) {
+                //         if (field.value === '') {
+                //             return null;
+                //         }
+                //         const parsedNumber = (new RegExp(/^\+/).test(field.value))
+                //             ? libphonenumber.parse(field.value)
+                //             : libphonenumber.parse(field.value, 'JP');
+                //         if (parsedNumber.phone === undefined) {
+                //             return { telephone: true };
+                //         }
+                //         const isValid = libphonenumber.isValidNumber(parsedNumber);
+                //         if (!isValid) {
+                //             return { telephone: true };
+                //         }
+                //     }
+
+                //     return null;
+                // });
+            }
+            this.settingForm.addControl(p.key, new FormControl(p.value, validators));
+        });
+        const user = await this.userService.getData();
+        if (user.theater !== undefined) {
+            this.settingForm.controls.theaterBranchCode.setValue(user.theater.branchCode);
+            this.changePosList();
+        }
+        if (user.pos !== undefined) {
+            this.settingForm.controls.posId.setValue(user.pos.id);
+        }
+        const customerContact = user.customerContact;
+        if (customerContact !== undefined) {
+            Object.keys(customerContact).forEach(key => {
+                const value = (<any>customerContact)[key];
+                if (value === undefined || this.settingForm.controls[key] === undefined) {
+                    return;
+                }
+                if (key === 'telephone') {
+                    this.settingForm.controls.telephone
+                        .setValue(new LibphonenumberFormatPipe().transform(value));
+                    return;
+                }
+                this.settingForm.controls[key].setValue(value);
+            });
+        }
+        if (user.printer !== undefined) {
+            this.settingForm.controls.printerType.setValue(user.printer.connectionType);
+            this.settingForm.controls.printerIpAddress.setValue(user.printer.ipAddress);
+        }
+        console.log(this.settingForm);
+    }
+
+    /**
+     * POS変更
+     */
+    public changePosList() {
+        this.settingForm.controls.posId.setValue('');
+        const theaterBranchCode = this.settingForm.controls.theaterBranchCode.value;
+        if (theaterBranchCode === '') {
+            this.posList = [];
+            return;
+        }
+        const findResult = this.theaters.find(t => (t.branchCode === theaterBranchCode));
+        if (findResult === undefined) {
+            this.posList = [];
+            return;
+        }
+        this.posList = (findResult.hasPOS === undefined) ? [] : findResult.hasPOS;
+    }
+
+
+    /**
+     * 設定変更
+     */
+    public async onSubmit() {
+        Object.keys(this.settingForm.controls).forEach((key) => {
+            this.settingForm.controls[key].markAsTouched();
+        });
+        if (this.settingForm.invalid) {
+            this.utilService.openAlert({
+                title: this.translate.instant('common.error'),
+                body: this.translate.instant('setting.alert.validation')
+            });
+            return;
+        }
+        try {
+            const theaterBranchCode = this.settingForm.controls.theaterBranchCode.value;
+            const posId = this.settingForm.controls.posId.value;
+            const theater = this.theaters.find(t => (t.branchCode === theaterBranchCode));
+            if (theater === undefined) {
+                throw new Error('theater not found').message;
+            }
+            const pos = (theater.hasPOS === undefined) ? theater.hasPOS : theater.hasPOS.find(p => p.id === posId);
+
+            this.userService.updateAll({
+                pos,
+                theater,
+                customerContact: {
+                    familyName: (this.settingForm.controls.familyName === undefined)
+                        ? undefined : this.settingForm.controls.familyName.value,
+                    givenName: (this.settingForm.controls.givenName === undefined)
+                        ? undefined : this.settingForm.controls.givenName.value,
+                    email: (this.settingForm.controls.email === undefined)
+                        ? undefined : this.settingForm.controls.email.value,
+                    telephone: (this.settingForm.controls.telephone === undefined)
+                        ? undefined : this.settingForm.controls.telephone.value.e164Number,
+                    // ? undefined : this.settingForm.controls.telephone.value,
+                    age: (this.settingForm.controls.age === undefined)
+                        ? undefined : this.settingForm.controls.age.value,
+                    address: (this.settingForm.controls.address === undefined)
+                        ? undefined : this.settingForm.controls.address.value,
+                    gender: (this.settingForm.controls.gender === undefined)
+                        ? undefined : this.settingForm.controls.gender.value
+                },
+                printer: {
+                    ipAddress: this.settingForm.controls.printerIpAddress.value,
+                    connectionType: this.settingForm.controls.printerType.value
+                }
+            });
+            this.utilService.openAlert({
+                title: this.translate.instant('common.complete'),
+                body: this.translate.instant('setting.alert.success')
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    /**
+     * 印刷
+     */
+    public async print() {
+        const printer = {
+            connectionType: this.settingForm.controls.printerType.value,
+            ipAddress: this.settingForm.controls.printerIpAddress.value
+        };
+        try {
+            await this.orderService.print({ orders: [], printer });
+        } catch (error) {
+            console.error(error);
+            this.utilService.openAlert({
+                title: this.translate.instant('common.error'),
+                body: `
+                <p class="mb-4">${this.translate.instant('setting.alert.print')}</p>
+                    <div class="p-3 bg-light-gray select-text">
+                    <code>${error}</code>
+                </div>`
+            });
+        }
+    }
+
+    /**
+     * プリンター変更
+     */
+    public changePrinterType() {
+        if (this.settingForm.controls.printerType.value === Models.Util.Printer.ConnectionType.StarBluetooth) {
+            this.settingForm.controls.printerIpAddress.setValue(this.translate.instant('setting.starBluetoothAddress'));
+        }
+    }
+
+    /**
+     * 必須判定
+     */
+    public isRequired(key: String) {
+        return this.environment.PROFILE.find(p => p.key === key && p.required) !== undefined;
+    }
+
+}

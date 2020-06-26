@@ -1,13 +1,16 @@
 "use strict";
 const bodyParser = require("body-parser");
+const compression = require("compression");
 const cookieParser = require("cookie-parser");
 const express = require("express");
+const fs = require("fs");
 const helmet = require("helmet");
 const basic_auth_middleware_1 = require("./middlewares/basicAuth/basic-auth.middleware");
 const benchmarks_middleware_1 = require("./middlewares/benchmarks/benchmarks.middleware");
 const ip_filter_middleware_1 = require("./middlewares/ipFilter/ip-filter.middleware");
 const session_middleware_1 = require("./middlewares/session/session.middleware");
 const router_1 = require("./routes/router");
+process.env.VERSION = JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 /**
  * express設定
  */
@@ -23,8 +26,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('views', `${__dirname}/../../../views`); // view設定
 app.set('view engine', 'ejs');
+app.use(compression());
 app.use(express.static(`${__dirname}/../../../public`)); // server
-app.use(express.static(`${__dirname}/../../client`, {
+app.use(express.static(`${__dirname}/../../client/${(process.env.NODE_ENV === 'production') ? 'production' : 'development'}`, {
     index: false
 })); // client
 router_1.default(app);

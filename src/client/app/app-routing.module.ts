@@ -3,35 +3,46 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuardService } from './canActivates';
-import { AdmissionComponent } from './components/pages/admission/admission.component';
-import { BaseComponent } from './components/pages/base/base.component';
-import { ErrorComponent } from './components/pages/error/error.component';
-import { NotfoundComponent } from './components/pages/notfound/notfound.component';
-import { ScheduleComponent } from './components/pages/schedule/schedule.component';
-import { authRoute } from './routes';
+import { isProduction } from '../environments/environment';
+import { ErrorModule } from './modules/error/error.module';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/auth', pathMatch: 'full' },
-    authRoute,
+    {
+        path: 'purchase',
+        loadChildren: () => import('./modules/purchase/purchase.module')
+            .then(m => m.PurchaseModule)
+            .catch(() => location.reload())
+    },
+    {
+        path: 'auth',
+        loadChildren: () => import('./modules/auth/auth.module')
+            .then(m => m.AuthModule)
+            .catch(() => location.reload())
+    },
+    {
+        path: 'inquiry',
+        loadChildren: () => import('./modules/inquiry/inquiry.module')
+            .then(m => m.InquiryModule)
+            .catch(() => location.reload())
+    },
+    {
+        path: 'setting',
+        loadChildren: () => import('./modules/setting/setting.module')
+            .then(m => m.SettingModule)
+            .catch(() => location.reload())
+    },
     {
         path: '',
-        component: BaseComponent,
-        children: [
-            { path: 'schedule', canActivate: [AuthGuardService], component: ScheduleComponent },
-            { path: 'admission', canActivate: [AuthGuardService], component: AdmissionComponent },
-            { path: 'error', component: ErrorComponent },
-            { path: '**', component: NotfoundComponent }
-        ]
-    }
+        loadChildren: () => ErrorModule
+    },
 ];
 
-// tslint:disable-next-line:no-stateless-class
 @NgModule({
     imports: [
         RouterModule.forRoot(
             appRoutes,
-            { useHash: true, enableTracing: true }
+            { useHash: true, enableTracing: !isProduction }
         )
     ],
     exports: [

@@ -87,10 +87,6 @@ interface IEnvironment {
      */
     HEADER_MENU_SCOPE: string[];
     /**
-     * カート機能有無
-     */
-    PURCHASE_CART: boolean;
-    /**
      * 購入アイテム上限数
      */
     PURCHASE_ITEM_MAX_LENGTH: string;
@@ -221,8 +217,7 @@ const defaultEnvironment: IEnvironment = {
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,
     HEADER_MENU: true,
-    HEADER_MENU_SCOPE: ['purchase', 'inquiry','setting', 'auth'],
-    PURCHASE_CART: true,
+    HEADER_MENU_SCOPE: ['purchase', 'inquiry', 'setting', 'auth'],
     PURCHASE_ITEM_MAX_LENGTH: '50',
     PURCHASE_TRANSACTION_TIME: '15',
     PURCHASE_TRANSACTION_TIME_DISPLAY: true,
@@ -241,7 +236,7 @@ const defaultEnvironment: IEnvironment = {
     INQUIRY_PRINT_EXPIRED_UNIT: 'hour',
     INQUIRY_PRINT_WAIT_TIME: '',
     INQUIRY_PRINT_SUCCESS_WAIT_TIME: '',
-    INQUIRY_INPUT_KEYPAD: false,
+    INQUIRY_INPUT_KEYPAD: true,
     INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
     INQUIRY_ORDER_DATE_FROM_UNIT: 'month',
     ORDER_LINK: [],

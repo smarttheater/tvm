@@ -1987,7 +1987,7 @@ class PurchaseEventTicketComponent {
                 return;
             }
             if (purchase.authorizeSeatReservations.length > 0
-                && !this.environment.PURCHASE_CART) {
+                && Number(this.environment.PURCHASE_ITEM_MAX_LENGTH) === 1) {
                 this.utilService.openAlert({
                     title: this.translate.instant('common.error'),
                     body: this.translate.instant('purchase.event.ticket.alert.cart')
@@ -2723,6 +2723,7 @@ class PurchaseCompleteComponent {
                     }
                     yield this.epsonEPOSService.cashchanger.init({ printer: user.printer });
                     yield this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
+                    yield this.epsonEPOSService.cashchanger.disconnect();
                 }
             }
             catch (error) {
@@ -3303,6 +3304,7 @@ function PurchasePaymentReceptionComponent_div_1_Template(rf, ctx) { if (rf & 1)
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](33, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "button", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_div_1_Template_button_click_34_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r2); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r3.prev(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](35);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](36, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -3334,10 +3336,11 @@ function PurchasePaymentReceptionComponent_div_1_Template(rf, ctx) { if (rf & 1)
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](36, 34, "purchase.paymentReception.cash.prev"));
 } }
 class PurchasePaymentReceptionComponent {
-    constructor(store, router, userService, purchaseService, epsonEPOSService) {
+    constructor(store, router, userService, utilService, purchaseService, epsonEPOSService) {
         this.store = store;
         this.router = router;
         this.userService = userService;
+        this.utilService = utilService;
         this.purchaseService = purchaseService;
         this.epsonEPOSService = epsonEPOSService;
         this.paymentMethodType = _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["factory"].paymentMethodType;
@@ -3398,22 +3401,48 @@ class PurchasePaymentReceptionComponent {
                 yield this.purchaseService.authorizeAnyPayment({ amount: this.amount });
                 yield this.purchaseService.registerContact(profile);
                 yield this.purchaseService.endTransaction({ seller, language: userData.language });
+                this.utilService.loadStart({ process: 'load' });
                 yield this.epsonEPOSService.cashchanger.endDeposit();
                 if ((this.deposit - this.amount) > 0) {
                     yield this.epsonEPOSService.cashchanger.dispenseChange({ amount: (this.deposit - this.amount) });
                 }
+                yield this.epsonEPOSService.cashchanger.disconnect();
                 this.router.navigate(['/purchase/complete']);
+                this.utilService.loadEnd();
+            }
+            catch (error) {
+                this.utilService.loadStart({ process: 'load' });
+                yield this.epsonEPOSService.cashchanger.endDepositRepay();
+                yield this.epsonEPOSService.cashchanger.disconnect();
+                this.utilService.loadEnd();
+                console.error(error);
+                this.router.navigate(['/error']);
+            }
+        });
+    }
+    prev() {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.utilService.loadStart({ process: 'load' });
+                const purchase = yield this.purchaseService.getData();
+                if (((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash) {
+                    // 現金
+                    yield this.epsonEPOSService.cashchanger.endDepositRepay();
+                    yield this.epsonEPOSService.cashchanger.disconnect();
+                }
+                this.router.navigate(['/purchase/payment']);
+                this.utilService.loadEnd();
             }
             catch (error) {
                 console.error(error);
-                this.router.navigate(['/error']);
-                this.epsonEPOSService.cashchanger.endDepositRepay();
+                this.utilService.loadEnd();
             }
         });
     }
 }
-PurchasePaymentReceptionComponent.ɵfac = function PurchasePaymentReceptionComponent_Factory(t) { return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"])); };
-PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchasePaymentReceptionComponent, selectors: [["app-purchase-payment-reception"]], decls: 3, vars: 3, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", "routerLink", "/purchase/event/ticket", 1, "btn", "btn-link"]], template: function PurchasePaymentReceptionComponent_Template(rf, ctx) { if (rf & 1) {
+PurchasePaymentReceptionComponent.ɵfac = function PurchasePaymentReceptionComponent_Factory(t) { return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"])); };
+PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchasePaymentReceptionComponent, selectors: [["app-purchase-payment-reception"]], decls: 3, vars: 3, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-link", 3, "click"]], template: function PurchasePaymentReceptionComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, PurchasePaymentReceptionComponent_div_1_Template, 37, 36, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "async");
@@ -3423,7 +3452,7 @@ PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE
         const currVal_0 = ((tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx.purchase)) == null ? null : tmp_0_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_0);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterLink"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["AsyncPipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["CurrencyPipe"]], styles: [".payment-select[_ngcontent-%COMP%] {\n  grid-template-columns: 1fr 1fr 1fr;\n  grid-gap: 1rem;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  min-height: 100px;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n    min-height: auto;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  font-size: 30px;\n}"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["AsyncPipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["CurrencyPipe"]], styles: [".payment-select[_ngcontent-%COMP%] {\n  grid-template-columns: 1fr 1fr 1fr;\n  grid-gap: 1rem;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  min-height: 100px;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n    min-height: auto;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  font-size: 30px;\n}"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PurchasePaymentReceptionComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -3431,7 +3460,7 @@ PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE
                 templateUrl: './purchase-payment-reception.component.html',
                 styleUrls: ['./purchase-payment-reception.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["UserService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["UserService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["UtilService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"] }]; }, null); })();
 
 
 /***/ }),

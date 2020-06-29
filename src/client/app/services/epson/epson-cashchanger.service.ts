@@ -61,6 +61,13 @@ export class EpsonCaschCangerService {
     }
 
     /**
+     * 接続終了
+     */
+    public async disconnect() {
+        this.ePOSDevice.disconnect();
+    }
+
+    /**
      * デバイス作成
      */
     private createDevice(params?: {

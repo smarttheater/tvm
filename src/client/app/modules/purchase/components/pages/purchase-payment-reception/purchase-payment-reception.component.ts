@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { EpsonEPOSService, PurchaseService, UserService, } from '../../../../../services';
+import { EpsonEPOSService, PurchaseService, UserService, UtilService, } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -27,6 +27,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         private store: Store<reducers.IState>,
         private router: Router,
         private userService: UserService,
+        private utilService: UtilService,
         private purchaseService: PurchaseService,
         private epsonEPOSService: EpsonEPOSService,
     ) { }
@@ -81,15 +82,38 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             await this.purchaseService.authorizeAnyPayment({ amount: this.amount });
             await this.purchaseService.registerContact(profile);
             await this.purchaseService.endTransaction({ seller, language: userData.language });
+            this.utilService.loadStart({ process: 'load' });
             await this.epsonEPOSService.cashchanger.endDeposit();
             if ((this.deposit - this.amount) > 0) {
                 await this.epsonEPOSService.cashchanger.dispenseChange({ amount: (this.deposit - this.amount) });
             }
+            await this.epsonEPOSService.cashchanger.disconnect();
             this.router.navigate(['/purchase/complete']);
+            this.utilService.loadEnd();
         } catch (error) {
+            this.utilService.loadStart({ process: 'load' });
+            await this.epsonEPOSService.cashchanger.endDepositRepay();
+            await this.epsonEPOSService.cashchanger.disconnect();
+            this.utilService.loadEnd();
             console.error(error);
             this.router.navigate(['/error']);
-            this.epsonEPOSService.cashchanger.endDepositRepay();
+        }
+    }
+
+    public async prev() {
+        try {
+            this.utilService.loadStart({ process: 'load' });
+            const purchase = await this.purchaseService.getData();
+            if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
+                // 現金
+                await this.epsonEPOSService.cashchanger.endDepositRepay();
+                await this.epsonEPOSService.cashchanger.disconnect();
+            }
+            this.router.navigate(['/purchase/payment']);
+            this.utilService.loadEnd();
+        } catch (error) {
+            console.error(error);
+            this.utilService.loadEnd();
         }
     }
 }

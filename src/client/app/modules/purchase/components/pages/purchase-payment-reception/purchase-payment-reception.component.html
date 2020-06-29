@@ -23,8 +23,7 @@
         <div class="buttons mx-auto text-center">
             <button type="button" class="btn btn-primary btn-block py-3 mb-3"
                 [disabled]="(isLoading | async) || amount > deposit" (click)="onSubmit()">{{ 'purchase.paymentReception.cash.next' | translate }}</button>
-            <button type="button" class="btn btn-link"
-                routerLink="/purchase/event/ticket">{{ 'purchase.paymentReception.cash.prev' | translate }}</button>
+            <button type="button" class="btn btn-link" (click)="prev()">{{ 'purchase.paymentReception.cash.prev' | translate }}</button>
         </div>
     </div>
 </div>

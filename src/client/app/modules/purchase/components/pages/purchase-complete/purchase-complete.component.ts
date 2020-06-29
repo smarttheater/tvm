@@ -105,6 +105,7 @@ export class PurchaseCompleteComponent implements OnInit {
                 }
                 await this.epsonEPOSService.cashchanger.init({ printer: user.printer });
                 await this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
+                await this.epsonEPOSService.cashchanger.disconnect();
             }
         } catch (error) {
             console.error(error);

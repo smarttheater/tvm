@@ -75,10 +75,6 @@ export class OrderEffects {
                 if (printer.connectionType === Models.Util.Printer.ConnectionType.None) {
                     return orderAction.printSuccess();
                 }
-                if (printer.connectionType === Models.Util.Printer.ConnectionType.EpsonEPOS) {
-                    console.log(this.epsonEPOSService);
-                    return orderAction.printSuccess();
-                }
                 await this.cinerino.getServices();
                 let authorizeOrders: factory.order.IOrder[] = [];
                 if (environment.PRINT_QRCODE_TYPE === Models.Order.Print.PrintQrcodeType.None) {
@@ -202,10 +198,11 @@ export class OrderEffects {
                             body: `<div class="px-5">${domList.join('\n')}</div>`
                         });
                         break;
-                    // case Models.Util.Printer.ConnectionType.EpsonEPOS:
-                    //     // this.epsonEPOSService.initialize({ printer });
-                    //     // await this.epsonEPOSService.printProcess({ canvasList });
-                    //     break;
+                    case Models.Util.Printer.ConnectionType.EpsonEPOS:
+                        await this.epsonEPOSService.printer.init({ printer });
+                        await this.epsonEPOSService.printer.print({ canvasList });
+                        await this.epsonEPOSService.printer.disconnect();
+                        break;
                     default:
                         break;
                 }

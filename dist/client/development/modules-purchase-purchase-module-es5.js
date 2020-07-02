@@ -7677,7 +7677,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         if (rf & 2) {
           var tmp_0_0 = null;
-          var currVal_0 = ((tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx.purchase)) == null ? null : tmp_0_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
+          var currVal_0 = ((tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx.purchase)) == null ? null : tmp_0_0.paymentMethod == null ? null : tmp_0_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
 

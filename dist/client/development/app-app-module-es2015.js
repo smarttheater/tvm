@@ -82883,8 +82883,25 @@ class CinerinoService {
         return __awaiter(this, void 0, void 0, function* () {
             const url = '/api/authorize/getCredentials';
             const body = {};
-            const result = yield this.http.post(url, body).toPromise();
-            this.setCredentials(result);
+            const limit = 5;
+            let count = 0;
+            let loop = true;
+            while (loop) {
+                loop = false;
+                try {
+                    const result = yield this.http.post(url, body).toPromise();
+                    this.setCredentials(result);
+                }
+                catch (error) {
+                    if (error.status !== undefined && error.status >= 500) {
+                        loop = (count < limit);
+                        count++;
+                        yield ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Util.sleep(20000);
+                        continue;
+                    }
+                    throw error;
+                }
+            }
         });
     }
     /**

@@ -82,7 +82,11 @@ export class SettingComponent implements OnInit {
             theaterBranchCode: ['', [Validators.required]],
             posId: [''],
             printerType: [Models.Util.Printer.ConnectionType.None],
-            printerIpAddress: ['']
+            printerIpAddress: [''],
+            paymentCash: [''],
+            paymentCreditcard: [''],
+            paymentEmoney: [''],
+            paymentCode: [''],
         });
         profile.forEach(p => {
             const validators: ValidatorFn[] = [];
@@ -100,28 +104,6 @@ export class SettingComponent implements OnInit {
             }
             if (p.key === 'email') {
                 validators.push(Validators.email);
-            }
-            if (p.key === 'telephone') {
-                // validators.push((control: AbstractControl) => {
-                //     const field = control.root.get('telephone');
-                //     if (field !== null) {
-                //         if (field.value === '') {
-                //             return null;
-                //         }
-                //         const parsedNumber = (new RegExp(/^\+/).test(field.value))
-                //             ? libphonenumber.parse(field.value)
-                //             : libphonenumber.parse(field.value, 'JP');
-                //         if (parsedNumber.phone === undefined) {
-                //             return { telephone: true };
-                //         }
-                //         const isValid = libphonenumber.isValidNumber(parsedNumber);
-                //         if (!isValid) {
-                //             return { telephone: true };
-                //         }
-                //     }
-
-                //     return null;
-                // });
             }
             this.settingForm.addControl(p.key, new FormControl(p.value, validators));
         });
@@ -151,6 +133,18 @@ export class SettingComponent implements OnInit {
         if (user.printer !== undefined) {
             this.settingForm.controls.printerType.setValue(user.printer.connectionType);
             this.settingForm.controls.printerIpAddress.setValue(user.printer.ipAddress);
+        }
+        if (user.payment !== undefined && user.payment.cash !== undefined) {
+            this.settingForm.controls.paymentCash.setValue(user.payment.cash.ipAddress);
+        }
+        if (user.payment !== undefined && user.payment.creditcard !== undefined) {
+            this.settingForm.controls.paymentCreditcard.setValue(user.payment.creditcard.ipAddress);
+        }
+        if (user.payment !== undefined && user.payment.emoney !== undefined) {
+            this.settingForm.controls.paymentEmoney.setValue(user.payment.emoney.ipAddress);
+        }
+        if (user.payment !== undefined && user.payment.code !== undefined) {
+            this.settingForm.controls.paymentCode.setValue(user.payment.code.ipAddress);
         }
         console.log(this.settingForm);
     }
@@ -196,7 +190,20 @@ export class SettingComponent implements OnInit {
                 throw new Error('theater not found').message;
             }
             const pos = (theater.hasPOS === undefined) ? theater.hasPOS : theater.hasPOS.find(p => p.id === posId);
-
+            const payment = {
+                cash: (this.settingForm.controls.paymentCash.value === '')
+                    ? undefined
+                    : { ipAddress: this.settingForm.controls.paymentCash.value },
+                creditcard: (this.settingForm.controls.paymentCreditcard.value === '')
+                    ? undefined
+                    : { ipAddress: this.settingForm.controls.paymentCreditcard.value },
+                emoney: (this.settingForm.controls.paymentEmoney.value === '')
+                    ? undefined
+                    : { ipAddress: this.settingForm.controls.paymentEmoney.value },
+                code: (this.settingForm.controls.paymentCode.value === '')
+                    ? undefined
+                    : { ipAddress: this.settingForm.controls.paymentCode.value }
+            };
             this.userService.updateAll({
                 pos,
                 theater,
@@ -220,7 +227,11 @@ export class SettingComponent implements OnInit {
                 printer: {
                     ipAddress: this.settingForm.controls.printerIpAddress.value,
                     connectionType: this.settingForm.controls.printerType.value
-                }
+                },
+                payment: (payment.cash !== undefined
+                    || payment.creditcard !== undefined
+                    || payment.emoney !== undefined
+                    || payment.code !== undefined) ? payment : undefined
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),

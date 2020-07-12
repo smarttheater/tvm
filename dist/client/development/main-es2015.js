@@ -2134,7 +2134,7 @@ var SeatStatus;
 /*!**********************************!*\
   !*** ./app/models/util/index.ts ***!
   \**********************************/
-/*! exports provided: Language, Printer, ViewType */
+/*! exports provided: Language, Printer, Payment, ViewType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2142,10 +2142,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _language__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language */ "./app/models/util/language.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Language", function() { return _language__WEBPACK_IMPORTED_MODULE_0__["Language"]; });
 
-/* harmony import */ var _printer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./printer */ "./app/models/util/printer.ts");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "Printer", function() { return _printer__WEBPACK_IMPORTED_MODULE_1__; });
-/* harmony import */ var _viewType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./viewType */ "./app/models/util/viewType.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ViewType", function() { return _viewType__WEBPACK_IMPORTED_MODULE_2__["ViewType"]; });
+/* harmony import */ var _payment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./payment */ "./app/models/util/payment.ts");
+/* harmony import */ var _payment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_payment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "Payment", function() { return _payment__WEBPACK_IMPORTED_MODULE_1__; });
+/* harmony import */ var _printer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./printer */ "./app/models/util/printer.ts");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "Printer", function() { return _printer__WEBPACK_IMPORTED_MODULE_2__; });
+/* harmony import */ var _viewType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewType */ "./app/models/util/viewType.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ViewType", function() { return _viewType__WEBPACK_IMPORTED_MODULE_3__["ViewType"]; });
+
 
 
 
@@ -2183,6 +2187,17 @@ var Language;
     Language["pt"] = "Portuguese";
     Language["ru"] = "Russian";
 })(Language || (Language = {}));
+
+
+/***/ }),
+
+/***/ "./app/models/util/payment.ts":
+/*!************************************!*\
+  !*** ./app/models/util/payment.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
 
 
 /***/ }),
@@ -2310,7 +2325,7 @@ const defaultEnvironment = {
         { key: 'familyName', value: '', required: true, pattern: /^[ァ-ヶー]+$/, maxLength: 12 },
         { key: 'telephone', value: '', required: true, maxLength: 15, minLength: 9 }
     ],
-    PAYMENT_METHOD_TO_USE: ['Cash'],
+    PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
     PAYMENT_METHOD_CUSTOM: [],
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,

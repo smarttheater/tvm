@@ -83097,12 +83097,12 @@ class EpsonCaschCangerService {
         return __awaiter(this, void 0, void 0, function* () {
             // 安全でないコンテンツを許可する必要があります
             return new Promise((resolve, reject) => {
-                const printer = params.printer;
-                if (printer.ipAddress === '') {
+                const payment = params.payment;
+                if (payment.cash === undefined) {
                     reject(new Error('IP address of the printer is not set'));
                     return;
                 }
-                const url = new URL(`${location.protocol}${printer.ipAddress}`);
+                const url = new URL(`${location.protocol}${payment.cash.ipAddress}`);
                 this.ePOSDevice.connect(url.hostname, url.port, (data) => {
                     if (data === 'OK' || data === 'SSL_CONNECT_OK') {
                         resolve(data);
@@ -83361,7 +83361,7 @@ EpsonPrinterService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
 /*!*******************************!*\
   !*** ./app/services/index.ts ***!
   \*******************************/
-/*! exports provided: CinerinoService, PurchaseService, UserService, MasterService, OrderService, ReservationService, UtilService, StarPrintService, QRCodeService, EpsonEPOSService */
+/*! exports provided: CinerinoService, PurchaseService, UserService, MasterService, OrderService, ReservationService, UtilService, StarPrintService, QRCodeService, EpsonEPOSService, PaymentService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83395,6 +83395,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _epson_epos_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./epson-epos.service */ "./app/services/epson-epos.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EpsonEPOSService", function() { return _epson_epos_service__WEBPACK_IMPORTED_MODULE_9__["EpsonEPOSService"]; });
+
+/* harmony import */ var _payment_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./payment.service */ "./app/services/payment.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PaymentService", function() { return _payment_service__WEBPACK_IMPORTED_MODULE_10__["PaymentService"]; });
+
 
 
 
@@ -83828,6 +83832,374 @@ OrderService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInje
                 providedIn: 'root'
             }]
     }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["Actions"] }, { type: _cinerino_service__WEBPACK_IMPORTED_MODULE_9__["CinerinoService"] }, { type: _util_service__WEBPACK_IMPORTED_MODULE_10__["UtilService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "./app/services/payment.service.ts":
+/*!*****************************************!*\
+  !*** ./app/services/payment.service.ts ***!
+  \*****************************************/
+/*! exports provided: PaymentService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaymentService", function() { return PaymentService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! .. */ "./app/index.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+/**
+ * 機能コード
+ */
+var FUNC_CODE;
+(function (FUNC_CODE) {
+    /**
+     * 決済端末連携
+     */
+    let TERMINAL;
+    (function (TERMINAL) {
+        /**
+         * 疎通確認
+         */
+        TERMINAL["COMMUNICATION"] = "3000";
+        /**
+         * 選択要求　　　※決済用パラメータ必要
+         */
+        TERMINAL["CHOICE"] = "3001";
+        /**
+         * 決済結果取得
+         */
+        TERMINAL["RESULT"] = "3002";
+        /**
+         * 中断要求
+         */
+        TERMINAL["INTERRUPTION"] = "3008";
+    })(TERMINAL = FUNC_CODE.TERMINAL || (FUNC_CODE.TERMINAL = {}));
+    /**
+     * カード決済
+     */
+    let CREDITCARD;
+    (function (CREDITCARD) {
+        /**
+         * インストール確認
+         */
+        CREDITCARD["INSTALL"] = "4000";
+        /**
+         * 決済要求　　　※決済用パラメータ必要
+         */
+        CREDITCARD["SETTLEMENT"] = "4001";
+        /**
+         * 決済結果取得
+         */
+        CREDITCARD["RESULT"] = "4002";
+        /**
+         * 中断要求
+         */
+        CREDITCARD["INTERRUPTION"] = "4008";
+        /**
+         * 状況確認
+         */
+        CREDITCARD["SITUATION"] = "4100";
+    })(CREDITCARD = FUNC_CODE.CREDITCARD || (FUNC_CODE.CREDITCARD = {}));
+    /**
+     * コード決済
+     */
+    let CODE;
+    (function (CODE) {
+        /**
+         * インストール確認
+         */
+        CODE["INSTALL"] = "5000";
+        /**
+         * 決済要求　　　※決済用パラメータ必要
+         */
+        CODE["SETTLEMENT"] = "5001";
+        /**
+         * 決済結果取得
+         */
+        CODE["RESULT"] = "5002";
+        /**
+         * 中断要求
+         */
+        CODE["INTERRUPTION"] = "5008";
+    })(CODE = FUNC_CODE.CODE || (FUNC_CODE.CODE = {}));
+    /**
+     * 電子マネー決済
+     */
+    let EMONEY;
+    (function (EMONEY) {
+        /**
+         * インストール確認
+         */
+        EMONEY["INSTALL"] = "6000";
+        /**
+         * 決済要求　　　※決済用パラメータ必要
+         */
+        EMONEY["SETTLEMENT"] = "6001";
+        /**
+         * 決済結果取得
+         */
+        EMONEY["RESULT"] = "6002";
+        /**
+         * 中断要求
+         */
+        EMONEY["INTERRUPTION"] = "6008";
+    })(EMONEY = FUNC_CODE.EMONEY || (FUNC_CODE.EMONEY = {}));
+})(FUNC_CODE || (FUNC_CODE = {}));
+/**
+ * 基本部_機能コード応答値
+ */
+var FUNC_STATUS;
+(function (FUNC_STATUS) {
+    /**
+     * 要求正常終了
+     */
+    FUNC_STATUS["SUCCESS"] = "0000";
+    /**
+     * 決済アプリにて取消が行われた
+     */
+    FUNC_STATUS["APP_CANCEL"] = "0001";
+    /**
+     * 上位機器より取消が行われた
+     */
+    FUNC_STATUS["MACHINE_CANCEL"] = "0002";
+    /**
+     * 決済アプリでエラーが発生
+     */
+    FUNC_STATUS["APP_ERROR"] = "0009";
+    /**
+     * 該当の決済データが存在しない
+     */
+    FUNC_STATUS["NOTFOUND"] = "0010";
+    /**
+     * 対象の決済アプリがインストールされていない
+     */
+    FUNC_STATUS["NOT_INSTALLED"] = "1001";
+    /**
+     * 対象の決済アプリが未処理
+     */
+    FUNC_STATUS["APP_UNTREATED"] = "1002";
+    /**
+     * 決済アプリが処理中
+     */
+    FUNC_STATUS["APP_PROCESSING"] = "1003";
+    /**
+     * 中断要求の受付成功　　※中断の実施結果は、結果取得の要求で取得
+     */
+    FUNC_STATUS["INTERRUPTION_SUCCESS"] = "1100";
+    /**
+     * 中断処理中
+     */
+    FUNC_STATUS["INTERRUPTION_PROCESSING"] = "1103";
+    /**
+     * 中断処理失敗
+     */
+    FUNC_STATUS["INTERRUPTION_FAILURE"] = "1104";
+    /**
+     * 規定外の機能コードが指定された
+     */
+    FUNC_STATUS["OUT_OF_REGULATION"] = "8000";
+})(FUNC_STATUS || (FUNC_STATUS = {}));
+var JOB;
+(function (JOB) {
+    /**
+     * 売上
+     */
+    JOB["CAPTURE"] = "CAPTURE";
+    /**
+     * 取消
+     */
+    JOB["VOID"] = "VOID";
+    /**
+     * 返品
+     */
+    JOB["RETURN"] = "RETURN";
+})(JOB || (JOB = {}));
+class PaymentService {
+    constructor(http) {
+        this.http = http;
+    }
+    init(params) {
+        this.connectionAddress = `http://${params.ipAddress}:8001`;
+        this.requestTimeout = (params.requestTimeout === undefined) ? 60000 : params.requestTimeout;
+        this.delayTime = (params.delayTime === undefined) ? 60000 : params.delayTime;
+        this.isAutoResult = (params.isAutoResult === undefined) ? true : params.isAutoResult;
+        this.offline = (params.isOffline === undefined) ? '' : '1';
+    }
+    creditCard() {
+    }
+    /**
+     * 要求
+     */
+    exec(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const func = params.func;
+            const requestObj = params.requestObj;
+            let requestData;
+            switch (func) {
+                case FUNC_CODE.TERMINAL.CHOICE:
+                case FUNC_CODE.CREDITCARD.SETTLEMENT:
+                case FUNC_CODE.CODE.SETTLEMENT:
+                case FUNC_CODE.EMONEY.SETTLEMENT:
+                    // 決済要求
+                    requestData = {
+                        FUNC: func,
+                        JOB: requestObj.JOB,
+                        ORDERID: requestObj.ORDERID,
+                        AMOUNT: requestObj.AMOUNT,
+                        MACHINE_CODE: requestObj.MACHINE_CODE,
+                        TRANID: requestObj.TRANID,
+                        CANTRANID: requestObj.CANTRANID,
+                        OFFLINE: this.offline
+                    };
+                    break;
+                case FUNC_CODE.CREDITCARD.SITUATION:
+                    // カード決済 状況確認
+                    requestData = {
+                        FUNC: func,
+                        JOB: requestObj.JOB,
+                        ORDERID: requestObj.ORDERID,
+                        TRANID: requestObj.TRANID
+                    };
+                    break;
+                default:
+                    requestData = {
+                        FUNC: func,
+                        OFFLINE: this.offline
+                    };
+                    break;
+            }
+            try {
+                const response = yield this.request({ requestData, methodName: 'Exec' });
+                console.log('Exec', func, response);
+                if (response.FUNC_STATUS === FUNC_STATUS.INTERRUPTION_SUCCESS) {
+                    // 中断要求の受付成功
+                    if (!this.isAutoResult) {
+                        return;
+                    }
+                    yield ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Util.sleep(this.delayTime);
+                    yield this.result(func);
+                }
+                else if (response.FUNC_STATUS === FUNC_STATUS.SUCCESS) {
+                    // 要求正常終了
+                    if (func === FUNC_CODE.TERMINAL.CHOICE
+                        || func === FUNC_CODE.CREDITCARD.SETTLEMENT
+                        || func === FUNC_CODE.CODE.SETTLEMENT
+                        || func === FUNC_CODE.EMONEY.SETTLEMENT) {
+                        // 決済要求
+                        if (!this.isAutoResult) {
+                            return;
+                        }
+                        yield ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Util.sleep(this.delayTime);
+                        yield this.result(func);
+                    }
+                }
+            }
+            catch (error) {
+                console.error(func, 'Exec接続エラーが発生しました');
+            }
+        });
+    }
+    /**
+     * 結果取得
+     */
+    result(func) {
+        return __awaiter(this, void 0, void 0, function* () {
+            switch (func) {
+                case FUNC_CODE.TERMINAL.CHOICE:
+                case FUNC_CODE.TERMINAL.INTERRUPTION:
+                    // 決済端末連携
+                    func = FUNC_CODE.TERMINAL.RESULT;
+                    break;
+                case FUNC_CODE.CREDITCARD.SETTLEMENT:
+                case FUNC_CODE.CREDITCARD.INTERRUPTION:
+                    // カード決済
+                    func = FUNC_CODE.CREDITCARD.RESULT;
+                    break;
+                case FUNC_CODE.CODE.SETTLEMENT:
+                case FUNC_CODE.CODE.INTERRUPTION:
+                    // コード決済
+                    func = FUNC_CODE.CODE.RESULT;
+                    break;
+                case FUNC_CODE.EMONEY.SETTLEMENT:
+                case FUNC_CODE.EMONEY.INTERRUPTION:
+                    // 電子マネー決済
+                    func = FUNC_CODE.EMONEY.RESULT;
+                    break;
+                default:
+                    break;
+            }
+            const requestData = { FUNC: func };
+            try {
+                const response = yield this.request({ requestData, methodName: 'Result' });
+                console.log('Result', func, response);
+                if (response.FUNC_STATUS === FUNC_STATUS.APP_PROCESSING) {
+                    // 決済アプリが処理中
+                    if (!this.isAutoResult) {
+                        return;
+                    }
+                    yield ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Util.sleep(this.delayTime);
+                    yield this.result(func);
+                }
+                else if (response.FUNC_STATUS === FUNC_STATUS.INTERRUPTION_PROCESSING) {
+                    // 中断処理中
+                    if (!this.isAutoResult) {
+                        return;
+                    }
+                    yield ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Util.sleep(this.delayTime);
+                    yield this.result(func);
+                }
+                else if (response.FUNC_STATUS === FUNC_STATUS.INTERRUPTION_FAILURE) {
+                    if (!this.isAutoResult) {
+                        return;
+                    }
+                    yield ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Util.sleep(this.delayTime);
+                    yield this.result(func);
+                }
+                else {
+                    // 終了
+                }
+            }
+            catch (error) {
+                console.error(func, 'Result接続エラーが発生しました');
+            }
+        });
+    }
+    request(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = this.connectionAddress;
+            const body = encodeURIComponent(JSON.stringify(params.requestData));
+            const requestTimeout = this.requestTimeout;
+            const result = yield this.http.post(url, body).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["timeout"])(requestTimeout)).toPromise();
+            return result;
+        });
+    }
+}
+PaymentService.ɵfac = function PaymentService_Factory(t) { return new (t || PaymentService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"])); };
+PaymentService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({ token: PaymentService, factory: PaymentService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](PaymentService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"] }]; }, null); })();
 
 
 /***/ }),
@@ -86932,10 +87304,12 @@ function reducer(initialState, action) {
         const pos = payload.pos;
         const theater = payload.theater;
         const printer = payload.printer;
+        const payment = payload.payment;
         return Object.assign(Object.assign({}, state), { userData: Object.assign(Object.assign({}, state.userData), { customerContact,
                 pos,
                 theater,
-                printer }), loading: false, process: '' });
+                printer,
+                payment }), loading: false, process: '' });
     }), Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["on"])(_actions__WEBPACK_IMPORTED_MODULE_1__["userAction"].updateLanguage, (state, payload) => {
         const language = payload.language;
         return Object.assign(Object.assign({}, state), { userData: Object.assign(Object.assign({}, state.userData), { language }) });

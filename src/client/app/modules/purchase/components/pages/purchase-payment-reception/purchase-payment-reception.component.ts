@@ -44,10 +44,10 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 // 現金
                 this.deposit = 0;
                 const user = await this.userService.getData();
-                if (user.printer === undefined) {
-                    throw new Error('printer undefined');
+                if (user.payment === undefined) {
+                    throw new Error('payment undefined');
                 }
-                await this.epsonEPOSService.cashchanger.init({ printer: user.printer });
+                await this.epsonEPOSService.cashchanger.init({ payment: user.payment });
                 await this.epsonEPOSService.cashchanger.endDeposit();
                 await this.epsonEPOSService.cashchanger.beginDeposit({
                     cb: (amount: number) => {

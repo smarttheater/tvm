@@ -6047,17 +6047,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   case 10:
                     user = _context17.sent;
 
-                    if (!(user.printer === undefined)) {
+                    if (!(user.payment === undefined)) {
                       _context17.next = 13;
                       break;
                     }
 
-                    throw new Error('printer undefined');
+                    throw new Error('payment undefined');
 
                   case 13:
                     _context17.next = 15;
                     return this.epsonEPOSService.cashchanger.init({
-                      printer: user.printer
+                      payment: user.payment
                     });
 
                   case 15:
@@ -7496,17 +7496,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   case 13:
                     user = _context20.sent;
 
-                    if (!(user.printer === undefined)) {
+                    if (!(user.payment === undefined)) {
                       _context20.next = 16;
                       break;
                     }
 
-                    throw new Error('printer undefined');
+                    throw new Error('payment undefined');
 
                   case 16:
                     _context20.next = 18;
                     return this.epsonEPOSService.cashchanger.init({
-                      printer: user.printer
+                      payment: user.payment
                     });
 
                   case 18:

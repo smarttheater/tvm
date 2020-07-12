@@ -8,3 +8,4 @@ export * from './util.service';
 export * from './star-print.service';
 export * from './qrcode.service';
 export * from './epson-epos.service';
+export * from './payment.service';

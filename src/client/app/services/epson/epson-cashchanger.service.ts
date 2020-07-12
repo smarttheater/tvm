@@ -27,7 +27,7 @@ export class EpsonCaschCangerService {
     constructor() { }
 
     public async init(params: {
-        printer: Models.Util.Printer.IPrinter;
+        payment: Models.Util.Payment.IPayment;
         timeout?: number;
     }) {
         this.device = undefined;
@@ -40,16 +40,16 @@ export class EpsonCaschCangerService {
      * 接続
      */
     private async connect(params: {
-        printer: Models.Util.Printer.IPrinter;
+        payment: Models.Util.Payment.IPayment;
     }) {
         // 安全でないコンテンツを許可する必要があります
         return new Promise<string>((resolve, reject) => {
-            const printer = params.printer;
-            if (printer.ipAddress === '') {
+            const payment = params.payment;
+            if (payment.cash === undefined) {
                 reject(new Error('IP address of the printer is not set'));
                 return;
             }
-            const url = new URL(`${location.protocol}${printer.ipAddress}`);
+            const url = new URL(`${location.protocol}${payment.cash.ipAddress}`);
             this.ePOSDevice.connect(url.hostname, url.port, (data: string) => {
                 if (data === 'OK' || data === 'SSL_CONNECT_OK') {
                     resolve(data);

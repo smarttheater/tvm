@@ -65,7 +65,7 @@ interface IEnvironment {
     /**
      * 使用可能決済手段
      */
-    PAYMENT_METHOD_TO_USE: string[];
+    PAYMENT_METHOD_TO_USE: ('Cash' | 'CreditCard' | 'EMoney')[];
     /**
      * カスタム決済手段
      */
@@ -212,7 +212,7 @@ const defaultEnvironment: IEnvironment = {
         { key: 'familyName', value: '', required: true, pattern: /^[ァ-ヶー]+$/, maxLength: 12 },
         { key: 'telephone', value: '', required: true, maxLength: 15, minLength: 9 }
     ],
-    PAYMENT_METHOD_TO_USE: ['Cash'],
+    PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
     PAYMENT_METHOD_CUSTOM: [],
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,

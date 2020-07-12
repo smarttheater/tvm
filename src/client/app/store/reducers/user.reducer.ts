@@ -22,6 +22,10 @@ export interface IUserState {
      */
     printer?: Models.Util.Printer.IPrinter;
     /**
+     * 決済
+     */
+    payment?: Models.Util.Payment.IPayment;
+    /**
      * 言語
      */
     language: string;
@@ -51,6 +55,7 @@ export function reducer(initialState: IState, action: Action) {
             const pos = payload.pos;
             const theater = payload.theater;
             const printer = payload.printer;
+            const payment = payload.payment;
 
             return {
                 ...state, userData: {
@@ -58,7 +63,8 @@ export function reducer(initialState: IState, action: Action) {
                     customerContact,
                     pos,
                     theater,
-                    printer
+                    printer,
+                    payment
                 }, loading: false, process: ''
             };
         }),

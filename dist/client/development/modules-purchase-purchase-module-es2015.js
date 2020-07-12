@@ -2748,10 +2748,10 @@ class PurchaseCompleteComponent {
                         return;
                     }
                     const user = yield this.userService.getData();
-                    if (user.printer === undefined) {
-                        throw new Error('printer undefined');
+                    if (user.payment === undefined) {
+                        throw new Error('payment undefined');
                     }
-                    yield this.epsonEPOSService.cashchanger.init({ printer: user.printer });
+                    yield this.epsonEPOSService.cashchanger.init({ payment: user.payment });
                     yield this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
                     yield this.epsonEPOSService.cashchanger.disconnect();
                 }
@@ -3391,10 +3391,10 @@ class PurchasePaymentReceptionComponent {
                     // 現金
                     this.deposit = 0;
                     const user = yield this.userService.getData();
-                    if (user.printer === undefined) {
-                        throw new Error('printer undefined');
+                    if (user.payment === undefined) {
+                        throw new Error('payment undefined');
                     }
-                    yield this.epsonEPOSService.cashchanger.init({ printer: user.printer });
+                    yield this.epsonEPOSService.cashchanger.init({ payment: user.payment });
                     yield this.epsonEPOSService.cashchanger.endDeposit();
                     yield this.epsonEPOSService.cashchanger.beginDeposit({
                         cb: (amount) => {

@@ -26,4 +26,23 @@
             <button type="button" class="btn btn-link" (click)="prev()">{{ 'purchase.paymentReception.cash.prev' | translate }}</button>
         </div>
     </div>
+    <div *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.CreditCard">
+        <h2 class="text-large mb-4 text-center font-weight-bold">
+            {{ 'purchase.paymentReception.creditcard.title' | translate }}
+        </h2>
+        <p class="mb-4 text-md-center" [innerHTML]="'purchase.paymentReception.creditcard.read' | translate"></p>
+    </div>
+    <div *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.EMoney">
+        <h2 class="text-large mb-4 text-center font-weight-bold">
+            {{ 'purchase.paymentReception.eMoney.title' | translate }}
+        </h2>
+        <p class="mb-4 text-md-center" [innerHTML]="'purchase.paymentReception.eMoney.read' | translate"></p>
+    </div>
+    <div *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Others
+    && (purchase | async)?.paymentMethod?.category === 'code'">
+        <h2 class="text-large mb-4 text-center font-weight-bold">
+            {{ 'purchase.paymentReception.code.title' | translate }}
+        </h2>
+        <p class="mb-4 text-md-center" [innerHTML]="'purchase.paymentReception.code.read' | translate"></p>
+    </div>
 </div>

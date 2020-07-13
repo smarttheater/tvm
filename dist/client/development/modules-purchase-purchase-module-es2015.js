@@ -2748,10 +2748,11 @@ class PurchaseCompleteComponent {
                         return;
                     }
                     const user = yield this.userService.getData();
-                    if (user.payment === undefined) {
+                    if (user.payment === undefined
+                        || user.payment.cash === undefined) {
                         throw new Error('payment undefined');
                     }
-                    yield this.epsonEPOSService.cashchanger.init({ payment: user.payment });
+                    yield this.epsonEPOSService.cashchanger.init({ ipAddress: user.payment.cash.ipAddress });
                     yield this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
                     yield this.epsonEPOSService.cashchanger.disconnect();
                 }
@@ -3254,12 +3255,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
 /* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../.. */ "./app/index.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../../services */ "./app/services/index.ts");
-/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../../store/reducers */ "./app/store/reducers/index.ts");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ngx-translate/core */ "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../.. */ "./app/index.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../../../environments/environment */ "./environments/environment.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../../services */ "./app/services/index.ts");
+/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../../store/reducers */ "./app/store/reducers/index.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ngx-translate/core */ "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -3283,8 +3286,9 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 function PurchasePaymentReceptionComponent_div_1_Template(rf, ctx) { if (rf & 1) {
-    const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
@@ -3328,13 +3332,13 @@ function PurchasePaymentReceptionComponent_div_1_Template(rf, ctx) { if (rf & 1)
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "div", 10);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "button", 11);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_div_1_Template_button_click_30_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r2); const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r1.onSubmit(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_div_1_Template_button_click_30_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r5); const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r4.onSubmit(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](31, "async");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](32);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](33, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "button", 12);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_div_1_Template_button_click_34_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r2); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r3.prev(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_div_1_Template_button_click_34_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r5); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.prev(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](35);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](36, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -3365,42 +3369,183 @@ function PurchasePaymentReceptionComponent_div_1_Template(rf, ctx) { if (rf & 1)
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](36, 34, "purchase.paymentReception.cash.prev"));
 } }
+function PurchasePaymentReceptionComponent_div_3_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "p", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 2, "purchase.paymentReception.creditcard.title"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 4, "purchase.paymentReception.creditcard.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+} }
+function PurchasePaymentReceptionComponent_div_5_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "p", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 2, "purchase.paymentReception.eMoney.title"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 4, "purchase.paymentReception.eMoney.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+} }
+function PurchasePaymentReceptionComponent_div_7_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "p", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 2, "purchase.paymentReception.code.title"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 4, "purchase.paymentReception.code.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+} }
 class PurchasePaymentReceptionComponent {
-    constructor(store, router, userService, utilService, purchaseService, epsonEPOSService) {
+    constructor(store, router, userService, utilService, purchaseService, epsonEPOSService, paymentService) {
         this.store = store;
         this.router = router;
         this.userService = userService;
         this.utilService = utilService;
         this.purchaseService = purchaseService;
         this.epsonEPOSService = epsonEPOSService;
+        this.paymentService = paymentService;
         this.paymentMethodType = _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["factory"].paymentMethodType;
-        this.viewType = ___WEBPACK_IMPORTED_MODULE_4__["Models"].Util.ViewType;
-        this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_5__["getEnvironment"])();
+        this.viewType = ___WEBPACK_IMPORTED_MODULE_5__["Models"].Util.ViewType;
+        this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_6__["getEnvironment"])();
     }
     ngOnInit() {
-        var _a;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function* () {
-            this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_7__["getLoading"]));
-            this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_7__["getPurchase"]));
-            this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_7__["getUser"]));
+            this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getLoading"]));
+            this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getPurchase"]));
+            this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getUser"]));
             this.amount = 0;
             try {
                 const purchase = yield this.purchaseService.getData();
-                this.amount = ___WEBPACK_IMPORTED_MODULE_4__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
+                this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
                 if (((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash) {
                     // 現金
                     this.deposit = 0;
                     const user = yield this.userService.getData();
-                    if (user.payment === undefined) {
+                    if (user.payment === undefined
+                        || user.payment.cash === undefined) {
                         throw new Error('payment undefined');
                     }
-                    yield this.epsonEPOSService.cashchanger.init({ payment: user.payment });
+                    yield this.epsonEPOSService.cashchanger.init({
+                        ipAddress: user.payment.cash.ipAddress
+                    });
                     yield this.epsonEPOSService.cashchanger.endDeposit();
                     yield this.epsonEPOSService.cashchanger.beginDeposit({
                         cb: (amount) => {
                             this.deposit = amount;
                         }
                     });
+                }
+                if (((_b = purchase.paymentMethod) === null || _b === void 0 ? void 0 : _b.typeOf) === this.paymentMethodType.CreditCard) {
+                    // クレジットカード
+                    const user = yield this.userService.getData();
+                    if (user.payment === undefined
+                        || user.payment.creditcard === undefined) {
+                        throw new Error('payment undefined');
+                    }
+                    yield this.paymentService.init({
+                        ipAddress: user.payment.creditcard.ipAddress
+                    });
+                    const execResult = yield this.paymentService.exec({
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
+                        options: {
+                            JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                            ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                            AMOUNT: String(this.amount),
+                        }
+                    });
+                    if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL) {
+                        this.router.navigate(['/purchase/payment']);
+                        return;
+                    }
+                    if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                        yield this.paymentService.exec({
+                            func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION,
+                        });
+                        throw new Error(JSON.stringify(execResult));
+                    }
+                    this.onSubmit();
+                }
+                if (((_c = purchase.paymentMethod) === null || _c === void 0 ? void 0 : _c.typeOf) === this.paymentMethodType.EMoney) {
+                    // 電子マネー
+                    const user = yield this.userService.getData();
+                    if (user.payment === undefined
+                        || user.payment.emoney === undefined) {
+                        throw new Error('payment undefined');
+                    }
+                    yield this.paymentService.init({
+                        ipAddress: user.payment.emoney.ipAddress
+                    });
+                    const execResult = yield this.paymentService.exec({
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
+                        options: {
+                            JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                            ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                            AMOUNT: String(this.amount),
+                        }
+                    });
+                    if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL) {
+                        this.router.navigate(['/purchase/payment']);
+                        return;
+                    }
+                    if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                        yield this.paymentService.exec({
+                            func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION,
+                        });
+                        throw new Error(JSON.stringify(execResult));
+                    }
+                    this.onSubmit();
+                }
+                if (((_d = purchase.paymentMethod) === null || _d === void 0 ? void 0 : _d.typeOf) === this.paymentMethodType.Others
+                    && purchase.paymentMethod.category === 'code') {
+                    // コード
+                    const user = yield this.userService.getData();
+                    if (user.payment === undefined
+                        || user.payment.code === undefined) {
+                        throw new Error('payment undefined');
+                    }
+                    yield this.paymentService.init({
+                        ipAddress: user.payment.code.ipAddress
+                    });
+                    const execResult = yield this.paymentService.exec({
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
+                        options: {
+                            JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                            ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                            AMOUNT: String(this.amount),
+                            MACHINE_CODE: '',
+                        }
+                    });
+                    if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL) {
+                        this.router.navigate(['/purchase/payment']);
+                        return;
+                    }
+                    if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                        yield this.paymentService.exec({
+                            func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION,
+                        });
+                        throw new Error(JSON.stringify(execResult));
+                    }
+                    this.onSubmit();
                 }
             }
             catch (error) {
@@ -3413,6 +3558,7 @@ class PurchasePaymentReceptionComponent {
      * 確定
      */
     onSubmit() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const purchaseData = yield this.purchaseService.getData();
             const userData = yield this.userService.getData();
@@ -3432,11 +3578,14 @@ class PurchasePaymentReceptionComponent {
                 yield this.purchaseService.registerContact(profile);
                 yield this.purchaseService.endTransaction({ seller, language: userData.language });
                 this.utilService.loadStart({ process: 'load' });
-                yield this.epsonEPOSService.cashchanger.endDeposit();
-                if ((this.deposit - this.amount) > 0) {
-                    yield this.epsonEPOSService.cashchanger.dispenseChange({ amount: (this.deposit - this.amount) });
+                if (((_a = purchaseData.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash) {
+                    // 現金
+                    yield this.epsonEPOSService.cashchanger.endDeposit();
+                    if ((this.deposit - this.amount) > 0) {
+                        yield this.epsonEPOSService.cashchanger.dispenseChange({ amount: (this.deposit - this.amount) });
+                    }
+                    yield this.epsonEPOSService.cashchanger.disconnect();
                 }
-                yield this.epsonEPOSService.cashchanger.disconnect();
                 this.router.navigate(['/purchase/complete']);
                 this.utilService.loadEnd();
             }
@@ -3471,18 +3620,37 @@ class PurchasePaymentReceptionComponent {
         });
     }
 }
-PurchasePaymentReceptionComponent.ɵfac = function PurchasePaymentReceptionComponent_Factory(t) { return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"])); };
-PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchasePaymentReceptionComponent, selectors: [["app-purchase-payment-reception"]], decls: 3, vars: 3, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-link", 3, "click"]], template: function PurchasePaymentReceptionComponent_Template(rf, ctx) { if (rf & 1) {
+PurchasePaymentReceptionComponent.ɵfac = function PurchasePaymentReceptionComponent_Factory(t) { return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"])); };
+PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchasePaymentReceptionComponent, selectors: [["app-purchase-payment-reception"]], decls: 10, vars: 14, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-link", 3, "click"]], template: function PurchasePaymentReceptionComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, PurchasePaymentReceptionComponent_div_1_Template, 37, 36, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "async");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchasePaymentReceptionComponent_div_3_Template, 6, 6, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](4, "async");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentReceptionComponent_div_5_Template, 6, 6, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "async");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentReceptionComponent_div_7_Template, 6, 6, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](8, "async");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](9, "async");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
         var tmp_0_0 = null;
-        const currVal_0 = ((tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx.purchase)) == null ? null : tmp_0_0.paymentMethod == null ? null : tmp_0_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
+        const currVal_0 = ((tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 4, ctx.purchase)) == null ? null : tmp_0_0.paymentMethod == null ? null : tmp_0_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
+        var tmp_1_0 = null;
+        const currVal_1 = ((tmp_1_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](4, 6, ctx.purchase)) == null ? null : tmp_1_0.paymentMethod == null ? null : tmp_1_0.paymentMethod.typeOf) === ctx.paymentMethodType.CreditCard;
+        var tmp_2_0 = null;
+        const currVal_2 = ((tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](6, 8, ctx.purchase)) == null ? null : tmp_2_0.paymentMethod == null ? null : tmp_2_0.paymentMethod.typeOf) === ctx.paymentMethodType.EMoney;
+        var tmp_3_0 = null;
+        const currVal_3 = ((tmp_3_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 10, ctx.purchase)) == null ? null : tmp_3_0.paymentMethod == null ? null : tmp_3_0.paymentMethod.typeOf) === ctx.paymentMethodType.Others && ((tmp_3_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 12, ctx.purchase)) == null ? null : tmp_3_0.paymentMethod == null ? null : tmp_3_0.paymentMethod.category) === "code";
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_0);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["AsyncPipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["CurrencyPipe"]], styles: [".payment-select[_ngcontent-%COMP%] {\n  grid-template-columns: 1fr 1fr 1fr;\n  grid-gap: 1rem;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  min-height: 100px;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n    min-height: auto;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  font-size: 30px;\n}"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_3);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_9__["NgIf"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_9__["AsyncPipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_10__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_9__["CurrencyPipe"]], styles: [".payment-select[_ngcontent-%COMP%] {\n  grid-template-columns: 1fr 1fr 1fr;\n  grid-gap: 1rem;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  min-height: 100px;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n    min-height: auto;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  font-size: 30px;\n}"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PurchasePaymentReceptionComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -3490,7 +3658,7 @@ PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE
                 templateUrl: './purchase-payment-reception.component.html',
                 styleUrls: ['./purchase-payment-reception.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["UserService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["UtilService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UserService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UtilService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"] }]; }, null); })();
 
 
 /***/ }),

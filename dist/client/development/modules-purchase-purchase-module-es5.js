@@ -6047,7 +6047,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   case 10:
                     user = _context17.sent;
 
-                    if (!(user.payment === undefined)) {
+                    if (!(user.payment === undefined || user.payment.cash === undefined)) {
                       _context17.next = 13;
                       break;
                     }
@@ -6057,7 +6057,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   case 13:
                     _context17.next = 15;
                     return this.epsonEPOSService.cashchanger.init({
-                      payment: user.payment
+                      ipAddress: user.payment.cash.ipAddress
                     });
 
                   case 15:
@@ -7201,37 +7201,47 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony import */
 
 
-    var ___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! moment */
+    "../../node_modules/moment/moment.js");
+    /* harmony import */
+
+
+    var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+    /* harmony import */
+
+
+    var ___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! ../../../../.. */
     "./app/index.ts");
     /* harmony import */
 
 
-    var _environments_environment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var _environments_environment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ../../../../../../environments/environment */
     "./environments/environment.ts");
     /* harmony import */
 
 
-    var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    var _services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! ../../../../../services */
     "./app/services/index.ts");
     /* harmony import */
 
 
-    var _store_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    var _store_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
     /*! ../../../../../store/reducers */
     "./app/store/reducers/index.ts");
     /* harmony import */
 
 
-    var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
     /*! @angular/common */
     "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
     /* harmony import */
 
 
-    var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+    var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
     /*! @ngx-translate/core */
     "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
 
@@ -7269,7 +7279,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     function PurchasePaymentReceptionComponent_div_1_Template(rf, ctx) {
       if (rf & 1) {
-        var _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+        var _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
 
@@ -7358,11 +7368,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "button", 11);
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_div_1_Template_button_click_30_listener() {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r5);
 
-          var ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+          var ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
 
-          return ctx_r1.onSubmit();
+          return ctx_r4.onSubmit();
         });
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](31, "async");
@@ -7376,11 +7386,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "button", 12);
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_div_1_Template_button_click_34_listener() {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r5);
 
-          var ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+          var ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
 
-          return ctx_r3.prev();
+          return ctx_r6.prev();
         });
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](35);
@@ -7443,8 +7453,98 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }
     }
 
+    function PurchasePaymentReceptionComponent_div_3_Template(rf, ctx) {
+      if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "p", 3);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+      }
+
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 2, "purchase.paymentReception.creditcard.title"), " ");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 4, "purchase.paymentReception.creditcard.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+      }
+    }
+
+    function PurchasePaymentReceptionComponent_div_5_Template(rf, ctx) {
+      if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "p", 3);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+      }
+
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 2, "purchase.paymentReception.eMoney.title"), " ");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 4, "purchase.paymentReception.eMoney.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+      }
+    }
+
+    function PurchasePaymentReceptionComponent_div_7_Template(rf, ctx) {
+      if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "p", 3);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+      }
+
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 2, "purchase.paymentReception.code.title"), " ");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 4, "purchase.paymentReception.code.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+      }
+    }
+
     var PurchasePaymentReceptionComponent = /*#__PURE__*/function () {
-      function PurchasePaymentReceptionComponent(store, router, userService, utilService, purchaseService, epsonEPOSService) {
+      function PurchasePaymentReceptionComponent(store, router, userService, utilService, purchaseService, epsonEPOSService, paymentService) {
         _classCallCheck(this, PurchasePaymentReceptionComponent);
 
         this.store = store;
@@ -7453,27 +7553,29 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.utilService = utilService;
         this.purchaseService = purchaseService;
         this.epsonEPOSService = epsonEPOSService;
+        this.paymentService = paymentService;
         this.paymentMethodType = _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["factory"].paymentMethodType;
-        this.viewType = ___WEBPACK_IMPORTED_MODULE_4__["Models"].Util.ViewType;
-        this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_5__["getEnvironment"])();
+        this.viewType = ___WEBPACK_IMPORTED_MODULE_5__["Models"].Util.ViewType;
+        this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_6__["getEnvironment"])();
       }
 
       _createClass(PurchasePaymentReceptionComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _a;
+          var _a, _b, _c, _d;
 
           return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
             var _this10 = this;
 
-            var purchase, user;
+            var purchase, user, _user2, execResult, _user3, _execResult, _user4, _execResult2;
+
             return regeneratorRuntime.wrap(function _callee20$(_context20) {
               while (1) {
                 switch (_context20.prev = _context20.next) {
                   case 0:
-                    this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_7__["getLoading"]));
-                    this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_7__["getPurchase"]));
-                    this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_7__["getUser"]));
+                    this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getLoading"]));
+                    this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getPurchase"]));
+                    this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getUser"]));
                     this.amount = 0;
                     _context20.prev = 4;
                     _context20.next = 7;
@@ -7481,7 +7583,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                   case 7:
                     purchase = _context20.sent;
-                    this.amount = ___WEBPACK_IMPORTED_MODULE_4__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
+                    this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
 
                     if (!(((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash)) {
                       _context20.next = 22;
@@ -7496,7 +7598,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   case 13:
                     user = _context20.sent;
 
-                    if (!(user.payment === undefined)) {
+                    if (!(user.payment === undefined || user.payment.cash === undefined)) {
                       _context20.next = 16;
                       break;
                     }
@@ -7506,7 +7608,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   case 16:
                     _context20.next = 18;
                     return this.epsonEPOSService.cashchanger.init({
-                      payment: user.payment
+                      ipAddress: user.payment.cash.ipAddress
                     });
 
                   case 18:
@@ -7522,20 +7624,213 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                     });
 
                   case 22:
-                    _context20.next = 27;
+                    if (!(((_b = purchase.paymentMethod) === null || _b === void 0 ? void 0 : _b.typeOf) === this.paymentMethodType.CreditCard)) {
+                      _context20.next = 41;
+                      break;
+                    }
+
+                    _context20.next = 25;
+                    return this.userService.getData();
+
+                  case 25:
+                    _user2 = _context20.sent;
+
+                    if (!(_user2.payment === undefined || _user2.payment.creditcard === undefined)) {
+                      _context20.next = 28;
+                      break;
+                    }
+
+                    throw new Error('payment undefined');
+
+                  case 28:
+                    _context20.next = 30;
+                    return this.paymentService.init({
+                      ipAddress: _user2.payment.creditcard.ipAddress
+                    });
+
+                  case 30:
+                    _context20.next = 32;
+                    return this.paymentService.exec({
+                      func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
+                      options: {
+                        JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                        ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                        AMOUNT: String(this.amount)
+                      }
+                    });
+
+                  case 32:
+                    execResult = _context20.sent;
+
+                    if (!(execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL)) {
+                      _context20.next = 36;
+                      break;
+                    }
+
+                    this.router.navigate(['/purchase/payment']);
+                    return _context20.abrupt("return");
+
+                  case 36:
+                    if (!(execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS)) {
+                      _context20.next = 40;
+                      break;
+                    }
+
+                    _context20.next = 39;
+                    return this.paymentService.exec({
+                      func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION
+                    });
+
+                  case 39:
+                    throw new Error(JSON.stringify(execResult));
+
+                  case 40:
+                    this.onSubmit();
+
+                  case 41:
+                    if (!(((_c = purchase.paymentMethod) === null || _c === void 0 ? void 0 : _c.typeOf) === this.paymentMethodType.EMoney)) {
+                      _context20.next = 60;
+                      break;
+                    }
+
+                    _context20.next = 44;
+                    return this.userService.getData();
+
+                  case 44:
+                    _user3 = _context20.sent;
+
+                    if (!(_user3.payment === undefined || _user3.payment.emoney === undefined)) {
+                      _context20.next = 47;
+                      break;
+                    }
+
+                    throw new Error('payment undefined');
+
+                  case 47:
+                    _context20.next = 49;
+                    return this.paymentService.init({
+                      ipAddress: _user3.payment.emoney.ipAddress
+                    });
+
+                  case 49:
+                    _context20.next = 51;
+                    return this.paymentService.exec({
+                      func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
+                      options: {
+                        JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                        ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                        AMOUNT: String(this.amount)
+                      }
+                    });
+
+                  case 51:
+                    _execResult = _context20.sent;
+
+                    if (!(_execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL)) {
+                      _context20.next = 55;
+                      break;
+                    }
+
+                    this.router.navigate(['/purchase/payment']);
+                    return _context20.abrupt("return");
+
+                  case 55:
+                    if (!(_execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS)) {
+                      _context20.next = 59;
+                      break;
+                    }
+
+                    _context20.next = 58;
+                    return this.paymentService.exec({
+                      func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION
+                    });
+
+                  case 58:
+                    throw new Error(JSON.stringify(_execResult));
+
+                  case 59:
+                    this.onSubmit();
+
+                  case 60:
+                    if (!(((_d = purchase.paymentMethod) === null || _d === void 0 ? void 0 : _d.typeOf) === this.paymentMethodType.Others && purchase.paymentMethod.category === 'code')) {
+                      _context20.next = 79;
+                      break;
+                    }
+
+                    _context20.next = 63;
+                    return this.userService.getData();
+
+                  case 63:
+                    _user4 = _context20.sent;
+
+                    if (!(_user4.payment === undefined || _user4.payment.code === undefined)) {
+                      _context20.next = 66;
+                      break;
+                    }
+
+                    throw new Error('payment undefined');
+
+                  case 66:
+                    _context20.next = 68;
+                    return this.paymentService.init({
+                      ipAddress: _user4.payment.code.ipAddress
+                    });
+
+                  case 68:
+                    _context20.next = 70;
+                    return this.paymentService.exec({
+                      func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
+                      options: {
+                        JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                        ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                        AMOUNT: String(this.amount),
+                        MACHINE_CODE: ''
+                      }
+                    });
+
+                  case 70:
+                    _execResult2 = _context20.sent;
+
+                    if (!(_execResult2.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL)) {
+                      _context20.next = 74;
+                      break;
+                    }
+
+                    this.router.navigate(['/purchase/payment']);
+                    return _context20.abrupt("return");
+
+                  case 74:
+                    if (!(_execResult2.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS)) {
+                      _context20.next = 78;
+                      break;
+                    }
+
+                    _context20.next = 77;
+                    return this.paymentService.exec({
+                      func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION
+                    });
+
+                  case 77:
+                    throw new Error(JSON.stringify(_execResult2));
+
+                  case 78:
+                    this.onSubmit();
+
+                  case 79:
+                    _context20.next = 84;
                     break;
 
-                  case 24:
-                    _context20.prev = 24;
+                  case 81:
+                    _context20.prev = 81;
                     _context20.t0 = _context20["catch"](4);
                     console.error(_context20.t0); // this.router.navigate(['/error']);
 
-                  case 27:
+                  case 84:
                   case "end":
                     return _context20.stop();
                 }
               }
-            }, _callee20, this, [[4, 24]]);
+            }, _callee20, this, [[4, 81]]);
           }));
         }
         /**
@@ -7545,6 +7840,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "onSubmit",
         value: function onSubmit() {
+          var _a;
+
           return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
             var purchaseData, userData, profile, seller, paymentMethod;
             return regeneratorRuntime.wrap(function _callee21$(_context21) {
@@ -7606,54 +7903,60 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                     this.utilService.loadStart({
                       process: 'load'
                     });
-                    _context21.next = 24;
-                    return this.epsonEPOSService.cashchanger.endDeposit();
 
-                  case 24:
-                    if (!(this.deposit - this.amount > 0)) {
-                      _context21.next = 27;
+                    if (!(((_a = purchaseData.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash)) {
+                      _context21.next = 30;
                       break;
                     }
 
-                    _context21.next = 27;
+                    _context21.next = 25;
+                    return this.epsonEPOSService.cashchanger.endDeposit();
+
+                  case 25:
+                    if (!(this.deposit - this.amount > 0)) {
+                      _context21.next = 28;
+                      break;
+                    }
+
+                    _context21.next = 28;
                     return this.epsonEPOSService.cashchanger.dispenseChange({
                       amount: this.deposit - this.amount
                     });
 
-                  case 27:
-                    _context21.next = 29;
+                  case 28:
+                    _context21.next = 30;
                     return this.epsonEPOSService.cashchanger.disconnect();
 
-                  case 29:
+                  case 30:
                     this.router.navigate(['/purchase/complete']);
                     this.utilService.loadEnd();
-                    _context21.next = 43;
+                    _context21.next = 44;
                     break;
 
-                  case 33:
-                    _context21.prev = 33;
+                  case 34:
+                    _context21.prev = 34;
                     _context21.t0 = _context21["catch"](11);
                     this.utilService.loadStart({
                       process: 'load'
                     });
-                    _context21.next = 38;
+                    _context21.next = 39;
                     return this.epsonEPOSService.cashchanger.endDepositRepay();
 
-                  case 38:
-                    _context21.next = 40;
+                  case 39:
+                    _context21.next = 41;
                     return this.epsonEPOSService.cashchanger.disconnect();
 
-                  case 40:
+                  case 41:
                     this.utilService.loadEnd();
                     console.error(_context21.t0);
                     this.router.navigate(['/error']);
 
-                  case 43:
+                  case 44:
                   case "end":
                     return _context21.stop();
                 }
               }
-            }, _callee21, this, [[11, 33]]);
+            }, _callee21, this, [[11, 34]]);
           }));
         }
       }, {
@@ -7715,14 +8018,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }();
 
     PurchasePaymentReceptionComponent.ɵfac = function PurchasePaymentReceptionComponent_Factory(t) {
-      return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"]));
+      return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"]));
     };
 
     PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
       type: PurchasePaymentReceptionComponent,
       selectors: [["app-purchase-payment-reception"]],
-      decls: 3,
-      vars: 3,
+      decls: 10,
+      vars: 14,
       consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-link", 3, "click"]],
       template: function PurchasePaymentReceptionComponent_Template(rf, ctx) {
         if (rf & 1) {
@@ -7732,20 +8035,52 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "async");
 
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchasePaymentReceptionComponent_div_3_Template, 6, 6, "div", 1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](4, "async");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentReceptionComponent_div_5_Template, 6, 6, "div", 1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "async");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentReceptionComponent_div_7_Template, 6, 6, "div", 1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](8, "async");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](9, "async");
+
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         }
 
         if (rf & 2) {
           var tmp_0_0 = null;
-          var currVal_0 = ((tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx.purchase)) == null ? null : tmp_0_0.paymentMethod == null ? null : tmp_0_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
+          var currVal_0 = ((tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 4, ctx.purchase)) == null ? null : tmp_0_0.paymentMethod == null ? null : tmp_0_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
+          var tmp_1_0 = null;
+          var currVal_1 = ((tmp_1_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](4, 6, ctx.purchase)) == null ? null : tmp_1_0.paymentMethod == null ? null : tmp_1_0.paymentMethod.typeOf) === ctx.paymentMethodType.CreditCard;
+          var tmp_2_0 = null;
+          var currVal_2 = ((tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](6, 8, ctx.purchase)) == null ? null : tmp_2_0.paymentMethod == null ? null : tmp_2_0.paymentMethod.typeOf) === ctx.paymentMethodType.EMoney;
+          var tmp_3_0 = null;
+          var currVal_3 = ((tmp_3_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 10, ctx.purchase)) == null ? null : tmp_3_0.paymentMethod == null ? null : tmp_3_0.paymentMethod.typeOf) === ctx.paymentMethodType.Others && ((tmp_3_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 12, ctx.purchase)) == null ? null : tmp_3_0.paymentMethod == null ? null : tmp_3_0.paymentMethod.category) === "code";
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_0);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_3);
         }
       },
-      directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]],
-      pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["AsyncPipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["CurrencyPipe"]],
+      directives: [_angular_common__WEBPACK_IMPORTED_MODULE_9__["NgIf"]],
+      pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_9__["AsyncPipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_10__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_9__["CurrencyPipe"]],
       styles: [".payment-select[_ngcontent-%COMP%] {\n  grid-template-columns: 1fr 1fr 1fr;\n  grid-gap: 1rem;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  min-height: 100px;\n}\n@media (max-width: 767.98px) {\n  .payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n    min-height: auto;\n  }\n}\n.payment-select[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  font-size: 30px;\n}"]
     });
     /*@__PURE__*/
@@ -7764,13 +8099,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         }, {
           type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]
         }, {
-          type: _services__WEBPACK_IMPORTED_MODULE_6__["UserService"]
+          type: _services__WEBPACK_IMPORTED_MODULE_7__["UserService"]
         }, {
-          type: _services__WEBPACK_IMPORTED_MODULE_6__["UtilService"]
+          type: _services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]
         }, {
-          type: _services__WEBPACK_IMPORTED_MODULE_6__["PurchaseService"]
+          type: _services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"]
         }, {
-          type: _services__WEBPACK_IMPORTED_MODULE_6__["EpsonEPOSService"]
+          type: _services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"]
+        }, {
+          type: _services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"]
         }];
       }, null);
     })();

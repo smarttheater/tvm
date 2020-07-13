@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Functions, Models } from '../..';
+import { Functions } from '../..';
 
 interface IDeposit {
     amount: string;
@@ -27,7 +27,7 @@ export class EpsonCaschCangerService {
     constructor() { }
 
     public async init(params: {
-        payment: Models.Util.Payment.IPayment;
+        ipAddress: string;
         timeout?: number;
     }) {
         this.device = undefined;
@@ -40,16 +40,16 @@ export class EpsonCaschCangerService {
      * 接続
      */
     private async connect(params: {
-        payment: Models.Util.Payment.IPayment;
+        ipAddress: string;
     }) {
         // 安全でないコンテンツを許可する必要があります
         return new Promise<string>((resolve, reject) => {
-            const payment = params.payment;
-            if (payment.cash === undefined) {
+            const ipAddress = params.ipAddress;
+            if (ipAddress === '') {
                 reject(new Error('IP address of the printer is not set'));
                 return;
             }
-            const url = new URL(`${location.protocol}${payment.cash.ipAddress}`);
+            const url = new URL(`${location.protocol}${ipAddress}`);
             this.ePOSDevice.connect(url.hostname, url.port, (data: string) => {
                 if (data === 'OK' || data === 'SSL_CONNECT_OK') {
                     resolve(data);

@@ -1878,12 +1878,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************!*\
   !*** ./app/models/purchase/payment.ts ***!
   \****************************************/
-/*! exports provided: PaymentMethodType */
+/*! exports provided: PaymentMethodType, FUNC_CODE, FUNC_STATUS, JOB */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaymentMethodType", function() { return PaymentMethodType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FUNC_CODE", function() { return FUNC_CODE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FUNC_STATUS", function() { return FUNC_STATUS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JOB", function() { return JOB; });
 /**
  * 決済方法タイプ
  */
@@ -1906,6 +1909,173 @@ var PaymentMethodType;
      */
     PaymentMethodType["RegiGrow"] = "RegiGrow";
 })(PaymentMethodType || (PaymentMethodType = {}));
+/**
+ * 機能コード
+ */
+var FUNC_CODE;
+(function (FUNC_CODE) {
+    /**
+     * 決済端末連携
+     */
+    let TERMINAL;
+    (function (TERMINAL) {
+        /**
+         * 疎通確認
+         */
+        TERMINAL["COMMUNICATION"] = "3000";
+        /**
+         * 選択要求　　　※決済用パラメータ必要
+         */
+        TERMINAL["CHOICE"] = "3001";
+        /**
+         * 決済結果取得
+         */
+        TERMINAL["RESULT"] = "3002";
+        /**
+         * 中断要求
+         */
+        TERMINAL["INTERRUPTION"] = "3008";
+    })(TERMINAL = FUNC_CODE.TERMINAL || (FUNC_CODE.TERMINAL = {}));
+    /**
+     * カード決済
+     */
+    let CREDITCARD;
+    (function (CREDITCARD) {
+        /**
+         * インストール確認
+         */
+        CREDITCARD["INSTALL"] = "4000";
+        /**
+         * 決済要求　　　※決済用パラメータ必要
+         */
+        CREDITCARD["SETTLEMENT"] = "4001";
+        /**
+         * 決済結果取得
+         */
+        CREDITCARD["RESULT"] = "4002";
+        /**
+         * 中断要求
+         */
+        CREDITCARD["INTERRUPTION"] = "4008";
+        /**
+         * 状況確認
+         */
+        CREDITCARD["SITUATION"] = "4100";
+    })(CREDITCARD = FUNC_CODE.CREDITCARD || (FUNC_CODE.CREDITCARD = {}));
+    /**
+     * コード決済
+     */
+    let CODE;
+    (function (CODE) {
+        /**
+         * インストール確認
+         */
+        CODE["INSTALL"] = "5000";
+        /**
+         * 決済要求　　　※決済用パラメータ必要
+         */
+        CODE["SETTLEMENT"] = "5001";
+        /**
+         * 決済結果取得
+         */
+        CODE["RESULT"] = "5002";
+        /**
+         * 中断要求
+         */
+        CODE["INTERRUPTION"] = "5008";
+    })(CODE = FUNC_CODE.CODE || (FUNC_CODE.CODE = {}));
+    /**
+     * 電子マネー決済
+     */
+    let EMONEY;
+    (function (EMONEY) {
+        /**
+         * インストール確認
+         */
+        EMONEY["INSTALL"] = "6000";
+        /**
+         * 決済要求　　　※決済用パラメータ必要
+         */
+        EMONEY["SETTLEMENT"] = "6001";
+        /**
+         * 決済結果取得
+         */
+        EMONEY["RESULT"] = "6002";
+        /**
+         * 中断要求
+         */
+        EMONEY["INTERRUPTION"] = "6008";
+    })(EMONEY = FUNC_CODE.EMONEY || (FUNC_CODE.EMONEY = {}));
+})(FUNC_CODE || (FUNC_CODE = {}));
+/**
+ * 基本部_機能コード応答値
+ */
+var FUNC_STATUS;
+(function (FUNC_STATUS) {
+    /**
+     * 要求正常終了
+     */
+    FUNC_STATUS["SUCCESS"] = "0000";
+    /**
+     * 決済アプリにて取消が行われた
+     */
+    FUNC_STATUS["APP_CANCEL"] = "0001";
+    /**
+     * 上位機器より取消が行われた
+     */
+    FUNC_STATUS["MACHINE_CANCEL"] = "0002";
+    /**
+     * 決済アプリでエラーが発生
+     */
+    FUNC_STATUS["APP_ERROR"] = "0009";
+    /**
+     * 該当の決済データが存在しない
+     */
+    FUNC_STATUS["NOTFOUND"] = "0010";
+    /**
+     * 対象の決済アプリがインストールされていない
+     */
+    FUNC_STATUS["NOT_INSTALLED"] = "1001";
+    /**
+     * 対象の決済アプリが未処理
+     */
+    FUNC_STATUS["APP_UNTREATED"] = "1002";
+    /**
+     * 決済アプリが処理中
+     */
+    FUNC_STATUS["APP_PROCESSING"] = "1003";
+    /**
+     * 中断要求の受付成功　　※中断の実施結果は、結果取得の要求で取得
+     */
+    FUNC_STATUS["INTERRUPTION_SUCCESS"] = "1100";
+    /**
+     * 中断処理中
+     */
+    FUNC_STATUS["INTERRUPTION_PROCESSING"] = "1103";
+    /**
+     * 中断処理失敗
+     */
+    FUNC_STATUS["INTERRUPTION_FAILURE"] = "1104";
+    /**
+     * 規定外の機能コードが指定された
+     */
+    FUNC_STATUS["OUT_OF_REGULATION"] = "8000";
+})(FUNC_STATUS || (FUNC_STATUS = {}));
+var JOB;
+(function (JOB) {
+    /**
+     * 売上
+     */
+    JOB["CAPTURE"] = "CAPTURE";
+    /**
+     * 取消
+     */
+    JOB["VOID"] = "VOID";
+    /**
+     * 返品
+     */
+    JOB["RETURN"] = "RETURN";
+})(JOB || (JOB = {}));
 
 
 /***/ }),

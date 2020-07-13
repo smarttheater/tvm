@@ -100,10 +100,11 @@ export class PurchaseCompleteComponent implements OnInit {
                     return;
                 }
                 const user = await this.userService.getData();
-                if (user.payment === undefined) {
+                if (user.payment === undefined
+                    || user.payment.cash === undefined) {
                     throw new Error('payment undefined');
                 }
-                await this.epsonEPOSService.cashchanger.init({ payment: user.payment });
+                await this.epsonEPOSService.cashchanger.init({ ipAddress: user.payment.cash.ipAddress });
                 await this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
                 await this.epsonEPOSService.cashchanger.disconnect();
             }

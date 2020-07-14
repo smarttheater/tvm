@@ -3439,119 +3439,154 @@ class PurchasePaymentReceptionComponent {
                 this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
                 if (((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash) {
                     // 現金
-                    this.deposit = 0;
-                    const user = yield this.userService.getData();
-                    if (user.payment === undefined
-                        || user.payment.cash === undefined) {
-                        throw new Error('payment undefined');
-                    }
-                    yield this.epsonEPOSService.cashchanger.init({
-                        ipAddress: user.payment.cash.ipAddress
-                    });
-                    yield this.epsonEPOSService.cashchanger.endDeposit();
-                    yield this.epsonEPOSService.cashchanger.beginDeposit({
-                        cb: (amount) => {
-                            this.deposit = amount;
-                        }
-                    });
+                    yield this.cash();
                 }
                 if (((_b = purchase.paymentMethod) === null || _b === void 0 ? void 0 : _b.typeOf) === this.paymentMethodType.CreditCard) {
                     // クレジットカード
-                    const user = yield this.userService.getData();
-                    if (user.payment === undefined
-                        || user.payment.creditcard === undefined) {
-                        throw new Error('payment undefined');
-                    }
-                    yield this.paymentService.init({
-                        ipAddress: user.payment.creditcard.ipAddress
-                    });
-                    const execResult = yield this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
-                        options: {
-                            JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
-                            ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
-                            AMOUNT: String(this.amount),
-                        }
-                    });
-                    if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL) {
-                        this.router.navigate(['/purchase/payment']);
-                        return;
-                    }
-                    if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
-                        yield this.paymentService.exec({
-                            func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION,
-                        });
-                        throw new Error(JSON.stringify(execResult));
-                    }
-                    this.onSubmit();
+                    yield this.creditcard();
                 }
                 if (((_c = purchase.paymentMethod) === null || _c === void 0 ? void 0 : _c.typeOf) === this.paymentMethodType.EMoney) {
                     // 電子マネー
-                    const user = yield this.userService.getData();
-                    if (user.payment === undefined
-                        || user.payment.emoney === undefined) {
-                        throw new Error('payment undefined');
-                    }
-                    yield this.paymentService.init({
-                        ipAddress: user.payment.emoney.ipAddress
-                    });
-                    const execResult = yield this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
-                        options: {
-                            JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
-                            ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
-                            AMOUNT: String(this.amount),
-                        }
-                    });
-                    if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL) {
-                        this.router.navigate(['/purchase/payment']);
-                        return;
-                    }
-                    if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
-                        yield this.paymentService.exec({
-                            func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION,
-                        });
-                        throw new Error(JSON.stringify(execResult));
-                    }
-                    this.onSubmit();
+                    yield this.eMoney();
                 }
                 if (((_d = purchase.paymentMethod) === null || _d === void 0 ? void 0 : _d.typeOf) === this.paymentMethodType.Others
                     && purchase.paymentMethod.category === 'code') {
                     // コード
-                    const user = yield this.userService.getData();
-                    if (user.payment === undefined
-                        || user.payment.code === undefined) {
-                        throw new Error('payment undefined');
-                    }
-                    yield this.paymentService.init({
-                        ipAddress: user.payment.code.ipAddress
-                    });
-                    const execResult = yield this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
-                        options: {
-                            JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
-                            ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
-                            AMOUNT: String(this.amount),
-                            MACHINE_CODE: '',
-                        }
-                    });
-                    if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL) {
-                        this.router.navigate(['/purchase/payment']);
-                        return;
-                    }
-                    if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
-                        yield this.paymentService.exec({
-                            func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION,
-                        });
-                        throw new Error(JSON.stringify(execResult));
-                    }
-                    this.onSubmit();
+                    yield this.code();
                 }
             }
             catch (error) {
                 console.error(error);
                 // this.router.navigate(['/error']);
             }
+        });
+    }
+    /**
+     * 現金
+     */
+    cash() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.deposit = 0;
+            const user = yield this.userService.getData();
+            if (user.payment === undefined
+                || user.payment.cash === undefined) {
+                throw new Error('payment undefined');
+            }
+            yield this.epsonEPOSService.cashchanger.init({
+                ipAddress: user.payment.cash.ipAddress
+            });
+            yield this.epsonEPOSService.cashchanger.endDeposit();
+            yield this.epsonEPOSService.cashchanger.beginDeposit({
+                cb: (amount) => {
+                    this.deposit = amount;
+                }
+            });
+        });
+    }
+    /**
+     * クレジットカード
+     */
+    creditcard() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.userService.getData();
+            if (user.payment === undefined
+                || user.payment.creditcard === undefined) {
+                throw new Error('payment undefined');
+            }
+            yield this.paymentService.init({
+                ipAddress: user.payment.creditcard.ipAddress
+            });
+            const execResult = yield this.paymentService.exec({
+                func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
+                options: {
+                    JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                    ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                    AMOUNT: String(this.amount),
+                }
+            });
+            if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL
+                || execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
+                this.router.navigate(['/purchase/payment']);
+                return;
+            }
+            if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                yield this.paymentService.exec({
+                    func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION,
+                });
+                throw new Error(JSON.stringify(execResult));
+            }
+            this.onSubmit();
+        });
+    }
+    /**
+     * 電子マネー
+     */
+    eMoney() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.userService.getData();
+            if (user.payment === undefined
+                || user.payment.emoney === undefined) {
+                throw new Error('payment undefined');
+            }
+            yield this.paymentService.init({
+                ipAddress: user.payment.emoney.ipAddress
+            });
+            const execResult = yield this.paymentService.exec({
+                func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
+                options: {
+                    JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                    ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                    AMOUNT: String(this.amount),
+                }
+            });
+            if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL
+                || execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
+                this.router.navigate(['/purchase/payment']);
+                return;
+            }
+            if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                yield this.paymentService.exec({
+                    func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION,
+                });
+                throw new Error(JSON.stringify(execResult));
+            }
+            this.onSubmit();
+        });
+    }
+    /**
+     * コード
+     */
+    code() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.userService.getData();
+            if (user.payment === undefined
+                || user.payment.code === undefined) {
+                throw new Error('payment undefined');
+            }
+            yield this.paymentService.init({
+                ipAddress: user.payment.code.ipAddress
+            });
+            const execResult = yield this.paymentService.exec({
+                func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
+                options: {
+                    JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                    ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                    AMOUNT: String(this.amount),
+                    MACHINE_CODE: '',
+                }
+            });
+            if (execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL
+                || execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
+                this.router.navigate(['/purchase/payment']);
+                return;
+            }
+            if (execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                yield this.paymentService.exec({
+                    func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION,
+                });
+                throw new Error(JSON.stringify(execResult));
+            }
+            this.onSubmit();
         });
     }
     /**

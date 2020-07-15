@@ -56,7 +56,7 @@ export function createGmoTokenObject(params: {
         holderName: string;
         securityCode: string;
     },
-    seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>;
+    seller: factory.chevre.seller.ISeller;
 }) {
     return new Promise<IGmoTokenObject>((resolve, reject) => {
         if (params.seller.paymentAccepted === undefined) {
@@ -130,7 +130,7 @@ export function isAvailabilityMovieTicket(checkMovieTicketAction: factory.action
 export function createMovieTicketsFromAuthorizeSeatReservation(args: {
     authorizeSeatReservation: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
     pendingMovieTickets: Purchase.MovieTicket.IMovieTicket[];
-    seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>
+    seller: factory.chevre.seller.ISeller
 }) {
     const results: factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket[] = [];
     const authorizeSeatReservation = args.authorizeSeatReservation;

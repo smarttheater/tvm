@@ -84174,19 +84174,24 @@ class PurchaseService {
      */
     startTransaction(params) {
         return __awaiter(this, void 0, void 0, function* () {
+            const seller = params.seller;
+            const pos = params.pos;
+            if (seller.id === undefined) {
+                throw new Error('seller.id undefined');
+            }
             const environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_8__["getEnvironment"])();
             const now = (yield this.utilService.getServerTime()).date;
-            const identifier = (params.pos === undefined)
+            const identifier = (pos === undefined)
                 ? [...environment.PURCHASE_TRANSACTION_IDENTIFIER]
                 : [
                     ...environment.PURCHASE_TRANSACTION_IDENTIFIER,
-                    { name: 'posId', value: params.pos.id },
-                    { name: 'posName', value: params.pos.name }
+                    { name: 'posId', value: pos.id },
+                    { name: 'posName', value: pos.name }
                 ];
             return new Promise((resolve, reject) => {
                 this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].startTransaction({
                     expires: moment__WEBPACK_IMPORTED_MODULE_4__(now).add(environment.PURCHASE_TRANSACTION_TIME, 'minutes').toDate(),
-                    seller: { typeOf: params.seller.typeOf, id: params.seller.id },
+                    seller: { typeOf: params.seller.typeOf, id: seller.id },
                     object: {},
                     agent: { identifier }
                 }));
@@ -86282,8 +86287,9 @@ class PurchaseEffects {
                 const clientId = this.cinerinoService.auth.options.clientId;
                 const screeningEvent = payload.screeningEvent;
                 const seller = payload.seller;
-                if (clientId === undefined) {
-                    throw new Error('clientId undefined');
+                if (clientId === undefined
+                    || seller.id === undefined) {
+                    throw new Error('clientId or seller.id undefined');
                 }
                 const screeningEventTicketOffers = yield this.cinerinoService.event.searchTicketOffers({
                     event: { id: screeningEvent.id },
@@ -86376,6 +86382,10 @@ class PurchaseEffects {
                 yield this.cinerinoService.getServices();
                 const screeningEvent = payload.screeningEvent;
                 const movieTickets = payload.movieTickets;
+                const transaction = payload.transaction;
+                if (transaction.seller.id === undefined) {
+                    throw new Error('transaction.seller.id undefined');
+                }
                 const checkMovieTicketAction = yield this.cinerinoService.payment.checkMovieTicket({
                     typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.MovieTicket,
                     movieTickets: movieTickets.map((movieTicket) => {
@@ -86396,8 +86406,8 @@ class PurchaseEffects {
                             } });
                     }),
                     seller: {
-                        typeOf: payload.transaction.seller.typeOf,
-                        id: payload.transaction.seller.id
+                        typeOf: transaction.seller.typeOf,
+                        id: transaction.seller.id
                     }
                 });
                 return _actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicketSuccess({ checkMovieTicketAction });

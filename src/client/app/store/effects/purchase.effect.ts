@@ -240,8 +240,9 @@ export class PurchaseEffects {
                 const clientId = this.cinerinoService.auth.options.clientId;
                 const screeningEvent = payload.screeningEvent;
                 const seller = payload.seller;
-                if (clientId === undefined) {
-                    throw new Error('clientId undefined');
+                if (clientId === undefined
+                    || seller.id === undefined) {
+                    throw new Error('clientId or seller.id undefined');
                 }
                 const screeningEventTicketOffers = await this.cinerinoService.event.searchTicketOffers({
                     event: { id: screeningEvent.id },
@@ -354,6 +355,10 @@ export class PurchaseEffects {
                 await this.cinerinoService.getServices();
                 const screeningEvent = payload.screeningEvent;
                 const movieTickets = payload.movieTickets;
+                const transaction = payload.transaction;
+                if (transaction.seller.id === undefined) {
+                    throw new Error('transaction.seller.id undefined');
+                }
                 const checkMovieTicketAction = await this.cinerinoService.payment.checkMovieTicket({
                     typeOf: factory.chevre.paymentMethodType.MovieTicket,
                     movieTickets: movieTickets.map((movieTicket) => {
@@ -379,8 +384,8 @@ export class PurchaseEffects {
                         };
                     }),
                     seller: {
-                        typeOf: payload.transaction.seller.typeOf,
-                        id: payload.transaction.seller.id
+                        typeOf: transaction.seller.typeOf,
+                        id: transaction.seller.id
                     }
                 });
 

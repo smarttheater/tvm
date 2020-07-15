@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import * as platform from 'platform';
@@ -19,7 +19,7 @@ export class OrderDetailModalComponent implements OnInit {
     public qrcode?: string;
     public getTransactionAgentIdentifier = Functions.Order.getTransactionAgentIdentifier;
     public platform = platform;
-    public paymentMethodType = factory.paymentMethodType;
+    public paymentMethodType = factory.chevre.paymentMethodType;
     public createOrderLink = Functions.Order.createOrderLink;
 
     constructor(
@@ -38,7 +38,7 @@ export class OrderDetailModalComponent implements OnInit {
             const isRegiGrow = order.paymentMethods.find(p => p.name === 'RegiGrow') !== undefined;
             const findResult = this.environment.PAYMENT_METHOD_CUSTOM.find(c => {
                 return order.paymentMethods.find(p => {
-                    return (p.typeOf === factory.paymentMethodType.Others
+                    return (p.typeOf === factory.chevre.paymentMethodType.Others
                         && p.name === c.category
                         && c.qrcode !== undefined);
                 });

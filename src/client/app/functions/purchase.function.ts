@@ -1,4 +1,4 @@
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { getEnvironment } from '../../environments/environment';
 import { Purchase } from '../models';
@@ -63,10 +63,10 @@ export function createGmoTokenObject(params: {
             throw new Error('seller.paymentAccepted is undefined').message;
         }
         const findPaymentAcceptedResult = params.seller.paymentAccepted.find((paymentAccepted) => {
-            return (paymentAccepted.paymentMethodType === factory.paymentMethodType.CreditCard);
+            return (paymentAccepted.paymentMethodType === factory.chevre.paymentMethodType.CreditCard);
         });
         if (findPaymentAcceptedResult === undefined
-            || findPaymentAcceptedResult.paymentMethodType !== factory.paymentMethodType.CreditCard) {
+            || findPaymentAcceptedResult.paymentMethodType !== factory.chevre.paymentMethodType.CreditCard) {
             throw new Error('paymentMethodType CreditCard not found').message;
         }
         (<any>window).someCallbackFunction = function someCallbackFunction(response: {
@@ -132,7 +132,7 @@ export function createMovieTicketsFromAuthorizeSeatReservation(args: {
     pendingMovieTickets: Purchase.MovieTicket.IMovieTicket[];
     seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>
 }) {
-    const results: factory.paymentMethod.paymentCard.movieTicket.IMovieTicket[] = [];
+    const results: factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket[] = [];
     const authorizeSeatReservation = args.authorizeSeatReservation;
     const pendingMovieTickets = args.pendingMovieTickets;
     const seller = args.seller;
@@ -173,7 +173,7 @@ export function createMovieTicketsFromAuthorizeSeatReservation(args: {
         }
 
         results.push({
-            typeOf: factory.paymentMethodType.MovieTicket,
+            typeOf: factory.chevre.paymentMethodType.MovieTicket,
             project: seller.project,
             identifier: findReservation.identifier,
             accessCode: findReservation.accessCode,
@@ -196,7 +196,7 @@ export function getCustomPaymentMethodTypeName(params: {
     const category = params.category;
     const environment = getEnvironment();
     const findResult = environment.PAYMENT_METHOD_CUSTOM.find(p => p.category === category);
-    if (paymentMethodType !== factory.paymentMethodType.Others
+    if (paymentMethodType !== factory.chevre.paymentMethodType.Others
         || findResult === undefined) {
         return { ja: '', en: '' };
     }
@@ -335,10 +335,12 @@ export function order2EventOrders(params: {
     const results: IEventOrder[] = [];
     const order = params.order;
     order.acceptedOffers.forEach((acceptedOffer) => {
-        const itemOffered = acceptedOffer.itemOffered;
-        if (itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+        if (acceptedOffer.itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
             return;
         }
+        const itemOffered = <factory.chevre.reservation.IReservation<
+            factory.chevre.reservationType.EventReservation
+        >>acceptedOffer.itemOffered;
         const registered = results.find((result) => {
             return (result.event.id === itemOffered.reservationFor.id);
         });

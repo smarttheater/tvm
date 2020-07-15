@@ -1,4 +1,4 @@
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { createAction, props } from '@ngrx/store';
 import { Functions, Models } from '../..';
 
@@ -245,10 +245,9 @@ export const checkMovieTicket = createAction(
     props<{
         transaction: factory.transaction.placeOrder.ITransaction;
         movieTickets: {
-            typeOf: factory.paymentMethodType.MovieTicket;
+            typeOf: factory.chevre.paymentMethodType.MovieTicket;
             identifier: string;
             accessCode: string;
-            project: factory.project.IProject;
         }[];
         screeningEvent: factory.chevre.event.screeningEvent.IEvent;
     }>()
@@ -313,7 +312,7 @@ export const authorizeAnyPayment = createAction(
     `${LABEL} authorizeAnyPayment`,
     props<{
         transaction: factory.transaction.placeOrder.ITransaction;
-        typeOf: factory.paymentMethodType | string;
+        typeOf: factory.chevre.paymentMethodType;
         name?: string;
         amount: number;
         additionalProperty: { name: string; value: any; }[];
@@ -335,7 +334,7 @@ export const authorizeAnyPaymentFail = createAction(
 export const selectPaymentMethodType = createAction(
     `${LABEL} selectPaymentMethodType`,
     props<{
-        typeOf: factory.paymentMethodType;
+        typeOf: factory.chevre.paymentMethodType;
         category?: string;
     }>()
 );

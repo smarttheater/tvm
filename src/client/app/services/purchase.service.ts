@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -410,7 +410,6 @@ export class PurchaseService {
         seller: factory.seller.IOrganization<factory.seller.IAttributes<factory.organizationType>>
     }) {
         const movieTicket = params.movieTicket;
-        const seller = params.seller;
         const purchase = await this.getData();
         return new Promise<void>((resolve, reject) => {
             if (purchase.transaction === undefined || purchase.screeningEvent === undefined) {
@@ -420,8 +419,7 @@ export class PurchaseService {
             this.store.dispatch(purchaseAction.checkMovieTicket({
                 transaction: purchase.transaction,
                 movieTickets: [{
-                    typeOf: factory.paymentMethodType.MovieTicket,
-                    project: seller.project,
+                    typeOf: factory.chevre.paymentMethodType.MovieTicket,
                     identifier: movieTicket.code, // 購入管理番号
                     accessCode: movieTicket.password // PINコード
                 }],
@@ -495,7 +493,7 @@ export class PurchaseService {
             const amount = params.amount;
             const depositAmount = params.depositAmount;
             const additionalProperty = [];
-            if (purchase.paymentMethod.typeOf === factory.paymentMethodType.Cash
+            if (purchase.paymentMethod.typeOf === factory.chevre.paymentMethodType.Cash
                 && depositAmount !== undefined) {
                 // 現金
                 additionalProperty.push({ name: 'depositAmount', value: String(depositAmount) });
@@ -524,7 +522,7 @@ export class PurchaseService {
      * 決済方法取得
      */
     public selectPaymentMethodType(params: {
-        typeOf: factory.paymentMethodType;
+        typeOf: factory.chevre.paymentMethodType;
         category?: string;
     }) {
         this.store.dispatch(purchaseAction.selectPaymentMethodType(params));

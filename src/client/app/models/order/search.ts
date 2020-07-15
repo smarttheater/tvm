@@ -1,4 +1,4 @@
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 
 export interface IOrderSearchConditions {
     orderDateFrom?: Date;
@@ -12,7 +12,7 @@ export interface IOrderSearchConditions {
         telephone: string;
     };
     orderStatus: '' | factory.orderStatus;
-    paymentMethodType: '' | factory.paymentMethodType;
+    paymentMethodType: '' | factory.chevre.paymentMethodType;
     eventStartDateFrom?: Date;
     eventStartDateThrough?: Date;
     posId: string;

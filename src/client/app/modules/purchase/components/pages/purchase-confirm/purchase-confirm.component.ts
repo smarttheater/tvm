@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ export class PurchaseConfirmComponent implements OnInit {
     public isLoading: Observable<boolean>;
     public user: Observable<reducers.IUserState>;
     public moment = moment;
-    public paymentMethodType = factory.paymentMethodType;
+    public paymentMethodType = factory.chevre.paymentMethodType;
     public viewType = Models.Util.ViewType;
     public depositAmount: number;
     public amount: number;

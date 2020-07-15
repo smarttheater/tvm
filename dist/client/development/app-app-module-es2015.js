@@ -78882,8 +78882,8 @@ HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ItemListComponent", function() { return ItemListComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../environments/environment */ "./environments/environment.ts");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
 /* harmony import */ var _pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../pipes/change-language.pipe */ "./app/modules/shared/pipes/change-language.pipe.ts");
@@ -79197,9 +79197,13 @@ class ItemListComponent {
                     if (p.name === undefined) {
                         p.name = o.name;
                     }
+                    if (o.itemOffered.typeOf !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+                        return;
+                    }
+                    const itemOffered = o.itemOffered;
                     if (p.name === undefined
-                        && o.itemOffered.typeOf === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
-                        p.name = o.itemOffered.reservedTicket.ticketType.name;
+                        && o.itemOffered.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+                        p.name = itemOffered.reservedTicket.ticketType.name;
                     }
                     priceComponents.push(p);
                 });
@@ -79345,8 +79349,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MvtkCheckModalComponent", function() { return MvtkCheckModalComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "../../node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
 /* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-bootstrap/modal */ "../../node_modules/ngx-bootstrap/__ivy_ngcc__/modal/fesm2015/ngx-bootstrap-modal.js");
@@ -79560,12 +79564,13 @@ class MvtkCheckModalComponent {
                     }
                     k.ykknInfo.forEach((y) => {
                         movieTicketTypeOffers.forEach((m) => {
+                            var _a;
                             const movieTicketPriceComponent = m.priceSpecification.priceComponent
-                                .find(p => p.typeOf === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["factory"].chevre.priceSpecificationType.MovieTicketTypeChargeSpecification);
+                                .find(p => p.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["factory"].chevre.priceSpecificationType.MovieTicketTypeChargeSpecification);
                             if (movieTicketPriceComponent === undefined) {
                                 return;
                             }
-                            const appliesToMovieTicketType = movieTicketPriceComponent.appliesToMovieTicketType;
+                            const appliesToMovieTicketType = (_a = movieTicketPriceComponent.appliesToMovieTicket) === null || _a === void 0 ? void 0 : _a.serviceType;
                             if (appliesToMovieTicketType !== y.ykknshTyp) {
                                 return;
                             }
@@ -79901,8 +79906,8 @@ NumericKeypadComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderDetailModalComponent", function() { return OrderDetailModalComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-bootstrap/modal */ "../../node_modules/ngx-bootstrap/__ivy_ngcc__/modal/fesm2015/ngx-bootstrap-modal.js");
@@ -80240,7 +80245,7 @@ class OrderDetailModalComponent {
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_6__["getEnvironment"])();
         this.getTransactionAgentIdentifier = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.getTransactionAgentIdentifier;
         this.platform = platform__WEBPACK_IMPORTED_MODULE_4__;
-        this.paymentMethodType = _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].paymentMethodType;
+        this.paymentMethodType = _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType;
         this.createOrderLink = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.createOrderLink;
     }
     ngOnInit() {
@@ -80255,7 +80260,7 @@ class OrderDetailModalComponent {
                 const isRegiGrow = order.paymentMethods.find(p => p.name === 'RegiGrow') !== undefined;
                 const findResult = this.environment.PAYMENT_METHOD_CUSTOM.find(c => {
                     return order.paymentMethods.find(p => {
-                        return (p.typeOf === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].paymentMethodType.Others
+                        return (p.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.Others
                             && p.name === c.category
                             && c.qrcode !== undefined);
                     });
@@ -80476,8 +80481,8 @@ OrderDetailModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵ
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseEventTicketModalComponent", function() { return PurchaseEventTicketModalComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-bootstrap/modal */ "../../node_modules/ngx-bootstrap/__ivy_ngcc__/modal/fesm2015/ngx-bootstrap-modal.js");
@@ -80722,7 +80727,7 @@ class PurchaseEventTicketModalComponent {
         this.performance = new ___WEBPACK_IMPORTED_MODULE_4__["Models"].Purchase.Performance(this.screeningEvent);
         this.tickets = [];
         this.tickets = this.screeningEventTicketOffers.filter((ticketOffer) => {
-            const movieTicketTypeChargeSpecification = ticketOffer.priceSpecification.priceComponent.find((c) => c.typeOf === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.priceSpecificationType.MovieTicketTypeChargeSpecification);
+            const movieTicketTypeChargeSpecification = ticketOffer.priceSpecification.priceComponent.find((c) => c.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.priceSpecificationType.MovieTicketTypeChargeSpecification);
             return movieTicketTypeChargeSpecification === undefined;
         });
         const selectedTickets = [];
@@ -80965,8 +80970,8 @@ PurchaseEventTicketModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseSeatTicketModalComponent", function() { return PurchaseSeatTicketModalComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-bootstrap/modal */ "../../node_modules/ngx-bootstrap/__ivy_ngcc__/modal/fesm2015/ngx-bootstrap-modal.js");
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../.. */ "./app/index.ts");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
@@ -81158,7 +81163,7 @@ class PurchaseSeatTicketModalComponent {
         const movieTickets = [];
         this.screeningEventTicketOffers.forEach((ticketOffer) => {
             const movieTicketTypeChargeSpecification = ticketOffer.priceSpecification.priceComponent
-                .filter((c) => c.typeOf === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.priceSpecificationType.MovieTicketTypeChargeSpecification)
+                .filter((c) => c.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.priceSpecificationType.MovieTicketTypeChargeSpecification)
                 .shift();
             if (movieTicketTypeChargeSpecification === undefined
                 && ticketOffer.eligibleSeatingType !== undefined) {
@@ -81188,19 +81193,20 @@ class PurchaseSeatTicketModalComponent {
                     return (movieTicket.validThrough === undefined);
                 });
                 availabilityMovieTickets.forEach((movieTicket) => {
-                    if (movieTicket.serviceType === movieTicketTypeChargeSpecification.appliesToMovieTicketType) {
+                    var _a;
+                    if (movieTicket.serviceType === ((_a = movieTicketTypeChargeSpecification.appliesToMovieTicket) === null || _a === void 0 ? void 0 : _a.serviceType)) {
                         targetMovieTickets.push(movieTicket);
                     }
                 });
             });
             // 選択中の対象ムビチケ券
             const reservations = this.reservations.filter((reservation) => {
+                var _a;
                 if (reservation.ticket === undefined
                     || reservation.ticket.movieTicket === undefined) {
                     return false;
                 }
-                return (movieTicketTypeChargeSpecification.appliesToMovieTicketType
-                    === reservation.ticket.movieTicket.serviceType);
+                return (((_a = movieTicketTypeChargeSpecification.appliesToMovieTicket) === null || _a === void 0 ? void 0 : _a.serviceType) === reservation.ticket.movieTicket.serviceType);
             });
             // 予約待ちのムビチケ券
             const pendingMovieTickets = [];
@@ -81580,8 +81586,8 @@ QRCodeViewerModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["�
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReservationDetailModalComponent", function() { return ReservationDetailModalComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-bootstrap/modal */ "../../node_modules/ngx-bootstrap/__ivy_ngcc__/modal/fesm2015/ngx-bootstrap-modal.js");
@@ -81821,8 +81827,8 @@ ReservationDetailModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScreenComponent", function() { return ScreenComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../.. */ "./app/index.ts");
@@ -82315,7 +82321,7 @@ class ScreenComponent {
                                 && findSeat.containedInPlace.branchCode !== undefined) {
                                 section = findSeat.containedInPlace.branchCode;
                             }
-                            if (findSeat.offers[0].availability === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.itemAvailability.InStock) {
+                            if (findSeat.offers[0].availability === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.itemAvailability.InStock) {
                                 status = _models_purchase_screen__WEBPACK_IMPORTED_MODULE_5__["SeatStatus"].Default;
                             }
                             acceptedOffer = {
@@ -82852,8 +82858,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CinerinoService", function() { return CinerinoService; });
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! .. */ "./app/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -82881,24 +82887,24 @@ class CinerinoService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const option = yield this.createOption();
-                this.account = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Account(option);
-                this.creativeWork = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].CreativeWork(option);
-                this.event = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Event(option);
-                this.order = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Order(option);
-                this.seller = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Seller(option);
-                this.place = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Place(option);
-                this.person = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Person(option);
-                this.project = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Project(Object.assign(Object.assign({}, option), { project: undefined }));
-                this.ownershipInfo = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].person.OwnershipInfo(option);
-                this.reservation = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Reservation(option);
-                this.task = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Task(option);
-                this.payment = new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].Payment(option);
+                this.account = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Account(option);
+                this.creativeWork = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].CreativeWork(option);
+                this.event = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Event(option);
+                this.order = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Order(option);
+                this.seller = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Seller(option);
+                this.place = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Place(option);
+                this.person = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Person(option);
+                this.project = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Project(Object.assign(Object.assign({}, option), { project: undefined }));
+                this.ownershipInfo = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].person.OwnershipInfo(option);
+                this.reservation = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Reservation(option);
+                this.task = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Task(option);
+                this.payment = new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].Payment(option);
                 this.transaction = {
-                    placeOrder: new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].transaction.PlaceOrder(option),
-                    returnOrder: new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].transaction.ReturnOrder(option)
+                    placeOrder: new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].transaction.PlaceOrder(option),
+                    returnOrder: new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].transaction.ReturnOrder(option)
                 };
                 this.admin = {
-                    ownershipInfo: new _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["service"].OwnershipInfo(option)
+                    ownershipInfo: new _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["service"].OwnershipInfo(option)
                 };
             }
             catch (err) {
@@ -82963,7 +82969,7 @@ class CinerinoService {
             nonce: null,
             tokenIssuer: ''
         };
-        this.auth = _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_2__["createAuthInstance"](option);
+        this.auth = _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["createAuthInstance"](option);
         this.auth.setCredentials({ accessToken: params.accessToken, expiryDate: params.expiryDate });
         this.endpoint = params.endpoint;
         this.waiterServerUrl = params.waiterServerUrl;
@@ -83425,8 +83431,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MasterService", function() { return MasterService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "../../node_modules/rxjs/_esm2015/index.js");
@@ -83543,8 +83549,8 @@ class MasterService {
                     const searchResult = yield this.cinerinoService.event.search({
                         page,
                         limit,
-                        typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventType.ScreeningEvent,
-                        eventStatuses: [_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventStatusType.EventScheduled],
+                        typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventType.ScreeningEvent,
+                        eventStatuses: [_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventStatusType.EventScheduled],
                         superEvent: params.superEvent,
                         startFrom: params.startFrom,
                         startThrough: params.startThrough
@@ -83573,7 +83579,7 @@ class MasterService {
                         const searchResult = yield this.cinerinoService.event.search({
                             page,
                             limit,
-                            typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventType.ScreeningEventSeries,
+                            typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.eventType.ScreeningEventSeries,
                             location: {
                                 branchCodes: params.superEvent.locationBranchCodes
                             },
@@ -84059,8 +84065,8 @@ PaymentService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineIn
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseService", function() { return PurchaseService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
@@ -84403,7 +84409,6 @@ class PurchaseService {
     checkMovieTicket(params) {
         return __awaiter(this, void 0, void 0, function* () {
             const movieTicket = params.movieTicket;
-            const seller = params.seller;
             const purchase = yield this.getData();
             return new Promise((resolve, reject) => {
                 if (purchase.transaction === undefined || purchase.screeningEvent === undefined) {
@@ -84413,8 +84418,7 @@ class PurchaseService {
                 this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicket({
                     transaction: purchase.transaction,
                     movieTickets: [{
-                            typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].paymentMethodType.MovieTicket,
-                            project: seller.project,
+                            typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.MovieTicket,
                             identifier: movieTicket.code,
                             accessCode: movieTicket.password // PINコード
                         }],
@@ -84470,7 +84474,7 @@ class PurchaseService {
                 const amount = params.amount;
                 const depositAmount = params.depositAmount;
                 const additionalProperty = [];
-                if (purchase.paymentMethod.typeOf === _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].paymentMethodType.Cash
+                if (purchase.paymentMethod.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.Cash
                     && depositAmount !== undefined) {
                     // 現金
                     additionalProperty.push({ name: 'depositAmount', value: String(depositAmount) });
@@ -85775,8 +85779,8 @@ __decorate([
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderEffects", function() { return OrderEffects; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
@@ -85850,7 +85854,9 @@ class OrderEffects {
                     orderDateThrough: moment__WEBPACK_IMPORTED_MODULE_3__(now).toDate()
                 };
                 const order = yield this.cinerino.order.findByConfirmationNumber(params);
-                return _actions__WEBPACK_IMPORTED_MODULE_8__["orderAction"].inquirySuccess({ order });
+                return _actions__WEBPACK_IMPORTED_MODULE_8__["orderAction"].inquirySuccess({
+                    order: (Array.isArray(order)) ? order[0] : order
+                });
             }
             catch (error) {
                 return _actions__WEBPACK_IMPORTED_MODULE_8__["orderAction"].inquiryFail({ error: error });
@@ -85915,10 +85921,10 @@ class OrderEffects {
                     for (const authorizeOrder of authorizeOrders) {
                         let index = 0;
                         for (const acceptedOffer of authorizeOrder.acceptedOffers) {
-                            const itemOffered = acceptedOffer.itemOffered;
-                            if (itemOffered.typeOf !== _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
+                            if (acceptedOffer.itemOffered.typeOf !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation) {
                                 continue;
                             }
+                            const itemOffered = acceptedOffer.itemOffered;
                             const order = authorizeOrder;
                             let qrcode = (environment.PRINT_QRCODE_TYPE === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Order.Print.PrintQrcodeType.None)
                                 ? undefined : itemOffered.reservedTicket.ticketToken;
@@ -86053,8 +86059,8 @@ __decorate([
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseEffects", function() { return PurchaseEffects; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
@@ -86218,7 +86224,7 @@ class PurchaseEffects {
                                 additionalProperty: [],
                                 itemOffered: {
                                     serviceOutput: {
-                                        typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation,
+                                        typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.reservationType.EventReservation,
                                         additionalProperty: (screeningEvent.workPerformed === undefined
                                             || screeningEvent.workPerformed.additionalProperty === undefined)
                                             ? [] : [...screeningEvent.workPerformed.additionalProperty],
@@ -86276,6 +86282,9 @@ class PurchaseEffects {
                 const clientId = this.cinerinoService.auth.options.clientId;
                 const screeningEvent = payload.screeningEvent;
                 const seller = payload.seller;
+                if (clientId === undefined) {
+                    throw new Error('clientId undefined');
+                }
                 const screeningEventTicketOffers = yield this.cinerinoService.event.searchTicketOffers({
                     event: { id: screeningEvent.id },
                     seller: { typeOf: seller.typeOf, id: seller.id },
@@ -86344,7 +86353,7 @@ class PurchaseEffects {
                     for (const movieTicketIdentifier of movieTicketIdentifiers) {
                         const authorizeMovieTicketPaymentResult = yield this.cinerinoService.payment.authorizeMovieTicket({
                             object: {
-                                typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].paymentMethodType.MovieTicket,
+                                typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.MovieTicket,
                                 amount: 0,
                                 movieTickets: movieTicketIdentifier.movieTickets
                             },
@@ -86368,16 +86377,16 @@ class PurchaseEffects {
                 const screeningEvent = payload.screeningEvent;
                 const movieTickets = payload.movieTickets;
                 const checkMovieTicketAction = yield this.cinerinoService.payment.checkMovieTicket({
-                    typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].paymentMethodType.MovieTicket,
+                    typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.MovieTicket,
                     movieTickets: movieTickets.map((movieTicket) => {
-                        return Object.assign(Object.assign({}, movieTicket), { serviceType: '', serviceOutput: {
+                        return Object.assign(Object.assign({}, movieTicket), { project: screeningEvent.project, serviceType: '', serviceOutput: {
                                 reservationFor: {
                                     typeOf: screeningEvent.typeOf,
                                     id: screeningEvent.id
                                 },
                                 reservedTicket: {
                                     ticketedSeat: {
-                                        typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.placeType.Seat,
+                                        typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.placeType.Seat,
                                         seatingType: '',
                                         seatNumber: '',
                                         seatRow: '',
@@ -86738,8 +86747,8 @@ function reducer(initialState, action) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "purchaseInitialState", function() { return purchaseInitialState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reducer", function() { return reducer; });
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/api-javascript-client */ "../../node_modules/@cinerino/api-javascript-client/lib/index.js");
-/* harmony import */ var _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../.. */ "./app/index.ts");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./app/store/actions/index.ts");
@@ -86912,7 +86921,7 @@ function reducer(initialState, action) {
                     const movieTicket = r.ticket.movieTicket;
                     movieTicket.serviceOutput = {
                         reservationFor: {
-                            typeOf: _cinerino_api_javascript_client__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.eventType.ScreeningEvent,
+                            typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__["factory"].chevre.eventType.ScreeningEvent,
                             id: pendingReservation.reservationFor.id
                         },
                         reservedTicket: { ticketedSeat: pendingReservation.reservedTicket.ticketedSeat }

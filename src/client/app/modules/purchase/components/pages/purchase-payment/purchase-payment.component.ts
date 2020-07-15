@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ import * as reducers from '../../../../../store/reducers';
 })
 export class PurchasePaymentComponent implements OnInit {
     public user: Observable<reducers.IUserState>;
-    public paymentMethodType = factory.paymentMethodType;
+    public paymentMethodType = factory.chevre.paymentMethodType;
     public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
 
@@ -36,7 +36,7 @@ export class PurchasePaymentComponent implements OnInit {
      * 決済方法選択
      */
     public async selectPaymentMethodType(
-        typeOf: factory.paymentMethodType,
+        typeOf: factory.chevre.paymentMethodType,
         category?: string
     ) {
         try {
@@ -65,7 +65,7 @@ export class PurchasePaymentComponent implements OnInit {
     /**
      * 表示判定
      */
-    public isDisplay(paymentMethodType: factory.paymentMethodType | string) {
+    public isDisplay(paymentMethodType: factory.chevre.paymentMethodType | string) {
         const findResult = this.environment.PAYMENT_METHOD_TO_USE.find(p => p === paymentMethodType);
         return (findResult !== undefined);
     }

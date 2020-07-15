@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -88,11 +88,14 @@ export class InquiryConfirmComponent implements OnInit {
                 throw new Error('printer undefined');
             }
             // 二重発券防止
-            const reservationNumbers = orderData.order.acceptedOffers.map((offers) => {
-                if (offers.itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+            const reservationNumbers = orderData.order.acceptedOffers.map((o) => {
+                if (o.itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
                     return '';
                 }
-                return offers.itemOffered.reservationNumber;
+                const itemOffered = <factory.chevre.reservation.IReservation<
+                    factory.chevre.reservationType.EventReservation
+                >>o.itemOffered;
+                return itemOffered.reservationNumber;
             });
             const searchResult = await this.reservationService.search({
                 typeOf: factory.chevre.reservationType.EventReservation,

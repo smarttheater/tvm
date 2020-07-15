@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { factory } from '@cinerino/api-javascript-client';
+import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -24,7 +24,7 @@ export class PurchaseCompleteComponent implements OnInit {
     public eventOrders: Functions.Purchase.IEventOrder[];
     public environment = getEnvironment();
     public qrcode?: string;
-    public paymentMethodType = factory.paymentMethodType;
+    public paymentMethodType = factory.chevre.paymentMethodType;
     public getCustomPaymentMethodTypeName = Functions.Purchase.getCustomPaymentMethodTypeName;
     public connectionType = Models.Util.Printer.ConnectionType;
     public createOrderLink = Functions.Order.createOrderLink;

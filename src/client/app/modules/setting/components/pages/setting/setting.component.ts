@@ -278,7 +278,28 @@ export class SettingComponent implements OnInit {
      * 必須判定
      */
     public isRequired(key: String) {
+        if (key === 'theaterBranchCode') {
+            return true;
+        }
         return this.environment.PROFILE.find(p => p.key === key && p.required) !== undefined;
+    }
+
+    /**
+     * 購入者情報フォームのコントロールkeyを配列で返却
+     */
+    public getProfileFormKeys() {
+        return Object.keys(this.settingForm.controls).filter(key => {
+            return (key !== 'printerType'
+            && key !== 'printerIpAddress'
+            && !/payment/.test(key));
+        });
+    }
+
+    /**
+     * 追加特性項目取得
+     */
+    public getAdditionalProperty(key: string) {
+        return this.environment.PROFILE.find(p => /additionalProperty/.test(p.key) && p.key === key);
     }
 
 }

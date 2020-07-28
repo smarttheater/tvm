@@ -3461,10 +3461,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           var result = false;
 
           switch (status) {
-            case 'window':
-              result = false;
-              break;
-
             case 'start':
               result = now < validFrom;
               break;

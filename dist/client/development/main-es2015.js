@@ -2116,9 +2116,6 @@ class Performance {
         const validThrough = moment__WEBPACK_IMPORTED_MODULE_0__(offers.validThrough).unix();
         let result = false;
         switch (status) {
-            case 'window':
-                result = false;
-                break;
             case 'start':
                 result = now < validFrom;
                 break;

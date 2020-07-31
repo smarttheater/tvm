@@ -81904,7 +81904,7 @@ function ScreenComponent_div_7_div_7_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassMapInterpolate2"]("seat ", seat_r14.className, " ", seat_r14.status, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngStyle", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction4"](6, _c4, seat_r14.y, seat_r14.x, seat_r14.w, seat_r14.h));
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](seat_r14.code);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](seat_r14.code.replace("-", ""));
 } }
 const _c5 = function (a0, a1) { return { "top.px": a0, "left.px": a1 }; };
 function ScreenComponent_div_7_div_7_Template(rf, ctx) { if (rf & 1) {
@@ -85899,27 +85899,16 @@ class OrderEffects {
                         authorizeOrders.push(result);
                     }
                 }
-                let printData;
-                if (environment.PRINT_DATA === 'JSON') {
-                    const path = '/json/print/ticket.json';
-                    const url = (yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.isFile(`${___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.getProject().storageUrl}${path}`))
-                        ? `${___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.getProject().storageUrl}${path}`
-                        : `/default${path}`;
-                    printData = yield this.utilService.getJson(url);
-                }
-                else {
-                    const path = `/ejs/print/ticket.ejs`;
-                    const url = (yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.isFile(`${___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.getProject().storageUrl}${path}`))
-                        ? `${___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.getProject().storageUrl}${path}`
-                        : `/default${path}`;
-                    printData = yield this.utilService.getText(url);
-                }
                 const testFlg = authorizeOrders.length === 0;
+                const path = `/ejs/print/ticket.ejs`;
+                const url = (testFlg) ? '/default//ejs/print/test.ejs'
+                    : (yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.isFile(`${___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.getProject().storageUrl}${path}`))
+                        ? `${___WEBPACK_IMPORTED_MODULE_5__["Functions"].Util.getProject().storageUrl}${path}`
+                        : `/default${path}`;
+                const printData = yield this.utilService.getText(url);
                 const canvasList = [];
                 if (testFlg) {
-                    const canvas = (environment.PRINT_DATA === 'JSON')
-                        ? yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.createTestPrintCanvas({ printData: printData })
-                        : yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.createTestPrintCanvas4Html();
+                    const canvas = yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.createTestPrintCanvas4Html({ view: printData });
                     canvasList.push(canvas);
                 }
                 else {
@@ -85973,12 +85962,9 @@ class OrderEffects {
                                 qrcode = qrcode
                                     .replace(/\{\{ startDate \| YYMMDD \}\}/g, moment__WEBPACK_IMPORTED_MODULE_3__(itemOffered.reservationFor.startDate).format('YYMMDD'));
                             }
-                            const canvas = (environment.PRINT_DATA === 'JSON')
-                                ? yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.createPrintCanvas({
-                                    printData: printData,
-                                    order, acceptedOffer, pos, qrcode, index
-                                })
-                                : yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.createPrintCanvas4Html({ view: printData, order, pos, qrcode, index });
+                            const canvas = yield ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Order.createPrintCanvas4Html({
+                                view: printData, order, pos, qrcode, index
+                            });
                             canvasList.push(canvas);
                             index++;
                         }

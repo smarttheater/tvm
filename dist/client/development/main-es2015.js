@@ -606,15 +606,9 @@ function createTestPrintCanvas(args) {
 /**
  * テスト印刷用イメージ作成
  */
-function createTestPrintCanvas4Html() {
+function createTestPrintCanvas4Html(params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const view = `<div style="width: 560px;">
-    <div class="py-5 text-center" style="font-size: 30px;">
-    <p class="mb-3"><img width="400" height="64" src="/default/images/print/logo.png"></p>
-    <p class="mb-3">Test print</p>
-    <p><%= moment().tz('Asia/Tokyo').locale('ja').format('YYYY/MM/DD HH:mm:ss') %></p>
-    </div>
-    </div>`;
+        const view = params.view;
         const template = yield window.ejs.render(view, { moment: moment__WEBPACK_IMPORTED_MODULE_2__ }, { async: true });
         const div = document.createElement('div');
         div.className = 'position-absolute';
@@ -2523,7 +2517,6 @@ const defaultEnvironment = {
     PRINT_QRCODE_TYPE: 'token',
     PRINT_QRCODE_CUSTOM: '',
     PRINT_LOADING: true,
-    PRINT_DATA: 'HTML'
 };
 function getEnvironment() {
     const environment = Object.assign(Object.assign(Object.assign({}, defaultEnvironment), window.environment), { production: isProduction });

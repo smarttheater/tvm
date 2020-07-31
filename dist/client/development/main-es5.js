@@ -1023,14 +1023,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
      */
 
 
-    function createTestPrintCanvas4Html() {
+    function createTestPrintCanvas4Html(params) {
       return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var view, template, div, canvas;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                view = "<div style=\"width: 560px;\">\n    <div class=\"py-5 text-center\" style=\"font-size: 30px;\">\n    <p class=\"mb-3\"><img width=\"400\" height=\"64\" src=\"/default/images/print/logo.png\"></p>\n    <p class=\"mb-3\">Test print</p>\n    <p><%= moment().tz('Asia/Tokyo').locale('ja').format('YYYY/MM/DD HH:mm:ss') %></p>\n    </div>\n    </div>";
+                view = params.view;
                 _context5.next = 3;
                 return window.ejs.render(view, {
                   moment: moment__WEBPACK_IMPORTED_MODULE_2__
@@ -4028,8 +4028,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       ORDER_LINK: [],
       PRINT_QRCODE_TYPE: 'token',
       PRINT_QRCODE_CUSTOM: '',
-      PRINT_LOADING: true,
-      PRINT_DATA: 'HTML'
+      PRINT_LOADING: true
     };
 
     function getEnvironment() {

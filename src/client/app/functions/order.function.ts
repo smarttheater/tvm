@@ -295,14 +295,8 @@ export async function createTestPrintCanvas(args: { printData: ITicketPrintData 
 /**
  * テスト印刷用イメージ作成
  */
-export async function createTestPrintCanvas4Html() {
-    const view = `<div style="width: 560px;">
-    <div class="py-5 text-center" style="font-size: 30px;">
-    <p class="mb-3"><img width="400" height="64" src="/default/images/print/logo.png"></p>
-    <p class="mb-3">Test print</p>
-    <p><%= moment().tz('Asia/Tokyo').locale('ja').format('YYYY/MM/DD HH:mm:ss') %></p>
-    </div>
-    </div>`;
+export async function createTestPrintCanvas4Html(params: { view: string; }) {
+    const view = params.view;
     const template = await (<any>window).ejs.render(view, { moment }, { async: true });
     const div = document.createElement('div');
     div.className = 'position-absolute';

@@ -9020,7 +9020,9 @@
           key: "ngOnInit",
           value: function ngOnInit() {
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
-              var purchase, screeningEvent, seller;
+              var _this11 = this;
+
+              var purchase, screeningEvent, seller, reservations;
               return regeneratorRuntime.wrap(function _callee29$(_context29) {
                 while (1) {
                   switch (_context29.prev = _context29.next) {
@@ -9048,7 +9050,22 @@
                       return _context29.abrupt("return");
 
                     case 14:
-                      _context29.next = 16;
+                      reservations = purchase.reservations;
+                      _context29.next = 17;
+                      return this.resetSeats();
+
+                    case 17:
+                      reservations.forEach(function (r) {
+                        if (r.seat === undefined) {
+                          return;
+                        }
+
+                        _this11.selectSeat({
+                          seat: r.seat,
+                          status: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Screen.SeatStatus.Default
+                        });
+                      });
+                      _context29.next = 20;
                       return this.purchaseService.getScreen({
                         branchCode: {
                           $eq: screeningEvent.location.branchCode
@@ -9060,33 +9077,33 @@
                         }
                       });
 
-                    case 16:
-                      _context29.next = 18;
+                    case 20:
+                      _context29.next = 22;
                       return this.purchaseService.getScreeningEventSeats();
 
-                    case 18:
+                    case 22:
                       this.screeningEventSeats = _context29.sent;
-                      _context29.next = 21;
+                      _context29.next = 25;
                       return this.purchaseService.getTicketList({
                         seller: seller
                       });
 
-                    case 21:
-                      _context29.next = 27;
+                    case 25:
+                      _context29.next = 31;
                       break;
 
-                    case 23:
-                      _context29.prev = 23;
+                    case 27:
+                      _context29.prev = 27;
                       _context29.t0 = _context29["catch"](5);
                       console.error(_context29.t0);
                       this.router.navigate(['/error']);
 
-                    case 27:
+                    case 31:
                     case "end":
                       return _context29.stop();
                   }
                 }
-              }, _callee29, this, [[5, 23]]);
+              }, _callee29, this, [[5, 27]]);
             }));
           }
           /**
@@ -9688,7 +9705,7 @@
           key: "openTicketList",
           value: function openTicketList(reservation) {
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee35() {
-              var _this11 = this;
+              var _this12 = this;
 
               var purchase;
               return regeneratorRuntime.wrap(function _callee35$(_context35) {
@@ -9716,12 +9733,12 @@
                                 return r.ticket = ticket;
                               });
 
-                              _this11.purchaseService.selectTickets(reservations);
+                              _this12.purchaseService.selectTickets(reservations);
 
                               return;
                             }
 
-                            _this11.purchaseService.selectTickets([Object.assign(Object.assign({}, reservation), {
+                            _this12.purchaseService.selectTickets([Object.assign(Object.assign({}, reservation), {
                               ticket: ticket
                             })]);
                           }
@@ -12109,12 +12126,12 @@
         }, {
           key: "update",
           value: function update() {
-            var _this12 = this;
+            var _this13 = this;
 
             this.updateProcess();
             var time = 1000;
             this.timer = setTimeout(function () {
-              _this12.update();
+              _this13.update();
             }, time);
           }
         }, {

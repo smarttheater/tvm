@@ -74,7 +74,7 @@
             [disabled]="(order | async)?.order.orderStatus !== orderStatus.OrderDelivered" type="button"
             class="btn btn-primary btn-block py-3 mb-3" (click)="print()"
             [disabled]="isLoading | async">{{ 'inquiry.confirm.next' | translate }}</button>
-        <button type="button" class="btn btn-link"
+        <button type="button" class="btn btn-outline-primary btn-block py-3"
             routerLink="/inquiry/input">{{ 'inquiry.confirm.prev' | translate }}</button>
     </div>
 

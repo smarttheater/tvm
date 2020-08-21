@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { PurchaseService, UserService } from '../../../../../services';
+import { ActionService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -29,8 +29,7 @@ export class PurchaseConfirmComponent implements OnInit {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private purchaseService: PurchaseService,
-        private userService: UserService,
+        private actionService: ActionService,
     ) { }
 
     public async ngOnInit() {
@@ -40,7 +39,7 @@ export class PurchaseConfirmComponent implements OnInit {
         this.amount = 0;
         this.depositAmount = 0;
         try {
-            const purchase = await this.purchaseService.getData();
+            const purchase = await this.actionService.purchase.getData();
             this.amount = Functions.Purchase.getAmount(purchase.authorizeSeatReservations);
         } catch (error) {
             console.error(error);
@@ -56,8 +55,8 @@ export class PurchaseConfirmComponent implements OnInit {
             this.router.navigate(['/purchase/payment']);
             return;
         }
-        const purchaseData = await this.purchaseService.getData();
-        const userData = await this.userService.getData();
+        const purchaseData = await this.actionService.purchase.getData();
+        const userData = await this.actionService.user.getData();
         const profile = userData.customerContact;
         const seller = purchaseData.seller;
         if (profile === undefined
@@ -67,11 +66,11 @@ export class PurchaseConfirmComponent implements OnInit {
         }
         try {
             if (purchaseData.pendingMovieTickets.length > 0) {
-                await this.purchaseService.authorizeMovieTicket({ seller });
+                await this.actionService.purchase.authorizeMovieTicket({ seller });
             }
-            await this.purchaseService.authorizeAnyPayment({ amount: this.amount });
-            await this.purchaseService.registerContact(profile);
-            await this.purchaseService.endTransaction({ seller, language: userData.language });
+            await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount });
+            await this.actionService.purchase.registerContact(profile);
+            await this.actionService.purchase.endTransaction({ seller, language: userData.language });
             this.router.navigate(['/purchase/complete']);
         } catch (error) {
             console.error(error);

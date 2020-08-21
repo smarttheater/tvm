@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { EpsonEPOSService, PaymentService, PurchaseService, UserService, UtilService, } from '../../../../../services';
+import { ActionService, EpsonEPOSService, PaymentService, UtilService, } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -27,9 +27,8 @@ export class PurchasePaymentReceptionComponent implements OnInit {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private userService: UserService,
+        private actionService: ActionService,
         private utilService: UtilService,
-        private purchaseService: PurchaseService,
         private epsonEPOSService: EpsonEPOSService,
         private paymentService: PaymentService,
     ) { }
@@ -40,7 +39,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         this.user = this.store.pipe(select(reducers.getUser));
         this.amount = 0;
         try {
-            const purchase = await this.purchaseService.getData();
+            const purchase = await this.actionService.purchase.getData();
             this.amount = Functions.Purchase.getAmount(purchase.authorizeSeatReservations);
             if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金
@@ -70,7 +69,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      */
     private async cash() {
         this.deposit = 0;
-        const user = await this.userService.getData();
+        const user = await this.actionService.user.getData();
         if (user.payment === undefined
             || user.payment.cash === undefined) {
             throw new Error('payment undefined');
@@ -90,7 +89,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * クレジットカード
      */
     private async creditcard() {
-        const user = await this.userService.getData();
+        const user = await this.actionService.user.getData();
         if (user.payment === undefined
             || user.payment.creditcard === undefined) {
             throw new Error('payment undefined');
@@ -127,7 +126,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * 電子マネー
      */
     private async eMoney() {
-        const user = await this.userService.getData();
+        const user = await this.actionService.user.getData();
         if (user.payment === undefined
             || user.payment.emoney === undefined) {
             throw new Error('payment undefined');
@@ -164,7 +163,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * コード
      */
     private async code() {
-        const user = await this.userService.getData();
+        const user = await this.actionService.user.getData();
         if (user.payment === undefined
             || user.payment.code === undefined) {
             throw new Error('payment undefined');
@@ -201,8 +200,8 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * 確定
      */
     public async onSubmit() {
-        const purchaseData = await this.purchaseService.getData();
-        const userData = await this.userService.getData();
+        const purchaseData = await this.actionService.purchase.getData();
+        const userData = await this.actionService.user.getData();
         const profile = userData.customerContact;
         const seller = purchaseData.seller;
         const paymentMethod = purchaseData.paymentMethod;
@@ -213,11 +212,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         }
         try {
             if (purchaseData.pendingMovieTickets.length > 0) {
-                await this.purchaseService.authorizeMovieTicket({ seller });
+                await this.actionService.purchase.authorizeMovieTicket({ seller });
             }
-            await this.purchaseService.authorizeAnyPayment({ amount: this.amount });
-            await this.purchaseService.registerContact(profile);
-            await this.purchaseService.endTransaction({ seller, language: userData.language });
+            await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount });
+            await this.actionService.purchase.registerContact(profile);
+            await this.actionService.purchase.endTransaction({ seller, language: userData.language });
             this.utilService.loadStart({ process: 'load' });
             if (purchaseData.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金
@@ -242,7 +241,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
     public async prev() {
         try {
             this.utilService.loadStart({ process: 'load' });
-            const purchase = await this.purchaseService.getData();
+            const purchase = await this.actionService.purchase.getData();
             if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金
                 await this.epsonEPOSService.cashchanger.endDepositRepay();

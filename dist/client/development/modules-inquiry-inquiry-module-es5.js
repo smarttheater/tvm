@@ -408,14 +408,13 @@
       }
 
       var InquiryConfirmComponent = /*#__PURE__*/function () {
-        function InquiryConfirmComponent(store, router, userService, utilService, orderService, reservationService, translate) {
+        function InquiryConfirmComponent(store, router, actionService, utilService, reservationService, translate) {
           _classCallCheck(this, InquiryConfirmComponent);
 
           this.store = store;
           this.router = router;
-          this.userService = userService;
+          this.actionService = actionService;
           this.utilService = utilService;
-          this.orderService = orderService;
           this.reservationService = reservationService;
           this.translate = translate;
           this.moment = moment__WEBPACK_IMPORTED_MODULE_5__;
@@ -490,12 +489,12 @@
 
                       _context.prev = 7;
                       _context.next = 10;
-                      return this.orderService.getData();
+                      return this.actionService.order.getData();
 
                     case 10:
                       orderData = _context.sent;
                       _context.next = 13;
-                      return this.userService.getData();
+                      return this.actionService.user.getData();
 
                     case 13:
                       user = _context.sent;
@@ -555,7 +554,7 @@
                       pos = user.pos;
                       printer = user.printer;
                       _context.next = 32;
-                      return this.orderService.print({
+                      return this.actionService.order.print({
                         orders: orders,
                         pos: pos,
                         printer: printer
@@ -589,7 +588,7 @@
       }();
 
       InquiryConfirmComponent.ɵfac = function InquiryConfirmComponent_Factory(t) {
-        return new (t || InquiryConfirmComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["OrderService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ReservationService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]));
+        return new (t || InquiryConfirmComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ReservationService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]));
       };
 
       InquiryConfirmComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
@@ -812,11 +811,9 @@
           }, {
             type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]
           }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_8__["UserService"]
+            type: _services__WEBPACK_IMPORTED_MODULE_8__["ActionService"]
           }, {
             type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]
-          }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_8__["OrderService"]
           }, {
             type: _services__WEBPACK_IMPORTED_MODULE_8__["ReservationService"]
           }, {
@@ -1219,13 +1216,13 @@
       }
 
       var InquiryInputComponent = /*#__PURE__*/function () {
-        function InquiryInputComponent(store, formBuilder, utilService, orderService, router, translate) {
+        function InquiryInputComponent(store, formBuilder, utilService, actionService, router, translate) {
           _classCallCheck(this, InquiryInputComponent);
 
           this.store = store;
           this.formBuilder = formBuilder;
           this.utilService = utilService;
-          this.orderService = orderService;
+          this.actionService = actionService;
           this.router = router;
           this.translate = translate;
           this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_6__["getEnvironment"])();
@@ -1310,7 +1307,7 @@
                       confirmationNumber = this.inquiryForm.controls.confirmationNumber.value;
                       telephone = this.inquiryForm.controls.telephone.value;
                       _context2.next = 10;
-                      return this.orderService.inquiry({
+                      return this.actionService.order.inquiry({
                         confirmationNumber: confirmationNumber,
                         customer: {
                           telephone: telephone
@@ -1362,7 +1359,7 @@
       }();
 
       InquiryInputComponent.ɵfac = function InquiryInputComponent_Factory(t) {
-        return new (t || InquiryInputComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["OrderService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]));
+        return new (t || InquiryInputComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]));
       };
 
       InquiryInputComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
@@ -1544,7 +1541,7 @@
           }, {
             type: _services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]
           }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_7__["OrderService"]
+            type: _services__WEBPACK_IMPORTED_MODULE_7__["ActionService"]
           }, {
             type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]
           }, {

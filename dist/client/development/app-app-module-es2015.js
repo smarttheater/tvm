@@ -69091,16 +69091,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class ErrorComponent {
-    constructor(store, purchaseService) {
+    constructor(store, actionService) {
         this.store = store;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
     }
     ngOnInit() {
         this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_3__["getError"]));
-        this.purchaseService.delete();
+        this.actionService.purchase.delete();
     }
 }
-ErrorComponent.ɵfac = function ErrorComponent_Factory(t) { return new (t || ErrorComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_2__["PurchaseService"])); };
+ErrorComponent.ɵfac = function ErrorComponent_Factory(t) { return new (t || ErrorComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_2__["ActionService"])); };
 ErrorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ErrorComponent, selectors: [["app-error"]], decls: 15, vars: 12, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [1, "mb-4"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "p-3", "bg-white", "select-text"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", "routerLink", "/", 1, "btn", "btn-link"]], template: function ErrorComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -69141,7 +69141,7 @@ ErrorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCom
                 templateUrl: './error.component.html',
                 styleUrls: ['./error.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"] }, { type: _services__WEBPACK_IMPORTED_MODULE_2__["PurchaseService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"] }, { type: _services__WEBPACK_IMPORTED_MODULE_2__["ActionService"] }]; }, null); })();
 
 
 /***/ }),
@@ -69167,14 +69167,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class ExpiredComponent {
-    constructor(purchaseService) {
-        this.purchaseService = purchaseService;
+    constructor(actionService) {
+        this.actionService = actionService;
     }
     ngOnInit() {
-        this.purchaseService.delete();
+        this.actionService.purchase.delete();
     }
 }
-ExpiredComponent.ɵfac = function ExpiredComponent_Factory(t) { return new (t || ExpiredComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_1__["PurchaseService"])); };
+ExpiredComponent.ɵfac = function ExpiredComponent_Factory(t) { return new (t || ExpiredComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_1__["ActionService"])); };
 ExpiredComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ExpiredComponent, selectors: [["app-expired"]], decls: 11, vars: 9, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [1, "mb-4"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", "routerLink", "/", 1, "btn", "btn-link"]], template: function ExpiredComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -69207,7 +69207,7 @@ ExpiredComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
                 templateUrl: './expired.component.html',
                 styleUrls: ['./expired.component.scss']
             }]
-    }], function () { return [{ type: _services__WEBPACK_IMPORTED_MODULE_1__["PurchaseService"] }]; }, null); })();
+    }], function () { return [{ type: _services__WEBPACK_IMPORTED_MODULE_1__["ActionService"] }]; }, null); })();
 
 
 /***/ }),
@@ -69743,14 +69743,14 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 const _c0 = ["*"];
 class ContentsComponent {
-    constructor(router, elementRef, userService) {
+    constructor(router, elementRef, actionService) {
         this.router = router;
         this.elementRef = elementRef;
-        this.userService = userService;
+        this.actionService = actionService;
     }
     ngOnInit() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.userService.checkVersion();
+            yield this.actionService.user.checkVersion();
             this.router.events.subscribe(event => {
                 if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationEnd"]) {
                     const element = this.elementRef.nativeElement.querySelector('.scroll');
@@ -69765,7 +69765,7 @@ class ContentsComponent {
         });
     }
 }
-ContentsComponent.ɵfac = function ContentsComponent_Factory(t) { return new (t || ContentsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_2__["UserService"])); };
+ContentsComponent.ɵfac = function ContentsComponent_Factory(t) { return new (t || ContentsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_2__["ActionService"])); };
 ContentsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ContentsComponent, selectors: [["app-contents"]], inputs: { touch: "touch" }, ngContentSelectors: _c0, decls: 2, vars: 2, consts: [["id", "contents", 1, "scroll"]], template: function ContentsComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵprojectionDef"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -69781,7 +69781,7 @@ ContentsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
                 templateUrl: './contents.component.html',
                 styleUrls: ['./contents.component.scss']
             }]
-    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }, { type: _services__WEBPACK_IMPORTED_MODULE_2__["UserService"] }]; }, { touch: [{
+    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }, { type: _services__WEBPACK_IMPORTED_MODULE_2__["ActionService"] }]; }, { touch: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }] }); })();
 
@@ -70223,10 +70223,10 @@ function HeaderComponent_div_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("active", ctx_r1.isMenuOpen);
 } }
 class HeaderComponent {
-    constructor(store, translate, userService) {
+    constructor(store, translate, actionService) {
         this.store = store;
         this.translate = translate;
-        this.userService = userService;
+        this.actionService = actionService;
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["getEnvironment"])();
     }
     ngOnInit() {
@@ -70246,7 +70246,7 @@ class HeaderComponent {
     changeLanguage() {
         this.translate.use(this.language);
         const language = this.language;
-        this.userService.updateLanguage(language);
+        this.actionService.user.updateLanguage(language);
     }
     getLanguageName(key) {
         return ___WEBPACK_IMPORTED_MODULE_3__["Models"].Util.Language[key];
@@ -70265,7 +70265,7 @@ class HeaderComponent {
         this.imageUrl.sp = '/default/images/logo-sp.svg';
     }
 }
-HeaderComponent.ɵfac = function HeaderComponent_Factory(t) { return new (t || HeaderComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_5__["UserService"])); };
+HeaderComponent.ɵfac = function HeaderComponent_Factory(t) { return new (t || HeaderComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_5__["ActionService"])); };
 HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: HeaderComponent, selectors: [["app-header"]], decls: 9, vars: 5, consts: [[1, "fixed-top", "text-white", "border-bottom", "border-gray"], [1, "header", "contents-width", "mx-auto", "d-flex", "align-items-center", "justify-content-between", "px-3"], [1, "logo"], ["alt", "", 1, "d-none", "d-md-block", "h-100", 3, "src", "error"], ["alt", "", 1, "d-md-none", "h-100", 3, "src", "error"], [1, "d-flex", "align-items-center"], ["class", "mr-3 d-flex align-items-center", 4, "ngIf"], ["class", "menu-button pointer", 3, "active", "click", 4, "ngIf"], [3, "isOpen", "close"], [1, "mr-3", "d-flex", "align-items-center"], [1, "form-control", "border-0", 3, "ngModel", "ngModelChange", "change"], [3, "value", 4, "ngFor", "ngForOf"], [3, "value"], [1, "menu-button", "pointer", 3, "click"]], template: function HeaderComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "header", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -70305,7 +70305,7 @@ HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
                 templateUrl: './header.component.html',
                 styleUrls: ['./header.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_5__["UserService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_5__["ActionService"] }]; }, null); })();
 
 
 /***/ }),
@@ -70914,14 +70914,13 @@ function MvtkCheckModalComponent_div_21_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r3.mvtkForm.controls.password.errors == null ? null : ctx_r3.mvtkForm.controls.password.errors.required);
 } }
 class MvtkCheckModalComponent {
-    constructor(modal, store, formBuilder, purchaseService, translate, qrcodeService, userService) {
+    constructor(modal, store, formBuilder, actionService, translate, qrcodeService) {
         this.modal = modal;
         this.store = store;
         this.formBuilder = formBuilder;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
         this.translate = translate;
         this.qrcodeService = qrcodeService;
-        this.userService = userService;
     }
     ngOnInit() {
         this.errorMessage = '';
@@ -70959,18 +70958,18 @@ class MvtkCheckModalComponent {
             }
             this.errorMessage = '';
             try {
-                const seller = (yield this.purchaseService.getData()).seller;
+                const seller = (yield this.actionService.purchase.getData()).seller;
                 if (seller === undefined) {
                     throw new Error('seller undefined');
                 }
-                yield this.purchaseService.checkMovieTicket({
+                yield this.actionService.purchase.checkMovieTicket({
                     movieTicket: {
                         code: this.mvtkForm.controls.code.value,
                         password: this.mvtkForm.controls.password.value
                     },
                     seller
                 });
-                const purchase = yield this.purchaseService.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 const checkMovieTicketAction = purchase.checkMovieTicketAction;
                 if (checkMovieTicketAction === undefined
                     || checkMovieTicketAction.result === undefined
@@ -70995,7 +70994,7 @@ class MvtkCheckModalComponent {
                     return;
                 }
                 this.createMvtkForm();
-                const user = yield this.userService.getData();
+                const user = yield this.actionService.user.getData();
                 const screeningEventTicketOffers = purchase.screeningEventTicketOffers;
                 const movieTicketTypeOffers = ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Purchase.getMovieTicketTypeOffers({ screeningEventTicketOffers });
                 this.successMessage = this.translate.instant('modal.mvtk.check.success');
@@ -71046,7 +71045,7 @@ class MvtkCheckModalComponent {
         });
     }
 }
-MvtkCheckModalComponent.ɵfac = function MvtkCheckModalComponent_Factory(t) { return new (t || MvtkCheckModalComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["QRCodeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UserService"])); };
+MvtkCheckModalComponent.ɵfac = function MvtkCheckModalComponent_Factory(t) { return new (t || MvtkCheckModalComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["QRCodeService"])); };
 MvtkCheckModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MvtkCheckModalComponent, selectors: [["app-mvtk-check-modal"]], decls: 30, vars: 22, consts: [[1, "p-3", "scroll-vertical"], [3, "formGroup"], [1, "mb-4"], ["class", "mb-3 p-2 alert alert-danger", 3, "innerHTML", 4, "ngIf"], ["class", "mb-3 p-2 alert alert-success", 3, "innerHTML", 4, "ngIf"], [1, "form-group"], ["for", "", 1, "mb-2"], [1, "input-group"], ["type", "text", "formControlName", "code", "id", "code", "autocomplete", "off", "placeholder", "012345789", "maxlength", "10", 1, "form-control"], [1, "input-group-append", 3, "click"], [1, "input-group-text"], [1, "fas", "fa-qrcode"], ["class", "mt-2", 4, "ngIf"], ["type", "password", "formControlName", "password", "id", "password", "autocomplete", "off", "placeholder", "0123", 1, "form-control"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-link", "btn-sm", 3, "click"], [1, "mb-3", "p-2", "alert", "alert-danger", 3, "innerHTML"], [1, "mb-3", "p-2", "alert", "alert-success", 3, "innerHTML"], [1, "mt-2"], ["class", "text-danger", 4, "ngIf"], [1, "text-danger"]], template: function MvtkCheckModalComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "form", 1);
@@ -71126,7 +71125,7 @@ MvtkCheckModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
                 templateUrl: './check-modal.component.html',
                 styleUrls: ['./check-modal.component.scss']
             }]
-    }], function () { return [{ type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["QRCodeService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UserService"] }]; }, null); })();
+    }], function () { return [{ type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["ActionService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["QRCodeService"] }]; }, null); })();
 
 
 /***/ }),
@@ -74284,6 +74283,815 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjec
 
 /***/ }),
 
+/***/ "./app/services/action.service.ts":
+/*!****************************************!*\
+  !*** ./app/services/action.service.ts ***!
+  \****************************************/
+/*! exports provided: ActionService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ActionService", function() { return ActionService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _action_order_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./action/order.service */ "./app/services/action/order.service.ts");
+/* harmony import */ var _action_purchase_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./action/purchase.service */ "./app/services/action/purchase.service.ts");
+/* harmony import */ var _action_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./action/user.service */ "./app/services/action/user.service.ts");
+
+
+
+
+
+
+
+
+class ActionService {
+    constructor(order, purchase, user) {
+        this.order = order;
+        this.purchase = purchase;
+        this.user = user;
+    }
+}
+ActionService.ɵfac = function ActionService_Factory(t) { return new (t || ActionService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_action_order_service__WEBPACK_IMPORTED_MODULE_1__["OrderService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_action_purchase_service__WEBPACK_IMPORTED_MODULE_2__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_action_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"])); };
+ActionService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: ActionService, factory: ActionService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ActionService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: _action_order_service__WEBPACK_IMPORTED_MODULE_1__["OrderService"] }, { type: _action_purchase_service__WEBPACK_IMPORTED_MODULE_2__["PurchaseService"] }, { type: _action_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "./app/services/action/order.service.ts":
+/*!**********************************************!*\
+  !*** ./app/services/action/order.service.ts ***!
+  \**********************************************/
+/*! exports provided: OrderService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderService", function() { return OrderService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "../../node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../.. */ "./app/index.ts");
+/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../store/actions */ "./app/store/actions/index.ts");
+/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../store/reducers */ "./app/store/reducers/index.ts");
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../cinerino.service */ "./app/services/cinerino.service.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../util.service */ "./app/services/util.service.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class OrderService {
+    constructor(store, actions, cinerinoService, utilService) {
+        this.store = store;
+        this.actions = actions;
+        this.cinerinoService = cinerinoService;
+        this.utilService = utilService;
+        this.order = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getOrder"]));
+        this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getError"]));
+    }
+    /**
+     * 注文データ取得
+     */
+    getData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                this.order.subscribe((order) => {
+                    resolve(order);
+                }).unsubscribe();
+            });
+        });
+    }
+    /**
+     * 注文データ削除
+     */
+    delete() {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].remove());
+    }
+    /**
+     * 注文検索
+     */
+    search(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.utilService.loadStart({ process: 'orderAction.Search' });
+                yield this.cinerinoService.getServices();
+                const searchResult = yield this.cinerinoService.order.search(params);
+                this.utilService.loadEnd();
+                return searchResult;
+            }
+            catch (error) {
+                this.utilService.setError(error);
+                this.utilService.loadEnd();
+                throw error;
+            }
+        });
+    }
+    /**
+     * 分割検索
+     */
+    splitSearch(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.utilService.loadStart({ process: 'orderAction.Search' });
+                yield this.cinerinoService.getServices();
+                let orders = [];
+                const splitDay = 1;
+                const splitCount = Math.ceil(moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).diff(moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateFrom), 'days') / splitDay);
+                for (let i = 0; i < splitCount; i++) {
+                    const limit = 10;
+                    let page = 1;
+                    let roop = true;
+                    const orderDateThrough = moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).add(-1 * splitDay * i, 'days').toDate();
+                    const orderDateFrom = (moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).add(-1 * splitDay * (i + 1), 'days').toDate() > moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateFrom).toDate())
+                        ? moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).add(-1 * splitDay * (i + 1), 'days').toDate()
+                        : moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateFrom).toDate();
+                    while (roop) {
+                        params.limit = limit;
+                        params.page = page;
+                        const searchResult = yield this.cinerinoService.order.search(Object.assign(Object.assign({}, params), { orderDateThrough, orderDateFrom }));
+                        orders = orders.concat(searchResult.data);
+                        page++;
+                        roop = searchResult.data.length === limit;
+                        yield ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Util.sleep(500);
+                    }
+                }
+                this.utilService.loadEnd();
+                return { data: orders, totalCount: orders.length };
+            }
+            catch (error) {
+                this.utilService.setError(error);
+                this.utilService.loadEnd();
+                throw error;
+            }
+        });
+    }
+    /**
+     * 注文照会
+     */
+    inquiry(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].inquiry(params));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].inquirySuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].inquiryFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 注文印刷
+     */
+    print(prams) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                const orders = prams.orders;
+                const pos = prams.pos;
+                const printer = prams.printer;
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].print({ orders, pos, printer }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].printSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].printFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 注文承認
+     */
+    authorize(order) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].orderAuthorize({
+                    orderNumber: order.orderNumber,
+                    customer: {
+                        telephone: order.customer.telephone
+                    }
+                }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].orderAuthorizeSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].orderAuthorizeFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe();
+            });
+        });
+    }
+}
+OrderService.ɵfac = function OrderService_Factory(t) { return new (t || OrderService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["Actions"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_9__["CinerinoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_10__["UtilService"])); };
+OrderService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: OrderService, factory: OrderService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](OrderService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["Actions"] }, { type: _cinerino_service__WEBPACK_IMPORTED_MODULE_9__["CinerinoService"] }, { type: _util_service__WEBPACK_IMPORTED_MODULE_10__["UtilService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "./app/services/action/purchase.service.ts":
+/*!*************************************************!*\
+  !*** ./app/services/action/purchase.service.ts ***!
+  \*************************************************/
+/*! exports provided: PurchaseService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseService", function() { return PurchaseService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
+/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "../../node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../.. */ "./app/index.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../environments/environment */ "./environments/environment.ts");
+/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../store/actions */ "./app/store/actions/index.ts");
+/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../store/reducers */ "./app/store/reducers/index.ts");
+/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../cinerino.service */ "./app/services/cinerino.service.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../util.service */ "./app/services/util.service.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class PurchaseService {
+    constructor(actions, store, utilService, cinerinoService) {
+        this.actions = actions;
+        this.store = store;
+        this.utilService = utilService;
+        this.cinerinoService = cinerinoService;
+        this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getPurchase"]));
+        this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getError"]));
+    }
+    /**
+     * 購入データ取得
+     */
+    getData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                this.purchase.subscribe((purchase) => {
+                    resolve(purchase);
+                }).unsubscribe();
+            });
+        });
+    }
+    /**
+     * 購入データ削除
+     */
+    delete() {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].remove());
+    }
+    /**
+     * 購入一時データ削除
+     */
+    unsettledDelete() {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].unsettledDelete());
+    }
+    /**
+     * 販売者取得
+     */
+    getSeller(id) {
+        return new Promise((resolve, reject) => {
+            this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getSeller({ id }));
+            const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getSellerSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+            const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getSellerFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+            Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+        });
+    }
+    /**
+     * スケジュール日選択
+     */
+    selectScheduleDate(scheduleDate) {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectScheduleDate({ scheduleDate }));
+    }
+    /**
+     * イベント取得
+     */
+    getScreeningEvent(screeningEvent) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreeningEvent({ screeningEvent }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreeningEventSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreeningEventFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 取引開始
+     */
+    startTransaction(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const seller = params.seller;
+            const pos = params.pos;
+            if (seller.id === undefined) {
+                throw new Error('seller.id undefined');
+            }
+            const environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_8__["getEnvironment"])();
+            const now = (yield this.utilService.getServerTime()).date;
+            const identifier = (pos === undefined)
+                ? [...environment.PURCHASE_TRANSACTION_IDENTIFIER]
+                : [
+                    ...environment.PURCHASE_TRANSACTION_IDENTIFIER,
+                    { name: 'posId', value: pos.id },
+                    { name: 'posName', value: pos.name }
+                ];
+            return new Promise((resolve, reject) => {
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].startTransaction({
+                    expires: moment__WEBPACK_IMPORTED_MODULE_4__(now).add(environment.PURCHASE_TRANSACTION_TIME, 'minutes').toDate(),
+                    seller: { typeOf: params.seller.typeOf, id: seller.id },
+                    object: {},
+                    agent: { identifier }
+                }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].startTransactionSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].startTransactionFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 取引中止
+     */
+    cancelTransaction() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const purchase = yield this.getData();
+            return new Promise((resolve) => {
+                const transaction = purchase.transaction;
+                if (transaction === undefined) {
+                    resolve();
+                    return;
+                }
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTransaction({ transaction }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTransactionSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTransactionFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * スクリーン取得
+     */
+    getScreen(params) {
+        return new Promise((resolve, reject) => {
+            this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreen(params));
+            const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreenSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+            const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreenFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+            Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+        });
+    }
+    /**
+     * 空席情報取得
+     */
+    getScreeningEventSeats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.utilService.loadStart({ process: 'purchaseAction.GetScreeningEventSeats' });
+                const purchase = yield this.getData();
+                if (purchase.screeningEvent === undefined) {
+                    throw new Error('purchase.screeningEvent === undefined').message;
+                }
+                const screeningEvent = purchase.screeningEvent;
+                const limit = 100;
+                let page = 1;
+                let roop = true;
+                let screeningEventSeats = [];
+                if (!new ___WEBPACK_IMPORTED_MODULE_7__["Models"].Purchase.Performance(screeningEvent).isTicketedSeat()) {
+                    return screeningEventSeats;
+                }
+                yield this.cinerinoService.getServices();
+                while (roop) {
+                    const searchResult = yield this.cinerinoService.event.searchSeats({
+                        event: { id: screeningEvent.id },
+                        page,
+                        limit
+                    });
+                    screeningEventSeats = screeningEventSeats.concat(searchResult.data);
+                    page++;
+                    roop = searchResult.data.length === limit;
+                    yield ___WEBPACK_IMPORTED_MODULE_7__["Functions"].Util.sleep(500);
+                }
+                this.utilService.loadEnd();
+                return screeningEventSeats;
+            }
+            catch (error) {
+                this.utilService.setError(error);
+                this.utilService.loadEnd();
+                throw error;
+            }
+        });
+    }
+    /**
+     * 座席選択
+     */
+    selectSeats(seats) {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectSeats({ seats }));
+    }
+    /**
+     * 座席選択解除
+     */
+    cancelSeats(seats) {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelSeats({ seats }));
+    }
+    /**
+     * 券種一覧取得
+     */
+    getTicketList(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const purchase = yield this.getData();
+            return new Promise((resolve, reject) => {
+                const screeningEvent = purchase.screeningEvent;
+                if (screeningEvent === undefined) {
+                    reject();
+                    return;
+                }
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getTicketList({ screeningEvent, seller: params.seller }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getTicketListSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getTicketListFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * チケット選択
+    */
+    selectTickets(reservations) {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectTickets({ reservations }));
+    }
+    /**
+     * 座席仮予約
+     */
+    temporaryReservation(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const additionalTicketText = params.additionalTicketText;
+            const reservations = params.reservations;
+            const purchase = yield this.getData();
+            return new Promise((resolve, reject) => {
+                const transaction = purchase.transaction;
+                const screeningEvent = purchase.screeningEvent;
+                const screeningEventSeats = params.screeningEventSeats;
+                if (transaction === undefined || screeningEvent === undefined) {
+                    reject();
+                    return;
+                }
+                const authorizeSeatReservation = purchase.authorizeSeatReservation;
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].temporaryReservation({
+                    reservations: reservations.map((reservation) => {
+                        return {
+                            seat: reservation.seat,
+                            ticket: (reservation.ticket === undefined)
+                                ? { ticketOffer: purchase.screeningEventTicketOffers[0] }
+                                : reservation.ticket
+                        };
+                    }),
+                    transaction,
+                    screeningEvent,
+                    authorizeSeatReservation,
+                    screeningEventSeats,
+                    additionalTicketText
+                }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].temporaryReservationSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].temporaryReservationFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 座席仮予約取り消し
+     */
+    cancelTemporaryReservations(authorizeSeatReservations) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTemporaryReservations({ authorizeSeatReservations }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTemporaryReservationsSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTemporaryReservationsFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 購入者情報登録
+     */
+    registerContact(contact) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const purchase = yield this.getData();
+            const transaction = purchase.transaction;
+            return new Promise((resolve, reject) => {
+                if (transaction === undefined) {
+                    reject();
+                    return;
+                }
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].registerContact({ transaction, contact }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].registerContactSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].registerContactFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * クレジットカード承認
+     */
+    authorizeCreditCard() {
+    }
+    /**
+     * ムビチケ承認
+     */
+    authorizeMovieTicket(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const purchase = yield this.getData();
+            return new Promise((resolve, reject) => {
+                if (purchase.transaction === undefined) {
+                    reject();
+                    return;
+                }
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeMovieTicket({
+                    transaction: purchase.transaction,
+                    authorizeMovieTicketPayments: purchase.authorizeMovieTicketPayments,
+                    authorizeSeatReservations: purchase.authorizeSeatReservations,
+                    pendingMovieTickets: purchase.pendingMovieTickets,
+                    seller: params.seller
+                }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeMovieTicketSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeMovieTicketFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * ムビチケ認証
+     */
+    checkMovieTicket(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const movieTicket = params.movieTicket;
+            const purchase = yield this.getData();
+            return new Promise((resolve, reject) => {
+                if (purchase.transaction === undefined || purchase.screeningEvent === undefined) {
+                    reject();
+                    return;
+                }
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicket({
+                    transaction: purchase.transaction,
+                    movieTickets: [{
+                            typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.MovieTicket,
+                            identifier: movieTicket.code,
+                            accessCode: movieTicket.password // PINコード
+                        }],
+                    screeningEvent: purchase.screeningEvent
+                }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicketSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicketFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 取引確定
+     */
+    endTransaction(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const purchase = yield this.getData();
+            const seller = params.seller;
+            const language = params.language;
+            return new Promise((resolve, reject) => {
+                if (purchase.transaction === undefined) {
+                    reject();
+                    return;
+                }
+                const transaction = purchase.transaction;
+                const authorizeSeatReservations = purchase.authorizeSeatReservations;
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].endTransaction({
+                    transaction, authorizeSeatReservations, seller, language
+                }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].endTransactionSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].endTransactionFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * GMOトークン作成
+     */
+    createGmoTokenObject() {
+    }
+    /**
+     * 決済情報承認
+     */
+    authorizeAnyPayment(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const purchase = yield this.getData();
+            return new Promise((resolve, reject) => {
+                if (purchase.transaction === undefined || purchase.paymentMethod === undefined) {
+                    reject();
+                    return;
+                }
+                const transaction = purchase.transaction;
+                const amount = params.amount;
+                const depositAmount = params.depositAmount;
+                const additionalProperty = [];
+                if (purchase.paymentMethod.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.Cash
+                    && depositAmount !== undefined) {
+                    // 現金
+                    additionalProperty.push({ name: 'depositAmount', value: String(depositAmount) });
+                    additionalProperty.push({ name: 'change', value: String(depositAmount - amount) });
+                }
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeAnyPayment({
+                    transaction: transaction,
+                    typeOf: purchase.paymentMethod.typeOf,
+                    name: purchase.paymentMethod.category,
+                    amount,
+                    additionalProperty
+                }));
+                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeAnyPaymentSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
+                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeAnyPaymentFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
+                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
+            });
+        });
+    }
+    /**
+     * 決済方法取得
+     */
+    selectPaymentMethodType(params) {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectPaymentMethodType(params));
+    }
+}
+PurchaseService.ɵfac = function PurchaseService_Factory(t) { return new (t || PurchaseService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["Actions"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_12__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_11__["CinerinoService"])); };
+PurchaseService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: PurchaseService, factory: PurchaseService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PurchaseService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["Actions"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _util_service__WEBPACK_IMPORTED_MODULE_12__["UtilService"] }, { type: _cinerino_service__WEBPACK_IMPORTED_MODULE_11__["CinerinoService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "./app/services/action/user.service.ts":
+/*!*********************************************!*\
+  !*** ./app/services/action/user.service.ts ***!
+  \*********************************************/
+/*! exports provided: UserService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngx-translate/core */ "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../store/actions */ "./app/store/actions/index.ts");
+/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../store/reducers */ "./app/store/reducers/index.ts");
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util.service */ "./app/services/util.service.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+class UserService {
+    constructor(store, translate, utilService) {
+        this.store = store;
+        this.translate = translate;
+        this.utilService = utilService;
+        this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_5__["getUser"]));
+    }
+    /**
+     * ユーザーデータ取得
+     */
+    getData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                this.user.subscribe((user) => {
+                    resolve(user);
+                }).unsubscribe();
+            });
+        });
+    }
+    /**
+     * ユーザーデータ削除
+     */
+    delete() {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].remove());
+    }
+    /**
+     * すべて更新
+     */
+    updateAll(params) {
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].updateAll(params));
+    }
+    /**
+     * 言語更新
+     */
+    updateLanguage(language) {
+        const element = document.querySelector('#language');
+        if (element !== null) {
+            element.value = language;
+        }
+        this.translate.use(language);
+        const html = document.querySelector('html');
+        html.setAttribute('lang', language);
+        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].updateLanguage({ language }));
+    }
+    /**
+     * バージョン確認
+     */
+    checkVersion() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = `?date=${moment__WEBPACK_IMPORTED_MODULE_3__().toISOString()}`;
+            const { version } = yield this.utilService.getJson(`/api/version${query}`);
+            const data = yield this.getData();
+            if (data.version === undefined) {
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].setVersion({ version }));
+            }
+            if (data.version !== undefined
+                && data.version !== version) {
+                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].setVersion({ version }));
+                location.reload();
+            }
+        });
+    }
+}
+UserService.ɵfac = function UserService_Factory(t) { return new (t || UserService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_6__["UtilService"])); };
+UserService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: UserService, factory: UserService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](UserService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"] }, { type: _util_service__WEBPACK_IMPORTED_MODULE_6__["UtilService"] }]; }, null); })();
+
+
+/***/ }),
+
 /***/ "./app/services/cinerino.service.ts":
 /*!******************************************!*\
   !*** ./app/services/cinerino.service.ts ***!
@@ -74805,7 +75613,7 @@ EpsonPrinterService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
 /*!*******************************!*\
   !*** ./app/services/index.ts ***!
   \*******************************/
-/*! exports provided: CinerinoService, PurchaseService, UserService, MasterService, OrderService, ReservationService, UtilService, StarPrintService, QRCodeService, EpsonEPOSService, PaymentService */
+/*! exports provided: CinerinoService, ActionService, MasterService, OrderService, ReservationService, UtilService, StarPrintService, QRCodeService, EpsonEPOSService, PaymentService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74813,36 +75621,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CinerinoService", function() { return _cinerino_service__WEBPACK_IMPORTED_MODULE_0__["CinerinoService"]; });
 
-/* harmony import */ var _purchase_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./purchase.service */ "./app/services/purchase.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PurchaseService", function() { return _purchase_service__WEBPACK_IMPORTED_MODULE_1__["PurchaseService"]; });
+/* harmony import */ var _action_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./action.service */ "./app/services/action.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ActionService", function() { return _action_service__WEBPACK_IMPORTED_MODULE_1__["ActionService"]; });
 
-/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user.service */ "./app/services/user.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return _user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]; });
+/* harmony import */ var _master_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./master.service */ "./app/services/master.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MasterService", function() { return _master_service__WEBPACK_IMPORTED_MODULE_2__["MasterService"]; });
 
-/* harmony import */ var _master_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./master.service */ "./app/services/master.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MasterService", function() { return _master_service__WEBPACK_IMPORTED_MODULE_3__["MasterService"]; });
+/* harmony import */ var _action_order_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./action/order.service */ "./app/services/action/order.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "OrderService", function() { return _action_order_service__WEBPACK_IMPORTED_MODULE_3__["OrderService"]; });
 
-/* harmony import */ var _order_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./order.service */ "./app/services/order.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "OrderService", function() { return _order_service__WEBPACK_IMPORTED_MODULE_4__["OrderService"]; });
+/* harmony import */ var _reservation_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./reservation.service */ "./app/services/reservation.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ReservationService", function() { return _reservation_service__WEBPACK_IMPORTED_MODULE_4__["ReservationService"]; });
 
-/* harmony import */ var _reservation_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./reservation.service */ "./app/services/reservation.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ReservationService", function() { return _reservation_service__WEBPACK_IMPORTED_MODULE_5__["ReservationService"]; });
+/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UtilService", function() { return _util_service__WEBPACK_IMPORTED_MODULE_5__["UtilService"]; });
 
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UtilService", function() { return _util_service__WEBPACK_IMPORTED_MODULE_6__["UtilService"]; });
+/* harmony import */ var _star_print_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./star-print.service */ "./app/services/star-print.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StarPrintService", function() { return _star_print_service__WEBPACK_IMPORTED_MODULE_6__["StarPrintService"]; });
 
-/* harmony import */ var _star_print_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./star-print.service */ "./app/services/star-print.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StarPrintService", function() { return _star_print_service__WEBPACK_IMPORTED_MODULE_7__["StarPrintService"]; });
+/* harmony import */ var _qrcode_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./qrcode.service */ "./app/services/qrcode.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QRCodeService", function() { return _qrcode_service__WEBPACK_IMPORTED_MODULE_7__["QRCodeService"]; });
 
-/* harmony import */ var _qrcode_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./qrcode.service */ "./app/services/qrcode.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QRCodeService", function() { return _qrcode_service__WEBPACK_IMPORTED_MODULE_8__["QRCodeService"]; });
+/* harmony import */ var _epson_epos_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./epson-epos.service */ "./app/services/epson-epos.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EpsonEPOSService", function() { return _epson_epos_service__WEBPACK_IMPORTED_MODULE_8__["EpsonEPOSService"]; });
 
-/* harmony import */ var _epson_epos_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./epson-epos.service */ "./app/services/epson-epos.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EpsonEPOSService", function() { return _epson_epos_service__WEBPACK_IMPORTED_MODULE_9__["EpsonEPOSService"]; });
-
-/* harmony import */ var _payment_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./payment.service */ "./app/services/payment.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PaymentService", function() { return _payment_service__WEBPACK_IMPORTED_MODULE_10__["PaymentService"]; });
-
+/* harmony import */ var _payment_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./payment.service */ "./app/services/payment.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PaymentService", function() { return _payment_service__WEBPACK_IMPORTED_MODULE_9__["PaymentService"]; });
 
 
 
@@ -75088,198 +75892,6 @@ MasterService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInj
 
 /***/ }),
 
-/***/ "./app/services/order.service.ts":
-/*!***************************************!*\
-  !*** ./app/services/order.service.ts ***!
-  \***************************************/
-/*! exports provided: OrderService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderService", function() { return OrderService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "../../node_modules/rxjs/_esm2015/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! .. */ "./app/index.ts");
-/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../store/actions */ "./app/store/actions/index.ts");
-/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../store/reducers */ "./app/store/reducers/index.ts");
-/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class OrderService {
-    constructor(store, actions, cinerinoService, utilService) {
-        this.store = store;
-        this.actions = actions;
-        this.cinerinoService = cinerinoService;
-        this.utilService = utilService;
-        this.order = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getOrder"]));
-        this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getError"]));
-    }
-    /**
-     * 注文データ取得
-     */
-    getData() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                this.order.subscribe((order) => {
-                    resolve(order);
-                }).unsubscribe();
-            });
-        });
-    }
-    /**
-     * 注文データ削除
-     */
-    delete() {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].remove());
-    }
-    /**
-     * 注文検索
-     */
-    search(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                this.utilService.loadStart({ process: 'orderAction.Search' });
-                yield this.cinerinoService.getServices();
-                const searchResult = yield this.cinerinoService.order.search(params);
-                this.utilService.loadEnd();
-                return searchResult;
-            }
-            catch (error) {
-                this.utilService.setError(error);
-                this.utilService.loadEnd();
-                throw error;
-            }
-        });
-    }
-    /**
-     * 分割検索
-     */
-    splitSearch(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                this.utilService.loadStart({ process: 'orderAction.Search' });
-                yield this.cinerinoService.getServices();
-                let orders = [];
-                const splitDay = 1;
-                const splitCount = Math.ceil(moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).diff(moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateFrom), 'days') / splitDay);
-                for (let i = 0; i < splitCount; i++) {
-                    const limit = 10;
-                    let page = 1;
-                    let roop = true;
-                    const orderDateThrough = moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).add(-1 * splitDay * i, 'days').toDate();
-                    const orderDateFrom = (moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).add(-1 * splitDay * (i + 1), 'days').toDate() > moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateFrom).toDate())
-                        ? moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateThrough).add(-1 * splitDay * (i + 1), 'days').toDate()
-                        : moment__WEBPACK_IMPORTED_MODULE_3__(params.orderDateFrom).toDate();
-                    while (roop) {
-                        params.limit = limit;
-                        params.page = page;
-                        const searchResult = yield this.cinerinoService.order.search(Object.assign(Object.assign({}, params), { orderDateThrough, orderDateFrom }));
-                        orders = orders.concat(searchResult.data);
-                        page++;
-                        roop = searchResult.data.length === limit;
-                        yield ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Util.sleep(500);
-                    }
-                }
-                this.utilService.loadEnd();
-                return { data: orders, totalCount: orders.length };
-            }
-            catch (error) {
-                this.utilService.setError(error);
-                this.utilService.loadEnd();
-                throw error;
-            }
-        });
-    }
-    /**
-     * 注文照会
-     */
-    inquiry(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].inquiry(params));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].inquirySuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].inquiryFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 注文印刷
-     */
-    print(prams) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                const orders = prams.orders;
-                const pos = prams.pos;
-                const printer = prams.printer;
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].print({ orders, pos, printer }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].printSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].printFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 注文承認
-     */
-    authorize(order) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].orderAuthorize({
-                    orderNumber: order.orderNumber,
-                    customer: {
-                        telephone: order.customer.telephone
-                    }
-                }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].orderAuthorizeSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_7__["orderAction"].orderAuthorizeFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe();
-            });
-        });
-    }
-}
-OrderService.ɵfac = function OrderService_Factory(t) { return new (t || OrderService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["Actions"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_9__["CinerinoService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_10__["UtilService"])); };
-OrderService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: OrderService, factory: OrderService.ɵfac, providedIn: 'root' });
-/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](OrderService, [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _ngrx_effects__WEBPACK_IMPORTED_MODULE_1__["Actions"] }, { type: _cinerino_service__WEBPACK_IMPORTED_MODULE_9__["CinerinoService"] }, { type: _util_service__WEBPACK_IMPORTED_MODULE_10__["UtilService"] }]; }, null); })();
-
-
-/***/ }),
-
 /***/ "./app/services/payment.service.ts":
 /*!*****************************************!*\
   !*** ./app/services/payment.service.ts ***!
@@ -75488,469 +76100,6 @@ PaymentService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineIn
                 providedIn: 'root'
             }]
     }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"] }]; }, null); })();
-
-
-/***/ }),
-
-/***/ "./app/services/purchase.service.ts":
-/*!******************************************!*\
-  !*** ./app/services/purchase.service.ts ***!
-  \******************************************/
-/*! exports provided: PurchaseService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PurchaseService", function() { return PurchaseService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
-/* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/effects */ "../../node_modules/@ngrx/effects/__ivy_ngcc__/fesm2015/effects.js");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "../../node_modules/rxjs/_esm2015/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! .. */ "./app/index.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../environments/environment */ "./environments/environment.ts");
-/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../store/actions */ "./app/store/actions/index.ts");
-/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../store/reducers */ "./app/store/reducers/index.ts");
-/* harmony import */ var _cinerino_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./cinerino.service */ "./app/services/cinerino.service.ts");
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class PurchaseService {
-    constructor(actions, store, utilService, cinerinoService) {
-        this.actions = actions;
-        this.store = store;
-        this.utilService = utilService;
-        this.cinerinoService = cinerinoService;
-        this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getPurchase"]));
-        this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getError"]));
-    }
-    /**
-     * 購入データ取得
-     */
-    getData() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                this.purchase.subscribe((purchase) => {
-                    resolve(purchase);
-                }).unsubscribe();
-            });
-        });
-    }
-    /**
-     * 購入データ削除
-     */
-    delete() {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].remove());
-    }
-    /**
-     * 購入一時データ削除
-     */
-    unsettledDelete() {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].unsettledDelete());
-    }
-    /**
-     * 販売者取得
-     */
-    getSeller(id) {
-        return new Promise((resolve, reject) => {
-            this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getSeller({ id }));
-            const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getSellerSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-            const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getSellerFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-            Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-        });
-    }
-    /**
-     * スケジュール日選択
-     */
-    selectScheduleDate(scheduleDate) {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectScheduleDate({ scheduleDate }));
-    }
-    /**
-     * イベント取得
-     */
-    getScreeningEvent(screeningEvent) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreeningEvent({ screeningEvent }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreeningEventSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreeningEventFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 取引開始
-     */
-    startTransaction(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const seller = params.seller;
-            const pos = params.pos;
-            if (seller.id === undefined) {
-                throw new Error('seller.id undefined');
-            }
-            const environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_8__["getEnvironment"])();
-            const now = (yield this.utilService.getServerTime()).date;
-            const identifier = (pos === undefined)
-                ? [...environment.PURCHASE_TRANSACTION_IDENTIFIER]
-                : [
-                    ...environment.PURCHASE_TRANSACTION_IDENTIFIER,
-                    { name: 'posId', value: pos.id },
-                    { name: 'posName', value: pos.name }
-                ];
-            return new Promise((resolve, reject) => {
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].startTransaction({
-                    expires: moment__WEBPACK_IMPORTED_MODULE_4__(now).add(environment.PURCHASE_TRANSACTION_TIME, 'minutes').toDate(),
-                    seller: { typeOf: params.seller.typeOf, id: seller.id },
-                    object: {},
-                    agent: { identifier }
-                }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].startTransactionSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].startTransactionFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 取引中止
-     */
-    cancelTransaction() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.getData();
-            return new Promise((resolve) => {
-                const transaction = purchase.transaction;
-                if (transaction === undefined) {
-                    resolve();
-                    return;
-                }
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTransaction({ transaction }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTransactionSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTransactionFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * スクリーン取得
-     */
-    getScreen(params) {
-        return new Promise((resolve, reject) => {
-            this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreen(params));
-            const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreenSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-            const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getScreenFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-            Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-        });
-    }
-    /**
-     * 空席情報取得
-     */
-    getScreeningEventSeats() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                this.utilService.loadStart({ process: 'purchaseAction.GetScreeningEventSeats' });
-                const purchase = yield this.getData();
-                if (purchase.screeningEvent === undefined) {
-                    throw new Error('purchase.screeningEvent === undefined').message;
-                }
-                const screeningEvent = purchase.screeningEvent;
-                const limit = 100;
-                let page = 1;
-                let roop = true;
-                let screeningEventSeats = [];
-                if (!new ___WEBPACK_IMPORTED_MODULE_7__["Models"].Purchase.Performance(screeningEvent).isTicketedSeat()) {
-                    return screeningEventSeats;
-                }
-                yield this.cinerinoService.getServices();
-                while (roop) {
-                    const searchResult = yield this.cinerinoService.event.searchSeats({
-                        event: { id: screeningEvent.id },
-                        page,
-                        limit
-                    });
-                    screeningEventSeats = screeningEventSeats.concat(searchResult.data);
-                    page++;
-                    roop = searchResult.data.length === limit;
-                    yield ___WEBPACK_IMPORTED_MODULE_7__["Functions"].Util.sleep(500);
-                }
-                this.utilService.loadEnd();
-                return screeningEventSeats;
-            }
-            catch (error) {
-                this.utilService.setError(error);
-                this.utilService.loadEnd();
-                throw error;
-            }
-        });
-    }
-    /**
-     * 座席選択
-     */
-    selectSeats(seats) {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectSeats({ seats }));
-    }
-    /**
-     * 座席選択解除
-     */
-    cancelSeats(seats) {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelSeats({ seats }));
-    }
-    /**
-     * 券種一覧取得
-     */
-    getTicketList(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.getData();
-            return new Promise((resolve, reject) => {
-                const screeningEvent = purchase.screeningEvent;
-                if (screeningEvent === undefined) {
-                    reject();
-                    return;
-                }
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getTicketList({ screeningEvent, seller: params.seller }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getTicketListSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].getTicketListFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * チケット選択
-    */
-    selectTickets(reservations) {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectTickets({ reservations }));
-    }
-    /**
-     * 座席仮予約
-     */
-    temporaryReservation(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const additionalTicketText = params.additionalTicketText;
-            const reservations = params.reservations;
-            const purchase = yield this.getData();
-            return new Promise((resolve, reject) => {
-                const transaction = purchase.transaction;
-                const screeningEvent = purchase.screeningEvent;
-                const screeningEventSeats = params.screeningEventSeats;
-                if (transaction === undefined || screeningEvent === undefined) {
-                    reject();
-                    return;
-                }
-                const authorizeSeatReservation = purchase.authorizeSeatReservation;
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].temporaryReservation({
-                    reservations: reservations.map((reservation) => {
-                        return {
-                            seat: reservation.seat,
-                            ticket: (reservation.ticket === undefined)
-                                ? { ticketOffer: purchase.screeningEventTicketOffers[0] }
-                                : reservation.ticket
-                        };
-                    }),
-                    transaction,
-                    screeningEvent,
-                    authorizeSeatReservation,
-                    screeningEventSeats,
-                    additionalTicketText
-                }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].temporaryReservationSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].temporaryReservationFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 座席仮予約取り消し
-     */
-    cancelTemporaryReservations(authorizeSeatReservations) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTemporaryReservations({ authorizeSeatReservations }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTemporaryReservationsSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].cancelTemporaryReservationsFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 購入者情報登録
-     */
-    registerContact(contact) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.getData();
-            const transaction = purchase.transaction;
-            return new Promise((resolve, reject) => {
-                if (transaction === undefined) {
-                    reject();
-                    return;
-                }
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].registerContact({ transaction, contact }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].registerContactSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].registerContactFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * クレジットカード承認
-     */
-    authorizeCreditCard() {
-    }
-    /**
-     * ムビチケ承認
-     */
-    authorizeMovieTicket(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.getData();
-            return new Promise((resolve, reject) => {
-                if (purchase.transaction === undefined) {
-                    reject();
-                    return;
-                }
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeMovieTicket({
-                    transaction: purchase.transaction,
-                    authorizeMovieTicketPayments: purchase.authorizeMovieTicketPayments,
-                    authorizeSeatReservations: purchase.authorizeSeatReservations,
-                    pendingMovieTickets: purchase.pendingMovieTickets,
-                    seller: params.seller
-                }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeMovieTicketSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeMovieTicketFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * ムビチケ認証
-     */
-    checkMovieTicket(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const movieTicket = params.movieTicket;
-            const purchase = yield this.getData();
-            return new Promise((resolve, reject) => {
-                if (purchase.transaction === undefined || purchase.screeningEvent === undefined) {
-                    reject();
-                    return;
-                }
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicket({
-                    transaction: purchase.transaction,
-                    movieTickets: [{
-                            typeOf: _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.MovieTicket,
-                            identifier: movieTicket.code,
-                            accessCode: movieTicket.password // PINコード
-                        }],
-                    screeningEvent: purchase.screeningEvent
-                }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicketSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].checkMovieTicketFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 取引確定
-     */
-    endTransaction(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.getData();
-            const seller = params.seller;
-            const language = params.language;
-            return new Promise((resolve, reject) => {
-                if (purchase.transaction === undefined) {
-                    reject();
-                    return;
-                }
-                const transaction = purchase.transaction;
-                const authorizeSeatReservations = purchase.authorizeSeatReservations;
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].endTransaction({
-                    transaction, authorizeSeatReservations, seller, language
-                }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].endTransactionSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].endTransactionFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * GMOトークン作成
-     */
-    createGmoTokenObject() {
-    }
-    /**
-     * 決済情報承認
-     */
-    authorizeAnyPayment(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.getData();
-            return new Promise((resolve, reject) => {
-                if (purchase.transaction === undefined || purchase.paymentMethod === undefined) {
-                    reject();
-                    return;
-                }
-                const transaction = purchase.transaction;
-                const amount = params.amount;
-                const depositAmount = params.depositAmount;
-                const additionalProperty = [];
-                if (purchase.paymentMethod.typeOf === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.Cash
-                    && depositAmount !== undefined) {
-                    // 現金
-                    additionalProperty.push({ name: 'depositAmount', value: String(depositAmount) });
-                    additionalProperty.push({ name: 'change', value: String(depositAmount - amount) });
-                }
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeAnyPayment({
-                    transaction: transaction,
-                    typeOf: purchase.paymentMethod.typeOf,
-                    name: purchase.paymentMethod.category,
-                    amount,
-                    additionalProperty
-                }));
-                const success = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeAnyPaymentSuccess.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { resolve(); }));
-                const fail = this.actions.pipe(Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["ofType"])(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].authorizeAnyPaymentFail.type), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); }));
-                Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["race"])(success, fail).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe();
-            });
-        });
-    }
-    /**
-     * 決済方法取得
-     */
-    selectPaymentMethodType(params) {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_9__["purchaseAction"].selectPaymentMethodType(params));
-    }
-}
-PurchaseService.ɵfac = function PurchaseService_Factory(t) { return new (t || PurchaseService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["Actions"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_12__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_cinerino_service__WEBPACK_IMPORTED_MODULE_11__["CinerinoService"])); };
-PurchaseService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: PurchaseService, factory: PurchaseService.ɵfac, providedIn: 'root' });
-/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PurchaseService, [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return [{ type: _ngrx_effects__WEBPACK_IMPORTED_MODULE_2__["Actions"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _util_service__WEBPACK_IMPORTED_MODULE_12__["UtilService"] }, { type: _cinerino_service__WEBPACK_IMPORTED_MODULE_11__["CinerinoService"] }]; }, null); })();
 
 
 /***/ }),
@@ -76347,119 +76496,6 @@ StarPrintService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
                 providedIn: 'root'
             }]
     }], function () { return []; }, null); })();
-
-
-/***/ }),
-
-/***/ "./app/services/user.service.ts":
-/*!**************************************!*\
-  !*** ./app/services/user.service.ts ***!
-  \**************************************/
-/*! exports provided: UserService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngx-translate/core */ "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/actions */ "./app/store/actions/index.ts");
-/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/reducers */ "./app/store/reducers/index.ts");
-/* harmony import */ var _util_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./util.service */ "./app/services/util.service.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-
-
-
-
-
-
-
-
-class UserService {
-    constructor(store, translate, utilService) {
-        this.store = store;
-        this.translate = translate;
-        this.utilService = utilService;
-        this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_5__["getUser"]));
-    }
-    /**
-     * ユーザーデータ取得
-     */
-    getData() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                this.user.subscribe((user) => {
-                    resolve(user);
-                }).unsubscribe();
-            });
-        });
-    }
-    /**
-     * ユーザーデータ削除
-     */
-    delete() {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].remove());
-    }
-    /**
-     * すべて更新
-     */
-    updateAll(params) {
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].updateAll(params));
-    }
-    /**
-     * 言語更新
-     */
-    updateLanguage(language) {
-        const element = document.querySelector('#language');
-        if (element !== null) {
-            element.value = language;
-        }
-        this.translate.use(language);
-        const html = document.querySelector('html');
-        html.setAttribute('lang', language);
-        this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].updateLanguage({ language }));
-    }
-    /**
-     * バージョン確認
-     */
-    checkVersion() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = `?date=${moment__WEBPACK_IMPORTED_MODULE_3__().toISOString()}`;
-            const { version } = yield this.utilService.getJson(`/api/version${query}`);
-            const data = yield this.getData();
-            if (data.version === undefined) {
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].setVersion({ version }));
-            }
-            if (data.version !== undefined
-                && data.version !== version) {
-                this.store.dispatch(_store_actions__WEBPACK_IMPORTED_MODULE_4__["userAction"].setVersion({ version }));
-                location.reload();
-            }
-        });
-    }
-}
-UserService.ɵfac = function UserService_Factory(t) { return new (t || UserService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_util_service__WEBPACK_IMPORTED_MODULE_6__["UtilService"])); };
-UserService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: UserService, factory: UserService.ɵfac, providedIn: 'root' });
-/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](UserService, [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"] }, { type: _util_service__WEBPACK_IMPORTED_MODULE_6__["UtilService"] }]; }, null); })();
 
 
 /***/ }),

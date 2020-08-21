@@ -89,14 +89,13 @@ function PurchaseCinemaScheduleComponent_app_purchase_performances_16_Template(r
 } }
 const _c1 = function (a3) { return { dateInputFormat: "YYYY/MM/DD", adaptivePosition: true, showWeekNumbers: false, minDate: a3 }; };
 class PurchaseCinemaScheduleComponent {
-    constructor(store, router, utilService, translate, userService, masterService, purchaseService, localeService) {
+    constructor(store, router, utilService, translate, actionService, masterService, localeService) {
         this.store = store;
         this.router = router;
         this.utilService = utilService;
         this.translate = translate;
-        this.userService = userService;
+        this.actionService = actionService;
         this.masterService = masterService;
-        this.purchaseService = purchaseService;
         this.localeService = localeService;
         this.moment = moment__WEBPACK_IMPORTED_MODULE_5__;
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_8__["getEnvironment"])();
@@ -139,7 +138,7 @@ class PurchaseCinemaScheduleComponent {
             if (date !== undefined && date !== null) {
                 this.scheduleDate = date;
             }
-            const user = yield this.userService.getData();
+            const user = yield this.actionService.user.getData();
             const theater = user.theater;
             if (this.scheduleDate === undefined) {
                 this.scheduleDate = moment__WEBPACK_IMPORTED_MODULE_5__()
@@ -150,7 +149,7 @@ class PurchaseCinemaScheduleComponent {
             if (theater === undefined) {
                 return;
             }
-            this.purchaseService.selectScheduleDate(scheduleDate);
+            this.actionService.purchase.selectScheduleDate(scheduleDate);
             try {
                 const screeningEvents = yield this.masterService.getSchedule({
                     superEvent: { locationBranchCodes: [theater.branchCode] },
@@ -185,29 +184,29 @@ class PurchaseCinemaScheduleComponent {
                 });
                 return;
             }
-            this.purchaseService.unsettledDelete();
+            this.actionService.purchase.unsettledDelete();
             try {
-                yield this.purchaseService.getScreeningEvent(screeningEvent);
+                yield this.actionService.purchase.getScreeningEvent(screeningEvent);
                 if (screeningEvent.offers.seller === undefined
                     || screeningEvent.offers.seller.id === undefined) {
                     throw new Error('screeningEvent.offers.seller or screeningEvent.offers.seller.id undefined');
                 }
-                yield this.purchaseService.getSeller(screeningEvent.offers.seller.id);
+                yield this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
             }
             catch (error) {
                 console.error(error);
                 this.router.navigate(['/error']);
                 return;
             }
-            const purchase = yield this.purchaseService.getData();
-            const user = yield this.userService.getData();
+            const purchase = yield this.actionService.purchase.getData();
+            const user = yield this.actionService.user.getData();
             if (purchase.seller === undefined) {
                 this.router.navigate(['/error']);
                 return;
             }
             if (purchase.authorizeSeatReservations.length > 0) {
                 try {
-                    yield this.purchaseService.cancelTemporaryReservations(purchase.authorizeSeatReservations);
+                    yield this.actionService.purchase.cancelTemporaryReservations(purchase.authorizeSeatReservations);
                 }
                 catch (error) {
                     console.error(error);
@@ -216,7 +215,7 @@ class PurchaseCinemaScheduleComponent {
                 }
             }
             try {
-                yield this.purchaseService.startTransaction({
+                yield this.actionService.purchase.startTransaction({
                     seller: purchase.seller,
                     pos: user.pos
                 });
@@ -261,7 +260,7 @@ class PurchaseCinemaScheduleComponent {
         ]);
     }
 }
-PurchaseCinemaScheduleComponent.ɵfac = function PurchaseCinemaScheduleComponent_Factory(t) { return new (t || PurchaseCinemaScheduleComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsLocaleService"])); };
+PurchaseCinemaScheduleComponent.ɵfac = function PurchaseCinemaScheduleComponent_Factory(t) { return new (t || PurchaseCinemaScheduleComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsLocaleService"])); };
 PurchaseCinemaScheduleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseCinemaScheduleComponent, selectors: [["app-purchase-cinema-schedule"]], viewQuery: function PurchaseCinemaScheduleComponent_Query(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstaticViewQuery"](_c0, true);
     } if (rf & 2) {
@@ -316,7 +315,7 @@ PurchaseCinemaScheduleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0
                 templateUrl: './purchase-cinema-schedule.component.html',
                 styleUrls: ['./purchase-cinema-schedule.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_9__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_9__["UserService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_9__["MasterService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_9__["PurchaseService"] }, { type: ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsLocaleService"] }]; }, { datepicker: [{
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_9__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_9__["ActionService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_9__["MasterService"] }, { type: ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsLocaleService"] }]; }, { datepicker: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"],
             args: ['datepicker', { static: true }]
         }] }); })();
@@ -950,12 +949,11 @@ function PurchaseEventScheduleComponent_button_22_Template(rf, ctx) { if (rf & 1
 } }
 const _c2 = function (a3) { return { dateInputFormat: "YYYY/MM/DD", adaptivePosition: true, showWeekNumbers: false, minDate: a3 }; };
 class PurchaseEventScheduleComponent {
-    constructor(store, router, purchaseService, masterService, userService, localeService) {
+    constructor(store, router, actionService, masterService, localeService) {
         this.store = store;
         this.router = router;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
         this.masterService = masterService;
-        this.userService = userService;
         this.localeService = localeService;
         this.moment = moment__WEBPACK_IMPORTED_MODULE_4__;
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_7__["getEnvironment"])();
@@ -977,10 +975,10 @@ class PurchaseEventScheduleComponent {
                     .toDate();
             }
             try {
-                if ((yield this.purchaseService.getData()).transaction === undefined) {
+                if ((yield this.actionService.purchase.getData()).transaction === undefined) {
                     return;
                 }
-                yield this.purchaseService.cancelTransaction();
+                yield this.actionService.purchase.cancelTransaction();
             }
             catch (error) {
                 console.error(error);
@@ -1014,7 +1012,7 @@ class PurchaseEventScheduleComponent {
                 this.scheduleDate = date;
             }
             try {
-                const user = yield this.userService.getData();
+                const user = yield this.actionService.user.getData();
                 const theater = user.theater;
                 if (theater === undefined) {
                     this.router.navigate(['/error']);
@@ -1026,7 +1024,7 @@ class PurchaseEventScheduleComponent {
                         .toDate();
                 }
                 const scheduleDate = moment__WEBPACK_IMPORTED_MODULE_4__(this.scheduleDate).format('YYYY-MM-DD');
-                this.purchaseService.selectScheduleDate(scheduleDate);
+                this.actionService.purchase.selectScheduleDate(scheduleDate);
                 this.screeningEvents = yield this.masterService.getSchedule({
                     superEvent: { locationBranchCodes: [theater.branchCode] },
                     startFrom: moment__WEBPACK_IMPORTED_MODULE_4__(scheduleDate).toDate(),
@@ -1047,7 +1045,7 @@ class PurchaseEventScheduleComponent {
     onSubmit() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield this.userService.getData();
+                const user = yield this.actionService.user.getData();
                 if (user.theater === undefined) {
                     throw new Error('user.theater === undefined');
                 }
@@ -1059,16 +1057,16 @@ class PurchaseEventScheduleComponent {
                     || screeningEvent.offers.seller.id === undefined) {
                     throw new Error('screeningEvent.offers.seller === undefined');
                 }
-                yield this.purchaseService.getSeller(screeningEvent.offers.seller.id);
+                yield this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
             }
             catch (error) {
                 console.error(error);
                 this.router.navigate(['/error']);
             }
             try {
-                const purchase = yield this.purchaseService.getData();
-                const user = yield this.userService.getData();
-                yield this.purchaseService.startTransaction({
+                const purchase = yield this.actionService.purchase.getData();
+                const user = yield this.actionService.user.getData();
+                yield this.actionService.purchase.startTransaction({
                     seller: purchase.seller,
                     pos: user.pos
                 });
@@ -1112,7 +1110,7 @@ class PurchaseEventScheduleComponent {
         ]);
     }
 }
-PurchaseEventScheduleComponent.ɵfac = function PurchaseEventScheduleComponent_Factory(t) { return new (t || PurchaseEventScheduleComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_5__["BsLocaleService"])); };
+PurchaseEventScheduleComponent.ɵfac = function PurchaseEventScheduleComponent_Factory(t) { return new (t || PurchaseEventScheduleComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_5__["BsLocaleService"])); };
 PurchaseEventScheduleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseEventScheduleComponent, selectors: [["app-purchase-event-schedule"]], viewQuery: function PurchaseEventScheduleComponent_Query(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstaticViewQuery"](_c0, true);
     } if (rf & 2) {
@@ -1182,7 +1180,7 @@ PurchaseEventScheduleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0_
                 templateUrl: './purchase-event-schedule.component.html',
                 styleUrls: ['./purchase-event-schedule.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["MasterService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UserService"] }, { type: ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_5__["BsLocaleService"] }]; }, { datepicker: [{
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["ActionService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["MasterService"] }, { type: ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_5__["BsLocaleService"] }]; }, { datepicker: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"],
             args: ['datepicker', { static: true }]
         }] }); })();
@@ -1565,9 +1563,9 @@ class PurchaseEventSeatComponent extends _purchase_seat_purchase_seat_component_
     prev() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const authorizeSeatReservation = (yield this.purchaseService.getData()).authorizeSeatReservation;
+                const authorizeSeatReservation = (yield this.actionService.purchase.getData()).authorizeSeatReservation;
                 if (authorizeSeatReservation !== undefined) {
-                    yield this.purchaseService.cancelTemporaryReservations([authorizeSeatReservation]);
+                    yield this.actionService.purchase.cancelTemporaryReservations([authorizeSeatReservation]);
                 }
                 this.router.navigate(['/purchase/event/ticket']);
             }
@@ -1862,14 +1860,13 @@ function PurchaseEventTicketComponent_div_17_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("authorizeSeatReservations", authorizeSeatReservation_r8 == null ? null : authorizeSeatReservation_r8.result == null ? null : authorizeSeatReservation_r8.result.responseBody.object.reservations);
 } }
 class PurchaseEventTicketComponent {
-    constructor(store, router, utilService, translate, purchaseService, masterService, userService, modal) {
+    constructor(store, router, utilService, translate, actionService, masterService, modal) {
         this.store = store;
         this.router = router;
         this.utilService = utilService;
         this.translate = translate;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
         this.masterService = masterService;
-        this.userService = userService;
         this.modal = modal;
         this.moment = moment__WEBPACK_IMPORTED_MODULE_4__;
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_7__["getEnvironment"])();
@@ -1881,7 +1878,7 @@ class PurchaseEventTicketComponent {
             this.master = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getMaster"]));
             this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getError"]));
             this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getLoading"]));
-            this.purchaseService.unsettledDelete();
+            this.actionService.purchase.unsettledDelete();
             this.screeningWorkEvents = [];
             this.purchase.subscribe((purchase) => {
                 if (purchase.transaction === undefined) {
@@ -1913,8 +1910,8 @@ class PurchaseEventTicketComponent {
     getSchedule() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield this.userService.getData();
-                const purchase = yield this.purchaseService.getData();
+                const user = yield this.actionService.user.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 const theater = user.theater;
                 const scheduleDate = purchase.scheduleDate;
                 if (theater === undefined || scheduleDate === undefined) {
@@ -1939,7 +1936,7 @@ class PurchaseEventTicketComponent {
      */
     selectSchedule(screeningEvent) {
         return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             if (purchase.seller === undefined) {
                 this.router.navigate(['/error']);
                 return;
@@ -1953,10 +1950,10 @@ class PurchaseEventTicketComponent {
                 return;
             }
             try {
-                yield this.purchaseService.getScreeningEvent(screeningEvent);
-                this.screeningEventSeats = yield this.purchaseService.getScreeningEventSeats();
-                yield this.purchaseService.getTicketList({ seller: purchase.seller });
-                yield this.purchaseService.getScreen({
+                yield this.actionService.purchase.getScreeningEvent(screeningEvent);
+                this.screeningEventSeats = yield this.actionService.purchase.getScreeningEventSeats();
+                yield this.actionService.purchase.getTicketList({ seller: purchase.seller });
+                yield this.actionService.purchase.getScreen({
                     branchCode: { $eq: screeningEvent.location.branchCode },
                     containedInPlace: {
                         branchCode: { $eq: screeningEvent.superEvent.location.branchCode }
@@ -1978,7 +1975,7 @@ class PurchaseEventTicketComponent {
      */
     openTicketList() {
         return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             const screeningEvent = purchase.screeningEvent;
             const screeningEventTicketOffers = purchase.screeningEventTicketOffers;
             const screeningEventSeats = this.screeningEventSeats;
@@ -2024,8 +2021,8 @@ class PurchaseEventTicketComponent {
                 return;
             }
             try {
-                this.screeningEventSeats = yield this.purchaseService.getScreeningEventSeats();
-                const purchase = yield this.purchaseService.getData();
+                this.screeningEventSeats = yield this.actionService.purchase.getScreeningEventSeats();
+                const purchase = yield this.actionService.purchase.getData();
                 if (purchase.screeningEvent !== undefined
                     && new ___WEBPACK_IMPORTED_MODULE_6__["Models"].Purchase.Performance(purchase.screeningEvent).isTicketedSeat()) {
                     const remainingSeatLength = ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Purchase.getRemainingSeatLength({
@@ -2049,7 +2046,7 @@ class PurchaseEventTicketComponent {
                 });
             }
             try {
-                yield this.purchaseService.temporaryReservation({
+                yield this.actionService.purchase.temporaryReservation({
                     reservations,
                     additionalTicketText,
                     screeningEventSeats: this.screeningEventSeats
@@ -2058,7 +2055,7 @@ class PurchaseEventTicketComponent {
                     title: this.translate.instant('common.complete'),
                     body: this.translate.instant('purchase.event.ticket.success.temporaryReservation')
                 });
-                this.purchaseService.unsettledDelete();
+                this.actionService.purchase.unsettledDelete();
             }
             catch (error) {
                 console.error(error);
@@ -2078,7 +2075,7 @@ class PurchaseEventTicketComponent {
      */
     onSubmit() {
         return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             const authorizeSeatReservations = purchase.authorizeSeatReservations;
             // チケット未選択判定
             if (authorizeSeatReservations.length === 0) {
@@ -2111,7 +2108,7 @@ class PurchaseEventTicketComponent {
             cb: () => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const authorizeSeatReservations = [authorizeSeatReservation];
-                    yield this.purchaseService.cancelTemporaryReservations(authorizeSeatReservations);
+                    yield this.actionService.purchase.cancelTemporaryReservations(authorizeSeatReservations);
                 }
                 catch (error) {
                     console.error(error);
@@ -2121,7 +2118,7 @@ class PurchaseEventTicketComponent {
         });
     }
 }
-PurchaseEventTicketComponent.ɵfac = function PurchaseEventTicketComponent_Factory(t) { return new (t || PurchaseEventTicketComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"])); };
+PurchaseEventTicketComponent.ɵfac = function PurchaseEventTicketComponent_Factory(t) { return new (t || PurchaseEventTicketComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"])); };
 PurchaseEventTicketComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseEventTicketComponent, selectors: [["app-purchase-event-ticket"]], decls: 27, vars: 29, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "mb-4"], ["class", "text-primary text-large mb-3", 4, "ngIf"], ["class", "mb-3", 4, "ngIf"], ["class", "mb-3", 3, "screeningWorkEvent", "select", 4, "ngFor", "ngForOf"], [4, "ngIf"], ["class", "mb-4 bg-white p-3 position-relative", 4, "ngFor", "ngForOf"], [1, "buttons", "mx-auto", "text-center"], ["type", "submit", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", "routerLink", "/purchase/event/schedule", 1, "btn", "btn-link"], [1, "text-primary", "text-large", "mb-3"], [1, "mb-3"], [1, "mb-3", 3, "screeningWorkEvent", "select"], [1, "text-md-center"], [1, "mb-4", "bg-white", "p-3", "position-relative"], ["type", "button", "aria-label", "Close", 1, "close", 3, "click"], ["aria-hidden", "true"], [1, "mb-1"], [1, "font-weight-bold", "text-large", "pr-3"], ["class", "text-small", 4, "ngIf"], [1, "text-small", "mb-1"], [1, "theater-name"], [1, "screen-name"], ["class", "mr-2", 4, "ngIf"], [3, "authorizeSeatReservations"], [1, "text-small"], [1, "mr-2"], [1, "mr-1"]], template: function PurchaseEventTicketComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 1);
@@ -2196,7 +2193,7 @@ PurchaseEventTicketComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__[
                 templateUrl: './purchase-event-ticket.component.html',
                 styleUrls: ['./purchase-event-ticket.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["MasterService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UserService"] }, { type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["ActionService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["MasterService"] }, { type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"] }]; }, null); })();
 
 
 /***/ }),
@@ -2594,12 +2591,10 @@ function PurchaseCompleteComponent_a_39_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 4, link_r23.name));
 } }
 class PurchaseCompleteComponent {
-    constructor(store, router, purchaseService, orderService, userService, utilService, translate, epsonEPOSService) {
+    constructor(store, router, actionService, utilService, translate, epsonEPOSService) {
         this.store = store;
         this.router = router;
-        this.purchaseService = purchaseService;
-        this.orderService = orderService;
-        this.userService = userService;
+        this.actionService = actionService;
         this.utilService = utilService;
         this.translate = translate;
         this.epsonEPOSService = epsonEPOSService;
@@ -2619,7 +2614,7 @@ class PurchaseCompleteComponent {
             this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getError"]));
             let order;
             try {
-                const purchaseData = yield this.purchaseService.getData();
+                const purchaseData = yield this.actionService.purchase.getData();
                 if (purchaseData.order === undefined) {
                     throw new Error('order not found').message;
                 }
@@ -2639,8 +2634,8 @@ class PurchaseCompleteComponent {
     print() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const purchase = yield this.purchaseService.getData();
-                const user = yield this.userService.getData();
+                const purchase = yield this.actionService.purchase.getData();
+                const user = yield this.actionService.user.getData();
                 if (purchase.order === undefined
                     || user.printer === undefined) {
                     throw new Error('printer undefined');
@@ -2648,7 +2643,7 @@ class PurchaseCompleteComponent {
                 const orders = [purchase.order];
                 const pos = user.pos;
                 const printer = user.printer;
-                yield this.orderService.print({ orders, pos, printer });
+                yield this.actionService.order.print({ orders, pos, printer });
             }
             catch (error) {
                 this.utilService.openAlert({
@@ -2667,7 +2662,7 @@ class PurchaseCompleteComponent {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // デモ用
-                const purchase = yield this.purchaseService.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 if (((_a = purchase.order) === null || _a === void 0 ? void 0 : _a.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash)) !== undefined) {
                     // 現金
                     const paymentMethod = (_b = purchase.order) === null || _b === void 0 ? void 0 : _b.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash);
@@ -2675,7 +2670,7 @@ class PurchaseCompleteComponent {
                         || ((_c = paymentMethod.totalPaymentDue) === null || _c === void 0 ? void 0 : _c.value) === undefined) {
                         return;
                     }
-                    const user = yield this.userService.getData();
+                    const user = yield this.actionService.user.getData();
                     if (user.payment === undefined
                         || user.payment.cash === undefined) {
                         throw new Error('payment undefined');
@@ -2691,7 +2686,7 @@ class PurchaseCompleteComponent {
         });
     }
 }
-PurchaseCompleteComponent.ɵfac = function PurchaseCompleteComponent_Factory(t) { return new (t || PurchaseCompleteComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["OrderService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["EpsonEPOSService"])); };
+PurchaseCompleteComponent.ɵfac = function PurchaseCompleteComponent_Factory(t) { return new (t || PurchaseCompleteComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["EpsonEPOSService"])); };
 PurchaseCompleteComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseCompleteComponent, selectors: [["app-purchase-complete"]], decls: 43, vars: 36, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [1, "mb-4"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "mb-4", "px-3", "py-2", "bg-white"], [1, "row", "align-items-center"], [1, "col-4"], [1, "col-8", "text-large", "text-info", "font-weight-bold"], ["class", "mb-4 px-3 py-2 bg-white", 4, "ngIf"], ["class", "mb-4 bg-white p-3", 4, "ngFor", "ngForOf"], [1, "mb-4", "px-3", "bg-white"], [1, "py-3", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [4, "ngFor", "ngForOf"], [1, "py-3"], [1, "col-md-8", "font-weight-bold", "text-large", "text-info"], [1, "buttons", "mx-auto", "text-center"], ["type", "submit", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["class", "btn btn-primary btn-block py-3 mb-3", "target", "_blank", 3, "href", 4, "ngFor", "ngForOf"], ["type", "button", "routerLink", "/purchase/root", 1, "btn", "btn-link"], [1, "col-md-4", "mb-2", "mb-md-0"], [1, "col-md-8", "text-large", "text-center", "text-md-left"], ["alt", "", 1, "border", 3, "src"], [1, "mb-4", "bg-white", "p-3"], [1, "mb-3"], [1, "mb-1"], [1, "font-weight-bold", "text-large"], ["class", "text-small", 4, "ngIf"], [1, "text-small", "mb-1"], [1, "theater-name"], [1, "screen-name"], ["class", "mr-2", 4, "ngIf"], [4, "ngIf"], [3, "acceptedOffers"], [1, "text-small"], [1, "mr-2"], [1, "mr-1"], ["target", "_blank", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "href"]], template: function PurchaseCompleteComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -2795,7 +2790,7 @@ PurchaseCompleteComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵ
                 templateUrl: './purchase-complete.component.html',
                 styleUrls: ['./purchase-complete.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["OrderService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UserService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["EpsonEPOSService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["ActionService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["EpsonEPOSService"] }]; }, null); })();
 
 
 /***/ }),
@@ -3035,11 +3030,10 @@ function PurchaseConfirmComponent_div_23_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 1, "purchase.confirm.prev"));
 } }
 class PurchaseConfirmComponent {
-    constructor(store, router, purchaseService, userService) {
+    constructor(store, router, actionService) {
         this.store = store;
         this.router = router;
-        this.purchaseService = purchaseService;
-        this.userService = userService;
+        this.actionService = actionService;
         this.moment = moment__WEBPACK_IMPORTED_MODULE_4__;
         this.paymentMethodType = _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["factory"].chevre.paymentMethodType;
         this.viewType = ___WEBPACK_IMPORTED_MODULE_5__["Models"].Util.ViewType;
@@ -3054,7 +3048,7 @@ class PurchaseConfirmComponent {
             this.amount = 0;
             this.depositAmount = 0;
             try {
-                const purchase = yield this.purchaseService.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
             }
             catch (error) {
@@ -3072,8 +3066,8 @@ class PurchaseConfirmComponent {
                 this.router.navigate(['/purchase/payment']);
                 return;
             }
-            const purchaseData = yield this.purchaseService.getData();
-            const userData = yield this.userService.getData();
+            const purchaseData = yield this.actionService.purchase.getData();
+            const userData = yield this.actionService.user.getData();
             const profile = userData.customerContact;
             const seller = purchaseData.seller;
             if (profile === undefined
@@ -3083,11 +3077,11 @@ class PurchaseConfirmComponent {
             }
             try {
                 if (purchaseData.pendingMovieTickets.length > 0) {
-                    yield this.purchaseService.authorizeMovieTicket({ seller });
+                    yield this.actionService.purchase.authorizeMovieTicket({ seller });
                 }
-                yield this.purchaseService.authorizeAnyPayment({ amount: this.amount });
-                yield this.purchaseService.registerContact(profile);
-                yield this.purchaseService.endTransaction({ seller, language: userData.language });
+                yield this.actionService.purchase.authorizeAnyPayment({ amount: this.amount });
+                yield this.actionService.purchase.registerContact(profile);
+                yield this.actionService.purchase.endTransaction({ seller, language: userData.language });
                 this.router.navigate(['/purchase/complete']);
             }
             catch (error) {
@@ -3097,7 +3091,7 @@ class PurchaseConfirmComponent {
         });
     }
 }
-PurchaseConfirmComponent.ɵfac = function PurchaseConfirmComponent_Factory(t) { return new (t || PurchaseConfirmComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UserService"])); };
+PurchaseConfirmComponent.ɵfac = function PurchaseConfirmComponent_Factory(t) { return new (t || PurchaseConfirmComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["ActionService"])); };
 PurchaseConfirmComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseConfirmComponent, selectors: [["app-purchase-confirm"]], decls: 24, vars: 21, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [1, "mb-4"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], ["class", "mb-4 bg-white p-3", 4, "ngFor", "ngForOf"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8", "font-weight-bold", "text-large", "text-info"], [4, "ngIf"], [1, "buttons", "mx-auto", "text-center"], ["type", "submit", "class", "btn btn-primary btn-block py-3 mb-3", 3, "disabled", "click", 4, "ngIf"], [1, "mb-4", "bg-white", "p-3"], [1, "mb-3"], [1, "mb-1"], [1, "font-weight-bold", "text-large"], ["class", "text-small", 4, "ngIf"], [1, "text-small", "mb-1"], [1, "theater-name"], [1, "screen-name"], ["class", "mr-2", 4, "ngIf"], [3, "authorizeSeatReservations"], [1, "text-small"], [1, "mr-2"], [1, "mr-1"], [3, "language", "screeningEvent"], ["type", "submit", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", "routerLink", "/purchase/cinema/ticket", 1, "btn", "btn-link"], ["type", "button", "routerLink", "/purchase/event/ticket", 1, "btn", "btn-link"]], template: function PurchaseConfirmComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -3163,7 +3157,7 @@ PurchaseConfirmComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵ�
                 templateUrl: './purchase-confirm.component.html',
                 styleUrls: ['./purchase-confirm.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UserService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["ActionService"] }]; }, null); })();
 
 
 /***/ }),
@@ -3343,12 +3337,11 @@ function PurchasePaymentReceptionComponent_div_7_Template(rf, ctx) { if (rf & 1)
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 4, "purchase.paymentReception.code.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
 } }
 class PurchasePaymentReceptionComponent {
-    constructor(store, router, userService, utilService, purchaseService, epsonEPOSService, paymentService) {
+    constructor(store, router, actionService, utilService, epsonEPOSService, paymentService) {
         this.store = store;
         this.router = router;
-        this.userService = userService;
+        this.actionService = actionService;
         this.utilService = utilService;
-        this.purchaseService = purchaseService;
         this.epsonEPOSService = epsonEPOSService;
         this.paymentService = paymentService;
         this.paymentMethodType = _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["factory"].chevre.paymentMethodType;
@@ -3363,7 +3356,7 @@ class PurchasePaymentReceptionComponent {
             this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getUser"]));
             this.amount = 0;
             try {
-                const purchase = yield this.purchaseService.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
                 if (((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash) {
                     // 現金
@@ -3395,7 +3388,7 @@ class PurchasePaymentReceptionComponent {
     cash() {
         return __awaiter(this, void 0, void 0, function* () {
             this.deposit = 0;
-            const user = yield this.userService.getData();
+            const user = yield this.actionService.user.getData();
             if (user.payment === undefined
                 || user.payment.cash === undefined) {
                 throw new Error('payment undefined');
@@ -3416,7 +3409,7 @@ class PurchasePaymentReceptionComponent {
      */
     creditcard() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.userService.getData();
+            const user = yield this.actionService.user.getData();
             if (user.payment === undefined
                 || user.payment.creditcard === undefined) {
                 throw new Error('payment undefined');
@@ -3451,7 +3444,7 @@ class PurchasePaymentReceptionComponent {
      */
     eMoney() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.userService.getData();
+            const user = yield this.actionService.user.getData();
             if (user.payment === undefined
                 || user.payment.emoney === undefined) {
                 throw new Error('payment undefined');
@@ -3486,7 +3479,7 @@ class PurchasePaymentReceptionComponent {
      */
     code() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.userService.getData();
+            const user = yield this.actionService.user.getData();
             if (user.payment === undefined
                 || user.payment.code === undefined) {
                 throw new Error('payment undefined');
@@ -3523,8 +3516,8 @@ class PurchasePaymentReceptionComponent {
     onSubmit() {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            const purchaseData = yield this.purchaseService.getData();
-            const userData = yield this.userService.getData();
+            const purchaseData = yield this.actionService.purchase.getData();
+            const userData = yield this.actionService.user.getData();
             const profile = userData.customerContact;
             const seller = purchaseData.seller;
             const paymentMethod = purchaseData.paymentMethod;
@@ -3535,11 +3528,11 @@ class PurchasePaymentReceptionComponent {
             }
             try {
                 if (purchaseData.pendingMovieTickets.length > 0) {
-                    yield this.purchaseService.authorizeMovieTicket({ seller });
+                    yield this.actionService.purchase.authorizeMovieTicket({ seller });
                 }
-                yield this.purchaseService.authorizeAnyPayment({ amount: this.amount });
-                yield this.purchaseService.registerContact(profile);
-                yield this.purchaseService.endTransaction({ seller, language: userData.language });
+                yield this.actionService.purchase.authorizeAnyPayment({ amount: this.amount });
+                yield this.actionService.purchase.registerContact(profile);
+                yield this.actionService.purchase.endTransaction({ seller, language: userData.language });
                 this.utilService.loadStart({ process: 'load' });
                 if (((_a = purchaseData.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash) {
                     // 現金
@@ -3567,7 +3560,7 @@ class PurchasePaymentReceptionComponent {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 this.utilService.loadStart({ process: 'load' });
-                const purchase = yield this.purchaseService.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 if (((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash) {
                     // 現金
                     yield this.epsonEPOSService.cashchanger.endDepositRepay();
@@ -3583,7 +3576,7 @@ class PurchasePaymentReceptionComponent {
         });
     }
 }
-PurchasePaymentReceptionComponent.ɵfac = function PurchasePaymentReceptionComponent_Factory(t) { return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"])); };
+PurchasePaymentReceptionComponent.ɵfac = function PurchasePaymentReceptionComponent_Factory(t) { return new (t || PurchasePaymentReceptionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"])); };
 PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchasePaymentReceptionComponent, selectors: [["app-purchase-payment-reception"]], decls: 10, vars: 14, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-link", 3, "click"]], template: function PurchasePaymentReceptionComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, PurchasePaymentReceptionComponent_div_1_Template, 37, 36, "div", 1);
@@ -3621,7 +3614,7 @@ PurchasePaymentReceptionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE
                 templateUrl: './purchase-payment-reception.component.html',
                 styleUrls: ['./purchase-payment-reception.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UserService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UtilService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["ActionService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UtilService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["EpsonEPOSService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PaymentService"] }]; }, null); })();
 
 
 /***/ }),
@@ -3795,11 +3788,11 @@ function PurchasePaymentComponent_div_15_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 1, "purchase.payment.prev"));
 } }
 class PurchasePaymentComponent {
-    constructor(store, router, utilService, purchaseService, translate) {
+    constructor(store, router, utilService, actionService, translate) {
         this.store = store;
         this.router = router;
         this.utilService = utilService;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
         this.translate = translate;
         this.paymentMethodType = _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["factory"].chevre.paymentMethodType;
         this.viewType = ___WEBPACK_IMPORTED_MODULE_5__["Models"].Util.ViewType;
@@ -3814,7 +3807,7 @@ class PurchasePaymentComponent {
     selectPaymentMethodType(typeOf, category) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const seller = (yield this.purchaseService.getData()).seller;
+                const seller = (yield this.actionService.purchase.getData()).seller;
                 if (seller === undefined
                     || seller.paymentAccepted === undefined) {
                     throw new Error('seller is undefined or paymentAccepted is undefined');
@@ -3828,7 +3821,7 @@ class PurchasePaymentComponent {
                     });
                     return;
                 }
-                this.purchaseService.selectPaymentMethodType({ typeOf, category });
+                this.actionService.purchase.selectPaymentMethodType({ typeOf, category });
                 this.router.navigate(['/purchase/payment/reception']);
             }
             catch (error) {
@@ -3845,7 +3838,7 @@ class PurchasePaymentComponent {
         return (findResult !== undefined);
     }
 }
-PurchasePaymentComponent.ɵfac = function PurchasePaymentComponent_Factory(t) { return new (t || PurchasePaymentComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"])); };
+PurchasePaymentComponent.ɵfac = function PurchasePaymentComponent_Factory(t) { return new (t || PurchasePaymentComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"])); };
 PurchasePaymentComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchasePaymentComponent, selectors: [["app-purchase-payment"]], decls: 16, vars: 14, consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "payment-select", "d-grid", "mb-4"], ["type", "button", "class", "btn btn-primary btn-block py-3 m-0", 3, "click", 4, "ngIf"], ["type", "button", "class", "btn btn-primary btn-block py-3 m-0", 3, "click", 4, "ngFor", "ngForOf"], [1, "buttons", "mx-auto", "text-center"], [4, "ngIf"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "m-0", 3, "click"], [1, "mb-md-3"], [1, "fas", "fa-yen-sign", "mr-2", "d-md-none"], [1, "image", "d-none", "d-md-block"], [1, "fas", "fa-yen-sign"], [1, "fas", "fa-credit-card", "mr-2", "d-md-none"], [1, "fas", "fa-credit-card"], [1, "fas", "fa-mobile-alt", "mr-2", "d-md-none"], [1, "fas", "fa-mobile-alt"], [1, "fas", "fa-cash-register", "mr-2", "d-md-none"], [1, "fas", "fa-cash-register"], [1, "far", "fa-question-circle", "mr-2", "d-md-none"], [1, "far", "fa-question-circle"], ["type", "button", "routerLink", "/purchase/cinema/ticket", 1, "btn", "btn-link"], ["type", "button", "routerLink", "/purchase/event/ticket", 1, "btn", "btn-link"]], template: function PurchasePaymentComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 1);
@@ -3896,7 +3889,7 @@ PurchasePaymentComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵ�
                 templateUrl: './purchase-payment.component.html',
                 styleUrls: ['./purchase-payment.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UtilService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["PurchaseService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["UtilService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["ActionService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }]; }, null); })();
 
 
 /***/ }),
@@ -3939,9 +3932,9 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class PurchaseRootComponent {
-    constructor(store, purchaseService, router) {
+    constructor(store, actionService, router) {
         this.store = store;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
         this.router = router;
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["getEnvironment"])();
     }
@@ -3950,11 +3943,11 @@ class PurchaseRootComponent {
             this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_6__["getUser"]));
             this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_6__["getPurchase"]));
             try {
-                const purchase = yield this.purchaseService.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 if (purchase.transaction !== undefined) {
-                    yield this.purchaseService.cancelTransaction();
+                    yield this.actionService.purchase.cancelTransaction();
                 }
-                this.purchaseService.delete();
+                this.actionService.purchase.delete();
                 if (this.environment.VIEW_TYPE === ___WEBPACK_IMPORTED_MODULE_3__["Models"].Util.ViewType.Cinema) {
                     this.router.navigate(['/purchase/cinema/schedule']);
                     return;
@@ -3968,7 +3961,7 @@ class PurchaseRootComponent {
         });
     }
 }
-PurchaseRootComponent.ɵfac = function PurchaseRootComponent_Factory(t) { return new (t || PurchaseRootComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_5__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"])); };
+PurchaseRootComponent.ɵfac = function PurchaseRootComponent_Factory(t) { return new (t || PurchaseRootComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_5__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"])); };
 PurchaseRootComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseRootComponent, selectors: [["app-purchase-root"]], decls: 0, vars: 0, template: function PurchaseRootComponent_Template(rf, ctx) { }, styles: [""] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PurchaseRootComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
@@ -3977,7 +3970,7 @@ PurchaseRootComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
                 templateUrl: './purchase-root.component.html',
                 styleUrls: ['./purchase-root.component.scss']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _services__WEBPACK_IMPORTED_MODULE_5__["PurchaseService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _services__WEBPACK_IMPORTED_MODULE_5__["ActionService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }]; }, null); })();
 
 
 /***/ }),
@@ -4028,12 +4021,12 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class PurchaseSeatComponent {
-    constructor(store, utilService, translate, router, purchaseService) {
+    constructor(store, utilService, translate, router, actionService) {
         this.store = store;
         this.utilService = utilService;
         this.translate = translate;
         this.router = router;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_6__["getEnvironment"])();
     }
     ngOnInit() {
@@ -4045,7 +4038,7 @@ class PurchaseSeatComponent {
                 ? 'purchase.cinema.seat' : 'purchase.event.seat';
             this.screeningEventSeats = [];
             try {
-                const purchase = yield this.purchaseService.getData();
+                const purchase = yield this.actionService.purchase.getData();
                 const screeningEvent = purchase.screeningEvent;
                 const seller = purchase.seller;
                 if (screeningEvent === undefined || seller === undefined) {
@@ -4060,14 +4053,14 @@ class PurchaseSeatComponent {
                     }
                     this.selectSeat({ seat: r.seat, status: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Screen.SeatStatus.Default });
                 });
-                yield this.purchaseService.getScreen({
+                yield this.actionService.purchase.getScreen({
                     branchCode: { $eq: screeningEvent.location.branchCode },
                     containedInPlace: {
                         branchCode: { $eq: screeningEvent.superEvent.location.branchCode }
                     }
                 });
-                this.screeningEventSeats = yield this.purchaseService.getScreeningEventSeats();
-                yield this.purchaseService.getTicketList({ seller });
+                this.screeningEventSeats = yield this.actionService.purchase.getScreeningEventSeats();
+                yield this.actionService.purchase.getTicketList({ seller });
             }
             catch (error) {
                 console.error(error);
@@ -4080,10 +4073,10 @@ class PurchaseSeatComponent {
      */
     selectSeat(data) {
         if (data.status === _models_purchase_screen__WEBPACK_IMPORTED_MODULE_7__["SeatStatus"].Default) {
-            this.purchaseService.selectSeats([data.seat]);
+            this.actionService.purchase.selectSeats([data.seat]);
         }
         else {
-            this.purchaseService.cancelSeats([data.seat]);
+            this.actionService.purchase.cancelSeats([data.seat]);
         }
     }
     /**
@@ -4092,7 +4085,7 @@ class PurchaseSeatComponent {
     allSelectSeats() {
         return __awaiter(this, void 0, void 0, function* () {
             const seats = [];
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             const screeningEventSeats = this.screeningEventSeats;
             screeningEventSeats.forEach((s) => {
                 if (s.offers === undefined
@@ -4120,7 +4113,7 @@ class PurchaseSeatComponent {
                     seats.push(r.reservedTicket.ticketedSeat);
                 });
             }
-            this.purchaseService.selectSeats(seats);
+            this.actionService.purchase.selectSeats(seats);
         });
     }
     /**
@@ -4129,14 +4122,14 @@ class PurchaseSeatComponent {
     resetSeats() {
         return __awaiter(this, void 0, void 0, function* () {
             const seats = [];
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             purchase.reservations.forEach((reservation) => {
                 if (reservation.seat === undefined) {
                     return;
                 }
                 seats.push(reservation.seat);
             });
-            this.purchaseService.cancelSeats(seats);
+            this.actionService.purchase.cancelSeats(seats);
         });
     }
     /**
@@ -4172,7 +4165,7 @@ class PurchaseSeatComponent {
             if (event.target === null) {
                 return;
             }
-            const purchaseData = yield this.purchaseService.getData();
+            const purchaseData = yield this.actionService.purchase.getData();
             const value = Number(event.target.value);
             const reservations = purchaseData.reservations;
             const screeningEventSeats = this.screeningEventSeats;
@@ -4182,7 +4175,7 @@ class PurchaseSeatComponent {
             for (let i = 0; i < value; i++) {
                 selectSeats.push(seats[i]);
             }
-            this.purchaseService.selectSeats(selectSeats);
+            this.actionService.purchase.selectSeats(selectSeats);
         });
     }
     /**
@@ -4190,7 +4183,7 @@ class PurchaseSeatComponent {
      */
     onSubmit() {
         return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             const reservations = purchase.reservations;
             const screeningEventTicketOffers = purchase.screeningEventTicketOffers;
             if (reservations.length === 0) {
@@ -4215,7 +4208,7 @@ class PurchaseSeatComponent {
                 return;
             }
             try {
-                yield this.purchaseService.temporaryReservation({
+                yield this.actionService.purchase.temporaryReservation({
                     reservations,
                     screeningEventSeats: this.screeningEventSeats
                 });
@@ -4237,7 +4230,7 @@ class PurchaseSeatComponent {
         });
     }
 }
-PurchaseSeatComponent.ɵfac = function PurchaseSeatComponent_Factory(t) { return new (t || PurchaseSeatComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"])); };
+PurchaseSeatComponent.ɵfac = function PurchaseSeatComponent_Factory(t) { return new (t || PurchaseSeatComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ActionService"])); };
 PurchaseSeatComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseSeatComponent, selectors: [["app-purchase-seat"]], decls: 0, vars: 0, template: function PurchaseSeatComponent_Template(rf, ctx) { }, encapsulation: 2 });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PurchaseSeatComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
@@ -4245,7 +4238,7 @@ PurchaseSeatComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
                 selector: 'app-purchase-seat',
                 template: ''
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["ActionService"] }]; }, null); })();
 
 
 /***/ }),
@@ -4301,11 +4294,11 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class PurchaseTicketComponent {
-    constructor(store, router, modal, purchaseService, utilService, translate) {
+    constructor(store, router, modal, actionService, utilService, translate) {
         this.store = store;
         this.router = router;
         this.modal = modal;
-        this.purchaseService = purchaseService;
+        this.actionService = actionService;
         this.utilService = utilService;
         this.translate = translate;
         this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_7__["getEnvironment"])();
@@ -4323,7 +4316,7 @@ class PurchaseTicketComponent {
      */
     onSubmit() {
         return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             const transaction = purchase.transaction;
             const screeningEvent = purchase.screeningEvent;
             const reservations = purchase.reservations;
@@ -4371,8 +4364,8 @@ class PurchaseTicketComponent {
             }
             try {
                 const additionalTicketText = this.additionalTicketText;
-                const screeningEventSeats = yield this.purchaseService.getScreeningEventSeats();
-                yield this.purchaseService.temporaryReservation({
+                const screeningEventSeats = yield this.actionService.purchase.getScreeningEventSeats();
+                yield this.actionService.purchase.temporaryReservation({
                     reservations,
                     additionalTicketText,
                     screeningEventSeats
@@ -4400,7 +4393,7 @@ class PurchaseTicketComponent {
      */
     openTicketList(reservation) {
         return __awaiter(this, void 0, void 0, function* () {
-            const purchase = yield this.purchaseService.getData();
+            const purchase = yield this.actionService.purchase.getData();
             this.modal.show(_shared_components_parts_purchase_seat_ticket_modal_seat_ticket_modal_component__WEBPACK_IMPORTED_MODULE_11__["PurchaseSeatTicketModalComponent"], {
                 class: 'modal-dialog-centered modal-lg',
                 initialState: {
@@ -4413,10 +4406,10 @@ class PurchaseTicketComponent {
                         if (reservation === undefined) {
                             const reservations = ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Util.deepCopy(purchase.reservations);
                             reservations.forEach(r => r.ticket = ticket);
-                            this.purchaseService.selectTickets(reservations);
+                            this.actionService.purchase.selectTickets(reservations);
                             return;
                         }
-                        this.purchaseService.selectTickets([Object.assign(Object.assign({}, reservation), { ticket })]);
+                        this.actionService.purchase.selectTickets([Object.assign(Object.assign({}, reservation), { ticket })]);
                     }
                 },
             });
@@ -4431,7 +4424,7 @@ class PurchaseTicketComponent {
         });
     }
 }
-PurchaseTicketComponent.ɵfac = function PurchaseTicketComponent_Factory(t) { return new (t || PurchaseTicketComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"])); };
+PurchaseTicketComponent.ɵfac = function PurchaseTicketComponent_Factory(t) { return new (t || PurchaseTicketComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"])); };
 PurchaseTicketComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PurchaseTicketComponent, selectors: [["app-purchase-ticket"]], decls: 0, vars: 0, template: function PurchaseTicketComponent_Template(rf, ctx) { }, encapsulation: 2 });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PurchaseTicketComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
@@ -4439,7 +4432,7 @@ PurchaseTicketComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
                 selector: 'app-purchase-ticket',
                 template: ''
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["PurchaseService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["ActionService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["UtilService"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }]; }, null); })();
 
 
 /***/ }),

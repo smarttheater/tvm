@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { OrderService, ReservationService, UserService, UtilService } from '../../../../../services';
+import { ActionService, ReservationService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -29,9 +29,8 @@ export class InquiryConfirmComponent implements OnInit {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private userService: UserService,
+        private actionService: ActionService,
         private utilService: UtilService,
-        private orderService: OrderService,
         private reservationService: ReservationService,
         private translate: TranslateService
     ) { }
@@ -78,8 +77,8 @@ export class InquiryConfirmComponent implements OnInit {
             clearTimeout(this.timer);
         }
         try {
-            const orderData = await this.orderService.getData();
-            const user = await this.userService.getData();
+            const orderData = await this.actionService.order.getData();
+            const user = await this.actionService.user.getData();
             if (orderData.order === undefined) {
                 this.router.navigate(['/error']);
                 return;
@@ -113,7 +112,7 @@ export class InquiryConfirmComponent implements OnInit {
             const orders = [orderData.order];
             const pos = user.pos;
             const printer = user.printer;
-            await this.orderService.print({ orders, pos, printer });
+            await this.actionService.order.print({ orders, pos, printer });
             this.router.navigate(['/inquiry/print']);
         } catch (error) {
             console.error(error);

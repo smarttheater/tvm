@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { EpsonEPOSService, OrderService, PurchaseService, UserService, UtilService } from '../../../../../services';
+import { ActionService, EpsonEPOSService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -32,9 +32,7 @@ export class PurchaseCompleteComponent implements OnInit {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private purchaseService: PurchaseService,
-        private orderService: OrderService,
-        private userService: UserService,
+        private actionService: ActionService,
         private utilService: UtilService,
         private translate: TranslateService,
         private epsonEPOSService: EpsonEPOSService,
@@ -48,7 +46,7 @@ export class PurchaseCompleteComponent implements OnInit {
         this.error = this.store.pipe(select(reducers.getError));
         let order: factory.order.IOrder;
         try {
-            const purchaseData = await this.purchaseService.getData();
+            const purchaseData = await this.actionService.purchase.getData();
             if (purchaseData.order === undefined) {
                 throw new Error('order not found').message;
             }
@@ -66,8 +64,8 @@ export class PurchaseCompleteComponent implements OnInit {
      */
     public async print() {
         try {
-            const purchase = await this.purchaseService.getData();
-            const user = await this.userService.getData();
+            const purchase = await this.actionService.purchase.getData();
+            const user = await this.actionService.user.getData();
             if (purchase.order === undefined
                 || user.printer === undefined) {
                 throw new Error('printer undefined');
@@ -75,7 +73,7 @@ export class PurchaseCompleteComponent implements OnInit {
             const orders = [purchase.order];
             const pos = user.pos;
             const printer = user.printer;
-            await this.orderService.print({ orders, pos, printer });
+            await this.actionService.order.print({ orders, pos, printer });
         } catch (error) {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
@@ -91,7 +89,7 @@ export class PurchaseCompleteComponent implements OnInit {
     public async test() {
         try {
             // デモ用
-            const purchase = await this.purchaseService.getData();
+            const purchase = await this.actionService.purchase.getData();
             if (purchase.order?.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash) !== undefined) {
                 // 現金
                 const paymentMethod = purchase.order?.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash);
@@ -99,7 +97,7 @@ export class PurchaseCompleteComponent implements OnInit {
                     || paymentMethod.totalPaymentDue?.value === undefined) {
                     return;
                 }
-                const user = await this.userService.getData();
+                const user = await this.actionService.user.getData();
                 if (user.payment === undefined
                     || user.payment.cash === undefined) {
                     throw new Error('payment undefined');

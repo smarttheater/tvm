@@ -34,7 +34,7 @@ export interface IScreen {
     seatLabelPos: number;
     seatNumberPos: number;
     seatNumberAlign: 'left' | 'right';
-    html: string;
+    html?: string;
     style?: string;
     columnLabel?: boolean;
     lineLabel?: boolean;

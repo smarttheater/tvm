@@ -10,7 +10,7 @@ import { Functions } from '../../../../../..';
 })
 export class PurchaseEventPerformancesConfirmComponent implements OnInit {
 
-    @Input() public screeningWorkEvent: Functions.Purchase.IScreeningEventWork;
+    @Input() public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup;
     @Input() public readonly: boolean;
     @Output() public select = new EventEmitter<factory.chevre.event.screeningEvent.IEvent>();
     public moment: typeof moment = moment;

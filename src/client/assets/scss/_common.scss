@@ -24,11 +24,24 @@ html, body {
     font-size: $body-font-size;
     font-display: swap;
 }
+html {
+    background-color: #000;
+}
 body {
     text-size-adjust: 100%;
     // -webkit-touch-callout: none;
     // user-select: none;
     background-attachment: fixed;
+    transform-origin: 0 0;
+    width: 1920px;
+    height: 1080px;
+    background-color: #EEE;
+    overflow: hidden;
+    position: relative;
+}
+
+.wrapper {
+    height: 100%;
 }
 
 ::placeholder {
@@ -252,4 +265,20 @@ button {
     top: 0;
     right: 0;
     bottom: 0;
+}
+
+.container {
+    max-width: 100%;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.contents {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 100px;
 }

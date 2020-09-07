@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService, PurchaseTransactionGuardService, SettingGuardService, ViewTypeGuardService } from '../../canActivates';
-import { BaseComponent } from '../shared/components/pages/base/base.component';
+import { PurchaseCinemaScheduleEventComponent } from './components/pages/cinema/purchase-cinema-schedule-event/purchase-cinema-schedule-event.component';
+import { PurchaseCinemaScheduleMovieComponent } from './components/pages/cinema/purchase-cinema-schedule-movie/purchase-cinema-schedule-movie.component';
 import { PurchaseCinemaScheduleComponent } from './components/pages/cinema/purchase-cinema-schedule/purchase-cinema-schedule.component';
 import { PurchaseCinemaSeatComponent } from './components/pages/cinema/purchase-cinema-seat/purchase-cinema-seat.component';
 import { PurchaseCinemaTicketComponent } from './components/pages/cinema/purchase-cinema-ticket/purchase-cinema-ticket.component';
+import { PurchaseCinemaTopComponent } from './components/pages/cinema/purchase-cinema-top/purchase-cinema-top.component';
 import { PurchaseEventScheduleComponent } from './components/pages/event/purchase-event-schedule/purchase-event-schedule.component';
 import { PurchaseEventSeatTicketComponent } from './components/pages/event/purchase-event-seat-ticket/purchase-event-seat-ticket.component';
 import { PurchaseEventSeatComponent } from './components/pages/event/purchase-event-seat/purchase-event-seat.component';
@@ -28,6 +30,10 @@ const routes: Routes = [
         path: 'cinema',
         canActivate: [ViewTypeGuardService],
         children: [
+          { path: '', component: PurchaseCinemaTopComponent },
+          { path: 'schedule', component: PurchaseCinemaScheduleComponent },
+          { path: 'schedule/movie', component: PurchaseCinemaScheduleMovieComponent },
+          { path: 'schedule/event/:identifier', component: PurchaseCinemaScheduleEventComponent },
           { path: 'seat', component: PurchaseCinemaSeatComponent },
           { path: 'ticket', component: PurchaseCinemaTicketComponent },
         ]
@@ -37,6 +43,7 @@ const routes: Routes = [
         canActivate: [ViewTypeGuardService],
         children: [
           { path: 'ticket', component: PurchaseEventTicketComponent },
+          { path: 'schedule', component: PurchaseEventScheduleComponent },
           {
             path: 'seat',
             canActivate: [ViewTypeGuardService],
@@ -51,27 +58,6 @@ const routes: Routes = [
       { path: 'payment/reception', canActivate: [PurchaseTransactionGuardService], component: PurchasePaymentReceptionComponent },
       { path: 'confirm', canActivate: [PurchaseTransactionGuardService], component: PurchaseConfirmComponent },
       { path: 'complete', component: PurchaseCompleteComponent }
-    ]
-  },
-  {
-    path: '',
-    component: BaseComponent,
-    canActivate: [AuthGuardService, SettingGuardService],
-    children: [
-      {
-        path: 'cinema',
-        canActivate: [ViewTypeGuardService],
-        children: [
-          { path: 'schedule', component: PurchaseCinemaScheduleComponent }
-        ]
-      },
-      {
-        path: 'event',
-        canActivate: [ViewTypeGuardService],
-        children: [
-          { path: 'schedule', component: PurchaseEventScheduleComponent }
-        ]
-      }
     ]
   }
 ];

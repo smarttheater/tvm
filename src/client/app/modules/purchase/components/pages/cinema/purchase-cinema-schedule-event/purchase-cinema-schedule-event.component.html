@@ -1,0 +1,15 @@
+<app-header>
+</app-header>
+<div class="contents scroll-horizontal">
+    <div class="p-3">
+        <app-purchase-performances *ngFor="let group of screeningEventsGroup" [screeningEventsGroup]="group"
+            (select)="selectSchedule($event)" class="mb-3">
+        </app-purchase-performances>
+    </div>
+</div>
+<app-footer>
+    <div class="mr-auto">
+        <button class="btn btn-danger"
+            routerLink="/purchase/cinema">{{ 'purchase.cinema.scheduleMovie.prev' | translate }}</button>
+    </div>
+</app-footer>

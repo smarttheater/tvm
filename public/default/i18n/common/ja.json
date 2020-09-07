@@ -527,6 +527,7 @@
         "change": "変更",
         "remove": "削除",
         "etc": "その他",
-        "required": "必須"
+        "required": "必須",
+        "clear": "中止"
     }
 }

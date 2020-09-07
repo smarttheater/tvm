@@ -42,23 +42,12 @@
     border-color: steelblue !important;
 }
 
-header {
+.header {
     background-color: #FFF;
 }
 
-header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 4px;
-    background-color: steelblue;
-}
-
-.menu-button div {
-    background-color: steelblue;
+.footer {
+    background-color: #FFF;
 }
 
 .page-item.active .page-link {

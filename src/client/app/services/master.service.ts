@@ -134,6 +134,66 @@ export class MasterService {
     }
 
     /**
+     * 作品一覧取得
+     */
+    public async searchMovies(params: {
+        identifier?: string | {
+            $eq?: string;
+        };
+        name?: string;
+        datePublishedFrom?: Date;
+        datePublishedThrough?: Date;
+        offers?: {
+            availableFrom?: Date;
+            availableThrough?: Date;
+        };
+    }) {
+        try {
+            this.utilService.loadStart({ process: 'masterAction.GetSchedule' });
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.creativeWork.movie.ICreativeWork[] = [];
+            await this.cinerinoService.getServices();
+            while (roop) {
+                const searchResult = await this.cinerinoService.creativeWork.searchMovies({
+                    page,
+                    limit,
+                    ...params
+                });
+                result = [...result, ...searchResult.data];
+                page++;
+                roop = searchResult.data.length === limit;
+                await Functions.Util.sleep(500);
+            }
+            const sortResult = result.sort((a, b) => {
+                const KEY_NAME = 'sortNumber';
+                const sortNumberA = result
+                    .find(s => s.id === a.id)?.additionalProperty
+                    ?.find(p => p.name === KEY_NAME)?.value;
+                const sortNumberB = result
+                    .find(s => s.id === b.id)?.additionalProperty
+                    ?.find(p => p.name === KEY_NAME)?.value;
+                if (sortNumberA === undefined) {
+                    return 1;
+                }
+                if (sortNumberB === undefined) {
+                    return -1;
+                }
+                if (Number(sortNumberA) > Number(sortNumberB)) { return -1; }
+                if (Number(sortNumberA) < Number(sortNumberB)) { return 1; }
+                return 0;
+            });
+            this.utilService.loadEnd();
+            return sortResult;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
+    }
+
+    /**
      * 施設コンテンツsortNumberでのソート
      */
     public async sortScreeningEventSeries(params: {

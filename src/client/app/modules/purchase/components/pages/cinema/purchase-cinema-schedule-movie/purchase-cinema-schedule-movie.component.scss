@@ -1,0 +1,10 @@
+.item {
+    flex: 0 0 16.6%;
+    max-width: 16.6%;
+    padding-right: 15px;
+    padding-left: 15px;
+    .image {
+        padding-top: calc(100% * 1.41);
+        background-color: #FFF;
+    }
+}

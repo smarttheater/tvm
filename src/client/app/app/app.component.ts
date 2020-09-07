@@ -1,7 +1,7 @@
 /**
  * AppComponent
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { getEnvironment } from '../../environments/environment';
@@ -25,10 +25,25 @@ export class AppComponent implements OnInit {
      * @method ngOnInit
      */
     public ngOnInit() {
+        this.changeViewport();
         this.locales();
         if (this.environment.ANALYTICS_ID !== '') {
             this.analytics();
         }
+    }
+
+    @HostListener('window:resize', ['$event'])
+    public onResize() {
+        this.changeViewport();
+    }
+
+    public changeViewport() {
+        const base = 1920;
+        const scale = window.innerWidth / base;
+        // const viewport = 'width=device-width, initial-scale=' + scale + ', maximum-scale=1, user-scalable=no, minimal-ui';
+        // document.querySelector('meta[name=viewport]').setAttribute('content', viewport);
+        document.body.style.transform = 'scale(' + scale + ')';
+        document.body.style.opacity = '1';
     }
 
     /**

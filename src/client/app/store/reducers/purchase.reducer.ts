@@ -157,7 +157,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.selectScheduleDate, (state, payload) => {
             const scheduleDate = payload.scheduleDate;
-            return { ...state, purchaseData: { ...state.purchaseData, scheduleDate }, loading: true, process: '', error: null };
+            return { ...state, purchaseData: { ...state.purchaseData, scheduleDate }, process: '', error: null };
         }),
         on(purchaseAction.getScreeningEvent, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.GetScreeningEvent' };

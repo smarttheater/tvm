@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
+import { PurchaseCinemaScheduleEventComponent } from './components/pages/cinema/purchase-cinema-schedule-event/purchase-cinema-schedule-event.component';
+import { PurchaseCinemaScheduleMovieComponent } from './components/pages/cinema/purchase-cinema-schedule-movie/purchase-cinema-schedule-movie.component';
 import { PurchaseCinemaScheduleComponent } from './components/pages/cinema/purchase-cinema-schedule/purchase-cinema-schedule.component';
 import { PurchaseCinemaSeatComponent } from './components/pages/cinema/purchase-cinema-seat/purchase-cinema-seat.component';
 import { PurchaseCinemaTicketComponent } from './components/pages/cinema/purchase-cinema-ticket/purchase-cinema-ticket.component';
+import { PurchaseCinemaTopComponent } from './components/pages/cinema/purchase-cinema-top/purchase-cinema-top.component';
 import { PurchaseEventScheduleComponent } from './components/pages/event/purchase-event-schedule/purchase-event-schedule.component';
 import { PurchaseEventSeatTicketComponent } from './components/pages/event/purchase-event-seat-ticket/purchase-event-seat-ticket.component';
 import { PurchaseEventSeatComponent } from './components/pages/event/purchase-event-seat/purchase-event-seat.component';
@@ -51,7 +54,10 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseEventSeatTicketComponent,
     PurchaseTicketComponent,
     PurchaseSeatComponent,
-    SeatInfoComponent
+    SeatInfoComponent,
+    PurchaseCinemaScheduleMovieComponent,
+    PurchaseCinemaScheduleEventComponent,
+    PurchaseCinemaTopComponent,
   ],
   imports: [
     CommonModule,

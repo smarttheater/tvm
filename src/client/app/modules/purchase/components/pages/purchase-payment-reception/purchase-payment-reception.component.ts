@@ -41,6 +41,10 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         try {
             const purchase = await this.actionService.purchase.getData();
             this.amount = Functions.Purchase.getAmount(purchase.authorizeSeatReservations);
+            if (this.amount === 0) {
+                await this.onSubmit();
+                return;
+            }
             if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金
                 await this.cash();
@@ -60,7 +64,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             }
         } catch (error) {
             console.error(error);
-            // this.router.navigate(['/error']);
+            this.router.navigate(['/error']);
         }
     }
 
@@ -200,25 +204,25 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * 確定
      */
     public async onSubmit() {
-        const purchaseData = await this.actionService.purchase.getData();
-        const userData = await this.actionService.user.getData();
-        const profile = userData.customerContact;
-        const seller = purchaseData.seller;
-        const paymentMethod = purchaseData.paymentMethod;
-        if (paymentMethod === undefined
-            || profile === undefined
+        const purchase = await this.actionService.purchase.getData();
+        const user = await this.actionService.user.getData();
+        const profile = user.customerContact;
+        const seller = purchase.seller;
+        if (profile === undefined
             || seller === undefined) {
-            throw new Error('paymentMethod or profile or seller undefined');
+            throw new Error('profile or seller undefined');
         }
         try {
-            if (purchaseData.pendingMovieTickets.length > 0) {
+            if (purchase.pendingMovieTickets.length > 0) {
                 await this.actionService.purchase.authorizeMovieTicket({ seller });
             }
-            await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount });
+            if (purchase.paymentMethod !== undefined) {
+                await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount });
+            }
             await this.actionService.purchase.registerContact(profile);
-            await this.actionService.purchase.endTransaction({ seller, language: userData.language });
+            await this.actionService.purchase.endTransaction({ seller, language: user.language });
             this.utilService.loadStart({ process: 'load' });
-            if (purchaseData.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
+            if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金
                 await this.epsonEPOSService.cashchanger.endDeposit();
                 if ((this.deposit - this.amount) > 0) {

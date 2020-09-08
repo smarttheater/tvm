@@ -66,7 +66,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
             this.screenData = await this.getScreenData();
             this.createScreen();
             this.scaleDown();
-            this.setScrollEvent();
+            // this.setScrollEvent();
         } catch (error) {
             console.error(error);
         }
@@ -103,8 +103,8 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
      * 破棄
      */
     public ngOnDestroy() {
-        const element = <HTMLDivElement>document.getElementById('contents');
-        element.removeEventListener('scroll', this.onWindowScroll);
+        // const element = <HTMLDivElement>document.getElementById('contents');
+        // element.removeEventListener('scroll', this.onWindowScroll);
     }
 
     /**
@@ -131,7 +131,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
      */
     public isZoomAllowed(): boolean {
         const minWidth = 1346;
-        const mobileWidth = 1024;
+        const mobileWidth = 9999;
         return (window.innerWidth < mobileWidth || this.screenData.size.w > minWidth);
     }
 

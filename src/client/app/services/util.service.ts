@@ -29,7 +29,7 @@ export class UtilService {
         const body = args.body;
         const modalRef = this.modal.show(AlertModalComponent, {
             initialState: { title, body },
-            class: 'modal-dialog-centered'
+            class: 'modal-dialog-centered modal-lg'
         });
         modalRef.content.modal = modalRef;
     }
@@ -49,7 +49,7 @@ export class UtilService {
         const cb = args.cb;
         this.modal.show(ConfirmModalComponent, {
             initialState: { title, body, code, cb },
-            class: 'modal-dialog-centered'
+            class: 'modal-dialog-centered modal-lg'
         });
     }
 

@@ -49,6 +49,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             });
             this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventSeries({ screeningEvents });
         } catch (error) {
+            console.error(error);
             this.router.navigate(['/error']);
         }
 
@@ -73,17 +74,17 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             return;
         }
         try {
+            this.actionService.purchase.unsettledDelete();
             await this.actionService.purchase.getScreeningEvent(screeningEvent);
-            if (screeningEvent.offers.seller === undefined
-                || screeningEvent.offers.seller.id === undefined) {
-                throw new Error('screeningEvent.offers.seller or screeningEvent.offers.seller.id undefined');
+            const { authorizeSeatReservations } = await this.actionService.purchase.getData();
+            if (authorizeSeatReservations.length > 0) {
+                await this.actionService.purchase.cancelTemporaryReservations(authorizeSeatReservations);
             }
-            await this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
+            this.router.navigate(['/purchase/cinema/seat']);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
             return;
         }
     }
-
 }

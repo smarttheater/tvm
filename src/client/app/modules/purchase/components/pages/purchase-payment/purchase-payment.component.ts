@@ -4,7 +4,7 @@ import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { Models } from '../../../../..';
+import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
@@ -15,10 +15,12 @@ import * as reducers from '../../../../../store/reducers';
     styleUrls: ['./purchase-payment.component.scss']
 })
 export class PurchasePaymentComponent implements OnInit {
+    public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public paymentMethodType = factory.chevre.paymentMethodType;
     public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
+    public amount: number;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -28,8 +30,17 @@ export class PurchasePaymentComponent implements OnInit {
         private translate: TranslateService
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
+        this.amount = 0;
+        try {
+            const purchase = await this.actionService.purchase.getData();
+            this.amount = Functions.Purchase.getAmount(purchase.authorizeSeatReservations);
+        } catch (error) {
+            console.error(error);
+            this.router.navigate(['/error']);
+        }
     }
 
     /**

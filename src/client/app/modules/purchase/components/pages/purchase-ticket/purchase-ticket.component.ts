@@ -104,7 +104,7 @@ export class PurchaseTicketComponent implements OnInit {
                 screeningEventSeats
             });
             const navigate = (this.environment.VIEW_TYPE === 'cinema')
-                ? '/purchase/confirm'
+                ? '/purchase/payment'
                 : '/purchase/event/ticket';
             this.router.navigate([navigate]);
         } catch (error) {
@@ -152,7 +152,7 @@ export class PurchaseTicketComponent implements OnInit {
      */
     public openMovieTicket() {
         this.modal.show(MvtkCheckModalComponent, {
-            class: 'modal-dialog-centered'
+            class: 'modal-dialog-centered modal-lg'
         });
     }
 

@@ -1,59 +1,77 @@
-<div class="contents-width mx-auto px-3 py-5">
-
-    <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'purchase.payment.title' | translate }}</h2>
-    <p class="mb-4 text-md-center" [innerHTML]="'purchase.payment.read' | translate"></p>
-
-    <div class="payment-select d-grid mb-4">
-        <button *ngIf="isDisplay(paymentMethodType.Cash)" type="button" class="btn btn-primary btn-block py-3 m-0"
-            (click)="selectPaymentMethodType(paymentMethodType.Cash)">
-            <div class="mb-md-3">
-                <i class="fas fa-yen-sign mr-2 d-md-none"></i>{{ 'common.paymentMethodType.cash' | translate }}
+<app-header>
+</app-header>
+<div class="contents">
+    <div class="container p-3">
+        <div class="row">
+            <div class="col-3">
+                <div *ngIf="environment.PURCHASE_TERMS">
+                    <h2 class="text-large mb-4 text-center font-weight-bold">
+                        {{ 'purchase.cinema.seat.terms' | translate }}</h2>
+                    <div class="mb-4">
+                        <app-purchase-terms [language]="(user | async)?.language"
+                            [screeningEvent]="(purchase | async)?.screeningEvent"></app-purchase-terms>
+                    </div>
+                </div>
             </div>
-            <div class="image d-none d-md-block"><i class="fas fa-yen-sign"></i></div>
-        </button>
-        <button *ngIf="isDisplay(paymentMethodType.CreditCard)" type="button" class="btn btn-primary btn-block py-3 m-0"
-            (click)="selectPaymentMethodType(paymentMethodType.CreditCard)">
-            <div class="mb-md-3">
-                <i class="fas fa-credit-card mr-2 d-md-none"></i>{{ 'common.paymentMethodType.creditCard' | translate }}
+            <div class="col-6">
+                <div *ngIf="amount > 0" class="container px-0">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <button *ngIf="isDisplay(paymentMethodType.Cash)" type="button"
+                                class="btn btn-primary btn-block py-3"
+                                (click)="selectPaymentMethodType(paymentMethodType.Cash)">
+                                <p>{{ 'common.paymentMethodType.cash' | translate }}</p>
+                            </button>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <button *ngIf="isDisplay(paymentMethodType.CreditCard)" type="button"
+                                class="btn btn-primary btn-block py-3"
+                                (click)="selectPaymentMethodType(paymentMethodType.CreditCard)">
+                                <p>{{ 'common.paymentMethodType.creditCard' | translate }}</p>
+                            </button>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <button *ngIf="isDisplay(paymentMethodType.EMoney)" type="button"
+                                class="btn btn-primary btn-block py-3"
+                                (click)="selectPaymentMethodType(paymentMethodType.EMoney)">
+                                <p>{{ 'common.paymentMethodType.eMoney' | translate }}</p>
+                            </button>
+                        </div>
+                        <div class="col-6 mb-3" *ngFor="let custom of environment.PAYMENT_METHOD_CUSTOM">
+                            <button type="button" class="btn btn-primary btn-block py-3"
+                                (click)="selectPaymentMethodType(paymentMethodType.Others, custom.category)">
+                                <p>{{ custom.name | changeLanguage }}</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="amount === 0" class="container px-0">
+                    <div class="row justify-content-center">
+                        <div class="col-6 mb-3">
+                            <button type="button"
+                                class="btn btn-primary btn-block py-3"
+                                routerLink="/purchase/payment/reception">
+                                <p>{{ 'purchase.payment.next' | translate }}</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="image d-none d-md-block"><i class="fas fa-credit-card"></i></div>
-        </button>
-        <button *ngIf="isDisplay(paymentMethodType.EMoney)" type="button" class="btn btn-primary btn-block py-3 m-0"
-            (click)="selectPaymentMethodType(paymentMethodType.EMoney)">
-            <div class="mb-md-3">
-                <i class="fas fa-mobile-alt mr-2 d-md-none"></i>{{ 'common.paymentMethodType.eMoney' | translate }}
+            <div class="col-3">
+                <app-purchase-info class="mb-4" [purchase]="purchase | async"></app-purchase-info>
             </div>
-            <div class="image d-none d-md-block"><i class="fas fa-mobile-alt"></i></div>
-        </button>
-        <button *ngIf="isDisplay('RegiGrow')" type="button" class="btn btn-primary btn-block py-3 m-0"
-            (click)="selectPaymentMethodType(paymentMethodType.Others, 'RegiGrow')">
-            <div class="mb-md-3">
-                <i class="fas fa-cash-register mr-2 d-md-none"></i>{{ 'common.paymentMethodType.regiGrow' | translate }}
-            </div>
-            <div class="image d-none d-md-block"><i class="fas fa-cash-register"></i></div>
-        </button>
-        <button *ngIf="isDisplay(paymentMethodType.Others)" type="button" class="btn btn-primary btn-block py-3 m-0"
-            (click)="selectPaymentMethodType(paymentMethodType.Others)">
-            <div class="mb-md-3">
-                <i class="far fa-question-circle mr-2 d-md-none"></i>{{ 'common.paymentMethodType.others' | translate }}
-            </div>
-            <div class="image d-none d-md-block"><i class="far fa-question-circle"></i></div>
-        </button>
-        <button *ngFor="let custom of environment.PAYMENT_METHOD_CUSTOM" type="button" class="btn btn-primary btn-block py-3 m-0"
-            (click)="selectPaymentMethodType(paymentMethodType.Others, custom.category)">
-            <div>{{ custom.name | changeLanguage }}</div>
-        </button>
+        </div>
     </div>
-
-    <div class="buttons mx-auto text-center">
+</div>
+<app-footer>
+    <div class="mr-auto">
         <div *ngIf="environment.VIEW_TYPE === viewType.Cinema">
-            <button type="button" class="btn btn-outline-primary btn-block py-3"
+            <button type="button" class="btn btn-outline-primary"
                 routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
         </div>
         <div *ngIf="environment.VIEW_TYPE === viewType.Event">
-            <button type="button" class="btn btn-outline-primary btn-block py-3"
+            <button type="button" class="btn btn-outline-primary"
                 routerLink="/purchase/event/ticket">{{ 'purchase.payment.prev' | translate }}</button>
         </div>
-
     </div>
-</div>
+</app-footer>

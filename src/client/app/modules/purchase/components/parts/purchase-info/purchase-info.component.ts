@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { Functions } from '../../../../..';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -9,11 +10,15 @@ import * as reducers from '../../../../../store/reducers';
 })
 export class PurchaseInfoComponent implements OnInit {
     @Input() public purchase: reducers.IPurchaseState;
-    public moment: typeof moment = moment;
+    public image?: string;
+    public moment = moment;
+    public getAdditionalProperty = Functions.Purchase.getAdditionalProperty;
 
     constructor() { }
 
     public ngOnInit() {
+        const additionalProperty = this.purchase.screeningEvent?.workPerformed?.additionalProperty;
+        this.image = Functions.Purchase.getAdditionalProperty(additionalProperty, 'posterImage');
     }
 
 }

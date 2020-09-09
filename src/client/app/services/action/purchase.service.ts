@@ -532,4 +532,13 @@ export class PurchaseService {
     }) {
         this.store.dispatch(purchaseAction.selectPaymentMethodType(params));
     }
+
+    /**
+     * 検索方法選択
+     */
+    public selectSearchType(params: {
+        searchType: 'movie' | 'event';
+    }) {
+        this.store.dispatch(purchaseAction.selectSearchType(params));
+    }
 }

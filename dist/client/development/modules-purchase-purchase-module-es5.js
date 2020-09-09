@@ -146,7 +146,7 @@
         if (rf & 1) {
           var _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-purchase-performances", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-purchase-performances", 6);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("select", function PurchaseCinemaScheduleEventComponent_app_purchase_performances_3_Template_app_purchase_performances_select_0_listener($event) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r3);
@@ -224,12 +224,13 @@
                           workPerformedIdentifiers: [workPerformedIdentifier]
                         },
                         startFrom: moment__WEBPACK_IMPORTED_MODULE_3__(scheduleDate).toDate(),
-                        startThrough: moment__WEBPACK_IMPORTED_MODULE_3__(scheduleDate).add(1, 'day').toDate()
+                        startThrough: moment__WEBPACK_IMPORTED_MODULE_3__(scheduleDate).add(1, 'day').toDate(),
+                        sort: true
                       });
 
                     case 14:
                       screeningEvents = _context.sent;
-                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_4__["Functions"].Purchase.screeningEvents2ScreeningEventSeries({
+                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_4__["Functions"].Purchase.screeningEvents2ScreeningEventsGroup({
                         screeningEvents: screeningEvents
                       });
                       _context.next = 22;
@@ -337,17 +338,17 @@
         type: PurchaseCinemaScheduleEventComponent,
         selectors: [["app-purchase-cinema-schedule-event"]],
         decls: 9,
-        vars: 4,
-        consts: [[1, "contents", "scroll-horizontal"], [1, "p-3"], ["class", "mb-3", 3, "screeningEventsGroup", "select", 4, "ngFor", "ngForOf"], [1, "mr-auto"], ["routerLink", "/purchase/cinema/schedule/movie", 1, "btn", "btn-outline-primary"], [1, "mb-3", 3, "screeningEventsGroup", "select"]],
+        vars: 5,
+        consts: [[3, "isClear"], [1, "contents", "scroll-horizontal"], [1, "p-3"], ["class", "mb-3", 3, "screeningEventsGroup", "select", 4, "ngFor", "ngForOf"], [1, "mr-auto"], ["routerLink", "/purchase/cinema/schedule/movie", 1, "btn", "btn-outline-primary"], [1, "mb-3", 3, "screeningEventsGroup", "select"]],
         template: function PurchaseCinemaScheduleEventComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchaseCinemaScheduleEventComponent_app_purchase_performances_3_Template, 1, 1, "app-purchase-performances", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchaseCinemaScheduleEventComponent_app_purchase_performances_3_Template, 1, 1, "app-purchase-performances", 3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -355,9 +356,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "app-footer");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7);
 
@@ -371,13 +372,15 @@
           }
 
           if (rf & 2) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
+
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.screeningEventsGroup);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 2, "purchase.cinema.scheduleMovie.prev"));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 3, "purchase.cinema.scheduleMovie.prev"));
           }
         },
         directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_7__["HeaderComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgForOf"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_9__["FooterComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterLink"], _parts_performances_performances_component__WEBPACK_IMPORTED_MODULE_10__["PurchasePerformancesComponent"]],
@@ -458,37 +461,43 @@
       /* harmony import */
 
 
-      var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      var ___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      /*! ../../../../../.. */
+      "./app/index.ts");
+      /* harmony import */
+
+
+      var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! ../../../../../../../environments/environment */
       "./environments/environment.ts");
       /* harmony import */
 
 
-      var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! ../../../../../../services */
       "./app/services/index.ts");
       /* harmony import */
 
 
-      var _shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      var _shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
       /*! ../../../../../shared/components/parts/header/header.component */
       "./app/modules/shared/components/parts/header/header.component.ts");
       /* harmony import */
 
 
-      var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
       /*! @angular/common */
       "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
       /* harmony import */
 
 
-      var _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      var _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
       /*! ../../../../../shared/components/parts/footer/footer.component */
       "./app/modules/shared/components/parts/footer/footer.component.ts");
       /* harmony import */
 
 
-      var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+      var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
       /*! @ngx-translate/core */
       "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
 
@@ -524,15 +533,47 @@
         });
       };
 
+      function PurchaseCinemaScheduleMovieComponent_div_4_div_4_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "div", 14);
+        }
+
+        if (rf & 2) {
+          var movie_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]().$implicit;
+
+          var ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleProp"]("background-image", "url(" + ctx_r2.getAdditionalProperty(movie_r1.additionalProperty, "posterImage") + ")");
+        }
+      }
+
+      function PurchaseCinemaScheduleMovieComponent_div_4_div_5_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "div", 15);
+        }
+      }
+
       function PurchaseCinemaScheduleMovieComponent_div_4_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 7);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 7);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 8);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "p", 8);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 9);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "div", 10);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, PurchaseCinemaScheduleMovieComponent_div_4_div_4_Template, 1, 2, "div", 11);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchaseCinemaScheduleMovieComponent_div_4_div_5_Template, 1, 0, "div", 12);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "p", 13);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -542,9 +583,19 @@
         if (rf & 2) {
           var movie_r1 = ctx.$implicit;
 
+          var ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("routerLink", "/purchase/cinema/schedule/event/" + movie_r1.identifier);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r0.getAdditionalProperty(movie_r1.additionalProperty, "posterImage"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx_r0.getAdditionalProperty(movie_r1.additionalProperty, "posterImage"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](movie_r1.name);
         }
@@ -558,7 +609,8 @@
           this.masterService = masterService;
           this.actionService = actionService;
           this.moment = moment__WEBPACK_IMPORTED_MODULE_2__;
-          this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["getEnvironment"])();
+          this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["getEnvironment"])();
+          this.getAdditionalProperty = ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Purchase.getAdditionalProperty;
         }
         /**
          * 初期化
@@ -652,26 +704,26 @@
       }();
 
       PurchaseCinemaScheduleMovieComponent.ɵfac = function PurchaseCinemaScheduleMovieComponent_Factory(t) {
-        return new (t || PurchaseCinemaScheduleMovieComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_4__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_4__["ActionService"]));
+        return new (t || PurchaseCinemaScheduleMovieComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_5__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_5__["ActionService"]));
       };
 
       PurchaseCinemaScheduleMovieComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
         type: PurchaseCinemaScheduleMovieComponent,
         selectors: [["app-purchase-cinema-schedule-movie"]],
         decls: 10,
-        vars: 4,
-        consts: [[1, "contents", "scroll-horizontal"], [1, "container", "p-3"], [1, "row"], ["class", "item mb-3", 3, "routerLink", 4, "ngFor", "ngForOf"], [1, "mr-auto"], ["routerLink", "/purchase/cinema", 1, "btn", "btn-outline-primary"], [1, "item", "mb-3", 3, "routerLink"], [1, "image"], [1, "p-2", "bg-dark", "text-white", "text-overflow-ellipsis", "text-small"]],
+        vars: 5,
+        consts: [[3, "isClear"], [1, "contents", "scroll-horizontal"], [1, "container", "p-3"], [1, "row"], ["class", "item mb-3", 3, "routerLink", 4, "ngFor", "ngForOf"], [1, "mr-auto"], ["routerLink", "/purchase/cinema", 1, "btn", "btn-outline-primary"], [1, "item", "mb-3", 3, "routerLink"], [1, "image"], [1, "loading", "d-flex", "justify-content-center", "align-items-center"], [1, "loader"], ["class", "poster", 3, "backgroundImage", 4, "ngIf"], ["class", "poster-no", 4, "ngIf"], [1, "p-2", "bg-dark", "text-white", "text-overflow-ellipsis", "text-small"], [1, "poster"], [1, "poster-no"]],
         template: function PurchaseCinemaScheduleMovieComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, PurchaseCinemaScheduleMovieComponent_div_4_Template, 4, 2, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, PurchaseCinemaScheduleMovieComponent_div_4_Template, 8, 4, "div", 4);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -681,9 +733,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "app-footer");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "button", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8);
 
@@ -697,18 +749,20 @@
           }
 
           if (rf & 2) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
+
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.creativeWorks);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 2, "purchase.cinema.scheduleMovie.prev"));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 3, "purchase.cinema.scheduleMovie.prev"));
           }
         },
-        directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_5__["HeaderComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_6__["NgForOf"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_7__["FooterComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterLink"]],
-        pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__["TranslatePipe"]],
-        styles: [".item[_ngcontent-%COMP%] {\n  flex: 0 0 16.6%;\n  max-width: 16.6%;\n  padding-right: 15px;\n  padding-left: 15px;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  padding-top: calc(100% * 1.41);\n  background-color: #FFF;\n}"]
+        directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_6__["HeaderComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgForOf"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_8__["FooterComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterLink"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"]],
+        pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__["TranslatePipe"]],
+        styles: [".item[_ngcontent-%COMP%] {\n  flex: 0 0 16.6%;\n  max-width: 16.6%;\n  padding-right: 15px;\n  padding-left: 15px;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  padding-top: calc(100% * 1.41);\n  background-color: #000;\n  position: relative;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster-no[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-color: #cbcbcb;\n  background-image: url(/default/images/noimage.png);\n}\n.loading[_ngcontent-%COMP%] {\n  opacity: 1;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.loader[_ngcontent-%COMP%], .loader[_ngcontent-%COMP%]:after {\n  border-radius: 50%;\n  width: 90px;\n  height: 90px;\n}\n.loader[_ngcontent-%COMP%] {\n  position: relative;\n  text-indent: -9999em;\n  border: 3px solid rgba(255, 255, 255, 0.2);\n  border-left-color: #FFF;\n  transform: translateZ(0);\n  -webkit-animation: load8 1.1s infinite linear;\n          animation: load8 1.1s infinite linear;\n}\n@-webkit-keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}"]
       });
       /*@__PURE__*/
 
@@ -724,9 +778,9 @@
           return [{
             type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]
           }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_4__["MasterService"]
+            type: _services__WEBPACK_IMPORTED_MODULE_5__["MasterService"]
           }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_4__["ActionService"]
+            type: _services__WEBPACK_IMPORTED_MODULE_5__["ActionService"]
           }];
         }, null);
       })();
@@ -768,95 +822,61 @@
       /* harmony import */
 
 
-      var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-      /*! @ngrx/store */
-      "../../node_modules/@ngrx/store/__ivy_ngcc__/fesm2015/store.js");
-      /* harmony import */
-
-
-      var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
       /*! @ngx-translate/core */
       "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
       /* harmony import */
 
 
-      var http_status__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-      /*! http-status */
-      "../../node_modules/http-status/lib/index.js");
-      /* harmony import */
-
-
-      var http_status__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(http_status__WEBPACK_IMPORTED_MODULE_4__);
-      /* harmony import */
-
-
-      var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
       /*! moment */
       "../../node_modules/moment/moment.js");
       /* harmony import */
 
 
-      var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+      var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
       /* harmony import */
 
 
-      var ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
-      /*! ngx-bootstrap/datepicker */
-      "../../node_modules/ngx-bootstrap/__ivy_ngcc__/datepicker/fesm2015/ngx-bootstrap-datepicker.js");
-      /* harmony import */
-
-
-      var ___WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      var ___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! ../../../../../.. */
       "./app/index.ts");
       /* harmony import */
 
 
-      var _environments_environment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+      var _environments_environment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! ../../../../../../../environments/environment */
       "./environments/environment.ts");
       /* harmony import */
 
 
-      var _services__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+      var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
       /*! ../../../../../../services */
       "./app/services/index.ts");
       /* harmony import */
 
 
-      var _store_reducers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
-      /*! ../../../../../../store/reducers */
-      "./app/store/reducers/index.ts");
+      var _shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      /*! ../../../../../shared/components/parts/header/header.component */
+      "./app/modules/shared/components/parts/header/header.component.ts");
       /* harmony import */
 
 
-      var _angular_forms__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
-      /*! @angular/forms */
-      "../../node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
-      /* harmony import */
-
-
-      var ngx_intl_tel_input__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
-      /*! ngx-intl-tel-input */
-      "../../node_modules/ngx-intl-tel-input/__ivy_ngcc__/fesm2015/ngx-intl-tel-input.js");
-      /* harmony import */
-
-
-      var _angular_common__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
+      var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
       /*! @angular/common */
       "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
       /* harmony import */
 
 
-      var _parts_performances_performances_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
-      /*! ../../../parts/performances/performances.component */
-      "./app/modules/purchase/components/parts/performances/performances.component.ts");
+      var _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+      /*! ../../../../../shared/components/parts/footer/footer.component */
+      "./app/modules/shared/components/parts/footer/footer.component.ts");
       /* harmony import */
 
 
-      var _shared_pipes_format_date_pipe__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(
-      /*! ../../../../../shared/pipes/format-date.pipe */
-      "./app/modules/shared/pipes/format-date.pipe.ts");
+      var _shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+      /*! ../../../../../shared/pipes/change-language.pipe */
+      "./app/modules/shared/pipes/change-language.pipe.ts");
 
       var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
         function adopt(value) {
@@ -890,90 +910,411 @@
         });
       };
 
-      var _c0 = ["datepicker"];
-
-      function PurchaseCinemaScheduleComponent_p_13_Template(rf, ctx) {
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_1_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 20);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 21);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "formatDate");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "async");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "img", 22);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         }
 
         if (rf & 2) {
-          var ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-          var tmp_0_0 = null;
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 1, "common.performance.status.success"), "");
+        }
+      }
+
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_2_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 20);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 23);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "img", 24);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 1, "common.performance.status.warning"), "");
+        }
+      }
+
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_3_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 20);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 25);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "img", 26);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 1, "common.performance.status.danger"), "");
+        }
+      }
+
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_4_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 20);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 25);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "img", 27);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 1, "common.performance.status.success"), "");
+        }
+      }
+
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_9_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 18);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_1_Template, 5, 3, "div", 19);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_2_Template, 5, 3, "div", 19);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_3_Template, 5, 3, "div", 19);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, PurchaseCinemaScheduleComponent_div_3_div_3_div_9_div_4_Template, 5, 3, "div", 19);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          var performance_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]().$implicit;
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, (tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 4, ctx_r1.purchase)) == null ? null : tmp_0_0.scheduleDate, "YYYY/MM/DD (ddd)"), " ");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSeatStatus("success"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSeatStatus("warning"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSeatStatus("danger"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSeatStatus());
         }
       }
 
-      function PurchaseCinemaScheduleComponent_p_15_Template(rf, ctx) {
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_10_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "p", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 18);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](1, "translate");
-        }
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
 
-        if (rf & 2) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](1, 1, "purchase.cinema.schedule.notfound"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
-        }
-      }
-
-      function PurchaseCinemaScheduleComponent_app_purchase_performances_16_Template(rf, ctx) {
-        if (rf & 1) {
-          var _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-purchase-performances", 15);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("select", function PurchaseCinemaScheduleComponent_app_purchase_performances_16_Template_app_purchase_performances_select_0_listener($event) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r6);
-
-            var ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
-
-            return ctx_r5.selectSchedule($event);
-          });
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         }
 
         if (rf & 2) {
-          var group_r4 = ctx.$implicit;
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("screeningEventsGroup", group_r4);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, "common.performance.status.endSale"), "");
         }
       }
 
-      var _c1 = function _c1(a3) {
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_11_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 18);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, "common.performance.status.outsideSalesPeriod"), "");
+        }
+      }
+
+      function PurchaseCinemaScheduleComponent_div_3_div_3_div_12_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 18);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 20);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 21);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](4, "translate");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "img", 22);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](4, 1, "common.performance.status.success"), "");
+        }
+      }
+
+      function PurchaseCinemaScheduleComponent_div_3_div_3_p_22_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 28);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "changeLanguage");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          var performance_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]().$implicit;
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, performance_r3.screeningEvent.location.address), "");
+        }
+      }
+
+      var _c0 = function _c0(a0) {
         return {
-          dateInputFormat: "YYYY/MM/DD",
-          adaptivePosition: true,
-          showWeekNumbers: false,
-          minDate: a3
+          "not-event": a0
         };
       };
 
+      function PurchaseCinemaScheduleComponent_div_3_div_3_Template(rf, ctx) {
+        if (rf & 1) {
+          var _r16 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 8);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaScheduleComponent_div_3_div_3_Template_div_click_0_listener() {
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r16);
+
+            var performance_r3 = ctx.$implicit;
+
+            var ctx_r15 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2);
+
+            return ctx_r15.selectSchedule(performance_r3.screeningEvent);
+          });
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 9);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 10);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 11);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "p");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "changeLanguage");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div", 12);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, PurchaseCinemaScheduleComponent_div_3_div_3_div_9_Template, 5, 4, "div", 13);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](10, PurchaseCinemaScheduleComponent_div_3_div_3_div_10_Template, 3, 3, "div", 13);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, PurchaseCinemaScheduleComponent_div_3_div_3_div_11_Template, 3, 3, "div", 13);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](12, PurchaseCinemaScheduleComponent_div_3_div_3_div_12_Template, 6, 3, "div", 13);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "span", 14);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "span");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](17, "-");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "span");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](19);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "div", 12);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "div", 15);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](22, PurchaseCinemaScheduleComponent_div_3_div_3_p_22_Template, 3, 3, "p", 16);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](23, "changeLanguage");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "p", 17);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](25);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](26, "changeLanguage");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          var performance_r3 = ctx.$implicit;
+
+          var ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngClass", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](16, _c0, !performance_r3.isSales() || performance_r3.isSeatStatus("danger") || performance_r3.isInfinitetock()));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](6, 10, performance_r3.screeningEvent.name));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSales() && !performance_r3.isInfinitetock());
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSales("end"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSales("start"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", performance_r3.isSales() && performance_r3.isInfinitetock());
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx_r2.moment(performance_r3.screeningEvent.startDate).format("HH:mm"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx_r2.moment(performance_r3.screeningEvent.endDate).format("HH:mm"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](23, 12, performance_r3.screeningEvent.location.address));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](26, 14, performance_r3.screeningEvent.location.name), "");
+        }
+      }
+
+      function PurchaseCinemaScheduleComponent_div_3_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 6);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchaseCinemaScheduleComponent_div_3_div_3_Template, 27, 18, "div", 7);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          var group_r1 = ctx.$implicit;
+
+          var ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", ctx_r0.moment(group_r1.info.startDate).format("HH"), ":00");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", group_r1.data);
+        }
+      }
+
       var PurchaseCinemaScheduleComponent = /*#__PURE__*/function () {
-        function PurchaseCinemaScheduleComponent(store, router, utilService, translate, actionService, masterService, localeService) {
+        function PurchaseCinemaScheduleComponent(router, utilService, actionService, masterService, translate) {
           _classCallCheck(this, PurchaseCinemaScheduleComponent);
 
-          this.store = store;
           this.router = router;
           this.utilService = utilService;
-          this.translate = translate;
           this.actionService = actionService;
           this.masterService = masterService;
-          this.localeService = localeService;
-          this.moment = moment__WEBPACK_IMPORTED_MODULE_5__;
-          this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_8__["getEnvironment"])();
+          this.translate = translate;
+          this.moment = moment__WEBPACK_IMPORTED_MODULE_3__;
+          this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_5__["getEnvironment"])();
         }
         /**
          * 初期化
@@ -984,122 +1325,68 @@
           key: "ngOnInit",
           value: function ngOnInit() {
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+              var _yield$this$actionSer6, theater, _yield$this$actionSer7, scheduleDate, screeningEvents, filterResult;
+
               return regeneratorRuntime.wrap(function _callee4$(_context4) {
                 while (1) {
                   switch (_context4.prev = _context4.next) {
                     case 0:
-                      this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getPurchase"]));
-                      this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getError"]));
-                      this.master = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getMaster"]));
-                      this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_10__["getUser"]));
-                      this.screeningEventsGroup = [];
-
-                    case 5:
-                    case "end":
-                      return _context4.stop();
-                  }
-                }
-              }, _callee4, this);
-            }));
-          }
-          /**
-           * 破棄
-           */
-
-        }, {
-          key: "ngOnDestroy",
-          value: function ngOnDestroy() {
-            clearTimeout(this.updateTimer);
-          }
-          /**
-           * 更新
-           */
-
-        }, {
-          key: "update",
-          value: function update() {
-            var _this2 = this;
-
-            if (this.updateTimer !== undefined) {
-              clearTimeout(this.updateTimer);
-            }
-
-            var time = 600000; // 10 * 60 * 1000
-
-            this.updateTimer = setTimeout(function () {
-              _this2.selectDate();
-            }, time);
-          }
-          /**
-           * 日付選択
-           */
-
-        }, {
-          key: "selectDate",
-          value: function selectDate(date) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-              var user, theater, scheduleDate, screeningEvents;
-              return regeneratorRuntime.wrap(function _callee5$(_context5) {
-                while (1) {
-                  switch (_context5.prev = _context5.next) {
-                    case 0:
-                      if (date !== undefined && date !== null) {
-                        this.scheduleDate = date;
-                      }
-
-                      _context5.next = 3;
+                      _context4.prev = 0;
+                      _context4.next = 3;
                       return this.actionService.user.getData();
 
                     case 3:
-                      user = _context5.sent;
-                      theater = user.theater;
+                      _yield$this$actionSer6 = _context4.sent;
+                      theater = _yield$this$actionSer6.theater;
+                      _context4.next = 7;
+                      return this.actionService.purchase.getData();
 
-                      if (this.scheduleDate === undefined) {
-                        this.scheduleDate = moment__WEBPACK_IMPORTED_MODULE_5__().add(this.environment.PURCHASE_SCHEDULE_DEFAULT_SELECTED_DATE, 'day').toDate();
-                      }
+                    case 7:
+                      _yield$this$actionSer7 = _context4.sent;
+                      scheduleDate = _yield$this$actionSer7.scheduleDate;
 
-                      scheduleDate = moment__WEBPACK_IMPORTED_MODULE_5__(this.scheduleDate).format('YYYY-MM-DD');
-
-                      if (!(theater === undefined)) {
-                        _context5.next = 9;
+                      if (!(scheduleDate === undefined || theater === undefined)) {
+                        _context4.next = 11;
                         break;
                       }
 
-                      return _context5.abrupt("return");
+                      throw new Error('scheduleDate or theater undefined');
 
-                    case 9:
-                      this.actionService.purchase.selectScheduleDate(scheduleDate);
-                      _context5.prev = 10;
-                      _context5.next = 13;
+                    case 11:
+                      _context4.next = 13;
                       return this.masterService.getSchedule({
                         superEvent: {
                           locationBranchCodes: [theater.branchCode]
                         },
-                        startFrom: moment__WEBPACK_IMPORTED_MODULE_5__(scheduleDate).toDate(),
-                        startThrough: moment__WEBPACK_IMPORTED_MODULE_5__(scheduleDate).add(1, 'day').toDate()
+                        startFrom: moment__WEBPACK_IMPORTED_MODULE_3__(scheduleDate).toDate(),
+                        startThrough: moment__WEBPACK_IMPORTED_MODULE_3__(scheduleDate).add(1, 'day').toDate()
                       });
 
                     case 13:
-                      screeningEvents = _context5.sent;
-                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_7__["Functions"].Purchase.screeningEvents2ScreeningEventSeries({
-                        screeningEvents: screeningEvents
+                      screeningEvents = _context4.sent;
+                      filterResult = screeningEvents.filter(function (s) {
+                        var performance = new ___WEBPACK_IMPORTED_MODULE_4__["Models"].Purchase.Performance(s);
+                        return !performance.isSales('end');
                       });
-                      this.update();
-                      _context5.next = 22;
+                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_4__["Functions"].Purchase.screeningEvents2ScreeningEventsGroup({
+                        screeningEvents: filterResult,
+                        sortType: 'startDate'
+                      });
+                      _context4.next = 22;
                       break;
 
                     case 18:
-                      _context5.prev = 18;
-                      _context5.t0 = _context5["catch"](10);
-                      console.error(_context5.t0);
+                      _context4.prev = 18;
+                      _context4.t0 = _context4["catch"](0);
+                      console.error(_context4.t0);
                       this.router.navigate(['/error']);
 
                     case 22:
                     case "end":
-                      return _context5.stop();
+                      return _context4.stop();
                   }
                 }
-              }, _callee5, this, [[10, 18]]);
+              }, _callee4, this, [[0, 18]]);
             }));
           }
           /**
@@ -1109,22 +1396,23 @@
         }, {
           key: "selectSchedule",
           value: function selectSchedule(screeningEvent) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-              var purchase, user, errorObject;
-              return regeneratorRuntime.wrap(function _callee6$(_context6) {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+              var _yield$this$actionSer8, authorizeSeatReservations;
+
+              return regeneratorRuntime.wrap(function _callee5$(_context5) {
                 while (1) {
-                  switch (_context6.prev = _context6.next) {
+                  switch (_context5.prev = _context5.next) {
                     case 0:
                       if (!(screeningEvent.remainingAttendeeCapacity === undefined || screeningEvent.remainingAttendeeCapacity === 0)) {
-                        _context6.next = 2;
+                        _context5.next = 2;
                         break;
                       }
 
-                      return _context6.abrupt("return");
+                      return _context5.abrupt("return");
 
                     case 2:
                       if (!(screeningEvent.offers === undefined || screeningEvent.offers.itemOffered.serviceOutput === undefined || screeningEvent.offers.itemOffered.serviceOutput.reservedTicket === undefined || screeningEvent.offers.itemOffered.serviceOutput.reservedTicket.ticketedSeat === undefined)) {
-                        _context6.next = 5;
+                        _context5.next = 5;
                         break;
                       }
 
@@ -1132,156 +1420,49 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant('purchase.cinema.schedule.alert.ticketedSeat')
                       });
-                      return _context6.abrupt("return");
+                      return _context5.abrupt("return");
 
                     case 5:
+                      _context5.prev = 5;
                       this.actionService.purchase.unsettledDelete();
-                      _context6.prev = 6;
-                      _context6.next = 9;
+                      _context5.next = 9;
                       return this.actionService.purchase.getScreeningEvent(screeningEvent);
 
                     case 9:
-                      if (!(screeningEvent.offers.seller === undefined || screeningEvent.offers.seller.id === undefined)) {
-                        _context6.next = 11;
-                        break;
-                      }
-
-                      throw new Error('screeningEvent.offers.seller or screeningEvent.offers.seller.id undefined');
-
-                    case 11:
-                      _context6.next = 13;
-                      return this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
-
-                    case 13:
-                      _context6.next = 20;
-                      break;
-
-                    case 15:
-                      _context6.prev = 15;
-                      _context6.t0 = _context6["catch"](6);
-                      console.error(_context6.t0);
-                      this.router.navigate(['/error']);
-                      return _context6.abrupt("return");
-
-                    case 20:
-                      _context6.next = 22;
+                      _context5.next = 11;
                       return this.actionService.purchase.getData();
 
-                    case 22:
-                      purchase = _context6.sent;
-                      _context6.next = 25;
-                      return this.actionService.user.getData();
+                    case 11:
+                      _yield$this$actionSer8 = _context5.sent;
+                      authorizeSeatReservations = _yield$this$actionSer8.authorizeSeatReservations;
 
-                    case 25:
-                      user = _context6.sent;
-
-                      if (!(purchase.seller === undefined)) {
-                        _context6.next = 29;
+                      if (!(authorizeSeatReservations.length > 0)) {
+                        _context5.next = 16;
                         break;
                       }
 
-                      this.router.navigate(['/error']);
-                      return _context6.abrupt("return");
+                      _context5.next = 16;
+                      return this.actionService.purchase.cancelTemporaryReservations(authorizeSeatReservations);
 
-                    case 29:
-                      if (!(purchase.authorizeSeatReservations.length > 0)) {
-                        _context6.next = 40;
-                        break;
-                      }
-
-                      _context6.prev = 30;
-                      _context6.next = 33;
-                      return this.actionService.purchase.cancelTemporaryReservations(purchase.authorizeSeatReservations);
-
-                    case 33:
-                      _context6.next = 40;
-                      break;
-
-                    case 35:
-                      _context6.prev = 35;
-                      _context6.t1 = _context6["catch"](30);
-                      console.error(_context6.t1);
-                      this.router.navigate(['/error']);
-                      return _context6.abrupt("return");
-
-                    case 40:
-                      _context6.prev = 40;
-                      _context6.next = 43;
-                      return this.actionService.purchase.startTransaction({
-                        seller: purchase.seller,
-                        pos: user.pos
-                      });
-
-                    case 43:
+                    case 16:
                       this.router.navigate(['/purchase/cinema/seat']);
-                      _context6.next = 57;
+                      _context5.next = 24;
                       break;
 
-                    case 46:
-                      _context6.prev = 46;
-                      _context6.t2 = _context6["catch"](40);
-                      console.error(_context6.t2);
-                      errorObject = JSON.parse(_context6.t2);
-
-                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_4__["TOO_MANY_REQUESTS"])) {
-                        _context6.next = 53;
-                        break;
-                      }
-
-                      this.router.navigate(['/congestion']);
-                      return _context6.abrupt("return");
-
-                    case 53:
-                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_4__["BAD_REQUEST"])) {
-                        _context6.next = 56;
-                        break;
-                      }
-
-                      this.router.navigate(['/maintenance']);
-                      return _context6.abrupt("return");
-
-                    case 56:
+                    case 19:
+                      _context5.prev = 19;
+                      _context5.t0 = _context5["catch"](5);
+                      console.error(_context5.t0);
                       this.router.navigate(['/error']);
+                      return _context5.abrupt("return");
 
-                    case 57:
+                    case 24:
                     case "end":
-                      return _context6.stop();
+                      return _context5.stop();
                   }
                 }
-              }, _callee6, this, [[6, 15], [30, 35], [40, 46]]);
+              }, _callee5, this, [[5, 19]]);
             }));
-          }
-          /**
-           * Datepicker言語設定
-           */
-
-        }, {
-          key: "setDatePicker",
-          value: function setDatePicker() {
-            var _this3 = this;
-
-            this.user.subscribe(function (user) {
-              _this3.localeService.use(user.language);
-            }).unsubscribe();
-          }
-          /**
-           * Datepicker開閉
-           */
-
-        }, {
-          key: "toggleDatepicker",
-          value: function toggleDatepicker() {
-            this.setDatePicker();
-            this.datepicker.toggle();
-          }
-          /**
-           * iOS bugfix（2回タップしないと選択できない）
-           */
-
-        }, {
-          key: "onShowPicker",
-          value: function onShowPicker(container) {
-            ___WEBPACK_IMPORTED_MODULE_7__["Functions"].Util.iOSDatepickerTapBugFix(container, [this.datepicker]);
           }
         }]);
 
@@ -1289,121 +1470,61 @@
       }();
 
       PurchaseCinemaScheduleComponent.ɵfac = function PurchaseCinemaScheduleComponent_Factory(t) {
-        return new (t || PurchaseCinemaScheduleComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_9__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsLocaleService"]));
+        return new (t || PurchaseCinemaScheduleComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["UtilService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["ActionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_6__["MasterService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"]));
       };
 
       PurchaseCinemaScheduleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
         type: PurchaseCinemaScheduleComponent,
         selectors: [["app-purchase-cinema-schedule"]],
-        viewQuery: function PurchaseCinemaScheduleComponent_Query(rf, ctx) {
-          if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstaticViewQuery"](_c0, true);
-          }
-
-          if (rf & 2) {
-            var _t;
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.datepicker = _t.first);
-          }
-        },
-        decls: 17,
-        vars: 15,
-        consts: [[1, "contents-width", "mx-auto", "px-3", "py-5"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "mb-3"], [1, "input-group"], ["type", "text", "placeholder", "Datepicker", "bsDatepicker", "", "readonly", "", 1, "form-control", 3, "ngModel", "bsConfig", "ngModelChange", "bsValueChange", "click", "onShown"], ["datepicker", "bsDatepicker"], [1, "input-group-append", "pointer", 3, "click"], [1, "input-group-text"], [1, "fas", "fa-caret-down"], ["class", "text-primary text-large mb-3", 4, "ngIf"], ["class", "mb-3", 3, "innerHTML", 4, "ngIf"], ["class", "mb-3", 3, "screeningEventsGroup", "select", 4, "ngFor", "ngForOf"], [1, "text-primary", "text-large", "mb-3"], [1, "mb-3", 3, "innerHTML"], [1, "mb-3", 3, "screeningEventsGroup", "select"]],
+        decls: 9,
+        vars: 5,
+        consts: [[3, "isClear"], [1, "contents", "scroll-horizontal"], [1, "p-3"], [4, "ngFor", "ngForOf"], [1, "mr-auto"], ["routerLink", "/purchase/cinema", 1, "btn", "btn-outline-primary"], [1, "bg-dark", "text-white", "p-3", "mb-3"], ["class", "bg-white p-3 mb-3", 3, "ngClass", "click", 4, "ngFor", "ngForOf"], [1, "bg-white", "p-3", "mb-3", 3, "ngClass", "click"], [1, "container", "px-0"], [1, "row", "align-items-center"], [1, "col-6"], [1, "col-3"], ["class", "status", 4, "ngIf"], [1, "text-large"], [1, "mb-1", "text-small", "screen-name"], ["class", "text-overflow-ellipsis mr-2 mr-md-0 d-inline-block d-md-block", 4, "ngIf"], [1, "text-overflow-ellipsis", "d-inline-block", "d-md-block"], [1, "status"], ["class", "d-flex align-items-center", 4, "ngIf"], [1, "d-flex", "align-items-center"], [1, "text-success", "mr-2"], ["src", "/assets/images/icon/status_success.svg", "alt", ""], [1, "text-warning", "mr-2"], ["src", "/assets/images/icon/status_warning.svg", "alt", ""], [1, "mr-2"], ["src", "/assets/images/icon/status_danger.svg", "alt", ""], ["src", "/assets/images/icon/status_undefined.svg", "alt", ""], [1, "text-overflow-ellipsis", "mr-2", "mr-md-0", "d-inline-block", "d-md-block"]],
         template: function PurchaseCinemaScheduleComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](3, "translate");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "p", 2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 3);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div", 4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "input", 5, 6);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function PurchaseCinemaScheduleComponent_Template_input_ngModelChange_8_listener($event) {
-              return ctx.scheduleDate = $event;
-            })("bsValueChange", function PurchaseCinemaScheduleComponent_Template_input_bsValueChange_8_listener($event) {
-              return ctx.selectDate($event);
-            })("click", function PurchaseCinemaScheduleComponent_Template_input_click_8_listener() {
-              return ctx.setDatePicker();
-            })("onShown", function PurchaseCinemaScheduleComponent_Template_input_onShown_8_listener($event) {
-              return ctx.onShowPicker($event);
-            });
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 7);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaScheduleComponent_Template_div_click_10_listener() {
-              return ctx.toggleDatepicker();
-            });
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "span", 8);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](12, "i", 9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchaseCinemaScheduleComponent_div_3_Template, 4, 2, "div", 3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "app-footer");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](8, "translate");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](13, PurchaseCinemaScheduleComponent_p_13_Template, 4, 6, "p", 10);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](14, "async");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](15, PurchaseCinemaScheduleComponent_p_15_Template, 2, 3, "p", 11);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](16, PurchaseCinemaScheduleComponent_app_purchase_performances_16_Template, 1, 1, "app-purchase-performances", 12);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
           }
 
           if (rf & 2) {
-            var tmp_4_0 = null;
-            var currVal_4 = (tmp_4_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](14, 11, ctx.purchase)) == null ? null : tmp_4_0.scheduleDate;
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 7, "purchase.cinema.schedule.title"));
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 9, "purchase.cinema.schedule.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.screeningEventsGroup);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.scheduleDate)("bsConfig", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](13, _c1, ctx.moment().toDate()));
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.screeningEventsGroup.length === 0);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.screeningEventsGroup);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 3, "purchase.cinema.scheduleMovie.prev"));
           }
         },
-        directives: [ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsDatepickerInputDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_11__["DefaultValueAccessor"], ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsDatepickerDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_11__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_11__["NgModel"], ngx_intl_tel_input__WEBPACK_IMPORTED_MODULE_12__["NativeElementInjectorDirective"], _angular_common__WEBPACK_IMPORTED_MODULE_13__["NgIf"], _angular_common__WEBPACK_IMPORTED_MODULE_13__["NgForOf"], _parts_performances_performances_component__WEBPACK_IMPORTED_MODULE_14__["PurchasePerformancesComponent"]],
-        pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_13__["AsyncPipe"], _shared_pipes_format_date_pipe__WEBPACK_IMPORTED_MODULE_15__["FormatDatePipe"]],
-        styles: [""]
+        directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_7__["HeaderComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgForOf"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_9__["FooterComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterLink"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgClass"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]],
+        pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslatePipe"], _shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_10__["ChangeLanguagePipe"]],
+        styles: [".status[_ngcontent-%COMP%] {\n  line-height: 30px;\n}\n.status[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 30px;\n  height: 30px;\n}"]
       });
       /*@__PURE__*/
 
@@ -1417,28 +1538,17 @@
           }]
         }], function () {
           return [{
-            type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]
-          }, {
             type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]
           }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_9__["UtilService"]
+            type: _services__WEBPACK_IMPORTED_MODULE_6__["UtilService"]
           }, {
-            type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"]
+            type: _services__WEBPACK_IMPORTED_MODULE_6__["ActionService"]
           }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_9__["ActionService"]
+            type: _services__WEBPACK_IMPORTED_MODULE_6__["MasterService"]
           }, {
-            type: _services__WEBPACK_IMPORTED_MODULE_9__["MasterService"]
-          }, {
-            type: ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_6__["BsLocaleService"]
+            type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"]
           }];
-        }, {
-          datepicker: [{
-            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"],
-            args: ['datepicker', {
-              "static": true
-            }]
-          }]
-        });
+        }, null);
       })();
       /***/
 
@@ -1572,7 +1682,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 14);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
@@ -1580,9 +1690,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 7);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 8);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "async");
 
@@ -1615,7 +1725,7 @@
         if (rf & 1) {
           var _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-screen", 15);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-screen", 16);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("select", function PurchaseCinemaSeatComponent_app_screen_7_Template_app_screen_select_0_listener($event) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r6);
@@ -1658,7 +1768,7 @@
 
       function PurchaseCinemaSeatComponent_div_11_option_9_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "option", 21);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "option", 22);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
 
@@ -1688,11 +1798,11 @@
         if (rf & 1) {
           var _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 7);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 8);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 17);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "p", 17);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "p", 18);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
 
@@ -1700,7 +1810,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "select", 18);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "select", 19);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function PurchaseCinemaSeatComponent_div_11_Template_select_change_5_listener($event) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r10);
@@ -1712,13 +1822,13 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "async");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "option", 19);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "option", 20);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8, "0");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, PurchaseCinemaSeatComponent_div_11_option_9_Template, 2, 2, "option", 20);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, PurchaseCinemaSeatComponent_div_11_option_9_Template, 2, 2, "option", 21);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](10, "async");
 
@@ -1757,7 +1867,7 @@
         if (rf & 1) {
           var _r12 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 22);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 23);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaSeatComponent_button_22_Template_button_click_0_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12);
@@ -1791,7 +1901,7 @@
         if (rf & 1) {
           var _r14 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 22);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 23);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaSeatComponent_button_23_Template_button_click_0_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r14);
@@ -1835,39 +1945,49 @@
         _createClass(PurchaseCinemaSeatComponent, [{
           key: "prev",
           value: function prev() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-              var _yield$this$actionSer6, screeningEvent, identifier;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+              var _yield$this$actionSer9, screeningEvent, searchType, identifier;
 
-              return regeneratorRuntime.wrap(function _callee7$(_context7) {
+              return regeneratorRuntime.wrap(function _callee6$(_context6) {
                 while (1) {
-                  switch (_context7.prev = _context7.next) {
+                  switch (_context6.prev = _context6.next) {
                     case 0:
-                      _context7.next = 2;
+                      _context6.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      _yield$this$actionSer6 = _context7.sent;
-                      screeningEvent = _yield$this$actionSer6.screeningEvent;
+                      _yield$this$actionSer9 = _context6.sent;
+                      screeningEvent = _yield$this$actionSer9.screeningEvent;
+                      searchType = _yield$this$actionSer9.searchType;
 
-                      if (!(screeningEvent === undefined || screeningEvent.workPerformed === undefined)) {
-                        _context7.next = 7;
+                      if (!(screeningEvent === undefined || screeningEvent.workPerformed === undefined || searchType === undefined)) {
+                        _context6.next = 9;
                         break;
                       }
 
+                      console.error('screeningEvent.workPerformed or searchType undefined');
                       this.router.navigate(['/error']);
-                      return _context7.abrupt("return");
+                      return _context6.abrupt("return");
 
-                    case 7:
+                    case 9:
+                      if (!(searchType === 'event')) {
+                        _context6.next = 12;
+                        break;
+                      }
+
+                      this.router.navigate(["/purchase/cinema/schedule"]);
+                      return _context6.abrupt("return");
+
+                    case 12:
                       identifier = screeningEvent.workPerformed.identifier;
-                      console.log("/purchase/cinema/schedule/event/".concat(identifier));
                       this.router.navigate(["/purchase/cinema/schedule/event/".concat(identifier)]);
 
-                    case 10:
+                    case 14:
                     case "end":
-                      return _context7.stop();
+                      return _context6.stop();
                   }
                 }
-              }, _callee7, this);
+              }, _callee6, this);
             }));
           }
         }]);
@@ -1884,43 +2004,43 @@
         selectors: [["app-purchase-cinema-seat"]],
         features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]],
         decls: 24,
-        vars: 17,
-        consts: [[1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], [3, "theaterCode", "screenCode", "screeningEventSeats", "openSeatingAllowed", "reservations", "authorizeSeatReservation", "select", 4, "ngIf"], [1, "mb-4"], ["class", "mb-4", 4, "ngIf"], [1, "mb-4", 3, "purchase"], [1, "mr-auto"], ["type", "button", 1, "btn", "btn-outline-primary", 3, "click"], ["type", "submit", "class", "btn btn-primary", 3, "disabled", "click", 4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [3, "language", "screeningEvent"], [3, "theaterCode", "screenCode", "screeningEventSeats", "openSeatingAllowed", "reservations", "authorizeSeatReservation", "select"], [1, "d-flex", "align-items-center"], [1, "mr-2"], [1, "form-control", "d-inline-block", "w-auto", 3, "ngModel", "change"], ["value", "0"], [3, "value", 4, "ngFor", "ngForOf"], [3, "value"], ["type", "submit", 1, "btn", "btn-primary", 3, "disabled", "click"]],
+        vars: 18,
+        consts: [[3, "isClear"], [1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], [3, "theaterCode", "screenCode", "screeningEventSeats", "openSeatingAllowed", "reservations", "authorizeSeatReservation", "select", 4, "ngIf"], [1, "mb-4"], ["class", "mb-4", 4, "ngIf"], [1, "mb-4", 3, "purchase"], [1, "mr-auto"], ["type", "button", 1, "btn", "btn-outline-primary", 3, "click"], ["type", "submit", "class", "btn btn-primary", 3, "disabled", "click", 4, "ngIf"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [3, "language", "screeningEvent"], [3, "theaterCode", "screenCode", "screeningEventSeats", "openSeatingAllowed", "reservations", "authorizeSeatReservation", "select"], [1, "d-flex", "align-items-center"], [1, "mr-2"], [1, "form-control", "d-inline-block", "w-auto", 3, "ngModel", "change"], ["value", "0"], [3, "value", 4, "ngFor", "ngForOf"], [3, "value"], ["type", "submit", 1, "btn", "btn-primary", 3, "disabled", "click"]],
         template: function PurchaseCinemaSeatComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchaseCinemaSeatComponent_div_5_Template, 8, 9, "div", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchaseCinemaSeatComponent_div_5_Template, 8, 9, "div", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchaseCinemaSeatComponent_app_screen_7_Template, 6, 16, "app-screen", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchaseCinemaSeatComponent_app_screen_7_Template, 6, 16, "app-screen", 7);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](8, "async");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](9, "async");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "app-seat-info", 7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "app-seat-info", 8);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, PurchaseCinemaSeatComponent_div_11_Template, 12, 15, "div", 8);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, PurchaseCinemaSeatComponent_div_11_Template, 12, 15, "div", 9);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](12, "async");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "app-purchase-info", 9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "app-purchase-info", 10);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](15, "async");
 
@@ -1934,9 +2054,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "app-footer");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "div", 10);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "div", 11);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "button", 11);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "button", 12);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaSeatComponent_Template_button_click_18_listener() {
               return ctx.prev();
@@ -1952,9 +2072,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "div");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](22, PurchaseCinemaSeatComponent_button_22_Template, 4, 6, "button", 12);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](22, PurchaseCinemaSeatComponent_button_22_Template, 4, 6, "button", 13);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](23, PurchaseCinemaSeatComponent_button_23_Template, 4, 6, "button", 12);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](23, PurchaseCinemaSeatComponent_button_23_Template, 4, 6, "button", 13);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -1962,10 +2082,12 @@
           }
 
           if (rf & 2) {
-            var tmp_1_0 = null;
-            var currVal_1 = ((tmp_1_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 7, ctx.user)) == null ? null : tmp_1_0.theater) && ctx.screeningEventSeats.length > 0 && ((tmp_1_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 9, ctx.purchase)) == null ? null : tmp_1_0.screen);
             var tmp_2_0 = null;
-            var currVal_2 = (tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](12, 11, ctx.purchase)) == null ? null : tmp_2_0.screen == null ? null : tmp_2_0.screen.openSeatingAllowed;
+            var currVal_2 = ((tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 8, ctx.user)) == null ? null : tmp_2_0.theater) && ctx.screeningEventSeats.length > 0 && ((tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 10, ctx.purchase)) == null ? null : tmp_2_0.screen);
+            var tmp_3_0 = null;
+            var currVal_3 = (tmp_3_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](12, 12, ctx.purchase)) == null ? null : tmp_3_0.screen == null ? null : tmp_3_0.screen.openSeatingAllowed;
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
@@ -1973,19 +2095,19 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_2);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](15, 13, ctx.purchase));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](15, 14, ctx.purchase));
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](20, 15, "purchase.cinema.seat.prev"));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](20, 16, "purchase.cinema.seat.prev"));
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
@@ -2097,23 +2219,25 @@
         if (rf & 1) {
           var _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 12);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 13);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 14);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "p", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 15);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "p", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](4, "translate");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "translate");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 15);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "button", 16);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaTicketComponent_div_6_Template_button_click_6_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaTicketComponent_div_6_Template_button_click_7_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r3);
 
             var ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -2121,7 +2245,9 @@
             return ctx_r2.openMovieTicket();
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](7, "img", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](8, "img", 17);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -2133,9 +2259,9 @@
         }
 
         if (rf & 2) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](4, 1, "purchase.cinema.ticket.mvtk"));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 1, "purchase.cinema.ticket.mvtk"));
         }
       }
 
@@ -2229,7 +2355,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 3, priceComponent_r13.name));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 3, priceComponent_r13.name), " ");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
@@ -2295,7 +2421,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 3, addOn_r16.priceSpecification.name));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](3, 3, addOn_r16.priceSpecification.name), "");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
@@ -2377,9 +2503,9 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "li");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 17);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 18);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 18);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 19);
 
@@ -2450,31 +2576,31 @@
         selectors: [["app-purchase-cinema-ticket"]],
         features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]],
         decls: 25,
-        vars: 18,
-        consts: [[1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [1, "col-6"], ["class", "mb-3", 4, "ngIf"], [1, "py-2", "bg-white"], [4, "ngFor", "ngForOf"], [1, "mb-4", 3, "purchase"], [1, "mr-auto"], ["type", "button", "routerLink", "/purchase/cinema/seat", 1, "btn", "btn-outline-primary"], ["type", "submit", 1, "btn", "btn-primary", 3, "disabled", "click"], [1, "mb-3"], [1, "bg-white", "p-3", "d-md-flex", "align-items-center", "movieticket"], [1, "mb-2", "mb-md-0"], ["type", "button", 1, "btn", "btn-block", "bg-white", "border", "border-gray", "py-3", 3, "click"], ["src", "/assets/images/mvtk.svg", "height", "24", "alt", ""], [1, "container", "px-3", "py-2"], [1, "row", "align-items-center"], [1, "col-2"], [1, "font-weight-bold"], [1, "col-10"], ["type", "button", "class", "btn btn-primary btn-block py-2", 3, "click", 4, "ngIf"], ["type", "button", "class", "btn btn-block border border-primary text-primary bg-white py-2", 3, "click", 4, "ngIf"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-2", 3, "click"], ["type", "button", 1, "btn", "btn-block", "border", "border-primary", "text-primary", "bg-white", "py-2", 3, "click"], ["class", "d-flex justify-content-between align-items-center", 4, "ngFor", "ngForOf"], ["class", "text-small text-left", 4, "ngIf"], [1, "d-flex", "justify-content-between", "align-items-center"], [1, "w-50", "text-left"], [1, "w-50", "text-right"], [4, "ngIf"], [1, "text-small", "text-left"]],
+        vars: 19,
+        consts: [[3, "isClear"], [1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [1, "col-6"], ["class", "mb-3 p-3 bg-white", 4, "ngIf"], [1, "py-2", "bg-white"], [4, "ngFor", "ngForOf"], [1, "mb-4", 3, "purchase"], [1, "mr-auto"], ["type", "button", "routerLink", "/purchase/cinema/seat", 1, "btn", "btn-outline-primary"], ["type", "submit", 1, "btn", "btn-primary", 3, "disabled", "click"], [1, "mb-3", "p-3", "bg-white"], [1, "container", "px-0"], [1, "row", "align-items-center"], ["type", "button", 1, "btn", "btn-block", "bg-white", "border", "border-gray", "py-3", 3, "click"], ["src", "/assets/images/mvtk.svg", "height", "50", "alt", ""], [1, "container", "px-3", "py-2"], [1, "col-2"], [1, "font-weight-bold"], [1, "col-10"], ["type", "button", "class", "btn btn-primary btn-block py-2", 3, "click", 4, "ngIf"], ["type", "button", "class", "btn btn-block border border-primary text-primary bg-white py-2", 3, "click", 4, "ngIf"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-2", 3, "click"], ["type", "button", 1, "btn", "btn-block", "border", "border-primary", "text-primary", "bg-white", "py-2", 3, "click"], ["class", "d-flex justify-content-between align-items-center", 4, "ngFor", "ngForOf"], ["class", "text-small text-left", 4, "ngIf"], [1, "d-flex", "justify-content-between", "align-items-center"], [1, "w-50", "text-left"], [1, "w-50", "text-right"], [4, "ngIf"], [1, "text-small", "text-left"]],
         template: function PurchaseCinemaTicketComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, PurchaseCinemaTicketComponent_div_6_Template, 8, 3, "div", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, PurchaseCinemaTicketComponent_div_6_Template, 9, 3, "div", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](7, "async");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "ul", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "ul", 7);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](10, PurchaseCinemaTicketComponent_li_10_Template, 10, 3, "li", 7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](10, PurchaseCinemaTicketComponent_li_10_Template, 10, 3, "li", 8);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](11, "async");
 
@@ -2484,9 +2610,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](13, "app-purchase-info", 8);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](13, "app-purchase-info", 9);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](14, "async");
 
@@ -2500,9 +2626,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "app-footer");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "div", 9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "div", 10);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "button", 10);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "button", 11);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18);
 
@@ -2514,7 +2640,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "div");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "button", 11);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "button", 12);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaTicketComponent_Template_button_click_21_listener() {
               return ctx.onSubmit();
@@ -2534,34 +2660,36 @@
           }
 
           if (rf & 2) {
-            var tmp_0_0 = null;
-            var currVal_0 = (tmp_0_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](7, 6, ctx.purchase)) == null ? null : tmp_0_0.isUsedMovieTicket;
             var tmp_1_0 = null;
-            var currVal_1 = (tmp_1_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](11, 8, ctx.purchase)) == null ? null : tmp_1_0.reservations;
+            var currVal_1 = (tmp_1_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](7, 7, ctx.purchase)) == null ? null : tmp_1_0.isUsedMovieTicket;
+            var tmp_2_0 = null;
+            var currVal_2 = (tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](11, 9, ctx.purchase)) == null ? null : tmp_2_0.reservations;
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_1);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", currVal_1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", currVal_2);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](14, 10, ctx.purchase));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](14, 11, ctx.purchase));
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](19, 12, "purchase.cinema.seat.prev"));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](19, 13, "purchase.cinema.seat.prev"));
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](22, 14, ctx.isLoading));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](22, 15, ctx.isLoading));
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](24, 16, "purchase.cinema.ticket.next"));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](24, 17, "purchase.cinema.ticket.next"));
           }
         },
         directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_2__["HeaderComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _parts_purchase_info_purchase_info_component__WEBPACK_IMPORTED_MODULE_4__["PurchaseInfoComponent"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_5__["FooterComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterLink"]],
@@ -2699,45 +2827,45 @@
         _createClass(PurchaseCinemaTopComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-              return regeneratorRuntime.wrap(function _callee8$(_context8) {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+              return regeneratorRuntime.wrap(function _callee7$(_context7) {
                 while (1) {
-                  switch (_context8.prev = _context8.next) {
+                  switch (_context7.prev = _context7.next) {
                     case 0:
-                      _context8.prev = 0;
-                      _context8.next = 3;
+                      _context7.prev = 0;
+                      _context7.next = 3;
                       return this.actionService.purchase.getData();
 
                     case 3:
-                      _context8.t0 = _context8.sent.transaction;
-                      _context8.t1 = undefined;
+                      _context7.t0 = _context7.sent.transaction;
+                      _context7.t1 = undefined;
 
-                      if (!(_context8.t0 === _context8.t1)) {
-                        _context8.next = 7;
+                      if (!(_context7.t0 === _context7.t1)) {
+                        _context7.next = 7;
                         break;
                       }
 
-                      return _context8.abrupt("return");
+                      return _context7.abrupt("return");
 
                     case 7:
-                      _context8.next = 9;
+                      _context7.next = 9;
                       return this.actionService.purchase.cancelTransaction();
 
                     case 9:
-                      _context8.next = 14;
+                      _context7.next = 14;
                       break;
 
                     case 11:
-                      _context8.prev = 11;
-                      _context8.t2 = _context8["catch"](0);
-                      console.error(_context8.t2);
+                      _context7.prev = 11;
+                      _context7.t2 = _context7["catch"](0);
+                      console.error(_context7.t2);
 
                     case 14:
                     case "end":
-                      return _context8.stop();
+                      return _context7.stop();
                   }
                 }
-              }, _callee8, this, [[0, 11]]);
+              }, _callee7, this, [[0, 11]]);
             }));
           }
           /**
@@ -2747,32 +2875,185 @@
         }, {
           key: "searchMovie",
           value: function searchMovie() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-              var scheduleDate, _yield$this$actionSer7, theater, screeningEvents, screeningEvent, purchase, user, errorObject;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+              var scheduleDate, errorObject;
+              return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                while (1) {
+                  switch (_context8.prev = _context8.next) {
+                    case 0:
+                      scheduleDate = moment__WEBPACK_IMPORTED_MODULE_3__().format('YYYY-MM-DD');
+                      this.actionService.purchase.selectScheduleDate(scheduleDate);
+                      this.actionService.purchase.selectSearchType({
+                        searchType: 'movie'
+                      });
+                      _context8.prev = 3;
+                      _context8.next = 6;
+                      return this.setSeller();
 
+                    case 6:
+                      _context8.next = 12;
+                      break;
+
+                    case 8:
+                      _context8.prev = 8;
+                      _context8.t0 = _context8["catch"](3);
+                      console.error(_context8.t0);
+                      this.router.navigate(['/error']);
+
+                    case 12:
+                      _context8.prev = 12;
+                      _context8.next = 15;
+                      return this.startTransaction();
+
+                    case 15:
+                      this.router.navigate(['/purchase/cinema/schedule/movie']);
+                      _context8.next = 28;
+                      break;
+
+                    case 18:
+                      _context8.prev = 18;
+                      _context8.t1 = _context8["catch"](12);
+                      errorObject = JSON.parse(_context8.t1);
+
+                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_2__["TOO_MANY_REQUESTS"])) {
+                        _context8.next = 24;
+                        break;
+                      }
+
+                      this.router.navigate(['/congestion']);
+                      return _context8.abrupt("return");
+
+                    case 24:
+                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_2__["BAD_REQUEST"])) {
+                        _context8.next = 27;
+                        break;
+                      }
+
+                      this.router.navigate(['/maintenance']);
+                      return _context8.abrupt("return");
+
+                    case 27:
+                      this.router.navigate(['/error']);
+
+                    case 28:
+                    case "end":
+                      return _context8.stop();
+                  }
+                }
+              }, _callee8, this, [[3, 8], [12, 18]]);
+            }));
+          }
+          /**
+           * 時間からさがす
+           */
+
+        }, {
+          key: "searchEvent",
+          value: function searchEvent() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+              var scheduleDate, errorObject;
               return regeneratorRuntime.wrap(function _callee9$(_context9) {
                 while (1) {
                   switch (_context9.prev = _context9.next) {
                     case 0:
                       scheduleDate = moment__WEBPACK_IMPORTED_MODULE_3__().format('YYYY-MM-DD');
                       this.actionService.purchase.selectScheduleDate(scheduleDate);
-                      _context9.prev = 2;
-                      _context9.next = 5;
-                      return this.actionService.user.getData();
+                      this.actionService.purchase.selectSearchType({
+                        searchType: 'event'
+                      });
+                      _context9.prev = 3;
+                      _context9.next = 6;
+                      return this.setSeller();
 
-                    case 5:
-                      _yield$this$actionSer7 = _context9.sent;
-                      theater = _yield$this$actionSer7.theater;
+                    case 6:
+                      _context9.next = 12;
+                      break;
 
-                      if (!(theater === undefined)) {
-                        _context9.next = 9;
+                    case 8:
+                      _context9.prev = 8;
+                      _context9.t0 = _context9["catch"](3);
+                      console.error(_context9.t0);
+                      this.router.navigate(['/error']);
+
+                    case 12:
+                      _context9.prev = 12;
+                      _context9.next = 15;
+                      return this.startTransaction();
+
+                    case 15:
+                      this.router.navigate(['/purchase/cinema/schedule']);
+                      _context9.next = 28;
+                      break;
+
+                    case 18:
+                      _context9.prev = 18;
+                      _context9.t1 = _context9["catch"](12);
+                      errorObject = JSON.parse(_context9.t1);
+
+                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_2__["TOO_MANY_REQUESTS"])) {
+                        _context9.next = 24;
                         break;
                       }
 
-                      throw new Error('theater === undefined');
+                      this.router.navigate(['/congestion']);
+                      return _context9.abrupt("return");
 
-                    case 9:
-                      _context9.next = 11;
+                    case 24:
+                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_2__["BAD_REQUEST"])) {
+                        _context9.next = 27;
+                        break;
+                      }
+
+                      this.router.navigate(['/maintenance']);
+                      return _context9.abrupt("return");
+
+                    case 27:
+                      this.router.navigate(['/error']);
+
+                    case 28:
+                    case "end":
+                      return _context9.stop();
+                  }
+                }
+              }, _callee9, this, [[3, 8], [12, 18]]);
+            }));
+          }
+          /**
+           * 販売者を設定
+           */
+
+        }, {
+          key: "setSeller",
+          value: function setSeller() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+              var _yield$this$actionSer10, theater, _yield$this$actionSer11, scheduleDate, screeningEvents, screeningEvent;
+
+              return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                while (1) {
+                  switch (_context10.prev = _context10.next) {
+                    case 0:
+                      _context10.next = 2;
+                      return this.actionService.user.getData();
+
+                    case 2:
+                      _yield$this$actionSer10 = _context10.sent;
+                      theater = _yield$this$actionSer10.theater;
+                      _context10.next = 6;
+                      return this.actionService.purchase.getData();
+
+                    case 6:
+                      _yield$this$actionSer11 = _context10.sent;
+                      scheduleDate = _yield$this$actionSer11.scheduleDate;
+
+                      if (!(theater === undefined || scheduleDate === undefined)) {
+                        _context10.next = 10;
+                        break;
+                      }
+
+                      throw new Error('theater or scheduleDate undefined');
+
+                    case 10:
+                      _context10.next = 12;
                       return this.masterService.getSchedule({
                         superEvent: {
                           locationBranchCodes: [theater.branchCode]
@@ -2781,87 +3062,66 @@
                         startThrough: moment__WEBPACK_IMPORTED_MODULE_3__(scheduleDate).add(1, 'day').toDate()
                       });
 
-                    case 11:
-                      screeningEvents = _context9.sent;
+                    case 12:
+                      screeningEvents = _context10.sent;
                       screeningEvent = screeningEvents.find(function (s) {
                         return s.offers !== undefined && s.offers.seller !== undefined && s.offers.seller.id !== undefined;
                       });
 
                       if (!(screeningEvent === undefined || screeningEvent.offers === undefined || screeningEvent.offers.seller === undefined || screeningEvent.offers.seller.id === undefined)) {
-                        _context9.next = 15;
+                        _context10.next = 16;
                         break;
                       }
 
                       throw new Error('screeningEvent.offers.seller === undefined');
 
-                    case 15:
-                      _context9.next = 17;
+                    case 16:
+                      _context10.next = 18;
                       return this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
 
-                    case 17:
-                      _context9.next = 23;
-                      break;
+                    case 18:
+                    case "end":
+                      return _context10.stop();
+                  }
+                }
+              }, _callee10, this);
+            }));
+          }
+          /**
+           * 取引開始
+           */
 
-                    case 19:
-                      _context9.prev = 19;
-                      _context9.t0 = _context9["catch"](2);
-                      console.error(_context9.t0);
-                      this.router.navigate(['/error']);
-
-                    case 23:
-                      _context9.prev = 23;
-                      _context9.next = 26;
+        }, {
+          key: "startTransaction",
+          value: function startTransaction() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+              var purchase, user;
+              return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                while (1) {
+                  switch (_context11.prev = _context11.next) {
+                    case 0:
+                      _context11.next = 2;
                       return this.actionService.purchase.getData();
 
-                    case 26:
-                      purchase = _context9.sent;
-                      _context9.next = 29;
+                    case 2:
+                      purchase = _context11.sent;
+                      _context11.next = 5;
                       return this.actionService.user.getData();
 
-                    case 29:
-                      user = _context9.sent;
-                      _context9.next = 32;
+                    case 5:
+                      user = _context11.sent;
+                      _context11.next = 8;
                       return this.actionService.purchase.startTransaction({
                         seller: purchase.seller,
                         pos: user.pos
                       });
 
-                    case 32:
-                      this.router.navigate(['/purchase/cinema/schedule/movie']);
-                      _context9.next = 45;
-                      break;
-
-                    case 35:
-                      _context9.prev = 35;
-                      _context9.t1 = _context9["catch"](23);
-                      errorObject = JSON.parse(_context9.t1);
-
-                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_2__["TOO_MANY_REQUESTS"])) {
-                        _context9.next = 41;
-                        break;
-                      }
-
-                      this.router.navigate(['/congestion']);
-                      return _context9.abrupt("return");
-
-                    case 41:
-                      if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_2__["BAD_REQUEST"])) {
-                        _context9.next = 44;
-                        break;
-                      }
-
-                      this.router.navigate(['/maintenance']);
-                      return _context9.abrupt("return");
-
-                    case 44:
-                      this.router.navigate(['/error']);
-
-                    case 45:
+                    case 8:
                     case "end":
-                      return _context9.stop();
+                      return _context11.stop();
                   }
                 }
-              }, _callee9, this, [[2, 19], [23, 35]]);
+              }, _callee11, this);
             }));
           }
         }]);
@@ -2905,7 +3165,11 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "button", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "button", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCinemaTopComponent_Template_button_click_8_listener() {
+              return ctx.searchEvent();
+            });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9);
 
@@ -3331,10 +3595,10 @@
         _createClass(PurchaseEventScheduleComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-              return regeneratorRuntime.wrap(function _callee10$(_context10) {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+              return regeneratorRuntime.wrap(function _callee12$(_context12) {
                 while (1) {
-                  switch (_context10.prev = _context10.next) {
+                  switch (_context12.prev = _context12.next) {
                     case 0:
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getPurchase"]));
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getUser"]));
@@ -3347,40 +3611,40 @@
                         this.scheduleDate = moment__WEBPACK_IMPORTED_MODULE_4__().add(this.environment.PURCHASE_SCHEDULE_DEFAULT_SELECTED_DATE, 'day').toDate();
                       }
 
-                      _context10.prev = 7;
-                      _context10.next = 10;
+                      _context12.prev = 7;
+                      _context12.next = 10;
                       return this.actionService.purchase.getData();
 
                     case 10:
-                      _context10.t0 = _context10.sent.transaction;
-                      _context10.t1 = undefined;
+                      _context12.t0 = _context12.sent.transaction;
+                      _context12.t1 = undefined;
 
-                      if (!(_context10.t0 === _context10.t1)) {
-                        _context10.next = 14;
+                      if (!(_context12.t0 === _context12.t1)) {
+                        _context12.next = 14;
                         break;
                       }
 
-                      return _context10.abrupt("return");
+                      return _context12.abrupt("return");
 
                     case 14:
-                      _context10.next = 16;
+                      _context12.next = 16;
                       return this.actionService.purchase.cancelTransaction();
 
                     case 16:
-                      _context10.next = 21;
+                      _context12.next = 21;
                       break;
 
                     case 18:
-                      _context10.prev = 18;
-                      _context10.t2 = _context10["catch"](7);
-                      console.error(_context10.t2);
+                      _context12.prev = 18;
+                      _context12.t2 = _context12["catch"](7);
+                      console.error(_context12.t2);
 
                     case 21:
                     case "end":
-                      return _context10.stop();
+                      return _context12.stop();
                   }
                 }
-              }, _callee10, this, [[7, 18]]);
+              }, _callee12, this, [[7, 18]]);
             }));
           }
           /**
@@ -3399,7 +3663,7 @@
         }, {
           key: "update",
           value: function update() {
-            var _this4 = this;
+            var _this2 = this;
 
             if (this.updateTimer !== undefined) {
               clearTimeout(this.updateTimer);
@@ -3408,7 +3672,7 @@
             var time = 600000; // 10 * 60 * 1000
 
             this.updateTimer = setTimeout(function () {
-              _this4.selectDate();
+              _this2.selectDate();
             }, time);
           }
           /**
@@ -3418,31 +3682,31 @@
         }, {
           key: "selectDate",
           value: function selectDate(date) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
               var user, theater, scheduleDate;
-              return regeneratorRuntime.wrap(function _callee11$(_context11) {
+              return regeneratorRuntime.wrap(function _callee13$(_context13) {
                 while (1) {
-                  switch (_context11.prev = _context11.next) {
+                  switch (_context13.prev = _context13.next) {
                     case 0:
                       if (date !== undefined && date !== null) {
                         this.scheduleDate = date;
                       }
 
-                      _context11.prev = 1;
-                      _context11.next = 4;
+                      _context13.prev = 1;
+                      _context13.next = 4;
                       return this.actionService.user.getData();
 
                     case 4:
-                      user = _context11.sent;
+                      user = _context13.sent;
                       theater = user.theater;
 
                       if (!(theater === undefined)) {
-                        _context11.next = 9;
+                        _context13.next = 9;
                         break;
                       }
 
                       this.router.navigate(['/error']);
-                      return _context11.abrupt("return");
+                      return _context13.abrupt("return");
 
                     case 9:
                       if (this.scheduleDate === undefined || this.scheduleDate === null) {
@@ -3451,36 +3715,37 @@
 
                       scheduleDate = moment__WEBPACK_IMPORTED_MODULE_4__(this.scheduleDate).format('YYYY-MM-DD');
                       this.actionService.purchase.selectScheduleDate(scheduleDate);
-                      _context11.next = 14;
+                      _context13.next = 14;
                       return this.masterService.getSchedule({
                         superEvent: {
                           locationBranchCodes: [theater.branchCode]
                         },
                         startFrom: moment__WEBPACK_IMPORTED_MODULE_4__(scheduleDate).toDate(),
-                        startThrough: moment__WEBPACK_IMPORTED_MODULE_4__(scheduleDate).add(1, 'day').toDate()
+                        startThrough: moment__WEBPACK_IMPORTED_MODULE_4__(scheduleDate).add(1, 'day').toDate(),
+                        sort: true
                       });
 
                     case 14:
-                      this.screeningEvents = _context11.sent;
-                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Purchase.screeningEvents2ScreeningEventSeries({
+                      this.screeningEvents = _context13.sent;
+                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Purchase.screeningEvents2ScreeningEventsGroup({
                         screeningEvents: this.screeningEvents
                       });
                       this.update();
-                      _context11.next = 23;
+                      _context13.next = 23;
                       break;
 
                     case 19:
-                      _context11.prev = 19;
-                      _context11.t0 = _context11["catch"](1);
-                      console.error(_context11.t0);
+                      _context13.prev = 19;
+                      _context13.t0 = _context13["catch"](1);
+                      console.error(_context13.t0);
                       this.router.navigate(['/error']);
 
                     case 23:
                     case "end":
-                      return _context11.stop();
+                      return _context13.stop();
                   }
                 }
-              }, _callee11, this, [[1, 19]]);
+              }, _callee13, this, [[1, 19]]);
             }));
           }
           /**
@@ -3490,22 +3755,22 @@
         }, {
           key: "onSubmit",
           value: function onSubmit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
               var user, screeningEvent, purchase, _user, errorObject;
 
-              return regeneratorRuntime.wrap(function _callee12$(_context12) {
+              return regeneratorRuntime.wrap(function _callee14$(_context14) {
                 while (1) {
-                  switch (_context12.prev = _context12.next) {
+                  switch (_context14.prev = _context14.next) {
                     case 0:
-                      _context12.prev = 0;
-                      _context12.next = 3;
+                      _context14.prev = 0;
+                      _context14.next = 3;
                       return this.actionService.user.getData();
 
                     case 3:
-                      user = _context12.sent;
+                      user = _context14.sent;
 
                       if (!(user.theater === undefined)) {
-                        _context12.next = 6;
+                        _context14.next = 6;
                         break;
                       }
 
@@ -3517,39 +3782,39 @@
                       });
 
                       if (!(screeningEvent === undefined || screeningEvent.offers === undefined || screeningEvent.offers.seller === undefined || screeningEvent.offers.seller.id === undefined)) {
-                        _context12.next = 9;
+                        _context14.next = 9;
                         break;
                       }
 
                       throw new Error('screeningEvent.offers.seller === undefined');
 
                     case 9:
-                      _context12.next = 11;
+                      _context14.next = 11;
                       return this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
 
                     case 11:
-                      _context12.next = 17;
+                      _context14.next = 17;
                       break;
 
                     case 13:
-                      _context12.prev = 13;
-                      _context12.t0 = _context12["catch"](0);
-                      console.error(_context12.t0);
+                      _context14.prev = 13;
+                      _context14.t0 = _context14["catch"](0);
+                      console.error(_context14.t0);
                       this.router.navigate(['/error']);
 
                     case 17:
-                      _context12.prev = 17;
-                      _context12.next = 20;
+                      _context14.prev = 17;
+                      _context14.next = 20;
                       return this.actionService.purchase.getData();
 
                     case 20:
-                      purchase = _context12.sent;
-                      _context12.next = 23;
+                      purchase = _context14.sent;
+                      _context14.next = 23;
                       return this.actionService.user.getData();
 
                     case 23:
-                      _user = _context12.sent;
-                      _context12.next = 26;
+                      _user = _context14.sent;
+                      _context14.next = 26;
                       return this.actionService.purchase.startTransaction({
                         seller: purchase.seller,
                         pos: _user.pos
@@ -3557,40 +3822,40 @@
 
                     case 26:
                       this.router.navigate(['/purchase/event/ticket']);
-                      _context12.next = 39;
+                      _context14.next = 39;
                       break;
 
                     case 29:
-                      _context12.prev = 29;
-                      _context12.t1 = _context12["catch"](17);
-                      errorObject = JSON.parse(_context12.t1);
+                      _context14.prev = 29;
+                      _context14.t1 = _context14["catch"](17);
+                      errorObject = JSON.parse(_context14.t1);
 
                       if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_3__["TOO_MANY_REQUESTS"])) {
-                        _context12.next = 35;
+                        _context14.next = 35;
                         break;
                       }
 
                       this.router.navigate(['/congestion']);
-                      return _context12.abrupt("return");
+                      return _context14.abrupt("return");
 
                     case 35:
                       if (!(errorObject.status === http_status__WEBPACK_IMPORTED_MODULE_3__["BAD_REQUEST"])) {
-                        _context12.next = 38;
+                        _context14.next = 38;
                         break;
                       }
 
                       this.router.navigate(['/maintenance']);
-                      return _context12.abrupt("return");
+                      return _context14.abrupt("return");
 
                     case 38:
                       this.router.navigate(['/error']);
 
                     case 39:
                     case "end":
-                      return _context12.stop();
+                      return _context14.stop();
                   }
                 }
-              }, _callee12, this, [[0, 13], [17, 29]]);
+              }, _callee14, this, [[0, 13], [17, 29]]);
             }));
           }
           /**
@@ -3600,10 +3865,10 @@
         }, {
           key: "setDatePicker",
           value: function setDatePicker() {
-            var _this5 = this;
+            var _this3 = this;
 
             this.user.subscribe(function (user) {
-              _this5.localeService.use(user.language);
+              _this3.localeService.use(user.language);
             }).unsubscribe();
           }
           /**
@@ -4662,43 +4927,43 @@
         _createClass(PurchaseEventSeatComponent, [{
           key: "prev",
           value: function prev() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
               var authorizeSeatReservation;
-              return regeneratorRuntime.wrap(function _callee13$(_context13) {
+              return regeneratorRuntime.wrap(function _callee15$(_context15) {
                 while (1) {
-                  switch (_context13.prev = _context13.next) {
+                  switch (_context15.prev = _context15.next) {
                     case 0:
-                      _context13.prev = 0;
-                      _context13.next = 3;
+                      _context15.prev = 0;
+                      _context15.next = 3;
                       return this.actionService.purchase.getData();
 
                     case 3:
-                      authorizeSeatReservation = _context13.sent.authorizeSeatReservation;
+                      authorizeSeatReservation = _context15.sent.authorizeSeatReservation;
 
                       if (!(authorizeSeatReservation !== undefined)) {
-                        _context13.next = 7;
+                        _context15.next = 7;
                         break;
                       }
 
-                      _context13.next = 7;
+                      _context15.next = 7;
                       return this.actionService.purchase.cancelTemporaryReservations([authorizeSeatReservation]);
 
                     case 7:
                       this.router.navigate(['/purchase/event/ticket']);
-                      _context13.next = 13;
+                      _context15.next = 13;
                       break;
 
                     case 10:
-                      _context13.prev = 10;
-                      _context13.t0 = _context13["catch"](0);
-                      console.error(_context13.t0);
+                      _context15.prev = 10;
+                      _context15.t0 = _context15["catch"](0);
+                      console.error(_context15.t0);
 
                     case 13:
                     case "end":
-                      return _context13.stop();
+                      return _context15.stop();
                   }
                 }
-              }, _callee13, this, [[0, 10]]);
+              }, _callee15, this, [[0, 10]]);
             }));
           }
         }]);
@@ -5348,12 +5613,12 @@
         _createClass(PurchaseEventTicketComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-              var _this6 = this;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+              var _this4 = this;
 
-              return regeneratorRuntime.wrap(function _callee14$(_context14) {
+              return regeneratorRuntime.wrap(function _callee16$(_context16) {
                 while (1) {
-                  switch (_context14.prev = _context14.next) {
+                  switch (_context16.prev = _context16.next) {
                     case 0:
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getPurchase"]));
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getUser"]));
@@ -5364,20 +5629,20 @@
                       this.screeningEventsGroup = [];
                       this.purchase.subscribe(function (purchase) {
                         if (purchase.transaction === undefined) {
-                          _this6.router.navigate(['/error']);
+                          _this4.router.navigate(['/error']);
 
                           return;
                         }
 
-                        _this6.getSchedule();
+                        _this4.getSchedule();
                       }).unsubscribe();
 
                     case 8:
                     case "end":
-                      return _context14.stop();
+                      return _context16.stop();
                   }
                 }
-              }, _callee14, this);
+              }, _callee16, this);
             }));
           }
         }, {
@@ -5392,7 +5657,7 @@
         }, {
           key: "update",
           value: function update() {
-            var _this7 = this;
+            var _this5 = this;
 
             if (this.updateTimer !== undefined) {
               clearTimeout(this.updateTimer);
@@ -5401,7 +5666,7 @@
             var time = 600000; // 10 * 60 * 1000
 
             this.updateTimer = setTimeout(function () {
-              _this7.getSchedule();
+              _this5.getSchedule();
             }, time);
           }
           /**
@@ -5411,64 +5676,65 @@
         }, {
           key: "getSchedule",
           value: function getSchedule() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
               var user, purchase, theater, scheduleDate, screeningEvents;
-              return regeneratorRuntime.wrap(function _callee15$(_context15) {
+              return regeneratorRuntime.wrap(function _callee17$(_context17) {
                 while (1) {
-                  switch (_context15.prev = _context15.next) {
+                  switch (_context17.prev = _context17.next) {
                     case 0:
-                      _context15.prev = 0;
-                      _context15.next = 3;
+                      _context17.prev = 0;
+                      _context17.next = 3;
                       return this.actionService.user.getData();
 
                     case 3:
-                      user = _context15.sent;
-                      _context15.next = 6;
+                      user = _context17.sent;
+                      _context17.next = 6;
                       return this.actionService.purchase.getData();
 
                     case 6:
-                      purchase = _context15.sent;
+                      purchase = _context17.sent;
                       theater = user.theater;
                       scheduleDate = purchase.scheduleDate;
 
                       if (!(theater === undefined || scheduleDate === undefined)) {
-                        _context15.next = 11;
+                        _context17.next = 11;
                         break;
                       }
 
                       throw new Error('theater === undefined || scheduleDate === undefined').message;
 
                     case 11:
-                      _context15.next = 13;
+                      _context17.next = 13;
                       return this.masterService.getSchedule({
                         superEvent: {
                           locationBranchCodes: [theater.branchCode]
                         },
                         startFrom: moment__WEBPACK_IMPORTED_MODULE_4__(scheduleDate).toDate(),
-                        startThrough: moment__WEBPACK_IMPORTED_MODULE_4__(scheduleDate).add(1, 'day').toDate()
+                        startThrough: moment__WEBPACK_IMPORTED_MODULE_4__(scheduleDate).add(1, 'day').toDate(),
+                        sort: true
                       });
 
                     case 13:
-                      screeningEvents = _context15.sent;
-                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Purchase.screeningEvents2ScreeningEventSeries({
+                      screeningEvents = _context17.sent;
+                      this.screeningEventsGroup = ___WEBPACK_IMPORTED_MODULE_6__["Functions"].Purchase.screeningEvents2ScreeningEventsGroup({
                         screeningEvents: screeningEvents
                       });
                       this.update();
-                      _context15.next = 22;
+                      _context17.next = 22;
                       break;
 
                     case 18:
-                      _context15.prev = 18;
-                      _context15.t0 = _context15["catch"](0);
-                      console.error(_context15.t0);
+                      _context17.prev = 18;
+                      _context17.t0 = _context17["catch"](0);
+                      console.error(_context17.t0);
                       this.router.navigate(['/error']);
 
                     case 22:
                     case "end":
-                      return _context15.stop();
+                      return _context17.stop();
                   }
                 }
-              }, _callee15, this, [[0, 18]]);
+              }, _callee17, this, [[0, 18]]);
             }));
           }
           /**
@@ -5478,29 +5744,29 @@
         }, {
           key: "selectSchedule",
           value: function selectSchedule(screeningEvent) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
               var purchase;
-              return regeneratorRuntime.wrap(function _callee16$(_context16) {
+              return regeneratorRuntime.wrap(function _callee18$(_context18) {
                 while (1) {
-                  switch (_context16.prev = _context16.next) {
+                  switch (_context18.prev = _context18.next) {
                     case 0:
-                      _context16.next = 2;
+                      _context18.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      purchase = _context16.sent;
+                      purchase = _context18.sent;
 
                       if (!(purchase.seller === undefined)) {
-                        _context16.next = 6;
+                        _context18.next = 6;
                         break;
                       }
 
                       this.router.navigate(['/error']);
-                      return _context16.abrupt("return");
+                      return _context18.abrupt("return");
 
                     case 6:
                       if (!(purchase.authorizeSeatReservations.length > 0 && Number(this.environment.PURCHASE_ITEM_MAX_LENGTH) === 1)) {
-                        _context16.next = 9;
+                        _context18.next = 9;
                         break;
                       }
 
@@ -5508,26 +5774,26 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant('purchase.event.ticket.alert.cart')
                       });
-                      return _context16.abrupt("return");
+                      return _context18.abrupt("return");
 
                     case 9:
-                      _context16.prev = 9;
-                      _context16.next = 12;
+                      _context18.prev = 9;
+                      _context18.next = 12;
                       return this.actionService.purchase.getScreeningEvent(screeningEvent);
 
                     case 12:
-                      _context16.next = 14;
+                      _context18.next = 14;
                       return this.actionService.purchase.getScreeningEventSeats();
 
                     case 14:
-                      this.screeningEventSeats = _context16.sent;
-                      _context16.next = 17;
+                      this.screeningEventSeats = _context18.sent;
+                      _context18.next = 17;
                       return this.actionService.purchase.getTicketList({
                         seller: purchase.seller
                       });
 
                     case 17:
-                      _context16.next = 19;
+                      _context18.next = 19;
                       return this.actionService.purchase.getScreen({
                         branchCode: {
                           $eq: screeningEvent.location.branchCode
@@ -5541,13 +5807,13 @@
 
                     case 19:
                       this.openTicketList();
-                      _context16.next = 26;
+                      _context18.next = 26;
                       break;
 
                     case 22:
-                      _context16.prev = 22;
-                      _context16.t0 = _context16["catch"](9);
-                      console.error(_context16.t0);
+                      _context18.prev = 22;
+                      _context18.t0 = _context18["catch"](9);
+                      console.error(_context18.t0);
                       this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
                         body: ''
@@ -5555,10 +5821,10 @@
 
                     case 26:
                     case "end":
-                      return _context16.stop();
+                      return _context18.stop();
                   }
                 }
-              }, _callee16, this, [[9, 22]]);
+              }, _callee18, this, [[9, 22]]);
             }));
           }
           /**
@@ -5568,42 +5834,42 @@
         }, {
           key: "openTicketList",
           value: function openTicketList() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
-              var _this8 = this;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
+              var _this6 = this;
 
               var purchase, screeningEvent, screeningEventTicketOffers, screeningEventSeats, screen, performance;
-              return regeneratorRuntime.wrap(function _callee17$(_context17) {
+              return regeneratorRuntime.wrap(function _callee19$(_context19) {
                 while (1) {
-                  switch (_context17.prev = _context17.next) {
+                  switch (_context19.prev = _context19.next) {
                     case 0:
-                      _context17.next = 2;
+                      _context19.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      purchase = _context17.sent;
+                      purchase = _context19.sent;
                       screeningEvent = purchase.screeningEvent;
                       screeningEventTicketOffers = purchase.screeningEventTicketOffers;
                       screeningEventSeats = this.screeningEventSeats;
                       screen = purchase.screen;
 
                       if (!(screeningEvent === undefined || screen === undefined)) {
-                        _context17.next = 9;
+                        _context19.next = 9;
                         break;
                       }
 
-                      return _context17.abrupt("return");
+                      return _context19.abrupt("return");
 
                     case 9:
                       performance = new ___WEBPACK_IMPORTED_MODULE_6__["Models"].Purchase.Performance(screeningEvent);
 
                       if (!(!performance.isInfinitetock() && !screen.openSeatingAllowed && performance.isTicketedSeat())) {
-                        _context17.next = 13;
+                        _context19.next = 13;
                         break;
                       }
 
                       // 座席選択あり
                       this.router.navigate(['/purchase/event/seat']);
-                      return _context17.abrupt("return");
+                      return _context19.abrupt("return");
 
                     case 13:
                       // 座席選択なし
@@ -5615,17 +5881,17 @@
                           screeningEventSeats: screeningEventSeats,
                           screeningEvent: screeningEvent,
                           cb: function cb(params) {
-                            _this8.selectTicket(params);
+                            _this6.selectTicket(params);
                           }
                         }
                       });
 
                     case 14:
                     case "end":
-                      return _context17.stop();
+                      return _context19.stop();
                   }
                 }
-              }, _callee17, this);
+              }, _callee19, this);
             }));
           }
           /**
@@ -5635,17 +5901,17 @@
         }, {
           key: "selectTicket",
           value: function selectTicket(params) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
               var reservations, additionalTicketText, purchase, remainingSeatLength;
-              return regeneratorRuntime.wrap(function _callee18$(_context18) {
+              return regeneratorRuntime.wrap(function _callee20$(_context20) {
                 while (1) {
-                  switch (_context18.prev = _context18.next) {
+                  switch (_context20.prev = _context20.next) {
                     case 0:
                       reservations = params.reservations;
                       additionalTicketText = params.additionalTicketText;
 
                       if (!(reservations.length > Number(this.environment.PURCHASE_ITEM_MAX_LENGTH))) {
-                        _context18.next = 5;
+                        _context20.next = 5;
                         break;
                       }
 
@@ -5655,23 +5921,23 @@
                           value: this.environment.PURCHASE_ITEM_MAX_LENGTH
                         })
                       });
-                      return _context18.abrupt("return");
+                      return _context20.abrupt("return");
 
                     case 5:
-                      _context18.prev = 5;
-                      _context18.next = 8;
+                      _context20.prev = 5;
+                      _context20.next = 8;
                       return this.actionService.purchase.getScreeningEventSeats();
 
                     case 8:
-                      this.screeningEventSeats = _context18.sent;
-                      _context18.next = 11;
+                      this.screeningEventSeats = _context20.sent;
+                      _context20.next = 11;
                       return this.actionService.purchase.getData();
 
                     case 11:
-                      purchase = _context18.sent;
+                      purchase = _context20.sent;
 
                       if (!(purchase.screeningEvent !== undefined && new ___WEBPACK_IMPORTED_MODULE_6__["Models"].Purchase.Performance(purchase.screeningEvent).isTicketedSeat())) {
-                        _context18.next = 17;
+                        _context20.next = 17;
                         break;
                       }
 
@@ -5681,7 +5947,7 @@
                       });
 
                       if (!(remainingSeatLength < reservations.length)) {
-                        _context18.next = 17;
+                        _context20.next = 17;
                         break;
                       }
 
@@ -5689,24 +5955,24 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant('purchase.event.ticket.alert.getScreeningEventSeats')
                       });
-                      return _context18.abrupt("return");
+                      return _context20.abrupt("return");
 
                     case 17:
-                      _context18.next = 23;
+                      _context20.next = 23;
                       break;
 
                     case 19:
-                      _context18.prev = 19;
-                      _context18.t0 = _context18["catch"](5);
-                      console.error(_context18.t0);
+                      _context20.prev = 19;
+                      _context20.t0 = _context20["catch"](5);
+                      console.error(_context20.t0);
                       this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
                         body: ''
                       });
 
                     case 23:
-                      _context18.prev = 23;
-                      _context18.next = 26;
+                      _context20.prev = 23;
+                      _context20.next = 26;
                       return this.actionService.purchase.temporaryReservation({
                         reservations: reservations,
                         additionalTicketText: additionalTicketText,
@@ -5719,24 +5985,24 @@
                         body: this.translate.instant('purchase.event.ticket.success.temporaryReservation')
                       });
                       this.actionService.purchase.unsettledDelete();
-                      _context18.next = 34;
+                      _context20.next = 34;
                       break;
 
                     case 30:
-                      _context18.prev = 30;
-                      _context18.t1 = _context18["catch"](23);
-                      console.error(_context18.t1);
+                      _context20.prev = 30;
+                      _context20.t1 = _context20["catch"](23);
+                      console.error(_context20.t1);
                       this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
-                        body: "\n                <p class=\"mb-4\">".concat(this.translate.instant('purchase.event.ticket.alert.temporaryReservation'), "</p>\n                <div class=\"p-3 bg-light-gray select-text text-left\">\n                    <code>").concat(_context18.t1, "</code>\n                </div>")
+                        body: "\n                <p class=\"mb-4\">".concat(this.translate.instant('purchase.event.ticket.alert.temporaryReservation'), "</p>\n                <div class=\"p-3 bg-light-gray select-text text-left\">\n                    <code>").concat(_context20.t1, "</code>\n                </div>")
                       });
 
                     case 34:
                     case "end":
-                      return _context18.stop();
+                      return _context20.stop();
                   }
                 }
-              }, _callee18, this, [[5, 19], [23, 30]]);
+              }, _callee20, this, [[5, 19], [23, 30]]);
             }));
           }
           /**
@@ -5746,21 +6012,21 @@
         }, {
           key: "onSubmit",
           value: function onSubmit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
               var purchase, authorizeSeatReservations, itemCount;
-              return regeneratorRuntime.wrap(function _callee19$(_context19) {
+              return regeneratorRuntime.wrap(function _callee21$(_context21) {
                 while (1) {
-                  switch (_context19.prev = _context19.next) {
+                  switch (_context21.prev = _context21.next) {
                     case 0:
-                      _context19.next = 2;
+                      _context21.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      purchase = _context19.sent;
+                      purchase = _context21.sent;
                       authorizeSeatReservations = purchase.authorizeSeatReservations; // チケット未選択判定
 
                       if (!(authorizeSeatReservations.length === 0)) {
-                        _context19.next = 7;
+                        _context21.next = 7;
                         break;
                       }
 
@@ -5768,7 +6034,7 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant('purchase.event.ticket.alert.unselected')
                       });
-                      return _context19.abrupt("return");
+                      return _context21.abrupt("return");
 
                     case 7:
                       // チケット枚数上限判定
@@ -5778,7 +6044,7 @@
                       });
 
                       if (!(itemCount > Number(this.environment.PURCHASE_ITEM_MAX_LENGTH))) {
-                        _context19.next = 12;
+                        _context21.next = 12;
                         break;
                       }
 
@@ -5788,17 +6054,17 @@
                           value: Number(this.environment.PURCHASE_ITEM_MAX_LENGTH)
                         })
                       });
-                      return _context19.abrupt("return");
+                      return _context21.abrupt("return");
 
                     case 12:
                       this.router.navigate(['/purchase/confirm']);
 
                     case 13:
                     case "end":
-                      return _context19.stop();
+                      return _context21.stop();
                   }
                 }
-              }, _callee19, this);
+              }, _callee21, this);
             }));
           }
           /**
@@ -5808,39 +6074,39 @@
         }, {
           key: "removeItem",
           value: function removeItem(authorizeSeatReservation) {
-            var _this9 = this;
+            var _this7 = this;
 
             this.utilService.openConfirm({
               title: this.translate.instant('common.confirm'),
               body: this.translate.instant('purchase.event.cart.confirm.cancel'),
               cb: function cb() {
-                return __awaiter(_this9, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
+                return __awaiter(_this7, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee22() {
                   var authorizeSeatReservations;
-                  return regeneratorRuntime.wrap(function _callee20$(_context20) {
+                  return regeneratorRuntime.wrap(function _callee22$(_context22) {
                     while (1) {
-                      switch (_context20.prev = _context20.next) {
+                      switch (_context22.prev = _context22.next) {
                         case 0:
-                          _context20.prev = 0;
+                          _context22.prev = 0;
                           authorizeSeatReservations = [authorizeSeatReservation];
-                          _context20.next = 4;
+                          _context22.next = 4;
                           return this.actionService.purchase.cancelTemporaryReservations(authorizeSeatReservations);
 
                         case 4:
-                          _context20.next = 10;
+                          _context22.next = 10;
                           break;
 
                         case 6:
-                          _context20.prev = 6;
-                          _context20.t0 = _context20["catch"](0);
-                          console.error(_context20.t0);
+                          _context22.prev = 6;
+                          _context22.t0 = _context22["catch"](0);
+                          console.error(_context22.t0);
                           this.router.navigate(['/error']);
 
                         case 10:
                         case "end":
-                          return _context20.stop();
+                          return _context22.stop();
                       }
                     }
-                  }, _callee20, this, [[0, 6]]);
+                  }, _callee22, this, [[0, 6]]);
                 }));
               }
             });
@@ -6347,7 +6613,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 7);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
@@ -6355,9 +6621,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 10);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 11);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 11);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 12);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "async");
 
@@ -6407,26 +6673,26 @@
         _createClass(PurchaseCompleteComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee23() {
               var order, purchaseData;
-              return regeneratorRuntime.wrap(function _callee21$(_context21) {
+              return regeneratorRuntime.wrap(function _callee23$(_context23) {
                 while (1) {
-                  switch (_context21.prev = _context21.next) {
+                  switch (_context23.prev = _context23.next) {
                     case 0:
                       this.eventOrders = [];
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getPurchase"]));
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getUser"]));
                       this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getLoading"]));
                       this.error = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getError"]));
-                      _context21.prev = 5;
-                      _context21.next = 8;
+                      _context23.prev = 5;
+                      _context23.next = 8;
                       return this.actionService.purchase.getData();
 
                     case 8:
-                      purchaseData = _context21.sent;
+                      purchaseData = _context23.sent;
 
                       if (!(purchaseData.order === undefined)) {
-                        _context21.next = 11;
+                        _context23.next = 11;
                         break;
                       }
 
@@ -6438,21 +6704,21 @@
                         order: order
                       });
                       this.print();
-                      _context21.next = 20;
+                      _context23.next = 20;
                       break;
 
                     case 16:
-                      _context21.prev = 16;
-                      _context21.t0 = _context21["catch"](5);
+                      _context23.prev = 16;
+                      _context23.t0 = _context23["catch"](5);
                       this.router.navigate(['/error']);
-                      return _context21.abrupt("return");
+                      return _context23.abrupt("return");
 
                     case 20:
                     case "end":
-                      return _context21.stop();
+                      return _context23.stop();
                   }
                 }
-              }, _callee21, this, [[5, 16]]);
+              }, _callee23, this, [[5, 16]]);
             }));
           }
           /**
@@ -6462,26 +6728,26 @@
         }, {
           key: "print",
           value: function print() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee22() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee24() {
               var purchase, user, orders, pos, printer;
-              return regeneratorRuntime.wrap(function _callee22$(_context22) {
+              return regeneratorRuntime.wrap(function _callee24$(_context24) {
                 while (1) {
-                  switch (_context22.prev = _context22.next) {
+                  switch (_context24.prev = _context24.next) {
                     case 0:
-                      _context22.prev = 0;
-                      _context22.next = 3;
+                      _context24.prev = 0;
+                      _context24.next = 3;
                       return this.actionService.purchase.getData();
 
                     case 3:
-                      purchase = _context22.sent;
-                      _context22.next = 6;
+                      purchase = _context24.sent;
+                      _context24.next = 6;
                       return this.actionService.user.getData();
 
                     case 6:
-                      user = _context22.sent;
+                      user = _context24.sent;
 
                       if (!(purchase.order === undefined || user.printer === undefined)) {
-                        _context22.next = 9;
+                        _context24.next = 9;
                         break;
                       }
 
@@ -6491,7 +6757,7 @@
                       orders = [purchase.order];
                       pos = user.pos;
                       printer = user.printer;
-                      _context22.next = 14;
+                      _context24.next = 14;
                       return this.actionService.order.print({
                         orders: orders,
                         pos: pos,
@@ -6499,23 +6765,23 @@
                       });
 
                     case 14:
-                      _context22.next = 19;
+                      _context24.next = 19;
                       break;
 
                     case 16:
-                      _context22.prev = 16;
-                      _context22.t0 = _context22["catch"](0);
+                      _context24.prev = 16;
+                      _context24.t0 = _context24["catch"](0);
                       this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
-                        body: "\n                <p class=\"mb-4\">".concat(this.translate.instant('purchase.complete.alert.print'), "</p>\n                    <div class=\"p-3 bg-light-gray select-text\">\n                    <code>").concat(_context22.t0, "</code>\n                </div>")
+                        body: "\n                <p class=\"mb-4\">".concat(this.translate.instant('purchase.complete.alert.print'), "</p>\n                    <div class=\"p-3 bg-light-gray select-text\">\n                    <code>").concat(_context24.t0, "</code>\n                </div>")
                       });
 
                     case 19:
                     case "end":
-                      return _context22.stop();
+                      return _context24.stop();
                   }
                 }
-              }, _callee22, this, [[0, 16]]);
+              }, _callee24, this, [[0, 16]]);
             }));
           }
         }, {
@@ -6523,85 +6789,85 @@
           value: function test() {
             var _a, _b, _c;
 
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee23() {
-              var _this10 = this;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee25() {
+              var _this8 = this;
 
               var purchase, paymentMethod, user;
-              return regeneratorRuntime.wrap(function _callee23$(_context23) {
+              return regeneratorRuntime.wrap(function _callee25$(_context25) {
                 while (1) {
-                  switch (_context23.prev = _context23.next) {
+                  switch (_context25.prev = _context25.next) {
                     case 0:
-                      _context23.prev = 0;
-                      _context23.next = 3;
+                      _context25.prev = 0;
+                      _context25.next = 3;
                       return this.actionService.purchase.getData();
 
                     case 3:
-                      purchase = _context23.sent;
+                      purchase = _context25.sent;
 
                       if (!(((_a = purchase.order) === null || _a === void 0 ? void 0 : _a.paymentMethods.find(function (p) {
-                        return p.typeOf === _this10.paymentMethodType.Cash;
+                        return p.typeOf === _this8.paymentMethodType.Cash;
                       })) !== undefined)) {
-                        _context23.next = 19;
+                        _context25.next = 19;
                         break;
                       }
 
                       // 現金
                       paymentMethod = (_b = purchase.order) === null || _b === void 0 ? void 0 : _b.paymentMethods.find(function (p) {
-                        return p.typeOf === _this10.paymentMethodType.Cash;
+                        return p.typeOf === _this8.paymentMethodType.Cash;
                       });
 
                       if (!(paymentMethod === undefined || ((_c = paymentMethod.totalPaymentDue) === null || _c === void 0 ? void 0 : _c.value) === undefined)) {
-                        _context23.next = 8;
+                        _context25.next = 8;
                         break;
                       }
 
-                      return _context23.abrupt("return");
+                      return _context25.abrupt("return");
 
                     case 8:
-                      _context23.next = 10;
+                      _context25.next = 10;
                       return this.actionService.user.getData();
 
                     case 10:
-                      user = _context23.sent;
+                      user = _context25.sent;
 
                       if (!(user.payment === undefined || user.payment.cash === undefined)) {
-                        _context23.next = 13;
+                        _context25.next = 13;
                         break;
                       }
 
                       throw new Error('payment undefined');
 
                     case 13:
-                      _context23.next = 15;
+                      _context25.next = 15;
                       return this.epsonEPOSService.cashchanger.init({
                         ipAddress: user.payment.cash.ipAddress
                       });
 
                     case 15:
-                      _context23.next = 17;
+                      _context25.next = 17;
                       return this.epsonEPOSService.cashchanger.dispenseChange({
                         amount: paymentMethod.totalPaymentDue.value
                       });
 
                     case 17:
-                      _context23.next = 19;
+                      _context25.next = 19;
                       return this.epsonEPOSService.cashchanger.disconnect();
 
                     case 19:
-                      _context23.next = 24;
+                      _context25.next = 24;
                       break;
 
                     case 21:
-                      _context23.prev = 21;
-                      _context23.t0 = _context23["catch"](0);
-                      console.error(_context23.t0);
+                      _context25.prev = 21;
+                      _context25.t0 = _context25["catch"](0);
+                      console.error(_context25.t0);
 
                     case 24:
                     case "end":
-                      return _context23.stop();
+                      return _context25.stop();
                   }
                 }
-              }, _callee23, this, [[0, 21]]);
+              }, _callee25, this, [[0, 21]]);
             }));
           }
         }]);
@@ -6617,27 +6883,27 @@
         type: PurchaseCompleteComponent,
         selectors: [["app-purchase-complete"]],
         decls: 18,
-        vars: 10,
-        consts: [[1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "mr-auto"], ["type", "submit", 1, "btn", "btn-primary", 3, "disabled", "click"], [1, "mb-4"], [3, "language", "screeningEvent"]],
+        vars: 11,
+        consts: [[3, "isClear"], [1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4", "text-md-center", 3, "innerHTML"], [1, "mr-auto"], ["type", "submit", 1, "btn", "btn-primary", 3, "disabled", "click"], [1, "mb-4"], [3, "language", "screeningEvent"]],
         template: function PurchaseCompleteComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchaseCompleteComponent_div_5_Template, 8, 9, "div", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchaseCompleteComponent_div_5_Template, 8, 9, "div", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "h2", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "h2", 7);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8);
 
@@ -6645,13 +6911,13 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "p", 7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "p", 8);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](11, "translate");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](12, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](12, "div", 4);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -6661,9 +6927,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "app-footer");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "div", 8);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "div", 9);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "button", 9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "button", 10);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchaseCompleteComponent_Template_button_click_15_listener() {
               return ctx.test();
@@ -6681,21 +6947,23 @@
           }
 
           if (rf & 2) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
+
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.environment.PURCHASE_TERMS);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 4, "purchase.complete.title"), " ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 5, "purchase.complete.title"), " ");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](11, 6, "purchase.complete.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](11, 7, "purchase.complete.read"), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](16, 8, ctx.isLoading));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](16, 9, ctx.isLoading));
           }
         },
         directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_10__["HeaderComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgIf"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_12__["FooterComponent"], _parts_purchase_terms_purchase_terms_component__WEBPACK_IMPORTED_MODULE_13__["PurchaseTermsComponent"]],
@@ -7266,39 +7534,39 @@
         _createClass(PurchaseConfirmComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee24() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee26() {
               var purchase;
-              return regeneratorRuntime.wrap(function _callee24$(_context24) {
+              return regeneratorRuntime.wrap(function _callee26$(_context26) {
                 while (1) {
-                  switch (_context24.prev = _context24.next) {
+                  switch (_context26.prev = _context26.next) {
                     case 0:
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getPurchase"]));
                       this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getLoading"]));
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getUser"]));
                       this.amount = 0;
                       this.depositAmount = 0;
-                      _context24.prev = 5;
-                      _context24.next = 8;
+                      _context26.prev = 5;
+                      _context26.next = 8;
                       return this.actionService.purchase.getData();
 
                     case 8:
-                      purchase = _context24.sent;
+                      purchase = _context26.sent;
                       this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
-                      _context24.next = 16;
+                      _context26.next = 16;
                       break;
 
                     case 12:
-                      _context24.prev = 12;
-                      _context24.t0 = _context24["catch"](5);
-                      console.error(_context24.t0);
+                      _context26.prev = 12;
+                      _context26.t0 = _context26["catch"](5);
+                      console.error(_context26.t0);
                       this.router.navigate(['/error']);
 
                     case 16:
                     case "end":
-                      return _context24.stop();
+                      return _context26.stop();
                   }
                 }
-              }, _callee24, this, [[5, 12]]);
+              }, _callee26, this, [[5, 12]]);
             }));
           }
           /**
@@ -7308,67 +7576,67 @@
         }, {
           key: "onSubmit",
           value: function onSubmit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee25() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee27() {
               var purchaseData, userData, profile, seller;
-              return regeneratorRuntime.wrap(function _callee25$(_context25) {
+              return regeneratorRuntime.wrap(function _callee27$(_context27) {
                 while (1) {
-                  switch (_context25.prev = _context25.next) {
+                  switch (_context27.prev = _context27.next) {
                     case 0:
                       if (!(this.amount > 0)) {
-                        _context25.next = 3;
+                        _context27.next = 3;
                         break;
                       }
 
                       this.router.navigate(['/purchase/payment']);
-                      return _context25.abrupt("return");
+                      return _context27.abrupt("return");
 
                     case 3:
-                      _context25.next = 5;
+                      _context27.next = 5;
                       return this.actionService.purchase.getData();
 
                     case 5:
-                      purchaseData = _context25.sent;
-                      _context25.next = 8;
+                      purchaseData = _context27.sent;
+                      _context27.next = 8;
                       return this.actionService.user.getData();
 
                     case 8:
-                      userData = _context25.sent;
+                      userData = _context27.sent;
                       profile = userData.customerContact;
                       seller = purchaseData.seller;
 
                       if (!(profile === undefined || seller === undefined)) {
-                        _context25.next = 14;
+                        _context27.next = 14;
                         break;
                       }
 
                       this.router.navigate(['/error']);
-                      return _context25.abrupt("return");
+                      return _context27.abrupt("return");
 
                     case 14:
-                      _context25.prev = 14;
+                      _context27.prev = 14;
 
                       if (!(purchaseData.pendingMovieTickets.length > 0)) {
-                        _context25.next = 18;
+                        _context27.next = 18;
                         break;
                       }
 
-                      _context25.next = 18;
+                      _context27.next = 18;
                       return this.actionService.purchase.authorizeMovieTicket({
                         seller: seller
                       });
 
                     case 18:
-                      _context25.next = 20;
+                      _context27.next = 20;
                       return this.actionService.purchase.authorizeAnyPayment({
                         amount: this.amount
                       });
 
                     case 20:
-                      _context25.next = 22;
+                      _context27.next = 22;
                       return this.actionService.purchase.registerContact(profile);
 
                     case 22:
-                      _context25.next = 24;
+                      _context27.next = 24;
                       return this.actionService.purchase.endTransaction({
                         seller: seller,
                         language: userData.language
@@ -7376,21 +7644,21 @@
 
                     case 24:
                       this.router.navigate(['/purchase/complete']);
-                      _context25.next = 31;
+                      _context27.next = 31;
                       break;
 
                     case 27:
-                      _context25.prev = 27;
-                      _context25.t0 = _context25["catch"](14);
-                      console.error(_context25.t0);
+                      _context27.prev = 27;
+                      _context27.t0 = _context27["catch"](14);
+                      console.error(_context27.t0);
                       this.router.navigate(['/error']);
 
                     case 31:
                     case "end":
-                      return _context25.stop();
+                      return _context27.stop();
                   }
                 }
-              }, _callee25, this, [[14, 27]]);
+              }, _callee27, this, [[14, 27]]);
             }));
           }
         }]);
@@ -7704,7 +7972,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 7);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 8);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
@@ -7712,9 +7980,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 8);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 9);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 9);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 10);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "async");
 
@@ -7747,13 +8015,13 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 10);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 11);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 11);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 12);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 12);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 13);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "p", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "p", 14);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5);
 
@@ -7761,7 +8029,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "p", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "p", 15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8);
 
@@ -7771,9 +8039,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 12);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 13);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "p", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "p", 14);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](12);
 
@@ -7781,7 +8049,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "p", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "p", 15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15);
 
@@ -7791,9 +8059,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "div", 15);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "div", 16);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "p", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "p", 14);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](19);
 
@@ -7801,7 +8069,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "p", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "p", 15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](22);
 
@@ -7851,7 +8119,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
         }
@@ -7861,7 +8129,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
         }
@@ -7873,9 +8141,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 17);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "button", 17);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "button", 18);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_ng_container_17_Template_button_click_2_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r8);
@@ -7895,7 +8163,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 18);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 19);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentReceptionComponent_ng_container_17_Template_button_click_6_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r8);
@@ -7939,7 +8207,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
         }
@@ -7949,7 +8217,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "div", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
         }
@@ -7975,87 +8243,87 @@
           value: function ngOnInit() {
             var _a, _b, _c, _d;
 
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee26() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee28() {
               var purchase;
-              return regeneratorRuntime.wrap(function _callee26$(_context26) {
+              return regeneratorRuntime.wrap(function _callee28$(_context28) {
                 while (1) {
-                  switch (_context26.prev = _context26.next) {
+                  switch (_context28.prev = _context28.next) {
                     case 0:
                       this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getLoading"]));
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getPurchase"]));
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getUser"]));
                       this.amount = 0;
-                      _context26.prev = 4;
-                      _context26.next = 7;
+                      _context28.prev = 4;
+                      _context28.next = 7;
                       return this.actionService.purchase.getData();
 
                     case 7:
-                      purchase = _context26.sent;
+                      purchase = _context28.sent;
                       this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
 
                       if (!(this.amount === 0)) {
-                        _context26.next = 13;
+                        _context28.next = 13;
                         break;
                       }
 
-                      _context26.next = 12;
+                      _context28.next = 12;
                       return this.onSubmit();
 
                     case 12:
-                      return _context26.abrupt("return");
+                      return _context28.abrupt("return");
 
                     case 13:
                       if (!(((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash)) {
-                        _context26.next = 16;
+                        _context28.next = 16;
                         break;
                       }
 
-                      _context26.next = 16;
+                      _context28.next = 16;
                       return this.cash();
 
                     case 16:
                       if (!(((_b = purchase.paymentMethod) === null || _b === void 0 ? void 0 : _b.typeOf) === this.paymentMethodType.CreditCard)) {
-                        _context26.next = 19;
+                        _context28.next = 19;
                         break;
                       }
 
-                      _context26.next = 19;
+                      _context28.next = 19;
                       return this.creditcard();
 
                     case 19:
                       if (!(((_c = purchase.paymentMethod) === null || _c === void 0 ? void 0 : _c.typeOf) === this.paymentMethodType.EMoney)) {
-                        _context26.next = 22;
+                        _context28.next = 22;
                         break;
                       }
 
-                      _context26.next = 22;
+                      _context28.next = 22;
                       return this.eMoney();
 
                     case 22:
                       if (!(((_d = purchase.paymentMethod) === null || _d === void 0 ? void 0 : _d.typeOf) === this.paymentMethodType.Others && purchase.paymentMethod.category === 'code')) {
-                        _context26.next = 25;
+                        _context28.next = 25;
                         break;
                       }
 
-                      _context26.next = 25;
+                      _context28.next = 25;
                       return this.code();
 
                     case 25:
-                      _context26.next = 31;
+                      _context28.next = 31;
                       break;
 
                     case 27:
-                      _context26.prev = 27;
-                      _context26.t0 = _context26["catch"](4);
-                      console.error(_context26.t0);
+                      _context28.prev = 27;
+                      _context28.t0 = _context28["catch"](4);
+                      console.error(_context28.t0);
                       this.router.navigate(['/error']);
 
                     case 31:
                     case "end":
-                      return _context26.stop();
+                      return _context28.stop();
                   }
                 }
-              }, _callee26, this, [[4, 27]]);
+              }, _callee28, this, [[4, 27]]);
             }));
           }
           /**
@@ -8065,52 +8333,52 @@
         }, {
           key: "cash",
           value: function cash() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee27() {
-              var _this11 = this;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+              var _this9 = this;
 
               var user;
-              return regeneratorRuntime.wrap(function _callee27$(_context27) {
+              return regeneratorRuntime.wrap(function _callee29$(_context29) {
                 while (1) {
-                  switch (_context27.prev = _context27.next) {
+                  switch (_context29.prev = _context29.next) {
                     case 0:
                       this.deposit = 0;
-                      _context27.next = 3;
+                      _context29.next = 3;
                       return this.actionService.user.getData();
 
                     case 3:
-                      user = _context27.sent;
+                      user = _context29.sent;
 
                       if (!(user.payment === undefined || user.payment.cash === undefined)) {
-                        _context27.next = 6;
+                        _context29.next = 6;
                         break;
                       }
 
                       throw new Error('payment undefined');
 
                     case 6:
-                      _context27.next = 8;
+                      _context29.next = 8;
                       return this.epsonEPOSService.cashchanger.init({
                         ipAddress: user.payment.cash.ipAddress
                       });
 
                     case 8:
-                      _context27.next = 10;
+                      _context29.next = 10;
                       return this.epsonEPOSService.cashchanger.endDeposit();
 
                     case 10:
-                      _context27.next = 12;
+                      _context29.next = 12;
                       return this.epsonEPOSService.cashchanger.beginDeposit({
                         cb: function cb(amount) {
-                          _this11.deposit = amount;
+                          _this9.deposit = amount;
                         }
                       });
 
                     case 12:
                     case "end":
-                      return _context27.stop();
+                      return _context29.stop();
                   }
                 }
-              }, _callee27, this);
+              }, _callee29, this);
             }));
           }
           /**
@@ -8120,164 +8388,6 @@
         }, {
           key: "creditcard",
           value: function creditcard() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee28() {
-              var user, execResult;
-              return regeneratorRuntime.wrap(function _callee28$(_context28) {
-                while (1) {
-                  switch (_context28.prev = _context28.next) {
-                    case 0:
-                      _context28.next = 2;
-                      return this.actionService.user.getData();
-
-                    case 2:
-                      user = _context28.sent;
-
-                      if (!(user.payment === undefined || user.payment.creditcard === undefined)) {
-                        _context28.next = 5;
-                        break;
-                      }
-
-                      throw new Error('payment undefined');
-
-                    case 5:
-                      _context28.next = 7;
-                      return this.paymentService.init({
-                        ipAddress: user.payment.creditcard.ipAddress
-                      });
-
-                    case 7:
-                      _context28.next = 9;
-                      return this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
-                        options: {
-                          JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
-                          ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
-                          AMOUNT: String(this.amount)
-                        }
-                      });
-
-                    case 9:
-                      execResult = _context28.sent;
-
-                      if (!(execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL || execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL)) {
-                        _context28.next = 13;
-                        break;
-                      }
-
-                      this.router.navigate(['/purchase/payment']);
-                      return _context28.abrupt("return");
-
-                    case 13:
-                      if (!(execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS)) {
-                        _context28.next = 17;
-                        break;
-                      }
-
-                      _context28.next = 16;
-                      return this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION
-                      });
-
-                    case 16:
-                      throw new Error(JSON.stringify(execResult));
-
-                    case 17:
-                      this.onSubmit();
-
-                    case 18:
-                    case "end":
-                      return _context28.stop();
-                  }
-                }
-              }, _callee28, this);
-            }));
-          }
-          /**
-           * 電子マネー
-           */
-
-        }, {
-          key: "eMoney",
-          value: function eMoney() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
-              var user, execResult;
-              return regeneratorRuntime.wrap(function _callee29$(_context29) {
-                while (1) {
-                  switch (_context29.prev = _context29.next) {
-                    case 0:
-                      _context29.next = 2;
-                      return this.actionService.user.getData();
-
-                    case 2:
-                      user = _context29.sent;
-
-                      if (!(user.payment === undefined || user.payment.emoney === undefined)) {
-                        _context29.next = 5;
-                        break;
-                      }
-
-                      throw new Error('payment undefined');
-
-                    case 5:
-                      _context29.next = 7;
-                      return this.paymentService.init({
-                        ipAddress: user.payment.emoney.ipAddress
-                      });
-
-                    case 7:
-                      _context29.next = 9;
-                      return this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
-                        options: {
-                          JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
-                          ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
-                          AMOUNT: String(this.amount)
-                        }
-                      });
-
-                    case 9:
-                      execResult = _context29.sent;
-
-                      if (!(execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL || execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL)) {
-                        _context29.next = 13;
-                        break;
-                      }
-
-                      this.router.navigate(['/purchase/payment']);
-                      return _context29.abrupt("return");
-
-                    case 13:
-                      if (!(execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS)) {
-                        _context29.next = 17;
-                        break;
-                      }
-
-                      _context29.next = 16;
-                      return this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION
-                      });
-
-                    case 16:
-                      throw new Error(JSON.stringify(execResult));
-
-                    case 17:
-                      this.onSubmit();
-
-                    case 18:
-                    case "end":
-                      return _context29.stop();
-                  }
-                }
-              }, _callee29, this);
-            }));
-          }
-          /**
-           * コード
-           */
-
-        }, {
-          key: "code",
-          value: function code() {
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee30() {
               var user, execResult;
               return regeneratorRuntime.wrap(function _callee30$(_context30) {
@@ -8290,7 +8400,7 @@
                     case 2:
                       user = _context30.sent;
 
-                      if (!(user.payment === undefined || user.payment.code === undefined)) {
+                      if (!(user.payment === undefined || user.payment.creditcard === undefined)) {
                         _context30.next = 5;
                         break;
                       }
@@ -8300,18 +8410,17 @@
                     case 5:
                       _context30.next = 7;
                       return this.paymentService.init({
-                        ipAddress: user.payment.code.ipAddress
+                        ipAddress: user.payment.creditcard.ipAddress
                       });
 
                     case 7:
                       _context30.next = 9;
                       return this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
                         options: {
                           JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
                           ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
-                          AMOUNT: String(this.amount),
-                          MACHINE_CODE: ''
+                          AMOUNT: String(this.amount)
                         }
                       });
 
@@ -8334,7 +8443,7 @@
 
                       _context30.next = 16;
                       return this.paymentService.exec({
-                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION
                       });
 
                     case 16:
@@ -8352,6 +8461,165 @@
             }));
           }
           /**
+           * 電子マネー
+           */
+
+        }, {
+          key: "eMoney",
+          value: function eMoney() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee31() {
+              var user, execResult;
+              return regeneratorRuntime.wrap(function _callee31$(_context31) {
+                while (1) {
+                  switch (_context31.prev = _context31.next) {
+                    case 0:
+                      _context31.next = 2;
+                      return this.actionService.user.getData();
+
+                    case 2:
+                      user = _context31.sent;
+
+                      if (!(user.payment === undefined || user.payment.emoney === undefined)) {
+                        _context31.next = 5;
+                        break;
+                      }
+
+                      throw new Error('payment undefined');
+
+                    case 5:
+                      _context31.next = 7;
+                      return this.paymentService.init({
+                        ipAddress: user.payment.emoney.ipAddress
+                      });
+
+                    case 7:
+                      _context31.next = 9;
+                      return this.paymentService.exec({
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
+                        options: {
+                          JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                          ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                          AMOUNT: String(this.amount)
+                        }
+                      });
+
+                    case 9:
+                      execResult = _context31.sent;
+
+                      if (!(execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL || execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL)) {
+                        _context31.next = 13;
+                        break;
+                      }
+
+                      this.router.navigate(['/purchase/payment']);
+                      return _context31.abrupt("return");
+
+                    case 13:
+                      if (!(execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS)) {
+                        _context31.next = 17;
+                        break;
+                      }
+
+                      _context31.next = 16;
+                      return this.paymentService.exec({
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION
+                      });
+
+                    case 16:
+                      throw new Error(JSON.stringify(execResult));
+
+                    case 17:
+                      this.onSubmit();
+
+                    case 18:
+                    case "end":
+                      return _context31.stop();
+                  }
+                }
+              }, _callee31, this);
+            }));
+          }
+          /**
+           * コード
+           */
+
+        }, {
+          key: "code",
+          value: function code() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee32() {
+              var user, execResult;
+              return regeneratorRuntime.wrap(function _callee32$(_context32) {
+                while (1) {
+                  switch (_context32.prev = _context32.next) {
+                    case 0:
+                      _context32.next = 2;
+                      return this.actionService.user.getData();
+
+                    case 2:
+                      user = _context32.sent;
+
+                      if (!(user.payment === undefined || user.payment.code === undefined)) {
+                        _context32.next = 5;
+                        break;
+                      }
+
+                      throw new Error('payment undefined');
+
+                    case 5:
+                      _context32.next = 7;
+                      return this.paymentService.init({
+                        ipAddress: user.payment.code.ipAddress
+                      });
+
+                    case 7:
+                      _context32.next = 9;
+                      return this.paymentService.exec({
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
+                        options: {
+                          JOB: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.JOB.CAPTURE,
+                          ORDERID: moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYYMMDDHHmmsss'),
+                          AMOUNT: String(this.amount),
+                          MACHINE_CODE: ''
+                        }
+                      });
+
+                    case 9:
+                      execResult = _context32.sent;
+
+                      if (!(execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.APP_CANCEL || execResult.FUNC_STATUS === ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL)) {
+                        _context32.next = 13;
+                        break;
+                      }
+
+                      this.router.navigate(['/purchase/payment']);
+                      return _context32.abrupt("return");
+
+                    case 13:
+                      if (!(execResult.FUNC_STATUS !== ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_STATUS.SUCCESS)) {
+                        _context32.next = 17;
+                        break;
+                      }
+
+                      _context32.next = 16;
+                      return this.paymentService.exec({
+                        func: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION
+                      });
+
+                    case 16:
+                      throw new Error(JSON.stringify(execResult));
+
+                    case 17:
+                      this.onSubmit();
+
+                    case 18:
+                    case "end":
+                      return _context32.stop();
+                  }
+                }
+              }, _callee32, this);
+            }));
+          }
+          /**
            * 確定
            */
 
@@ -8360,62 +8628,62 @@
           value: function onSubmit() {
             var _a;
 
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee31() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee33() {
               var purchase, user, profile, seller;
-              return regeneratorRuntime.wrap(function _callee31$(_context31) {
+              return regeneratorRuntime.wrap(function _callee33$(_context33) {
                 while (1) {
-                  switch (_context31.prev = _context31.next) {
+                  switch (_context33.prev = _context33.next) {
                     case 0:
-                      _context31.next = 2;
+                      _context33.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      purchase = _context31.sent;
-                      _context31.next = 5;
+                      purchase = _context33.sent;
+                      _context33.next = 5;
                       return this.actionService.user.getData();
 
                     case 5:
-                      user = _context31.sent;
+                      user = _context33.sent;
                       profile = user.customerContact;
                       seller = purchase.seller;
 
                       if (!(profile === undefined || seller === undefined)) {
-                        _context31.next = 10;
+                        _context33.next = 10;
                         break;
                       }
 
                       throw new Error('profile or seller undefined');
 
                     case 10:
-                      _context31.prev = 10;
+                      _context33.prev = 10;
 
                       if (!(purchase.pendingMovieTickets.length > 0)) {
-                        _context31.next = 14;
+                        _context33.next = 14;
                         break;
                       }
 
-                      _context31.next = 14;
+                      _context33.next = 14;
                       return this.actionService.purchase.authorizeMovieTicket({
                         seller: seller
                       });
 
                     case 14:
                       if (!(purchase.paymentMethod !== undefined)) {
-                        _context31.next = 17;
+                        _context33.next = 17;
                         break;
                       }
 
-                      _context31.next = 17;
+                      _context33.next = 17;
                       return this.actionService.purchase.authorizeAnyPayment({
                         amount: this.amount
                       });
 
                     case 17:
-                      _context31.next = 19;
+                      _context33.next = 19;
                       return this.actionService.purchase.registerContact(profile);
 
                     case 19:
-                      _context31.next = 21;
+                      _context33.next = 21;
                       return this.actionService.purchase.endTransaction({
                         seller: seller,
                         language: user.language
@@ -8427,58 +8695,58 @@
                       });
 
                       if (!(((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash)) {
-                        _context31.next = 30;
+                        _context33.next = 30;
                         break;
                       }
 
-                      _context31.next = 25;
+                      _context33.next = 25;
                       return this.epsonEPOSService.cashchanger.endDeposit();
 
                     case 25:
                       if (!(this.deposit - this.amount > 0)) {
-                        _context31.next = 28;
+                        _context33.next = 28;
                         break;
                       }
 
-                      _context31.next = 28;
+                      _context33.next = 28;
                       return this.epsonEPOSService.cashchanger.dispenseChange({
                         amount: this.deposit - this.amount
                       });
 
                     case 28:
-                      _context31.next = 30;
+                      _context33.next = 30;
                       return this.epsonEPOSService.cashchanger.disconnect();
 
                     case 30:
                       this.router.navigate(['/purchase/complete']);
                       this.utilService.loadEnd();
-                      _context31.next = 44;
+                      _context33.next = 44;
                       break;
 
                     case 34:
-                      _context31.prev = 34;
-                      _context31.t0 = _context31["catch"](10);
+                      _context33.prev = 34;
+                      _context33.t0 = _context33["catch"](10);
                       this.utilService.loadStart({
                         process: 'load'
                       });
-                      _context31.next = 39;
+                      _context33.next = 39;
                       return this.epsonEPOSService.cashchanger.endDepositRepay();
 
                     case 39:
-                      _context31.next = 41;
+                      _context33.next = 41;
                       return this.epsonEPOSService.cashchanger.disconnect();
 
                     case 41:
                       this.utilService.loadEnd();
-                      console.error(_context31.t0);
+                      console.error(_context33.t0);
                       this.router.navigate(['/error']);
 
                     case 44:
                     case "end":
-                      return _context31.stop();
+                      return _context33.stop();
                   }
                 }
-              }, _callee31, this, [[10, 34]]);
+              }, _callee33, this, [[10, 34]]);
             }));
           }
         }, {
@@ -8486,52 +8754,52 @@
           value: function prev() {
             var _a;
 
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee32() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee34() {
               var purchase;
-              return regeneratorRuntime.wrap(function _callee32$(_context32) {
+              return regeneratorRuntime.wrap(function _callee34$(_context34) {
                 while (1) {
-                  switch (_context32.prev = _context32.next) {
+                  switch (_context34.prev = _context34.next) {
                     case 0:
-                      _context32.prev = 0;
+                      _context34.prev = 0;
                       this.utilService.loadStart({
                         process: 'load'
                       });
-                      _context32.next = 4;
+                      _context34.next = 4;
                       return this.actionService.purchase.getData();
 
                     case 4:
-                      purchase = _context32.sent;
+                      purchase = _context34.sent;
 
                       if (!(((_a = purchase.paymentMethod) === null || _a === void 0 ? void 0 : _a.typeOf) === this.paymentMethodType.Cash)) {
-                        _context32.next = 10;
+                        _context34.next = 10;
                         break;
                       }
 
-                      _context32.next = 8;
+                      _context34.next = 8;
                       return this.epsonEPOSService.cashchanger.endDepositRepay();
 
                     case 8:
-                      _context32.next = 10;
+                      _context34.next = 10;
                       return this.epsonEPOSService.cashchanger.disconnect();
 
                     case 10:
                       this.router.navigate(['/purchase/payment']);
                       this.utilService.loadEnd();
-                      _context32.next = 18;
+                      _context34.next = 18;
                       break;
 
                     case 14:
-                      _context32.prev = 14;
-                      _context32.t0 = _context32["catch"](0);
-                      console.error(_context32.t0);
+                      _context34.prev = 14;
+                      _context34.t0 = _context34["catch"](0);
+                      console.error(_context34.t0);
                       this.utilService.loadEnd();
 
                     case 18:
                     case "end":
-                      return _context32.stop();
+                      return _context34.stop();
                   }
                 }
-              }, _callee32, this, [[0, 14]]);
+              }, _callee34, this, [[0, 14]]);
             }));
           }
         }]);
@@ -8547,43 +8815,43 @@
         type: PurchasePaymentReceptionComponent,
         selectors: [["app-purchase-payment-reception"]],
         decls: 23,
-        vars: 22,
-        consts: [[1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], [1, "mb-4", 3, "purchase"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4"], [3, "language", "screeningEvent"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "mr-auto"], ["type", "button", 1, "btn", "btn-outline-primary", 3, "click"], ["type", "button", 1, "btn", "btn-primary", "btn-block", 3, "disabled", "click"]],
+        vars: 23,
+        consts: [[3, "isClear"], [1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], [1, "mb-4", 3, "purchase"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4"], [3, "language", "screeningEvent"], [1, "bg-white", "px-3", "mb-4"], [1, "overflow-hidden"], [1, "py-3", "row", "align-items-center", "border-bottom", "border-gray"], [1, "mb-2", "mb-md-0", "col-md-4"], [1, "col-md-8"], [1, "py-3", "row", "align-items-center"], [1, "mr-auto"], ["type", "button", 1, "btn", "btn-outline-primary", 3, "click"], ["type", "button", 1, "btn", "btn-primary", "btn-block", 3, "disabled", "click"]],
         template: function PurchasePaymentReceptionComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentReceptionComponent_div_5_Template, 8, 9, "div", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentReceptionComponent_div_5_Template, 8, 9, "div", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentReceptionComponent_ng_container_7_Template, 24, 21, "ng-container", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentReceptionComponent_ng_container_7_Template, 24, 21, "ng-container", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](8, "async");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, PurchasePaymentReceptionComponent_ng_container_9_Template, 2, 0, "ng-container", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, PurchasePaymentReceptionComponent_ng_container_9_Template, 2, 0, "ng-container", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](10, "async");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, PurchasePaymentReceptionComponent_ng_container_11_Template, 2, 0, "ng-container", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, PurchasePaymentReceptionComponent_ng_container_11_Template, 2, 0, "ng-container", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](12, "async");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "app-purchase-info", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "app-purchase-info", 7);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](15, "async");
 
@@ -8597,15 +8865,15 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "app-footer");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](17, PurchasePaymentReceptionComponent_ng_container_17_Template, 10, 9, "ng-container", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](17, PurchasePaymentReceptionComponent_ng_container_17_Template, 10, 9, "ng-container", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](18, "async");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](19, PurchasePaymentReceptionComponent_ng_container_19_Template, 2, 0, "ng-container", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](19, PurchasePaymentReceptionComponent_ng_container_19_Template, 2, 0, "ng-container", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](20, "async");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](21, PurchasePaymentReceptionComponent_ng_container_21_Template, 2, 0, "ng-container", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](21, PurchasePaymentReceptionComponent_ng_container_21_Template, 2, 0, "ng-container", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](22, "async");
 
@@ -8613,26 +8881,24 @@
           }
 
           if (rf & 2) {
-            var tmp_1_0 = null;
-            var currVal_1 = ((tmp_1_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 8, ctx.purchase)) == null ? null : tmp_1_0.paymentMethod == null ? null : tmp_1_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
             var tmp_2_0 = null;
-            var currVal_2 = ((tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](10, 10, ctx.purchase)) == null ? null : tmp_2_0.paymentMethod == null ? null : tmp_2_0.paymentMethod.typeOf) === ctx.paymentMethodType.CreditCard;
+            var currVal_2 = ((tmp_2_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](8, 9, ctx.purchase)) == null ? null : tmp_2_0.paymentMethod == null ? null : tmp_2_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
             var tmp_3_0 = null;
-            var currVal_3 = ((tmp_3_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](12, 12, ctx.purchase)) == null ? null : tmp_3_0.paymentMethod == null ? null : tmp_3_0.paymentMethod.typeOf) === ctx.paymentMethodType.EMoney;
-            var tmp_5_0 = null;
-            var currVal_5 = ((tmp_5_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](18, 16, ctx.purchase)) == null ? null : tmp_5_0.paymentMethod == null ? null : tmp_5_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
+            var currVal_3 = ((tmp_3_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](10, 11, ctx.purchase)) == null ? null : tmp_3_0.paymentMethod == null ? null : tmp_3_0.paymentMethod.typeOf) === ctx.paymentMethodType.CreditCard;
+            var tmp_4_0 = null;
+            var currVal_4 = ((tmp_4_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](12, 13, ctx.purchase)) == null ? null : tmp_4_0.paymentMethod == null ? null : tmp_4_0.paymentMethod.typeOf) === ctx.paymentMethodType.EMoney;
             var tmp_6_0 = null;
-            var currVal_6 = ((tmp_6_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](20, 18, ctx.purchase)) == null ? null : tmp_6_0.paymentMethod == null ? null : tmp_6_0.paymentMethod.typeOf) === ctx.paymentMethodType.CreditCard;
+            var currVal_6 = ((tmp_6_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](18, 17, ctx.purchase)) == null ? null : tmp_6_0.paymentMethod == null ? null : tmp_6_0.paymentMethod.typeOf) === ctx.paymentMethodType.Cash;
             var tmp_7_0 = null;
-            var currVal_7 = ((tmp_7_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](22, 20, ctx.purchase)) == null ? null : tmp_7_0.paymentMethod == null ? null : tmp_7_0.paymentMethod.typeOf) === ctx.paymentMethodType.EMoney;
+            var currVal_7 = ((tmp_7_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](20, 19, ctx.purchase)) == null ? null : tmp_7_0.paymentMethod == null ? null : tmp_7_0.paymentMethod.typeOf) === ctx.paymentMethodType.CreditCard;
+            var tmp_8_0 = null;
+            var currVal_8 = ((tmp_8_0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](22, 21, ctx.purchase)) == null ? null : tmp_8_0.paymentMethod == null ? null : tmp_8_0.paymentMethod.typeOf) === ctx.paymentMethodType.EMoney;
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.environment.PURCHASE_TERMS);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_1);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
@@ -8642,21 +8908,25 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](15, 14, ctx.purchase));
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_5);
-
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](15, 15, ctx.purchase));
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", currVal_8);
           }
         },
         directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_9__["HeaderComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_10__["NgIf"], _parts_purchase_info_purchase_info_component__WEBPACK_IMPORTED_MODULE_11__["PurchaseInfoComponent"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_12__["FooterComponent"], _parts_purchase_terms_purchase_terms_component__WEBPACK_IMPORTED_MODULE_13__["PurchaseTermsComponent"]],
@@ -8843,7 +9113,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 9);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2", 10);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
@@ -8851,9 +9121,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 10);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 11);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 11);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-purchase-terms", 12);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "async");
 
@@ -8886,7 +9156,7 @@
         if (rf & 1) {
           var _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentComponent_div_7_button_3_Template_button_click_0_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r10);
@@ -8918,7 +9188,7 @@
         if (rf & 1) {
           var _r12 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentComponent_div_7_button_5_Template_button_click_0_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12);
@@ -8950,7 +9220,7 @@
         if (rf & 1) {
           var _r14 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentComponent_div_7_button_7_Template_button_click_0_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r14);
@@ -8982,9 +9252,9 @@
         if (rf & 1) {
           var _r17 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 14);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 16);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 17);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function PurchasePaymentComponent_div_7_div_8_Template_button_click_1_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r17);
@@ -9020,29 +9290,29 @@
 
       function PurchasePaymentComponent_div_7_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 12);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 13);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 14);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchasePaymentComponent_div_7_button_3_Template, 4, 3, "button", 14);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 13);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentComponent_div_7_button_5_Template, 4, 3, "button", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, PurchasePaymentComponent_div_7_button_3_Template, 4, 3, "button", 15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 14);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentComponent_div_7_button_7_Template, 4, 3, "button", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentComponent_div_7_button_5_Template, 4, 3, "button", 15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, PurchasePaymentComponent_div_7_div_8_Template, 5, 3, "div", 15);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 14);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentComponent_div_7_button_7_Template, 4, 3, "button", 15);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, PurchasePaymentComponent_div_7_div_8_Template, 5, 3, "div", 16);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -9072,13 +9342,13 @@
 
       function PurchasePaymentComponent_div_8_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 12);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 13);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 17);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 18);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 14);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "button", 18);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "button", 19);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "p");
 
@@ -9108,7 +9378,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 19);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 20);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
@@ -9130,7 +9400,7 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 20);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 21);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
@@ -9165,37 +9435,37 @@
         _createClass(PurchasePaymentComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee33() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee35() {
               var purchase;
-              return regeneratorRuntime.wrap(function _callee33$(_context33) {
+              return regeneratorRuntime.wrap(function _callee35$(_context35) {
                 while (1) {
-                  switch (_context33.prev = _context33.next) {
+                  switch (_context35.prev = _context35.next) {
                     case 0:
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getPurchase"]));
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getUser"]));
                       this.amount = 0;
-                      _context33.prev = 3;
-                      _context33.next = 6;
+                      _context35.prev = 3;
+                      _context35.next = 6;
                       return this.actionService.purchase.getData();
 
                     case 6:
-                      purchase = _context33.sent;
+                      purchase = _context35.sent;
                       this.amount = ___WEBPACK_IMPORTED_MODULE_5__["Functions"].Purchase.getAmount(purchase.authorizeSeatReservations);
-                      _context33.next = 14;
+                      _context35.next = 14;
                       break;
 
                     case 10:
-                      _context33.prev = 10;
-                      _context33.t0 = _context33["catch"](3);
-                      console.error(_context33.t0);
+                      _context35.prev = 10;
+                      _context35.t0 = _context35["catch"](3);
+                      console.error(_context35.t0);
                       this.router.navigate(['/error']);
 
                     case 14:
                     case "end":
-                      return _context33.stop();
+                      return _context35.stop();
                   }
                 }
-              }, _callee33, this, [[3, 10]]);
+              }, _callee35, this, [[3, 10]]);
             }));
           }
           /**
@@ -9205,21 +9475,21 @@
         }, {
           key: "selectPaymentMethodType",
           value: function selectPaymentMethodType(typeOf, category) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee34() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee36() {
               var seller, findResult;
-              return regeneratorRuntime.wrap(function _callee34$(_context34) {
+              return regeneratorRuntime.wrap(function _callee36$(_context36) {
                 while (1) {
-                  switch (_context34.prev = _context34.next) {
+                  switch (_context36.prev = _context36.next) {
                     case 0:
-                      _context34.prev = 0;
-                      _context34.next = 3;
+                      _context36.prev = 0;
+                      _context36.next = 3;
                       return this.actionService.purchase.getData();
 
                     case 3:
-                      seller = _context34.sent.seller;
+                      seller = _context36.sent.seller;
 
                       if (!(seller === undefined || seller.paymentAccepted === undefined)) {
-                        _context34.next = 6;
+                        _context36.next = 6;
                         break;
                       }
 
@@ -9231,7 +9501,7 @@
                       });
 
                       if (!(findResult === undefined)) {
-                        _context34.next = 10;
+                        _context36.next = 10;
                         break;
                       }
 
@@ -9239,7 +9509,7 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant('purchase.payment.alert.notCompatible')
                       });
-                      return _context34.abrupt("return");
+                      return _context36.abrupt("return");
 
                     case 10:
                       this.actionService.purchase.selectPaymentMethodType({
@@ -9247,21 +9517,21 @@
                         category: category
                       });
                       this.router.navigate(['/purchase/payment/reception']);
-                      _context34.next = 18;
+                      _context36.next = 18;
                       break;
 
                     case 14:
-                      _context34.prev = 14;
-                      _context34.t0 = _context34["catch"](0);
+                      _context36.prev = 14;
+                      _context36.t0 = _context36["catch"](0);
                       this.router.navigate(['/error']);
-                      console.error(_context34.t0);
+                      console.error(_context36.t0);
 
                     case 18:
                     case "end":
-                      return _context34.stop();
+                      return _context36.stop();
                   }
                 }
-              }, _callee34, this, [[0, 14]]);
+              }, _callee36, this, [[0, 14]]);
             }));
           }
           /**
@@ -9289,35 +9559,35 @@
         type: PurchasePaymentComponent,
         selectors: [["app-purchase-payment"]],
         decls: 16,
-        vars: 8,
-        consts: [[1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], ["class", "container px-0", 4, "ngIf"], [1, "mb-4", 3, "purchase"], [1, "mr-auto"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4"], [3, "language", "screeningEvent"], [1, "container", "px-0"], [1, "col-6", "mb-3"], ["type", "button", "class", "btn btn-primary btn-block py-3", 3, "click", 4, "ngIf"], ["class", "col-6 mb-3", 4, "ngFor", "ngForOf"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", 3, "click"], [1, "row", "justify-content-center"], ["type", "button", "routerLink", "/purchase/payment/reception", 1, "btn", "btn-primary", "btn-block", "py-3"], ["type", "button", "routerLink", "/purchase/cinema/ticket", 1, "btn", "btn-outline-primary"], ["type", "button", "routerLink", "/purchase/event/ticket", 1, "btn", "btn-outline-primary"]],
+        vars: 9,
+        consts: [[3, "isClear"], [1, "contents"], [1, "container", "p-3"], [1, "row"], [1, "col-3"], [4, "ngIf"], [1, "col-6"], ["class", "container px-0", 4, "ngIf"], [1, "mb-4", 3, "purchase"], [1, "mr-auto"], [1, "text-large", "mb-4", "text-center", "font-weight-bold"], [1, "mb-4"], [3, "language", "screeningEvent"], [1, "container", "px-0"], [1, "col-6", "mb-3"], ["type", "button", "class", "btn btn-primary btn-block py-3", 3, "click", 4, "ngIf"], ["class", "col-6 mb-3", 4, "ngFor", "ngForOf"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", 3, "click"], [1, "row", "justify-content-center"], ["type", "button", "routerLink", "/purchase/payment/reception", 1, "btn", "btn-primary", "btn-block", "py-3"], ["type", "button", "routerLink", "/purchase/cinema/ticket", 1, "btn", "btn-outline-primary"], ["type", "button", "routerLink", "/purchase/event/ticket", 1, "btn", "btn-outline-primary"]],
         template: function PurchasePaymentComponent_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-header", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentComponent_div_5_Template, 8, 9, "div", 4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentComponent_div_7_Template, 9, 4, "div", 6);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, PurchasePaymentComponent_div_8_Template, 7, 3, "div", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, PurchasePaymentComponent_div_5_Template, 8, 9, "div", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "app-purchase-info", 7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchasePaymentComponent_div_7_Template, 9, 4, "div", 7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, PurchasePaymentComponent_div_8_Template, 7, 3, "div", 7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "div", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "app-purchase-info", 8);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](11, "async");
 
@@ -9331,11 +9601,11 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "app-footer");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 8);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 9);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](14, PurchasePaymentComponent_div_14_Template, 4, 3, "div", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](14, PurchasePaymentComponent_div_14_Template, 4, 3, "div", 5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](15, PurchasePaymentComponent_div_15_Template, 4, 3, "div", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](15, PurchasePaymentComponent_div_15_Template, 4, 3, "div", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -9343,6 +9613,8 @@
           }
 
           if (rf & 2) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("isClear", true);
+
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.environment.PURCHASE_TERMS);
@@ -9357,7 +9629,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](11, 6, ctx.purchase));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("purchase", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](11, 7, ctx.purchase));
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
@@ -9507,57 +9779,57 @@
         _createClass(PurchaseRootComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee35() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee37() {
               var purchase;
-              return regeneratorRuntime.wrap(function _callee35$(_context35) {
+              return regeneratorRuntime.wrap(function _callee37$(_context37) {
                 while (1) {
-                  switch (_context35.prev = _context35.next) {
+                  switch (_context37.prev = _context37.next) {
                     case 0:
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_6__["getUser"]));
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_6__["getPurchase"]));
-                      _context35.prev = 2;
-                      _context35.next = 5;
+                      _context37.prev = 2;
+                      _context37.next = 5;
                       return this.actionService.purchase.getData();
 
                     case 5:
-                      purchase = _context35.sent;
+                      purchase = _context37.sent;
 
                       if (!(purchase.transaction !== undefined)) {
-                        _context35.next = 9;
+                        _context37.next = 9;
                         break;
                       }
 
-                      _context35.next = 9;
+                      _context37.next = 9;
                       return this.actionService.purchase.cancelTransaction();
 
                     case 9:
                       this.actionService.purchase["delete"]();
 
                       if (!(this.environment.VIEW_TYPE === ___WEBPACK_IMPORTED_MODULE_3__["Models"].Util.ViewType.Cinema)) {
-                        _context35.next = 13;
+                        _context37.next = 13;
                         break;
                       }
 
                       this.router.navigate(['/purchase/cinema']);
-                      return _context35.abrupt("return");
+                      return _context37.abrupt("return");
 
                     case 13:
                       this.router.navigate(['/purchase/event/schedule']);
-                      _context35.next = 20;
+                      _context37.next = 20;
                       break;
 
                     case 16:
-                      _context35.prev = 16;
-                      _context35.t0 = _context35["catch"](2);
-                      console.error(_context35.t0);
+                      _context37.prev = 16;
+                      _context37.t0 = _context37["catch"](2);
+                      console.error(_context37.t0);
                       this.router.navigate(['/error']);
 
                     case 20:
                     case "end":
-                      return _context35.stop();
+                      return _context37.stop();
                   }
                 }
-              }, _callee35, this, [[2, 16]]);
+              }, _callee37, this, [[2, 16]]);
             }));
           }
         }]);
@@ -9732,39 +10004,39 @@
         _createClass(PurchaseSeatComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee36() {
-              var _this12 = this;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee38() {
+              var _this10 = this;
 
               var purchase, screeningEvent, seller, reservations;
-              return regeneratorRuntime.wrap(function _callee36$(_context36) {
+              return regeneratorRuntime.wrap(function _callee38$(_context38) {
                 while (1) {
-                  switch (_context36.prev = _context36.next) {
+                  switch (_context38.prev = _context38.next) {
                     case 0:
                       this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getPurchase"]));
                       this.user = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getUser"]));
                       this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getLoading"]));
                       this.translateName = this.environment.VIEW_TYPE === 'cinema' ? 'purchase.cinema.seat' : 'purchase.event.seat';
                       this.screeningEventSeats = [];
-                      _context36.prev = 5;
-                      _context36.next = 8;
+                      _context38.prev = 5;
+                      _context38.next = 8;
                       return this.actionService.purchase.getData();
 
                     case 8:
-                      purchase = _context36.sent;
+                      purchase = _context38.sent;
                       screeningEvent = purchase.screeningEvent;
                       seller = purchase.seller;
 
                       if (!(screeningEvent === undefined || seller === undefined)) {
-                        _context36.next = 14;
+                        _context38.next = 14;
                         break;
                       }
 
                       this.router.navigate(['/error']);
-                      return _context36.abrupt("return");
+                      return _context38.abrupt("return");
 
                     case 14:
                       reservations = purchase.reservations;
-                      _context36.next = 17;
+                      _context38.next = 17;
                       return this.resetSeats();
 
                     case 17:
@@ -9773,12 +10045,12 @@
                           return;
                         }
 
-                        _this12.selectSeat({
+                        _this10.selectSeat({
                           seat: r.seat,
                           status: ___WEBPACK_IMPORTED_MODULE_5__["Models"].Purchase.Screen.SeatStatus.Default
                         });
                       });
-                      _context36.next = 20;
+                      _context38.next = 20;
                       return this.actionService.purchase.getScreen({
                         branchCode: {
                           $eq: screeningEvent.location.branchCode
@@ -9791,32 +10063,32 @@
                       });
 
                     case 20:
-                      _context36.next = 22;
+                      _context38.next = 22;
                       return this.actionService.purchase.getScreeningEventSeats();
 
                     case 22:
-                      this.screeningEventSeats = _context36.sent;
-                      _context36.next = 25;
+                      this.screeningEventSeats = _context38.sent;
+                      _context38.next = 25;
                       return this.actionService.purchase.getTicketList({
                         seller: seller
                       });
 
                     case 25:
-                      _context36.next = 31;
+                      _context38.next = 31;
                       break;
 
                     case 27:
-                      _context36.prev = 27;
-                      _context36.t0 = _context36["catch"](5);
-                      console.error(_context36.t0);
+                      _context38.prev = 27;
+                      _context38.t0 = _context38["catch"](5);
+                      console.error(_context38.t0);
                       this.router.navigate(['/error']);
 
                     case 31:
                     case "end":
-                      return _context36.stop();
+                      return _context38.stop();
                   }
                 }
-              }, _callee36, this, [[5, 27]]);
+              }, _callee38, this, [[5, 27]]);
             }));
           }
           /**
@@ -9839,18 +10111,18 @@
         }, {
           key: "allSelectSeats",
           value: function allSelectSeats() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee37() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee39() {
               var seats, purchase, screeningEventSeats;
-              return regeneratorRuntime.wrap(function _callee37$(_context37) {
+              return regeneratorRuntime.wrap(function _callee39$(_context39) {
                 while (1) {
-                  switch (_context37.prev = _context37.next) {
+                  switch (_context39.prev = _context39.next) {
                     case 0:
                       seats = [];
-                      _context37.next = 3;
+                      _context39.next = 3;
                       return this.actionService.purchase.getData();
 
                     case 3:
-                      purchase = _context37.sent;
+                      purchase = _context39.sent;
                       screeningEventSeats = this.screeningEventSeats;
                       screeningEventSeats.forEach(function (s) {
                         if (s.offers === undefined || s.offers[0].availability !== _cinerino_sdk__WEBPACK_IMPORTED_MODULE_2__["factory"].chevre.itemAvailability.InStock || s.containedInPlace === undefined) {
@@ -9881,10 +10153,10 @@
 
                     case 8:
                     case "end":
-                      return _context37.stop();
+                      return _context39.stop();
                   }
                 }
-              }, _callee37, this);
+              }, _callee39, this);
             }));
           }
           /**
@@ -9894,18 +10166,18 @@
         }, {
           key: "resetSeats",
           value: function resetSeats() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee38() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee40() {
               var seats, purchase;
-              return regeneratorRuntime.wrap(function _callee38$(_context38) {
+              return regeneratorRuntime.wrap(function _callee40$(_context40) {
                 while (1) {
-                  switch (_context38.prev = _context38.next) {
+                  switch (_context40.prev = _context40.next) {
                     case 0:
                       seats = [];
-                      _context38.next = 3;
+                      _context40.next = 3;
                       return this.actionService.purchase.getData();
 
                     case 3:
-                      purchase = _context38.sent;
+                      purchase = _context40.sent;
                       purchase.reservations.forEach(function (reservation) {
                         if (reservation.seat === undefined) {
                           return;
@@ -9917,10 +10189,10 @@
 
                     case 6:
                     case "end":
-                      return _context38.stop();
+                      return _context40.stop();
                   }
                 }
-              }, _callee38, this);
+              }, _callee40, this);
             }));
           }
           /**
@@ -9965,25 +10237,25 @@
         }, {
           key: "selectOpenSeating",
           value: function selectOpenSeating(event) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee39() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee41() {
               var purchaseData, value, reservations, screeningEventSeats, seats, selectSeats, i;
-              return regeneratorRuntime.wrap(function _callee39$(_context39) {
+              return regeneratorRuntime.wrap(function _callee41$(_context41) {
                 while (1) {
-                  switch (_context39.prev = _context39.next) {
+                  switch (_context41.prev = _context41.next) {
                     case 0:
                       if (!(event.target === null)) {
-                        _context39.next = 2;
+                        _context41.next = 2;
                         break;
                       }
 
-                      return _context39.abrupt("return");
+                      return _context41.abrupt("return");
 
                     case 2:
-                      _context39.next = 4;
+                      _context41.next = 4;
                       return this.actionService.purchase.getData();
 
                     case 4:
-                      purchaseData = _context39.sent;
+                      purchaseData = _context41.sent;
                       value = Number(event.target.value);
                       reservations = purchaseData.reservations;
                       screeningEventSeats = this.screeningEventSeats;
@@ -9991,7 +10263,7 @@
                         reservations: reservations,
                         screeningEventSeats: screeningEventSeats
                       });
-                      _context39.next = 11;
+                      _context41.next = 11;
                       return this.resetSeats();
 
                     case 11:
@@ -10005,10 +10277,10 @@
 
                     case 14:
                     case "end":
-                      return _context39.stop();
+                      return _context41.stop();
                   }
                 }
-              }, _callee39, this);
+              }, _callee41, this);
             }));
           }
           /**
@@ -10018,22 +10290,22 @@
         }, {
           key: "onSubmit",
           value: function onSubmit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee40() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee42() {
               var purchase, reservations, screeningEventTicketOffers, navigate;
-              return regeneratorRuntime.wrap(function _callee40$(_context40) {
+              return regeneratorRuntime.wrap(function _callee42$(_context42) {
                 while (1) {
-                  switch (_context40.prev = _context40.next) {
+                  switch (_context42.prev = _context42.next) {
                     case 0:
-                      _context40.next = 2;
+                      _context42.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      purchase = _context40.sent;
+                      purchase = _context42.sent;
                       reservations = purchase.reservations;
                       screeningEventTicketOffers = purchase.screeningEventTicketOffers;
 
                       if (!(reservations.length === 0)) {
-                        _context40.next = 8;
+                        _context42.next = 8;
                         break;
                       }
 
@@ -10041,11 +10313,11 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant("".concat(this.translateName, ".alert.unselected"))
                       });
-                      return _context40.abrupt("return");
+                      return _context42.abrupt("return");
 
                     case 8:
                       if (!(reservations.length > Number(this.environment.PURCHASE_ITEM_MAX_LENGTH))) {
-                        _context40.next = 11;
+                        _context42.next = 11;
                         break;
                       }
 
@@ -10055,11 +10327,11 @@
                           value: this.environment.PURCHASE_ITEM_MAX_LENGTH
                         })
                       });
-                      return _context40.abrupt("return");
+                      return _context42.abrupt("return");
 
                     case 11:
                       if (!(screeningEventTicketOffers.length === 0)) {
-                        _context40.next = 14;
+                        _context42.next = 14;
                         break;
                       }
 
@@ -10067,11 +10339,11 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant("".concat(this.translateName, ".alert.ticketNotfound"))
                       });
-                      return _context40.abrupt("return");
+                      return _context42.abrupt("return");
 
                     case 14:
-                      _context40.prev = 14;
-                      _context40.next = 17;
+                      _context42.prev = 14;
+                      _context42.next = 17;
                       return this.actionService.purchase.temporaryReservation({
                         reservations: reservations,
                         screeningEventSeats: this.screeningEventSeats
@@ -10080,24 +10352,24 @@
                     case 17:
                       navigate = this.environment.VIEW_TYPE === 'cinema' ? '/purchase/cinema/ticket' : '/purchase/event/seat/ticket';
                       this.router.navigate([navigate]);
-                      _context40.next = 25;
+                      _context42.next = 25;
                       break;
 
                     case 21:
-                      _context40.prev = 21;
-                      _context40.t0 = _context40["catch"](14);
-                      console.error(_context40.t0);
+                      _context42.prev = 21;
+                      _context42.t0 = _context42["catch"](14);
+                      console.error(_context42.t0);
                       this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
-                        body: "<p class=\"mb-4\">".concat(this.translate.instant("".concat(this.translateName, ".alert.temporaryReservation")), "</p>\n                <div class=\"p-3 bg-light-gray select-text\">\n                <code>").concat(_context40.t0, "</code>\n            </div>")
+                        body: "<p class=\"mb-4\">".concat(this.translate.instant("".concat(this.translateName, ".alert.temporaryReservation")), "</p>\n                <div class=\"p-3 bg-light-gray select-text\">\n                <code>").concat(_context42.t0, "</code>\n            </div>")
                       });
 
                     case 25:
                     case "end":
-                      return _context40.stop();
+                      return _context42.stop();
                   }
                 }
-              }, _callee40, this, [[14, 21]]);
+              }, _callee42, this, [[14, 21]]);
             }));
           }
         }]);
@@ -10301,28 +10573,28 @@
         }, {
           key: "onSubmit",
           value: function onSubmit() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee41() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee43() {
               var purchase, transaction, screeningEvent, reservations, unselectedReservations, validResult, additionalTicketText, screeningEventSeats, navigate;
-              return regeneratorRuntime.wrap(function _callee41$(_context41) {
+              return regeneratorRuntime.wrap(function _callee43$(_context43) {
                 while (1) {
-                  switch (_context41.prev = _context41.next) {
+                  switch (_context43.prev = _context43.next) {
                     case 0:
-                      _context41.next = 2;
+                      _context43.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      purchase = _context41.sent;
+                      purchase = _context43.sent;
                       transaction = purchase.transaction;
                       screeningEvent = purchase.screeningEvent;
                       reservations = purchase.reservations;
 
                       if (!(transaction === undefined || screeningEvent === undefined)) {
-                        _context41.next = 9;
+                        _context43.next = 9;
                         break;
                       }
 
                       this.router.navigate(['/error']);
-                      return _context41.abrupt("return");
+                      return _context43.abrupt("return");
 
                     case 9:
                       unselectedReservations = reservations.filter(function (reservation) {
@@ -10330,7 +10602,7 @@
                       });
 
                       if (!(unselectedReservations.length > 0)) {
-                        _context41.next = 13;
+                        _context43.next = 13;
                         break;
                       }
 
@@ -10338,7 +10610,7 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant("".concat(this.translateName, ".alert.unselected"))
                       });
-                      return _context41.abrupt("return");
+                      return _context43.abrupt("return");
 
                     case 13:
                       validResult = reservations.filter(function (reservation) {
@@ -10362,7 +10634,7 @@
                       });
 
                       if (!(validResult.length > 0)) {
-                        _context41.next = 17;
+                        _context43.next = 17;
                         break;
                       }
 
@@ -10370,17 +10642,17 @@
                         title: this.translate.instant('common.error'),
                         body: this.translate.instant("".concat(this.translateName, ".alert.ticketCondition"))
                       });
-                      return _context41.abrupt("return");
+                      return _context43.abrupt("return");
 
                     case 17:
-                      _context41.prev = 17;
+                      _context43.prev = 17;
                       additionalTicketText = this.additionalTicketText;
-                      _context41.next = 21;
+                      _context43.next = 21;
                       return this.actionService.purchase.getScreeningEventSeats();
 
                     case 21:
-                      screeningEventSeats = _context41.sent;
-                      _context41.next = 24;
+                      screeningEventSeats = _context43.sent;
+                      _context43.next = 24;
                       return this.actionService.purchase.temporaryReservation({
                         reservations: reservations,
                         additionalTicketText: additionalTicketText,
@@ -10390,24 +10662,24 @@
                     case 24:
                       navigate = this.environment.VIEW_TYPE === 'cinema' ? '/purchase/payment' : '/purchase/event/ticket';
                       this.router.navigate([navigate]);
-                      _context41.next = 32;
+                      _context43.next = 32;
                       break;
 
                     case 28:
-                      _context41.prev = 28;
-                      _context41.t0 = _context41["catch"](17);
-                      console.error(_context41.t0);
+                      _context43.prev = 28;
+                      _context43.t0 = _context43["catch"](17);
+                      console.error(_context43.t0);
                       this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
-                        body: "\n                <p class=\"mb-4\">".concat(this.translate.instant("".concat(this.translateName, ".alert.temporaryReservation")), "</p>\n                <div class=\"p-3 bg-light-gray select-text text-left\">\n                    <code>").concat(_context41.t0, "</code>\n                </div>")
+                        body: "\n                <p class=\"mb-4\">".concat(this.translate.instant("".concat(this.translateName, ".alert.temporaryReservation")), "</p>\n                <div class=\"p-3 bg-light-gray select-text text-left\">\n                    <code>").concat(_context43.t0, "</code>\n                </div>")
                       });
 
                     case 32:
                     case "end":
-                      return _context41.stop();
+                      return _context43.stop();
                   }
                 }
-              }, _callee41, this, [[17, 28]]);
+              }, _callee43, this, [[17, 28]]);
             }));
           }
           /**
@@ -10417,19 +10689,19 @@
         }, {
           key: "openTicketList",
           value: function openTicketList(reservation) {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee42() {
-              var _this13 = this;
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee44() {
+              var _this11 = this;
 
               var purchase;
-              return regeneratorRuntime.wrap(function _callee42$(_context42) {
+              return regeneratorRuntime.wrap(function _callee44$(_context44) {
                 while (1) {
-                  switch (_context42.prev = _context42.next) {
+                  switch (_context44.prev = _context44.next) {
                     case 0:
-                      _context42.next = 2;
+                      _context44.next = 2;
                       return this.actionService.purchase.getData();
 
                     case 2:
-                      purchase = _context42.sent;
+                      purchase = _context44.sent;
                       this.modal.show(_shared_components_parts_purchase_seat_ticket_modal_seat_ticket_modal_component__WEBPACK_IMPORTED_MODULE_11__["PurchaseSeatTicketModalComponent"], {
                         "class": 'modal-dialog-centered modal-lg',
                         initialState: {
@@ -10447,12 +10719,12 @@
                                 return r.ticket = ticket;
                               });
 
-                              _this13.actionService.purchase.selectTickets(reservations);
+                              _this11.actionService.purchase.selectTickets(reservations);
 
                               return;
                             }
 
-                            _this13.actionService.purchase.selectTickets([Object.assign(Object.assign({}, reservation), {
+                            _this11.actionService.purchase.selectTickets([Object.assign(Object.assign({}, reservation), {
                               ticket: ticket
                             })]);
                           }
@@ -10461,10 +10733,10 @@
 
                     case 4:
                     case "end":
-                      return _context42.stop();
+                      return _context44.stop();
                   }
                 }
-              }, _callee42, this);
+              }, _callee44, this);
             }));
           }
           /**
@@ -11404,7 +11676,7 @@
         },
         directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgClass"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"]],
         pipes: [_shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_5__["ChangeLanguagePipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslatePipe"]],
-        styles: [".status[_ngcontent-%COMP%] {\n  line-height: 30px;\n}\n.status[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 30px;\n  height: 30px;\n}\n@media (max-width: 767.98px) {\n  .text-overflow-ellipsis[_ngcontent-%COMP%] {\n    overflow: auto;\n    width: auto;\n    white-space: normal;\n  }\n}"]
+        styles: [".status[_ngcontent-%COMP%] {\n  line-height: 30px;\n}\n.status[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 30px;\n  height: 30px;\n}"]
       });
       /*@__PURE__*/
 
@@ -11835,83 +12107,67 @@
       /* harmony import */
 
 
-      var _store_reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      /*! ../../../../.. */
+      "./app/index.ts");
+      /* harmony import */
+
+
+      var _store_reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
       /*! ../../../../../store/reducers */
       "./app/store/reducers/index.ts");
       /* harmony import */
 
 
-      var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! @angular/common */
       "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
       /* harmony import */
 
 
-      var _shared_components_parts_item_list_item_list_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      var _shared_components_parts_item_list_item_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! ../../../../shared/components/parts/item-list/item-list.component */
       "./app/modules/shared/components/parts/item-list/item-list.component.ts");
       /* harmony import */
 
 
-      var _shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      var _shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
       /*! ../../../../shared/pipes/change-language.pipe */
       "./app/modules/shared/pipes/change-language.pipe.ts");
       /* harmony import */
 
 
-      var _shared_pipes_format_date_pipe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      var _shared_pipes_format_date_pipe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
       /*! ../../../../shared/pipes/format-date.pipe */
       "./app/modules/shared/pipes/format-date.pipe.ts");
       /* harmony import */
 
 
-      var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
       /*! @ngx-translate/core */
       "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
 
-      function PurchaseInfoComponent_p_6_Template(rf, ctx) {
+      function PurchaseInfoComponent_div_6_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 12);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "changeLanguage");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "div", 17);
         }
 
         if (rf & 2) {
           var ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx_r0.purchase.screeningEvent == null ? null : ctx_r0.purchase.screeningEvent.superEvent.headline), "");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleProp"]("background-image", "url(" + ctx_r0.image + ")");
         }
       }
 
-      function PurchaseInfoComponent_p_8_Template(rf, ctx) {
+      function PurchaseInfoComponent_div_7_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 12);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "changeLanguage");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        }
-
-        if (rf & 2) {
-          var ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx_r1.purchase.screeningEvent == null ? null : ctx_r1.purchase.screeningEvent.superEvent.description));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "div", 18);
         }
       }
 
-      function PurchaseInfoComponent_span_20_Template(rf, ctx) {
+      function PurchaseInfoComponent_p_12_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "span", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 19);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
 
@@ -11925,17 +12181,57 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx_r2.purchase.screeningEvent == null ? null : ctx_r2.purchase.screeningEvent.location.address));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx_r2.purchase.screeningEvent == null ? null : ctx_r2.purchase.screeningEvent.superEvent.headline), "");
         }
       }
 
-      function PurchaseInfoComponent_span_24_Template(rf, ctx) {
+      function PurchaseInfoComponent_p_14_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 19);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "changeLanguage");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          var ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx_r3.purchase.screeningEvent == null ? null : ctx_r3.purchase.screeningEvent.superEvent.description));
+        }
+      }
+
+      function PurchaseInfoComponent_span_26_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "span", 20);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "changeLanguage");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          var ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, ctx_r4.purchase.screeningEvent == null ? null : ctx_r4.purchase.screeningEvent.location.address));
+        }
+      }
+
+      function PurchaseInfoComponent_span_30_Template(rf, ctx) {
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "span");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, " \xA0/\xA0");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "span", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "span", 21);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
 
@@ -11951,7 +12247,7 @@
         }
 
         if (rf & 2) {
-          var ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+          var ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
@@ -11959,7 +12255,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"]("", ctx_r3.moment.duration(ctx_r3.purchase.screeningEvent == null ? null : ctx_r3.purchase.screeningEvent.workPerformed == null ? null : ctx_r3.purchase.screeningEvent.workPerformed.duration).asMinutes(), "", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](6, 5, "common.date.minute"), " ");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"]("", ctx_r5.moment.duration(ctx_r5.purchase.screeningEvent == null ? null : ctx_r5.purchase.screeningEvent.workPerformed == null ? null : ctx_r5.purchase.screeningEvent.workPerformed.duration).asMinutes(), "", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](6, 5, "common.date.minute"), " ");
         }
       }
 
@@ -11968,11 +12264,17 @@
           _classCallCheck(this, PurchaseInfoComponent);
 
           this.moment = moment__WEBPACK_IMPORTED_MODULE_1__;
+          this.getAdditionalProperty = ___WEBPACK_IMPORTED_MODULE_2__["Functions"].Purchase.getAdditionalProperty;
         }
 
         _createClass(PurchaseInfoComponent, [{
           key: "ngOnInit",
-          value: function ngOnInit() {}
+          value: function ngOnInit() {
+            var _a, _b;
+
+            var additionalProperty = (_b = (_a = this.purchase.screeningEvent) === null || _a === void 0 ? void 0 : _a.workPerformed) === null || _b === void 0 ? void 0 : _b.additionalProperty;
+            this.image = ___WEBPACK_IMPORTED_MODULE_2__["Functions"].Purchase.getAdditionalProperty(additionalProperty, 'posterImage');
+          }
         }]);
 
         return PurchaseInfoComponent;
@@ -11988,9 +12290,9 @@
         inputs: {
           purchase: "purchase"
         },
-        decls: 27,
-        vars: 28,
-        consts: [[1, "bg-white", "p-3"], [1, "mb-3"], [1, "mb-1"], [1, "font-weight-bold"], ["class", "text-small", 4, "ngIf"], [1, "mb-1", "text-small"], [1, "text-small", "mb-1"], [1, "theater-name"], [1, "screen-name"], ["class", "mr-2", 4, "ngIf"], [4, "ngIf"], [3, "reservations"], [1, "text-small"], [1, "mr-2"], [1, "mr-1"]],
+        decls: 33,
+        vars: 30,
+        consts: [[1, "bg-white", "p-3"], [1, "mb-3"], [1, "mb-2"], [1, "image"], [1, "loading", "d-flex", "justify-content-center", "align-items-center"], [1, "loader"], ["class", "poster", 3, "backgroundImage", 4, "ngIf"], ["class", "poster-no", 4, "ngIf"], [1, "font-weight-bold"], ["class", "text-small", 4, "ngIf"], [1, "mb-1", "text-small"], [1, "text-small", "mb-1"], [1, "theater-name"], [1, "screen-name"], ["class", "mr-2", 4, "ngIf"], [4, "ngIf"], [3, "reservations"], [1, "poster"], [1, "poster-no"], [1, "text-small"], [1, "mr-2"], [1, "mr-1"]],
         template: function PurchaseInfoComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -11999,51 +12301,55 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "p", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "changeLanguage");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, PurchaseInfoComponent_p_6_Template, 3, 3, "p", 4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](7, "changeLanguage");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, PurchaseInfoComponent_p_8_Template, 3, 3, "p", 4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](9, "changeLanguage");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "div", 5);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "p", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, PurchaseInfoComponent_div_6_Template, 1, 2, "div", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](11);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](12, "formatDate");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](13, "formatDate");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, PurchaseInfoComponent_div_7_Template, 1, 0, "div", 7);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "p", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "span", 7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](16);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "p", 8);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](17, "changeLanguage");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](11, "changeLanguage");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "span", 8);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](12, PurchaseInfoComponent_p_12_Template, 3, 3, "p", 9);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](19, " \xA0/\xA0");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](13, "changeLanguage");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](20, PurchaseInfoComponent_span_20_Template, 3, 3, "span", 9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](14, PurchaseInfoComponent_p_14_Template, 3, 3, "p", 9);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](21, "changeLanguage");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](15, "changeLanguage");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "p", 10);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](17);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](18, "formatDate");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](19, "formatDate");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "p", 11);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "span", 12);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](22);
 
@@ -12051,47 +12357,69 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](24, PurchaseInfoComponent_span_24_Template, 7, 7, "span", 10);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "span", 13);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](25, " \xA0/\xA0");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](26, PurchaseInfoComponent_span_26_Template, 3, 3, "span", 14);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](27, "changeLanguage");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](28);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](29, "changeLanguage");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](30, PurchaseInfoComponent_span_30_Template, 7, 7, "span", 15);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](25, "hr", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](31, "hr", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](26, "app-item-list", 11);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](32, "app-item-list", 16);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
           }
 
           if (rf & 2) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](5, 10, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.name));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.image);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", (ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.headline) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](7, 12, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.headline));
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", (ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.description) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 14, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.description));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx.image);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](12, 16, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.startDate, "MM/DD(ddd) HH:mm"), "-", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](13, 19, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.endDate, "HH:mm"), " ");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](17, 22, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.location.name), " ");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](21, 24, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.location.address));
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](11, 12, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.name));
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](23, 26, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.location.name), " ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", (ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.headline) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](13, 14, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.headline));
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", (ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.description) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](15, 16, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.description));
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](18, 18, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.startDate, "MM/DD(ddd) HH:mm"), "-", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](19, 21, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.endDate, "HH:mm"), " ");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](23, 24, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.superEvent.location.name), " ");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](27, 26, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.location.address));
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](29, 28, ctx.purchase.screeningEvent == null ? null : ctx.purchase.screeningEvent.location.name), " ");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
@@ -12102,9 +12430,9 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("reservations", ctx.purchase.reservations);
           }
         },
-        directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _shared_components_parts_item_list_item_list_component__WEBPACK_IMPORTED_MODULE_4__["ItemListComponent"]],
-        pipes: [_shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_5__["ChangeLanguagePipe"], _shared_pipes_format_date_pipe__WEBPACK_IMPORTED_MODULE_6__["FormatDatePipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__["TranslatePipe"]],
-        styles: ["[_nghost-%COMP%] {\n  display: block;\n}"]
+        directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _shared_components_parts_item_list_item_list_component__WEBPACK_IMPORTED_MODULE_5__["ItemListComponent"]],
+        pipes: [_shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_6__["ChangeLanguagePipe"], _shared_pipes_format_date_pipe__WEBPACK_IMPORTED_MODULE_7__["FormatDatePipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__["TranslatePipe"]],
+        styles: ["[_nghost-%COMP%] {\n  display: block;\n}\n\n.image[_ngcontent-%COMP%] {\n  padding-top: calc(100% * 1.41);\n  background-color: #000;\n  position: relative;\n}\n\n.image[_ngcontent-%COMP%]   .poster[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n\n.image[_ngcontent-%COMP%]   .poster-no[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-color: #cbcbcb;\n  background-image: url(/default/images/noimage.png);\n}\n\n.loading[_ngcontent-%COMP%] {\n  opacity: 1;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n\n.loader[_ngcontent-%COMP%], .loader[_ngcontent-%COMP%]:after {\n  border-radius: 50%;\n  width: 90px;\n  height: 90px;\n}\n\n.loader[_ngcontent-%COMP%] {\n  position: relative;\n  text-indent: -9999em;\n  border: 3px solid rgba(255, 255, 255, 0.2);\n  border-left-color: #FFF;\n  transform: translateZ(0);\n  -webkit-animation: load8 1.1s infinite linear;\n          animation: load8 1.1s infinite linear;\n}\n\n@-webkit-keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}"]
       });
       /*@__PURE__*/
 
@@ -12228,54 +12556,54 @@
         }, {
           key: "ngOnChanges",
           value: function ngOnChanges() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee43() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee45() {
               var path, url, view;
-              return regeneratorRuntime.wrap(function _callee43$(_context43) {
+              return regeneratorRuntime.wrap(function _callee45$(_context45) {
                 while (1) {
-                  switch (_context43.prev = _context43.next) {
+                  switch (_context45.prev = _context45.next) {
                     case 0:
-                      _context43.prev = 0;
+                      _context45.prev = 0;
                       path = "/ejs/purchase/terms/".concat(this.language, ".ejs");
-                      _context43.next = 4;
+                      _context45.next = 4;
                       return ___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.isFile("".concat(___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.getProject().storageUrl).concat(path));
 
                     case 4:
-                      if (!_context43.sent) {
-                        _context43.next = 8;
+                      if (!_context45.sent) {
+                        _context45.next = 8;
                         break;
                       }
 
-                      _context43.t0 = "".concat(___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.getProject().storageUrl).concat(path);
-                      _context43.next = 9;
+                      _context45.t0 = "".concat(___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.getProject().storageUrl).concat(path);
+                      _context45.next = 9;
                       break;
 
                     case 8:
-                      _context43.t0 = "/default".concat(path);
+                      _context45.t0 = "/default".concat(path);
 
                     case 9:
-                      url = _context43.t0;
-                      _context43.next = 12;
+                      url = _context45.t0;
+                      _context45.next = 12;
                       return this.utilService.getText(url);
 
                     case 12:
-                      view = _context43.sent;
+                      view = _context45.sent;
                       this.terms = window.ejs.render(view, {
                         screeningEvent: this.screeningEvent
                       });
-                      _context43.next = 19;
+                      _context45.next = 19;
                       break;
 
                     case 16:
-                      _context43.prev = 16;
-                      _context43.t1 = _context43["catch"](0);
-                      console.error(_context43.t1);
+                      _context45.prev = 16;
+                      _context45.t1 = _context45["catch"](0);
+                      console.error(_context45.t1);
 
                     case 19:
                     case "end":
-                      return _context43.stop();
+                      return _context45.stop();
                   }
                 }
-              }, _callee43, this, [[0, 16]]);
+              }, _callee45, this, [[0, 16]]);
             }));
           }
         }]);
@@ -12436,54 +12764,54 @@
         }, {
           key: "ngOnChanges",
           value: function ngOnChanges() {
-            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee44() {
+            return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee46() {
               var path, url, view;
-              return regeneratorRuntime.wrap(function _callee44$(_context44) {
+              return regeneratorRuntime.wrap(function _callee46$(_context46) {
                 while (1) {
-                  switch (_context44.prev = _context44.next) {
+                  switch (_context46.prev = _context46.next) {
                     case 0:
-                      _context44.prev = 0;
+                      _context46.prev = 0;
                       path = "/ejs/purchase/warning/".concat(this.language, ".ejs");
-                      _context44.next = 4;
+                      _context46.next = 4;
                       return ___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.isFile("".concat(___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.getProject().storageUrl).concat(path));
 
                     case 4:
-                      if (!_context44.sent) {
-                        _context44.next = 8;
+                      if (!_context46.sent) {
+                        _context46.next = 8;
                         break;
                       }
 
-                      _context44.t0 = "".concat(___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.getProject().storageUrl).concat(path);
-                      _context44.next = 9;
+                      _context46.t0 = "".concat(___WEBPACK_IMPORTED_MODULE_2__["Functions"].Util.getProject().storageUrl).concat(path);
+                      _context46.next = 9;
                       break;
 
                     case 8:
-                      _context44.t0 = "/default".concat(path);
+                      _context46.t0 = "/default".concat(path);
 
                     case 9:
-                      url = _context44.t0;
-                      _context44.next = 12;
+                      url = _context46.t0;
+                      _context46.next = 12;
                       return this.utilService.getText(url);
 
                     case 12:
-                      view = _context44.sent;
+                      view = _context46.sent;
                       this.warning = window.ejs.render(view, {
                         screeningEvent: this.screeningEvent
                       });
-                      _context44.next = 19;
+                      _context46.next = 19;
                       break;
 
                     case 16:
-                      _context44.prev = 16;
-                      _context44.t1 = _context44["catch"](0);
-                      console.error(_context44.t1);
+                      _context46.prev = 16;
+                      _context46.t1 = _context46["catch"](0);
+                      console.error(_context46.t1);
 
                     case 19:
                     case "end":
-                      return _context44.stop();
+                      return _context46.stop();
                   }
                 }
-              }, _callee44, this, [[0, 16]]);
+              }, _callee46, this, [[0, 16]]);
             }));
           }
         }]);
@@ -12814,12 +13142,12 @@
         }, {
           key: "update",
           value: function update() {
-            var _this14 = this;
+            var _this12 = this;
 
             this.updateProcess();
             var time = 1000;
             this.timer = setTimeout(function () {
-              _this14.update();
+              _this12.update();
             }, time);
           }
         }, {

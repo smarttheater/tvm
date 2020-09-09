@@ -1258,7 +1258,7 @@
       !*** ./app/functions/purchase.function.ts ***!
       \********************************************/
 
-    /*! exports provided: screeningEvents2ScreeningEventSeries, createGmoTokenObject, sameMovieTicketFilter, isAvailabilityMovieTicket, createMovieTicketsFromAuthorizeSeatReservation, getCustomPaymentMethodTypeName, getTicketPrice, getItemPrice, movieTicketAuthErroCodeToMessage, getAmount, order2EventOrders, authorizeSeatReservation2Event, getRemainingSeatLength, isEligibleSeatingType, getEmptySeat, selectAvailableSeat, getMovieTicketTypeOffers */
+    /*! exports provided: screeningEvents2ScreeningEventsGroup, createGmoTokenObject, sameMovieTicketFilter, isAvailabilityMovieTicket, createMovieTicketsFromAuthorizeSeatReservation, getCustomPaymentMethodTypeName, getTicketPrice, getItemPrice, movieTicketAuthErroCodeToMessage, getAmount, order2EventOrders, authorizeSeatReservation2Event, getRemainingSeatLength, isEligibleSeatingType, getEmptySeat, selectAvailableSeat, getMovieTicketTypeOffers, getAdditionalProperty */
 
     /***/
     function appFunctionsPurchaseFunctionTs(module, __webpack_exports__, __webpack_require__) {
@@ -1268,8 +1268,8 @@
       /* harmony export (binding) */
 
 
-      __webpack_require__.d(__webpack_exports__, "screeningEvents2ScreeningEventSeries", function () {
-        return screeningEvents2ScreeningEventSeries;
+      __webpack_require__.d(__webpack_exports__, "screeningEvents2ScreeningEventsGroup", function () {
+        return screeningEvents2ScreeningEventsGroup;
       });
       /* harmony export (binding) */
 
@@ -1367,6 +1367,12 @@
       __webpack_require__.d(__webpack_exports__, "getMovieTicketTypeOffers", function () {
         return getMovieTicketTypeOffers;
       });
+      /* harmony export (binding) */
+
+
+      __webpack_require__.d(__webpack_exports__, "getAdditionalProperty", function () {
+        return getAdditionalProperty;
+      });
       /* harmony import */
 
 
@@ -1400,20 +1406,24 @@
       /*! ../models */
       "./app/models/index.ts");
       /**
-       * 施設コンテンツごとのグループへ変換
+       * イベントごとのグループへ変換
        */
 
 
-      function screeningEvents2ScreeningEventSeries(params) {
+      function screeningEvents2ScreeningEventsGroup(params) {
         var environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["getEnvironment"])();
         var result = [];
         var screeningEvents = params.screeningEvents;
         screeningEvents.forEach(function (screeningEvent) {
           var registered = result.find(function (data) {
-            if (environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries') {
+            var sortType = params.sortType === undefined ? environment.PURCHASE_SCHEDULE_SORT : params.sortType;
+
+            if (sortType === 'screeningEventSeries') {
               return data.info.superEvent.id === screeningEvent.superEvent.id;
-            } else {
+            } else if (sortType === 'screen') {
               return data.info.location.branchCode === screeningEvent.location.branchCode;
+            } else {
+              return moment__WEBPACK_IMPORTED_MODULE_1__(data.info.startDate).format('HH') === moment__WEBPACK_IMPORTED_MODULE_1__(screeningEvent.startDate).format('HH');
             }
           });
           var performance = new _models__WEBPACK_IMPORTED_MODULE_3__["Purchase"].Performance(screeningEvent);
@@ -2050,6 +2060,26 @@
           return movieTicketTypeChargeSpecifications.length > 0;
         });
         return result;
+      }
+      /**
+       * 追加特性取得
+       */
+
+
+      function getAdditionalProperty(additionalProperty, key) {
+        if (additionalProperty === undefined) {
+          return;
+        }
+
+        var target = additionalProperty.find(function (a) {
+          return a.name === key;
+        });
+
+        if (target === undefined) {
+          return;
+        }
+
+        return target.value;
       }
       /***/
 

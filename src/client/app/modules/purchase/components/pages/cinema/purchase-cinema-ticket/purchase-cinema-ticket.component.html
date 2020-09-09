@@ -1,20 +1,22 @@
-<app-header>
+<app-header [isClear]="true">
 </app-header>
 <div class="contents">
     <div class="container p-3">
         <div class="row">
             <div class="col-3">
-                
+
             </div>
             <div class="col-6">
-                <div *ngIf="(purchase | async)?.isUsedMovieTicket" class="mb-3">
-                    <div class="bg-white p-3 d-md-flex align-items-center movieticket">
-                        <p class="mb-2 mb-md-0">{{ 'purchase.cinema.ticket.mvtk' | translate }}</p>
-                        <div>
-                            <button type="button" (click)="openMovieTicket()"
-                                class="btn btn-block bg-white border border-gray py-3">
-                                <img src="/assets/images/mvtk.svg" height="24" alt="">
-                            </button>
+                <div *ngIf="(purchase | async)?.isUsedMovieTicket" class="mb-3 p-3 bg-white">
+                    <div class="container px-0">
+                        <div class="row align-items-center">
+                            <p class="col-6">{{ 'purchase.cinema.ticket.mvtk' | translate }}</p>
+                            <div class="col-6">
+                                <button type="button" (click)="openMovieTicket()"
+                                    class="btn btn-block bg-white border border-gray py-3">
+                                    <img src="/assets/images/mvtk.svg" height="50" alt="">
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -28,34 +30,46 @@
                                     </div>
                                     <div class="col-10">
                                         <div>
-                                            <button *ngIf="reservation.ticket === undefined" type="button" (click)="openTicketList(reservation)"
+                                            <button *ngIf="reservation.ticket === undefined" type="button"
+                                                (click)="openTicketList(reservation)"
                                                 class="btn btn-primary btn-block py-2">{{ 'purchase.cinema.ticket.unselected' | translate }}</button>
-                                            <button *ngIf="reservation.ticket !== undefined" type="button" (click)="openTicketList(reservation)"
+                                            <button *ngIf="reservation.ticket !== undefined" type="button"
+                                                (click)="openTicketList(reservation)"
                                                 class="btn btn-block border border-primary text-primary bg-white py-2">
-                                                <div class="d-flex justify-content-between align-items-center" *ngFor="let priceComponent of reservation.ticket?.ticketOffer.priceSpecification.priceComponent">
-                                                    <p class="w-50 text-left">{{ priceComponent.name | changeLanguage }}</p>
+                                                <div class="d-flex justify-content-between align-items-center"
+                                                    *ngFor="let priceComponent of reservation.ticket?.ticketOffer.priceSpecification.priceComponent">
+                                                    <p class="w-50 text-left">{{ priceComponent.name | changeLanguage }}
+                                                    </p>
                                                     <p class="w-50 text-right">
-                                                        <span>{{ priceComponent.price | currency : priceComponent.priceCurrency }}</span><!--
-                                                        --><span *ngIf="priceComponent?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
+                                                        <span>{{ priceComponent.price | currency : priceComponent.priceCurrency }}</span>
+                                                        <!--
+                                                        --><span
+                                                            *ngIf="priceComponent?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
                                                     </p>
                                                 </div>
-                                                <div class="d-flex justify-content-between align-items-center" *ngFor="let addOn of reservation.ticket?.addOn;">
-                                                    <p class="w-50 text-left">{{ addOn.priceSpecification.name | changeLanguage }}</p>
+                                                <div class="d-flex justify-content-between align-items-center"
+                                                    *ngFor="let addOn of reservation.ticket?.addOn;">
+                                                    <p class="w-50 text-left">
+                                                        {{ addOn.priceSpecification.name | changeLanguage }}</p>
                                                     <p class="w-50 text-right">
-                                                        <span>{{ addOn.priceSpecification.price | currency : addOn.priceSpecification.priceCurrency }}</span><!--
-                                                        --><span *ngIf="addOn.priceSpecification?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: addOn.priceSpecification?.referenceQuantity?.value } }}</span>
+                                                        <span>{{ addOn.priceSpecification.price | currency : addOn.priceSpecification.priceCurrency }}</span>
+                                                        <!--
+                                                        --><span
+                                                            *ngIf="addOn.priceSpecification?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: addOn.priceSpecification?.referenceQuantity?.value } }}</span>
                                                     </p>
                                                 </div>
                                                 <div>
                                                     <!-- <p *ngIf="reservation.ticket.ticketOffer.description" class="text-small text-left">
                                                         {{ reservation.ticket.ticketOffer.description | changeLanguage }}
                                                     </p> -->
-                                                    <p *ngIf="reservation.ticket.movieTicket" class="text-small text-left">
-                                                        {{ 'modal.purchase.seatTicket.movieTicket.code' | translate }} {{ reservation.ticket.movieTicket.identifier }}
+                                                    <p *ngIf="reservation.ticket.movieTicket"
+                                                        class="text-small text-left">
+                                                        {{ 'modal.purchase.seatTicket.movieTicket.code' | translate }}
+                                                        {{ reservation.ticket.movieTicket.identifier }}
                                                     </p>
                                                 </div>
                                             </button>
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -72,14 +86,10 @@
 <app-footer>
     <div class="mr-auto">
         <button type="button" class="btn btn-outline-primary"
-        routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.seat.prev' | translate }}</button>
+            routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.seat.prev' | translate }}</button>
     </div>
     <div>
         <button type="submit" class="btn btn-primary" [disabled]="isLoading | async"
             (click)="onSubmit()">{{ 'purchase.cinema.ticket.next' | translate }}</button>
     </div>
 </app-footer>
-
-
-
-

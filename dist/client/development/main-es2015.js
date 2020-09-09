@@ -779,12 +779,12 @@ function createOrderLink(order, link) {
 /*!********************************************!*\
   !*** ./app/functions/purchase.function.ts ***!
   \********************************************/
-/*! exports provided: screeningEvents2ScreeningEventSeries, createGmoTokenObject, sameMovieTicketFilter, isAvailabilityMovieTicket, createMovieTicketsFromAuthorizeSeatReservation, getCustomPaymentMethodTypeName, getTicketPrice, getItemPrice, movieTicketAuthErroCodeToMessage, getAmount, order2EventOrders, authorizeSeatReservation2Event, getRemainingSeatLength, isEligibleSeatingType, getEmptySeat, selectAvailableSeat, getMovieTicketTypeOffers */
+/*! exports provided: screeningEvents2ScreeningEventsGroup, createGmoTokenObject, sameMovieTicketFilter, isAvailabilityMovieTicket, createMovieTicketsFromAuthorizeSeatReservation, getCustomPaymentMethodTypeName, getTicketPrice, getItemPrice, movieTicketAuthErroCodeToMessage, getAmount, order2EventOrders, authorizeSeatReservation2Event, getRemainingSeatLength, isEligibleSeatingType, getEmptySeat, selectAvailableSeat, getMovieTicketTypeOffers, getAdditionalProperty */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "screeningEvents2ScreeningEventSeries", function() { return screeningEvents2ScreeningEventSeries; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "screeningEvents2ScreeningEventsGroup", function() { return screeningEvents2ScreeningEventsGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createGmoTokenObject", function() { return createGmoTokenObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sameMovieTicketFilter", function() { return sameMovieTicketFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAvailabilityMovieTicket", function() { return isAvailabilityMovieTicket; });
@@ -801,6 +801,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEmptySeat", function() { return getEmptySeat; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAvailableSeat", function() { return selectAvailableSeat; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMovieTicketTypeOffers", function() { return getMovieTicketTypeOffers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAdditionalProperty", function() { return getAdditionalProperty; });
 /* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cinerino/sdk */ "../../node_modules/@cinerino/sdk/lib/browser.js");
 /* harmony import */ var _cinerino_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cinerino_sdk__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "../../node_modules/moment/moment.js");
@@ -812,19 +813,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * 施設コンテンツごとのグループへ変換
+ * イベントごとのグループへ変換
  */
-function screeningEvents2ScreeningEventSeries(params) {
+function screeningEvents2ScreeningEventsGroup(params) {
     const environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["getEnvironment"])();
     const result = [];
     const screeningEvents = params.screeningEvents;
     screeningEvents.forEach((screeningEvent) => {
         const registered = result.find((data) => {
-            if (environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries') {
+            const sortType = (params.sortType === undefined)
+                ? environment.PURCHASE_SCHEDULE_SORT
+                : params.sortType;
+            if (sortType === 'screeningEventSeries') {
                 return (data.info.superEvent.id === screeningEvent.superEvent.id);
             }
-            else {
+            else if (sortType === 'screen') {
                 return (data.info.location.branchCode === screeningEvent.location.branchCode);
+            }
+            else {
+                return (moment__WEBPACK_IMPORTED_MODULE_1__(data.info.startDate).format('HH') === moment__WEBPACK_IMPORTED_MODULE_1__(screeningEvent.startDate).format('HH'));
             }
         });
         const performance = new _models__WEBPACK_IMPORTED_MODULE_3__["Purchase"].Performance(screeningEvent);
@@ -1320,6 +1327,19 @@ function getMovieTicketTypeOffers(params) {
         return (movieTicketTypeChargeSpecifications.length > 0);
     });
     return result;
+}
+/**
+ * 追加特性取得
+ */
+function getAdditionalProperty(additionalProperty, key) {
+    if (additionalProperty === undefined) {
+        return;
+    }
+    const target = additionalProperty.find(a => a.name === key);
+    if (target === undefined) {
+        return;
+    }
+    return target.value;
 }
 
 

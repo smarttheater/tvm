@@ -339,6 +339,12 @@ export const selectPaymentMethodType = createAction(
     }>()
 );
 
+export const selectSearchType = createAction(
+    `${LABEL} selectSearchType`,
+    props<{
+        searchType: 'movie' | 'event';
+    }>()
+);
 
 
 

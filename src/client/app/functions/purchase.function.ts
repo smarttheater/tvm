@@ -12,20 +12,26 @@ export interface IScreeningEventsGroup {
 }
 
 /**
- * 施設コンテンツごとのグループへ変換
+ * イベントごとのグループへ変換
  */
-export function screeningEvents2ScreeningEventSeries(params: {
-    screeningEvents: factory.chevre.event.screeningEvent.IEvent[]
+export function screeningEvents2ScreeningEventsGroup(params: {
+    screeningEvents: factory.chevre.event.screeningEvent.IEvent[],
+    sortType?: 'screeningEventSeries' | 'screen' | 'startDate'
 }) {
     const environment = getEnvironment();
     const result: IScreeningEventsGroup[] = [];
     const screeningEvents = params.screeningEvents;
     screeningEvents.forEach((screeningEvent) => {
         const registered = result.find((data) => {
-            if (environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries') {
+            const sortType = (params.sortType === undefined)
+                ? environment.PURCHASE_SCHEDULE_SORT
+                : params.sortType;
+            if (sortType === 'screeningEventSeries') {
                 return (data.info.superEvent.id === screeningEvent.superEvent.id);
-            } else {
+            } else if (sortType === 'screen') {
                 return (data.info.location.branchCode === screeningEvent.location.branchCode);
+            } else {
+                return (moment(data.info.startDate).format('HH') === moment(screeningEvent.startDate).format('HH'));
             }
         });
         const performance = new Purchase.Performance(screeningEvent);
@@ -634,4 +640,21 @@ export function getMovieTicketTypeOffers(params: {
         return (movieTicketTypeChargeSpecifications.length > 0);
     });
     return result;
+}
+
+/**
+ * 追加特性取得
+ */
+export function getAdditionalProperty(
+    additionalProperty: factory.chevre.propertyValue.IPropertyValue<string>[] | undefined,
+    key: string
+) {
+    if (additionalProperty === undefined) {
+        return;
+    }
+    const target = additionalProperty.find(a => a.name === key);
+    if (target === undefined) {
+        return;
+    }
+    return target.value;
 }

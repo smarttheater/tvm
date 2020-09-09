@@ -90,9 +90,10 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
             const screeningEvents = await this.masterService.getSchedule({
                 superEvent: { locationBranchCodes: [theater.branchCode] },
                 startFrom: moment(scheduleDate).toDate(),
-                startThrough: moment(scheduleDate).add(1, 'day').toDate()
+                startThrough: moment(scheduleDate).add(1, 'day').toDate(),
+                sort: true
             });
-            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventSeries({ screeningEvents });
+            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
             this.update();
         } catch (error) {
             console.error(error);

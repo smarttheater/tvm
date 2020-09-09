@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
+import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
 import { ActionService, MasterService } from '../../../../../../services';
 
@@ -16,6 +17,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public environment = getEnvironment();
     public creativeWorks: factory.chevre.creativeWork.movie.ICreativeWork[];
     public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
+    public getAdditionalProperty = Functions.Purchase.getAdditionalProperty;
 
     constructor(
         private router: Router,
@@ -41,7 +43,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
                     locationBranchCodes: [theater.branchCode],
                 },
                 startFrom: moment(scheduleDate).toDate(),
-                startThrough: moment(scheduleDate).add(1, 'day').toDate()
+                startThrough: moment(scheduleDate).add(1, 'day').toDate(),
             });
             const creativeWorks = await this.masterService.searchMovies({
                 offers: {

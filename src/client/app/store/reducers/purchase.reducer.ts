@@ -95,6 +95,10 @@ export interface IPurchaseState {
      * 使用中ムビチケ
      */
     pendingMovieTickets: Models.Purchase.MovieTicket.IMovieTicket[];
+    /**
+     * 検索方法
+     */
+    searchType?: 'movie' | 'event';
 }
 
 export const purchaseInitialState: IPurchaseState = {
@@ -562,6 +566,15 @@ export function reducer(initialState: IState, action: Action) {
                     ...state.purchaseData,
                     paymentMethod
                 }, loading: false, process: '', error: null
+            };
+        }),
+        on(purchaseAction.selectSearchType, (state, payload) => {
+            return {
+                ...state,
+                purchaseData: {
+                    ...state.purchaseData,
+                    searchType: payload.searchType
+                }
             };
         }),
     )(initialState, action);

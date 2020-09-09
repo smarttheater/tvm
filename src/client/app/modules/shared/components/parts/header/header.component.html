@@ -3,6 +3,6 @@
         <ng-content></ng-content>
     </div>
     <div class="ml-auto">
-        <button class="btn btn-danger" routerLink="/purchase/cinema">{{ 'common.clear' | translate }}</button>
+        <button *ngIf="isClear" class="btn btn-danger" routerLink="/purchase/cinema">{{ 'common.clear' | translate }}</button>
     </div>
 </div>

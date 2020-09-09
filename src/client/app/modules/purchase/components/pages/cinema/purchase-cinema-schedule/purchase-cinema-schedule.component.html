@@ -1,24 +1,82 @@
-<div class="contents-width mx-auto px-3 py-5">
-    <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'purchase.cinema.schedule.title' | translate }}</h2>
-    <p class="mb-4 text-md-center" [innerHTML]="'purchase.cinema.schedule.read' | translate"></p>
-    <div class="mb-3">
-        <div class="input-group">
-            <input type="text" placeholder="Datepicker" class="form-control" #datepicker="bsDatepicker" bsDatepicker
-                [(ngModel)]="scheduleDate"
-                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', adaptivePosition: true, showWeekNumbers: false, minDate: moment().toDate() }"
-                (bsValueChange)="selectDate($event)" readonly (click)="setDatePicker()"
-                (onShown)="onShowPicker($event)">
-            <div class="input-group-append pointer" (click)="toggleDatepicker()">
-                <span class="input-group-text"><i class="fas fa-caret-down"></i></span>
+<app-header [isClear]="true">
+</app-header>
+<div class="contents scroll-horizontal">
+    <div class="p-3">
+        <div *ngFor="let group of screeningEventsGroup">
+            <div class="bg-dark text-white p-3 mb-3">{{ moment(group.info.startDate).format('HH') }}:00</div>
+            <div *ngFor="let performance of group.data" class="bg-white p-3 mb-3" [ngClass]="{ 
+                'not-event': !performance.isSales() 
+                || performance.isSeatStatus('danger') 
+                || performance.isInfinitetock()
+                }" (click)="selectSchedule(performance.screeningEvent)">
+                <div class="container px-0">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <p>{{ performance.screeningEvent.name | changeLanguage }}</p>
+                        </div>
+                        <div class="col-3">
+                            <div>
+                                <div class="status" *ngIf="performance.isSales() && !performance.isInfinitetock()">
+                                    <div *ngIf="performance.isSeatStatus('success')" class="d-flex align-items-center">
+                                        <div class="text-success mr-2">
+                                            {{ 'common.performance.status.success' | translate }}</div>
+                                        <img src="/assets/images/icon/status_success.svg" alt="">
+                                    </div>
+                                    <div *ngIf="performance.isSeatStatus('warning')" class="d-flex align-items-center">
+                                        <div class="text-warning mr-2">
+                                            {{ 'common.performance.status.warning' | translate }}</div>
+                                        <img src="/assets/images/icon/status_warning.svg" alt="">
+                                    </div>
+                                    <div *ngIf="performance.isSeatStatus('danger')" class="d-flex align-items-center">
+                                        <div class="mr-2">
+                                            {{ 'common.performance.status.danger' | translate }}</div>
+                                        <img src="/assets/images/icon/status_danger.svg" alt="">
+                                    </div>
+                                    <div *ngIf="performance.isSeatStatus()" class="d-flex align-items-center">
+                                        <div class="mr-2">
+                                            {{ 'common.performance.status.success' | translate }}</div>
+                                        <img src="/assets/images/icon/status_undefined.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="status" *ngIf="performance.isSales('end')">
+                                    {{ 'common.performance.status.endSale' | translate }}</div>
+                                <div class="status" *ngIf="performance.isSales('start')">
+                                    {{ 'common.performance.status.outsideSalesPeriod' | translate }}</div>
+                                <div *ngIf="performance.isSales() && performance.isInfinitetock()" class="status">
+                                    <div class="d-flex align-items-center">
+                                        <div class="text-success mr-2">
+                                            {{ 'common.performance.status.success' | translate }}</div>
+                                        <img src="/assets/images/icon/status_success.svg" alt="">
+                                    </div>
+                                    <!-- <p class="text-small">{{ 'common.performance.infiniteStock' | translate }}</p> -->
+                                </div>
+                            </div>
+
+                            <div>
+                                <span
+                                    class="text-large">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
+                                <span>-</span>
+                                <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="mb-1 text-small screen-name">
+                                <p *ngIf="performance.screeningEvent.location.address | changeLanguage"
+                                    class="text-overflow-ellipsis mr-2 mr-md-0 d-inline-block d-md-block">
+                                    {{ performance.screeningEvent.location.address | changeLanguage }}</p>
+                                <p class="text-overflow-ellipsis d-inline-block d-md-block">
+                                    {{ performance.screeningEvent.location.name | changeLanguage }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <p *ngIf="(purchase | async)?.scheduleDate" class="text-primary text-large mb-3">
-        {{ (purchase | async)?.scheduleDate | formatDate: 'YYYY/MM/DD (ddd)' }}
-    </p>
-    <p *ngIf="screeningEventsGroup.length === 0" class="mb-3"
-        [innerHTML]="'purchase.cinema.schedule.notfound' | translate"></p>
-    <app-purchase-performances *ngFor="let group of screeningEventsGroup"
-        [screeningEventsGroup]="group" (select)="selectSchedule($event)" class="mb-3">
-    </app-purchase-performances>
 </div>
+<app-footer>
+    <div class="mr-auto">
+        <button class="btn btn-outline-primary"
+            routerLink="/purchase/cinema">{{ 'purchase.cinema.scheduleMovie.prev' | translate }}</button>
+    </div>
+</app-footer>

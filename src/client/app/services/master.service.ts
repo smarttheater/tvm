@@ -90,6 +90,7 @@ export class MasterService {
         };
         startFrom: Date;
         startThrough: Date;
+        sort?: boolean;
     }) {
         try {
             this.utilService.loadStart({ process: 'masterAction.GetSchedule' });
@@ -115,13 +116,14 @@ export class MasterService {
                     await Functions.Util.sleep(500);
                 }
             }
+            const sort = (params.sort === undefined) ? false : params.sort;
             const environment = getEnvironment();
-            if (environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries') {
+            if (sort && environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries') {
                 result = await this.sortScreeningEventSeries({
                     screeningEvents: result,
                     superEvent: params.superEvent
                 });
-            } else if (environment.PURCHASE_SCHEDULE_SORT === 'screen') {
+            } else if (sort && environment.PURCHASE_SCHEDULE_SORT === 'screen') {
                 result = await this.sortScreen({
                     screeningEvents: result
                 });

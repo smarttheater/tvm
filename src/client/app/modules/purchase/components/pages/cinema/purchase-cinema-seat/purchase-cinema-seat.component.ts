@@ -8,14 +8,19 @@ import { PurchaseSeatComponent } from '../../purchase-seat/purchase-seat.compone
 })
 export class PurchaseCinemaSeatComponent extends PurchaseSeatComponent {
     public async prev() {
-        const { screeningEvent } = await this.actionService.purchase.getData();
+        const { screeningEvent, searchType } = await this.actionService.purchase.getData();
         if (screeningEvent === undefined
-            || screeningEvent.workPerformed === undefined) {
+            || screeningEvent.workPerformed === undefined
+            || searchType === undefined) {
+            console.error('screeningEvent.workPerformed or searchType undefined');
             this.router.navigate(['/error']);
             return;
         }
+        if (searchType === 'event') {
+            this.router.navigate([`/purchase/cinema/schedule`]);
+            return;
+        }
         const identifier = screeningEvent.workPerformed.identifier;
-        console.log(`/purchase/cinema/schedule/event/${identifier}`);
         this.router.navigate([`/purchase/cinema/schedule/event/${identifier}`]);
     }
 }

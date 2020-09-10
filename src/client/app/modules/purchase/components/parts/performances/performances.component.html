@@ -1,7 +1,7 @@
 <div class="">
-    <div class="p-3 bg-gray">
+    <div class="p-2 bg-gray">
         <div class="mb-2">
-            <p class="font-weight-bold text-large">{{ screeningEventsGroup.info.name | changeLanguage }}</p>
+            <p class="font-weight-bold">{{ screeningEventsGroup.info.name | changeLanguage }}</p>
             <p
                 *ngIf="screeningEventsGroup.info.superEvent.headline && (screeningEventsGroup.info.superEvent.headline | changeLanguage)">
                 {{ screeningEventsGroup.info.superEvent.headline | changeLanguage }}</p>
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <ul class="py-2 d-flex flex-wrap">
+    <ul class="d-flex flex-wrap py-2">
         <li *ngFor="let performance of screeningEventsGroup.data" class="px-2 my-2">
             <app-purchase-performance [performance]="performance" (select)="select.emit($event)"
                 class="mb-3"></app-purchase-performance>

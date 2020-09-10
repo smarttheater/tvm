@@ -70292,7 +70292,7 @@ function ItemListComponent_div_0_div_1_p_3_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "currency");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ItemListComponent_div_0_div_1_p_3_span_7_Template, 3, 6, "span", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ItemListComponent_div_0_div_1_p_3_span_7_Template, 3, 6, "span", 6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const priceComponent_r7 = ctx.$implicit;
@@ -70305,7 +70305,7 @@ function ItemListComponent_div_0_div_1_p_3_Template(rf, ctx) { if (rf & 1) {
 } }
 function ItemListComponent_div_0_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "p", 5);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, ItemListComponent_div_0_div_1_p_3_Template, 8, 8, "p", 3);
@@ -70347,7 +70347,7 @@ function ItemListComponent_div_0_div_2_p_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "currency");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ItemListComponent_div_0_div_2_p_2_span_7_Template, 3, 6, "span", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ItemListComponent_div_0_div_2_p_2_span_7_Template, 3, 6, "span", 6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const priceComponent_r14 = ctx.$implicit;
@@ -70360,7 +70360,7 @@ function ItemListComponent_div_0_div_2_p_2_Template(rf, ctx) { if (rf & 1) {
 } }
 function ItemListComponent_div_0_div_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ItemListComponent_div_0_div_2_p_1_Template, 2, 1, "p", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ItemListComponent_div_0_div_2_p_1_Template, 2, 1, "p", 6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ItemListComponent_div_0_div_2_p_2_Template, 8, 8, "p", 3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
@@ -70411,13 +70411,13 @@ function ItemListComponent_div_0_div_3_p_2_span_6_Template(rf, ctx) { if (rf & 1
 } }
 function ItemListComponent_div_0_div_3_p_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ItemListComponent_div_0_div_3_p_2_span_1_Template, 3, 3, "span", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ItemListComponent_div_0_div_3_p_2_span_2_Template, 3, 3, "span", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ItemListComponent_div_0_div_3_p_2_span_1_Template, 3, 3, "span", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ItemListComponent_div_0_div_3_p_2_span_2_Template, 3, 3, "span", 6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "span");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](5, "currency");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, ItemListComponent_div_0_div_3_p_2_span_6_Template, 3, 6, "span", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, ItemListComponent_div_0_div_3_p_2_span_6_Template, 3, 6, "span", 6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const priceComponent_r21 = ctx.$implicit;
@@ -70432,7 +70432,7 @@ function ItemListComponent_div_0_div_3_p_2_Template(rf, ctx) { if (rf & 1) {
 } }
 function ItemListComponent_div_0_div_3_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ItemListComponent_div_0_div_3_p_1_Template, 2, 1, "p", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ItemListComponent_div_0_div_3_p_1_Template, 2, 1, "p", 6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ItemListComponent_div_0_div_3_p_2_Template, 7, 7, "p", 3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
@@ -70477,7 +70477,7 @@ function ItemListComponent_div_1_div_1_p_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](6, "currency");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ItemListComponent_div_1_div_1_p_1_span_7_Template, 3, 6, "span", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ItemListComponent_div_1_div_1_p_1_span_7_Template, 3, 6, "span", 6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "span");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -70616,7 +70616,7 @@ class ItemListComponent {
     }
 }
 ItemListComponent.ɵfac = function ItemListComponent_Factory(t) { return new (t || ItemListComponent)(); };
-ItemListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ItemListComponent, selectors: [["app-item-list"]], inputs: { reservations: "reservations", authorizeSeatReservations: "authorizeSeatReservations", acceptedOffers: "acceptedOffers" }, decls: 2, vars: 2, consts: [["class", "mb-2", 4, "ngIf"], [1, "mb-2"], ["class", "text-small", 4, "ngFor", "ngForOf"], [4, "ngFor", "ngForOf"], [1, "text-small"], [4, "ngIf"]], template: function ItemListComponent_Template(rf, ctx) { if (rf & 1) {
+ItemListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ItemListComponent, selectors: [["app-item-list"]], inputs: { reservations: "reservations", authorizeSeatReservations: "authorizeSeatReservations", acceptedOffers: "acceptedOffers" }, decls: 2, vars: 2, consts: [["class", "mb-2", 4, "ngIf"], [1, "mb-2"], ["class", "text-small", 4, "ngFor", "ngForOf"], [4, "ngFor", "ngForOf"], [1, "text-small"], [1, "font-weight-bold"], [4, "ngIf"]], template: function ItemListComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, ItemListComponent_div_0_Template, 4, 3, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ItemListComponent_div_1_Template, 2, 1, "div", 0);
     } if (rf & 2) {
@@ -74098,7 +74098,7 @@ const components = [
     _components_parts_loading_loading_component__WEBPACK_IMPORTED_MODULE_19__["LoadingComponent"],
     _components_parts_screen_screen_component__WEBPACK_IMPORTED_MODULE_28__["ScreenComponent"],
     _components_parts_item_list_item_list_component__WEBPACK_IMPORTED_MODULE_18__["ItemListComponent"],
-    _components_parts_form_checkbox_checkbox_component__WEBPACK_IMPORTED_MODULE_15__["CheckboxComponent"]
+    _components_parts_form_checkbox_checkbox_component__WEBPACK_IMPORTED_MODULE_15__["CheckboxComponent"],
 ];
 const entryComponents = [
     _components_parts_alert_modal_alert_modal_component__WEBPACK_IMPORTED_MODULE_11__["AlertModalComponent"],

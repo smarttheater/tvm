@@ -40,7 +40,7 @@ const components = [
   LoadingComponent,
   ScreenComponent,
   ItemListComponent,
-  CheckboxComponent
+  CheckboxComponent,
 ];
 
 const entryComponents = [

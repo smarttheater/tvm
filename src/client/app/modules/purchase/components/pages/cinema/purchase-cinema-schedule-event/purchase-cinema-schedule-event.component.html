@@ -1,9 +1,10 @@
 <app-header [isClear]="true">
+    <app-purchase-step [step]="1"></app-purchase-step>
 </app-header>
 <div class="contents scroll-horizontal">
     <div class="p-3">
         <app-purchase-performances *ngFor="let group of screeningEventsGroup" [screeningEventsGroup]="group"
-            (select)="selectSchedule($event)" class="mb-3">
+            (select)="selectSchedule($event)" class="">
         </app-purchase-performances>
     </div>
 </div>

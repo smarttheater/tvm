@@ -87,6 +87,10 @@ interface IEnvironment {
      */
     HEADER_MENU_SCOPE: string[];
     /**
+     * 入力キーパッド
+     */
+    INPUT_KEYPAD: boolean;
+    /**
      * 購入アイテム上限数
      */
     PURCHASE_ITEM_MAX_LENGTH: string;
@@ -159,10 +163,6 @@ interface IEnvironment {
      */
     INQUIRY_PRINT_SUCCESS_WAIT_TIME: string;
     /**
-     * 照会入力キーパッド
-     */
-    INQUIRY_INPUT_KEYPAD: boolean;
-    /**
      * 照会可能期間値（注文日）
      */
     INQUIRY_ORDER_DATE_FROM_VALUE: string;
@@ -208,6 +208,7 @@ const defaultEnvironment: IEnvironment = {
         { key: 'email', value: '', required: true, maxLength: 50 },
         { key: 'telephone', value: '', required: true, maxLength: 15, minLength: 9 }
     ],
+    INPUT_KEYPAD: true,
     PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
     PAYMENT_METHOD_CUSTOM: [],
     REGIGROW_QRCODE: '',
@@ -232,7 +233,6 @@ const defaultEnvironment: IEnvironment = {
     INQUIRY_PRINT_EXPIRED_UNIT: 'hour',
     INQUIRY_PRINT_WAIT_TIME: '',
     INQUIRY_PRINT_SUCCESS_WAIT_TIME: '',
-    INQUIRY_INPUT_KEYPAD: true,
     INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
     INQUIRY_ORDER_DATE_FROM_UNIT: 'month',
     ORDER_LINK: [],

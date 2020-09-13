@@ -1,18 +1,22 @@
-@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/bootstrap/scss/mixins";
+
 
 :host {
     display: block;
 }
 ul {
     li {
-        width: 20%;
-        @include media-breakpoint-down(md) {
-            width: 25%;
-        }
-        @include media-breakpoint-down(sm) {
-            width: 100%;
-        }
+        flex: 0 0 20%;
+        max-width: 20%;
+        padding-right: 15px;
+        padding-left: 15px;
     }
+}
+
+.animation {
+    animation: fadeIn 0.5s both;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0}
+    100% {opacity: 1}
 }

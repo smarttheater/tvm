@@ -4,15 +4,27 @@
 <div class="contents scroll-horizontal">
     <div class="container p-3">
         <div class="row">
-            <div *ngFor="let movie of creativeWorks" class="item mb-3" [routerLink]="'/purchase/cinema/schedule/event/' + movie.identifier">
-                <div class="image">
-                    <div class="loading d-flex justify-content-center align-items-center">
-                        <div class="loader"></div>
+            <div *ngFor="let movie of creativeWorks; let index = index" class="item mb-3"
+               [ngClass]="{
+                   'not-event not-sales': !isSales(movie.identifier)
+               }"
+               [class.animation]="animations[index]"
+                [routerLink]="'/purchase/cinema/schedule/event/' + movie.identifier">
+                <div class="position-relative">
+                    <div class="image">
+                        <!-- <div class="loading d-flex justify-content-center align-items-center">
+                            <div class="loader"></div>
+                        </div> -->
+                        <div class="poster-title d-flex align-items-center">
+                            <p class="p-3 text-white text-small">{{ movie.name }}</p>
+                        </div>
+                        <div class="poster" *ngIf="getAdditionalProperty(movie.additionalProperty, 'posterImage')"
+                            [style.backgroundImage]="'url('+ getAdditionalProperty(movie.additionalProperty, 'posterImage') +')'">
+                        </div>
+                        <!-- <div class="poster-no" *ngIf="!getAdditionalProperty(movie.additionalProperty, 'posterImage')"></div> -->
                     </div>
-                    <div class="poster" *ngIf="getAdditionalProperty(movie.additionalProperty, 'posterImage')" [style.backgroundImage]="'url('+ getAdditionalProperty(movie.additionalProperty, 'posterImage') +')'"></div>
-                    <div class="poster-no" *ngIf="!getAdditionalProperty(movie.additionalProperty, 'posterImage')"></div>
+                    <p class="p-2 bg-dark text-white text-overflow-ellipsis text-small">{{ movie.name }}</p>
                 </div>
-                <p class="p-2 bg-dark text-white text-overflow-ellipsis text-small">{{ movie.name }}</p>
             </div>
         </div>
     </div>

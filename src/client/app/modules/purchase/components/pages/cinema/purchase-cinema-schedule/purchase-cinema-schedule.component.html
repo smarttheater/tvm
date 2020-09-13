@@ -13,10 +13,18 @@
                 <div class="container px-0">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <p>{{ performance.screeningEvent.name | changeLanguage }}</p>
+                            <p class="font-weight-bold">{{ performance.screeningEvent.name | changeLanguage }}</p>
+                            <p
+                                *ngIf="performance.screeningEvent.superEvent.headline 
+                                && (performance.screeningEvent.superEvent.headline | changeLanguage)">
+                                {{ performance.screeningEvent.superEvent.headline | changeLanguage }}</p>
+                            <p class="text-small"
+                                *ngIf="performance.screeningEvent.superEvent.description 
+                                && (performance.screeningEvent.superEvent.description | changeLanguage)">
+                                {{ performance.screeningEvent.superEvent.description | changeLanguage }}</p>
                         </div>
                         <div class="col-3">
-                            <div>
+                            <div class="mb-1">
                                 <div class="status" *ngIf="performance.isSales() && !performance.isInfinitetock()">
                                     <div *ngIf="performance.isSeatStatus('success')" class="d-flex align-items-center">
                                         <div class="text-success mr-2">
@@ -55,7 +63,7 @@
 
                             <div>
                                 <span
-                                    class="text-large">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
+                                    class="text-large font-weight-bold">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
                                 <span>-</span>
                                 <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>
                             </div>

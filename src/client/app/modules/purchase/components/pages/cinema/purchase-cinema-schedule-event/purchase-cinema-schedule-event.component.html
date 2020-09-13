@@ -3,7 +3,7 @@
 </app-header>
 <div class="contents scroll-horizontal">
     <div class="p-3">
-        <app-purchase-performances *ngFor="let group of screeningEventsGroup" [screeningEventsGroup]="group"
+        <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index" [screeningEventsGroup]="group" [animation]="animations[index]"
             (select)="selectSchedule($event)" class="">
         </app-purchase-performances>
     </div>

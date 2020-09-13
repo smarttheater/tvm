@@ -28,13 +28,17 @@ export class NumericKeypadComponent implements OnInit {
     }
 
     public show() {
+        const scale = Number((document.body.style.transform.split(' '))
+            .find(p => /scale/.test(p))
+            ?.replace('scale(', '')
+            .replace(')', '')) || 1;
         const height = this.trigger.nativeElement.clientHeight;
         const rect = this.trigger.nativeElement.getBoundingClientRect();
         // const scrollTop = window.pageYOffset || (<HTMLElement>document.documentElement).scrollTop;
         // const scrollLeft = window.pageXOffset || (<HTMLElement>document.documentElement).scrollLeft;
         this.position = {
-            y: rect.top + height,
-            x: rect.left
+            y: rect.top / scale + height,
+            x: rect.left / scale
         };
         this.isOpen = true;
 
@@ -51,6 +55,7 @@ export class NumericKeypadComponent implements OnInit {
     }
 
     public inputCode(code: string) {
+        console.log(this.inputValue);
         this.inputValue = (this.inputValue + code).slice(0, this.maxlength);
         if (this.inputType === 'number') {
             this.inputValue = String(parseInt(this.inputValue, 10));

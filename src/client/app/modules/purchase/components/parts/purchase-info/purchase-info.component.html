@@ -29,5 +29,9 @@
             class="mr-2">{{ purchase.screeningEvent?.location.address | changeLanguage }}</span>{{ purchase.screeningEvent?.location.name | changeLanguage }}
     </p>
     <app-item-list [reservations]="purchase.reservations"></app-item-list>
-
+    <div class="d-flex justify-content-between">
+        <p>{{ 'common.amount' | translate }}</p>
+        <p *ngIf="isAmount" class="font-weight-bold">{{ amount | currency : 'JPY' }}</p>
+        <p *ngIf="!isAmount" class="font-weight-bold">¥-</p>
+    </div>
 </div>

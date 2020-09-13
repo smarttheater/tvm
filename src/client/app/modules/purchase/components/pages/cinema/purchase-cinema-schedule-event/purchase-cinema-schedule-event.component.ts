@@ -17,7 +17,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
     public moment = moment;
     public environment = getEnvironment();
     public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup[];
-
+    public animations: boolean[];
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
@@ -32,6 +32,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
      */
     public async ngOnInit() {
         try {
+            this.animations = [];
             const { theater } = await this.actionService.user.getData();
             const { scheduleDate } = await this.actionService.purchase.getData();
             if (scheduleDate === undefined
@@ -49,6 +50,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                 sort: true
             });
             this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
+            await this.addAnimationClass();
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -86,6 +88,21 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             console.error(error);
             this.router.navigate(['/error']);
             return;
+        }
+    }
+
+    /**
+     * アニメーションクラス追加
+     */
+    public async addAnimationClass() {
+        this.screeningEventsGroup.forEach(() => this.animations.push(false));
+        const startTime = 2000;
+        await Functions.Util.sleep(startTime);
+        for (let i = 0; i < this.animations.length; i++) {
+            const time = 1000;
+            const target = this.animations.length - i - 1;
+            this.animations[target] = true;
+            await Functions.Util.sleep(time);
         }
     }
 }

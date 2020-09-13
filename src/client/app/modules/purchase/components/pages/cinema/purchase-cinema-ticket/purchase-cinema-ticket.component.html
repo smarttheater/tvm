@@ -2,12 +2,12 @@
     <app-purchase-step [step]="3"></app-purchase-step>
 </app-header>
 <div class="contents">
-    <div class="container p-3">
-        <div class="row">
-            <div class="col-3">
-
+    <div class="container h-100 p-3">
+        <div class="row h-100">
+            <div class="col-3 h-100">
+                <div class="bg-dark h-100"></div>
             </div>
-            <div class="col-6">
+            <div class="col-6 mh-100 scroll-horizontal">
                 <div *ngIf="(purchase | async)?.isUsedMovieTicket" class="mb-3 p-3 bg-white">
                     <div class="container px-0">
                         <div class="row align-items-center">
@@ -15,7 +15,7 @@
                             <div class="col-6">
                                 <button type="button" (click)="openMovieTicket()"
                                     class="btn btn-block bg-white border border-gray py-2">
-                                    <img src="/assets/images/mvtk.svg" height="30" alt="">
+                                    <img src="/assets/images/mvtk.svg" height="36" alt="">
                                 </button>
                             </div>
                         </div>
@@ -78,8 +78,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-3">
-                <app-purchase-info class="mb-4" [purchase]="purchase | async"></app-purchase-info>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
             </div>
         </div>
     </div>

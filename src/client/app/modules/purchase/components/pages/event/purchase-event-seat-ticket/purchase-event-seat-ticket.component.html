@@ -61,7 +61,7 @@
         <textarea [(ngModel)]="additionalTicketText" class="py-1 px-2"></textarea>
     </div>
 
-    <app-purchase-info class="mb-4" [purchase]="purchase | async"></app-purchase-info>
+    <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
 
     <div class="buttons mx-auto text-center">
         <button type="submit" class="btn btn-primary btn-block py-3 mb-3" [disabled]="isLoading | async"

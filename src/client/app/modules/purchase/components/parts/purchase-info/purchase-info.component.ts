@@ -10,7 +10,9 @@ import * as reducers from '../../../../../store/reducers';
 })
 export class PurchaseInfoComponent implements OnInit {
     @Input() public purchase: reducers.IPurchaseState;
+    @Input() public isAmount: boolean;
     public image?: string;
+    public amount: number;
     public moment = moment;
     public getAdditionalProperty = Functions.Purchase.getAdditionalProperty;
 
@@ -19,6 +21,11 @@ export class PurchaseInfoComponent implements OnInit {
     public ngOnInit() {
         const additionalProperty = this.purchase.screeningEvent?.workPerformed?.additionalProperty;
         this.image = Functions.Purchase.getAdditionalProperty(additionalProperty, 'posterImage');
+        this.amount = (this.isAmount)
+            ? Functions.Purchase.getAmount(this.purchase.authorizeSeatReservations)
+            : 0;
     }
+
+
 
 }

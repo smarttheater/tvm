@@ -11,12 +11,14 @@ import { Functions } from '../../../../..';
 export class PurchasePerformancesComponent implements OnInit {
 
     @Input() public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup;
+    @Input() public animation?: boolean;
     @Output() public select = new EventEmitter<factory.chevre.event.screeningEvent.IEvent>();
     public moment: typeof moment = moment;
 
     constructor() { }
 
     public ngOnInit() {
+        this.animation = (this.animation === undefined) ? false : this.animation;
     }
 
 }

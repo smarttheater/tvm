@@ -10,6 +10,7 @@ import { getEnvironment } from '../../../environments/environment';
 import { purchaseAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
+import { EpsonEPOSService } from '../epson-epos.service';
 import { UtilService } from '../util.service';
 
 @Injectable({
@@ -23,7 +24,8 @@ export class PurchaseService {
         private actions: Actions,
         private store: Store<reducers.IState>,
         private utilService: UtilService,
-        private cinerinoService: CinerinoService
+        private cinerinoService: CinerinoService,
+        private epsonEPOSService: EpsonEPOSService
     ) {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.error = this.store.pipe(select(reducers.getError));
@@ -142,9 +144,8 @@ export class PurchaseService {
      * 取引中止
      */
     public async cancelTransaction() {
-        const purchase = await this.getData();
+        const {transaction} = await this.getData();
         return new Promise<void>((resolve) => {
-            const transaction = purchase.transaction;
             if (transaction === undefined) {
                 resolve();
                 return;
@@ -540,5 +541,19 @@ export class PurchaseService {
         searchType: 'movie' | 'event';
     }) {
         this.store.dispatch(purchaseAction.selectSearchType(params));
+    }
+
+    /**
+     * 預金返済
+     */
+    public async depositRepay() {
+        this.utilService.loadStart({ process: 'load' });
+        const { paymentMethod } = await this.getData();
+        if (paymentMethod?.typeOf === factory.chevre.paymentMethodType.Cash) {
+            // 現金
+            await this.epsonEPOSService.cashchanger.endDepositRepay();
+            await this.epsonEPOSService.cashchanger.disconnect();
+        }
+        this.utilService.loadEnd();
     }
 }

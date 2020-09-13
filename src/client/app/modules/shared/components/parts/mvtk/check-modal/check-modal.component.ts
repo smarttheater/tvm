@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Functions } from '../../../../../..';
+import { getEnvironment } from '../../../../../../../environments/environment';
 import { ActionService, QRCodeService } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 import { ChangeLanguagePipe } from '../../../../../shared/pipes/change-language.pipe';
@@ -26,11 +27,12 @@ export class MvtkCheckModalComponent implements OnInit {
     public errorMessage: string;
     public isSuccess: boolean;
     public successMessage: string;
-
     public stream: MediaStream | null;
     public isShowVideo: boolean;
     public video: HTMLVideoElement;
     public scanLoop: any;
+    public environment = getEnvironment();
+
     constructor(
         public modal: BsModalRef,
         private store: Store<reducers.IState>,
@@ -164,6 +166,14 @@ export class MvtkCheckModalComponent implements OnInit {
                 this.mvtkForm.controls.password.setValue(password);
             }
         });
+    }
+
+    public changeCode(value: string) {
+        this.mvtkForm.controls.code.setValue(value);
+    }
+
+    public changePassword(value: string) {
+        this.mvtkForm.controls.password.setValue(value);
     }
 
 }

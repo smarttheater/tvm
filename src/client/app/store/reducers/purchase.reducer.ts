@@ -395,7 +395,6 @@ export function reducer(initialState: IState, action: Action) {
                 purchaseData: {
                     ...state.purchaseData,
                     authorizeSeatReservation,
-                    removeAuthorizeSeatReservation,
                     reservations,
                     authorizeSeatReservations,
                     pendingMovieTickets

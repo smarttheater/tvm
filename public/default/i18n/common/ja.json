@@ -316,6 +316,7 @@
                 },
                 "next": "認証",
                 "prev": "",
+                "qrcode": "QRコード読み取り",
                 "value": "[{{value}}枚]",
                 "alert": {
                     "validation": "ムビチケ情報をご確認ください。",

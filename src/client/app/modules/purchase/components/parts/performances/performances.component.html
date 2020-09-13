@@ -5,7 +5,7 @@
             <p
                 *ngIf="screeningEventsGroup.info.superEvent.headline && (screeningEventsGroup.info.superEvent.headline | changeLanguage)">
                 {{ screeningEventsGroup.info.superEvent.headline | changeLanguage }}</p>
-            <p
+            <p class="text-small"
                 *ngIf="screeningEventsGroup.info.superEvent.description && (screeningEventsGroup.info.superEvent.description | changeLanguage)">{{
                     screeningEventsGroup.info.superEvent.description | changeLanguage }}</p>
         </div>
@@ -24,10 +24,12 @@
             </div>
         </div>
     </div>
-    <ul class="d-flex flex-wrap py-2">
-        <li *ngFor="let performance of screeningEventsGroup.data" class="px-2 my-2">
-            <app-purchase-performance [performance]="performance" (select)="select.emit($event)"
-                class="mb-3"></app-purchase-performance>
-        </li>
-    </ul>
+    <div class="container px-0 py-2">
+        <ul *ngIf="animation" class="row animation">
+            <li *ngFor="let performance of screeningEventsGroup.data" class="px-2 my-2">
+                <app-purchase-performance [performance]="performance" (select)="select.emit($event)" class="mb-3">
+                </app-purchase-performance>
+            </li>
+        </ul>
+    </div>
 </div>

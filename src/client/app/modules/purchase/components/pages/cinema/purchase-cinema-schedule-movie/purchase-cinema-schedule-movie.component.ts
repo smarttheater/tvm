@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
-import { Functions } from '../../../../../..';
+import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
 import { ActionService, MasterService } from '../../../../../../services';
 
@@ -17,6 +17,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public environment = getEnvironment();
     public creativeWorks: factory.chevre.creativeWork.movie.ICreativeWork[];
     public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
+    public animations: boolean[];
     public getAdditionalProperty = Functions.Purchase.getAdditionalProperty;
 
     constructor(
@@ -31,6 +32,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public async ngOnInit() {
         this.creativeWorks = [];
         this.screeningEvents = [];
+        this.animations = [];
         try {
             const { theater } = await this.actionService.user.getData();
             const { scheduleDate } = await this.actionService.purchase.getData();
@@ -56,10 +58,41 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
             this.creativeWorks = creativeWorks.filter(c =>
                 this.screeningEvents.find(s =>
                     s.workPerformed?.identifier === c.identifier) !== undefined);
+            await this.addAnimationClass();
         } catch (error) {
+            console.error(error);
             this.router.navigate(['/error']);
         }
 
+    }
+
+    /**
+     * アニメーションクラス追加
+     */
+    public async addAnimationClass() {
+        this.creativeWorks.forEach(() => this.animations.push(false));
+        const row = 6;
+        const startTime = 2000;
+        await Functions.Util.sleep(startTime);
+        for (let i = 0; i < this.animations.length; i++) {
+            const time = 1000;
+            const target = this.animations.length - i - 1;
+            this.animations[target] = true;
+            if (target % row === 0) {
+                await Functions.Util.sleep(time);
+            }
+        }
+    }
+
+    /**
+     * 販売判定
+     */
+    public isSales(identifier: string) {
+        const findResult = this.screeningEvents.find(s => {
+            return (s.workPerformed?.identifier === identifier
+                && new Models.Purchase.Performance(s).isSales());
+        });
+        return (findResult !== undefined);
     }
 
 }

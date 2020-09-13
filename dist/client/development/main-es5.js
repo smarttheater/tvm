@@ -4035,6 +4035,7 @@
           maxLength: 15,
           minLength: 9
         }],
+        INPUT_KEYPAD: true,
         PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
         PAYMENT_METHOD_CUSTOM: [],
         REGIGROW_QRCODE: '',
@@ -4059,7 +4060,6 @@
         INQUIRY_PRINT_EXPIRED_UNIT: 'hour',
         INQUIRY_PRINT_WAIT_TIME: '',
         INQUIRY_PRINT_SUCCESS_WAIT_TIME: '',
-        INQUIRY_INPUT_KEYPAD: true,
         INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
         INQUIRY_ORDER_DATE_FROM_UNIT: 'month',
         ORDER_LINK: [],

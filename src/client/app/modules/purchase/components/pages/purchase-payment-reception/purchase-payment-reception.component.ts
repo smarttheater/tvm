@@ -242,20 +242,15 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         }
     }
 
+    /**
+     * 決済選択へ戻る
+     */
     public async prev() {
         try {
-            this.utilService.loadStart({ process: 'load' });
-            const purchase = await this.actionService.purchase.getData();
-            if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
-                // 現金
-                await this.epsonEPOSService.cashchanger.endDepositRepay();
-                await this.epsonEPOSService.cashchanger.disconnect();
-            }
+            await this.actionService.purchase.depositRepay();
             this.router.navigate(['/purchase/payment']);
-            this.utilService.loadEnd();
         } catch (error) {
             console.error(error);
-            this.utilService.loadEnd();
         }
     }
 }

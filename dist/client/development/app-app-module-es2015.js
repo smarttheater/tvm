@@ -75023,19 +75023,26 @@ class PurchaseService {
     /**
      * 預金返済
      */
-    depositRepay(params) {
+    depositRepay(_params) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.utilService.loadStart({ process: 'load' });
-            const { paymentMethod } = yield this.getData();
-            if ((paymentMethod === null || paymentMethod === void 0 ? void 0 : paymentMethod.typeOf) === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.Cash) {
-                // 現金
-                yield this.epsonEPOSService.cashchanger.init({
-                    ipAddress: params.ipAddress
-                });
-                yield this.epsonEPOSService.cashchanger.endDepositRepay();
-                yield this.epsonEPOSService.cashchanger.disconnect();
+            try {
+                this.utilService.loadStart({ process: 'load' });
+                const { paymentMethod } = yield this.getData();
+                if ((paymentMethod === null || paymentMethod === void 0 ? void 0 : paymentMethod.typeOf) === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.Cash) {
+                    // 現金
+                    // await this.epsonEPOSService.cashchanger.init({
+                    //     ipAddress: params.ipAddress
+                    // });
+                    yield this.epsonEPOSService.cashchanger.endDepositRepay();
+                    yield this.epsonEPOSService.cashchanger.disconnect();
+                }
+                this.utilService.loadEnd();
             }
-            this.utilService.loadEnd();
+            catch (error) {
+                console.error(error);
+                this.utilService.loadEnd();
+                throw error;
+            }
         });
     }
 }

@@ -546,17 +546,23 @@ export class PurchaseService {
     /**
      * 預金返済
      */
-    public async depositRepay(params: { ipAddress: string; }) {
-        this.utilService.loadStart({ process: 'load' });
-        const { paymentMethod } = await this.getData();
-        if (paymentMethod?.typeOf === factory.chevre.paymentMethodType.Cash) {
-            // 現金
-            await this.epsonEPOSService.cashchanger.init({
-                ipAddress: params.ipAddress
-            });
-            await this.epsonEPOSService.cashchanger.endDepositRepay();
-            await this.epsonEPOSService.cashchanger.disconnect();
+    public async depositRepay(_params: { ipAddress: string; }) {
+        try {
+            this.utilService.loadStart({ process: 'load' });
+            const { paymentMethod } = await this.getData();
+            if (paymentMethod?.typeOf === factory.chevre.paymentMethodType.Cash) {
+                // 現金
+                // await this.epsonEPOSService.cashchanger.init({
+                //     ipAddress: params.ipAddress
+                // });
+                await this.epsonEPOSService.cashchanger.endDepositRepay();
+                await this.epsonEPOSService.cashchanger.disconnect();
+            }
+            this.utilService.loadEnd();
+        } catch (error) {
+            console.error(error);
+            this.utilService.loadEnd();
+            throw error;
         }
-        this.utilService.loadEnd();
     }
 }

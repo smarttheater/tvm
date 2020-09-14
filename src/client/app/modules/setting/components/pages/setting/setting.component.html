@@ -122,6 +122,7 @@
                                             <p *ngIf="settingForm.controls.paymentCash.errors?.required" class="text-danger">
                                                 {{ 'form.validation.required' | translate }}</p>
                                         </div>
+                                        <button type="button" class="btn btn-primary mt-2" (click)="connection('Cash')">{{ 'setting.connection' | translate }}</button>
                                     </div>
                                     <div>
                                         <p class="py-2">{{ 'setting.payment.creditcard.label' | translate }}</p>

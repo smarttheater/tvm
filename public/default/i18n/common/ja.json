@@ -186,8 +186,7 @@
                 "label": "コード"
             }
         },
-        "isPurchaseCart": "カート使用",
-        "viewType": "表示",
+        "connection": "接続",
         "starBluetoothAddress": "localhost:8001",
         "printType": {
             "none": "印刷しない",
@@ -197,6 +196,7 @@
             "epsonEPOS": "Epson ePOS"
         },
         "alert": {
+            "connection": "接続に成功しました。",
             "customer": "購入者情報に誤りがあります。",
             "payment": "決済情報に誤りがあります。",
             "validation": "入力情報に誤りがあります。",

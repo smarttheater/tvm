@@ -8,7 +8,7 @@ import { CountryISO, NgxIntlTelInputComponent, SearchCountryField, TooltipLabel,
 import { Observable } from 'rxjs';
 import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../services';
+import { ActionService, EpsonEPOSService, MasterService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 import { LibphonenumberFormatPipe } from '../../../../shared/pipes/libphonenumber-format.pipe';
 
@@ -41,7 +41,8 @@ export class SettingComponent implements OnInit {
         private actionService: ActionService,
         private masterService: MasterService,
         private translate: TranslateService,
-        private router: Router
+        private router: Router,
+        private epsonEPOSService: EpsonEPOSService
     ) { }
 
     /**
@@ -299,6 +300,31 @@ export class SettingComponent implements OnInit {
      */
     public getAdditionalProperty(key: string) {
         return this.environment.PROFILE.find(p => /additionalProperty/.test(p.key) && p.key === key);
+    }
+
+    public async connection(paymentType: 'Cash') {
+        try {
+            if (paymentType === 'Cash') {
+                const ipAddress = this.settingForm.controls.paymentCash.value;
+                await this.epsonEPOSService.cashchanger.init({
+                    ipAddress
+                });
+                await this.epsonEPOSService.cashchanger.disconnect();
+            }
+            this.utilService.openAlert({
+                title: this.translate.instant('common.complete'),
+                body: this.translate.instant('setting.alert.connection')
+            });
+        } catch (error) {
+            console.error(error);
+            this.utilService.openAlert({
+                title: this.translate.instant('common.error'),
+                body: `
+                <div class="p-3 bg-light-gray select-text">
+                    <code>${error}</code>
+                </div>`
+            });
+        }
     }
 
 }

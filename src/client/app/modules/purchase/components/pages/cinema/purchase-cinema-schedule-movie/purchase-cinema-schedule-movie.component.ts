@@ -72,10 +72,10 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public async addAnimationClass() {
         this.creativeWorks.forEach(() => this.animations.push(false));
         const row = 6;
-        const startTime = 2000;
+        const startTime = 300;
         await Functions.Util.sleep(startTime);
         for (let i = 0; i < this.animations.length; i++) {
-            const time = 1000;
+            const time = 300;
             const target = this.animations.length - i - 1;
             this.animations[target] = true;
             if (target % row === 0) {

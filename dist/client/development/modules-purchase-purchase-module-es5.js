@@ -357,7 +357,7 @@
                       this.screeningEventsGroup.forEach(function () {
                         return _this.animations.push(false);
                       });
-                      startTime = 2000;
+                      startTime = 300;
                       _context3.next = 4;
                       return ___WEBPACK_IMPORTED_MODULE_4__["Functions"].Util.sleep(startTime);
 
@@ -370,7 +370,7 @@
                         break;
                       }
 
-                      time = 1000;
+                      time = 300;
                       target = this.animations.length - i - 1;
                       this.animations[target] = true;
                       _context3.next = 11;
@@ -810,7 +810,7 @@
                         return _this3.animations.push(false);
                       });
                       row = 6;
-                      startTime = 2000;
+                      startTime = 300;
                       _context5.next = 5;
                       return ___WEBPACK_IMPORTED_MODULE_3__["Functions"].Util.sleep(startTime);
 
@@ -823,7 +823,7 @@
                         break;
                       }
 
-                      time = 1000;
+                      time = 300;
                       target = this.animations.length - i - 1;
                       this.animations[target] = true;
 
@@ -934,7 +934,7 @@
         },
         directives: [_shared_components_parts_header_header_component__WEBPACK_IMPORTED_MODULE_6__["HeaderComponent"], _parts_step_step_component__WEBPACK_IMPORTED_MODULE_7__["PurchaseStepComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgForOf"], _shared_components_parts_footer_footer_component__WEBPACK_IMPORTED_MODULE_9__["FooterComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterLink"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgClass"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]],
         pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_10__["TranslatePipe"]],
-        styles: [".item[_ngcontent-%COMP%] {\n  flex: 0 0 16.6%;\n  max-width: 16.6%;\n  padding-right: 15px;\n  padding-left: 15px;\n  position: relative;\n}\n.item.not-sales[_ngcontent-%COMP%]   .position-relative[_ngcontent-%COMP%] {\n  background-color: #000;\n}\n.item.not-sales[_ngcontent-%COMP%]   .position-relative[_ngcontent-%COMP%]::after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #000;\n  opacity: 0.6;\n}\n.item.animation[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  padding-top: calc(100% * 1.41);\n  opacity: 1;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  transition: opacity 0.5s;\n  opacity: 0;\n  padding-top: 0;\n  position: relative;\n  background-color: #000;\n  overflow: hidden;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster-no[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-color: #cbcbcb;\n  background-image: url(/default/images/noimage.png);\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster-title[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.loading[_ngcontent-%COMP%] {\n  opacity: 1;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.loader[_ngcontent-%COMP%], .loader[_ngcontent-%COMP%]:after {\n  border-radius: 50%;\n  width: 90px;\n  height: 90px;\n}\n.loader[_ngcontent-%COMP%] {\n  position: relative;\n  text-indent: -9999em;\n  border: 3px solid rgba(255, 255, 255, 0.2);\n  border-left-color: #FFF;\n  transform: translateZ(0);\n  -webkit-animation: load8 1.1s infinite linear;\n          animation: load8 1.1s infinite linear;\n}\n@-webkit-keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}"]
+        styles: [".item[_ngcontent-%COMP%] {\n  flex: 0 0 16.6%;\n  max-width: 16.6%;\n  padding-right: 15px;\n  padding-left: 15px;\n  position: relative;\n}\n.item.not-sales[_ngcontent-%COMP%]   .position-relative[_ngcontent-%COMP%] {\n  background-color: #000;\n}\n.item.not-sales[_ngcontent-%COMP%]   .position-relative[_ngcontent-%COMP%]::after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #000;\n  opacity: 0.6;\n}\n.item.animation[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  padding-top: calc(100% * 1.41);\n  opacity: 1;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%] {\n  transition: opacity 1s;\n  opacity: 0;\n  padding-top: 0;\n  position: relative;\n  background-color: #000;\n  overflow: hidden;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster-no[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-size: contain;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-color: #cbcbcb;\n  background-image: url(/default/images/noimage.png);\n}\n.item[_ngcontent-%COMP%]   .image[_ngcontent-%COMP%]   .poster-title[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.loading[_ngcontent-%COMP%] {\n  opacity: 1;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.loader[_ngcontent-%COMP%], .loader[_ngcontent-%COMP%]:after {\n  border-radius: 50%;\n  width: 90px;\n  height: 90px;\n}\n.loader[_ngcontent-%COMP%] {\n  position: relative;\n  text-indent: -9999em;\n  border: 3px solid rgba(255, 255, 255, 0.2);\n  border-left-color: #FFF;\n  transform: translateZ(0);\n  -webkit-animation: load8 1.1s infinite linear;\n          animation: load8 1.1s infinite linear;\n}\n@-webkit-keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes load8 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}"]
       });
       /*@__PURE__*/
 
@@ -12165,7 +12165,7 @@
         },
         directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _performance_performance_component__WEBPACK_IMPORTED_MODULE_4__["PurchasePerformanceComponent"]],
         pipes: [_shared_pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_5__["ChangeLanguagePipe"], _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslatePipe"]],
-        styles: ["[_nghost-%COMP%] {\n  display: block;\n}\n\nul[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  flex: 0 0 20%;\n  max-width: 20%;\n  padding-right: 15px;\n  padding-left: 15px;\n}\n\n.animation[_ngcontent-%COMP%] {\n  -webkit-animation: fadeIn 0.5s both;\n          animation: fadeIn 0.5s both;\n}\n\n@-webkit-keyframes fadeIn {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n\n@keyframes fadeIn {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}"]
+        styles: ["[_nghost-%COMP%] {\n  display: block;\n}\n\nul[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  flex: 0 0 20%;\n  max-width: 20%;\n  padding-right: 15px;\n  padding-left: 15px;\n}\n\n.animation[_ngcontent-%COMP%] {\n  -webkit-animation: fadeIn 1s both;\n          animation: fadeIn 1s both;\n}\n\n@-webkit-keyframes fadeIn {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n\n@keyframes fadeIn {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}"]
       });
       /*@__PURE__*/
 

@@ -96,10 +96,10 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
      */
     public async addAnimationClass() {
         this.screeningEventsGroup.forEach(() => this.animations.push(false));
-        const startTime = 2000;
+        const startTime = 300;
         await Functions.Util.sleep(startTime);
         for (let i = 0; i < this.animations.length; i++) {
-            const time = 1000;
+            const time = 300;
             const target = this.animations.length - i - 1;
             this.animations[target] = true;
             await Functions.Util.sleep(time);

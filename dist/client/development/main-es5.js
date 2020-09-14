@@ -4007,7 +4007,7 @@
         ANALYTICS_ID: '',
         GTM_ID: '',
         VIEW_TYPE: 'event',
-        STORAGE_NAME: Object(_app_functions_util_function__WEBPACK_IMPORTED_MODULE_0__["getProject"])().projectId === '' ? 'TVM-STATE' : "".concat(Object(_app_functions_util_function__WEBPACK_IMPORTED_MODULE_0__["getProject"])().projectId.toUpperCase(), "-TVM-STATE"),
+        STORAGE_NAME: 'TVM-STATE',
         STORAGE_TYPE: 'localStorage',
         BASE_URL: '/purchase/root',
         LANGUAGE: ['ja'],
@@ -4069,7 +4069,9 @@
       };
 
       function getEnvironment() {
-        var environment = Object.assign(Object.assign(Object.assign({}, defaultEnvironment), window.environment), {
+        var environment = Object.assign(Object.assign(Object.assign(Object.assign({}, defaultEnvironment), {
+          STORAGE_NAME: Object(_app_functions_util_function__WEBPACK_IMPORTED_MODULE_0__["getProject"])().projectId === '' ? 'TVM-STATE' : "".concat(Object(_app_functions_util_function__WEBPACK_IMPORTED_MODULE_0__["getProject"])().projectId.toUpperCase(), "-TVM-STATE")
+        }), window.environment), {
           production: isProduction
         });
         return environment;

@@ -144,7 +144,7 @@ export class PurchaseService {
      * 取引中止
      */
     public async cancelTransaction() {
-        const {transaction} = await this.getData();
+        const { transaction } = await this.getData();
         return new Promise<void>((resolve) => {
             if (transaction === undefined) {
                 resolve();
@@ -546,11 +546,14 @@ export class PurchaseService {
     /**
      * 預金返済
      */
-    public async depositRepay() {
+    public async depositRepay(params: { ipAddress: string; }) {
         this.utilService.loadStart({ process: 'load' });
         const { paymentMethod } = await this.getData();
         if (paymentMethod?.typeOf === factory.chevre.paymentMethodType.Cash) {
             // 現金
+            await this.epsonEPOSService.cashchanger.init({
+                ipAddress: params.ipAddress
+            });
             await this.epsonEPOSService.cashchanger.endDepositRepay();
             await this.epsonEPOSService.cashchanger.disconnect();
         }

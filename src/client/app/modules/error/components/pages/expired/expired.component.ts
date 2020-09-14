@@ -14,7 +14,11 @@ export class ExpiredComponent implements OnInit {
 
     public async ngOnInit() {
         try {
-            await this.actionService.purchase.depositRepay();
+            const { payment } = await this.actionService.user.getData();
+            if (payment !== undefined
+                && payment.cash !== undefined) {
+                await this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+            }
         } catch (error) {
             console.error(error);
         }

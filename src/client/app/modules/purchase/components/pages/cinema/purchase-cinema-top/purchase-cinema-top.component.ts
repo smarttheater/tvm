@@ -23,7 +23,11 @@ export class PurchaseCinemaTopComponent implements OnInit {
      */
     public async ngOnInit() {
         try {
-            await this.actionService.purchase.depositRepay();
+            const { payment } = await this.actionService.user.getData();
+            if (payment !== undefined
+                && payment.cash !== undefined) {
+                await this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+            }
             await this.actionService.purchase.cancelTransaction();
         } catch (error) {
             console.error(error);

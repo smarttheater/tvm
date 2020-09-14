@@ -3049,33 +3049,49 @@
           key: "ngOnInit",
           value: function ngOnInit() {
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+              var _yield$this$actionSer10, payment;
+
               return regeneratorRuntime.wrap(function _callee9$(_context9) {
                 while (1) {
                   switch (_context9.prev = _context9.next) {
                     case 0:
                       _context9.prev = 0;
                       _context9.next = 3;
-                      return this.actionService.purchase.depositRepay();
+                      return this.actionService.user.getData();
 
                     case 3:
-                      _context9.next = 5;
+                      _yield$this$actionSer10 = _context9.sent;
+                      payment = _yield$this$actionSer10.payment;
+
+                      if (!(payment !== undefined && payment.cash !== undefined)) {
+                        _context9.next = 8;
+                        break;
+                      }
+
+                      _context9.next = 8;
+                      return this.actionService.purchase.depositRepay({
+                        ipAddress: payment.cash.ipAddress
+                      });
+
+                    case 8:
+                      _context9.next = 10;
                       return this.actionService.purchase.cancelTransaction();
 
-                    case 5:
-                      _context9.next = 10;
+                    case 10:
+                      _context9.next = 15;
                       break;
 
-                    case 7:
-                      _context9.prev = 7;
+                    case 12:
+                      _context9.prev = 12;
                       _context9.t0 = _context9["catch"](0);
                       console.error(_context9.t0);
 
-                    case 10:
+                    case 15:
                     case "end":
                       return _context9.stop();
                   }
                 }
-              }, _callee9, this, [[0, 7]]);
+              }, _callee9, this, [[0, 12]]);
             }));
           }
           /**
@@ -3236,7 +3252,7 @@
           key: "setSeller",
           value: function setSeller() {
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
-              var _yield$this$actionSer10, theater, _yield$this$actionSer11, scheduleDate, screeningEvents, screeningEvent;
+              var _yield$this$actionSer11, theater, _yield$this$actionSer12, scheduleDate, screeningEvents, screeningEvent;
 
               return regeneratorRuntime.wrap(function _callee12$(_context12) {
                 while (1) {
@@ -3246,14 +3262,14 @@
                       return this.actionService.user.getData();
 
                     case 2:
-                      _yield$this$actionSer10 = _context12.sent;
-                      theater = _yield$this$actionSer10.theater;
+                      _yield$this$actionSer11 = _context12.sent;
+                      theater = _yield$this$actionSer11.theater;
                       _context12.next = 6;
                       return this.actionService.purchase.getData();
 
                     case 6:
-                      _yield$this$actionSer11 = _context12.sent;
-                      scheduleDate = _yield$this$actionSer11.scheduleDate;
+                      _yield$this$actionSer12 = _context12.sent;
+                      scheduleDate = _yield$this$actionSer12.scheduleDate;
 
                       if (!(theater === undefined || scheduleDate === undefined)) {
                         _context12.next = 10;
@@ -8464,7 +8480,8 @@
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee31() {
               var _this11 = this;
 
-              var user;
+              var _yield$this$actionSer13, payment;
+
               return regeneratorRuntime.wrap(function _callee31$(_context31) {
                 while (1) {
                   switch (_context31.prev = _context31.next) {
@@ -8474,34 +8491,35 @@
                       return this.actionService.user.getData();
 
                     case 3:
-                      user = _context31.sent;
+                      _yield$this$actionSer13 = _context31.sent;
+                      payment = _yield$this$actionSer13.payment;
 
-                      if (!(user.payment === undefined || user.payment.cash === undefined)) {
-                        _context31.next = 6;
+                      if (!(payment === undefined || payment.cash === undefined)) {
+                        _context31.next = 7;
                         break;
                       }
 
                       throw new Error('payment undefined');
 
-                    case 6:
-                      _context31.next = 8;
+                    case 7:
+                      _context31.next = 9;
                       return this.epsonEPOSService.cashchanger.init({
-                        ipAddress: user.payment.cash.ipAddress
+                        ipAddress: payment.cash.ipAddress
                       });
 
-                    case 8:
-                      _context31.next = 10;
+                    case 9:
+                      _context31.next = 11;
                       return this.epsonEPOSService.cashchanger.endDeposit();
 
-                    case 10:
-                      _context31.next = 12;
+                    case 11:
+                      _context31.next = 13;
                       return this.epsonEPOSService.cashchanger.beginDeposit({
                         cb: function cb(amount) {
                           _this11.deposit = amount;
                         }
                       });
 
-                    case 12:
+                    case 13:
                     case "end":
                       return _context31.stop();
                   }
@@ -8885,30 +8903,46 @@
           key: "prev",
           value: function prev() {
             return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee36() {
+              var _yield$this$actionSer14, payment;
+
               return regeneratorRuntime.wrap(function _callee36$(_context36) {
                 while (1) {
                   switch (_context36.prev = _context36.next) {
                     case 0:
                       _context36.prev = 0;
                       _context36.next = 3;
-                      return this.actionService.purchase.depositRepay();
+                      return this.actionService.user.getData();
 
                     case 3:
+                      _yield$this$actionSer14 = _context36.sent;
+                      payment = _yield$this$actionSer14.payment;
+
+                      if (!(payment !== undefined && payment.cash !== undefined)) {
+                        _context36.next = 8;
+                        break;
+                      }
+
+                      _context36.next = 8;
+                      return this.actionService.purchase.depositRepay({
+                        ipAddress: payment.cash.ipAddress
+                      });
+
+                    case 8:
                       this.router.navigate(['/purchase/payment']);
-                      _context36.next = 9;
+                      _context36.next = 14;
                       break;
 
-                    case 6:
-                      _context36.prev = 6;
+                    case 11:
+                      _context36.prev = 11;
                       _context36.t0 = _context36["catch"](0);
                       console.error(_context36.t0);
 
-                    case 9:
+                    case 14:
                     case "end":
                       return _context36.stop();
                   }
                 }
-              }, _callee36, this, [[0, 6]]);
+              }, _callee36, this, [[0, 11]]);
             }));
           }
         }]);

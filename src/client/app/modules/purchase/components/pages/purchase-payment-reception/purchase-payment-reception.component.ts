@@ -73,13 +73,13 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      */
     private async cash() {
         this.deposit = 0;
-        const user = await this.actionService.user.getData();
-        if (user.payment === undefined
-            || user.payment.cash === undefined) {
+        const { payment } = await this.actionService.user.getData();
+        if (payment === undefined
+            || payment.cash === undefined) {
             throw new Error('payment undefined');
         }
         await this.epsonEPOSService.cashchanger.init({
-            ipAddress: user.payment.cash.ipAddress
+            ipAddress: payment.cash.ipAddress
         });
         await this.epsonEPOSService.cashchanger.endDeposit();
         await this.epsonEPOSService.cashchanger.beginDeposit({
@@ -247,7 +247,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      */
     public async prev() {
         try {
-            await this.actionService.purchase.depositRepay();
+            const { payment } = await this.actionService.user.getData();
+            if (payment !== undefined
+                && payment.cash !== undefined) {
+                await this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+            }
             this.router.navigate(['/purchase/payment']);
         } catch (error) {
             console.error(error);

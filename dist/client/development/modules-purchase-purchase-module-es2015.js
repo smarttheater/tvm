@@ -1327,7 +1327,11 @@ class PurchaseCinemaTopComponent {
     ngOnInit() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.actionService.purchase.depositRepay();
+                const { payment } = yield this.actionService.user.getData();
+                if (payment !== undefined
+                    && payment.cash !== undefined) {
+                    yield this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+                }
                 yield this.actionService.purchase.cancelTransaction();
             }
             catch (error) {
@@ -3744,13 +3748,13 @@ class PurchasePaymentReceptionComponent {
     cash() {
         return __awaiter(this, void 0, void 0, function* () {
             this.deposit = 0;
-            const user = yield this.actionService.user.getData();
-            if (user.payment === undefined
-                || user.payment.cash === undefined) {
+            const { payment } = yield this.actionService.user.getData();
+            if (payment === undefined
+                || payment.cash === undefined) {
                 throw new Error('payment undefined');
             }
             yield this.epsonEPOSService.cashchanger.init({
-                ipAddress: user.payment.cash.ipAddress
+                ipAddress: payment.cash.ipAddress
             });
             yield this.epsonEPOSService.cashchanger.endDeposit();
             yield this.epsonEPOSService.cashchanger.beginDeposit({
@@ -3917,7 +3921,11 @@ class PurchasePaymentReceptionComponent {
     prev() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.actionService.purchase.depositRepay();
+                const { payment } = yield this.actionService.user.getData();
+                if (payment !== undefined
+                    && payment.cash !== undefined) {
+                    yield this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+                }
                 this.router.navigate(['/purchase/payment']);
             }
             catch (error) {

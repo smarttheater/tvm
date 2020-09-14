@@ -69124,7 +69124,11 @@ class ErrorComponent {
     ngOnInit() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.actionService.purchase.depositRepay();
+                const { payment } = yield this.actionService.user.getData();
+                if (payment !== undefined
+                    && payment.cash !== undefined) {
+                    yield this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+                }
             }
             catch (error) {
                 console.error(error);
@@ -69216,7 +69220,11 @@ class ExpiredComponent {
     ngOnInit() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.actionService.purchase.depositRepay();
+                const { payment } = yield this.actionService.user.getData();
+                if (payment !== undefined
+                    && payment.cash !== undefined) {
+                    yield this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+                }
             }
             catch (error) {
                 console.error(error);
@@ -75015,12 +75023,15 @@ class PurchaseService {
     /**
      * 預金返済
      */
-    depositRepay() {
+    depositRepay(params) {
         return __awaiter(this, void 0, void 0, function* () {
             this.utilService.loadStart({ process: 'load' });
             const { paymentMethod } = yield this.getData();
             if ((paymentMethod === null || paymentMethod === void 0 ? void 0 : paymentMethod.typeOf) === _cinerino_sdk__WEBPACK_IMPORTED_MODULE_1__["factory"].chevre.paymentMethodType.Cash) {
                 // 現金
+                yield this.epsonEPOSService.cashchanger.init({
+                    ipAddress: params.ipAddress
+                });
                 yield this.epsonEPOSService.cashchanger.endDepositRepay();
                 yield this.epsonEPOSService.cashchanger.disconnect();
             }

@@ -88,6 +88,7 @@ export class PurchaseCompleteComponent implements OnInit {
 
     public async test() {
         try {
+            this.utilService.loadStart({ process: 'load' });
             // デモ用
             const purchase = await this.actionService.purchase.getData();
             if (purchase.order?.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash) !== undefined) {
@@ -106,8 +107,10 @@ export class PurchaseCompleteComponent implements OnInit {
                 await this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
                 await this.epsonEPOSService.cashchanger.disconnect();
             }
+            this.utilService.loadEnd();
         } catch (error) {
             console.error(error);
+            this.utilService.loadEnd();
         }
     }
 

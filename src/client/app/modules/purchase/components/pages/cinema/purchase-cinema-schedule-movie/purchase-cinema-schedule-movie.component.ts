@@ -53,7 +53,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
                     // availableThrough: moment(scheduleDate).add(1, 'day').toDate()
                 },
                 // datePublishedFrom: moment(scheduleDate).toDate(),
-                datePublishedThrough: moment(scheduleDate).add(1, 'day').toDate()
+                // datePublishedThrough: moment(scheduleDate).add(1, 'day').toDate()
             });
             this.creativeWorks = creativeWorks.filter(c =>
                 this.screeningEvents.find(s =>

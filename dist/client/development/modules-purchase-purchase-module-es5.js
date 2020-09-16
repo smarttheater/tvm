@@ -756,9 +756,7 @@
                       return this.masterService.searchMovies({
                         offers: {
                           availableFrom: moment__WEBPACK_IMPORTED_MODULE_2__(scheduleDate).toDate()
-                        },
-                        // datePublishedFrom: moment(scheduleDate).toDate(),
-                        datePublishedThrough: moment__WEBPACK_IMPORTED_MODULE_2__(scheduleDate).add(1, 'day').toDate()
+                        }
                       });
 
                     case 19:
@@ -6981,16 +6979,20 @@
                   switch (_context27.prev = _context27.next) {
                     case 0:
                       _context27.prev = 0;
-                      _context27.next = 3;
+                      this.utilService.loadStart({
+                        process: 'load'
+                      }); // デモ用
+
+                      _context27.next = 4;
                       return this.actionService.purchase.getData();
 
-                    case 3:
+                    case 4:
                       purchase = _context27.sent;
 
                       if (!(((_a = purchase.order) === null || _a === void 0 ? void 0 : _a.paymentMethods.find(function (p) {
                         return p.typeOf === _this10.paymentMethodType.Cash;
                       })) !== undefined)) {
-                        _context27.next = 19;
+                        _context27.next = 20;
                         break;
                       }
 
@@ -7000,57 +7002,59 @@
                       });
 
                       if (!(paymentMethod === undefined || ((_c = paymentMethod.totalPaymentDue) === null || _c === void 0 ? void 0 : _c.value) === undefined)) {
-                        _context27.next = 8;
+                        _context27.next = 9;
                         break;
                       }
 
                       return _context27.abrupt("return");
 
-                    case 8:
-                      _context27.next = 10;
+                    case 9:
+                      _context27.next = 11;
                       return this.actionService.user.getData();
 
-                    case 10:
+                    case 11:
                       user = _context27.sent;
 
                       if (!(user.payment === undefined || user.payment.cash === undefined)) {
-                        _context27.next = 13;
+                        _context27.next = 14;
                         break;
                       }
 
                       throw new Error('payment undefined');
 
-                    case 13:
-                      _context27.next = 15;
+                    case 14:
+                      _context27.next = 16;
                       return this.epsonEPOSService.cashchanger.init({
                         ipAddress: user.payment.cash.ipAddress
                       });
 
-                    case 15:
-                      _context27.next = 17;
+                    case 16:
+                      _context27.next = 18;
                       return this.epsonEPOSService.cashchanger.dispenseChange({
                         amount: paymentMethod.totalPaymentDue.value
                       });
 
-                    case 17:
-                      _context27.next = 19;
+                    case 18:
+                      _context27.next = 20;
                       return this.epsonEPOSService.cashchanger.disconnect();
 
-                    case 19:
-                      _context27.next = 24;
+                    case 20:
+                      this.utilService.loadEnd();
+                      _context27.next = 27;
                       break;
 
-                    case 21:
-                      _context27.prev = 21;
+                    case 23:
+                      _context27.prev = 23;
                       _context27.t0 = _context27["catch"](0);
                       console.error(_context27.t0);
+                      this.utilService.loadEnd();
 
-                    case 24:
+                    case 27:
                     case "end":
                       return _context27.stop();
                   }
                 }
-              }, _callee27, this, [[0, 21]]);
+              }, _callee27, this, [[0, 23]]);
             }));
           }
         }]);

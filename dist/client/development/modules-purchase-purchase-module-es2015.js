@@ -310,8 +310,6 @@ class PurchaseCinemaScheduleMovieComponent {
                     offers: {
                         availableFrom: moment__WEBPACK_IMPORTED_MODULE_2__(scheduleDate).toDate(),
                     },
-                    // datePublishedFrom: moment(scheduleDate).toDate(),
-                    datePublishedThrough: moment__WEBPACK_IMPORTED_MODULE_2__(scheduleDate).add(1, 'day').toDate()
                 });
                 this.creativeWorks = creativeWorks.filter(c => this.screeningEvents.find(s => { var _a; return ((_a = s.workPerformed) === null || _a === void 0 ? void 0 : _a.identifier) === c.identifier; }) !== undefined);
                 yield this.addAnimationClass();
@@ -3090,6 +3088,7 @@ class PurchaseCompleteComponent {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                this.utilService.loadStart({ process: 'load' });
                 // デモ用
                 const purchase = yield this.actionService.purchase.getData();
                 if (((_a = purchase.order) === null || _a === void 0 ? void 0 : _a.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash)) !== undefined) {
@@ -3108,9 +3107,11 @@ class PurchaseCompleteComponent {
                     yield this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
                     yield this.epsonEPOSService.cashchanger.disconnect();
                 }
+                this.utilService.loadEnd();
             }
             catch (error) {
                 console.error(error);
+                this.utilService.loadEnd();
             }
         });
     }

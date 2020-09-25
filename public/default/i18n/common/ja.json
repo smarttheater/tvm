@@ -513,7 +513,7 @@
             "others": "その他",
             "regiGrow": "RegiGrow"
         },
-        "timeLimit": "取引期限",
+        "timeLimit": "残り",
         "all": "すべて",
         "close": "閉じる",
         "done": "決定",
@@ -529,6 +529,6 @@
         "remove": "削除",
         "etc": "その他",
         "required": "必須",
-        "clear": "中止"
+        "clear": "TOPへ戻る"
     }
 }

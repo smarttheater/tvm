@@ -1,8 +1,4 @@
-.container {
-    width: 1600px;
-}
-
-.step {
-    flex: 0 0 20%;
-    padding-right: 4px !important;
+:host {
+    display: block;
+    height: 100%;
 }

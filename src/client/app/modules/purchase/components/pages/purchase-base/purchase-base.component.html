@@ -1,5 +1,3 @@
-<app-transaction-remaining-time *ngIf="(purchase | async)?.transaction" [transaction]="(purchase | async)?.transaction">
-</app-transaction-remaining-time>
 <router-outlet></router-outlet>
 
 <app-loading [isLoading]="isLoading | async" [process]="process | async"></app-loading>

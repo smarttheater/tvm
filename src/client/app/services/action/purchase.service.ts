@@ -220,7 +220,9 @@ export class PurchaseService {
                 screeningEventSeats = screeningEventSeats.concat(searchResult.data);
                 page++;
                 roop = searchResult.data.length === limit;
-                await Functions.Util.sleep(500);
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
             }
             this.utilService.loadEnd();
             return screeningEventSeats;
@@ -413,23 +415,25 @@ export class PurchaseService {
      */
     public async checkMovieTicket(params: {
         movieTicket: { code: string; password: string; };
-        seller: factory.chevre.seller.ISeller
+        paymentMethodType: factory.paymentMethodType
     }) {
         const movieTicket = params.movieTicket;
-        const purchase = await this.getData();
+        const paymentMethodType = params.paymentMethodType;
+        const { transaction, screeningEvent } = await this.getData();
         return new Promise<void>((resolve, reject) => {
-            if (purchase.transaction === undefined || purchase.screeningEvent === undefined) {
+            if (transaction === undefined
+                || screeningEvent === undefined) {
                 reject();
                 return;
             }
             this.store.dispatch(purchaseAction.checkMovieTicket({
-                transaction: purchase.transaction,
+                transaction,
+                screeningEvent,
                 movieTickets: [{
-                    typeOf: factory.chevre.paymentMethodType.MovieTicket,
+                    typeOf: paymentMethodType,
                     identifier: movieTicket.code, // 購入管理番号
                     accessCode: movieTicket.password // PINコード
-                }],
-                screeningEvent: purchase.screeningEvent
+                }]
             }));
             const success = this.actions.pipe(
                 ofType(purchaseAction.checkMovieTicketSuccess.type),
@@ -507,7 +511,7 @@ export class PurchaseService {
             }
             this.store.dispatch(purchaseAction.authorizeAnyPayment({
                 transaction: transaction,
-                typeOf: purchase.paymentMethod.typeOf,
+                paymentMethod: purchase.paymentMethod.typeOf,
                 name: purchase.paymentMethod.category,
                 amount,
                 additionalProperty

@@ -20,6 +20,7 @@ import { PurchaseRootComponent } from './components/pages/purchase-root/purchase
 import { PurchaseSeatComponent } from './components/pages/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/pages/purchase-ticket/purchase-ticket.component';
 import { PurchaseEventPerformancesConfirmComponent } from './components/parts/event/performances-confirm/performances-confirm.component';
+import { MovieTicketsComponent } from './components/parts/movie-tickets/movie-tickets.component';
 import { PurchasePerformanceComponent } from './components/parts/performance/performance.component';
 import { PurchasePerformancesComponent } from './components/parts/performances/performances.component';
 import { PurchaseInfoComponent } from './components/parts/purchase-info/purchase-info.component';
@@ -60,6 +61,7 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseCinemaScheduleEventComponent,
     PurchaseCinemaTopComponent,
     PurchaseStepComponent,
+    MovieTicketsComponent
   ],
   imports: [
     CommonModule,

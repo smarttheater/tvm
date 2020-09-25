@@ -1,5 +1,5 @@
 <app-header [isClear]="true">
-    <app-purchase-step [step]="3"></app-purchase-step>
+    <app-purchase-step [currentStep]="3"></app-purchase-step>
 </app-header>
 <div class="contents">
     <div class="container h-100 p-3">
@@ -8,19 +8,10 @@
                 <div class="bg-dark h-100"></div>
             </div>
             <div class="col-6 mh-100 scroll-horizontal">
-                <div *ngIf="(purchase | async)?.isUsedMovieTicket" class="mb-3 p-3 bg-white">
-                    <div class="container px-0">
-                        <div class="row align-items-center">
-                            <p class="col-6">{{ 'purchase.cinema.ticket.mvtk' | translate }}</p>
-                            <div class="col-6">
-                                <button type="button" (click)="openMovieTicket()"
-                                    class="btn btn-block bg-white border border-gray py-2">
-                                    <img src="/assets/images/mvtk.svg" height="36" alt="">
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <app-movie-tickets *ngIf="(purchase | async)?.screeningEventTicketOffers"
+                    [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
+                    (select)="openMovieTicket($event)"></app-movie-tickets>
+
                 <div>
                     <ul class="py-2 bg-white">
                         <li *ngFor="let reservation of (purchase | async)?.reservations">

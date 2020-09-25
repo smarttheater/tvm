@@ -113,7 +113,7 @@ export class MasterService {
                 page++;
                 roop = searchResult.data.length === limit;
                 if (roop) {
-                    await Functions.Util.sleep(500);
+                    await Functions.Util.sleep();
                 }
             }
             const sort = (params.sort === undefined) ? false : params.sort;
@@ -169,7 +169,7 @@ export class MasterService {
                 page++;
                 roop = searchResult.data.length === limit;
                 if (roop) {
-                    await Functions.Util.sleep(500);
+                    await Functions.Util.sleep();
                 }
             }
             const sortResult = result.sort((a, b) => {
@@ -240,7 +240,7 @@ export class MasterService {
             page++;
             roop = searchResult.data.length === limit;
             if (roop) {
-                await Functions.Util.sleep(500);
+                await Functions.Util.sleep();
             }
         }
         const sortResult = screeningEvents.sort((a, b) => {
@@ -292,7 +292,7 @@ export class MasterService {
             result = [...result, ...searchResult.data];
             page++;
             roop = searchResult.data.length === limit;
-            await Functions.Util.sleep(500);
+            await Functions.Util.sleep();
         }
         const sortResult = screeningEvents.sort((a, b) => {
             const KEY_NAME = 'sortNumber';

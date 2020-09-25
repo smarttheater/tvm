@@ -1,5 +1,9 @@
-<div class="parent bg-white" *ngIf="!isExpired && environment.PURCHASE_TRANSACTION_TIME_DISPLAY">
+<!-- <div class="parent bg-white" *ngIf="!isExpired && environment.PURCHASE_TRANSACTION_TIME_DISPLAY">
     <div class="cover w-100 h-100 bg-primary"></div>
     <div class="expired bg-primary" [style.width.%]="width"></div>
-    <!-- <p class="text-small text-white position-relative">{{ 'common.timeLimit' | translate }} {{ this.diff.hours }}:{{ this.diff.minutes }}:{{ this.diff.seconds }}</p> -->
-</div>
+</div> -->
+
+
+<p *ngIf="transaction" class="text-white position-relative">
+    {{ 'common.timeLimit' | translate }} {{ this.diff.hours }}:{{ this.diff.minutes }}:{{ this.diff.seconds }}
+</p>

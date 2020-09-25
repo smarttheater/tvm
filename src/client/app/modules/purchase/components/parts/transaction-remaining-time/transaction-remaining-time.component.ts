@@ -1,8 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { getEnvironment } from '../../../../../../environments/environment';
+import { ActionService } from '../../../../../services';
 
 @Component({
     selector: 'app-transaction-remaining-time',
@@ -10,7 +11,7 @@ import { getEnvironment } from '../../../../../../environments/environment';
     styleUrls: ['./transaction-remaining-time.component.scss']
 })
 export class TransactionRemainingTimeComponent implements OnInit, OnDestroy {
-    @Input() public transaction: factory.transaction.placeOrder.ITransaction;
+    public transaction?: factory.transaction.placeOrder.ITransaction;
     public isExpired: boolean;
     public diff: { hours: string; minutes: string; seconds: string; };
     public timer: any;
@@ -18,7 +19,8 @@ export class TransactionRemainingTimeComponent implements OnInit, OnDestroy {
     public environment = getEnvironment();
 
     constructor(
-        private router: Router
+        private router: Router,
+        private actionService: ActionService
     ) { }
 
     public ngOnInit() {
@@ -29,15 +31,14 @@ export class TransactionRemainingTimeComponent implements OnInit, OnDestroy {
         clearTimeout(this.timer);
     }
 
-    private update() {
-        this.updateProcess();
-        const time = 1000;
-        this.timer = setTimeout(() => { this.update(); }, time);
-    }
-
-    private updateProcess() {
+    private async update() {
+        const { transaction } = await this.actionService.purchase.getData();
+        if (transaction === undefined) {
+            return;
+        }
+        this.transaction = transaction;
         const now = moment();
-        const expires = moment(this.transaction.expires);
+        const expires = moment(transaction.expires);
         this.isExpired = expires.diff(now) < 0;
         this.diff = {
             hours: `00${expires.diff(now, 'hours')}`.slice(-2),
@@ -48,6 +49,8 @@ export class TransactionRemainingTimeComponent implements OnInit, OnDestroy {
         if (this.isExpired) {
             this.router.navigate(['/expired']);
         }
+        const time = 1000;
+        this.timer = setTimeout(() => { this.update(); }, time);
     }
 
 }

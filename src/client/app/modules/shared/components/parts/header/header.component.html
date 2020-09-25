@@ -1,8 +1,11 @@
-<div class="header d-flex align-items-center px-2">
-    <div>
+<div class="header d-flex align-items-center px-2 bg-light-gray shadow-sm">
+    <div class="mr-3">
+        <app-current-date-time></app-current-date-time>
+    </div>
+    <div class="h-100">
         <ng-content></ng-content>
     </div>
     <div class="ml-auto">
-        <button *ngIf="isClear" class="btn btn-danger" routerLink="/purchase/cinema">{{ 'common.clear' | translate }}</button>
+        <button *ngIf="isClear" class="btn btn-light" routerLink="/purchase/cinema">{{ 'common.clear' | translate }}</button>
     </div>
 </div>

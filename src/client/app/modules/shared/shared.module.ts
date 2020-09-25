@@ -12,13 +12,14 @@ import { BaseComponent } from './components/pages/base/base.component';
 import { AlertModalComponent } from './components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from './components/parts/confirm-modal/confirm-modal.component';
 import { ContentsComponent } from './components/parts/contents/contents.component';
+import { CurrentDateTimeComponent } from './components/parts/current-date-time/current-date-time.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { CheckboxComponent } from './components/parts/form/checkbox/checkbox.component';
 import { HeaderMenuComponent } from './components/parts/header-menu/header-menu.component';
 import { HeaderComponent } from './components/parts/header/header.component';
 import { ItemListComponent } from './components/parts/item-list/item-list.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
-import { MvtkCheckModalComponent } from './components/parts/mvtk/check-modal/check-modal.component';
+import { MovieTicketCheckModalComponent } from './components/parts/movie-ticket/check-modal/check-modal.component';
 import { NumericKeypadComponent } from './components/parts/numeric-keypad/numeric-keypad.component';
 import { OrderDetailModalComponent } from './components/parts/order/detail-modal/detail-modal.component';
 import { PurchaseEventTicketModalComponent } from './components/parts/purchase/event/ticket-modal/ticket-modal.component';
@@ -41,12 +42,13 @@ const components = [
   ScreenComponent,
   ItemListComponent,
   CheckboxComponent,
+  CurrentDateTimeComponent
 ];
 
 const entryComponents = [
   AlertModalComponent,
   ConfirmModalComponent,
-  MvtkCheckModalComponent,
+  MovieTicketCheckModalComponent,
   NumericKeypadComponent,
   OrderDetailModalComponent,
   PurchaseSeatTicketModalComponent,

@@ -1,34 +1,13 @@
-<div class="container px-2">
-    <ul class="row align-items-center text-small text-white">
-        <li class="step px-0">
-            <p [ngClass]="{
-                'bg-primary': step === 1,
-                'bg-dark-gray': step !== 1
-            }" class="p-2">{{ 'purchase.cinema.step.1' | translate }}</p>
-        </li>
-        <li class="step px-0">
-            <p [ngClass]="{
-                'bg-primary': step === 2,
-                'bg-dark-gray': step !== 2
-            }" class="p-2">{{ 'purchase.cinema.step.2' | translate }}</p>
-        </li>
-        <li class="step px-0">
-            <p [ngClass]="{
-                'bg-primary': step === 3,
-                'bg-dark-gray': step !== 3
-            }" class="p-2">{{ 'purchase.cinema.step.3' | translate }}</p>
-        </li>
-        <li class="step px-0">
-            <p [ngClass]="{
-                'bg-primary': step === 4,
-                'bg-dark-gray': step !== 4
-            }" class="p-2">{{ 'purchase.cinema.step.4' | translate }}</p>
-        </li>
-        <li class="step px-0">
-            <p [ngClass]="{
-                'bg-primary': step === 5,
-                'bg-dark-gray': step !== 5
-            }" class="p-2">{{ 'purchase.cinema.step.5' | translate }}</p>
-        </li>
-    </ul>
-</div>
+<ul class="d-flex align-items-center h-100">
+    <li class="step px-0 h-100" *ngFor="let step of steps">
+        <div [class.d-none]="currentStep !== step" class="px-4 bg-white h-100">
+            <div class="d-flex align-items-center h-100">
+                <div class="text-x-large font-weight-bold mr-2">0{{ step }}</div>
+                <p class="text-x-small" [innerHtml]="'purchase.cinema.step.' + step | translate"></p>
+            </div>
+        </div>
+        <div [class.d-none]="currentStep === step" class="px-4 h-100 d-flex align-items-center">
+            0{{ step }}
+        </div>
+    </li>
+</ul>

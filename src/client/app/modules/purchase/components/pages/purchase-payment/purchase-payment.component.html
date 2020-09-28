@@ -14,21 +14,21 @@
                             <button *ngIf="isDisplay(paymentMethodType.Cash)" type="button"
                                 class="btn btn-primary btn-block py-3"
                                 (click)="selectPaymentMethodType(paymentMethodType.Cash)">
-                                <p>{{ 'common.paymentMethodType.cash' | translate }}</p>
+                                <p>{{ 'common.paymentMethodType.cash.label' | translate }}</p>
                             </button>
                         </div>
                         <div class="col-6 mb-3">
                             <button *ngIf="isDisplay(paymentMethodType.CreditCard)" type="button"
                                 class="btn btn-primary btn-block py-3"
                                 (click)="selectPaymentMethodType(paymentMethodType.CreditCard)">
-                                <p>{{ 'common.paymentMethodType.creditCard' | translate }}</p>
+                                <p>{{ 'common.paymentMethodType.creditCard.label' | translate }}</p>
                             </button>
                         </div>
                         <div class="col-6 mb-3">
                             <button *ngIf="isDisplay(paymentMethodType.EMoney)" type="button"
                                 class="btn btn-primary btn-block py-3"
                                 (click)="selectPaymentMethodType(paymentMethodType.EMoney)">
-                                <p>{{ 'common.paymentMethodType.eMoney' | translate }}</p>
+                                <p>{{ 'common.paymentMethodType.eMoney.label' | translate }}</p>
                             </button>
                         </div>
                         <div class="col-6 mb-3" *ngFor="let custom of environment.PAYMENT_METHOD_CUSTOM">
@@ -42,8 +42,7 @@
                 <div *ngIf="amount === 0" class="container px-0">
                     <div class="row justify-content-center">
                         <div class="col-6 mb-3">
-                            <button type="button"
-                                class="btn btn-primary btn-block py-3"
+                            <button type="button" class="btn btn-primary btn-block py-3"
                                 routerLink="/purchase/payment/reception">
                                 <p>{{ 'purchase.payment.next' | translate }}</p>
                             </button>
@@ -58,14 +57,25 @@
     </div>
 </div>
 <app-footer>
-    <div class="mr-auto">
-        <div *ngIf="environment.VIEW_TYPE === viewType.Cinema">
-            <button type="button" class="btn btn-outline-primary"
-                routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
-        </div>
-        <div *ngIf="environment.VIEW_TYPE === viewType.Event">
-            <button type="button" class="btn btn-outline-primary"
-                routerLink="/purchase/event/ticket">{{ 'purchase.payment.prev' | translate }}</button>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
+    </div>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <div *ngIf="environment.VIEW_TYPE === viewType.Cinema">
+                    <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                        routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
+                </div>
+                <div *ngIf="environment.VIEW_TYPE === viewType.Event">
+                    <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                        routerLink="/purchase/event/ticket">{{ 'purchase.payment.prev' | translate }}</button>
+                </div>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
+                disabled>{{ 'purchase.payment.next' | translate }}</button>
+            </div>
         </div>
     </div>
 </app-footer>

@@ -76,12 +76,20 @@
     </div>
 </div>
 <app-footer>
-    <div class="mr-auto">
-        <button type="button" class="btn btn-outline-primary"
-            routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.seat.prev' | translate }}</button>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
     </div>
-    <div>
-        <button type="submit" class="btn btn-primary" [disabled]="isLoading | async"
-            (click)="onSubmit()">{{ 'purchase.cinema.ticket.next' | translate }}</button>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button class="btn btn-outline-light btn-block font-weight-bold py-2"
+                    routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.ticket.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
+                    [disabled]="isLoading | async"
+                    (click)="onSubmit()">{{ 'purchase.cinema.ticket.next' | translate }}</button>
+            </div>
+        </div>
     </div>
 </app-footer>

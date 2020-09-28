@@ -40,16 +40,23 @@
     </div>
 </div>
 <app-footer>
-    <div class="mr-auto">
-        <button type="button" class="btn btn-outline-primary"
-            (click)="prev()">{{ 'purchase.cinema.seat.prev' | translate }}</button>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
     </div>
-    <div>
-        <button *ngIf="!environment.PURCHASE_TERMS" type="submit" class="btn btn-primary"
-            [disabled]="isLoading | async" (click)="onSubmit()">{{ 'purchase.cinema.seat.next' | translate }}</button>
-        <button *ngIf="environment.PURCHASE_TERMS" type="submit" class="btn btn-primary"
-            [disabled]="isLoading | async"
-            (click)="onSubmit()">{{ 'purchase.cinema.seat.consent' | translate }}</button>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button class="btn btn-outline-light btn-block font-weight-bold py-2"
+                    (click)="prev()">{{ 'purchase.cinema.seat.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button *ngIf="!environment.PURCHASE_TERMS" type="submit"
+                    class="btn btn-primary btn-block font-weight-bold py-2" [disabled]="isLoading | async"
+                    (click)="onSubmit()">{{ 'purchase.cinema.seat.next' | translate }}</button>
+                <button *ngIf="environment.PURCHASE_TERMS" type="submit"
+                    class="btn btn-primary btn-block font-weight-bold py-2" [disabled]="isLoading | async"
+                    (click)="onSubmit()">{{ 'purchase.cinema.seat.consent' | translate }}</button>
+            </div>
+        </div>
     </div>
 </app-footer>
-

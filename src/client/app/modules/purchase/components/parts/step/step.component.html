@@ -6,7 +6,8 @@
                 <p class="text-x-small" [innerHtml]="'purchase.cinema.step.' + step | translate"></p>
             </div>
         </div>
-        <div [class.d-none]="currentStep === step" class="px-4 h-100 d-flex align-items-center">
+        <div [class.d-none]="currentStep === step" [class.d-flex]="currentStep !== step"
+            class="px-4 h-100 align-items-center">
             0{{ step }}
         </div>
     </li>

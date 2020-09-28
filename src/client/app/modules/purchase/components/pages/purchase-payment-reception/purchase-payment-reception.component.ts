@@ -64,7 +64,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             }
         } catch (error) {
             console.error(error);
-            this.router.navigate(['/error']);
+            // this.router.navigate(['/error']);
         }
     }
 
@@ -204,15 +204,15 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * 確定
      */
     public async onSubmit() {
-        const purchase = await this.actionService.purchase.getData();
-        const user = await this.actionService.user.getData();
-        const profile = user.customerContact;
-        const seller = purchase.seller;
-        if (profile === undefined
-            || seller === undefined) {
-            throw new Error('profile or seller undefined');
-        }
         try {
+            const purchase = await this.actionService.purchase.getData();
+            const user = await this.actionService.user.getData();
+            const profile = user.customerContact;
+            const seller = purchase.seller;
+            if (profile === undefined
+                || seller === undefined) {
+                throw new Error('profile or seller undefined');
+            }
             if (purchase.pendingMovieTickets.length > 0) {
                 await this.actionService.purchase.authorizeMovieTicket({ seller });
             }

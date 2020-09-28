@@ -2,8 +2,8 @@
 
 
 ::-webkit-scrollbar {
-    width: 30px;
-    height: 30px;
+    width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -31,7 +31,7 @@ body {
     transform-origin: 0 0;
     width: 1920px;
     height: 1080px;
-    background-color: #EEE;
+    background-color: $body-bg;
     overflow: hidden;
     position: relative;
 }
@@ -273,7 +273,8 @@ button {
     top: 100px;
     left: 0;
     right: 0;
-    bottom: 100px;
+    bottom: 0px;
+    padding-bottom: 120px;
 }
 
 .modal-backdrop {

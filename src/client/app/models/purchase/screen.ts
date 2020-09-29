@@ -38,6 +38,7 @@ export interface IScreen {
     style?: string;
     columnLabel?: boolean;
     lineLabel?: boolean;
+    zoomAllowed?: boolean;
 }
 
 export interface ILabel {

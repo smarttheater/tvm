@@ -1415,9 +1415,7 @@
                         this.settingForm.controls.paymentCode.setValue(user.payment.code.ipAddress);
                       }
 
-                      console.log(this.settingForm);
-
-                    case 16:
+                    case 15:
                     case "end":
                       return _context2.stop();
                   }

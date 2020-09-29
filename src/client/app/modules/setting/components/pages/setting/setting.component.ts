@@ -146,7 +146,6 @@ export class SettingComponent implements OnInit {
         if (user.payment !== undefined && user.payment.code !== undefined) {
             this.settingForm.controls.paymentCode.setValue(user.payment.code.ipAddress);
         }
-        console.log(this.settingForm);
     }
 
     /**

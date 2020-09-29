@@ -130,9 +130,10 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
      * 拡大許可判定
      */
     public isZoomAllowed(): boolean {
-        const minWidth = 1346;
-        const mobileWidth = 9999;
-        return (window.innerWidth < mobileWidth || this.screenData.size.w > minWidth);
+        const zoomAllowed = (this.screenData.zoomAllowed === undefined)
+            ? true
+            : this.screenData.zoomAllowed;
+        return zoomAllowed;
     }
 
     /**

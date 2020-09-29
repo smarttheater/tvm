@@ -19,11 +19,12 @@ html, body {
     font-family: $font-family;
     font-size: $body-font-size;
     font-display: swap;
+    touch-action: none;
 }
-html {
+html, body {
     background-color: #000;
 }
-body {
+.scale-body {
     text-size-adjust: 100%;
     -webkit-touch-callout: none;
     user-select: none;

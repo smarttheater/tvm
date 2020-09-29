@@ -78,7 +78,7 @@
                     </div>
                 </div> -->
             </div>
-            <div class="col-3 mh-100 scroll-horizontal">
+            <div class="col-3">
 
             </div>
         </div>
@@ -94,8 +94,7 @@
             <div class="col-3">
                 <button *ngIf="environment.INQUIRY_PRINT"
                     [disabled]="(order | async)?.order.orderStatus !== orderStatus.OrderDelivered" type="button"
-                    class="btn btn-primary btn-block font-weight-bold py-2" (click)="print()"
-                    [disabled]="isLoading | async">{{ 'inquiry.confirm.next' | translate }}</button>
+                    class="btn btn-primary btn-block font-weight-bold py-2" (click)="print()">{{ 'inquiry.confirm.next' | translate }}</button>
             </div>
         </div>
     </div>

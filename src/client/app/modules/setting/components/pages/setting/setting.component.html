@@ -12,7 +12,8 @@
                                     <p *ngIf="!getAdditionalProperty(key)">{{ 'form.label.' + key | translate }}</p>
                                     <p *ngIf="getAdditionalProperty(key)">
                                         {{ getAdditionalProperty(key)?.label | changeLanguage }}</p>
-                                    <p *ngIf="isRequired(key)" class="badge badge-danger ml-2">{{ 'form.required' | translate }}
+                                    <p *ngIf="isRequired(key)" class="badge badge-danger ml-2">
+                                        {{ 'form.required' | translate }}
                                     </p>
                                 </div>
                             </div>
@@ -22,8 +23,9 @@
                                     && key !== 'email' 
                                     && key !== 'telephone' 
                                     && key !== 'gender' 
-                                    && getAdditionalProperty(key)?.inputType !== 'textarea'" type="text" class="form-control"
-                                    [formControlName]="key" [id]="key" [placeholder]="'form.placeholder.' + key | translate">
+                                    && getAdditionalProperty(key)?.inputType !== 'textarea'" type="text"
+                                    class="form-control" [formControlName]="key" [id]="key"
+                                    [placeholder]="'form.placeholder.' + key | translate">
                                 <select *ngIf="key === 'theaterBranchCode'" class="form-control" [formControlName]="key"
                                     (change)="changePosList()">
                                     <option value="">{{ 'setting.unselected' | translate }}</option>
@@ -34,23 +36,25 @@
                                     <option value="">{{ 'setting.unselected' | translate }}</option>
                                     <option *ngFor="let pos of posList" [value]="pos.id">{{ pos.name }}</option>
                                 </select>
-        
+
                                 <input *ngIf="key === 'email'" type="email" class="form-control" [formControlName]="key"
                                     [id]="key" [placeholder]="'form.placeholder.' + key | translate">
                                 <ngx-intl-tel-input *ngIf="key === 'telephone'" #intlTelInput
                                     [preferredCountries]="[CountryISO.Japan]" [enableAutoCountrySelect]="false"
                                     [enablePlaceholder]="true" [searchCountryFlag]="true"
                                     [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                                    [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Japan" [maxLength]="15"
-                                    [tooltipField]="TooltipLabel.Name" [phoneValidation]="true" [separateDialCode]="false"
-                                    inputId="telephone" name="telephone" formControlName="telephone"></ngx-intl-tel-input>
-                                <select *ngIf="key === 'gender'" class="form-control" [formControlName]="key" [id]="key">
+                                    [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Japan"
+                                    [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
+                                    [separateDialCode]="false" inputId="telephone" name="telephone"
+                                    formControlName="telephone"></ngx-intl-tel-input>
+                                <select *ngIf="key === 'gender'" class="form-control" [formControlName]="key"
+                                    [id]="key">
                                     <option value="">{{ 'form.option.unselected' | translate }}</option>
                                     <option value="man">{{ 'form.option.man' | translate }}</option>
                                     <option value="woman">{{ 'form.option.woman' | translate }}</option>
                                 </select>
-                                <textarea *ngIf="getAdditionalProperty(key)?.inputType === 'textarea'" class="form-control"
-                                    [formControlName]="key" [id]="key" placeholder=""></textarea>
+                                <textarea *ngIf="getAdditionalProperty(key)?.inputType === 'textarea'"
+                                    class="form-control" [formControlName]="key" [id]="key" placeholder=""></textarea>
                                 <div *ngIf="settingForm.controls[key].invalid && settingForm.controls[key].touched"
                                     class="mt-2">
                                     <p *ngIf="settingForm.controls[key].errors?.required" class="text-danger">
@@ -62,7 +66,8 @@
                                     <p *ngIf="settingForm.controls[key].errors?.email" class="text-danger">
                                         {{ 'form.validation.email' | translate }}
                                     </p>
-                                    <p *ngIf="settingForm.controls[key].errors?.validatePhoneNumber" class="text-danger">
+                                    <p *ngIf="settingForm.controls[key].errors?.validatePhoneNumber"
+                                        class="text-danger">
                                         {{ 'form.validation.telephone' | translate }}
                                     </p>
                                     <div *ngIf="key === 'familyName' || key === 'givenName'">
@@ -80,7 +85,8 @@
                             <div class="row">
                                 <p class="col-md-4 py-2 text-md-right">{{ 'setting.printer.label' | translate }}</p>
                                 <div class="col-md-8">
-                                    <select class="form-control" formControlName="printerType" (change)="changePrinterType()">
+                                    <select class="form-control" formControlName="printerType"
+                                        (change)="changePrinterType()">
                                         <option *ngFor="let printer of printers" [value]="printer.connectionType">
                                             {{ printer.name | translate }}</option>
                                     </select>
@@ -99,7 +105,8 @@
                                         placeholder="0.0.0.0">
                                     <div *ngIf="settingForm.controls.printerIpAddress.invalid && settingForm.controls.printerIpAddress.touched"
                                         class="mt-2">
-                                        <p *ngIf="settingForm.controls.printerIpAddress.errors?.required" class="text-danger">
+                                        <p *ngIf="settingForm.controls.printerIpAddress.errors?.required"
+                                            class="text-danger">
                                             {{ 'form.validation.required' | translate }}</p>
                                     </div>
                                     <p class="text-small mt-2">
@@ -108,7 +115,7 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="form-group">
                             <div class="row align-items-center">
                                 <p class="col-md-4 py-2 text-md-right">{{ 'setting.payment.label' | translate }}</p>
@@ -119,10 +126,12 @@
                                             placeholder="0.0.0.0">
                                         <div *ngIf="settingForm.controls.paymentCash.invalid && settingForm.controls.paymentCash.touched"
                                             class="mt-2">
-                                            <p *ngIf="settingForm.controls.paymentCash.errors?.required" class="text-danger">
+                                            <p *ngIf="settingForm.controls.paymentCash.errors?.required"
+                                                class="text-danger">
                                                 {{ 'form.validation.required' | translate }}</p>
                                         </div>
-                                        <button type="button" class="btn btn-primary mt-2" (click)="connection('Cash')">{{ 'setting.connection' | translate }}</button>
+                                        <button type="button" class="btn btn-primary mt-2"
+                                            (click)="connection('Cash')">{{ 'setting.connection' | translate }}</button>
                                     </div>
                                     <div>
                                         <p class="py-2">{{ 'setting.payment.creditcard.label' | translate }}</p>
@@ -141,7 +150,8 @@
                                             placeholder="0.0.0.0">
                                         <div *ngIf="settingForm.controls.paymentEmoney.invalid && settingForm.controls.paymentEmoney.touched"
                                             class="mt-2">
-                                            <p *ngIf="settingForm.controls.paymentEmoney.errors?.required" class="text-danger">
+                                            <p *ngIf="settingForm.controls.paymentEmoney.errors?.required"
+                                                class="text-danger">
                                                 {{ 'form.validation.required' | translate }}</p>
                                         </div>
                                     </div>
@@ -151,7 +161,8 @@
                                             placeholder="0.0.0.0">
                                         <div *ngIf="settingForm.controls.paymentCode.invalid && settingForm.controls.paymentCode.touched"
                                             class="mt-2">
-                                            <p *ngIf="settingForm.controls.paymentCode.errors?.required" class="text-danger">
+                                            <p *ngIf="settingForm.controls.paymentCode.errors?.required"
+                                                class="text-danger">
                                                 {{ 'form.validation.required' | translate }}</p>
                                         </div>
                                     </div>
@@ -165,12 +176,16 @@
     </div>
 </div>
 <app-footer>
-    <div class="mr-auto">
-        <button type="button" class="btn btn-outline-primary"
-                [routerLink]="environment.BASE_URL">{{ 'setting.prev' | translate }}</button>
-    </div>
-    <div>
-        <button type="submit" [disabled]="isLoading | async" class="btn btn-primary"
-        (click)="onSubmit()">{{ 'setting.next' | translate }}</button>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                    [routerLink]="environment.BASE_URL">{{ 'setting.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
+                    [disabled]="isLoading | async" (click)="onSubmit()">{{ 'setting.next' | translate }}</button>
+            </div>
+        </div>
     </div>
 </app-footer>

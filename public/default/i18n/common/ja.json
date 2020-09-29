@@ -77,7 +77,7 @@
         "complete": {
             "title": "購入完了",
             "read": "ご購入ありがとうございます。",
-            "next": "再印刷",
+            "next": "完了",
             "prev": "戻る",
             "cooperationQRCode": "連携用QRコード",
             "alert": {
@@ -305,22 +305,21 @@
         "instruction": "説明書"
     },
     "modal": {
-        "mvtk": {
+        "movieTicket": {
             "check": {
-                "success": "ムビチケ券を追加しました。",
-                "code": "ムビチケ購入番号",
-                "password": "ムビチケ暗証番号",
+                "success": "チケットを追加しました。",
+                "code": "購入番号",
+                "password": "暗証番号",
                 "camera": {
                     "start": "カメラで読み取り",
                     "stop": "カメラを停止"
                 },
                 "next": "認証",
                 "prev": "",
-                "qrcode": "QRコード読み取り",
                 "value": "[{{value}}枚]",
                 "alert": {
-                    "validation": "ムビチケ情報をご確認ください。",
-                    "used": "すでに使用済みのムビチケです。",
+                    "validation": "入力情報をご確認ください。",
+                    "used": "すでに使用済みです。",
                     "error": "エラーが発生しました"
                 }
             }

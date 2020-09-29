@@ -3,17 +3,17 @@
 <div class="contents scroll-horizontal">
     <div class="p-3" *ngIf="(master | async)?.projects.length > 0">
         <h2 class="text-large mb-4 text-center font-weight-bold">プロジェクト選択</h2>
-        <p class="mb-4 text-md-center">プロジェクトを選択してください。</p>
         <div class="container px-0 mb-4">
             <ul class="row">
                 <li *ngFor="let project of (master | async)?.projects" class="col-3 mb-3">
-                    <div class="card h-100">
+                    <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-4">
+                            <div class="d-flex align-items-center mb-3">
                                 <div class="mr-2"><img [src]="project.logo" class="logo" [alt]="project.name"></div>
-                                <p class="font-weight-bold text-overflow-ellipsis">{{ project.name }}</p>
+                                <p class="text-small font-weight-bold text-overflow-ellipsis">{{ project.name }}</p>
                             </div>
-                            <a class="btn btn-primary btn-block py-3" [href]="'/?projectId=' + project.id">選択</a>
+                            <a class="btn btn-primary px-3 mr-3" [href]="'/?projectId=' + project.id">選択</a>
+                            <a class="btn btn-primary px-3" [href]="'/?projectId=' + project.id + '#/setting'">設定</a>
                         </div>
                     </div>
                 </li>
@@ -22,8 +22,17 @@
     </div>
 </div>
 <app-footer>
-    <div class="mr-auto">
-        <button type="button" class="btn btn-outline-primary" (click)="signOut()">戻る</button>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                (click)="signOut()">ログアウト</button>
+            </div>
+            <div class="col-3">
+                <button type="button" class="btn btn-primary btn-block font-weight-bold py-2"
+                    disabled>次へ</button>
+            </div>
+        </div>
     </div>
 </app-footer>
 

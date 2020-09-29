@@ -31,13 +31,13 @@ export class AuthSigninComponent implements OnInit {
         this.projects = [];
         await this.masterService.getProjects();
         this.utilService.loadStart({ process: 'load' });
-        const masterData = await this.masterService.getData();
-        const projects = masterData.projects;
-        if (projects.length === 1) {
-            // プロジェクトが一つの場合自動遷移
-            location.href = `/?projectId=${projects[0].id}`;
-            return;
-        }
+        // const masterData = await this.masterService.getData();
+        // const projects = masterData.projects;
+        // if (projects.length === 1) {
+        //     // プロジェクトが一つの場合自動遷移
+        //     location.href = `/?projectId=${projects[0].id}`;
+        //     return;
+        // }
         this.utilService.loadEnd();
     }
 

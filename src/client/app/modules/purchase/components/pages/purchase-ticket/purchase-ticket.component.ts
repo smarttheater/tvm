@@ -155,7 +155,7 @@ export class PurchaseTicketComponent implements OnInit {
             initialState: {
                 paymentMethodType
             },
-            class: 'modal-dialog-centered'
+            class: 'modal-dialog-centered modal-lg'
         });
     }
 

@@ -70829,11 +70829,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "../../node_modules/@ngx-translate/core/__ivy_ngcc__/fesm2015/ngx-translate-core.js");
 /* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-bootstrap/modal */ "../../node_modules/ngx-bootstrap/__ivy_ngcc__/modal/fesm2015/ngx-bootstrap-modal.js");
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../../.. */ "./app/index.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../../../services */ "./app/services/index.ts");
-/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../../../store/reducers */ "./app/store/reducers/index.ts");
-/* harmony import */ var _pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../pipes/change-language.pipe */ "./app/modules/shared/pipes/change-language.pipe.ts");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
-/* harmony import */ var ngx_intl_tel_input__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ngx-intl-tel-input */ "../../node_modules/ngx-intl-tel-input/__ivy_ngcc__/fesm2015/ngx-intl-tel-input.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../../../../environments/environment */ "./environments/environment.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../../../services */ "./app/services/index.ts");
+/* harmony import */ var _store_reducers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../../../store/reducers */ "./app/store/reducers/index.ts");
+/* harmony import */ var _pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../pipes/change-language.pipe */ "./app/modules/shared/pipes/change-language.pipe.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/common */ "../../node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
+/* harmony import */ var _numeric_keypad_numeric_keypad_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../numeric-keypad/numeric-keypad.component */ "./app/modules/shared/components/parts/numeric-keypad/numeric-keypad.component.ts");
+/* harmony import */ var ngx_intl_tel_input__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ngx-intl-tel-input */ "../../node_modules/ngx-intl-tel-input/__ivy_ngcc__/fesm2015/ngx-intl-tel-input.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -70861,19 +70863,34 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
+
 function MovieTicketCheckModalComponent_p_4_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "p", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "p", 14);
 } if (rf & 2) {
     const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", ctx_r0.errorMessage, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
 } }
 function MovieTicketCheckModalComponent_p_5_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "p", 18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "p", 15);
 } if (rf & 2) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("innerHTML", ctx_r1.successMessage, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeHtml"]);
 } }
-function MovieTicketCheckModalComponent_div_15_p_1_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_app_numeric_keypad_11_Template(rf, ctx) { if (rf & 1) {
+    const _r9 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-numeric-keypad", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function MovieTicketCheckModalComponent_app_numeric_keypad_11_Template_app_numeric_keypad_change_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r9); const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r8.changeCode($event); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "input", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("inputValue", ctx_r2.inputForm.controls.code.value);
+} }
+function MovieTicketCheckModalComponent_input_12_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "input", 18);
+} }
+function MovieTicketCheckModalComponent_div_13_p_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 21);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
@@ -70883,27 +70900,27 @@ function MovieTicketCheckModalComponent_div_15_p_1_Template(rf, ctx) { if (rf & 
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, "form.validation.required"), "");
 } }
 const _c0 = function (a0) { return { value: a0 }; };
-function MovieTicketCheckModalComponent_div_15_p_2_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_div_13_p_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 21);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2);
+    const ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, "form.validation.maxlength", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](4, _c0, ctx_r5.inputForm.controls.code.errors == null ? null : ctx_r5.inputForm.controls.code.errors.maxlength.requiredLength)), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, "form.validation.maxlength", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](4, _c0, ctx_r11.inputForm.controls.code.errors == null ? null : ctx_r11.inputForm.controls.code.errors.maxlength.requiredLength)), " ");
 } }
-function MovieTicketCheckModalComponent_div_15_p_3_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_div_13_p_3_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 21);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2);
+    const ctx_r12 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, "form.validation.minlength", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](4, _c0, ctx_r6.inputForm.controls.code.errors == null ? null : ctx_r6.inputForm.controls.code.errors.minlength.requiredLength)), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, "form.validation.minlength", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](4, _c0, ctx_r12.inputForm.controls.code.errors == null ? null : ctx_r12.inputForm.controls.code.errors.minlength.requiredLength)), " ");
 } }
-function MovieTicketCheckModalComponent_div_15_p_4_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_div_13_p_4_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 21);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
@@ -70912,7 +70929,7 @@ function MovieTicketCheckModalComponent_div_15_p_4_Template(rf, ctx) { if (rf & 
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, "form.validation.number"), "");
 } }
-function MovieTicketCheckModalComponent_div_15_p_5_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_div_13_p_5_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 21);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
@@ -70921,28 +70938,41 @@ function MovieTicketCheckModalComponent_div_15_p_5_Template(rf, ctx) { if (rf & 
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, "form.validation.halfSizeAlphanumeric"), "");
 } }
-function MovieTicketCheckModalComponent_div_15_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_div_13_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 19);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, MovieTicketCheckModalComponent_div_15_p_1_Template, 3, 3, "p", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, MovieTicketCheckModalComponent_div_15_p_2_Template, 3, 6, "p", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, MovieTicketCheckModalComponent_div_15_p_3_Template, 3, 6, "p", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, MovieTicketCheckModalComponent_div_15_p_4_Template, 3, 3, "p", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, MovieTicketCheckModalComponent_div_15_p_5_Template, 3, 3, "p", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, MovieTicketCheckModalComponent_div_13_p_1_Template, 3, 3, "p", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, MovieTicketCheckModalComponent_div_13_p_2_Template, 3, 6, "p", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, MovieTicketCheckModalComponent_div_13_p_3_Template, 3, 6, "p", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, MovieTicketCheckModalComponent_div_13_p_4_Template, 3, 3, "p", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, MovieTicketCheckModalComponent_div_13_p_5_Template, 3, 3, "p", 20);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.inputForm.controls.code.errors == null ? null : ctx_r2.inputForm.controls.code.errors.required);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r4.inputForm.controls.code.errors == null ? null : ctx_r4.inputForm.controls.code.errors.required);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.inputForm.controls.code.errors == null ? null : ctx_r2.inputForm.controls.code.errors.maxlength);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r4.inputForm.controls.code.errors == null ? null : ctx_r4.inputForm.controls.code.errors.maxlength);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.inputForm.controls.code.errors == null ? null : ctx_r2.inputForm.controls.code.errors.minlength);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r4.inputForm.controls.code.errors == null ? null : ctx_r4.inputForm.controls.code.errors.minlength);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.paymentMethodType === "MovieTicket" && (ctx_r2.inputForm.controls.code.errors == null ? null : ctx_r2.inputForm.controls.code.errors.pattern));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r4.paymentMethodType === "MovieTicket" && (ctx_r4.inputForm.controls.code.errors == null ? null : ctx_r4.inputForm.controls.code.errors.pattern));
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.paymentMethodType !== "MovieTicket" && (ctx_r2.inputForm.controls.code.errors == null ? null : ctx_r2.inputForm.controls.code.errors.pattern));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r4.paymentMethodType !== "MovieTicket" && (ctx_r4.inputForm.controls.code.errors == null ? null : ctx_r4.inputForm.controls.code.errors.pattern));
 } }
-function MovieTicketCheckModalComponent_div_21_p_1_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_app_numeric_keypad_18_Template(rf, ctx) { if (rf & 1) {
+    const _r16 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-numeric-keypad", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function MovieTicketCheckModalComponent_app_numeric_keypad_18_Template_app_numeric_keypad_change_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r16); const ctx_r15 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r15.changePassword($event); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "input", 22);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("inputValue", ctx_r5.inputForm.controls.password.value);
+} }
+function MovieTicketCheckModalComponent_input_19_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "input", 23);
+} }
+function MovieTicketCheckModalComponent_div_20_p_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p", 21);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](2, "translate");
@@ -70951,14 +70981,14 @@ function MovieTicketCheckModalComponent_div_21_p_1_Template(rf, ctx) { if (rf & 
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](2, 1, "form.validation.required"), "");
 } }
-function MovieTicketCheckModalComponent_div_21_Template(rf, ctx) { if (rf & 1) {
+function MovieTicketCheckModalComponent_div_20_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 19);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, MovieTicketCheckModalComponent_div_21_p_1_Template, 3, 3, "p", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, MovieTicketCheckModalComponent_div_20_p_1_Template, 3, 3, "p", 20);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r3.inputForm.controls.password.errors == null ? null : ctx_r3.inputForm.controls.password.errors.required);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r7.inputForm.controls.password.errors == null ? null : ctx_r7.inputForm.controls.password.errors.required);
 } }
 class MovieTicketCheckModalComponent {
     constructor(modal, store, formBuilder, translate, qrcodeService, actionService) {
@@ -70968,12 +70998,13 @@ class MovieTicketCheckModalComponent {
         this.translate = translate;
         this.qrcodeService = qrcodeService;
         this.actionService = actionService;
+        this.environment = Object(_environments_environment__WEBPACK_IMPORTED_MODULE_7__["getEnvironment"])();
     }
     ngOnInit() {
         this.errorMessage = '';
         this.successMessage = '';
-        this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getLoading"]));
-        this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_8__["getPurchase"]));
+        this.isLoading = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getLoading"]));
+        this.purchase = this.store.pipe(Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["select"])(_store_reducers__WEBPACK_IMPORTED_MODULE_9__["getPurchase"]));
         this.createMvtkForm();
     }
     createMvtkForm() {
@@ -71040,7 +71071,7 @@ class MovieTicketCheckModalComponent {
                 const knyknrNoMkujyuCd = knyknrNoInfoOut[0].knyknrNoMkujyuCd;
                 if (knyknrNoMkujyuCd !== undefined
                     && knyknrNoMkujyuCd !== '') {
-                    const message = new _pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_9__["ChangeLanguagePipe"](this.translate)
+                    const message = new _pipes_change_language_pipe__WEBPACK_IMPORTED_MODULE_10__["ChangeLanguagePipe"](this.translate)
                         .transform(___WEBPACK_IMPORTED_MODULE_6__["Functions"].Purchase.movieTicketAuthErroCodeToMessage(knyknrNoMkujyuCd));
                     this.isSuccess = false;
                     this.errorMessage = `${this.translate.instant('modal.movieTicket.check.alert.validation')}<br>
@@ -71098,9 +71129,15 @@ class MovieTicketCheckModalComponent {
             }
         });
     }
+    changeCode(value) {
+        this.inputForm.controls.code.setValue(value);
+    }
+    changePassword(value) {
+        this.inputForm.controls.password.setValue(value);
+    }
 }
-MovieTicketCheckModalComponent.ɵfac = function MovieTicketCheckModalComponent_Factory(t) { return new (t || MovieTicketCheckModalComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["QRCodeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_7__["ActionService"])); };
-MovieTicketCheckModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MovieTicketCheckModalComponent, selectors: [["app-movieticket-check-modal"]], inputs: { paymentMethodType: "paymentMethodType" }, decls: 30, vars: 22, consts: [[1, "p-3", "scroll-vertical"], [3, "formGroup"], [1, "mb-4"], ["class", "mb-3 p-2 alert alert-danger", 3, "innerHTML", 4, "ngIf"], ["class", "mb-3 p-2 alert alert-success", 3, "innerHTML", 4, "ngIf"], [1, "form-group"], ["for", "", 1, "mb-2"], [1, "input-group"], ["type", "text", "formControlName", "code", "id", "code", "autocomplete", "off", "placeholder", "012345789", "maxlength", "10", 1, "form-control"], [1, "input-group-append", 3, "click"], [1, "input-group-text"], [1, "fas", "fa-qrcode"], ["class", "mt-2", 4, "ngIf"], ["type", "password", "formControlName", "password", "id", "password", "autocomplete", "off", "placeholder", "0123", 1, "form-control"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-outline-primary", "btn-block", "py-3", "btn-sm", 3, "click"], [1, "mb-3", "p-2", "alert", "alert-danger", 3, "innerHTML"], [1, "mb-3", "p-2", "alert", "alert-success", 3, "innerHTML"], [1, "mt-2"], ["class", "text-danger", 4, "ngIf"], [1, "text-danger"]], template: function MovieTicketCheckModalComponent_Template(rf, ctx) { if (rf & 1) {
+MovieTicketCheckModalComponent.ɵfac = function MovieTicketCheckModalComponent_Factory(t) { return new (t || MovieTicketCheckModalComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["QRCodeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services__WEBPACK_IMPORTED_MODULE_8__["ActionService"])); };
+MovieTicketCheckModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MovieTicketCheckModalComponent, selectors: [["app-movieticket-check-modal"]], inputs: { paymentMethodType: "paymentMethodType" }, decls: 29, vars: 26, consts: [[1, "p-3", "scroll-vertical"], [3, "formGroup"], [1, "mb-4"], ["class", "mb-3 p-2 alert alert-danger", 3, "innerHTML", 4, "ngIf"], ["class", "mb-3 p-2 alert alert-success", 3, "innerHTML", 4, "ngIf"], [1, "form-group"], ["for", "", 1, "mb-2"], ["inputType", "string", 3, "inputValue", "change", 4, "ngIf"], ["type", "text", "class", "form-control", "formControlName", "code", "id", "code", "autocomplete", "off", "placeholder", "012345789", "maxlength", "10", 4, "ngIf"], ["class", "mt-2", 4, "ngIf"], ["type", "password", "class", "form-control", "formControlName", "password", "id", "password", "autocomplete", "off", "placeholder", "0123", 4, "ngIf"], [1, "buttons", "mx-auto", "text-center"], ["type", "button", 1, "btn", "btn-primary", "btn-block", "py-3", "mb-3", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-outline-primary", "btn-block", "py-3", "btn-sm", 3, "click"], [1, "mb-3", "p-2", "alert", "alert-danger", 3, "innerHTML"], [1, "mb-3", "p-2", "alert", "alert-success", 3, "innerHTML"], ["inputType", "string", 3, "inputValue", "change"], ["type", "text", "formControlName", "code", "id", "code", "placeholder", "012345789", "readonly", "", 1, "form-control"], ["type", "text", "formControlName", "code", "id", "code", "autocomplete", "off", "placeholder", "012345789", "maxlength", "10", 1, "form-control"], [1, "mt-2"], ["class", "text-danger", 4, "ngIf"], [1, "text-danger"], ["type", "text", "formControlName", "password", "id", "password", "placeholder", "0123", "readonly", "", 1, "form-control"], ["type", "password", "formControlName", "password", "id", "password", "autocomplete", "off", "placeholder", "0123", 1, "form-control"]], template: function MovieTicketCheckModalComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "form", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div");
@@ -71112,37 +71149,33 @@ MovieTicketCheckModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0_
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](9, "translate");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](11, "input", 8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "div", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MovieTicketCheckModalComponent_Template_div_click_12_listener() { return ctx.openQRReader(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "span", 10);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "i", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, MovieTicketCheckModalComponent_app_numeric_keypad_11_Template, 2, 1, "app-numeric-keypad", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](12, MovieTicketCheckModalComponent_input_12_Template, 1, 0, "input", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](13, MovieTicketCheckModalComponent_div_13_Template, 6, 5, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "div", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "label", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](17, "translate");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](18, MovieTicketCheckModalComponent_app_numeric_keypad_18_Template, 2, 1, "app-numeric-keypad", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](19, MovieTicketCheckModalComponent_input_19_Template, 1, 0, "input", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](20, MovieTicketCheckModalComponent_div_20_Template, 2, 1, "div", 9);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "div", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "button", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MovieTicketCheckModalComponent_Template_button_click_22_listener() { return ctx.checkMovieTicket(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](23, "async");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](25, "translate");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](15, MovieTicketCheckModalComponent_div_15_Template, 6, 5, "div", 12);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "div", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "label", 6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](19, "translate");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](20, "input", 13);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](21, MovieTicketCheckModalComponent_div_21_Template, 2, 1, "div", 12);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "div", 14);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](23, "button", 15);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MovieTicketCheckModalComponent_Template_button_click_23_listener() { return ctx.checkMovieTicket(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](24, "async");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](25);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](26, "translate");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "button", 16);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MovieTicketCheckModalComponent_Template_button_click_27_listener() { return ctx.modal.hide(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](28);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](29, "translate");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](26, "button", 13);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MovieTicketCheckModalComponent_Template_button_click_26_listener() { return ctx.modal.hide(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](28, "translate");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -71158,20 +71191,28 @@ MovieTicketCheckModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0_
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.isSuccess);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 12, "modal.movieTicket.check.code"));
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](9, 16, "modal.movieTicket.check.code"));
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.environment.INPUT_KEYPAD);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx.environment.INPUT_KEYPAD);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.inputForm.controls.code.invalid && ctx.inputForm.controls.code.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](19, 14, "modal.movieTicket.check.password"));
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](17, 18, "modal.movieTicket.check.password"));
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.environment.INPUT_KEYPAD);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx.environment.INPUT_KEYPAD);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.inputForm.controls.password.invalid && ctx.inputForm.controls.password.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](24, 16, ctx.isLoading) || ctx.inputForm.invalid);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](23, 20, ctx.isLoading) || ctx.inputForm.invalid);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](26, 18, "modal.movieTicket.check.next"));
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](25, 22, "modal.movieTicket.check.next"));
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](29, 20, "common.close"));
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroupDirective"], _angular_common__WEBPACK_IMPORTED_MODULE_10__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlName"], ngx_intl_tel_input__WEBPACK_IMPORTED_MODULE_11__["NativeElementInjectorDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["MaxLengthValidator"]], pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_10__["AsyncPipe"]], styles: [".scroll-vertical[_ngcontent-%COMP%] {\n  max-height: 75vh;\n}"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](28, 24, "common.close"));
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroupDirective"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgIf"], _numeric_keypad_numeric_keypad_component__WEBPACK_IMPORTED_MODULE_12__["NumericKeypadComponent"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlName"], ngx_intl_tel_input__WEBPACK_IMPORTED_MODULE_13__["NativeElementInjectorDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["MaxLengthValidator"]], pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslatePipe"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["AsyncPipe"]], styles: [".scroll-vertical[_ngcontent-%COMP%] {\n  max-height: 75vh;\n}"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MovieTicketCheckModalComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -71179,7 +71220,7 @@ MovieTicketCheckModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0_
                 templateUrl: './check-modal.component.html',
                 styleUrls: ['./check-modal.component.scss']
             }]
-    }], function () { return [{ type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["QRCodeService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_7__["ActionService"] }]; }, { paymentMethodType: [{
+    }], function () { return [{ type: ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_5__["BsModalRef"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"] }, { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["QRCodeService"] }, { type: _services__WEBPACK_IMPORTED_MODULE_8__["ActionService"] }]; }, { paymentMethodType: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }] }); })();
 
@@ -73974,7 +74015,7 @@ ScreenComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.screenData);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.screenData == null ? null : ctx.screenData.html);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgStyle"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgForOf"]], styles: ["[_nghost-%COMP%] {\n  display: block;\n}\n\n.open-seating-allowed[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: #000;\n  opacity: 0.5;\n  z-index: 11;\n}\n\n.screen[_ngcontent-%COMP%] {\n  position: relative;\n}\n\n.screen[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n  height: 500px;\n}\n\n.screen[_ngcontent-%COMP%]   .screen-inner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 1600px;\n  height: 1400px;\n}\n\n.screen[_ngcontent-%COMP%]   .screen-object[_ngcontent-%COMP%] {\n  text-align: center;\n  color: #9c9c9c;\n  font-weight: bold;\n  font-size: 50px;\n  padding-top: 90px;\n}\n\n.screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  position: absolute;\n  cursor: pointer;\n  text-align: center;\n  font-weight: bold;\n  color: #9a9a9b;\n  padding-top: 20px;\n  border: 3px solid #9a9a9b;\n  border-radius: 15px 15px 0 0;\n  font-size: 12px;\n}\n\n.screen[_ngcontent-%COMP%]   .seat.active[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-color: #258ac3;\n  border-color: #258ac3;\n}\n\n.screen[_ngcontent-%COMP%]   .seat.disabled[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-color: #9a9a9b;\n  border-color: #9a9a9b;\n  cursor: default;\n}\n\n.screen[_ngcontent-%COMP%]   .seat.space.disabled[_ngcontent-%COMP%] {\n  background-color: #333;\n  border-color: #333;\n}\n\n.screen[_ngcontent-%COMP%]   .hc[_ngcontent-%COMP%], .screen[_ngcontent-%COMP%]   .spare[_ngcontent-%COMP%] {\n  border-radius: 5px;\n  background-size: 20px;\n  background-position: center 6px;\n  background-repeat: no-repeat;\n  padding-top: 32px;\n}\n\n.screen[_ngcontent-%COMP%]   .hc[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/hc.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .hc.active[_ngcontent-%COMP%], .screen[_ngcontent-%COMP%]   .hc.disabled[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/hc_white.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .spare[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/spare.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .spare.active[_ngcontent-%COMP%], .screen[_ngcontent-%COMP%]   .spare.disabled[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/spare_white.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .object[_ngcontent-%COMP%] {\n  position: absolute;\n  background-repeat: no-repeat;\n}\n\n.screen[_ngcontent-%COMP%]   .label-object[_ngcontent-%COMP%] {\n  text-align: center;\n  line-height: 50px;\n  font-size: 24px;\n  color: #9a9a9b;\n  font-weight: bold;\n}\n\n.screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  border: none;\n  border-radius: 0;\n  background-image: url(/assets/images/seat/4dx.svg);\n  background-size: 50px 50px;\n}\n\n.screen-4dx[_ngcontent-%COMP%]   .seat.active[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-image: url(/assets/images/seat/4dx_active.svg);\n}\n\n.screen-4dx[_ngcontent-%COMP%]   .seat.disabled[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-image: url(/assets/images/seat/4dx_disabled.svg);\n  cursor: default;\n}\n\n.zoom[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n  overflow: auto;\n  transition: transform 0.2s;\n  -webkit-overflow-scrolling: touch;\n}\n\n.zoom[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  display: block;\n}\n\n.zoom-btn[_ngcontent-%COMP%] {\n  display: none;\n  cursor: pointer;\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  z-index: 10;\n  width: 50px;\n  height: 50px;\n  color: #FFF;\n  background-color: #3e3a39;\n  border-radius: 3px;\n  align-items: center;\n  justify-content: center;\n}\n\n.zoom-btn.active[_ngcontent-%COMP%] {\n  display: flex;\n}\n\n.zoom-btn.scroll[_ngcontent-%COMP%] {\n  position: fixed;\n}"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgStyle"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgForOf"]], styles: ["[_nghost-%COMP%] {\n  display: block;\n}\n\n.open-seating-allowed[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: #000;\n  opacity: 0.5;\n  z-index: 11;\n}\n\n.screen[_ngcontent-%COMP%] {\n  position: relative;\n}\n\n.screen[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n  height: 500px;\n}\n\n.screen[_ngcontent-%COMP%]   .screen-inner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 1600px;\n  height: 1400px;\n}\n\n.screen[_ngcontent-%COMP%]   .screen-object[_ngcontent-%COMP%] {\n  text-align: center;\n  color: #9c9c9c;\n  font-weight: bold;\n  font-size: 50px;\n  padding-top: 90px;\n}\n\n.screen[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  position: absolute;\n  cursor: pointer;\n  text-align: center;\n  font-weight: bold;\n  color: #9a9a9b;\n  padding-top: 20px;\n  border: 3px solid #9a9a9b;\n  border-radius: 15px 15px 0 0;\n  font-size: 16px;\n}\n\n.screen[_ngcontent-%COMP%]   .seat.active[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-color: #258ac3;\n  border-color: #258ac3;\n}\n\n.screen[_ngcontent-%COMP%]   .seat.disabled[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-color: #9a9a9b;\n  border-color: #9a9a9b;\n  cursor: default;\n}\n\n.screen[_ngcontent-%COMP%]   .seat.space.disabled[_ngcontent-%COMP%] {\n  background-color: #333;\n  border-color: #333;\n}\n\n.screen[_ngcontent-%COMP%]   .hc[_ngcontent-%COMP%], .screen[_ngcontent-%COMP%]   .spare[_ngcontent-%COMP%] {\n  border-radius: 5px;\n  background-size: 20px;\n  background-position: center 6px;\n  background-repeat: no-repeat;\n  padding-top: 32px;\n}\n\n.screen[_ngcontent-%COMP%]   .hc[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/hc.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .hc.active[_ngcontent-%COMP%], .screen[_ngcontent-%COMP%]   .hc.disabled[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/hc_white.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .spare[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/spare.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .spare.active[_ngcontent-%COMP%], .screen[_ngcontent-%COMP%]   .spare.disabled[_ngcontent-%COMP%] {\n  background-image: url(/default/images/seat/spare_white.svg) !important;\n}\n\n.screen[_ngcontent-%COMP%]   .object[_ngcontent-%COMP%] {\n  position: absolute;\n  background-repeat: no-repeat;\n}\n\n.screen[_ngcontent-%COMP%]   .label-object[_ngcontent-%COMP%] {\n  text-align: center;\n  line-height: 50px;\n  font-size: 24px;\n  color: #9a9a9b;\n  font-weight: bold;\n}\n\n.screen-4dx[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%] {\n  border: none;\n  border-radius: 0;\n  background-image: url(/assets/images/seat/4dx.svg);\n  background-size: 50px 50px;\n}\n\n.screen-4dx[_ngcontent-%COMP%]   .seat.active[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-image: url(/assets/images/seat/4dx_active.svg);\n}\n\n.screen-4dx[_ngcontent-%COMP%]   .seat.disabled[_ngcontent-%COMP%] {\n  color: #FFF;\n  background-image: url(/assets/images/seat/4dx_disabled.svg);\n  cursor: default;\n}\n\n.zoom[_ngcontent-%COMP%]   .screen-scroll[_ngcontent-%COMP%] {\n  overflow: auto;\n  transition: transform 0.2s;\n  -webkit-overflow-scrolling: touch;\n}\n\n.zoom[_ngcontent-%COMP%]   .seat[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  display: block;\n}\n\n.zoom-btn[_ngcontent-%COMP%] {\n  display: none;\n  cursor: pointer;\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  z-index: 10;\n  width: 50px;\n  height: 50px;\n  color: #FFF;\n  background-color: #3e3a39;\n  border-radius: 3px;\n  align-items: center;\n  justify-content: center;\n}\n\n.zoom-btn.active[_ngcontent-%COMP%] {\n  display: flex;\n}\n\n.zoom-btn.scroll[_ngcontent-%COMP%] {\n  position: fixed;\n}"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ScreenComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{

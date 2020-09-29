@@ -5,7 +5,7 @@
     <div class="container h-100 p-3">
         <div class="row h-100">
             <div class="col-3 h-100">
-                <div class="bg-dark h-100"></div>
+                <app-seat-info></app-seat-info>
             </div>
             <div class="col-6">
                 <app-screen *ngIf="(user | async)?.theater 
@@ -17,7 +17,6 @@
                     [authorizeSeatReservation]="(purchase | async)?.authorizeSeatReservation"
                     (select)="selectSeat($event)">
                 </app-screen>
-                <app-seat-info class="mb-4"></app-seat-info>
                 <div *ngIf="(purchase | async)?.screen?.openSeatingAllowed" class="mb-4">
                     <div class="d-flex align-items-center">
                         <p class="mr-2">{{ 'purchase.cinema.seat.openSeating' | translate }}</p>
@@ -33,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-horizontal">
+            <div class="col-3">
                 <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
             </div>
         </div>
@@ -46,7 +45,7 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button class="btn btn-outline-light btn-block font-weight-bold py-2"
+                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
                     (click)="prev()">{{ 'purchase.cinema.seat.prev' | translate }}</button>
             </div>
             <div class="col-3">

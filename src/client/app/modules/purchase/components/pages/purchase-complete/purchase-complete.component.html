@@ -11,7 +11,8 @@
                 <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'purchase.complete.title' | translate }}
                 </h2>
                 <p class="mb-4 text-md-center" [innerHTML]="'purchase.complete.read' | translate"></p>
-
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading | async"
+                    (click)="test()">返金（デモ用）</button>
                 <!-- <div class="mb-4 px-3 py-2 bg-white">
                     <div class="row align-items-center">
                         <p class="col-4">
@@ -110,7 +111,17 @@
     </div>
 </div>
 <app-footer>
-    <div class="mr-auto">
-        <button type="submit" class="btn btn-primary" [disabled]="isLoading | async" (click)="test()">返金（デモ用）</button>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                    disabled>{{ 'purchase.complete.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button *ngIf="environment.INQUIRY_PRINT" type="button"
+                    class="btn btn-primary btn-block font-weight-bold py-2"
+                    routerLink="/purchase/cinema">{{ 'purchase.complete.next' | translate }}</button>
+            </div>
+        </div>
     </div>
 </app-footer>

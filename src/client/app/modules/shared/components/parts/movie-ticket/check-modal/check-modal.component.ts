@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Functions } from '../../../../../..';
+import { getEnvironment } from '../../../../../../../environments/environment';
 import { ActionService, QRCodeService } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 import { ChangeLanguagePipe } from '../../../../pipes/change-language.pipe';
@@ -26,7 +27,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
     public errorMessage: string;
     public isSuccess: boolean;
     public successMessage: string;
-
+    public environment = getEnvironment();
     public stream: MediaStream | null;
     public isShowVideo: boolean;
     public video: HTMLVideoElement;
@@ -171,6 +172,14 @@ export class MovieTicketCheckModalComponent implements OnInit {
                 this.inputForm.controls.password.setValue(password);
             }
         });
+    }
+
+    public changeCode(value: string) {
+        this.inputForm.controls.code.setValue(value);
+    }
+
+    public changePassword(value: string) {
+        this.inputForm.controls.password.setValue(value);
     }
 
 }

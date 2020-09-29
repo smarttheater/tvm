@@ -69,7 +69,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-horizontal">
+            <div class="col-3">
                 <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
             </div>
         </div>
@@ -82,7 +82,7 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button class="btn btn-outline-light btn-block font-weight-bold py-2"
+                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
                     routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.ticket.prev' | translate }}</button>
             </div>
             <div class="col-3">

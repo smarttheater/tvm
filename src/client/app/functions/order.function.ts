@@ -25,13 +25,7 @@ export async function createPrintCanvas4Html(params: {
         ...params,
         storageUrl: getProject().storageUrl
     }, { async: true });
-    const div = document.createElement('div');
-    div.className = 'position-absolute';
-    div.style.top = '-9999px';
-    div.innerHTML = template;
-    document.body.appendChild(div);
-    const canvas = await html2canvas(div, { width: div.clientWidth, scale: 1 });
-    div.remove();
+    const canvas = createCanvas({ template });
     return canvas;
 }
 
@@ -41,13 +35,29 @@ export async function createPrintCanvas4Html(params: {
 export async function createTestPrintCanvas4Html(params: { view: string; }) {
     const view = params.view;
     const template = await (<any>window).ejs.render(view, { moment }, { async: true });
+    const canvas = createCanvas({ template });
+    return canvas;
+}
+
+/**
+ * キャンバス生成
+ */
+async function createCanvas(parasm: {
+    template: string;
+}) {
+    const { template } = parasm;
+    const scale = Number(document.body.getAttribute('data-scale'));
     const div = document.createElement('div');
     div.className = 'position-absolute';
     div.style.top = '-9999px';
     div.innerHTML = template;
     document.body.appendChild(div);
+    document.body.style.transform = 'scale(1)';
+    (<HTMLElement>document.querySelector('app-root')).style.transform = 'scale(' + scale + ')';
     const canvas = await html2canvas(div, { width: div.clientWidth, scale: 1 });
     div.remove();
+    document.body.style.transform = 'scale(' + scale + ')';
+    (<HTMLElement>document.querySelector('app-root')).style.transform = 'scale(1)';
     return canvas;
 }
 

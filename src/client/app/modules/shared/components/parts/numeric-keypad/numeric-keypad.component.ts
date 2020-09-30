@@ -28,8 +28,8 @@ export class NumericKeypadComponent implements OnInit {
     }
 
     public show() {
-        const target = document.querySelector<HTMLDivElement>('.scale-body');
-        const scale = (target === null || target.getAttribute('data-scale') === null)
+        const target = document.body;
+        const scale = (target.getAttribute('data-scale') === null)
             ? 1 : Number(target.getAttribute('data-scale'));
         const height = this.trigger.nativeElement.clientHeight;
         const rect = this.trigger.nativeElement.getBoundingClientRect();

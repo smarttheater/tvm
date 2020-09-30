@@ -68929,10 +68929,7 @@ class AppComponent {
         const scale = window.innerWidth / base;
         // const viewport = 'width=device-width, initial-scale=' + scale + ', maximum-scale=1, user-scalable=no, minimal-ui';
         // document.querySelector('meta[name=viewport]').setAttribute('content', viewport);
-        const target = document.querySelector('.scale-body');
-        if (target === null) {
-            return;
-        }
+        const target = document.body;
         target.style.transform = 'scale(' + scale + ')';
         target.style.opacity = '1';
         target.setAttribute('data-scale', String(scale));
@@ -71355,8 +71352,8 @@ class NumericKeypadComponent {
         this.maxlength = (this.maxlength === undefined) ? 20 : this.maxlength;
     }
     show() {
-        const target = document.querySelector('.scale-body');
-        const scale = (target === null || target.getAttribute('data-scale') === null)
+        const target = document.body;
+        const scale = (target.getAttribute('data-scale') === null)
             ? 1 : Number(target.getAttribute('data-scale'));
         const height = this.trigger.nativeElement.clientHeight;
         const rect = this.trigger.nativeElement.getBoundingClientRect();

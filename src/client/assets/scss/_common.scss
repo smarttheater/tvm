@@ -21,21 +21,29 @@ html, body {
     font-display: swap;
     touch-action: none;
 }
-html, body {
+
+html {
     background-color: #000;
+}
+
+body{
     text-size-adjust: 100%;
     -webkit-touch-callout: none;
     user-select: none;
     background-attachment: fixed;
+    background-color: $body-bg;
 }
-.scale-body {
+
+body,
+app-root {
+    display: block;
     transform-origin: 0 0;
     width: 1920px;
     height: 1080px;
-    background-color: $body-bg;
     overflow: hidden;
     position: relative;
 }
+
 
 .wrapper {
     height: 100%;

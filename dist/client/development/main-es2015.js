@@ -386,13 +386,7 @@ function createPrintCanvas4Html(params) {
             params.qrcode = yield qrcode__WEBPACK_IMPORTED_MODULE_3__["toDataURL"](params.qrcode);
         }
         const template = yield window.ejs.render(params.view, Object.assign(Object.assign({ moment: moment__WEBPACK_IMPORTED_MODULE_2__ }, params), { storageUrl: Object(_util_function__WEBPACK_IMPORTED_MODULE_5__["getProject"])().storageUrl }), { async: true });
-        const div = document.createElement('div');
-        div.className = 'position-absolute';
-        div.style.top = '-9999px';
-        div.innerHTML = template;
-        document.body.appendChild(div);
-        const canvas = yield html2canvas__WEBPACK_IMPORTED_MODULE_1___default()(div, { width: div.clientWidth, scale: 1 });
-        div.remove();
+        const canvas = createCanvas({ template });
         return canvas;
     });
 }
@@ -403,13 +397,28 @@ function createTestPrintCanvas4Html(params) {
     return __awaiter(this, void 0, void 0, function* () {
         const view = params.view;
         const template = yield window.ejs.render(view, { moment: moment__WEBPACK_IMPORTED_MODULE_2__ }, { async: true });
+        const canvas = createCanvas({ template });
+        return canvas;
+    });
+}
+/**
+ * キャンバス生成
+ */
+function createCanvas(parasm) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { template } = parasm;
+        const scale = Number(document.body.getAttribute('data-scale'));
         const div = document.createElement('div');
         div.className = 'position-absolute';
         div.style.top = '-9999px';
         div.innerHTML = template;
         document.body.appendChild(div);
+        document.body.style.transform = 'scale(1)';
+        document.querySelector('app-root').style.transform = 'scale(' + scale + ')';
         const canvas = yield html2canvas__WEBPACK_IMPORTED_MODULE_1___default()(div, { width: div.clientWidth, scale: 1 });
         div.remove();
+        document.body.style.transform = 'scale(' + scale + ')';
+        document.querySelector('app-root').style.transform = 'scale(1)';
         return canvas;
     });
 }

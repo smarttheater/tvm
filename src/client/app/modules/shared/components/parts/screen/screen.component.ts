@@ -513,7 +513,15 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
             return;
         }
         if (seat.ticketedSeat === undefined
-            || seat.status === SeatStatus.Disabled) {
+            || seat.status === Models.Purchase.Screen.SeatStatus.Disabled) {
+            return;
+        }
+        if (this.screenData.hc !== undefined
+            && this.screenData.hc.indexOf(seat.code) !== -1) {
+            return;
+        }
+        if (this.screenData.spare !== undefined
+            && this.screenData.spare.indexOf(seat.code) !== -1) {
             return;
         }
         this.select.emit({

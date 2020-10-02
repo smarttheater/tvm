@@ -248,8 +248,7 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
      * 券種確定
      */
     public async onSubmit() {
-        const purchase = await this.actionService.purchase.getData();
-        const authorizeSeatReservations = purchase.authorizeSeatReservations;
+        const { authorizeSeatReservations } = await this.actionService.purchase.getData();
         // チケット未選択判定
         if (authorizeSeatReservations.length === 0) {
             this.utilService.openAlert({

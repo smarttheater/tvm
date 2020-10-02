@@ -14,6 +14,7 @@ import * as reducers from '../../../../../store/reducers';
 })
 export class HeaderComponent implements OnInit {
     @Input() public isClear: boolean;
+    @Input() public isDate?: boolean;
     public language: string;
     public user: Observable<reducers.IUserState>;
     public environment = getEnvironment();

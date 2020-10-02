@@ -489,7 +489,7 @@
         "ticketing": "発券",
         "admission": "入場",
         "reservation": "予約",
-        "amount": "決済金額",
+        "amount": "合計金額",
         "dubbing": "吹替版",
         "subtitles": "字幕版",
         "orderDate": "購入日時",

@@ -16,7 +16,15 @@
                     "ticketedSeat": "劇場表示では座席管理なしのパフォーマンスを選択できません。"
                 }
             },
+            "date": {
+                "preSalesSchedule": "先行販売スケジュール",
+                "salesSchedule": "通常販売スケジュール",
+                "notfound": "スケジュールがありません。",
+                "next": "次へ",
+                "prev": ""
+            },
             "scheduleMovie": {
+                "date": "日付変更",
                 "preSalesSchedule": "先行販売スケジュール",
                 "salesSchedule": "通常販売スケジュール",
                 "notfound": "スケジュールがありません。",
@@ -47,7 +55,6 @@
                 "reset": "リセット",
                 "openSeating": "座席数", 
                 "alert": {
-                    "unselected": "座席が未選択です。",
                     "limit": "同時購入可能数は{{value}}件までです。",
                     "temporaryReservation": "仮予約に失敗しました。",
                     "ticketNotfound": "販売可能券種がありません。"
@@ -63,7 +70,6 @@
                 "allSelect": "すべて選択",
                 "notfound":"",
                 "alert": {
-                    "unselected": "チケットが未選択です。",
                     "ticketCondition": "割引券の適用条件を再度ご確認ください。",
                     "temporaryReservation": "仮予約に失敗しました。"
                 }

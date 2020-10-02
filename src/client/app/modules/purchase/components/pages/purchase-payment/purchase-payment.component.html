@@ -40,17 +40,10 @@
                     </div>
                 </div>
                 <div *ngIf="amount === 0" class="container px-0">
-                    <div class="row justify-content-center">
-                        <div class="col-6 mb-3">
-                            <button type="button" class="btn btn-primary btn-block py-3"
-                                routerLink="/purchase/payment/reception">
-                                <p>{{ 'purchase.payment.next' | translate }}</p>
-                            </button>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-3 mh-100">
                 <app-purchase-info [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
             </div>
         </div>
@@ -73,8 +66,10 @@
                 </div>
             </div>
             <div class="col-3">
-                <button type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
-                disabled>{{ 'purchase.payment.next' | translate }}</button>
+                <button *ngIf="amount > 0" type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
+                    disabled>{{ 'purchase.payment.next' | translate }}</button>
+                <button *ngIf="amount === 0" type="submit" routerLink="/purchase/payment/reception" class="btn btn-primary btn-block font-weight-bold py-2"
+                    >{{ 'purchase.payment.next' | translate }}</button>
             </div>
         </div>
     </div>

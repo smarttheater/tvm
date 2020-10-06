@@ -56,7 +56,7 @@
                 "openSeating": "座席数", 
                 "alert": {
                     "limit": "同時購入可能数は{{value}}件までです。",
-                    "temporaryReservation": "仮予約に失敗しました。",
+                    "temporaryReservation": "仮予約に失敗しました。<br>※すでに他のお客様が同じ座席を選択した場合もこのエラーが表示されます。",
                     "ticketNotfound": "販売可能券種がありません。"
                 }
             },

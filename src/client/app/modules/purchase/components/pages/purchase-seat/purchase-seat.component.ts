@@ -6,7 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { SeatStatus } from '../../../../../models/purchase/screen';
 import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
@@ -71,11 +70,25 @@ export class PurchaseSeatComponent implements OnInit {
     /**
      * 座席選択
      */
-    public selectSeat(data: {
+    public async selectSeat(data: {
         seat: Models.Purchase.Reservation.IReservationSeat,
         status: Models.Purchase.Screen.SeatStatus
     }) {
-        if (data.status === SeatStatus.Default) {
+        const { screeningEvent, reservations } = await this.actionService.purchase.getData();
+        if (data.status === Models.Purchase.Screen.SeatStatus.Default) {
+            if (screeningEvent !== undefined
+                && screeningEvent.offers !== undefined
+                && screeningEvent.offers.eligibleQuantity.maxValue !== undefined
+                && reservations.length >= screeningEvent.offers.eligibleQuantity.maxValue) {
+                this.utilService.openAlert({
+                    title: this.translate.instant('common.error'),
+                    body: this.translate.instant(
+                        `${this.translateName}.alert.limit`,
+                        { value: screeningEvent.offers.eligibleQuantity.maxValue }
+                    )
+                });
+                return;
+            }
             this.actionService.purchase.selectSeats([data.seat]);
         } else {
             this.actionService.purchase.cancelSeats([data.seat]);

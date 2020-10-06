@@ -159,10 +159,6 @@ interface IEnvironment {
      */
     INQUIRY_PRINT_WAIT_TIME: string;
     /**
-     * 照会印刷完了待機時間
-     */
-    INQUIRY_PRINT_SUCCESS_WAIT_TIME: string;
-    /**
      * 照会可能期間値（注文日）
      */
     INQUIRY_ORDER_DATE_FROM_VALUE: string;
@@ -186,6 +182,14 @@ interface IEnvironment {
      * 印刷時ローディング
      */
     PRINT_LOADING: boolean;
+    /**
+     * 印刷完了待機時間(ms)
+     */
+    PRINT_SUCCESS_WAIT_TIME: string;
+    /**
+     * エラー待機時間(ms)
+     */
+    ERROR_WAIT_TIME: string;
 }
 
 export const isProduction = (document.querySelector('body.production') !== null);
@@ -232,13 +236,14 @@ const defaultEnvironment: IEnvironment = {
     INQUIRY_PRINT_EXPIRED_VALUE: '0',
     INQUIRY_PRINT_EXPIRED_UNIT: 'hour',
     INQUIRY_PRINT_WAIT_TIME: '',
-    INQUIRY_PRINT_SUCCESS_WAIT_TIME: '',
     INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
     INQUIRY_ORDER_DATE_FROM_UNIT: 'month',
     ORDER_LINK: [],
     PRINT_QRCODE_TYPE: 'token',
     PRINT_QRCODE_CUSTOM: '',
     PRINT_LOADING: true,
+    PRINT_SUCCESS_WAIT_TIME: '10000',
+    ERROR_WAIT_TIME: '10000',
 };
 
 export function getEnvironment(): IEnvironment {

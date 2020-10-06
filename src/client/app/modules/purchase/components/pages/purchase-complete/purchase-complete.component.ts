@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
@@ -15,7 +15,7 @@ import * as reducers from '../../../../../store/reducers';
     templateUrl: './purchase-complete.component.html',
     styleUrls: ['./purchase-complete.component.scss']
 })
-export class PurchaseCompleteComponent implements OnInit {
+export class PurchaseCompleteComponent implements OnInit, OnDestroy {
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
@@ -28,6 +28,7 @@ export class PurchaseCompleteComponent implements OnInit {
     public getCustomPaymentMethodTypeName = Functions.Purchase.getCustomPaymentMethodTypeName;
     public connectionType = Models.Util.Printer.ConnectionType;
     public createOrderLink = Functions.Order.createOrderLink;
+    private timer: any;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -57,7 +58,24 @@ export class PurchaseCompleteComponent implements OnInit {
             this.router.navigate(['/error']);
             return;
         }
+        if (this.environment.PRINT_SUCCESS_WAIT_TIME === '') {
+            return;
+        }
+        const time = Number(this.environment.PRINT_SUCCESS_WAIT_TIME);
+        this.timer = setTimeout(() => {
+            this.router.navigate(['/']);
+        }, time);
     }
+
+    /**
+     * 破棄
+     */
+    public ngOnDestroy() {
+        if (this.timer !== undefined) {
+            clearTimeout(this.timer);
+        }
+    }
+
 
     /**
      * 印刷

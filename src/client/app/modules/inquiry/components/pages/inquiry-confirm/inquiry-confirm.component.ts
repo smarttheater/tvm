@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
@@ -15,7 +15,7 @@ import * as reducers from '../../../../../store/reducers';
     templateUrl: './inquiry-confirm.component.html',
     styleUrls: ['./inquiry-confirm.component.scss']
 })
-export class InquiryConfirmComponent implements OnInit {
+export class InquiryConfirmComponent implements OnInit, OnDestroy {
     public order: Observable<reducers.IOrderState>;
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
@@ -35,25 +35,32 @@ export class InquiryConfirmComponent implements OnInit {
         private translate: TranslateService
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
         this.eventOrders = [];
         this.order = this.store.pipe(select(reducers.getOrder));
         this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.error = this.store.pipe(select(reducers.getError));
-        this.order.subscribe((value) => {
-            if (value.order === undefined) {
-                this.router.navigate(['/error']);
-                return;
-            }
-            const order = value.order;
-            this.eventOrders = Functions.Purchase.order2EventOrders({ order });
-        }).unsubscribe();
+        const { order } = await this.actionService.order.getData();
+        if (order === undefined) {
+            this.router.navigate(['/error']);
+            return;
+        }
+        this.eventOrders = Functions.Purchase.order2EventOrders({ order });
         if (this.environment.INQUIRY_PRINT_WAIT_TIME !== '') {
             const time = Number(this.environment.INQUIRY_PRINT_WAIT_TIME);
             this.timer = setTimeout(() => {
-                this.router.navigate(['/inquiry/input']);
+                this.router.navigate(['/']);
             }, time);
+        }
+    }
+
+    /**
+     * 破棄
+     */
+    public ngOnDestroy() {
+        if (this.timer !== undefined) {
+            clearTimeout(this.timer);
         }
     }
 
@@ -72,9 +79,6 @@ export class InquiryConfirmComponent implements OnInit {
                 body: this.translate.instant('inquiry.confirm.alert.printExpired')
             });
             return;
-        }
-        if (this.timer !== undefined) {
-            clearTimeout(this.timer);
         }
         try {
             const orderData = await this.actionService.order.getData();

@@ -19,12 +19,12 @@ export class InquiryPrintComponent implements OnInit, OnDestroy {
      * 初期化
      */
     public ngOnInit() {
-        if (this.environment.INQUIRY_PRINT_SUCCESS_WAIT_TIME === '') {
+        if (this.environment.PRINT_SUCCESS_WAIT_TIME === '') {
             return;
         }
-        const time = Number(this.environment.INQUIRY_PRINT_SUCCESS_WAIT_TIME);
+        const time = Number(this.environment.PRINT_SUCCESS_WAIT_TIME);
         this.timer = setTimeout(() => {
-            this.router.navigate(['/inquiry/input']);
+            this.router.navigate(['/']);
         }, time);
     }
 
@@ -32,10 +32,9 @@ export class InquiryPrintComponent implements OnInit, OnDestroy {
      * 破棄
      */
     public ngOnDestroy() {
-        if (this.timer === undefined) {
-            return;
+        if (this.timer !== undefined) {
+            clearTimeout(this.timer);
         }
-        clearTimeout(this.timer);
     }
 
 }

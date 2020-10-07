@@ -1,18 +1,18 @@
-<div *ngIf="isMovieTicket || isMovieTicket" class="mb-4 container bg-white">
-    <div *ngIf="isMovieTicket" class="py-3 row align-items-center movieticket">
-        <p class="col-12 col-md-6 mb-2 mb-md-0">{{ 'common.paymentMethodType.movieTicket.use' | translate }}</p>
-        <div class="col-12 col-md-6">
+<div *ngIf="isMovieTicket || isMovieTicket" class="p-3 border border-gray">
+    <div *ngIf="isMovieTicket" class="movieticket mb-4">
+        <p class="mb-3" [innerHtml]="'common.paymentMethodType.movieTicket.use' | translate"></p>
+        <div>
             <button type="button" (click)="select.emit(paymentMethodType.MovieTicket)"
-                class="btn btn-block bg-white border border-gray py-3">
+                class="btn btn-block bg-white border border-gray py-3 rounded-pill">
                 <img src="/assets/images/mvtk.svg" height="34" alt="">
             </button>
         </div>
     </div>
-    <div *ngIf="isMGTicket" class="py-3 row align-items-center mgticket">
-        <p class="col-12 col-md-6 mb-2 mb-md-0">{{ 'common.paymentMethodType.mgTicket.use' | translate }}</p>
-        <div class="col-12 col-md-6">
+    <div *ngIf="isMGTicket" class="mgticket">
+        <p class="mb-3" [innerHtml]="'common.paymentMethodType.mgTicket.use' | translate"></p>
+        <div>
             <button type="button" (click)="select.emit(paymentMethodType.MGTicket)"
-                class="btn btn-block bg-white border border-gray py-3">
+                class="btn btn-block bg-white border border-gray py-3 rounded-pill">
                 <div class="font-weight-bold text-large">{{ 'common.paymentMethodType.mgTicket.label' | translate }}</div>
                 <!-- <img src="/assets/images/mvtk.svg" height="24" alt=""> -->
             </button>

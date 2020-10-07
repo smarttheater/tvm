@@ -7,7 +7,7 @@
 $font-family: -apple-system, 'Titillium Web', "Lucida Grande", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", "メイリオ", Meiryo, Helvetica, Arial, sans-serif;
 
 $theme-colors: (
-    primary: $primary, 
+    primary: #0175c2, 
     secondary: $secondary, 
     success: #0081CC, 
     info: $info, 
@@ -23,5 +23,7 @@ $light-gray: #EEE;
 
 $body-bg: #FFF;
 $body-color: #333;
-$body-font-size: 28px;
+$body-font-size: 24px;
 
+$box-shadow-sm: 0 0 0.25rem rgba(0, 0, 0, 0.7);
+$border-width: 2px;

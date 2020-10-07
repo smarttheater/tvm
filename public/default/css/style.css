@@ -1,60 +1,6 @@
-.btn-primary {
-    background-color: steelblue !important;
-    border-color: steelblue !important;
-    color: #FFF !important;
-}
-
-.btn-primary:hover {
-    opacity: 0.75;
-}
-
-.btn-primary:disabled,
-.btn-primary.disabled {
+.btn:disabled {
     opacity: 1 !important;
     background-color: #666 !important;
     border-color: #666 !important;
     color: #EEE !important;
-}
-
-.btn-outline-primary {
-    border-color: steelblue !important;
-    color: steelblue !important;
-}
-
-.btn-outline-primary:hover {
-    background-color: steelblue !important;
-    color: #FFF !important;
-}
-
-.wrapper .bg-primary {
-    background-color: steelblue !important;
-}
-
-.wrapper .bg-secondary {
-    background-color: blue !important;
-}
-
-.wrapper .text-primary {
-    color: steelblue !important;
-}
-
-.wrapper .border-primary {
-    border-color: steelblue !important;
-}
-
-.header {
-    background-color: #FFF;
-}
-
-.footer {
-    background-color: #FFF;
-}
-
-.page-item.active .page-link {
-    background-color: steelblue !important;
-    color: #FFF !important;
-}
-
-.page-item .page-link {
-    color: steelblue !important;
 }

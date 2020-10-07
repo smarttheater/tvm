@@ -1,12 +1,19 @@
 <div class="mb-2" *ngIf="environment.DISPLAY_TICKETED_SEAT">
-    <div class="text-small" *ngFor="let reservation of reservations">
-        <p class="font-weight-bold">{{ reservation.seat.seatNumber }}</p>
-        <p *ngFor="let priceComponent of getReservationPriceComponents(reservation)">
-            <span>{{ priceComponent.name | changeLanguage }}</span><!--
-            --><span>&nbsp;/&nbsp;{{ priceComponent.price | currency : priceComponent.priceCurrency }}</span><!--
-            --><span *ngIf="priceComponent?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
-        </p>
+    <div class="container">
+        <div class="text-small row" *ngFor="let reservation of reservations">
+            <div class="col-3">
+                <p class="font-weight-bold">{{ reservation.seat.seatNumber }}</p>
+            </div>
+            <div class="col-9">
+                <p *ngFor="let priceComponent of getReservationPriceComponents(reservation)">
+                    <span>{{ priceComponent.name | changeLanguage }}</span><!--
+                    --><span>&nbsp;/&nbsp;{{ priceComponent.price | currency : priceComponent.priceCurrency }}</span><!--
+                    --><span *ngIf="priceComponent?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
+                </p>
+            </div>
+        </div>
     </div>
+    
     
     <div *ngFor="let reservation of authorizeSeatReservations">
         <p *ngIf="reservation.reservedTicket.ticketedSeat">{{ reservation.reservedTicket.ticketedSeat.seatNumber }}</p>

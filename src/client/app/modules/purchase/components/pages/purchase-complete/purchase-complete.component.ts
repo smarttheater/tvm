@@ -53,7 +53,7 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
             }
             order = purchaseData.order;
             this.eventOrders = Functions.Purchase.order2EventOrders({ order });
-            this.print();
+            await this.print();
         } catch (error) {
             this.router.navigate(['/error']);
             return;
@@ -93,12 +93,13 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
             const printer = user.printer;
             await this.actionService.order.print({ orders, pos, printer });
         } catch (error) {
+            console.error(error);
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
                 body: `
                 <p class="mb-4">${this.translate.instant('purchase.complete.alert.print')}</p>
                     <div class="p-3 bg-light-gray select-text">
-                    <code>${error}</code>
+                    <code>${JSON.stringify(error)}</code>
                 </div>`
             });
         }

@@ -1,8 +1,9 @@
 <app-header [isClear]="true">
     <app-purchase-step [currentStep]="4"></app-purchase-step>
 </app-header>
+<app-page-title title="{{ 'purchase.payment.title' | translate }}"></app-page-title>
 <div class="contents">
-    <div class="container h-100 p-3">
+    <div class="container h-100 px-3 pb-3">
         <div class="row h-100">
             <div class="col-3 h-100">
                 <div class="bg-dark h-100"></div>
@@ -57,18 +58,18 @@
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
                 <div *ngIf="environment.VIEW_TYPE === viewType.Cinema">
-                    <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
                         routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
                 </div>
                 <div *ngIf="environment.VIEW_TYPE === viewType.Event">
-                    <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
                         routerLink="/purchase/event/ticket">{{ 'purchase.payment.prev' | translate }}</button>
                 </div>
             </div>
             <div class="col-3">
-                <button *ngIf="amount > 0" type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
+                <button *ngIf="amount > 0" type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
                     disabled>{{ 'purchase.payment.next' | translate }}</button>
-                <button *ngIf="amount === 0" type="submit" routerLink="/purchase/payment/reception" class="btn btn-primary btn-block font-weight-bold py-2"
+                <button *ngIf="amount === 0" type="submit" routerLink="/purchase/payment/reception" class="text-large btn btn-primary btn-block font-weight-bold py-2"
                     >{{ 'purchase.payment.next' | translate }}</button>
             </div>
         </div>

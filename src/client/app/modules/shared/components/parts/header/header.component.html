@@ -1,4 +1,4 @@
-<div class="header d-flex align-items-center px-2 bg-light-gray shadow-sm">
+<div class="header d-flex align-items-center px-3 bg-light-gray shadow-sm">
     <div class="mr-3">
         <app-current-date-time></app-current-date-time>
     </div>
@@ -6,7 +6,7 @@
         <ng-content></ng-content>
     </div>
     <div class="ml-auto">
-        <button *ngIf="isDate" class="btn btn-light" routerLink="/purchase/cinema/date">{{ 'purchase.cinema.scheduleMovie.date' | translate }}</button>
-        <button *ngIf="isClear" class="btn btn-light ml-3" routerLink="/purchase/cinema">{{ 'common.clear' | translate }}</button>
+        <button *ngIf="isDate" class="btn btn-light px-4 rounded-pill" routerLink="/purchase/cinema/date">{{ 'purchase.cinema.scheduleMovie.date' | translate }}</button>
+        <button *ngIf="isClear" class="btn btn-light ml-3 px-4 rounded-pill" routerLink="/purchase/cinema">{{ 'common.clear' | translate }}</button>
     </div>
 </div>

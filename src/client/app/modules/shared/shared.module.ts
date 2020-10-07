@@ -22,6 +22,7 @@ import { LoadingComponent } from './components/parts/loading/loading.component';
 import { MovieTicketCheckModalComponent } from './components/parts/movie-ticket/check-modal/check-modal.component';
 import { NumericKeypadComponent } from './components/parts/numeric-keypad/numeric-keypad.component';
 import { OrderDetailModalComponent } from './components/parts/order/detail-modal/detail-modal.component';
+import { PageTitleComponent } from './components/parts/page-title/page-title.component';
 import { PurchaseEventTicketModalComponent } from './components/parts/purchase/event/ticket-modal/ticket-modal.component';
 import { PurchaseSeatTicketModalComponent } from './components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 import { QRCodeReaderModalComponent } from './components/parts/qrcode/reader-modal/reader-modal.component';
@@ -56,6 +57,7 @@ const entryComponents = [
   QRCodeReaderModalComponent,
   QRCodeViewerModalComponent,
   ReservationDetailModalComponent,
+  PageTitleComponent
 ];
 
 

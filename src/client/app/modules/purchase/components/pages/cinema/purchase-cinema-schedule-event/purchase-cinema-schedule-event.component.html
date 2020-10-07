@@ -1,8 +1,9 @@
 <app-header [isClear]="true">
     <app-purchase-step [currentStep]="1"></app-purchase-step>
 </app-header>
+<app-page-title title="{{ 'purchase.cinema.scheduleEvent.title' | translate }}"></app-page-title>
 <div class="contents scroll-horizontal">
-    <div class="p-3">
+    <div class="px-3">
         <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index" [screeningEventsGroup]="group" [animation]="animations[index]"
             (select)="selectSchedule($event)" class="">
         </app-purchase-performances>
@@ -15,12 +16,12 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
-                    routerLink="/purchase/cinema/schedule/movie">{{ 'purchase.cinema.scheduleMovie.prev' | translate }}</button>
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    routerLink="/purchase/cinema/schedule/movie">{{ 'purchase.cinema.scheduleEvent.prev' | translate }}</button>
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-primary btn-block font-weight-bold py-2"
-                    disabled>{{ 'purchase.cinema.scheduleMovie.next' | translate }}</button>
+                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+                    disabled>{{ 'purchase.cinema.scheduleEvent.next' | translate }}</button>
             </div>
         </div>
     </div>

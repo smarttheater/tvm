@@ -6,13 +6,13 @@
         <div class="container px-0 mb-4">
             <ul class="row">
                 <li *ngFor="let project of (master | async)?.projects" class="col-3 mb-3">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="mr-2"><img [src]="project.logo" class="logo" [alt]="project.name"></div>
                                 <p class="text-small font-weight-bold text-overflow-ellipsis">{{ project.name }}</p>
                             </div>
-                            <a class="btn btn-primary px-3 mr-3" [href]="'/?projectId=' + project.id">選択</a>
+                            <a class="btn btn-primary px-3 mr-3" [href]="'/?projectId=' + project.id">起動</a>
                             <a class="btn btn-primary px-3" [href]="'/?projectId=' + project.id + '#/setting'">設定</a>
                         </div>
                     </div>

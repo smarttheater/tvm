@@ -1,8 +1,9 @@
 <form [formGroup]="inquiryForm">
     <app-header [isClear]="true">
     </app-header>
+    <app-page-title title="{{ 'inquiry.input.title' | translate }}"></app-page-title>
     <div class="contents">
-        <div class="container h-100 p-3">
+        <div class="container h-100 px-3 pb-3">
             <div class="row h-100">
                 <div class="col-3 h-100">
                     <div class="bg-dark h-100"></div>
@@ -73,12 +74,12 @@
         <div class="container h-100">
             <div class="row align-items-center justify-content-center h-100">
                 <div class="col-3">
-                    <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
                         routerLink="/purchase/cinema">{{ 'inquiry.input.prev' | translate }}</button>
                 </div>
                 <div class="col-3">
                     <button type="submit" [disabled]="isLoading | async"
-                        class="btn btn-primary btn-block font-weight-bold py-2"
+                        class="text-large btn btn-primary btn-block font-weight-bold py-2"
                         (click)="onSubmit()">{{ 'inquiry.input.next' | translate }}</button>
                 </div>
             </div>

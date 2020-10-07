@@ -27,7 +27,7 @@
             }
         },
         "paymentReception": {
-            "title": "決済受付",
+            "title": "決済方法選択",
             "read": "",
             "cash": {
                 "title": "決済受付（現金）",
@@ -124,7 +124,7 @@
         "print": {
             "title": "印刷完了",
             "read": "チケットの印刷が完了しました。",
-            "next": "",
+            "next": "完了",
             "prev": "戻る"
         }
     },
@@ -522,11 +522,11 @@
             },
             "movieTicket": {
                 "label": "ムビチケ",
-                "use": "ムビチケ券をお持ちの方"
+                "use": "<span class=\"font-weight-bold\">ムビチケ券のご利用について</span><br><span class=\"text-small\">ムビチケ券をご利用される方は認証を行い券種に追加してください。</span>"
             },
             "mgTicket": {
                 "label": "MGチケット",
-                "use": "MGチケットをお持ちの方"
+                "use": "<span class=\"font-weight-bold\">MGチケットのご利用について</span><br><span class=\"text-small\">MGチケットをご利用される方は認証を行い券種に追加してください。</span>"
             },
             "others": {
                 "label": "その他",
@@ -553,6 +553,6 @@
         "remove": "削除",
         "etc": "その他",
         "required": "必須",
-        "clear": "TOPへ戻る"
+        "clear": "TOP"
     }
 }

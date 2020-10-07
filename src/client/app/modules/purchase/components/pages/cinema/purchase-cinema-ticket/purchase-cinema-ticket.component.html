@@ -1,17 +1,16 @@
 <app-header [isClear]="true">
     <app-purchase-step [currentStep]="3"></app-purchase-step>
 </app-header>
+<app-page-title title="{{ 'purchase.cinema.ticket.title' | translate }}"></app-page-title>
 <div class="contents">
-    <div class="container h-100 p-3">
+    <div class="container h-100 px-3 pb-3">
         <div class="row h-100">
             <div class="col-3 h-100">
-                <div class="bg-dark h-100"></div>
-            </div>
-            <div class="col-6 mh-100 scroll-horizontal">
                 <app-movie-tickets *ngIf="(purchase | async)?.screeningEventTicketOffers"
                     [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
                     (select)="openMovieTicket($event)"></app-movie-tickets>
-
+            </div>
+            <div class="col-6 mh-100 scroll-horizontal">
                 <div>
                     <ul class="py-2 bg-white">
                         <li *ngFor="let reservation of (purchase | async)?.reservations">
@@ -82,11 +81,11 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
                     routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.ticket.prev' | translate }}</button>
             </div>
             <div class="col-3">
-                <button type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
+                <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
                     [disabled]="(isLoading | async) || !isSelectedTicket"
                     (click)="onSubmit()">{{ 'purchase.cinema.ticket.next' | translate }}</button>
             </div>

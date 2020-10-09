@@ -6,85 +6,74 @@
     <div class="px-3">
         <div *ngFor="let group of screeningEventsGroup">
             <div class="container px-0">
-                <div class="row">
-                    <div class="col-2">
-                        <div class="bg-dark text-white p-3 mb-3">
+                <div class="row align-items-stretch">
+                    <div class="col-1 pb-3">
+                        <div class="border-left border-dark p-3 h-100">
                             {{ moment(group.info.startDate).format('HH') }}:00
                         </div>
                     </div>
-                    <div class="col-8">
-                        <div *ngFor="let performance of group.data" class="border bg-white p-3 mb-3" [ngClass]="{ 
+                    <div class="col-10">
+                        <div *ngFor="let performance of group.data" class="border border-gray py-4 px-3 mb-3" [ngClass]="{ 
                             'not-event': !performance.isSales() 
                             || performance.isSeatStatus('danger') 
                             || performance.isInfinitetock()
                             }" (click)="selectSchedule(performance.screeningEvent)">
                             <div class="container px-0">
                                 <div class="row align-items-center">
-                                    
-                                    <div class="col-3">
-                                        <div class="mb-1">
-                                            <div class="status" *ngIf="performance.isSales() && !performance.isInfinitetock()">
-                                                <div *ngIf="performance.isSeatStatus('success')" class="d-flex align-items-center">
-                                                    <div class="text-success mr-2">
-                                                        {{ 'common.performance.status.success' | translate }}</div>
-                                                    <img src="/assets/images/icon/status_success.svg" alt="">
-                                                </div>
-                                                <div *ngIf="performance.isSeatStatus('warning')" class="d-flex align-items-center">
-                                                    <div class="text-warning mr-2">
-                                                        {{ 'common.performance.status.warning' | translate }}</div>
-                                                    <img src="/assets/images/icon/status_warning.svg" alt="">
-                                                </div>
-                                                <div *ngIf="performance.isSeatStatus('danger')" class="d-flex align-items-center">
-                                                    <div class="mr-2">
-                                                        {{ 'common.performance.status.danger' | translate }}</div>
-                                                    <img src="/assets/images/icon/status_danger.svg" alt="">
-                                                </div>
-                                                <div *ngIf="performance.isSeatStatus()" class="d-flex align-items-center">
-                                                    <div class="mr-2">
-                                                        {{ 'common.performance.status.success' | translate }}</div>
-                                                    <img src="/assets/images/icon/status_undefined.svg" alt="">
-                                                </div>
+                                    <div class="col-1 text-center">
+                                        <div class="status"
+                                            *ngIf="performance.isSales() && !performance.isInfinitetock()">
+                                            <div *ngIf="performance.isSeatStatus('success')">
+                                                <img src="/assets/images/icon/status_success.svg" alt="">
                                             </div>
-                                            <div class="status" *ngIf="performance.isSales('end')">
-                                                {{ 'common.performance.status.endSale' | translate }}</div>
-                                            <div class="status" *ngIf="performance.isSales('start')">
-                                                {{ 'common.performance.status.outsideSalesPeriod' | translate }}</div>
-                                            <div *ngIf="performance.isSales() && performance.isInfinitetock()" class="status">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="text-success mr-2">
-                                                        {{ 'common.performance.status.success' | translate }}</div>
-                                                    <img src="/assets/images/icon/status_success.svg" alt="">
-                                                </div>
-                                                <!-- <p class="text-small">{{ 'common.performance.infiniteStock' | translate }}</p> -->
+                                            <div *ngIf="performance.isSeatStatus('warning')">
+                                                <img src="/assets/images/icon/status_warning.svg" alt="">
+                                            </div>
+                                            <div *ngIf="performance.isSeatStatus('danger')">
+                                                <img src="/assets/images/icon/status_danger.svg" alt="">
+                                            </div>
+                                            <div *ngIf="performance.isSeatStatus()">
+                                                <img src="/assets/images/icon/status_undefined.svg" alt="">
                                             </div>
                                         </div>
-            
-                                        <div>
-                                            <span
-                                                class="text-large font-weight-bold">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
-                                            <span>-</span>
-                                            <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>
+                                        <div class="status" *ngIf="performance.isSales('end')">
+                                            {{ 'common.performance.status.endSale' | translate }}</div>
+                                        <div class="status" *ngIf="performance.isSales('start')">
+                                            {{ 'common.performance.status.outsideSalesPeriod' | translate }}</div>
+                                        <div *ngIf="performance.isSales() && performance.isInfinitetock()"
+                                            class="status">
+                                            <img src="/assets/images/icon/status_success.svg" alt="">
+                                            <!-- <p class="text-small">{{ 'common.performance.infiniteStock' | translate }}</p> -->
                                         </div>
                                     </div>
+                                    <div class="col-2">
+                                        <span
+                                            class="text-x-large font-weight-bold">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
+                                        <span>-</span>
+                                        <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>
+                                    </div>
                                     <div class="col-6">
-                                        <p class="font-weight-bold">{{ performance.screeningEvent.name | changeLanguage }}</p>
-                                        <p
-                                            *ngIf="performance.screeningEvent.superEvent.headline 
+                                        <p class="font-weight-bold text-large">
+                                            {{ performance.screeningEvent.name | changeLanguage }}</p>
+                                        <p *ngIf="performance.screeningEvent.superEvent.headline 
                                             && (performance.screeningEvent.superEvent.headline | changeLanguage)">
                                             {{ performance.screeningEvent.superEvent.headline | changeLanguage }}</p>
-                                        <p class="text-small"
-                                            *ngIf="performance.screeningEvent.superEvent.description 
+                                        <p class="text-small" *ngIf="performance.screeningEvent.superEvent.description 
                                             && (performance.screeningEvent.superEvent.description | changeLanguage)">
                                             {{ performance.screeningEvent.superEvent.description | changeLanguage }}</p>
                                     </div>
-                                    <div class="col-3">
-                                        <div class="mb-1 text-small screen-name">
-                                            <p *ngIf="performance.screeningEvent.location.address | changeLanguage"
-                                                class="text-overflow-ellipsis mr-2 mr-md-0 d-inline-block d-md-block">
+                                    <div class="col-2">
+                                        <div class="mb-1 screen-name">
+                                            <p *ngIf="performance.screeningEvent.location.address | changeLanguage">
                                                 {{ performance.screeningEvent.location.address | changeLanguage }}</p>
-                                            <p class="text-overflow-ellipsis d-inline-block d-md-block">
+                                            <p>
                                                 {{ performance.screeningEvent.location.name | changeLanguage }}</p>
                                         </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity" class="screen-name">
+                                            {{ 'common.seatValue' | translate: { value: performance.screeningEvent.maximumAttendeeCapacity } }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

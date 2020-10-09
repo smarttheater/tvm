@@ -14,6 +14,8 @@
             {{ performance.screeningEvent.location.address | changeLanguage }}</p>
         <p class="d-inline-block">
             {{ performance.screeningEvent.location.name | changeLanguage }}</p>
+        <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity">
+            {{ 'common.seatValue' | translate: { value: performance.screeningEvent.maximumAttendeeCapacity } }}</p>
     </div>
 
     <div class="text-center text-small">

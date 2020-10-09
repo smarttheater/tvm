@@ -467,6 +467,7 @@
         "startDate": "上映日時",
         "doorTime": "開場日時",
         "seat": "座席",
+        "seatValue": "<{{value}}席>",
         "ticket": "券種",
         "referenceQuantityValue": "[{{value}}枚]",
         "customer": "購入者",

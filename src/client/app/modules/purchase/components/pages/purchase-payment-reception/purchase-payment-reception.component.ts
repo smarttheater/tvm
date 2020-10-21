@@ -39,10 +39,12 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         this.user = this.store.pipe(select(reducers.getUser));
         this.amount = 0;
         try {
+            this.utilService.loadStart({ process: 'load' });
             const purchase = await this.actionService.purchase.getData();
             this.amount = Functions.Purchase.getAmount(purchase.authorizeSeatReservations);
             if (this.amount === 0) {
                 await this.onSubmit();
+                this.utilService.loadEnd();
                 return;
             }
             if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
@@ -62,9 +64,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 // コード
                 await this.code();
             }
+            this.utilService.loadEnd();
         } catch (error) {
             console.error(error);
-            // this.router.navigate(['/error']);
+            this.utilService.loadEnd();
+            this.router.navigate(['/error']);
         }
     }
 
@@ -82,11 +86,8 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             ipAddress: payment.cash.ipAddress
         });
         await this.epsonEPOSService.cashchanger.endDeposit();
-        await this.epsonEPOSService.cashchanger.beginDeposit({
-            cb: (amount: number) => {
-                this.deposit = amount;
-            }
-        });
+        await this.epsonEPOSService.cashchanger.beginDeposit();
+        this.deposit = this.epsonEPOSService.cashchanger.getDeposit().amount;
     }
 
     /**

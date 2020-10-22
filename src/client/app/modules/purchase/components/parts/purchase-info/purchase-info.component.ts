@@ -19,8 +19,7 @@ export class PurchaseInfoComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
-        const additionalProperty = this.purchase.screeningEvent?.workPerformed?.additionalProperty;
-        this.image = Functions.Purchase.getAdditionalProperty(additionalProperty, 'posterImage');
+        this.image = this.purchase.screeningEvent?.workPerformed?.thumbnailUrl;
         this.amount = (this.isAmount)
             ? Functions.Purchase.getAmount(this.purchase.authorizeSeatReservations)
             : 0;

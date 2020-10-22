@@ -121,6 +121,7 @@ export class PurchaseEffects {
                 })).data[0];
                 if (screeningEvent.workPerformed !== undefined) {
                     screeningEvent.workPerformed.additionalProperty = searchMovie.additionalProperty;
+                    screeningEvent.workPerformed.thumbnailUrl = searchMovie.thumbnailUrl;
                 }
                 return purchaseAction.getScreeningEventSuccess({ screeningEvent });
             } catch (error) {

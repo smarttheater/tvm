@@ -21,7 +21,6 @@ export class PurchasePaymentReceptionComponent implements OnInit {
     public paymentMethodType = factory.chevre.paymentMethodType;
     public viewType = Models.Util.ViewType;
     public amount: number;
-    public deposit: number;
     public environment = getEnvironment();
 
     constructor(
@@ -73,10 +72,17 @@ export class PurchasePaymentReceptionComponent implements OnInit {
     }
 
     /**
+     * 投入金額取得
+     */
+    public getDeposit() {
+        const deposit = this.epsonEPOSService.cashchanger.getDeposit().amount;
+        return deposit;
+    }
+
+    /**
      * 現金
      */
     private async cash() {
-        this.deposit = 0;
         const { payment } = await this.actionService.user.getData();
         if (payment === undefined
             || payment.cash === undefined) {
@@ -87,7 +93,6 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         });
         await this.epsonEPOSService.cashchanger.endDeposit();
         await this.epsonEPOSService.cashchanger.beginDeposit();
-        this.deposit = this.epsonEPOSService.cashchanger.getDeposit().amount;
     }
 
     /**
@@ -225,9 +230,10 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             this.utilService.loadStart({ process: 'load' });
             if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金
+                const deposit = this.getDeposit();
                 await this.epsonEPOSService.cashchanger.endDeposit();
-                if ((this.deposit - this.amount) > 0) {
-                    await this.epsonEPOSService.cashchanger.dispenseChange({ amount: (this.deposit - this.amount) });
+                if ((deposit - this.amount) > 0) {
+                    await this.epsonEPOSService.cashchanger.dispenseChange({ amount: (deposit - this.amount) });
                 }
                 await this.epsonEPOSService.cashchanger.disconnect();
             }

@@ -19,12 +19,12 @@
                             <div class="py-3 row align-items-center border-bottom border-gray">
                                 <p class="mb-2 mb-md-0 col-md-4">
                                     {{ 'purchase.paymentReception.cash.deposit' | translate }}</p>
-                                <p class="col-md-8">{{ deposit | currency : 'JPY' }}</p>
+                                <p class="col-md-8">{{ getDeposit() | currency : 'JPY' }}</p>
                             </div>
                             <div class="py-3 row align-items-center">
                                 <p class="mb-2 mb-md-0 col-md-4">
                                     {{ 'purchase.paymentReception.cash.change' | translate }}</p>
-                                <p class="col-md-8">{{ (deposit - amount) | currency : 'JPY' }}</p>
+                                <p class="col-md-8">{{ (getDeposit() - amount) | currency : 'JPY' }}</p>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-3">
                     <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                        [disabled]="(isLoading | async) || amount > deposit"
+                        [disabled]="(isLoading | async) || amount > getDeposit()"
                         (click)="onSubmit()">{{ 'purchase.paymentReception.cash.next' | translate }}</button>
                 </div>
             </div>

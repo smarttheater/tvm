@@ -41,6 +41,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
     public screenType: string;
     public zoomState: boolean;
     public scale: number;
+    public left: number;
     public height: number;
     public origin: string;
     public screenData: IScreen;
@@ -62,6 +63,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
             this.zoomState = false;
             this.scale = ScreenComponent.ZOOM_SCALE;
             this.height = 0;
+            this.left = 0;
             this.origin = '0 0';
             this.screenData = await this.getScreenData();
             this.createScreen();
@@ -279,6 +281,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
             y: pos.y / this.scale - screen.offsetHeight / 2,
         };
         this.scale = ScreenComponent.ZOOM_SCALE;
+        this.left = 0;
         this.origin = '50% 50%';
 
         setTimeout(() => {
@@ -296,10 +299,20 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
         const element: HTMLElement = this.elementRef.nativeElement;
         const screen = <HTMLDivElement>element.querySelector('.screen');
         this.zoomState = false;
-        // TODO 高さ上限を設定
-        const scale = screen.offsetWidth / this.screenData.size.w;
-        this.scale = (scale > ScreenComponent.ZOOM_SCALE) ? ScreenComponent.ZOOM_SCALE : scale;
+        const base = {
+            width: screen.offsetWidth,
+            height: 732
+        };
+        const scale = {
+            width: base.width / this.screenData.size.w,
+            height: base.height / this.screenData.size.h
+        };
+        const currentScale = (scale.width < scale.height) ? scale.width : scale.height;
+        this.scale = (currentScale > ScreenComponent.ZOOM_SCALE)
+            ? ScreenComponent.ZOOM_SCALE
+            : currentScale;
         this.height = this.screenData.size.h * this.scale;
+        this.left = (screen.offsetWidth - (this.screenData.size.w * this.scale)) / 2;
         this.origin = '0 0';
     }
 

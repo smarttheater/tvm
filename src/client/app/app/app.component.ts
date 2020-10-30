@@ -38,14 +38,23 @@ export class AppComponent implements OnInit {
     }
 
     public changeViewport() {
-        const base = 1920;
-        const scale = window.innerWidth / base;
+        const base = {
+            width: 1920,
+            height: 1080
+        };
+        const scale = {
+            width: window.innerWidth / base.width,
+            height: window.innerHeight / base.height,
+        };
+        const currentScale = (scale.width < scale.height)
+            ? scale.width
+            : scale.height;
         // const viewport = 'width=device-width, initial-scale=' + scale + ', maximum-scale=1, user-scalable=no, minimal-ui';
         // document.querySelector('meta[name=viewport]').setAttribute('content', viewport);
         const target = document.body;
-        target.style.transform = 'scale(' + scale + ')';
+        target.style.transform = 'scale(' + currentScale + ')';
         target.style.opacity = '1';
-        target.setAttribute('data-scale', String(scale));
+        target.setAttribute('data-scale', String(currentScale));
     }
 
     /**

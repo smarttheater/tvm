@@ -110,22 +110,6 @@ export class EpsonCaschCangerService {
         });
     }
 
-    public async beginDeposit2(params: {
-        cb: Function
-    }) {
-        if (this.device === undefined) {
-            return;
-        }
-        this.device.beginDeposit();
-        this.device.ondeposit = (data: IDeposit) => {
-            console.log('beginDeposit', data);
-            // 入金処理
-            this.deposit = data;
-            params.cb(this.getDeposit().amount);
-        };
-        await Functions.Util.sleep(1000);
-    }
-
     /**
      * 終了
      */

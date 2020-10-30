@@ -60,7 +60,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
     public async ngOnInit() {
         try {
             this.zoomState = false;
-            this.scale = 1;
+            this.scale = ScreenComponent.ZOOM_SCALE;
             this.height = 0;
             this.origin = '0 0';
             this.screenData = await this.getScreenData();
@@ -296,6 +296,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
         const element: HTMLElement = this.elementRef.nativeElement;
         const screen = <HTMLDivElement>element.querySelector('.screen');
         this.zoomState = false;
+        // TODO 高さ上限を設定
         const scale = screen.offsetWidth / this.screenData.size.w;
         this.scale = (scale > ScreenComponent.ZOOM_SCALE) ? ScreenComponent.ZOOM_SCALE : scale;
         this.height = this.screenData.size.h * this.scale;

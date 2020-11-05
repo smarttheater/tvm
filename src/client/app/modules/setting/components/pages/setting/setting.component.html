@@ -117,59 +117,36 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="row align-items-center">
+                            <div class="row">
+                                <p class="col-md-4 py-2 text-md-right">{{ 'setting.cashchanger.label' | translate }}</p>
+                                <div class="col-md-8">
+                                        <input type="text" class="form-control" formControlName="cashchanger"
+                                            placeholder="0.0.0.0">
+                                        <div *ngIf="settingForm.controls.cashchanger.invalid && settingForm.controls.cashchanger.touched"
+                                            class="mt-2">
+                                            <p *ngIf="settingForm.controls.cashchanger.errors?.required"
+                                                class="text-danger">
+                                                {{ 'form.validation.required' | translate }}</p>
+                                        </div>
+                                        <button type="button" class="btn btn-primary mt-2"
+                                            (click)="connectCash()">{{ 'setting.connect' | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
                                 <p class="col-md-4 py-2 text-md-right">{{ 'setting.payment.label' | translate }}</p>
                                 <div class="col-md-8">
-                                    <div>
-                                        <p class="py-2">{{ 'setting.payment.cash.label' | translate }}</p>
-                                        <input type="text" class="form-control" formControlName="paymentCash"
+                                        <input type="text" class="form-control" formControlName="payment"
                                             placeholder="0.0.0.0">
-                                        <div *ngIf="settingForm.controls.paymentCash.invalid && settingForm.controls.paymentCash.touched"
+                                        <div *ngIf="settingForm.controls.payment.invalid && settingForm.controls.payment.touched"
                                             class="mt-2">
-                                            <p *ngIf="settingForm.controls.paymentCash.errors?.required"
+                                            <p *ngIf="settingForm.controls.payment.errors?.required"
                                                 class="text-danger">
                                                 {{ 'form.validation.required' | translate }}</p>
                                         </div>
                                         <button type="button" class="btn btn-primary mt-2"
-                                            (click)="connection('Cash')">{{ 'setting.connection' | translate }}</button>
-                                    </div>
-                                    <div>
-                                        <p class="py-2">{{ 'setting.payment.creditcard.label' | translate }}</p>
-                                        <input type="text" class="form-control" formControlName="paymentCreditcard"
-                                            placeholder="0.0.0.0">
-                                        <div *ngIf="settingForm.controls.paymentCreditcard.invalid && settingForm.controls.paymentCreditcard.touched"
-                                            class="mt-2">
-                                            <p *ngIf="settingForm.controls.paymentCreditcard.errors?.required"
-                                                class="text-danger">
-                                                {{ 'form.validation.required' | translate }}</p>
-                                        </div>
-                                        <button type="button" class="btn btn-primary mt-2"
-                                            (click)="connection('CreditCard')">{{ 'setting.connection' | translate }}</button>
-                                    </div>
-                                    <div>
-                                        <p class="py-2">{{ 'setting.payment.emoney.label' | translate }}</p>
-                                        <input type="text" class="form-control" formControlName="paymentEmoney"
-                                            placeholder="0.0.0.0">
-                                        <div *ngIf="settingForm.controls.paymentEmoney.invalid && settingForm.controls.paymentEmoney.touched"
-                                            class="mt-2">
-                                            <p *ngIf="settingForm.controls.paymentEmoney.errors?.required"
-                                                class="text-danger">
-                                                {{ 'form.validation.required' | translate }}</p>
-                                        </div>
-                                        <button type="button" class="btn btn-primary mt-2"
-                                            (click)="connection('EMoney')">{{ 'setting.connection' | translate }}</button>
-                                    </div>
-                                    <div>
-                                        <p class="py-2">{{ 'setting.payment.code.label' | translate }}</p>
-                                        <input type="text" class="form-control" formControlName="paymentCode"
-                                            placeholder="0.0.0.0">
-                                        <div *ngIf="settingForm.controls.paymentCode.invalid && settingForm.controls.paymentCode.touched"
-                                            class="mt-2">
-                                            <p *ngIf="settingForm.controls.paymentCode.errors?.required"
-                                                class="text-danger">
-                                                {{ 'form.validation.required' | translate }}</p>
-                                        </div>
-                                    </div>
+                                            (click)="connectPayment()">{{ 'setting.connect' | translate }}</button>
                                 </div>
                             </div>
                         </div>

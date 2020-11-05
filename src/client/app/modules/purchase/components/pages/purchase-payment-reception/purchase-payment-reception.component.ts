@@ -83,13 +83,12 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * 現金
      */
     private async cash() {
-        const { payment } = await this.actionService.user.getData();
-        if (payment === undefined
-            || payment.cash === undefined) {
-            throw new Error('payment undefined');
+        const { cashchanger } = await this.actionService.user.getData();
+        if (cashchanger === undefined) {
+            throw new Error('cashchanger undefined');
         }
         await this.epsonEPOSService.cashchanger.init({
-            ipAddress: payment.cash.ipAddress
+            ipAddress: cashchanger
         });
         await this.epsonEPOSService.cashchanger.endDeposit();
         await this.epsonEPOSService.cashchanger.beginDeposit();
@@ -99,14 +98,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * クレジットカード
      */
     private async creditcard() {
-        const user = await this.actionService.user.getData();
-        if (user.payment === undefined
-            || user.payment.creditcard === undefined) {
+        const { payment } = await this.actionService.user.getData();
+        if (payment === undefined) {
             throw new Error('payment undefined');
         }
-        await this.paymentService.init({
-            ipAddress: user.payment.creditcard.ipAddress
-        });
+        await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
             func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
             options: {
@@ -136,14 +132,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * 電子マネー
      */
     private async eMoney() {
-        const user = await this.actionService.user.getData();
-        if (user.payment === undefined
-            || user.payment.emoney === undefined) {
+        const { payment } = await this.actionService.user.getData();
+        if (payment === undefined) {
             throw new Error('payment undefined');
         }
-        await this.paymentService.init({
-            ipAddress: user.payment.emoney.ipAddress
-        });
+        await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
             func: Models.Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
             options: {
@@ -173,14 +166,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * コード
      */
     private async code() {
-        const user = await this.actionService.user.getData();
-        if (user.payment === undefined
-            || user.payment.code === undefined) {
+        const { payment } = await this.actionService.user.getData();
+        if (payment === undefined) {
             throw new Error('payment undefined');
         }
-        await this.paymentService.init({
-            ipAddress: user.payment.code.ipAddress
-        });
+        await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
             func: Models.Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
             options: {
@@ -254,10 +244,9 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      */
     public async prev() {
         try {
-            const { payment } = await this.actionService.user.getData();
-            if (payment !== undefined
-                && payment.cash !== undefined) {
-                await this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+            const { cashchanger } = await this.actionService.user.getData();
+            if (cashchanger !== undefined) {
+                await this.actionService.purchase.depositRepay({ ipAddress: cashchanger });
             }
             this.router.navigate(['/purchase/payment']);
         } catch (error) {

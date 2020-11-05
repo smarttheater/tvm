@@ -24,10 +24,9 @@ export class ErrorComponent implements OnInit, OnDestroy {
 
     public async ngOnInit() {
         try {
-            const { payment } = await this.actionService.user.getData();
-            if (payment !== undefined
-                && payment.cash !== undefined) {
-                await this.actionService.purchase.depositRepay({ ipAddress: payment.cash.ipAddress });
+            const { cashchanger } = await this.actionService.user.getData();
+            if (cashchanger !== undefined) {
+                await this.actionService.purchase.depositRepay({ ipAddress: cashchanger });
             }
         } catch (error) {
             console.error(error);

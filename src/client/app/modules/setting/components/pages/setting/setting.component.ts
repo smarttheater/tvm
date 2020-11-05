@@ -84,10 +84,8 @@ export class SettingComponent implements OnInit {
             posId: [''],
             printerType: [Models.Util.Printer.ConnectionType.None],
             printerIpAddress: [''],
-            paymentCash: [''],
-            paymentCreditcard: [''],
-            paymentEmoney: [''],
-            paymentCode: [''],
+            cashchanger: [''],
+            payment: [''],
         });
         profile.forEach(p => {
             const validators: ValidatorFn[] = [];
@@ -135,17 +133,11 @@ export class SettingComponent implements OnInit {
             this.settingForm.controls.printerType.setValue(user.printer.connectionType);
             this.settingForm.controls.printerIpAddress.setValue(user.printer.ipAddress);
         }
-        if (user.payment !== undefined && user.payment.cash !== undefined) {
-            this.settingForm.controls.paymentCash.setValue(user.payment.cash.ipAddress);
+        if (user.cashchanger !== undefined) {
+            this.settingForm.controls.cashchanger.setValue(user.cashchanger);
         }
-        if (user.payment !== undefined && user.payment.creditcard !== undefined) {
-            this.settingForm.controls.paymentCreditcard.setValue(user.payment.creditcard.ipAddress);
-        }
-        if (user.payment !== undefined && user.payment.emoney !== undefined) {
-            this.settingForm.controls.paymentEmoney.setValue(user.payment.emoney.ipAddress);
-        }
-        if (user.payment !== undefined && user.payment.code !== undefined) {
-            this.settingForm.controls.paymentCode.setValue(user.payment.code.ipAddress);
+        if (user.payment !== undefined) {
+            this.settingForm.controls.payment.setValue(user.payment);
         }
     }
 
@@ -190,20 +182,6 @@ export class SettingComponent implements OnInit {
                 throw new Error('theater not found').message;
             }
             const pos = (theater.hasPOS === undefined) ? theater.hasPOS : theater.hasPOS.find(p => p.id === posId);
-            const payment = {
-                cash: (this.settingForm.controls.paymentCash.value === '')
-                    ? undefined
-                    : { ipAddress: this.settingForm.controls.paymentCash.value },
-                creditcard: (this.settingForm.controls.paymentCreditcard.value === '')
-                    ? undefined
-                    : { ipAddress: this.settingForm.controls.paymentCreditcard.value },
-                emoney: (this.settingForm.controls.paymentEmoney.value === '')
-                    ? undefined
-                    : { ipAddress: this.settingForm.controls.paymentEmoney.value },
-                code: (this.settingForm.controls.paymentCode.value === '')
-                    ? undefined
-                    : { ipAddress: this.settingForm.controls.paymentCode.value }
-            };
             this.actionService.user.updateAll({
                 pos,
                 theater,
@@ -228,10 +206,10 @@ export class SettingComponent implements OnInit {
                     ipAddress: this.settingForm.controls.printerIpAddress.value,
                     connectionType: this.settingForm.controls.printerType.value
                 },
-                payment: (payment.cash !== undefined
-                    || payment.creditcard !== undefined
-                    || payment.emoney !== undefined
-                    || payment.code !== undefined) ? payment : undefined
+                cashchanger: (this.settingForm.controls.cashchanger.value === undefined)
+                    ? undefined : this.settingForm.controls.cashchanger.value,
+                payment: (this.settingForm.controls.payment.value === undefined)
+                ? undefined : this.settingForm.controls.payment.value,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
@@ -291,7 +269,8 @@ export class SettingComponent implements OnInit {
         return Object.keys(this.settingForm.controls).filter(key => {
             return (key !== 'printerType'
                 && key !== 'printerIpAddress'
-                && !/payment/.test(key));
+                && key !== 'payment'
+                && key !== 'cashchanger');
         });
     }
 
@@ -305,29 +284,39 @@ export class SettingComponent implements OnInit {
     /**
      * 接続確認
      */
-    public async connection(paymentType: 'Cash' | 'CreditCard' | 'EMoney') {
+    public async connectCash() {
         try {
-            if (paymentType === 'Cash') {
-                const ipAddress = this.settingForm.controls.paymentCash.value;
-                await this.epsonEPOSService.cashchanger.init({ ipAddress });
-                await this.epsonEPOSService.cashchanger.disconnect();
-            }
-            if (paymentType === 'CreditCard') {
-                const ipAddress = this.settingForm.controls.paymentCreditcard.value;
-                await this.paymentService.init({ ipAddress });
-                const execREsult = await this.paymentService.exec({
-                    func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.INSTALL,
-                });
-                console.log(execREsult);
-            }
-            if (paymentType === 'EMoney') {
-                const ipAddress = this.settingForm.controls.paymentEmoney.value;
-                await this.paymentService.init({ ipAddress });
-                const execREsult = await this.paymentService.exec({
-                    func: Models.Purchase.Payment.FUNC_CODE.EMONEY.INSTALL,
-                });
-                console.log(execREsult);
-            }
+            const ipAddress = this.settingForm.controls.cashchanger.value;
+            await this.epsonEPOSService.cashchanger.init({ ipAddress });
+            await this.epsonEPOSService.cashchanger.disconnect();
+            this.utilService.openAlert({
+                title: this.translate.instant('common.complete'),
+                body: this.translate.instant('setting.alert.connection')
+            });
+        } catch (error) {
+            console.error(error);
+            const message = (error.message === undefined) ? error : error.message;
+            this.utilService.openAlert({
+                title: this.translate.instant('common.error'),
+                body: `
+                <div class="p-3 bg-light-gray select-text">
+                    <code>${message}</code>
+                </div>`
+            });
+        }
+    }
+
+    /**
+     * 接続確認
+     */
+    public async connectPayment() {
+        try {
+            const ipAddress = this.settingForm.controls.payment.value;
+            await this.paymentService.init({ ipAddress });
+            const execREsult = await this.paymentService.exec({
+                func: Models.Purchase.Payment.FUNC_CODE.TERMINAL.COMMUNICATION,
+            });
+            console.log(execREsult);
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
                 body: this.translate.instant('setting.alert.connection')

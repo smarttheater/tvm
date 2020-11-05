@@ -42,10 +42,6 @@ export class PaymentService {
         this.offline = (params.isOffline === undefined) ? '' : '1';
     }
 
-    public creditCard() {
-
-    }
-
     /**
      * 要求
      */

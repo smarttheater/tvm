@@ -49,7 +49,7 @@ export class EpsonCaschCangerService {
                 reject(new Error('IP address of the printer is not set'));
                 return;
             }
-            const url = new URL(`${location.protocol}${ipAddress}`);
+            const url = new URL(`${location.protocol}${ipAddress}:8008`);
             this.ePOSDevice.connect(url.hostname, url.port, (data: string) => {
                 if (data === 'OK' || data === 'SSL_CONNECT_OK') {
                     resolve(data);

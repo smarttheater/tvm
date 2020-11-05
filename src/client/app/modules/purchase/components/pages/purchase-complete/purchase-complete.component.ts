@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, EpsonEPOSService, UtilService } from '../../../../../services';
+import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -36,7 +36,6 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
         private actionService: ActionService,
         private utilService: UtilService,
         private translate: TranslateService,
-        private epsonEPOSService: EpsonEPOSService,
     ) { }
 
     public async ngOnInit() {
@@ -102,34 +101,6 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
                     <code>${JSON.stringify(error)}</code>
                 </div>`
             });
-        }
-    }
-
-    public async test() {
-        try {
-            this.utilService.loadStart({ process: 'load' });
-            // デモ用
-            const purchase = await this.actionService.purchase.getData();
-            if (purchase.order?.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash) !== undefined) {
-                // 現金
-                const paymentMethod = purchase.order?.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash);
-                if (paymentMethod === undefined
-                    || paymentMethod.totalPaymentDue?.value === undefined) {
-                    return;
-                }
-                const user = await this.actionService.user.getData();
-                if (user.payment === undefined
-                    || user.payment.cash === undefined) {
-                    throw new Error('payment undefined');
-                }
-                await this.epsonEPOSService.cashchanger.init({ ipAddress: user.payment.cash.ipAddress });
-                await this.epsonEPOSService.cashchanger.dispenseChange({ amount: paymentMethod.totalPaymentDue.value });
-                await this.epsonEPOSService.cashchanger.disconnect();
-            }
-            this.utilService.loadEnd();
-        } catch (error) {
-            console.error(error);
-            this.utilService.loadEnd();
         }
     }
 

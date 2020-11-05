@@ -143,6 +143,8 @@
                                                 class="text-danger">
                                                 {{ 'form.validation.required' | translate }}</p>
                                         </div>
+                                        <button type="button" class="btn btn-primary mt-2"
+                                            (click)="connection('CreditCard')">{{ 'setting.connection' | translate }}</button>
                                     </div>
                                     <div>
                                         <p class="py-2">{{ 'setting.payment.emoney.label' | translate }}</p>
@@ -154,6 +156,8 @@
                                                 class="text-danger">
                                                 {{ 'form.validation.required' | translate }}</p>
                                         </div>
+                                        <button type="button" class="btn btn-primary mt-2"
+                                            (click)="connection('EMoney')">{{ 'setting.connection' | translate }}</button>
                                     </div>
                                     <div>
                                         <p class="py-2">{{ 'setting.payment.code.label' | translate }}</p>

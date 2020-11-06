@@ -36,10 +36,14 @@ export class PaymentService {
         isOffline?: '1';
     }) {
         this.connectionAddress = `http://${params.ipAddress}:8001`;
-        this.requestTimeout = (params.requestTimeout === undefined) ? 60000 : params.requestTimeout;
-        this.delayTime = (params.delayTime === undefined) ? 1000 : params.delayTime;
-        this.resultCountLimit = (params.resultCountLimit === undefined) ? 100 : params.resultCountLimit;
-        this.offline = (params.isOffline === undefined) ? '' : '1';
+        this.requestTimeout = (params.requestTimeout === undefined)
+            ? 60000 : params.requestTimeout;
+        this.delayTime = (params.delayTime === undefined)
+            ? 1000 : params.delayTime;
+        this.resultCountLimit = (params.resultCountLimit === undefined)
+            ? 100 : params.resultCountLimit;
+        this.offline = (params.isOffline === undefined)
+            ? '' : '1';
     }
 
     /**
@@ -51,6 +55,7 @@ export class PaymentService {
     }): Promise<TResponseData> {
         const func = params.func;
         const execReqestData = this.createExecReqestData(params);
+        console.log('execReqestData', execReqestData);
         const execResult = await this.request<IResponseData>({
             requestData: execReqestData,
             methodName: 'Exec'
@@ -62,12 +67,13 @@ export class PaymentService {
         // 結果取得
         let count = 0;
         const resultReqestData = this.createResultReqestData({ func });
-        let resultResult = await this.request<TResponseData>({
+        console.log('resultReqestData', resultReqestData);
+        let requestResult = await this.request<TResponseData>({
             requestData: resultReqestData,
             methodName: 'Result'
         });
-        console.log('Result', func, resultResult);
-        let roop = this.isProcessing({ status: resultResult.FUNC_STATUS });
+        console.log('Result:' + count, func, requestResult);
+        let roop = this.isProcessing({ status: requestResult.FUNC_STATUS });
         while (roop) {
             count++;
             if (count > this.resultCountLimit) {
@@ -75,14 +81,14 @@ export class PaymentService {
                 break;
             }
             await Functions.Util.sleep(this.delayTime);
-            resultResult = await this.request<TResponseData>({
+            requestResult = await this.request<TResponseData>({
                 requestData: resultReqestData,
                 methodName: 'Result'
             });
-            console.log('Result', func, resultResult);
-            roop = this.isProcessing({ status: resultResult.FUNC_STATUS });
+            console.log('Result:' + count, func, requestResult);
+            roop = this.isProcessing({ status: requestResult.FUNC_STATUS });
         }
-        return resultResult;
+        return requestResult;
     }
 
     /**
@@ -138,9 +144,12 @@ export class PaymentService {
                     JOB: options.JOB,
                     ORDERID: options.ORDERID,
                     AMOUNT: options.AMOUNT,
-                    MACHINE_CODE: options.MACHINE_CODE,
-                    TRANID: options.TRANID,
-                    CANTRANID: options.CANTRANID,
+                    MACHINE_CODE: (options.MACHINE_CODE === undefined)
+                        ? '' : options.MACHINE_CODE,
+                    TRANID: (options.TRANID === undefined)
+                        ? '' : options.TRANID,
+                    CANTRANID: (options.CANTRANID === undefined)
+                        ? '' : options.CANTRANID,
                     OFFLINE: this.offline
                 };
                 break;
@@ -154,7 +163,8 @@ export class PaymentService {
                     FUNC: func,
                     JOB: options.JOB,
                     ORDERID: options.ORDERID,
-                    TRANID: options.TRANID
+                    TRANID: (options.TRANID === undefined)
+                        ? '' : options.TRANID,
                 };
                 break;
 

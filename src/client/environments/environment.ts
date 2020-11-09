@@ -71,6 +71,10 @@ interface IEnvironment {
      */
     PAYMENT_METHOD_CUSTOM: { category: string; name: { ja: string; en: string; }, qrcode?: string; }[];
     /**
+     * 決済タイムアウト(ms)
+     */
+    PAYMENT_TIMEOUT: string;
+    /**
      * REGIGROW QRコード
      */
     REGIGROW_QRCODE: string;
@@ -211,6 +215,7 @@ const defaultEnvironment: IEnvironment = {
     INPUT_KEYPAD: true,
     PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
     PAYMENT_METHOD_CUSTOM: [],
+    PAYMENT_TIMEOUT: '300000',
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,
     HEADER_MENU: true,

@@ -98,9 +98,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * クレジットカード
      */
     private async creditcard() {
+        const { transaction } = await this.actionService.purchase.getData();
         const { payment } = await this.actionService.user.getData();
-        if (payment === undefined) {
-            throw new Error('payment undefined');
+        if (transaction === undefined
+            || payment === undefined) {
+            throw new Error('transaction or payment undefined');
         }
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
@@ -112,7 +114,8 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 // MACHINE_CODE: '',
                 // TRANID: '',
                 // CANTRANID: ''
-            }
+            },
+            timeout: this.getPaymentTimeout({transaction})
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
@@ -132,9 +135,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * 電子マネー
      */
     private async eMoney() {
+        const { transaction } = await this.actionService.purchase.getData();
         const { payment } = await this.actionService.user.getData();
-        if (payment === undefined) {
-            throw new Error('payment undefined');
+        if (transaction === undefined
+            || payment === undefined) {
+            throw new Error('transaction or payment undefined');
         }
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
@@ -146,7 +151,8 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 // MACHINE_CODE: '',
                 // TRANID: '',
                 // CANTRANID: ''
-            }
+            },
+            timeout: this.getPaymentTimeout({transaction})
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
@@ -166,9 +172,11 @@ export class PurchasePaymentReceptionComponent implements OnInit {
      * コード
      */
     private async code() {
+        const { transaction } = await this.actionService.purchase.getData();
         const { payment } = await this.actionService.user.getData();
-        if (payment === undefined) {
-            throw new Error('payment undefined');
+        if (transaction === undefined
+            || payment === undefined) {
+            throw new Error('transaction or payment undefined');
         }
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
@@ -180,7 +188,8 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 MACHINE_CODE: '',
                 // TRANID: '',
                 // CANTRANID: ''
-            }
+            },
+            timeout: this.getPaymentTimeout({transaction})
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
@@ -252,5 +261,18 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    /**
+     * 決済タイムアウト取得
+     */
+    private getPaymentTimeout(params: {
+        transaction: factory.transaction.placeOrder.ITransaction;
+    }) {
+        const expires = params.transaction.expires;
+        const now = moment();
+        const paymentTimeout = Number(this.environment.PAYMENT_TIMEOUT);
+        const diff = moment(expires).diff(now, 'milliseconds');
+        return (diff < paymentTimeout) ? diff : paymentTimeout;
     }
 }

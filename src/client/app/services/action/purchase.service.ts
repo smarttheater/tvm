@@ -509,6 +509,9 @@ export class PurchaseService {
                 additionalProperty.push({ name: 'depositAmount', value: String(depositAmount) });
                 additionalProperty.push({ name: 'change', value: String(depositAmount - amount) });
             }
+            if (purchase.orderId !== undefined) {
+                additionalProperty.push({ name: 'orderId', value: purchase.orderId });
+            }
             this.store.dispatch(purchaseAction.authorizeAnyPayment({
                 transaction: transaction,
                 paymentMethod: purchase.paymentMethod.typeOf,
@@ -548,6 +551,15 @@ export class PurchaseService {
     }
 
     /**
+     * オーダーIDを設定
+     */
+    public setOrderId(params: {
+        id: string;
+    }) {
+        this.store.dispatch(purchaseAction.setOrderId(params));
+    }
+
+    /**
      * 預金返済
      */
     public async depositRepay(_params: { ipAddress: string; }) {
@@ -555,10 +567,6 @@ export class PurchaseService {
             this.utilService.loadStart({ process: 'load' });
             const { paymentMethod } = await this.getData();
             if (paymentMethod?.typeOf === factory.chevre.paymentMethodType.Cash) {
-                // 現金
-                // await this.epsonEPOSService.cashchanger.init({
-                //     ipAddress: params.ipAddress
-                // });
                 await this.epsonEPOSService.cashchanger.endDepositRepay();
                 await this.epsonEPOSService.cashchanger.disconnect();
             }

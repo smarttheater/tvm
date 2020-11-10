@@ -65,6 +65,10 @@ export interface IPurchaseState {
      */
     orderCount: number;
     /**
+     * オーダーID
+     */
+    orderId?: string;
+    /**
      * 注文
      */
     order?: factory.order.IOrder;
@@ -573,6 +577,15 @@ export function reducer(initialState: IState, action: Action) {
                 purchaseData: {
                     ...state.purchaseData,
                     searchType: payload.searchType
+                }
+            };
+        }),
+        on(purchaseAction.setOrderId, (state, payload) => {
+            return {
+                ...state,
+                purchaseData: {
+                    ...state.purchaseData,
+                    orderId: payload.id
                 }
             };
         }),

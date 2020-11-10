@@ -104,18 +104,20 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const orderId = moment().format('YYYYMMDDHHmmsss');
+        this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
             func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
             options: {
                 JOB: Models.Purchase.Payment.JOB.CAPTURE,
-                ORDERID: moment().format('YYYYMMDDHHmmsss'),
+                ORDERID: orderId,
                 AMOUNT: String(this.amount),
                 // MACHINE_CODE: '',
                 // TRANID: '',
                 // CANTRANID: ''
             },
-            timeout: this.getPaymentTimeout({transaction})
+            timeout: this.getPaymentTimeout({ transaction })
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
@@ -141,18 +143,20 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const orderId = moment().format('YYYYMMDDHHmmsss');
+        this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
             func: Models.Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
             options: {
                 JOB: Models.Purchase.Payment.JOB.CAPTURE,
-                ORDERID: moment().format('YYYYMMDDHHmmsss'),
+                ORDERID: orderId,
                 AMOUNT: String(this.amount),
                 // MACHINE_CODE: '',
                 // TRANID: '',
                 // CANTRANID: ''
             },
-            timeout: this.getPaymentTimeout({transaction})
+            timeout: this.getPaymentTimeout({ transaction })
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
@@ -178,18 +182,20 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const orderId = moment().format('YYYYMMDDHHmmsss');
+        this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
             func: Models.Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
             options: {
                 JOB: Models.Purchase.Payment.JOB.CAPTURE,
-                ORDERID: moment().format('YYYYMMDDHHmmsss'),
+                ORDERID: orderId,
                 AMOUNT: String(this.amount),
                 MACHINE_CODE: '',
                 // TRANID: '',
                 // CANTRANID: ''
             },
-            timeout: this.getPaymentTimeout({transaction})
+            timeout: this.getPaymentTimeout({ transaction })
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {

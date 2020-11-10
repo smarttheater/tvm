@@ -346,6 +346,11 @@ export const selectSearchType = createAction(
     }>()
 );
 
+export const setOrderId = createAction(
+    `${LABEL} setOrderId`,
+    props<{ id: string; }>()
+);
+
 
 
 

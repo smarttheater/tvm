@@ -6,9 +6,12 @@ import * as moment from 'moment';
 import { Observable, race } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { Functions, Models } from '../..';
+import { getEnvironment } from '../../../environments/environment';
 import { orderAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
+import { EpsonEPOSService } from '../epson-epos.service';
+import { StarPrintService } from '../star-print.service';
 import { UtilService } from '../util.service';
 
 @Injectable({
@@ -21,7 +24,9 @@ export class OrderService {
         private store: Store<reducers.IState>,
         private actions: Actions,
         private cinerinoService: CinerinoService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private starPrintService: StarPrintService,
+        private epsonEPOSService: EpsonEPOSService
     ) {
         this.order = this.store.pipe(select(reducers.getOrder));
         this.error = this.store.pipe(select(reducers.getError));
@@ -136,21 +141,125 @@ export class OrderService {
         pos?: factory.chevre.place.movieTheater.IPOS;
         timeout?: number;
     }) {
-        return new Promise<void>((resolve, reject) => {
+        const environment = getEnvironment();
+        try {
             const orders = prams.orders;
-            const pos = prams.pos;
             const printer = prams.printer;
-            this.store.dispatch(orderAction.print({ orders, pos, printer }));
-            const success = this.actions.pipe(
-                ofType(orderAction.printSuccess.type),
-                tap(() => { resolve(); })
-            );
-            const fail = this.actions.pipe(
-                ofType(orderAction.printFail.type),
-                tap(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); })
-            );
-            race(success, fail).pipe(take(1)).subscribe();
+            const pos = prams.pos;
+            if (printer.connectionType === Models.Util.Printer.ConnectionType.None) {
+                return;
+            }
+            if (environment.PRINT_LOADING) {
+                this.utilService.loadStart({ process: 'orderAction.Print' });
+            }
+            await this.cinerinoService.getServices();
+            let authorizeOrders: factory.order.IOrder[] = [];
+            if (environment.PRINT_QRCODE_TYPE === Models.Order.Print.PrintQrcodeType.None) {
+                authorizeOrders = orders;
+            } else if (environment.PRINT_QRCODE_TYPE === Models.Order.Print.PrintQrcodeType.Token) {
+                for (const order of orders) {
+                    authorizeOrders.push(await this.authorizeOwnershipInfos({ order }));
+                }
+            } else {
+                authorizeOrders = orders;
+                for (const order of orders) {
+                    this.authorizeOwnershipInfos({ order });
+                }
+            }
+            const testFlg = authorizeOrders.length === 0;
+            const path = `/ejs/print/ticket.ejs`;
+            const url = (testFlg) ? '/default//ejs/print/test.ejs'
+                : (await Functions.Util.isFile(`${Functions.Util.getProject().storageUrl}${path}`))
+                    ? `${Functions.Util.getProject().storageUrl}${path}`
+                    : `/default${path}`;
+            const printData = await this.utilService.getText<string>(url);
+            const canvasList: HTMLCanvasElement[] = [];
+            if (testFlg) {
+                const canvas = await Functions.Order.createTestPrintCanvas4Html({ view: <string>printData });
+                canvasList.push(canvas);
+            } else {
+                for (const order of authorizeOrders) {
+                    let index = 0;
+                    for (const acceptedOffer of order.acceptedOffers) {
+                        const qrcode = Functions.Order.createQRCode(
+                            acceptedOffer,
+                            order,
+                            index
+                        );
+                        const canvas = await Functions.Order.createPrintCanvas4Html({
+                            view: <string>printData, order, pos, qrcode, index
+                        });
+                        canvasList.push(canvas);
+                        index++;
+                    }
+                }
+            }
+            await this.printProcess({ printer, canvasList, pos });
+            if (environment.PRINT_LOADING) {
+                this.utilService.loadEnd();
+            }
+        } catch (error) {
+            if (environment.PRINT_LOADING) {
+                this.utilService.loadEnd();
+            }
+            throw error;
+        }
+    }
+
+    /**
+     * 印刷処理
+     */
+    private async printProcess(params: {
+        printer: Models.Util.Printer.IPrinter;
+        canvasList: HTMLCanvasElement[];
+        pos?: factory.chevre.place.movieTheater.IPOS;
+    }) {
+        const printer = params.printer;
+        const canvasList = params.canvasList;
+        const pos = params.pos;
+        switch (printer.connectionType) {
+            case Models.Util.Printer.ConnectionType.StarBluetooth:
+            case Models.Util.Printer.ConnectionType.StarLAN:
+                this.starPrintService.initialize({ printer, pos });
+                await this.starPrintService.printProcess({ canvasList });
+                break;
+            case Models.Util.Printer.ConnectionType.Image:
+                const domList = canvasList.map(canvas => `<div class="mb-3 p-4 border border-light-gray shadow-sm">
+                <img class="w-100" src="${canvas.toDataURL()}" alt="">
+                </div>`);
+                this.utilService.openAlert({
+                    title: '',
+                    body: `<div class="px-5">${domList.join('\n')}</div>`
+                });
+                break;
+            case Models.Util.Printer.ConnectionType.EpsonEPOS:
+                await this.epsonEPOSService.printer.init({ printer });
+                await this.epsonEPOSService.printer.print({ canvasList });
+                await this.epsonEPOSService.printer.disconnect();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 注文へ所有権発行
+     */
+    private async authorizeOwnershipInfos(params: {
+        order: factory.order.IOrder;
+    }) {
+        const order = params.order;
+        const result = await Functions.Util.retry<factory.order.IOrder>({
+            process: (async () => {
+                const orderNumber = order.orderNumber;
+                const customer = { telephone: order.customer.telephone };
+                const authorizeOrder = await this.cinerinoService.order.authorizeOwnershipInfos({ orderNumber, customer });
+                return authorizeOrder;
+            }),
+            interval: 2000,
+            limit: 10
         });
+        return result;
     }
 
     /**

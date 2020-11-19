@@ -8,9 +8,7 @@
             },
             "schedule": {
                 "title": "ご覧になりたい上映回を選んでください",
-                "read": "座席を選択してください。",
-                "preSalesSchedule": "先行販売スケジュール",
-                "salesSchedule": "通常販売スケジュール",
+                "read": "",
                 "notfound": "スケジュールがありません。",
                 "next": "次へ",
                 "prev": "戻る",
@@ -19,20 +17,13 @@
                 }
             },
             "date": {
-                "title": "座席選択",
-                "read": "座席を選択してください。",
-                "preSalesSchedule": "先行販売スケジュール",
-                "salesSchedule": "通常販売スケジュール",
-                "notfound": "スケジュールがありません。",
+                "title": "",
+                "read": "",
                 "next": "次へ",
                 "prev": "戻る"
             },
             "scheduleMovie": {
                 "title": "ご覧になりたい作品を選んでください",
-                "read": "座席を選択してください。",
-                "date": "日付変更",
-                "preSalesSchedule": "先行販売スケジュール",
-                "salesSchedule": "通常販売スケジュール",
                 "notfound": "スケジュールがありません。",
                 "next": "次へ",
                 "prev": "戻る",
@@ -42,9 +33,7 @@
             },
             "scheduleEvent": {
                 "title": "ご覧になりたい上映回を選んでください",
-                "read": "座席を選択してください。",
-                "preSalesSchedule": "先行販売スケジュール",
-                "salesSchedule": "通常販売スケジュール",
+                "read": "",
                 "notfound": "スケジュールがありません。",
                 "next": "次へ",
                 "prev": "戻る",
@@ -53,8 +42,8 @@
                 }
             },
             "seat": {
-                "title": "座席選択",
-                "read": "座席を選択してください。",
+                "title": "座席を選んでください",
+                "read": "",
                 "next": "次へ",
                 "consent": "利用規約に同意して次へ",
                 "terms": "利用規約",
@@ -69,8 +58,8 @@
                 }
             },
             "ticket": {
-                "title": "チケット選択",
-                "read": "チケットを選択してください。",
+                "title": "チケットを選んでください",
+                "read": "",
                 "unselected": "チケットを選択してください",
                 "mvtk": "ムビチケ券を利用される方",
                 "next": "次へ",
@@ -80,17 +69,6 @@
                 "alert": {
                     "ticketCondition": "割引券の適用条件を再度ご確認ください。",
                     "temporaryReservation": "仮予約に失敗しました。"
-                }
-            },
-            "cart": {
-                "title": "購入情報",
-                "read": "購入情報をご確認ください。",
-                "notfound": "購入中のアイテムがありません。",
-                "next": "次へ",
-                "prev": "戻る",
-                "add": "追加する",
-                "confirm": {
-                    "cancel": "キャンセルしてよろしいですか。"
                 }
             },
             "step": {

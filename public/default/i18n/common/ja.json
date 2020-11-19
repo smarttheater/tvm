@@ -17,7 +17,7 @@
             }
         },
         "payment": {
-            "title": "決済方法選択",
+            "title": "支払い方法を選択してください",
             "read": "決済方法を選択してください。",
             "notfound": "購入中のアイテムがありません。",
             "next": "購入確定",
@@ -30,8 +30,9 @@
             "title": "決済方法選択",
             "read": "",
             "cash": {
-                "title": "決済受付（現金）",
-                "read": "現金を投入してください。",
+                "title": "現金を挿入してください",
+                "read": "",
+                "insufficient": "不足金額",
                 "deposit": "お預かり金額",
                 "change": "お釣り",
                 "next": "購入確定",
@@ -39,22 +40,22 @@
                 "alert": {}
             },
             "creditcard": {
-                "title": "決済受付（クレジットカード）",
-                "read": "クレジットカードで決済してください",
+                "title": "クレジットカードを挿入してください",
+                "read": "",
                 "next": "購入確定",
                 "prev": "戻る",
                 "alert": {}
             },
             "eMoney": {
                 "title": "決済受付（電子マネー）",
-                "read": "電子マネーで決済してください",
+                "read": "",
                 "next": "購入確定",
                 "prev": "戻る",
                 "alert": {}
             },
             "code": {
                 "title": "決済受付（コード）",
-                "read": "コードで決済してください",
+                "read": "",
                 "next": "購入確定",
                 "prev": "戻る",
                 "alert": {}
@@ -75,14 +76,17 @@
             }
         },
         "complete": {
-            "title": "購入完了",
-            "read": "ご購入ありがとうございます。",
+            "title": "お買い上げいただきありがとうございます",
+            "read": "",
+            "print": {
+                "total": "合計",
+                "ticket": "チケット",
+                "value": "{{value}}枚"
+            },
             "next": "完了",
             "prev": "戻る",
-            "cooperationQRCode": "連携用QRコード",
             "alert": {
-                "print": "印刷に失敗しました",
-                "regiGrow": "RegiGrow連携に失敗しました"
+                "print": "印刷に失敗しました"
             }
         },
         "info": {
@@ -298,13 +302,10 @@
     "modal": {
         "movieTicket": {
             "check": {
+                "title": "QRコードをお持ちの方は読み取り機へかざしてください",
                 "success": "チケットを追加しました。",
                 "code": "購入番号",
                 "password": "暗証番号",
-                "camera": {
-                    "start": "カメラで読み取り",
-                    "stop": "カメラを停止"
-                },
                 "next": "認証",
                 "prev": "",
                 "value": "[{{value}}枚]",
@@ -458,7 +459,7 @@
         "startDate": "上映日時",
         "doorTime": "開場日時",
         "seat": "座席",
-        "seatValue": "<{{value}}席>",
+        "seatValue": "({{value}}席)",
         "ticket": "券種",
         "referenceQuantityValue": "[{{value}}枚]",
         "customer": "購入者",
@@ -545,6 +546,6 @@
         "remove": "削除",
         "etc": "その他",
         "required": "必須",
-        "clear": "最初の画面へ戻る"
+        "clear": "最初へ戻る"
     }
 }

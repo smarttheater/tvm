@@ -29,6 +29,7 @@ import { QRCodeReaderModalComponent } from './components/parts/qrcode/reader-mod
 import { QRCodeViewerModalComponent } from './components/parts/qrcode/viewer-modal/viewer-modal.component';
 import { ReservationDetailModalComponent } from './components/parts/reservation/detail-modal/detail-modal.component';
 import { ScreenComponent } from './components/parts/screen/screen.component';
+import { StaticModalComponent } from './components/parts/static-modal/static-modal.component';
 import { ChangeLanguagePipe } from './pipes/change-language.pipe';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format.pipe';
@@ -49,6 +50,7 @@ const components = [
 const entryComponents = [
   AlertModalComponent,
   ConfirmModalComponent,
+  StaticModalComponent,
   MovieTicketCheckModalComponent,
   NumericKeypadComponent,
   OrderDetailModalComponent,

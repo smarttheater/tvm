@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AlertModalComponent } from '../modules/shared/components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from '../modules/shared/components/parts/confirm-modal/confirm-modal.component';
+import { StaticModalComponent } from '../modules/shared/components/parts/static-modal/static-modal.component';
 import { utilAction } from '../store/actions';
 import * as reducers from '../store/reducers';
 
@@ -18,6 +19,20 @@ export class UtilService {
         private store: Store<reducers.IState>
     ) { }
 
+    public openStaticModal(args: {
+        title: string;
+        body: string;
+    }) {
+        const title = args.title;
+        const body = args.body;
+        const modalRef = this.modal.show(StaticModalComponent, {
+            initialState: { title, body },
+            backdrop: 'static',
+            class: 'modal-dialog-centered modal-lg '
+        });
+        return modalRef;
+    }
+
     /**
      * 警告モーダル表示
      */
@@ -31,7 +46,7 @@ export class UtilService {
             initialState: { title, body },
             class: 'modal-dialog-centered modal-lg'
         });
-        modalRef.content.modal = modalRef;
+        return modalRef;
     }
 
     /**
@@ -47,10 +62,11 @@ export class UtilService {
         const body = args.body;
         const code = args.code;
         const cb = args.cb;
-        this.modal.show(ConfirmModalComponent, {
+        const modalRef = this.modal.show(ConfirmModalComponent, {
             initialState: { title, body, code, cb },
             class: 'modal-dialog-centered modal-lg'
         });
+        return modalRef;
     }
 
     /**

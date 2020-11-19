@@ -28,10 +28,6 @@ export class MovieTicketCheckModalComponent implements OnInit {
     public isSuccess: boolean;
     public successMessage: string;
     public environment = getEnvironment();
-    public stream: MediaStream | null;
-    public isShowVideo: boolean;
-    public video: HTMLVideoElement;
-    public scanLoop: any;
     constructor(
         public modal: BsModalRef,
         private store: Store<reducers.IState>,

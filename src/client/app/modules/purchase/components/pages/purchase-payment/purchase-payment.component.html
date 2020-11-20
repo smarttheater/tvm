@@ -6,36 +6,36 @@
     <div class="container h-100 px-3 pb-3">
         <div class="row h-100">
             <div class="col-3 h-100">
-                <div class="bg-dark h-100"></div>
+                <img class="w-100" src="/default/images/purchase/payment/info.svg">
             </div>
             <div class="col-6">
                 <div *ngIf="amount > 0" class="container px-0">
                     <div class="row">
                         <div class="col-6 mb-3">
                             <button *ngIf="isDisplay(paymentMethodType.Cash)" type="button"
-                                class="btn btn-primary btn-block py-3"
+                                class="btn btn-outline-primary btn-block py-5"
                                 (click)="selectPaymentMethodType(paymentMethodType.Cash)">
-                                <p>{{ 'common.paymentMethodType.cash.label' | translate }}</p>
+                                <p class="text-large">{{ 'common.paymentMethodType.cash.label' | translate }}</p>
                             </button>
                         </div>
                         <div class="col-6 mb-3">
                             <button *ngIf="isDisplay(paymentMethodType.CreditCard)" type="button"
-                                class="btn btn-primary btn-block py-3"
+                                class="btn btn-outline-primary btn-block py-5"
                                 (click)="selectPaymentMethodType(paymentMethodType.CreditCard)">
-                                <p>{{ 'common.paymentMethodType.creditCard.label' | translate }}</p>
+                                <p class="text-large">{{ 'common.paymentMethodType.creditCard.label' | translate }}</p>
                             </button>
                         </div>
                         <div class="col-6 mb-3">
                             <button *ngIf="isDisplay(paymentMethodType.EMoney)" type="button"
-                                class="btn btn-primary btn-block py-3"
+                                class="btn btn-outline-primary btn-block py-5"
                                 (click)="selectPaymentMethodType(paymentMethodType.EMoney)">
-                                <p>{{ 'common.paymentMethodType.eMoney.label' | translate }}</p>
+                                <p class="text-large">{{ 'common.paymentMethodType.eMoney.label' | translate }}</p>
                             </button>
                         </div>
                         <div class="col-6 mb-3" *ngFor="let custom of environment.PAYMENT_METHOD_CUSTOM">
-                            <button type="button" class="btn btn-primary btn-block py-3"
+                            <button type="button" class="btn btn-outline-primary btn-block py-5"
                                 (click)="selectPaymentMethodType(paymentMethodType.Others, custom.category)">
-                                <p>{{ custom.name | changeLanguage }}</p>
+                                <p class="text-large">{{ custom.name | changeLanguage }}</p>
                             </button>
                         </div>
                     </div>

@@ -111,7 +111,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         }
         const modal = this.utilService.openStaticModal({
             title: this.translate.instant('purchase.paymentReception.creditcard.title'),
-            body: '<img class="w-100" src="/images/purchase/payment/reception/creditcard.svg" alt="">'
+            body: '<img class="w-100" src="/default/images/purchase/payment/reception/creditcard.svg" alt="">'
         });
         const orderId = moment().format('YYYYMMDDHHmmsss');
         this.actionService.purchase.setOrderId({ id: orderId });
@@ -155,6 +155,10 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const modal = this.utilService.openStaticModal({
+            title: this.translate.instant('purchase.paymentReception.eMoney.title'),
+            body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">'
+        });
         const orderId = moment().format('YYYYMMDDHHmmsss');
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
@@ -172,6 +176,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
+            modal.hide();
             this.router.navigate(['/purchase/payment']);
             return;
         }
@@ -179,8 +184,10 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             await this.paymentService.exec({
                 func: Models.Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION,
             });
+            modal.hide();
             throw new Error(JSON.stringify(execResult));
         }
+        modal.hide();
         this.onSubmit();
     }
 

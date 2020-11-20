@@ -28,6 +28,7 @@ export class PurchaseCinemaTopComponent implements OnInit {
                 await this.actionService.purchase.depositRepay({ ipAddress: cashchanger });
             }
             await this.actionService.purchase.cancelTransaction();
+            await this.actionService.user.checkVersion();
         } catch (error) {
             console.error(error);
         }

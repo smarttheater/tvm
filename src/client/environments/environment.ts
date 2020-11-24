@@ -171,6 +171,10 @@ interface IEnvironment {
      */
     ORDER_LINK: { name: { ja: string; en: string; }; url: string; params: { key: string; value?: string; }[] }[];
     /**
+     * 注文承認コード期限（s）
+     */
+    ORDER_AUTHORIZE_CODE_EXPIRES: string;
+    /**
      * 印刷QRコードタイプ
      */
     PRINT_QRCODE_TYPE: 'None' | 'token' | 'Custom' | 'Admission';
@@ -239,6 +243,7 @@ const defaultEnvironment: IEnvironment = {
     INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
     INQUIRY_ORDER_DATE_FROM_UNIT: 'month',
     ORDER_LINK: [],
+    ORDER_AUTHORIZE_CODE_EXPIRES: '600',
     PRINT_QRCODE_TYPE: 'token',
     PRINT_QRCODE_CUSTOM: '',
     PRINT_LOADING: true,

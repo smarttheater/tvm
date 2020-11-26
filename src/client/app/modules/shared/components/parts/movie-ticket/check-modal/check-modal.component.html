@@ -42,7 +42,7 @@
                 <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
                     [inputValue]="inputForm.controls.password.value"
                     (change)="changePassword($event)">
-                    <input type="text" class="form-control" formControlName="password"
+                    <input type="password" class="form-control" formControlName="password"
                         id="password" placeholder="0123"
                         readonly>
                 </app-numeric-keypad>

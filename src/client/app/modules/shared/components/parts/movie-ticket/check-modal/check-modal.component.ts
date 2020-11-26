@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, QRCodeService } from '../../../../../../services';
+import { ActionService } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 import { ChangeLanguagePipe } from '../../../../pipes/change-language.pipe';
 
@@ -27,25 +27,46 @@ export class MovieTicketCheckModalComponent implements OnInit {
     public errorMessage: string;
     public isSuccess: boolean;
     public successMessage: string;
+    public inputCode: string;
     public environment = getEnvironment();
     constructor(
         public modal: BsModalRef,
         private store: Store<reducers.IState>,
         private formBuilder: FormBuilder,
         private translate: TranslateService,
-        private qrcodeService: QRCodeService,
         private actionService: ActionService,
     ) { }
 
     public ngOnInit() {
         this.errorMessage = '';
         this.successMessage = '';
+        this.inputCode = '';
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.purchase = this.store.pipe(select(reducers.getPurchase));
-        this.createMvtkForm();
+        this.createInputForm();
     }
 
-    public createMvtkForm() {
+    @HostListener('document:keypress', ['$event'])
+    public handleKeyboardEvent(event: KeyboardEvent) {
+        const KEY_ENTER = 'Enter';
+        const KEY_ESCAPE = 'Escape';
+        if (event.key === KEY_ENTER && this.inputCode.length > 0) {
+            // 読み取り完了
+            console.log('読み取り完了', this.inputCode);
+            const separation = (this.paymentMethodType === factory.paymentMethodType.MovieTicket)
+                ? 10 : 9;
+            const code = this.inputCode.slice(0, separation);
+            const password = this.inputCode.slice(separation, this.inputCode.length);
+            console.log(code, password);
+            this.inputForm.controls.code.setValue(code);
+            this.inputForm.controls.password.setValue(password);
+            this.inputCode = '';
+        } else if (event.key !== KEY_ESCAPE) {
+            this.inputCode += event.key;
+        }
+    }
+
+    public createInputForm() {
         const CODE_LENGTH = 10;
         // const PASSWORD_LENGTH = 4;
         const codeValidators = (this.paymentMethodType === factory.paymentMethodType.MovieTicket)
@@ -121,7 +142,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
                 return;
             }
 
-            this.createMvtkForm();
+            this.createInputForm();
             const user = await this.actionService.user.getData();
             const screeningEventTicketOffers = purchase.screeningEventTicketOffers;
             const movieTicketTypeOffers = Functions.Purchase.getMovieTicketTypeOffers({ screeningEventTicketOffers });
@@ -157,17 +178,6 @@ export class MovieTicketCheckModalComponent implements OnInit {
             this.isSuccess = false;
             this.errorMessage = this.translate.instant('modal.movieTicket.check.alert.error');
         }
-    }
-
-    public openQRReader() {
-        this.qrcodeService.openQRCodeReader({
-            cb: (data: string) => {
-                const code = data.slice(0, 10);
-                const password = data.slice(10, data.length);
-                this.inputForm.controls.code.setValue(code);
-                this.inputForm.controls.password.setValue(password);
-            }
-        });
     }
 
     public changeCode(value: string) {

@@ -23,7 +23,7 @@
                                         <div>
                                             <button *ngIf="reservation.ticket === undefined" type="button"
                                                 (click)="openTicketList(reservation)"
-                                                class="btn btn-primary btn-block py-3">{{ 'purchase.cinema.ticket.unselected' | translate }}</button>
+                                                class="btn btn-block border border-gray py-3">{{ 'purchase.cinema.ticket.unselected' | translate }}</button>
                                             <button *ngIf="reservation.ticket !== undefined" type="button"
                                                 (click)="openTicketList(reservation)"
                                                 class="btn btn-block btn-outline-primary py-3">

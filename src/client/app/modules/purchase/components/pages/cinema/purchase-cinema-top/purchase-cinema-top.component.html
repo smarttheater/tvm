@@ -1,21 +1,30 @@
-<div class="h-100 d-flex align-items-center px-4">
-    <div class="container px-0">
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <button type="button" class="btn btn-primary btn-block py-5" (click)="searchMovie()">
-                    {{ 'purchase.cinema.top.movie' | translate }}
-                </button>
-            </div>
-            <div class="col-4">
-                <button type="button" class="btn btn-primary btn-block py-5" (click)="searchEvent()">
-                    {{ 'purchase.cinema.top.time' | translate }}
-                </button>
-            </div>
-            <div class="col-4">
-                <button type="button" class="btn btn-primary btn-block py-5" routerLink="/inquiry/input">
-                    {{ 'purchase.cinema.top.inquiry' | translate }}
-                </button>
+<app-header [isClear]="false">
+</app-header>
+<app-page-title title="{{ 'purchase.cinema.top.title' | translate }}"></app-page-title>
+<div class="contents">
+    <div class="h-100 d-flex align-items-center px-4">
+        <div class="container px-0">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <button type="button" class="btn btn-block border border-gray py-5" (click)="searchMovie()">
+                        <div class="mb-3"><img width="150" height="100" src="/default/images/purchase/cinema/top/movie.svg" alt=""></div>
+                        <div class="font-weight-bold">{{ 'purchase.cinema.top.movie' | translate }}</div>
+                    </button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-block border border-gray py-5" (click)="searchEvent()">
+                        <div class="mb-3"><img width="150" height="100" src="/default/images/purchase/cinema/top/time.svg" alt=""></div>
+                        <div class="font-weight-bold">{{ 'purchase.cinema.top.time' | translate }}</div>
+                    </button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-block border border-gray py-5" routerLink="/inquiry/input">
+                        <div class="mb-3"><img width="150" height="100" src="/default/images/purchase/cinema/top/inquiry.svg" alt=""></div>
+                        <div class="font-weight-bold">{{ 'purchase.cinema.top.inquiry' | translate }}</div>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+

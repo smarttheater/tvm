@@ -26,4 +26,8 @@ $body-color: #333;
 $body-font-size: 24px;
 
 $box-shadow-sm: 0 0 0.25rem rgba(0, 0, 0, 0.7);
-$border-width: 2px;
+$border-width: 3px;
+
+$input-padding-y: 1rem;
+$input-padding-x: 1rem;
+$input-height: calc(1.5em + ($input-padding-y * 2) + 2px);

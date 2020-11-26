@@ -23,6 +23,7 @@ import { MovieTicketCheckModalComponent } from './components/parts/movie-ticket/
 import { NumericKeypadComponent } from './components/parts/numeric-keypad/numeric-keypad.component';
 import { OrderDetailModalComponent } from './components/parts/order/detail-modal/detail-modal.component';
 import { PageTitleComponent } from './components/parts/page-title/page-title.component';
+import { PrintResultComponent } from './components/parts/print-result/print-result.component';
 import { PurchaseEventTicketModalComponent } from './components/parts/purchase/event/ticket-modal/ticket-modal.component';
 import { PurchaseSeatTicketModalComponent } from './components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 import { QRCodeReaderModalComponent } from './components/parts/qrcode/reader-modal/reader-modal.component';
@@ -44,7 +45,8 @@ const components = [
   ScreenComponent,
   ItemListComponent,
   CheckboxComponent,
-  CurrentDateTimeComponent
+  CurrentDateTimeComponent,
+  PrintResultComponent
 ];
 
 const entryComponents = [

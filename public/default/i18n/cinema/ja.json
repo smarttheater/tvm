@@ -2,6 +2,7 @@
     "purchase": {
         "cinema": {
             "top": {
+                "title": "メニューを選んでください",
                 "movie": "作品からさがす",
                 "time": "時間からさがす",
                 "inquiry": "発券する"

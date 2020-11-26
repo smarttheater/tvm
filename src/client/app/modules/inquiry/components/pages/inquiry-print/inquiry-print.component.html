@@ -8,7 +8,7 @@
                 <div class="bg-dark h-100"></div>
             </div>
             <div class="col-6">
-
+                <app-print-result *ngIf="(order | async)?.order" [order]="(order | async)?.order"></app-print-result>
             </div>
             <div class="col-3">
 

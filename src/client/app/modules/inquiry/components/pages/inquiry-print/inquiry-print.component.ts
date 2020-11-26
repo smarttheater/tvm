@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { getEnvironment } from '../../../../../../environments/environment';
+import * as reducers from '../../../../../store/reducers';
 
 @Component({
     selector: 'app-inquiry-print',
@@ -8,10 +11,12 @@ import { getEnvironment } from '../../../../../../environments/environment';
     styleUrls: ['./inquiry-print.component.scss']
 })
 export class InquiryPrintComponent implements OnInit, OnDestroy {
+    public order: Observable<reducers.IOrderState>;
     public environment = getEnvironment();
     private timer: any;
 
     constructor(
+        private store: Store<reducers.IState>,
         private router: Router
     ) { }
 
@@ -19,6 +24,7 @@ export class InquiryPrintComponent implements OnInit, OnDestroy {
      * 初期化
      */
     public ngOnInit() {
+        this.order = this.store.pipe(select(reducers.getOrder));
         if (this.environment.PRINT_SUCCESS_WAIT_TIME === '') {
             return;
         }

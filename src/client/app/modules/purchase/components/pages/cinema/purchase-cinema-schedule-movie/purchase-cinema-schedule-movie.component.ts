@@ -45,15 +45,15 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
                     locationBranchCodes: [theater.branchCode],
                 },
                 startFrom: moment(scheduleDate).toDate(),
-                startThrough: moment(scheduleDate).add(1, 'day').toDate(),
+                startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
             });
             const creativeWorks = await this.masterService.searchMovies({
                 offers: {
                     availableFrom: moment(scheduleDate).toDate(),
-                    // availableThrough: moment(scheduleDate).add(1, 'day').toDate()
+                    // availableThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate()
                 },
                 // datePublishedFrom: moment(scheduleDate).toDate(),
-                // datePublishedThrough: moment(scheduleDate).add(1, 'day').toDate()
+                // datePublishedThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate()
             });
             this.creativeWorks = creativeWorks.filter(c =>
                 this.screeningEvents.find(s =>

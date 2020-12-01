@@ -42,7 +42,7 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
                     locationBranchCodes: [theater.branchCode],
                 },
                 startFrom: moment(scheduleDate).toDate(),
-                startThrough: moment(scheduleDate).add(1, 'day').toDate()
+                startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate()
             });
             const filterResult = screeningEvents.filter((s) => {
                 const performance = new Models.Purchase.Performance(s);

@@ -109,7 +109,7 @@ export class PurchaseCinemaTopComponent implements OnInit {
                 locationBranchCodes: [theater.branchCode],
             },
             startFrom: moment(scheduleDate).toDate(),
-            startThrough: moment(scheduleDate).add(1, 'day').toDate(),
+            startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
         });
         const screeningEvent = screeningEvents
             .find(s => s.offers !== undefined && s.offers.seller !== undefined && s.offers.seller.id !== undefined);

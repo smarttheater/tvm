@@ -4,6 +4,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Functions } from '..';
 import { getEnvironment } from '../../environments/environment';
 
 declare const ga: Function;
@@ -38,23 +39,7 @@ export class AppComponent implements OnInit {
     }
 
     public changeViewport() {
-        const base = {
-            width: 1920,
-            height: 1080
-        };
-        const scale = {
-            width: window.innerWidth / base.width,
-            height: window.innerHeight / base.height,
-        };
-        const currentScale = (scale.width < scale.height)
-            ? scale.width
-            : scale.height;
-        // const viewport = 'width=device-width, initial-scale=' + scale + ', maximum-scale=1, user-scalable=no, minimal-ui';
-        // document.querySelector('meta[name=viewport]').setAttribute('content', viewport);
-        const target = document.body;
-        target.style.transform = 'scale(' + currentScale + ')';
-        target.style.opacity = '1';
-        target.setAttribute('data-scale', String(currentScale));
+        Functions.Util.changeViewport();
     }
 
     /**

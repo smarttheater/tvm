@@ -175,6 +175,7 @@ export class OrderService {
                     ? `${Functions.Util.getProject().storageUrl}${path}`
                     : `/default${path}`;
             const printData = await this.utilService.getText<string>(url);
+            Functions.Util.resetViewport();
             const canvasList: HTMLCanvasElement[] = [];
             if (testFlg) {
                 const canvas = await Functions.Order.createTestPrintCanvas4Html({ view: <string>printData });
@@ -201,6 +202,7 @@ export class OrderService {
                     }
                 }
             }
+            Functions.Util.changeViewport();
             await this.printProcess({ printer, canvasList, pos });
             if (environment.PRINT_LOADING) {
                 this.utilService.loadEnd();

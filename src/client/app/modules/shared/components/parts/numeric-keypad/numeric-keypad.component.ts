@@ -54,7 +54,7 @@ export class NumericKeypadComponent implements OnInit {
     }
 
     public inputCode(code: string) {
-        console.log(this.inputValue);
+        // console.log(this.inputValue);
         this.inputValue = (this.inputValue + code).slice(0, this.maxlength);
         if (this.inputType === 'number') {
             this.inputValue = String(parseInt(this.inputValue, 10));

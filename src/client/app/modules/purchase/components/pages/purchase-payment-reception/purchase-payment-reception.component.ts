@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
@@ -31,7 +30,6 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         private utilService: UtilService,
         private epsonEPOSService: EpsonEPOSService,
         private paymentService: PaymentService,
-        private translate: TranslateService
     ) { }
 
     public async ngOnInit() {
@@ -71,8 +69,8 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             }
         } catch (error) {
             console.error(error);
-            this.utilService.loadEnd();
-            this.router.navigate(['/error']);
+            // this.utilService.loadEnd();
+            // this.router.navigate(['/error']);
         }
     }
 
@@ -110,7 +108,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             throw new Error('transaction or payment undefined');
         }
         const modal = this.utilService.openStaticModal({
-            title: this.translate.instant('purchase.paymentReception.creditcard.title'),
+            title: '', // this.translate.instant('purchase.paymentReception.creditcard.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/creditcard.svg" alt="">'
         });
         const orderId = moment().format('YYYYMMDDHHmmsss');
@@ -156,7 +154,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             throw new Error('transaction or payment undefined');
         }
         const modal = this.utilService.openStaticModal({
-            title: this.translate.instant('purchase.paymentReception.eMoney.title'),
+            title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">'
         });
         const orderId = moment().format('YYYYMMDDHHmmsss');
@@ -201,6 +199,10 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const modal = this.utilService.openStaticModal({
+            title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
+            body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">'
+        });
         const orderId = moment().format('YYYYMMDDHHmmsss');
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
@@ -218,6 +220,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         });
         if (execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL
             || execResult.FUNC_STATUS === Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL) {
+            modal.hide();
             this.router.navigate(['/purchase/payment']);
             return;
         }
@@ -225,8 +228,10 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             await this.paymentService.exec({
                 func: Models.Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION,
             });
+            modal.hide();
             throw new Error(JSON.stringify(execResult));
         }
+        modal.hide();
         this.onSubmit();
     }
 

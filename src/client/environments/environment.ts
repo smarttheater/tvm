@@ -218,7 +218,9 @@ const defaultEnvironment: IEnvironment = {
     ],
     INPUT_KEYPAD: true,
     PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
-    PAYMENT_METHOD_CUSTOM: [],
+    PAYMENT_METHOD_CUSTOM: [
+        { category: 'code', name: { ja: 'コード決済', en: 'code' } }
+    ],
     PAYMENT_TIMEOUT: '300000',
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,
@@ -239,7 +241,7 @@ const defaultEnvironment: IEnvironment = {
     INQUIRY_PRINT: true,
     INQUIRY_PRINT_EXPIRED_VALUE: '0',
     INQUIRY_PRINT_EXPIRED_UNIT: 'hour',
-    INQUIRY_PRINT_WAIT_TIME: '',
+    INQUIRY_PRINT_WAIT_TIME: '10000',
     INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
     INQUIRY_ORDER_DATE_FROM_UNIT: 'month',
     ORDER_LINK: [],

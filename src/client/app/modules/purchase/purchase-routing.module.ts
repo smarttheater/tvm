@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService, PurchaseTransactionGuardService, SettingGuardService, ViewTypeGuardService } from '../../canActivates';
+import { PurchaseCinemaDateComponent } from './components/pages/cinema/purchase-cinema-date/purchase-cinema-date.component';
 import { PurchaseCinemaScheduleEventComponent } from './components/pages/cinema/purchase-cinema-schedule-event/purchase-cinema-schedule-event.component';
 import { PurchaseCinemaScheduleMovieComponent } from './components/pages/cinema/purchase-cinema-schedule-movie/purchase-cinema-schedule-movie.component';
 import { PurchaseCinemaScheduleComponent } from './components/pages/cinema/purchase-cinema-schedule/purchase-cinema-schedule.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
         canActivate: [ViewTypeGuardService],
         children: [
           { path: '', component: PurchaseCinemaTopComponent },
+          { path: 'date', component: PurchaseCinemaDateComponent },
           { path: 'schedule', component: PurchaseCinemaScheduleComponent },
           { path: 'schedule/movie', component: PurchaseCinemaScheduleMovieComponent },
           { path: 'schedule/event/:identifier', component: PurchaseCinemaScheduleEventComponent },

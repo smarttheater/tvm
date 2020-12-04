@@ -166,6 +166,34 @@ export class PurchaseService {
     }
 
     /**
+     * 先行販売日取得
+     */
+    public async getPreScheduleDates(params: {
+        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+    }) {
+        return new Promise<void>(async (resolve, reject) => {
+            const { theater } = params;
+            this.store.dispatch(purchaseAction.getPreScheduleDates({
+                theater,
+                superEvent: {
+                    locationBranchCodes: (theater.branchCode === undefined) ? [] : [theater.branchCode],
+                }
+            }));
+            const success = this.actions.pipe(
+                ofType(purchaseAction.getPreScheduleDatesSuccess.type),
+                tap(() => { resolve(); })
+            );
+            const fail = this.actions.pipe(
+                ofType(purchaseAction.getPreScheduleDatesFail.type),
+                tap(() => {
+                    reject();
+                })
+            );
+            race(success, fail).pipe(take(1)).subscribe();
+        });
+    }
+
+    /**
      * スクリーン取得
      */
     public getScreen(params: {

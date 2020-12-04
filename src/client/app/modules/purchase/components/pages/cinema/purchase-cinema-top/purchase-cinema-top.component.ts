@@ -95,6 +95,33 @@ export class PurchaseCinemaTopComponent implements OnInit {
     }
 
     /**
+     * 日付変更
+     */
+    public async changeDate() {
+        try {
+            await this.setSeller();
+        } catch (error) {
+            console.error(error);
+            this.router.navigate(['/error']);
+        }
+        try {
+            await this.startTransaction();
+            this.router.navigate(['/purchase/cinema/date']);
+        } catch (error) {
+            const errorObject = JSON.parse(error);
+            if (errorObject.status === TOO_MANY_REQUESTS) {
+                this.router.navigate(['/congestion']);
+                return;
+            }
+            if (errorObject.status === BAD_REQUEST) {
+                this.router.navigate(['/maintenance']);
+                return;
+            }
+            this.router.navigate(['/error']);
+        }
+    }
+
+    /**
      * 販売者を設定
      */
     public async setSeller() {

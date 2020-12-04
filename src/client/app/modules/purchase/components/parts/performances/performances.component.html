@@ -1,7 +1,7 @@
 <div class="">
     <div class="p-3 bg-light-gray">
         <div class="mb-2">
-            <p class="font-weight-bold">{{ screeningEventsGroup.info.name | changeLanguage }}</p>
+            <p class="font-weight-bold text-large">{{ screeningEventsGroup.info.name | changeLanguage }}</p>
             <p
                 *ngIf="screeningEventsGroup.info.superEvent.headline && (screeningEventsGroup.info.superEvent.headline | changeLanguage)">
                 {{ screeningEventsGroup.info.superEvent.headline | changeLanguage }}</p>

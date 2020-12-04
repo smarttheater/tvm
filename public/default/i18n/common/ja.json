@@ -358,6 +358,7 @@
             "StartTransaction": "取引を開始しています",
             "CancelTransaction": "取引を中止しています",
             "GetScreeningEvent": "イベント情報取得しています",
+            "GetPreScheduleDates": "先行販売情報を取得しています",
             "GetScreen": "スクリーン情報を取得しています",
             "GetScreenData": "座席情報を取得しています",
             "GetTicketList": "券種情報を取得しています",

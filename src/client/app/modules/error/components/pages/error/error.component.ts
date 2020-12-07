@@ -34,6 +34,11 @@ export class ErrorComponent implements OnInit, OnDestroy {
             await this.voidCreditCard();
         }
         this.error = this.store.pipe(select(reducers.getError));
+        try {
+            await this.actionService.purchase.cancelTransaction();
+        } catch (error) {
+            console.error(error);
+        }
         this.actionService.purchase.delete();
         if (this.environment.ERROR_WAIT_TIME === '') {
             return;

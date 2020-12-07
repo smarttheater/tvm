@@ -28,6 +28,11 @@ export class ExpiredComponent implements OnInit, OnDestroy {
         } catch (error) {
             console.error(error);
         }
+        try {
+            await this.actionService.purchase.cancelTransaction();
+        } catch (error) {
+            console.error(error);
+        }
         this.actionService.purchase.delete();
         if (this.environment.ERROR_WAIT_TIME === '') {
             return;

@@ -38,87 +38,24 @@ export class PurchaseCinemaTopComponent implements OnInit {
      * 作品からさがす
      */
     public async searchMovie() {
-        const scheduleDate = moment().format('YYYY-MM-DD');
-        this.actionService.purchase.selectScheduleDate(scheduleDate);
         this.actionService.purchase.selectSearchType({ searchType: 'movie' });
-        try {
-            await this.setSeller();
-        } catch (error) {
-            console.error(error);
-            this.router.navigate(['/error']);
-        }
-        try {
-            await this.startTransaction();
-            this.router.navigate(['/purchase/cinema/schedule/movie']);
-        } catch (error) {
-            const errorObject = JSON.parse(error);
-            if (errorObject.status === TOO_MANY_REQUESTS) {
-                this.router.navigate(['/congestion']);
-                return;
-            }
-            if (errorObject.status === BAD_REQUEST) {
-                this.router.navigate(['/maintenance']);
-                return;
-            }
-            this.router.navigate(['/error']);
-        }
+        await this.startTransaction({ routerLink: '/purchase/cinema/schedule/movie' });
     }
 
     /**
      * 時間からさがす
      */
     public async searchEvent() {
-        const scheduleDate = moment().format('YYYY-MM-DD');
-        this.actionService.purchase.selectScheduleDate(scheduleDate);
         this.actionService.purchase.selectSearchType({ searchType: 'event' });
-        try {
-            await this.setSeller();
-        } catch (error) {
-            console.error(error);
-            this.router.navigate(['/error']);
-        }
-        try {
-            await this.startTransaction();
-            this.router.navigate(['/purchase/cinema/schedule']);
-        } catch (error) {
-            const errorObject = JSON.parse(error);
-            if (errorObject.status === TOO_MANY_REQUESTS) {
-                this.router.navigate(['/congestion']);
-                return;
-            }
-            if (errorObject.status === BAD_REQUEST) {
-                this.router.navigate(['/maintenance']);
-                return;
-            }
-            this.router.navigate(['/error']);
-        }
+        await this.startTransaction({ routerLink: '/purchase/cinema/schedule' });
     }
 
     /**
      * 日付変更
      */
     public async changeDate() {
-        try {
-            await this.setSeller();
-        } catch (error) {
-            console.error(error);
-            this.router.navigate(['/error']);
-        }
-        try {
-            await this.startTransaction();
-            this.router.navigate(['/purchase/cinema/date']);
-        } catch (error) {
-            const errorObject = JSON.parse(error);
-            if (errorObject.status === TOO_MANY_REQUESTS) {
-                this.router.navigate(['/congestion']);
-                return;
-            }
-            if (errorObject.status === BAD_REQUEST) {
-                this.router.navigate(['/maintenance']);
-                return;
-            }
-            this.router.navigate(['/error']);
-        }
+        this.actionService.purchase.selectSearchType({ searchType: 'movie' });
+        await this.startTransaction({ routerLink: '/purchase/cinema/date' });
     }
 
     /**
@@ -152,13 +89,37 @@ export class PurchaseCinemaTopComponent implements OnInit {
     /**
      * 取引開始
      */
-    public async startTransaction() {
-        const purchase = await this.actionService.purchase.getData();
-        const user = await this.actionService.user.getData();
-        await this.actionService.purchase.startTransaction({
-            seller: <factory.chevre.seller.ISeller>purchase.seller,
-            pos: user.pos
-        });
+    public async startTransaction(params: { routerLink: string; }) {
+        const scheduleDate = moment().format('YYYY-MM-DD');
+        this.actionService.purchase.selectScheduleDate(scheduleDate);
+        try {
+            await this.setSeller();
+        } catch (error) {
+            console.error(error);
+            this.router.navigate(['/error']);
+            return;
+        }
+        try {
+            const purchase = await this.actionService.purchase.getData();
+            const user = await this.actionService.user.getData();
+            await this.actionService.purchase.startTransaction({
+                seller: <factory.chevre.seller.ISeller>purchase.seller,
+                pos: user.pos
+            });
+            const { routerLink } = params;
+            this.router.navigate([routerLink]);
+        } catch (error) {
+            const errorObject = JSON.parse(error);
+            if (errorObject.status === TOO_MANY_REQUESTS) {
+                this.router.navigate(['/congestion']);
+                return;
+            }
+            if (errorObject.status === BAD_REQUEST) {
+                this.router.navigate(['/maintenance']);
+                return;
+            }
+            this.router.navigate(['/error']);
+        }
     }
 
 }

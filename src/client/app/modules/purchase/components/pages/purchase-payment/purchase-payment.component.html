@@ -13,7 +13,7 @@
                         class="btn btn-block border border-gray p-4 mb-3"
                         (click)="selectPaymentMethodType(paymentMethodType.Cash)">
                         <div class="d-flex align-items-center">
-                            <img class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
+                            <img width="50" class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
                             <p class="text-large">{{ 'common.paymentMethodType.cash.label' | translate }}</p>
                         </div>
                     </button>
@@ -21,7 +21,7 @@
                         class="btn btn-block border border-gray p-4 mb-3"
                         (click)="selectPaymentMethodType(paymentMethodType.CreditCard)">
                         <div class="d-flex align-items-center">
-                            <img class="mr-3" src="/default/images/purchase/payment/icon/creditCard.svg" alt="">
+                            <img width="50" class="mr-3" src="/default/images/purchase/payment/icon/creditCard.svg" alt="">
                             <p class="text-large">{{ 'common.paymentMethodType.creditCard.label' | translate }}</p>
                         </div>
                     </button>
@@ -29,7 +29,7 @@
                         class="btn btn-block border border-gray p-4 mb-3"
                         (click)="selectPaymentMethodType(paymentMethodType.EMoney)">
                         <div class="d-flex align-items-center">
-                            <img class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg" alt="">
+                            <img width="50" class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg" alt="">
                             <p class="text-large">{{ 'common.paymentMethodType.eMoney.label' | translate }}</p>
                         </div>
                     </button>
@@ -37,7 +37,7 @@
                         class="btn btn-block border border-gray p-4 mb-3"
                         (click)="selectPaymentMethodType(paymentMethodType.Others, custom.category)">
                         <div class="d-flex align-items-center">
-                            <img *ngIf="custom.category === 'code'" class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
+                            <img width="50" *ngIf="custom.category === 'code'" class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
                             <p class="text-large">{{ custom.name | changeLanguage }}</p>
                         </div>
                     </button>

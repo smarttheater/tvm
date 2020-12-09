@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="69.3px"
-	 height="42.2px" viewBox="0 0 69.3 42.2" style="enable-background:new 0 0 69.3 42.2;" xml:space="preserve">
+<svg version="1.1" id="レイヤー_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="69.3px" height="42.2px" viewBox="0 0 69.3 42.2" style="enable-background:new 0 0 69.3 42.2;"
+	 xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#333;}
-	.st1{display:none;}
-	.st2{display:inline;}
+	.st0{display:none;}
+	.st1{display:inline;}
+	.st2{fill:#00FF00;}
+	.st3{fill:none;stroke:#333333;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<g id="cash">
-	<g>
-		<path class="st0" d="M61,41.1H0V7.6h61V41.1z M1,40.1h59V8.6H1V40.1z"/>
-		<polygon class="st0" points="68,33.3 67,33.3 67,1.3 7.5,1.3 7.5,0.3 68,0.3 		"/>
-		<g>
-			<path class="st0" d="M29.4,28.5h-3.7v-1.2h3.7V26h-3.7v-1.2h3.2l-4.5-7H27l2,3.6c0.7,1.3,1,1.8,1.5,2.9h0.1
-				c0.6-1.1,0.9-1.6,1.5-2.9l2-3.6h2.5l-4.5,7h3.2V26h-3.7v1.3h3.7v1.2h-3.7v3.1h-2.2V28.5z"/>
-		</g>
-	</g>
-</g>
-<g id="creditcard" class="st1">
-	<g class="st2">
-		<path class="st0" d="M64.3,41.5H5c-2.8,0-5-2.3-5-5V5.3c0-2.8,2.3-5,5-5h59.2c2.8,0,5,2.3,5,5v31.1C69.3,39.2,67.1,41.5,64.3,41.5
-			z M5,1.3c-2.2,0-4,1.8-4,4v31.1c0,2.2,1.8,4,4,4h59.2c2.2,0,4-1.8,4-4V5.3c0-2.2-1.8-4-4-4H5z"/>
-		<rect x="6.2" y="28.7" class="st0" width="11.6" height="1"/>
-		<rect x="21" y="28.7" class="st0" width="11.6" height="1"/>
-		<rect x="35.8" y="28.7" class="st0" width="11.6" height="1"/>
-		<rect x="50.7" y="28.7" class="st0" width="11.6" height="1"/>
-		<path class="st0" d="M14.2,22.9H8.4c-1.3,0-2.4-1.1-2.4-2.4v-5.8c0-1.3,1.1-2.4,2.4-2.4h5.8c1.3,0,2.4,1.1,2.4,2.4v5.8
+<g id="creditcard" class="st0">
+	<g class="st1">
+		<path class="st2" d="M64.3,41.5H5c-2.8,0-5-2.3-5-5V5.3c0-2.8,2.3-5,5-5h59.2c2.8,0,5,2.3,5,5v31.1C69.3,39.2,67.1,41.5,64.3,41.5
+			z M5,1.3c-2.2,0-4,1.8-4,4v31.1c0,2.2,1.8,4,4,4h59.2c2.2,0,4-1.8,4-4V5.3c0-2.2-1.8-4-4-4C64.2,1.3,5,1.3,5,1.3z"/>
+		<rect x="6.2" y="28.7" class="st2" width="11.6" height="1"/>
+		<rect x="21" y="28.7" class="st2" width="11.6" height="1"/>
+		<rect x="35.8" y="28.7" class="st2" width="11.6" height="1"/>
+		<rect x="50.7" y="28.7" class="st2" width="11.6" height="1"/>
+		<path class="st2" d="M14.2,22.9H8.4c-1.3,0-2.4-1.1-2.4-2.4v-5.8c0-1.3,1.1-2.4,2.4-2.4h5.8c1.3,0,2.4,1.1,2.4,2.4v5.8
 			C16.6,21.9,15.5,22.9,14.2,22.9z M8.4,13.4C7.7,13.4,7,14,7,14.7v5.8c0,0.8,0.6,1.4,1.4,1.4h5.8c0.8,0,1.4-0.6,1.4-1.4v-5.8
-			c0-0.8-0.6-1.4-1.4-1.4H8.4z"/>
+			c0-0.8-0.6-1.4-1.4-1.4L8.4,13.4L8.4,13.4z"/>
 	</g>
 </g>
-<g id="denshi-money" class="st1">
-	<g class="st2">
-		<path class="st0" d="M1,24.1l-0.9-0.5c0.4-0.8,0.7-1.8,0.7-2.7c0-1-0.2-1.9-0.7-2.8l0.9-0.5c0.5,1,0.8,2.1,0.8,3.3
+<g id="denshi-money" class="st0">
+	<g class="st1">
+		<path class="st2" d="M1,24.1l-0.9-0.5c0.4-0.8,0.7-1.8,0.7-2.7c0-1-0.2-1.9-0.7-2.8L1,17.6c0.5,1,0.8,2.1,0.8,3.3
 			C1.8,22,1.5,23.1,1,24.1z"/>
-		<path class="st0" d="M14.4,30.5L13.5,30c1.4-2.9,2.1-5.9,2.1-9.1c0-3.2-0.7-6.3-2.1-9.2l0.9-0.4c1.5,3,2.2,6.2,2.2,9.6
+		<path class="st2" d="M14.4,30.5L13.5,30c1.4-2.9,2.1-5.9,2.1-9.1s-0.7-6.3-2.1-9.2l0.9-0.4c1.5,3,2.2,6.2,2.2,9.6
 			C16.6,24.3,15.9,27.5,14.4,30.5z"/>
-		<path class="st0" d="M26.2,36l-0.9-0.4c2.2-4.6,3.3-9.5,3.3-14.6c0-5.1-1.1-10.1-3.3-14.7l0.9-0.4c2.3,4.7,3.4,9.8,3.4,15.1
+		<path class="st2" d="M26.2,36l-0.9-0.4c2.2-4.6,3.3-9.5,3.3-14.6s-1.1-10.1-3.3-14.7l0.9-0.4c2.3,4.7,3.4,9.8,3.4,15.1
 			C29.6,26.2,28.4,31.2,26.2,36z"/>
-		<path class="st0" d="M38.3,41.8l-0.9-0.4C40.5,35,42,28.1,42,20.9c0-7.2-1.6-14.1-4.7-20.5L38.3,0C41.4,6.5,43,13.6,43,20.9
-			C43,28.2,41.4,35.3,38.3,41.8z"/>
+		<path class="st2" d="M38.3,41.8l-0.9-0.4C40.5,35,42,28.1,42,20.9S40.4,6.8,37.3,0.4l1-0.4C41.4,6.5,43,13.6,43,20.9
+			S41.4,35.3,38.3,41.8z"/>
 	</g>
 </g>
-<g id="qr" class="st1">
-	<g class="st2">
+<g id="qr" class="st0">
+	<g class="st1">
 		<g>
-			<path class="st0" d="M14.7,15.3H0V0.6h14.7V15.3z M1,14.3h12.7V1.6H1V14.3z"/>
-			<path class="st0" d="M14.7,41.4H0V26.7h14.7V41.4z M1,40.4h12.7V27.7H1V40.4z"/>
-			<path class="st0" d="M44.5,15.3H29.9V0.6h14.7V15.3z M30.9,14.3h12.7V1.6H30.9V14.3z"/>
-			<rect x="35.3" y="6" class="st0" width="3.7" height="3.7"/>
-			<rect x="5.5" y="6" class="st0" width="3.7" height="3.7"/>
-			<rect x="5.5" y="32.2" class="st0" width="3.7" height="3.7"/>
+			<path class="st2" d="M14.7,15.3H0V0.6h14.7V15.3z M1,14.3h12.7V1.6H1V14.3z"/>
+			<path class="st2" d="M14.7,41.4H0V26.7h14.7V41.4z M1,40.4h12.7V27.7H1V40.4z"/>
+			<path class="st2" d="M44.5,15.3H29.9V0.6h14.7L44.5,15.3L44.5,15.3z M30.9,14.3h12.7V1.6H30.9V14.3z"/>
+			<rect x="35.3" y="6" class="st2" width="3.7" height="3.7"/>
+			<rect x="5.5" y="6" class="st2" width="3.7" height="3.7"/>
+			<rect x="5.5" y="32.2" class="st2" width="3.7" height="3.7"/>
 		</g>
 		<g>
-			<rect x="36.1" y="34" class="st0" width="8.4" height="7.4"/>
-			<rect x="27.7" y="26.6" class="st0" width="8.4" height="7.4"/>
-			<rect x="19.3" y="34" class="st0" width="8.4" height="7.4"/>
-			<rect x="36.1" y="19.2" class="st0" width="8.4" height="7.4"/>
-			<rect x="19.3" y="19.2" class="st0" width="8.4" height="7.4"/>
+			<rect x="36.1" y="34" class="st2" width="8.4" height="7.4"/>
+			<rect x="27.7" y="26.6" class="st2" width="8.4" height="7.4"/>
+			<rect x="19.3" y="34" class="st2" width="8.4" height="7.4"/>
+			<rect x="36.1" y="19.2" class="st2" width="8.4" height="7.4"/>
+			<rect x="19.3" y="19.2" class="st2" width="8.4" height="7.4"/>
 		</g>
+	</g>
+</g>
+<g>
+	<polyline class="st3" points="46.9,41.2 1,41.2 1,8.7 61.1,8.7 61.1,41.2 46.9,41.2 	"/>
+	<polyline class="st3" points="8.2,1 68.3,1 68.3,33.5 	"/>
+	<g>
+		<path d="M30,29.1h-3.7v-1.2H30v-1.3h-3.7v-1.2h3.2l-4.5-7h2.6l2,3.6c0.7,1.3,1,1.8,1.5,2.9h0.1c0.6-1,0.9-1.6,1.5-2.9l2-3.6h2.5
+			l-4.5,7h3.2v1.2h-3.7v1.3h3.7v1.2h-3.7v3.1H30V29.1z"/>
 	</g>
 </g>
 </svg>

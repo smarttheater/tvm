@@ -32,7 +32,7 @@
             screeningEvent: screeningEvent
         }) }}</p>
     </div>
-    <hr class="mb-3">
+    <hr class="border-top border-gray mb-3">
     <ul *ngIf="tickets.length > 0" class="mb-4">
         <li *ngFor="let ticket of tickets" class="ticket mb-3 pb-3 border-bottom border-gray"
             [class.text-danger]="remainingAttendeeCapacityValue(ticket).length === 0">

@@ -252,13 +252,24 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 await this.actionService.purchase.authorizeMovieTicket({ seller });
             }
             if (purchase.paymentMethod !== undefined) {
-                await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount });
+                const deposit = this.getDeposit();
+                const additionalProperty: { name: string; value: string; }[] = [];
+                if (purchase.paymentMethod.typeOf === factory.chevre.paymentMethodType.Cash
+                    && deposit !== undefined) {
+                    // 現金
+                    additionalProperty.push({ name: 'depositAmount', value: String(deposit) });
+                    additionalProperty.push({ name: 'change', value: String(deposit - this.amount) });
+                }
+                if (purchase.orderId !== undefined) {
+                    additionalProperty.push({ name: 'orderId', value: purchase.orderId });
+                }
+                await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount, additionalProperty });
             }
             await this.actionService.purchase.registerContact(profile);
             await this.actionService.purchase.endTransaction({ seller, language: user.language });
             this.utilService.loadStart({ process: 'load' });
             if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
-                // 現金
+                // 現金おつり
                 const deposit = this.getDeposit();
                 await this.epsonEPOSService.cashchanger.endDeposit();
                 if ((deposit - this.amount) > 0) {

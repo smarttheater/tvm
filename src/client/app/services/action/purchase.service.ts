@@ -521,8 +521,9 @@ export class PurchaseService {
      */
     public async authorizeAnyPayment(params: {
         amount: number;
-        depositAmount?: number;
+        additionalProperty?: { name: string; value: any; }[]
     }) {
+        const { amount, additionalProperty } = params;
         const purchase = await this.getData();
         return new Promise<void>((resolve, reject) => {
             if (purchase.transaction === undefined || purchase.paymentMethod === undefined) {
@@ -530,18 +531,6 @@ export class PurchaseService {
                 return;
             }
             const transaction = purchase.transaction;
-            const amount = params.amount;
-            const depositAmount = params.depositAmount;
-            const additionalProperty = [];
-            if (purchase.paymentMethod.typeOf === factory.chevre.paymentMethodType.Cash
-                && depositAmount !== undefined) {
-                // 現金
-                additionalProperty.push({ name: 'depositAmount', value: String(depositAmount) });
-                additionalProperty.push({ name: 'change', value: String(depositAmount - amount) });
-            }
-            if (purchase.orderId !== undefined) {
-                additionalProperty.push({ name: 'orderId', value: purchase.orderId });
-            }
             this.store.dispatch(purchaseAction.authorizeAnyPayment({
                 transaction: transaction,
                 paymentMethod: purchase.paymentMethod.typeOf,

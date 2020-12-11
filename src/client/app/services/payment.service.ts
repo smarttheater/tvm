@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { timeout } from 'rxjs/operators';
 import { Functions } from '..';
-import { getEnvironment } from '../../environments/environment';
+
 import {
     FUNC_CODE,
     FUNC_STATUS,
@@ -23,7 +23,6 @@ export class PaymentService {
     private requestTimeout: number;
     private delayTime: number;
     private offline: string;
-    private environment = getEnvironment();
 
     constructor(
         private http: HttpClient,
@@ -40,8 +39,7 @@ export class PaymentService {
             ? 60000 : params.requestTimeout;
         this.delayTime = (params.delayTime === undefined)
             ? 100 : params.delayTime;
-        this.offline = (params.isOffline === undefined
-            && this.environment.production) ? '' : '1';
+        this.offline = (params.isOffline === undefined) ? '' : '1';
     }
 
     /**

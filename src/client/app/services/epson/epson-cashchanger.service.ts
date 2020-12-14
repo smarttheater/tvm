@@ -100,12 +100,18 @@ export class EpsonCaschCangerService {
             if (this.device === undefined) {
                 reject(new Error('device undefined'));
             }
+            // console.log(this.device);
             this.device.beginDeposit();
             this.device.ondeposit = (data: IDeposit) => {
                 console.log('beginDeposit', data);
                 // 入金処理
                 this.deposit = data;
             };
+            // this.device.readCashCounts();
+            // this.device.oncashcounts = (data: IDeposit) => {
+            //     console.log('oncashcounts', data);
+            //     // 残金
+            // };
             resolve();
         });
     }

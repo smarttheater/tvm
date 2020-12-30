@@ -29,6 +29,7 @@ export class PurchaseCinemaTopComponent implements OnInit {
             }
             await this.actionService.purchase.cancelTransaction();
             await this.actionService.user.checkVersion();
+            this.actionService.purchase.delete();
         } catch (error) {
             console.error(error);
         }

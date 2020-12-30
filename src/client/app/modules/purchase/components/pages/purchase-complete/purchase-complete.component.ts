@@ -2,12 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../services';
+import { ActionService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -34,8 +33,6 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
         private store: Store<reducers.IState>,
         private router: Router,
         private actionService: ActionService,
-        private utilService: UtilService,
-        private translate: TranslateService,
     ) { }
 
     public async ngOnInit() {
@@ -54,7 +51,7 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
             this.eventOrders = Functions.Purchase.order2EventOrders({ order });
             await this.print();
         } catch (error) {
-            this.router.navigate(['/error']);
+            this.router.navigate(['/stop']);
             return;
         }
         if (this.environment.PRINT_SUCCESS_WAIT_TIME === '') {
@@ -80,28 +77,16 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
      * 印刷
      */
     public async print() {
-        try {
-            const purchase = await this.actionService.purchase.getData();
-            const user = await this.actionService.user.getData();
-            if (purchase.order === undefined
-                || user.printer === undefined) {
-                throw new Error('printer undefined');
-            }
-            const orders = [purchase.order];
-            const pos = user.pos;
-            const printer = user.printer;
-            await this.actionService.order.print({ orders, pos, printer });
-        } catch (error) {
-            console.error(error);
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: `
-                <p class="mb-4">${this.translate.instant('purchase.complete.alert.print')}</p>
-                    <div class="p-3 bg-light-gray select-text">
-                    <code>${JSON.stringify(error)}</code>
-                </div>`
-            });
+        const purchase = await this.actionService.purchase.getData();
+        const user = await this.actionService.user.getData();
+        if (purchase.order === undefined
+            || user.printer === undefined) {
+            throw new Error('printer undefined');
         }
+        const orders = [purchase.order];
+        const pos = user.pos;
+        const printer = user.printer;
+        await this.actionService.order.print({ orders, pos, printer });
     }
 
 }

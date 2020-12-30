@@ -19,6 +19,7 @@
         "payment": {
             "title": "支払い方法を選択してください",
             "read": "決済方法を選択してください。",
+            "notPayment": "購入内容を確認して購入確定を押してください",
             "notfound": "購入中のアイテムがありません。",
             "next": "購入確定",
             "prev": "戻る",
@@ -70,8 +71,7 @@
             "custody": "",
             "change": "",
             "warning": "",
-            "alert": {
-            }
+            "alert": {}
         },
         "complete": {
             "title": "お買い上げいただきありがとうございます",
@@ -160,6 +160,12 @@
         "next": "",
         "prev": "戻る"
     },
+    "stop": {
+        "title": "停止",
+        "read": "お近くの係員までお声掛けください。",
+        "next": "",
+        "prev": "戻る"
+    },
     "setting": {
         "title": "設定",
         "read": "設定を変更できます。",
@@ -195,41 +201,6 @@
             "validation": "入力情報に誤りがあります。",
             "success": "設定を保存しました。",
             "print": "印刷に失敗しました"
-        }
-    },
-    "development": {
-        "index": {
-            "title": "開発",
-            "read": "機能を確認できます。",
-            "next": "",
-            "prev": "戻る",
-            "list": {
-                "screen": {
-                    "title": "座席表確認",
-                    "read": "座席表確認できます。",
-                    "next": "選択"
-                }
-            }
-        },
-        "screen": {
-            "title": "座席表確認",
-            "read": "座席表を確認できます。",
-            "next": "更新",
-            "prev": "戻る"
-        },
-        "encryption": {
-            "title": "暗号化確認",
-            "read": "暗号化、復号化の確認ができます。",
-            "next": "更新",
-            "prev": "戻る",
-            "encodeText": "暗号化する文字列",
-            "encode": "暗号化",
-            "encrypted": "暗号化文字列",
-            "qrcode": "QRコード(salt,iv,encrypted)",
-            "iv": "IV(初期化ベクトル)",
-            "salt": "salt",
-            "decode": "復号化",
-            "decrypted": "復号化文字列"
         }
     },
     "form": {
@@ -278,24 +249,7 @@
             "holderName": "",
             "confirmationNumber": "12345"
         },
-        "required":"必須"
-    },
-    "menu": {
-        "purchase": "購入",
-        "inquiry": "照会",
-        "order": "注文",
-        "personSearch": "会員検索",
-        "reservation": "予約",
-        "admission": "入場",
-        "settings": "設定",
-        "logout": "ログアウト",
-        "login": "ログイン",
-        "confirm": {
-            "login": "ログインしてよろしいですか。",
-            "logout": "ログアウトしてよろしいですか。"
-        },
-        "development": "開発",
-        "instruction": "説明書"
+        "required": "必須"
     },
     "modal": {
         "movieTicket": {

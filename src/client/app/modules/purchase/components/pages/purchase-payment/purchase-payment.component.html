@@ -1,7 +1,8 @@
 <app-header [isClear]="true">
     <app-purchase-step [currentStep]="4"></app-purchase-step>
 </app-header>
-<app-page-title title="{{ 'purchase.payment.title' | translate }}"></app-page-title>
+<app-page-title *ngIf="amount > 0" title="{{ 'purchase.payment.title' | translate }}"></app-page-title>
+<app-page-title *ngIf="amount === 0" title="{{ 'purchase.payment.notPayment' | translate }}"></app-page-title>
 <div class="contents">
     <div class="container h-100 px-3 pb-3">
         <div class="row h-100">

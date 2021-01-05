@@ -7,7 +7,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
-import { SwiperModule } from 'ngx-swiper-wrapper';
 import { BaseComponent } from './components/pages/base/base.component';
 import { AlertModalComponent } from './components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from './components/parts/confirm-modal/confirm-modal.component';
@@ -80,7 +79,6 @@ const entryComponents = [
     ReactiveFormsModule,
     FormsModule,
     TranslateModule,
-    SwiperModule,
     ModalModule,
     BsDatepickerModule,
     PaginationModule,
@@ -95,7 +93,6 @@ const entryComponents = [
     ReactiveFormsModule,
     FormsModule,
     TranslateModule,
-    SwiperModule,
     ModalModule,
     BsDatepickerModule,
     PaginationModule,

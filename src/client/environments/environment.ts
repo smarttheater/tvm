@@ -171,7 +171,8 @@ interface IEnvironment {
      */
     ORDER_LINK: { name: { ja: string; en: string; }; url: string; params: { key: string; value?: string; }[] }[];
     /**
-     * 注文承認コード期限（s）
+     * 注文承認コード期限(s)
+     * デフォルト1814400s 21days
      */
     ORDER_AUTHORIZE_CODE_EXPIRES: string;
     /**

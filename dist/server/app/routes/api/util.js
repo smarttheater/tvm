@@ -16,6 +16,7 @@ exports.utilRouter = void 0;
 const debug = require("debug");
 const express = require("express");
 const http_status_1 = require("http-status");
+const httpStatus = require("http-status");
 const moment = require("moment");
 const log = debug('application: /api/util');
 const router = express.Router();
@@ -31,7 +32,7 @@ router.post('/project', (req, res) => __awaiter(void 0, void 0, void 0, function
                 projectId: projectId,
                 storageUrl: `${process.env.STORAGE_URL}/${projectId}`,
                 gmoTokenUrl: process.env.GMO_TOKEN_URL,
-                env: process.env.NODE_ENV
+                env: process.env.APP_ENV
             });
             return;
         }
@@ -39,7 +40,7 @@ router.post('/project', (req, res) => __awaiter(void 0, void 0, void 0, function
             projectId: (process.env.PROJECT_ID === undefined) ? '' : process.env.PROJECT_ID,
             storageUrl: (process.env.PROJECT_STORAGE_URL === undefined) ? '' : process.env.PROJECT_STORAGE_URL,
             gmoTokenUrl: process.env.GMO_TOKEN_URL,
-            env: process.env.NODE_ENV
+            env: process.env.APP_ENV
         });
     }
     catch (error) {
@@ -61,5 +62,12 @@ router.get('/serverTime', (_req, res) => {
 router.get('/version', (_req, res) => {
     log('version');
     res.json({ version: process.env.VERSION });
+});
+/**
+ * ヘルスチェック
+ */
+router.get('/health', (_req, res) => {
+    res.status(httpStatus.OK);
+    res.send(`${httpStatus.OK} ${httpStatus[200]}`);
 });
 exports.utilRouter = router;

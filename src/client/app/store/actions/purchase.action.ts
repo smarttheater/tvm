@@ -336,8 +336,7 @@ export const authorizeAnyPayment = createAction(
     `${LABEL} authorizeAnyPayment`,
     props<{
         transaction: factory.transaction.placeOrder.ITransaction;
-        paymentMethod: factory.chevre.paymentMethodType;
-        name?: string;
+        paymentMethod: factory.chevre.paymentMethodType | string;
         amount: number;
         additionalProperty?: { name: string; value: any; }[];
     }>()
@@ -358,8 +357,7 @@ export const authorizeAnyPaymentFail = createAction(
 export const selectPaymentMethodType = createAction(
     `${LABEL} selectPaymentMethodType`,
     props<{
-        typeOf: factory.chevre.paymentMethodType;
-        category?: string;
+        typeOf: factory.chevre.paymentMethodType | string;
     }>()
 );
 

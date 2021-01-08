@@ -14,7 +14,6 @@ import { PurchaseEventSeatComponent } from './components/pages/event/purchase-ev
 import { PurchaseEventTicketComponent } from './components/pages/event/purchase-event-ticket/purchase-event-ticket.component';
 import { PurchaseBaseComponent } from './components/pages/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/pages/purchase-complete/purchase-complete.component';
-import { PurchaseConfirmComponent } from './components/pages/purchase-confirm/purchase-confirm.component';
 import { PurchasePaymentReceptionComponent } from './components/pages/purchase-payment-reception/purchase-payment-reception.component';
 import { PurchasePaymentComponent } from './components/pages/purchase-payment/purchase-payment.component';
 import { PurchaseRootComponent } from './components/pages/purchase-root/purchase-root.component';
@@ -42,7 +41,6 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseEventTicketComponent,
     PurchasePaymentComponent,
     PurchasePaymentReceptionComponent,
-    PurchaseConfirmComponent,
     PurchaseCompleteComponent,
     PurchaseCinemaScheduleComponent,
     PurchaseEventScheduleComponent,

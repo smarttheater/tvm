@@ -270,7 +270,6 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
             });
             return;
         }
-        this.router.navigate(['/purchase/confirm']);
     }
 
     /**

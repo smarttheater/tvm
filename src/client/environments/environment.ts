@@ -63,14 +63,6 @@ interface IEnvironment {
      */
     PROFILE: IProfile[];
     /**
-     * 使用可能決済手段
-     */
-    PAYMENT_METHOD_TO_USE: ('Cash' | 'CreditCard' | 'EMoney')[];
-    /**
-     * カスタム決済手段
-     */
-    PAYMENT_METHOD_CUSTOM: { category: string; name: { ja: string; en: string; }, qrcode?: string; }[];
-    /**
      * 決済タイムアウト(ms)
      */
     PAYMENT_TIMEOUT: string;
@@ -218,10 +210,6 @@ const defaultEnvironment: IEnvironment = {
         { key: 'telephone', value: '', required: true, maxLength: 15, minLength: 9 }
     ],
     INPUT_KEYPAD: true,
-    PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
-    PAYMENT_METHOD_CUSTOM: [
-        { category: 'code', name: { ja: 'コード決済', en: 'code' } }
-    ],
     PAYMENT_TIMEOUT: '300000',
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,

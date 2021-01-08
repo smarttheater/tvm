@@ -236,9 +236,9 @@ export class PurchaseService {
             const limit = 100;
             let page = 1;
             let roop = true;
-            let screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[] = [];
+            let result: factory.chevre.place.seat.IPlaceWithOffer[] = [];
             if (!new Models.Purchase.Performance(screeningEvent).isTicketedSeat()) {
-                return screeningEventSeats;
+                return result;
             }
             await this.cinerinoService.getServices();
             while (roop) {
@@ -247,7 +247,7 @@ export class PurchaseService {
                     page,
                     limit
                 });
-                screeningEventSeats = screeningEventSeats.concat(searchResult.data);
+                result = [...result, ...searchResult.data];
                 page++;
                 roop = searchResult.data.length === limit;
                 if (roop) {
@@ -255,7 +255,7 @@ export class PurchaseService {
                 }
             }
             this.utilService.loadEnd();
-            return screeningEventSeats;
+            return result;
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();
@@ -534,7 +534,6 @@ export class PurchaseService {
             this.store.dispatch(purchaseAction.authorizeAnyPayment({
                 transaction: transaction,
                 paymentMethod: purchase.paymentMethod.typeOf,
-                name: purchase.paymentMethod.category,
                 amount,
                 additionalProperty
             }));

@@ -50,27 +50,25 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 // 現金
                 await this.cash();
                 this.utilService.loadEnd();
-            }
-            if (purchase.paymentMethod?.typeOf === this.paymentMethodType.CreditCard) {
+            } else if (purchase.paymentMethod?.typeOf === this.paymentMethodType.CreditCard) {
                 // クレジットカード
                 this.utilService.loadEnd();
                 await this.creditcard();
-            }
-            if (purchase.paymentMethod?.typeOf === this.paymentMethodType.EMoney) {
+            } else if (purchase.paymentMethod?.typeOf === this.paymentMethodType.EMoney) {
                 // 電子マネー
                 this.utilService.loadEnd();
                 await this.eMoney();
-            }
-            if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Others
-                && purchase.paymentMethod.category === 'code') {
+            } else if (purchase.paymentMethod?.typeOf === 'Code') {
                 // コード
                 this.utilService.loadEnd();
                 await this.code();
+            } else {
+                throw new Error('paymentMethod not supported');
             }
         } catch (error) {
             console.error(error);
-            // this.utilService.loadEnd();
-            // this.router.navigate(['/error']);
+            this.utilService.loadEnd();
+            this.router.navigate(['/error']);
         }
     }
 

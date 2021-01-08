@@ -92,8 +92,7 @@ export interface IPurchaseState {
      * 支払い方法
      */
     paymentMethod?: {
-        typeOf: factory.chevre.paymentMethodType;
-        category?: string;
+        typeOf: factory.chevre.paymentMethodType | string;
     };
     /**
      * ムビチケ使用判定
@@ -578,7 +577,6 @@ export function reducer(initialState: IState, action: Action) {
         on(purchaseAction.selectPaymentMethodType, (state, payload) => {
             const paymentMethod = {
                 typeOf: payload.typeOf,
-                category: payload.category
             };
 
             return {

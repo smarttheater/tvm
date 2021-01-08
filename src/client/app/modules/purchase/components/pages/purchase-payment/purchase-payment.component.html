@@ -10,38 +10,23 @@
             </div>
             <div class="col-6">
                 <div *ngIf="amount > 0">
-                    <button *ngIf="isDisplay(paymentMethodType.Cash)" type="button"
-                        class="btn btn-block border border-gray p-4 mb-3"
-                        (click)="selectPaymentMethodType(paymentMethodType.Cash)">
-                        <div class="d-flex align-items-center">
-                            <img width="50" class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
-                            <p class="text-large">{{ 'common.paymentMethodType.cash.label' | translate }}</p>
-                        </div>
-                    </button>
-                    <button *ngIf="isDisplay(paymentMethodType.CreditCard)" type="button"
-                        class="btn btn-block border border-gray p-4 mb-3"
-                        (click)="selectPaymentMethodType(paymentMethodType.CreditCard)">
-                        <div class="d-flex align-items-center">
-                            <img width="50" class="mr-3" src="/default/images/purchase/payment/icon/creditCard.svg" alt="">
-                            <p class="text-large">{{ 'common.paymentMethodType.creditCard.label' | translate }}</p>
-                        </div>
-                    </button>
-                    <button *ngIf="isDisplay(paymentMethodType.EMoney)" type="button"
-                        class="btn btn-block border border-gray p-4 mb-3"
-                        (click)="selectPaymentMethodType(paymentMethodType.EMoney)">
-                        <div class="d-flex align-items-center">
-                            <img width="50" class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg" alt="">
-                            <p class="text-large">{{ 'common.paymentMethodType.eMoney.label' | translate }}</p>
-                        </div>
-                    </button>
-                    <button *ngFor="let custom of environment.PAYMENT_METHOD_CUSTOM" type="button"
-                        class="btn btn-block border border-gray p-4 mb-3"
-                        (click)="selectPaymentMethodType(paymentMethodType.Others, custom.category)">
-                        <div class="d-flex align-items-center">
-                            <img width="50" *ngIf="custom.category === 'code'" class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
-                            <p class="text-large">{{ custom.name | changeLanguage }}</p>
-                        </div>
-                    </button>
+                    <ng-container *ngFor="let payment of payments">
+                        <button type="button" class="btn btn-block border border-gray p-4 mb-3"
+                            (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
+                            <div class="d-flex align-items-center">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.Cash" width="50"
+                                    class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.CreditCard" width="50"
+                                    class="mr-3" src="/default/images/purchase/payment/icon/creditCard.svg" alt="">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.EMoney" width="50"
+                                    class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg" alt="">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === 'Code'" width="50"
+                                    class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
+                                <p class="text-large">{{ payment.categoryCode?.name | changeLanguage }}</p>
+                            </div>
+                        </button>
+                        
+                    </ng-container>
                 </div>
                 <div *ngIf="amount === 0">
 
@@ -71,10 +56,11 @@
             </div>
             <div class="col-3">
                 <button *ngIf="amount > 0" type="submit"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    disabled>{{ 'purchase.payment.next' | translate }}</button>
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2" disabled>{{
+                    'purchase.payment.next' | translate }}</button>
                 <button *ngIf="amount === 0" type="submit" routerLink="/purchase/payment/reception"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2">{{ 'purchase.payment.next' | translate }}</button>
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2">{{ 'purchase.payment.next' |
+                    translate }}</button>
             </div>
         </div>
     </div>

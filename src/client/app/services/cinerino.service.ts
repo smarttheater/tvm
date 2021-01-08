@@ -10,6 +10,7 @@ export class CinerinoService {
     public auth: cinerino.auth.OAuth2;
     public account: cinerino.service.Account;
     public creativeWork: cinerino.service.CreativeWork;
+    public categoryCode: cinerino.service.CategoryCode;
     public event: cinerino.service.Event;
     public order: cinerino.service.Order;
     public seller: cinerino.service.Seller;
@@ -23,9 +24,6 @@ export class CinerinoService {
     public transaction: {
         placeOrder: cinerino.service.transaction.PlaceOrder,
         returnOrder: cinerino.service.transaction.ReturnOrder
-    };
-    public admin: {
-        ownershipInfo: cinerino.service.OwnershipInfo
     };
     public userName: string;
     private endpoint: string;
@@ -43,6 +41,7 @@ export class CinerinoService {
             const option = await this.createOption();
             this.account = new cinerino.service.Account(option);
             this.creativeWork = new cinerino.service.CreativeWork(option);
+            this.categoryCode = new cinerino.service.CategoryCode(option);
             this.event = new cinerino.service.Event(option);
             this.order = new cinerino.service.Order(option);
             this.seller = new cinerino.service.Seller(option);
@@ -56,9 +55,6 @@ export class CinerinoService {
             this.transaction = {
                 placeOrder: new cinerino.service.transaction.PlaceOrder(option),
                 returnOrder: new cinerino.service.transaction.ReturnOrder(option)
-            };
-            this.admin = {
-                ownershipInfo: new cinerino.service.OwnershipInfo(option)
             };
         } catch (err) {
             console.error(err);
@@ -103,7 +99,7 @@ export class CinerinoService {
                 if (error.status !== undefined && error.status >= 500) {
                     loop = (count < limit);
                     count++;
-                    await Functions.Util.sleep(20000);
+                    await Functions.Util.sleep(4000);
                     continue;
                 }
                 throw error;

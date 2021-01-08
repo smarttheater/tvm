@@ -24,7 +24,6 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
     public environment = getEnvironment();
     public qrcode?: string;
     public paymentMethodType = factory.chevre.paymentMethodType;
-    public getCustomPaymentMethodTypeName = Functions.Purchase.getCustomPaymentMethodTypeName;
     public connectionType = Models.Util.Printer.ConnectionType;
     public createOrderLink = Functions.Order.createOrderLink;
     private timer: any;

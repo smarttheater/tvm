@@ -41,16 +41,6 @@
                         </div>
                     </div>
                 </ng-container>
-                <ng-container *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.CreditCard">
-                    <div class="mr-auto">
-
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.EMoney">
-                    <div class="mr-auto">
-
-                    </div>
-                </ng-container>
             </div>
             <div class="col-3 mh-100">
                 <app-purchase-info [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
@@ -85,11 +75,5 @@
                 </div>
             </div>
         </div>
-    </ng-container>
-    <ng-container *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.CreditCard">
-
-    </ng-container>
-    <ng-container *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.EMoney">
-
     </ng-container>
 </app-footer>

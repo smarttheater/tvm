@@ -296,7 +296,8 @@
         "masterAction": {
             "GetSellers": "販売者情報を取得しています",
             "GetSchedule": "スケジュールを取得しています",
-            "GetProjects": "プロジェクトを取得しています"
+            "GetProjects": "プロジェクトを取得しています",
+            "GetCategoryCode": "区分情報を取得しています"
         },
         "orderAction": {
             "Search": "注文情報を取得しています",

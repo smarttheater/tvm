@@ -332,4 +332,44 @@ export class MasterService {
             race(success, fail).pipe(take(1)).subscribe();
         });
     }
+
+    /**
+     * 区分情報取得
+     */
+    public async getCategoryCode(params: {
+        categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier
+    }) {
+        try {
+            this.utilService.loadStart({ process: 'masterAction.GetCategoryCode' });
+            const { categorySetIdentifier } = params;
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.categoryCode.ICategoryCode[] = [];
+            await this.cinerinoService.getServices();
+            while (roop) {
+                const searchResult = await this.cinerinoService.categoryCode.search({
+                    limit,
+                    page,
+                    inCodeSet: {
+                        identifier: {
+                            $eq: categorySetIdentifier
+                        }
+                    }
+                });
+                result = [...result, ...searchResult.data];
+                page++;
+                roop = searchResult.data.length === limit;
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
+            }
+            this.utilService.loadEnd();
+            return result;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
+    }
 }

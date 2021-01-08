@@ -21,10 +21,6 @@ export interface IPurchaseState {
      */
     scheduleDate?: string;
     /**
-     * 先行販売スケジュール
-     */
-    preScheduleDates: string[];
-    /**
      * 取引
      */
     transaction?: factory.transaction.placeOrder.ITransaction;
@@ -119,7 +115,6 @@ export const purchaseInitialState: IPurchaseState = {
     authorizeAnyPayments: [],
     isUsedMovieTicket: false,
     pendingMovieTickets: [],
-    preScheduleDates: []
 };
 
 export function reducer(initialState: IState, action: Action) {
@@ -139,7 +134,6 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeAnyPayments: [],
                     isUsedMovieTicket: false,
                     pendingMovieTickets: [],
-                    preScheduleDates: []
                 }
             };
         }),
@@ -171,17 +165,6 @@ export function reducer(initialState: IState, action: Action) {
         on(purchaseAction.selectScheduleDate, (state, payload) => {
             const scheduleDate = payload.scheduleDate;
             return { ...state, purchaseData: { ...state.purchaseData, scheduleDate }, process: '', error: null };
-        }),
-        on(purchaseAction.getPreScheduleDates, (state) => {
-            return { ...state, loading: true, process: 'purchaseAction.GetPreScheduleDates' };
-        }),
-        on(purchaseAction.getPreScheduleDatesSuccess, (state, payload) => {
-            const preScheduleDates = payload.sheduleDates;
-            return { ...state, purchaseData: { ...state.purchaseData, preScheduleDates }, loading: false, process: '', error: null };
-        }),
-        on(purchaseAction.getPreScheduleDatesFail, (state, payload) => {
-            const error = payload.error;
-            return { ...state, error: (error.message) ? error.message : JSON.stringify(error), loading: false, process: '' };
         }),
         on(purchaseAction.getScreeningEvent, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.GetScreeningEvent' };
@@ -545,7 +528,6 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeAnyPayments: [],
                     isUsedMovieTicket: false,
                     pendingMovieTickets: [],
-                    preScheduleDates: [],
                     order
                 }, loading: false, process: '', error: null
             };

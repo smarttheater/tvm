@@ -34,18 +34,6 @@ export const getSellerFail = createAction(
     props<{ error: Error }>()
 );
 
-export const getPreScheduleDates = createAction(
-    `${LABEL} getPreScheduleDates`,
-    props<{
-        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
-        superEvent: {
-            ids?: string[];
-            locationBranchCodes?: string[];
-            workPerformedIdentifiers?: string[];
-        };
-    }>()
-);
-
 export const getPreScheduleDatesSuccess = createAction(
     `${LABEL} getPreScheduleDatesSuccess`,
     props<{

@@ -18,6 +18,7 @@ export class PurchaseCinemaDateComponent implements OnInit {
     public moment = moment;
     public environment = getEnvironment();
     public scheduleDates: string[];
+    public preScheduleDates: string[];
 
     constructor(
         private store: Store<reducers.IState>,
@@ -32,12 +33,13 @@ export class PurchaseCinemaDateComponent implements OnInit {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         try {
             this.scheduleDates = [];
+            this.preScheduleDates = [];
             const { theater } = await this.actionService.user.getData();
             if (theater === undefined) {
                 throw new Error('theater undefined');
             }
             this.scheduleDates = this.cteateScheduleDate({ theater });
-            await this.actionService.purchase.getPreScheduleDates({ theater });
+            this.preScheduleDates = await this.actionService.purchase.getPreScheduleDates({ theater });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);

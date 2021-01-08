@@ -17,11 +17,11 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="(purchase | async)?.preScheduleDates.length > 0">
+        <div *ngIf="preScheduleDates.length > 0">
             <div class="p-4 bg-light-gray mb-3 font-weight-bold">{{ 'purchase.cinema.date.preSchedule' | translate }}</div>
             <div class="container px-0">
                 <div class="row">
-                    <div class="col-3" *ngFor="let scheduleDate of (purchase | async)?.preScheduleDates">
+                    <div class="col-3" *ngFor="let scheduleDate of preScheduleDates">
                         <button type="button" class="btn btn-block border border-gray py-5 mb-3"
                             (click)="searchMovie(scheduleDate)">
                             <div class="text-large">{{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD') }}</div>

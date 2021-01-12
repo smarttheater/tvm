@@ -69,7 +69,7 @@ export class PurchaseCinemaTopComponent implements OnInit {
             || scheduleDate === undefined) {
             throw new Error('theater or scheduleDate undefined');
         }
-        const screeningEvents = await this.masterService.getSchedule({
+        const screeningEvents = await this.masterService.searchScreeningEvent({
             superEvent: {
                 locationBranchCodes: [theater.branchCode],
             },

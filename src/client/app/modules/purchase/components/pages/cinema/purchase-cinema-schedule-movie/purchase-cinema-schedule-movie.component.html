@@ -5,24 +5,23 @@
 <div class="contents scroll-horizontal">
     <div class="container px-3">
         <div class="row">
-            <div *ngFor="let movie of creativeWorks; let index = index" class="item mb-3" [ngClass]="{
-                   'not-event not-sales': !isSales(movie.identifier)
+            <div *ngFor="let creativeWork of creativeWorks; let index = index" class="item mb-3" [ngClass]="{
+                   'not-event not-sales': !isSales(creativeWork.identifier)
                }" [class.animation]="animations[index]"
-                [routerLink]="'/purchase/cinema/schedule/event/' + movie.identifier">
+                [routerLink]="'/purchase/cinema/schedule/event/' + creativeWork.identifier">
                 <div class="position-relative">
                     <div class="image">
-                        <!-- <div class="loading d-flex justify-content-center align-items-center">
-                            <div class="loader"></div>
-                        </div> -->
                         <div class="poster-title d-flex align-items-center">
-                            <p class="p-3 text-white text-small">{{ movie.name }}</p>
+                            <p class="p-3 text-white text-small">{{ creativeWork.name }}</p>
                         </div>
-                        <div class="poster" *ngIf="movie.thumbnailUrl"
-                            [style.backgroundImage]="'url('+ movie.thumbnailUrl +')'">
+                        <div class="poster" *ngIf="creativeWork.thumbnailUrl"
+                            [style.backgroundImage]="'url('+ creativeWork.thumbnailUrl +')'">
                         </div>
-                        <!-- <div class="poster-no" *ngIf="!movie.thumbnailUrl"></div> -->
                     </div>
-                    <p class="p-2 bg-dark text-white text-overflow-ellipsis text-small">{{ movie.name }}</p>
+                    <div class="contentRating p-2 bg-dark text-white" *ngIf="getContentRatingType(creativeWork?.contentRating)">
+                        {{ getContentRatingType(creativeWork?.contentRating)?.name | changeLanguage }}
+                    </div>
+                    <p class="p-2 bg-dark text-white text-overflow-ellipsis text-small">{{ creativeWork.name }}</p>
                 </div>
             </div>
         </div>

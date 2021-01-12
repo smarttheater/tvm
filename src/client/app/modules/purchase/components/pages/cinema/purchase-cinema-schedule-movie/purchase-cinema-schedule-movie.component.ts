@@ -19,6 +19,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
     public animations: boolean[];
     public getAdditionalProperty = Functions.Purchase.getAdditionalProperty;
+    public contentRatingTypes: factory.chevre.categoryCode.ICategoryCode[];
 
     constructor(
         private router: Router,
@@ -40,7 +41,10 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
                 || theater === undefined) {
                 throw new Error('scheduleDate or theater undefined');
             }
-            this.screeningEvents = await this.masterService.getSchedule({
+            this.contentRatingTypes = await this.masterService.searchCategoryCode({
+                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.ContentRatingType
+            });
+            this.screeningEvents = await this.masterService.searchScreeningEvent({
                 superEvent: {
                     locationBranchCodes: [theater.branchCode],
                 },
@@ -50,10 +54,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
             const creativeWorks = await this.masterService.searchMovies({
                 offers: {
                     availableFrom: moment(scheduleDate).toDate(),
-                    // availableThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate()
                 },
-                // datePublishedFrom: moment(scheduleDate).toDate(),
-                // datePublishedThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate()
             });
             this.creativeWorks = creativeWorks.filter(c =>
                 this.screeningEvents.find(s =>
@@ -93,6 +94,13 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
                 && new Models.Purchase.Performance(s).isSales());
         });
         return (findResult !== undefined);
+    }
+
+    /**
+     * レイティング区分取得
+     */
+    public getContentRatingType(code?: string) {
+        return this.contentRatingTypes.find(c => c.codeValue === code);
     }
 
 }

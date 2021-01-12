@@ -7,12 +7,12 @@ import { Purchase } from '../models';
  * イベントグループ
  */
 export interface IScreeningEventsGroup {
-    info: factory.chevre.event.screeningEvent.IEvent;
+    screeningEvent: factory.chevre.event.screeningEvent.IEvent;
     data: Purchase.Performance[];
 }
 
 /**
- * イベントごとのグループへ変換
+ * 施設コンテンツごとのグループへ変換
  */
 export function screeningEvents2ScreeningEventsGroup(params: {
     screeningEvents: factory.chevre.event.screeningEvent.IEvent[],
@@ -27,17 +27,17 @@ export function screeningEvents2ScreeningEventsGroup(params: {
                 ? environment.PURCHASE_SCHEDULE_SORT
                 : params.sortType;
             if (sortType === 'screeningEventSeries') {
-                return (data.info.superEvent.id === screeningEvent.superEvent.id);
+                return (data.screeningEvent.superEvent.id === screeningEvent.superEvent.id);
             } else if (sortType === 'screen') {
-                return (data.info.location.branchCode === screeningEvent.location.branchCode);
+                return (data.screeningEvent.location.branchCode === screeningEvent.location.branchCode);
             } else {
-                return (moment(data.info.startDate).format('HH') === moment(screeningEvent.startDate).format('HH'));
+                return (moment(data.screeningEvent.startDate).format('HH') === moment(screeningEvent.startDate).format('HH'));
             }
         });
         const performance = new Purchase.Performance(screeningEvent);
         if (registered === undefined) {
             result.push({
-                info: screeningEvent,
+                screeningEvent,
                 data: [performance]
             });
         } else {

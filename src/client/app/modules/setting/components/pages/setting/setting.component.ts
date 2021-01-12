@@ -56,7 +56,7 @@ export class SettingComponent implements OnInit {
         this.posList = [];
         this.theaters = [];
         try {
-            this.theaters = await this.masterService.getTheaters();
+            this.theaters = await this.masterService.searchMovieTheaters();
             await this.createSettlingForm();
         } catch (error) {
             console.error(error);

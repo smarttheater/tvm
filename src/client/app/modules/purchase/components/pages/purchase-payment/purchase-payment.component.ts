@@ -53,7 +53,7 @@ export class PurchasePaymentComponent implements OnInit {
                     || p.paymentMethodType === factory.chevre.paymentMethodType.EMoney
                     || p.paymentMethodType === 'Code');
             });
-            const categoryCodePayment = await this.masterService.getCategoryCode({
+            const categoryCodePayment = await this.masterService.searchCategoryCode({
                 categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.PaymentMethodType
             });
             paymentAccepted.forEach(p => {

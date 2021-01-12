@@ -40,14 +40,24 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                 throw new Error('scheduleDate or theater undefined');
             }
             const workPerformedIdentifier = this.activatedRoute.snapshot.params.identifier;
-            const screeningEvents = await this.masterService.getSchedule({
+            const screeningEventSeries = await this.masterService.searchScreeningEventSeries({
+                workPerformed: {
+                    identifiers: [workPerformedIdentifier],
+                },
+                location: {
+                    branchCode: {
+                        $eq: theater.branchCode
+                    }
+                }
+            });
+            const screeningEvents = await this.masterService.searchScreeningEvent({
                 superEvent: {
                     locationBranchCodes: [theater.branchCode],
                     workPerformedIdentifiers: [workPerformedIdentifier]
                 },
                 startFrom: moment(scheduleDate).toDate(),
                 startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
-                sort: true
+                screeningEventSeries
             });
             this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
             await this.addAnimationClass();

@@ -18,6 +18,7 @@ export class PurchasePerformancesComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
+        console.log(this.screeningEventsGroup);
         this.animation = (this.animation === undefined) ? false : this.animation;
     }
 

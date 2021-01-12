@@ -87,11 +87,10 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
             if (theater === undefined || scheduleDate === undefined) {
                 throw new Error('theater === undefined || scheduleDate === undefined').message;
             }
-            const screeningEvents = await this.masterService.getSchedule({
+            const screeningEvents = await this.masterService.searchScreeningEvent({
                 superEvent: { locationBranchCodes: [theater.branchCode] },
                 startFrom: moment(scheduleDate).toDate(),
                 startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
-                sort: true
             });
             this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
             this.update();

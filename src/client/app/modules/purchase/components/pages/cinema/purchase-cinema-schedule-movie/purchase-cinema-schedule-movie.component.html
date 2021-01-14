@@ -8,7 +8,7 @@
             <div *ngFor="let creativeWork of creativeWorks; let index = index" class="item mb-3" [ngClass]="{
                    'not-event not-sales': !isSales(creativeWork.identifier)
                }" [class.animation]="animations[index]"
-                [routerLink]="'/purchase/cinema/schedule/event/' + creativeWork.identifier">
+                (click)="selectCreativeWork(creativeWork)">
                 <div class="position-relative">
                     <div class="image">
                         <div class="poster-title d-flex align-items-center">

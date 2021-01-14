@@ -13,6 +13,14 @@ export interface IPurchaseState {
      */
     seller?: factory.chevre.seller.ISeller;
     /**
+     * コンテンツ
+     */
+    creativeWork?: factory.chevre.creativeWork.movie.ICreativeWork;
+    /**
+     * 施設コンテンツ
+     */
+    screeningEventSeries?: factory.chevre.event.screeningEventSeries.IEvent;
+    /**
      * イベント
      */
     screeningEvent?: factory.chevre.event.screeningEvent.IEvent;
@@ -165,6 +173,14 @@ export function reducer(initialState: IState, action: Action) {
         on(purchaseAction.selectScheduleDate, (state, payload) => {
             const scheduleDate = payload.scheduleDate;
             return { ...state, purchaseData: { ...state.purchaseData, scheduleDate }, process: '', error: null };
+        }),
+        on(purchaseAction.selectCreativeWork, (state, payload) => {
+            const creativeWork = payload.creativeWork;
+            return { ...state, purchaseData: { ...state.purchaseData, creativeWork }, process: '', error: null };
+        }),
+        on(purchaseAction.selectScreeningEventSeries, (state, payload) => {
+            const screeningEventSeries = payload.screeningEventSeries;
+            return { ...state, purchaseData: { ...state.purchaseData, screeningEventSeries }, process: '', error: null };
         }),
         on(purchaseAction.getScreeningEvent, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.GetScreeningEvent' };

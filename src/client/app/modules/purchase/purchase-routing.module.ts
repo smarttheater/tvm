@@ -34,7 +34,7 @@ const routes: Routes = [
           { path: 'date', component: PurchaseCinemaDateComponent },
           { path: 'schedule', component: PurchaseCinemaScheduleComponent },
           { path: 'schedule/movie', component: PurchaseCinemaScheduleMovieComponent },
-          { path: 'schedule/event/:identifier', component: PurchaseCinemaScheduleEventComponent },
+          { path: 'schedule/event', component: PurchaseCinemaScheduleEventComponent },
           { path: 'seat', component: PurchaseCinemaSeatComponent },
           { path: 'ticket', component: PurchaseCinemaTicketComponent },
         ]

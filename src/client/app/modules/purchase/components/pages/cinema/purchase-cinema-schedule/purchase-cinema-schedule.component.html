@@ -14,10 +14,10 @@
                     </div>
                     <div class="col-10">
                         <div *ngFor="let performance of group.data" class="border border-gray py-4 px-3 mb-3" [ngClass]="{ 
-                            'not-event': !performance.isSales() 
-                            || performance.isSeatStatus('danger') 
-                            || performance.isInfinitetock()
-                            }" (click)="selectSchedule(performance.screeningEvent)">
+                                'not-event': !performance.isSales() 
+                                || performance.isSeatStatus('danger') 
+                                || performance.isInfinitetock()
+                                }" (click)="selectSchedule(performance.screeningEvent)">
                             <div class="container px-0">
                                 <div class="row align-items-center">
                                     <div class="col-1 text-center">
@@ -47,37 +47,73 @@
                                         </div>
                                     </div>
                                     <div class="col-2">
-                                        <span
-                                            class="text-x-large font-weight-bold">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
+                                        <span class="text-x-large font-weight-bold">{{
+                                            moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
                                         <span>-</span>
-                                        <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>
+                                        <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm')
+                                            }}</span>
                                     </div>
                                     <div class="col-6">
                                         <p class="font-weight-bold text-large">
                                             {{ performance.screeningEvent.name | changeLanguage }}</p>
                                         <p *ngIf="performance.screeningEvent.superEvent.headline 
-                                            && (performance.screeningEvent.superEvent.headline | changeLanguage)">
-                                            {{ performance.screeningEvent.superEvent.headline | changeLanguage }}</p>
-                                        <p class="text-small" *ngIf="performance.screeningEvent.superEvent.description 
-                                            && (performance.screeningEvent.superEvent.description | changeLanguage)">
-                                            {{ performance.screeningEvent.superEvent.description | changeLanguage }}</p>
+                                                && (performance.screeningEvent.superEvent.headline | changeLanguage)">
+                                            {{ performance.screeningEvent.superEvent.headline | changeLanguage }}
+                                        </p>
+                                        <p class="text-small"
+                                            *ngIf="performance.screeningEvent.superEvent.description 
+                                                && (performance.screeningEvent.superEvent.description | changeLanguage)">
+                                            {{ performance.screeningEvent.superEvent.description | changeLanguage }}
+                                        </p>
                                     </div>
                                     <div class="col-2">
                                         <div class="mb-1 screen-name">
                                             <p *ngIf="performance.screeningEvent.location.address | changeLanguage">
-                                                {{ performance.screeningEvent.location.address | changeLanguage }}</p>
+                                                {{ performance.screeningEvent.location.address | changeLanguage }}
+                                            </p>
                                             <p>
                                                 {{ performance.screeningEvent.location.name | changeLanguage }}</p>
                                         </div>
                                     </div>
                                     <div class="col-1">
-                                        <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity" class="screen-name">
-                                            {{ 'common.seatValue' | translate: { value: performance.screeningEvent.maximumAttendeeCapacity } }}
+                                        <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity"
+                                            class="screen-name">
+                                            {{ 'common.seatValue' | translate: { value:
+                                            performance.screeningEvent.maximumAttendeeCapacity } }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
+                            <div class="mt-3" *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id) 
+                                && getCreativeWorks(performance.screeningEvent.workPerformed?.identifier);">
+                                <div class="d-flex align-items-center">
+                                    <div *ngIf="getContentRatingType(getCreativeWorks(performance.screeningEvent.workPerformed?.identifier)?.contentRating)"
+                                        class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        getContentRatingType(getCreativeWorks(performance.screeningEvent.workPerformed?.identifier)?.contentRating)?.name
+                                        | changeLanguage }}
+                                    </div>
+                                    <div *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.dubLanguage"
+                                        class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        'common.dubbing' | translate }}</div>
+                                    <div *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.subtitleLanguage"
+                                        class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        'common.subtitles'
+                                        | translate }}</div>
+                                    <div *ngFor="let videoFormat of getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.videoFormat"
+                                        class="video-format text-small bg-dark-gray text-white py-1 px-2 mr-2">
+                                        {{ getVideoFormatType(videoFormat.typeOf)?.name | changeLanguage }}
+                                    </div>
+                                    <div *ngIf="performance.screeningEvent.workPerformed?.duration && moment.duration(performance.screeningEvent.workPerformed?.duration).asMinutes() > 0"
+                                        class="text-small ml-auto">
+                                        <span class="mr-1">{{ 'common.duration' | translate }}</span>{{
+                                        moment.duration(performance.screeningEvent.workPerformed?.duration).asMinutes()
+                                        }}{{
+                                        'common.date.minute' | translate }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -95,8 +131,8 @@
                     routerLink="/purchase/cinema">{{ 'purchase.cinema.scheduleMovie.prev' | translate }}</button>
             </div>
             <div class="col-3">
-                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    disabled>{{ 'purchase.cinema.scheduleMovie.next' | translate }}</button>
+                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2" disabled>{{
+                    'purchase.cinema.scheduleMovie.next' | translate }}</button>
             </div>
         </div>
     </div>

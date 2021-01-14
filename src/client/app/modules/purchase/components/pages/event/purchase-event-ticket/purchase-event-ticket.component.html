@@ -10,6 +10,8 @@
             {{ 'purchase.event.ticket.notfound' | translate }}
         </p>
         <app-purchase-performances *ngFor="let group of screeningEventsGroup" [screeningEventsGroup]="group"
+            [screeningEventSeries]="getScreeningEventSeries(group.screeningEvent.superEvent.id)"
+            [videoFormatTypes]="[]"
             (select)="selectSchedule($event)" class="mb-3">
         </app-purchase-performances>
     </div>
@@ -32,11 +34,13 @@
                         *ngIf="authorizeSeatReservation.object.event.superEvent.headline && (authorizeSeatReservation.object.event.superEvent.headline | changeLanguage)">
                         {{ authorizeSeatReservation.object.event.superEvent.headline | changeLanguage }}</p>
                     <p class="text-small"
-                        *ngIf="authorizeSeatReservation.object.event.superEvent.description && (authorizeSeatReservation.object.event.superEvent.description | changeLanguage)">{{
+                        *ngIf="authorizeSeatReservation.object.event.superEvent.description && (authorizeSeatReservation.object.event.superEvent.description | changeLanguage)">
+                        {{
                         authorizeSeatReservation.object.event.superEvent.description | changeLanguage }}</p>
                 </div>
                 <p class="mb-1">
-                    {{ authorizeSeatReservation.object.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{ authorizeSeatReservation.object.event.endDate | formatDate: 'HH:mm' }}
+                    {{ authorizeSeatReservation.object.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{
+                    authorizeSeatReservation.object.event.endDate | formatDate: 'HH:mm' }}
                 </p>
                 <p class="text-small mb-1">
                     <span class="theater-name">
@@ -45,12 +49,14 @@
                     <span class="screen-name">
                         &nbsp;/&nbsp;<span
                             *ngIf="authorizeSeatReservation.object.event.location.address | changeLanguage"
-                            class="mr-2">{{ authorizeSeatReservation.object.event.location.address | changeLanguage }}</span>{{ authorizeSeatReservation.object.event.location.name | changeLanguage }}
+                            class="mr-2">{{ authorizeSeatReservation.object.event.location.address | changeLanguage
+                            }}</span>{{ authorizeSeatReservation.object.event.location.name | changeLanguage }}
                     </span>
                     <span
                         *ngIf="authorizeSeatReservation.object.event.workPerformed?.duration && moment.duration(authorizeSeatReservation.object.event.workPerformed?.duration).asMinutes() > 0">
-                        &nbsp;/&nbsp;<span
-                            class="mr-1">{{ 'common.duration' | translate }}</span>{{ moment.duration(authorizeSeatReservation.object.event.workPerformed?.duration).asMinutes() }}{{ 'common.date.minute' | translate }}
+                        &nbsp;/&nbsp;<span class="mr-1">{{ 'common.duration' | translate }}</span>{{
+                        moment.duration(authorizeSeatReservation.object.event.workPerformed?.duration).asMinutes() }}{{
+                        'common.date.minute' | translate }}
                     </span>
                 </p>
                 <!-- <button type="button" class="btn btn-outline-primary btn-block py-3 ml-auto p-0"
@@ -68,9 +74,9 @@
     <div class="buttons mx-auto text-center">
         <button type="submit"
             [disabled]="(isLoading | async) || (purchase | async)?.authorizeSeatReservations.length === 0"
-            class="btn btn-primary btn-block py-3 mb-3"
-            (click)="onSubmit()">{{ 'purchase.event.cart.next' | translate }}</button>
-        <button type="button" class="btn btn-outline-primary btn-block py-3"
-            routerLink="/purchase/event/schedule">{{ 'purchase.event.ticket.prev' | translate }}</button>
+            class="btn btn-primary btn-block py-3 mb-3" (click)="onSubmit()">{{ 'purchase.event.cart.next' | translate
+            }}</button>
+        <button type="button" class="btn btn-outline-primary btn-block py-3" routerLink="/purchase/event/schedule">{{
+            'purchase.event.ticket.prev' | translate }}</button>
     </div>
 </div>

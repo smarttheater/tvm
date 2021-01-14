@@ -83,6 +83,20 @@ export class PurchaseService {
     }
 
     /**
+     * コンテンツ選択
+     */
+    public selectCreativeWork(creativeWork: factory.chevre.creativeWork.movie.ICreativeWork) {
+        this.store.dispatch(purchaseAction.selectCreativeWork({ creativeWork }));
+    }
+
+    /**
+     * 施設コンテンツ選択
+     */
+    public selectScreeningEventSeries(screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent) {
+        this.store.dispatch(purchaseAction.selectScreeningEventSeries({ screeningEventSeries }));
+    }
+
+    /**
      * イベント取得
      */
     public async getScreeningEvent(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {

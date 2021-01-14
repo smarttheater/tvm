@@ -69,7 +69,11 @@
                 "prev": "戻る",
                 "allSelect": "すべて選択",
                 "reset": "リセット",
-                "openSeating": "座席数", 
+                "openSeating": {
+                    "title": "枚数を選択してください",
+                    "read": "",
+                    "seat": "枚数"
+                },
                 "alert": {
                     "limit": "同時購入可能数は{{value}}件までです。",
                     "temporaryReservation": "仮予約に失敗しました。<br>※すでに他のお客様が同じ座席を選択した場合もこのエラーが表示されます。",

@@ -13,8 +13,11 @@ import { ActionService, MasterService, UtilService } from '../../../../../../ser
     styleUrls: ['./purchase-cinema-schedule.component.scss']
 })
 export class PurchaseCinemaScheduleComponent implements OnInit {
-
+    public creativeWorks: factory.chevre.creativeWork.movie.ICreativeWork[];
     public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup[];
+    public screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent[];
+    public videoFormatTypes: factory.chevre.categoryCode.ICategoryCode[];
+    public contentRatingTypes: factory.chevre.categoryCode.ICategoryCode[];
     public moment = moment;
     public environment = getEnvironment();
 
@@ -31,13 +34,38 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
      */
     public async ngOnInit() {
         try {
+            this.videoFormatTypes = [];
+            this.contentRatingTypes = [];
+            this.screeningEventSeries = [];
+            this.screeningEventsGroup = [];
+            this.creativeWorks = [];
             const { theater } = await this.actionService.user.getData();
             const { scheduleDate } = await this.actionService.purchase.getData();
             if (scheduleDate === undefined
                 || theater === undefined) {
                 throw new Error('scheduleDate or theater undefined');
             }
-
+            this.contentRatingTypes = await this.masterService.searchCategoryCode({
+                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.ContentRatingType
+            });
+            this.videoFormatTypes = await this.masterService.searchCategoryCode({
+                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.VideoFormatType
+            });
+            this.creativeWorks = await this.masterService.searchMovies({
+                offers: {
+                    availableFrom: moment(scheduleDate).toDate(),
+                },
+            });
+            this.screeningEventSeries = await this.masterService.searchScreeningEventSeries({
+                workPerformed: {
+                    identifiers: this.creativeWorks.map(c => c.identifier),
+                },
+                location: {
+                    branchCode: {
+                        $eq: theater.branchCode
+                    }
+                }
+            });
             const screeningEvents = await this.masterService.searchScreeningEvent({
                 superEvent: {
                     locationBranchCodes: [theater.branchCode],
@@ -76,7 +104,18 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
             return;
         }
         try {
+            if (screeningEvent.workPerformed?.identifier === undefined) {
+                throw new Error('workPerformed.identifier === undefined');
+            }
+            const creativeWork = this.getCreativeWorks(screeningEvent.workPerformed?.identifier);
+            const screeningEventSeries = this.getScreeningEventSeries(screeningEvent.superEvent.id);
+            if (creativeWork === undefined
+                || screeningEventSeries === undefined) {
+                throw new Error('creativeWork or screeningEventSeries === undefined');
+            }
             this.actionService.purchase.unsettledDelete();
+            this.actionService.purchase.selectCreativeWork(creativeWork);
+            this.actionService.purchase.selectScreeningEventSeries(screeningEventSeries);
             await this.actionService.purchase.getScreeningEvent(screeningEvent);
             const { authorizeSeatReservations } = await this.actionService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {
@@ -88,5 +127,33 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
             this.router.navigate(['/error']);
             return;
         }
+    }
+
+    /**
+     * 施設コンテンツ取得
+     */
+    public getScreeningEventSeries(id: string) {
+        return this.screeningEventSeries.find(s => s.id === id);
+    }
+
+    /**
+     * コンテンツ取得
+     */
+    public getCreativeWorks(identifier: string) {
+        return this.creativeWorks.find(c => c.identifier === identifier);
+    }
+
+    /**
+     * 上映方式区分取得
+     */
+    public getVideoFormatType(code: string) {
+        return this.videoFormatTypes.find(v => v.codeValue === code);
+    }
+
+    /**
+     * レイティング区分取得
+     */
+    public getContentRatingType(code?: string) {
+        return this.contentRatingTypes.find(c => c.codeValue === code);
     }
 }

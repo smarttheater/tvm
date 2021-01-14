@@ -103,4 +103,9 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
         return this.contentRatingTypes.find(c => c.codeValue === code);
     }
 
+    public selectCreativeWork(creativeWork: factory.chevre.creativeWork.movie.ICreativeWork) {
+        this.actionService.purchase.selectCreativeWork(creativeWork);
+        this.router.navigate(['/purchase/cinema/schedule/event']);
+    }
+
 }

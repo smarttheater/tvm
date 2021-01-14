@@ -20,7 +20,6 @@ export class PurchaseCinemaSeatComponent extends PurchaseSeatComponent {
             this.router.navigate([`/purchase/cinema/schedule`]);
             return;
         }
-        const identifier = screeningEvent.workPerformed.identifier;
-        this.router.navigate([`/purchase/cinema/schedule/event/${identifier}`]);
+        this.router.navigate([`/purchase/cinema/schedule/event`]);
     }
 }

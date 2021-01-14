@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -17,10 +17,11 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
     public moment = moment;
     public environment = getEnvironment();
     public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup[];
+    public screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent[];
     public animations: boolean[];
+    public videoFormatTypes: factory.chevre.categoryCode.ICategoryCode[];
     constructor(
         private router: Router,
-        private activatedRoute: ActivatedRoute,
         private masterService: MasterService,
         private actionService: ActionService,
         private utilService: UtilService,
@@ -32,17 +33,23 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
      */
     public async ngOnInit() {
         try {
+            this.videoFormatTypes = [];
+            this.screeningEventSeries = [];
+            this.screeningEventsGroup = [];
             this.animations = [];
             const { theater } = await this.actionService.user.getData();
-            const { scheduleDate } = await this.actionService.purchase.getData();
+            const { scheduleDate, creativeWork } = await this.actionService.purchase.getData();
             if (scheduleDate === undefined
-                || theater === undefined) {
-                throw new Error('scheduleDate or theater undefined');
+                || theater === undefined
+                || creativeWork === undefined) {
+                throw new Error('scheduleDate or creativeWork or theater undefined');
             }
-            const workPerformedIdentifier = this.activatedRoute.snapshot.params.identifier;
-            const screeningEventSeries = await this.masterService.searchScreeningEventSeries({
+            this.videoFormatTypes = await this.masterService.searchCategoryCode({
+                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.VideoFormatType
+            });
+            this.screeningEventSeries = await this.masterService.searchScreeningEventSeries({
                 workPerformed: {
-                    identifiers: [workPerformedIdentifier],
+                    identifiers: [creativeWork.identifier],
                 },
                 location: {
                     branchCode: {
@@ -53,11 +60,11 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             const screeningEvents = await this.masterService.searchScreeningEvent({
                 superEvent: {
                     locationBranchCodes: [theater.branchCode],
-                    workPerformedIdentifiers: [workPerformedIdentifier]
+                    workPerformedIdentifiers: [creativeWork.identifier]
                 },
                 startFrom: moment(scheduleDate).toDate(),
                 startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
-                screeningEventSeries
+                screeningEventSeries: this.screeningEventSeries
             });
             this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
             await this.addAnimationClass();
@@ -87,7 +94,12 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             return;
         }
         try {
+            const screeningEventSeries = this.getScreeningEventSeries(screeningEvent.superEvent.id);
+            if (screeningEventSeries === undefined) {
+                throw new Error('screeningEventSeries === undefined');
+            }
             this.actionService.purchase.unsettledDelete();
+            this.actionService.purchase.selectScreeningEventSeries(screeningEventSeries);
             await this.actionService.purchase.getScreeningEvent(screeningEvent);
             const { authorizeSeatReservations } = await this.actionService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {
@@ -114,5 +126,12 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             this.animations[target] = true;
             await Functions.Util.sleep(time);
         }
+    }
+
+    /**
+     * 施設コンテンツ取得
+     */
+    public getScreeningEventSeries(id: string) {
+        return this.screeningEventSeries.find(s => s.id === id);
     }
 }

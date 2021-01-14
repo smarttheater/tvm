@@ -4,7 +4,11 @@
 <app-page-title title="{{ 'purchase.cinema.scheduleEvent.title' | translate }}"></app-page-title>
 <div class="contents scroll-horizontal">
     <div class="px-3">
-        <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index" [screeningEventsGroup]="group" [animation]="animations[index]"
+        <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index" 
+        [screeningEventsGroup]="group" 
+        [screeningEventSeries]="getScreeningEventSeries(group.screeningEvent.superEvent.id)"
+        [videoFormatTypes]="videoFormatTypes"
+        [animation]="animations[index]"
             (select)="selectSchedule($event)" class="">
         </app-purchase-performances>
     </div>

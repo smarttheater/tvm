@@ -17,6 +17,16 @@ export const selectScheduleDate = createAction(
     props<{ scheduleDate: string }>()
 );
 
+export const selectCreativeWork = createAction(
+    `${LABEL} selectCreativeWork`,
+    props<{ creativeWork: factory.chevre.creativeWork.movie.ICreativeWork }>()
+);
+
+export const selectScreeningEventSeries = createAction(
+    `${LABEL} selectScreeningEventSeries`,
+    props<{ screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent }>()
+);
+
 export const getSeller = createAction(
     `${LABEL} getSeller`,
     props<{ id: string; }>()

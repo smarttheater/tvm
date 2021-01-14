@@ -1,26 +1,27 @@
 <div class="">
     <div class="p-3 bg-light-gray">
         <div class="mb-2">
-            <p class="font-weight-bold text-large">{{ screeningEventsGroup.screeningEvent.name | changeLanguage }}</p>
-            <p
-                *ngIf="screeningEventsGroup.screeningEvent.superEvent.headline && (screeningEventsGroup.screeningEvent.superEvent.headline | changeLanguage)">
-                {{ screeningEventsGroup.screeningEvent.superEvent.headline | changeLanguage }}</p>
+            <p class="font-weight-bold text-large">{{ screeningEventSeries.name | changeLanguage }}</p>
+            <p *ngIf="screeningEventSeries.headline && (screeningEventSeries.headline | changeLanguage)">
+                {{ screeningEventSeries.headline | changeLanguage }}</p>
             <p class="text-small"
-                *ngIf="screeningEventsGroup.screeningEvent.superEvent.description && (screeningEventsGroup.screeningEvent.superEvent.description | changeLanguage)">{{
-                    screeningEventsGroup.screeningEvent.superEvent.description | changeLanguage }}</p>
+                *ngIf="screeningEventSeries.description && (screeningEventSeries.description | changeLanguage)">{{
+                screeningEventSeries.description | changeLanguage }}</p>
         </div>
         <div class="d-flex align-items-center">
-            <div *ngIf="screeningEventsGroup.screeningEvent.workPerformed?.contentRating"
-                class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
-                    screeningEventsGroup.screeningEvent.workPerformed?.contentRating }}</div>
-            <div *ngIf="screeningEventsGroup.screeningEvent.superEvent.dubLanguage"
-                class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{ 'common.dubbing' | translate }}</div>
-            <div *ngIf="screeningEventsGroup.screeningEvent.superEvent.subtitleLanguage"
+            <div *ngIf="screeningEventSeries.dubLanguage" class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                'common.dubbing' | translate }}</div>
+            <div *ngIf="screeningEventSeries.subtitleLanguage"
                 class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{ 'common.subtitles' | translate }}</div>
+            <div *ngFor="let videoFormat of screeningEventSeries.videoFormat"
+                class="video-format text-small bg-dark-gray text-white py-1 px-2 mr-2">
+                {{ getVideoFormatType(videoFormat.typeOf)?.name | changeLanguage }}
+            </div>
             <div *ngIf="screeningEventsGroup.screeningEvent.workPerformed?.duration && moment.duration(screeningEventsGroup.screeningEvent.workPerformed?.duration).asMinutes() > 0"
                 class="text-small ml-auto">
-                <span
-                    class="mr-1">{{ 'common.duration' | translate }}</span>{{ moment.duration(screeningEventsGroup.screeningEvent.workPerformed?.duration).asMinutes() }}{{ 'common.date.minute' | translate }}
+                <span class="mr-1">{{ 'common.duration' | translate }}</span>{{
+                moment.duration(screeningEventsGroup.screeningEvent.workPerformed?.duration).asMinutes() }}{{
+                'common.date.minute' | translate }}
             </div>
         </div>
     </div>

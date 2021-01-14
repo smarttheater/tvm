@@ -26,6 +26,7 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
     public error: Observable<string | null>;
     public isLoading: Observable<boolean>;
     public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup[];
+    public screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent[];
     public moment: typeof moment = moment;
     public environment = getEnvironment();
     private updateTimer: any;
@@ -87,10 +88,21 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
             if (theater === undefined || scheduleDate === undefined) {
                 throw new Error('theater === undefined || scheduleDate === undefined').message;
             }
+            this.screeningEventSeries = await this.masterService.searchScreeningEventSeries({
+                workPerformed: {
+                    identifiers: [],
+                },
+                location: {
+                    branchCode: {
+                        $eq: theater.branchCode
+                    }
+                }
+            });
             const screeningEvents = await this.masterService.searchScreeningEvent({
                 superEvent: { locationBranchCodes: [theater.branchCode] },
                 startFrom: moment(scheduleDate).toDate(),
                 startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
+                screeningEventSeries: this.screeningEventSeries
             });
             this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
             this.update();
@@ -290,6 +302,13 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
                 }
             }
         });
+    }
+
+    /**
+     * 施設コンテンツ取得
+     */
+    public getScreeningEventSeries(id: string) {
+        return this.screeningEventSeries.find(s => s.id === id);
     }
 
 }

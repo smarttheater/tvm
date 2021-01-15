@@ -44,7 +44,7 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
         try {
             const purchaseData = await this.actionService.purchase.getData();
             if (purchaseData.order === undefined) {
-                throw new Error('order not found').message;
+                throw new Error('order not found');
             }
             order = purchaseData.order;
             this.eventOrders = Functions.Purchase.order2EventOrders({ order });

@@ -86,7 +86,7 @@ export class PurchaseEventTicketComponent implements OnInit, OnDestroy {
             const theater = user.theater;
             const scheduleDate = purchase.scheduleDate;
             if (theater === undefined || scheduleDate === undefined) {
-                throw new Error('theater === undefined || scheduleDate === undefined').message;
+                throw new Error('theater === undefined || scheduleDate === undefined');
             }
             this.screeningEventSeries = await this.masterService.searchScreeningEventSeries({
                 workPerformed: {

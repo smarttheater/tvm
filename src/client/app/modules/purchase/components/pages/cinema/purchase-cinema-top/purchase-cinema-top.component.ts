@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { BAD_REQUEST, TOO_MANY_REQUESTS } from 'http-status';
 import * as moment from 'moment';
+import { Functions } from '../../../../../..';
+import { getEnvironment } from '../../../../../../../environments/environment';
 import { ActionService, MasterService } from '../../../../../../services';
 
 @Component({
@@ -11,6 +13,7 @@ import { ActionService, MasterService } from '../../../../../../services';
     styleUrls: ['./purchase-cinema-top.component.scss']
 })
 export class PurchaseCinemaTopComponent implements OnInit {
+    public environment = getEnvironment();
 
     constructor(
         private masterService: MasterService,
@@ -121,6 +124,22 @@ export class PurchaseCinemaTopComponent implements OnInit {
             }
             this.router.navigate(['/error']);
         }
+    }
+
+    /**
+     * 表示判定
+     */
+    public isDisplay(value: string) {
+        const findResult = this.environment.TOP_MENU.find(t => t === value);
+        return findResult !== undefined;
+    }
+
+    /**
+     * 画像取得
+     */
+    public getImageUrl() {
+        const { storageUrl } = Functions.Util.getProject();
+        return `${storageUrl}${this.environment.TOP_IMAGE}`;
     }
 
 }

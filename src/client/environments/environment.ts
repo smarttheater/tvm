@@ -75,14 +75,6 @@ interface IEnvironment {
      */
     DISPLAY_TICKETED_SEAT: boolean;
     /**
-     * ヘッダーメニュー表示
-     */
-    HEADER_MENU: boolean;
-    /**
-     * ヘッダーメニューの中身
-     */
-    HEADER_MENU_SCOPE: string[];
-    /**
      * 入力キーパッド
      */
     INPUT_KEYPAD: boolean;
@@ -187,6 +179,14 @@ interface IEnvironment {
      * エラー待機時間(ms)
      */
     ERROR_WAIT_TIME: string;
+    /**
+     * TOPメニュー
+     */
+    TOP_MENU: string[];
+    /**
+     * TOP画像
+     */
+    TOP_IMAGE: string;
 }
 
 export const isProduction = (document.querySelector('body.production') !== null);
@@ -213,8 +213,6 @@ const defaultEnvironment: IEnvironment = {
     PAYMENT_TIMEOUT: '300000',
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,
-    HEADER_MENU: true,
-    HEADER_MENU_SCOPE: ['purchase', 'inquiry', 'setting', 'auth'],
     PURCHASE_ITEM_MAX_LENGTH: '50',
     PURCHASE_TRANSACTION_TIME: '15',
     PURCHASE_TRANSACTION_TIME_DISPLAY: true,
@@ -240,6 +238,8 @@ const defaultEnvironment: IEnvironment = {
     PRINT_LOADING: true,
     PRINT_SUCCESS_WAIT_TIME: '10000',
     ERROR_WAIT_TIME: '10000',
+    TOP_MENU: ['movie', 'time', 'inquiry'],
+    TOP_IMAGE: ''
 };
 
 export function getEnvironment(): IEnvironment {

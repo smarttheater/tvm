@@ -157,11 +157,13 @@ export class PurchaseSeatComponent implements OnInit {
     }) {
         const screeningEventSeats = params.screeningEventSeats;
         const screeningEvent = params.screeningEvent;
-        const values: number[] = [];
-        if (screeningEvent === undefined) {
-            return values;
-        }
+        const values = [];
         let limit = Number(this.environment.PURCHASE_ITEM_MAX_LENGTH);
+        if (screeningEvent.offers !== undefined
+            && screeningEvent.offers.eligibleQuantity.maxValue !== undefined
+            && limit > screeningEvent.offers.eligibleQuantity.maxValue) {
+            limit = screeningEvent.offers.eligibleQuantity.maxValue;
+        }
         if (new Models.Purchase.Performance(screeningEvent).isTicketedSeat()) {
             // イベント全体の残席数計算
             const screeningEventLimit = Functions.Purchase.getRemainingSeatLength({

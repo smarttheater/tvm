@@ -14,7 +14,6 @@ import { ContentsComponent } from './components/parts/contents/contents.componen
 import { CurrentDateTimeComponent } from './components/parts/current-date-time/current-date-time.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { CheckboxComponent } from './components/parts/form/checkbox/checkbox.component';
-import { HeaderMenuComponent } from './components/parts/header-menu/header-menu.component';
 import { HeaderComponent } from './components/parts/header/header.component';
 import { ItemListComponent } from './components/parts/item-list/item-list.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
@@ -38,7 +37,6 @@ const components = [
   ContentsComponent,
   FooterComponent,
   HeaderComponent,
-  HeaderMenuComponent,
   LoadingComponent,
   ScreenComponent,
   ItemListComponent,

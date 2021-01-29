@@ -1,5 +1,6 @@
 <app-header [isClear]="true">
-    <app-purchase-step [currentStep]="5"></app-purchase-step>
+    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Cinema" [currentStep]="5"></app-purchase-step>
+    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Event" [currentStep]="3"></app-purchase-step>
 </app-header>
 <app-page-title title="{{ 'purchase.complete.title' | translate }}"></app-page-title>
 <div class="contents">

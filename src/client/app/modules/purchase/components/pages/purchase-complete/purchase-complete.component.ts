@@ -19,8 +19,9 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
     public error: Observable<string | null>;
-    public moment: typeof moment = moment;
+    public moment = moment;
     public eventOrders: Functions.Purchase.IEventOrder[];
+    public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
     public qrcode?: string;
     public paymentMethodType = factory.chevre.paymentMethodType;

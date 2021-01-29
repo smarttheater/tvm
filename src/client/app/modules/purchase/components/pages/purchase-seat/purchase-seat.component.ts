@@ -17,6 +17,7 @@ export class PurchaseSeatComponent implements OnInit {
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
+    public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
     public screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
     public translateName: string;
@@ -219,7 +220,7 @@ export class PurchaseSeatComponent implements OnInit {
             });
             const navigate = (this.environment.VIEW_TYPE === 'cinema')
                 ? '/purchase/cinema/ticket'
-                : '/purchase/event/seat/ticket';
+                : '/purchase/event/ticket';
             this.router.navigate([navigate]);
         } catch (error) {
             if (screen !== undefined && screen.openSeatingAllowed) {

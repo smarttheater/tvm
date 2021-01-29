@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 
 @Component({
@@ -8,6 +9,7 @@ import { getEnvironment } from '../../../../../../environments/environment';
 })
 export class PurchaseStepComponent implements OnInit {
     @Input() public currentStep: number;
+    public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
     public steps: number[];
 
@@ -17,7 +19,8 @@ export class PurchaseStepComponent implements OnInit {
      * 初期化
      */
     public ngOnInit() {
-        this.steps = [1, 2, 3, 4, 5];
+        this.steps = (this.environment.VIEW_TYPE === this.viewType.Cinema)
+            ? [1, 2, 3, 4, 5] : [1, 2, 3];
     }
 
 }

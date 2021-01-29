@@ -8,10 +8,11 @@ import { PurchaseCinemaScheduleComponent } from './components/pages/cinema/purch
 import { PurchaseCinemaSeatComponent } from './components/pages/cinema/purchase-cinema-seat/purchase-cinema-seat.component';
 import { PurchaseCinemaTicketComponent } from './components/pages/cinema/purchase-cinema-ticket/purchase-cinema-ticket.component';
 import { PurchaseCinemaTopComponent } from './components/pages/cinema/purchase-cinema-top/purchase-cinema-top.component';
+import { PurchaseEventDateComponent } from './components/pages/event/purchase-event-date/purchase-event-date.component';
 import { PurchaseEventScheduleComponent } from './components/pages/event/purchase-event-schedule/purchase-event-schedule.component';
-import { PurchaseEventSeatTicketComponent } from './components/pages/event/purchase-event-seat-ticket/purchase-event-seat-ticket.component';
 import { PurchaseEventSeatComponent } from './components/pages/event/purchase-event-seat/purchase-event-seat.component';
 import { PurchaseEventTicketComponent } from './components/pages/event/purchase-event-ticket/purchase-event-ticket.component';
+import { PurchaseEventTopComponent } from './components/pages/event/purchase-event-top/purchase-event-top.component';
 import { PurchaseBaseComponent } from './components/pages/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/pages/purchase-complete/purchase-complete.component';
 import { PurchasePaymentReceptionComponent } from './components/pages/purchase-payment-reception/purchase-payment-reception.component';
@@ -19,10 +20,10 @@ import { PurchasePaymentComponent } from './components/pages/purchase-payment/pu
 import { PurchaseRootComponent } from './components/pages/purchase-root/purchase-root.component';
 import { PurchaseSeatComponent } from './components/pages/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/pages/purchase-ticket/purchase-ticket.component';
-import { PurchaseEventPerformancesConfirmComponent } from './components/parts/event/performances-confirm/performances-confirm.component';
 import { MovieTicketsComponent } from './components/parts/movie-tickets/movie-tickets.component';
 import { PurchasePerformanceComponent } from './components/parts/performance/performance.component';
 import { PurchasePerformancesComponent } from './components/parts/performances/performances.component';
+import { PurchaseCartComponent } from './components/parts/purchase-cart/purchase-cart.component';
 import { PurchaseInfoComponent } from './components/parts/purchase-info/purchase-info.component';
 import { PurchaseTermsComponent } from './components/parts/purchase-terms/purchase-terms.component';
 import { PurchaseWarningComponent } from './components/parts/purchase-warning/purchase-warning.component';
@@ -46,13 +47,12 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseEventScheduleComponent,
     PurchasePerformanceComponent,
     PurchasePerformancesComponent,
-    PurchaseEventPerformancesConfirmComponent,
     PurchaseInfoComponent,
     PurchaseTermsComponent,
     PurchaseWarningComponent,
     TransactionRemainingTimeComponent,
     PurchaseEventSeatComponent,
-    PurchaseEventSeatTicketComponent,
+    PurchaseEventTicketComponent,
     PurchaseTicketComponent,
     PurchaseSeatComponent,
     SeatInfoComponent,
@@ -61,7 +61,10 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseCinemaTopComponent,
     PurchaseCinemaDateComponent,
     PurchaseStepComponent,
-    MovieTicketsComponent
+    MovieTicketsComponent,
+    PurchaseEventTopComponent,
+    PurchaseEventDateComponent,
+    PurchaseCartComponent,
   ],
   imports: [
     CommonModule,

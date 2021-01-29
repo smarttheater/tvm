@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
-import { Functions } from '../../../../..';
+import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import { IReservation, IReservationTicket } from '../../../../../models/purchase/reservation';
 import { ActionService, UtilService } from '../../../../../services';
@@ -22,6 +22,7 @@ export class PurchaseTicketComponent implements OnInit {
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
     public additionalTicketText: string;
+    public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
     public translateName: string;
     public isSelectedTicket: boolean;
@@ -40,7 +41,7 @@ export class PurchaseTicketComponent implements OnInit {
         this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.translateName = (this.environment.VIEW_TYPE === 'cinema')
-            ? 'purchase.cinema.ticket' : 'purchase.event.seatTicket';
+            ? 'purchase.cinema.ticket' : 'purchase.event.ticket';
         this.additionalTicketText = '';
         this.isSelectedTicket = (await this.getUnselectedTicketReservations()).length === 0;
     }
@@ -99,7 +100,7 @@ export class PurchaseTicketComponent implements OnInit {
             });
             const navigate = (this.environment.VIEW_TYPE === 'cinema')
                 ? '/purchase/payment'
-                : '/purchase/event/ticket';
+                : '/purchase/event/schedule';
             this.router.navigate([navigate]);
         } catch (error) {
             console.error(error);

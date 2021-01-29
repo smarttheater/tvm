@@ -36,7 +36,7 @@ export class PurchaseRootComponent implements OnInit {
                 this.router.navigate(['/purchase/cinema']);
                 return;
             }
-            this.router.navigate(['/purchase/event/schedule']);
+            this.router.navigate(['/purchase/event']);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);

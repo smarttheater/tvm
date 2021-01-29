@@ -1,5 +1,6 @@
 <app-header [isClear]="true">
-    <app-purchase-step [currentStep]="4"></app-purchase-step>
+    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Cinema" [currentStep]="4"></app-purchase-step>
+    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Event" [currentStep]="2"></app-purchase-step>
 </app-header>
 <app-page-title *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash"
     title="{{ 'purchase.paymentReception.cash.title' | translate }}"></app-page-title>
@@ -42,8 +43,9 @@
                     </div>
                 </ng-container>
             </div>
-            <div class="col-3 mh-100">
-                <app-purchase-info [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
+                <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async" [isAmount]="true" [cancel]="false"></app-purchase-cart>
             </div>
         </div>
     </div>

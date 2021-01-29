@@ -8,10 +8,11 @@ import { PurchaseCinemaScheduleComponent } from './components/pages/cinema/purch
 import { PurchaseCinemaSeatComponent } from './components/pages/cinema/purchase-cinema-seat/purchase-cinema-seat.component';
 import { PurchaseCinemaTicketComponent } from './components/pages/cinema/purchase-cinema-ticket/purchase-cinema-ticket.component';
 import { PurchaseCinemaTopComponent } from './components/pages/cinema/purchase-cinema-top/purchase-cinema-top.component';
+import { PurchaseEventDateComponent } from './components/pages/event/purchase-event-date/purchase-event-date.component';
 import { PurchaseEventScheduleComponent } from './components/pages/event/purchase-event-schedule/purchase-event-schedule.component';
-import { PurchaseEventSeatTicketComponent } from './components/pages/event/purchase-event-seat-ticket/purchase-event-seat-ticket.component';
 import { PurchaseEventSeatComponent } from './components/pages/event/purchase-event-seat/purchase-event-seat.component';
 import { PurchaseEventTicketComponent } from './components/pages/event/purchase-event-ticket/purchase-event-ticket.component';
+import { PurchaseEventTopComponent } from './components/pages/event/purchase-event-top/purchase-event-top.component';
 import { PurchaseBaseComponent } from './components/pages/purchase-base/purchase-base.component';
 import { PurchaseCompleteComponent } from './components/pages/purchase-complete/purchase-complete.component';
 import { PurchasePaymentReceptionComponent } from './components/pages/purchase-payment-reception/purchase-payment-reception.component';
@@ -43,16 +44,11 @@ const routes: Routes = [
         path: 'event',
         canActivate: [ViewTypeGuardService],
         children: [
-          { path: 'ticket', component: PurchaseEventTicketComponent },
+          { path: '', component: PurchaseEventTopComponent },
+          { path: 'date', component: PurchaseEventDateComponent },
           { path: 'schedule', component: PurchaseEventScheduleComponent },
-          {
-            path: 'seat',
-            canActivate: [ViewTypeGuardService],
-            children: [
-              { path: '', component: PurchaseEventSeatComponent },
-              { path: 'ticket', component: PurchaseEventSeatTicketComponent }
-            ]
-          },
+          { path: 'seat', component: PurchaseEventSeatComponent },
+          { path: 'ticket', component: PurchaseEventTicketComponent },
         ]
       },
       { path: 'payment', canActivate: [PurchaseTransactionGuardService], component: PurchasePaymentComponent },

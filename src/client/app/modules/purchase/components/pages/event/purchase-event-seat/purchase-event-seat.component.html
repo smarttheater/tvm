@@ -1,5 +1,5 @@
 <app-header [isClear]="true">
-    <app-purchase-step [currentStep]="2"></app-purchase-step>
+    <app-purchase-step [currentStep]="1"></app-purchase-step>
 </app-header>
 <app-page-title *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)"
     title="{{ 'purchase.event.seat.title' | translate }}"></app-page-title>
@@ -45,8 +45,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 mh-100">
-                <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
+                <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async" [isAmount]="true" [cancel]="false"></app-purchase-cart>
             </div>
         </div>
     </div>

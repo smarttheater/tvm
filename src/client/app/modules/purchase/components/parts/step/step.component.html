@@ -3,7 +3,7 @@
         <div [class.d-none]="currentStep !== step" class="px-5 bg-white h-100">
             <div class="d-flex align-items-center h-100">
                 <div class="text-x-large font-weight-bold mr-2">0{{ step }}</div>
-                <p class="text-x-small" [innerHtml]="'purchase.cinema.step.' + step | translate"></p>
+                <p class="text-x-small" [innerHtml]="'purchase.step.' + step | translate"></p>
             </div>
         </div>
         <div [class.d-none]="currentStep === step" [class.d-flex]="currentStep !== step"

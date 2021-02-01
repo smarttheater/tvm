@@ -34,10 +34,16 @@
         text-align: center;
         font-weight: bold;
         color: #9a9a9b;
-        padding-top: 20px;
         border: 3px solid #9a9a9b;
         border-radius: 15px 15px 0 0;
-        font-size: 16px;
+        padding-top: 20px;
+        padding-top: 4px;
+        .seat-label {
+            font-size: 20px;
+        }
+        .seat-code {
+            display: none;
+        }
         &.active {
             color: #FFF;
             background-color: #258ac3;
@@ -61,10 +67,17 @@
         background-size: 20px;
         background-position: center 6px;
         background-repeat: no-repeat;
-        padding-top: 32px;
         color: #FFF;
         background-color: #333;
         border-color: #333;
+        padding-top: 32px;
+        .seat-label {
+            display: none;
+        }
+        .seat-code {
+            display: block;
+            font-size: 12px;
+        }
     }
     .hc {
         background-image: url(/default/images/seat/hc_white.svg) !important;

@@ -86,14 +86,24 @@ export class EpsonPrinterService {
     public async print(params: {
         canvasList: HTMLCanvasElement[];
     }) {
-        const canvasList = params.canvasList;
-        for (const canvas of canvasList) {
-            const mode = 'MODE_MONO';
-            const cut = true;
-            await Functions.Util.sleep(1500);
-            this.device.print(canvas, cut, this.device[mode]);
-            // console.log(this.device);
-        }
+        return new Promise<void>(async (resolve, reject) => {
+            const canvasList = params.canvasList;
+            for (const canvas of canvasList) {
+                const mode = 'MODE_MONO';
+                const cut = true;
+                await Functions.Util.sleep(1500);
+                this.device.print(canvas, cut, this.device[mode]);
+                this.device.onreceive = (response: any) => {
+                    if (response.success) {
+                        // 印刷成功メッセージ表示
+                        resolve();
+                        return;
+                    }
+                    // エラーメッセージ表示
+                    reject(response);
+                };
+            }
+        });
     }
 
 

@@ -68,6 +68,7 @@ export default (app: express.Application) => {
             next();
             return;
         }
+        res.setHeader('Cache-Control', 'no-cache');
         res.sendFile(path.resolve(`${__dirname}/../../../client/index.html`));
     });
 

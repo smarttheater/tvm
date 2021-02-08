@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
      * @method ngOnInit
      */
     public ngOnInit() {
-        this.changeViewport();
+        Functions.Util.changeViewport();
         this.locales();
         if (this.environment.ANALYTICS_ID !== '') {
             this.analytics();
@@ -35,10 +35,6 @@ export class AppComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     public onResize() {
-        this.changeViewport();
-    }
-
-    public changeViewport() {
         Functions.Util.changeViewport();
     }
 

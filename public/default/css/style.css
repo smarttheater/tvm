@@ -4,3 +4,11 @@
     border-color: #666 !important;
     color: #EEE !important;
 }
+
+
+.video-format,
+.dub-language,
+.subtitle-language,
+.content-rating {
+    display: none;
+}

@@ -88,15 +88,15 @@
                                 && getCreativeWorks(performance.screeningEvent.workPerformed?.identifier);">
                                 <div class="d-flex align-items-center">
                                     <div *ngIf="getContentRatingType(getCreativeWorks(performance.screeningEvent.workPerformed?.identifier)?.contentRating)"
-                                        class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        class="content-rating text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
                                         getContentRatingType(getCreativeWorks(performance.screeningEvent.workPerformed?.identifier)?.contentRating)?.name
                                         | changeLanguage }}
                                     </div>
                                     <div *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.dubLanguage"
-                                        class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        class="dub-language text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
                                         'common.dubbing' | translate }}</div>
                                     <div *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.subtitleLanguage"
-                                        class="text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        class="subtitle-language text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
                                         'common.subtitles'
                                         | translate }}</div>
                                     <div *ngFor="let videoFormat of getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.videoFormat"

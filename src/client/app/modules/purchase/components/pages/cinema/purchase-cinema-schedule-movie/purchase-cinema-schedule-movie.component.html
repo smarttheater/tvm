@@ -18,7 +18,7 @@
                             [style.backgroundImage]="'url('+ creativeWork.thumbnailUrl +')'">
                         </div>
                     </div>
-                    <div class="contentRating p-2 bg-dark text-white" *ngIf="getContentRatingType(creativeWork?.contentRating)">
+                    <div class="content-rating p-2 bg-dark text-white" *ngIf="getContentRatingType(creativeWork?.contentRating)">
                         {{ getContentRatingType(creativeWork?.contentRating)?.name | changeLanguage }}
                     </div>
                     <p class="p-2 bg-dark text-white text-overflow-ellipsis text-small">{{ creativeWork.name }}</p>

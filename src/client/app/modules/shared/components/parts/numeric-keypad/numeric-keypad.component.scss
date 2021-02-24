@@ -1,4 +1,3 @@
-
 :host {
     display: block;
     width: 100%;
@@ -19,6 +18,7 @@
     position: fixed;
     width: 500px;
     z-index: 1051;
+    touch-action: manipulation;
 }
 
 .number {
@@ -31,9 +31,9 @@
     grid-gap: 0.5rem;
 }
 
-.d-grid > div {
+.d-grid > button {
     &:active {
         background-color: skyblue !important;
-        color: #fff;
+        color: #fff !important;
     }
 }

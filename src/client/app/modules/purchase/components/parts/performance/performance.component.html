@@ -6,7 +6,7 @@
                 }" (click)="select.emit(performance.screeningEvent)">
     <div class="container px-0">
         <div class="row align-items-center">
-            <div class="col-8">
+            <div class="col-9">
                 <div class="mb-1 align-middle">
                     <span
                         class="text-x-large font-weight-bold">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
@@ -22,7 +22,7 @@
                         {{ 'common.seatValue' | translate: { value: performance.screeningEvent.maximumAttendeeCapacity } }}</p>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <div class="status text-center" *ngIf="performance.isSales() && !performance.isInfinitetock()">
                     <div *ngIf="performance.isSeatStatus('success')">
                         <img src="/assets/images/icon/status_success.svg" alt="">

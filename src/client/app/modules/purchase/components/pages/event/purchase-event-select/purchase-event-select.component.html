@@ -1,0 +1,77 @@
+<app-header [isClear]="true">
+    <app-purchase-step [currentStep]="1"></app-purchase-step>
+</app-header>
+<app-page-title title="{{ 'purchase.event.select.title' | translate }}"></app-page-title>
+<div class="contents">
+    <div class="container h-100 px-3">
+        <div class="row h-100">
+            <div class="col-9 mh-100 scroll-horizontal">
+                <ul *ngIf="tickets.length > 0" class="mb-4">
+                    <li *ngFor="let ticket of tickets; let index = index;" class="ticket mb-3 pb-3 border-bottom border-gray"
+                        [class.text-danger]="remainingAttendeeCapacityValue(ticket).length === 0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="w-75 text-left">
+                                <p *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
+                                    <span>{{ priceComponent.name | changeLanguage }}</span>
+                                    <!--
+                                    --><span>&nbsp;/&nbsp;{{ priceComponent.price | currency :
+                                        priceComponent.priceCurrency }}</span>
+                                    <!--
+                                    --><span *ngIf="priceComponent?.referenceQuantity?.value">{{
+                                        'common.referenceQuantityValue' | translate: { value:
+                                        priceComponent?.referenceQuantity?.value } }}</span>
+                                </p>
+                                <p *ngIf="ticket.description" class="text-x-small text-left">
+                                    {{ ticket.description | changeLanguage }}</p>
+                            </div>
+                            <div class="w-25 text-right">
+                                <app-quantity-input [(value)]="selectedTickets[index].count"
+                                    [maxValue]="remainingAttendeeCapacityValue(ticket).length"></app-quantity-input>
+                            </div>
+                        </div>
+                        <ul *ngIf="ticket.addOn && ticket.addOn.length > 0" class="mt-2 bg-light-gray py-2 px-3">
+                            <li class="my-1" *ngFor="let addOn of ticket.addOn; let index = index">
+                                <app-checkbox class="pointer" (change)="changeAddOn(ticket.id, addOn.id)">
+                                    {{ addOn.priceSpecification?.name | changeLanguage }}
+                                    <!--
+                                    -->&nbsp;/&nbsp;
+                                    <!--
+                                    -->{{ addOn.priceSpecification?.price | currency :
+                                    addOn.priceSpecification?.priceCurrency }}<span
+                                        *ngIf="addOn.priceSpecification?.referenceQuantity?.value">{{
+                                        'common.referenceQuantityValue' | translate: { value:
+                                        addOn.priceSpecification?.referenceQuantity?.value } }}</span>
+                                </app-checkbox>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p *ngIf="tickets.length === 0" class="mb-4">{{ 'purchase.event.select.notfound' | translate }}</p>
+            </div>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-purchase-cart [purchase]="purchase | async" [isAmount]="false" [cancel]="false">
+                </app-purchase-cart>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
+    </div>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    (click)="prev()">{{ 'purchase.event.select.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+                    [disabled]="(isLoading | async) || (selectedTickets && createReservations().length === 0)"
+                    (click)="onSubmit()">
+                    {{ 'purchase.event.select.next' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</app-footer>

@@ -15,7 +15,7 @@ export class PurchasePerformancesComponent implements OnInit {
     @Input() public videoFormatTypes: factory.chevre.categoryCode.ICategoryCode[];
     @Input() public animation?: boolean;
     @Output() public select = new EventEmitter<factory.chevre.event.screeningEvent.IEvent>();
-    public moment: typeof moment = moment;
+    public moment = moment;
 
     constructor() { }
 

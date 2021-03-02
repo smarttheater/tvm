@@ -15,18 +15,20 @@
                         <button type="button" class="btn btn-block border border-gray p-4 mb-3"
                             (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
                             <div class="d-flex align-items-center">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.Cash" width="50"
-                                    class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.CreditCard" width="50"
-                                    class="mr-3" src="/default/images/purchase/payment/icon/creditCard.svg" alt="">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.EMoney" width="50"
-                                    class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg" alt="">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.Cash"
+                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.CreditCard"
+                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/creditCard.svg"
+                                    alt="">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.EMoney"
+                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg"
+                                    alt="">
                                 <img *ngIf="payment.paymentAccepted.paymentMethodType === 'Code'" width="50"
                                     class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
                                 <p class="text-large">{{ payment.categoryCode?.name | changeLanguage }}</p>
                             </div>
                         </button>
-                        
+
                     </ng-container>
                 </div>
                 <div *ngIf="amount === 0">
@@ -34,8 +36,10 @@
                 </div>
             </div>
             <div class="col-3 mh-100 scroll-horizontal">
-                <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
-                <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async" [isAmount]="true" [cancel]="false"></app-purchase-cart>
+                <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async"
+                    [isAmount]="true"></app-purchase-info>
+                <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async"
+                    [isAmount]="true" [cancel]="false"></app-purchase-cart>
             </div>
         </div>
     </div>
@@ -52,8 +56,12 @@
                         routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
                 </div>
                 <div *ngIf="environment.VIEW_TYPE === viewType.Event">
-                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                        routerLink="/purchase/event/ticket">{{ 'purchase.payment.prev' | translate }}</button>
+                    <button *ngIf="environment.PURCHASE_CART" type="button"
+                        class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                        routerLink="/purchase/event/schedule">{{ 'purchase.payment.prev' | translate }}</button>
+                    <button *ngIf="!environment.PURCHASE_CART" type="button"
+                        class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                        routerLink="/purchase/event/select">{{ 'purchase.payment.prev' | translate }}</button>
                 </div>
             </div>
             <div class="col-3">

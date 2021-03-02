@@ -28,7 +28,7 @@ export class PurchaseEventTicketModalComponent implements OnInit {
         count: number;
         addOn: { id: string; }[];
     }[];
-    public moment: typeof moment = moment;
+    public moment = moment;
     public getRemainingSeatLength = Functions.Purchase.getRemainingSeatLength;
     public performance: Models.Purchase.Performance;
     public additionalTicketText: string;
@@ -74,6 +74,11 @@ export class PurchaseEventTicketModalComponent implements OnInit {
         const screeningEvent = this.screeningEvent;
         const screeningEventSeats = this.screeningEventSeats;
         let limit = Number(this.environment.PURCHASE_ITEM_MAX_LENGTH);
+        if (screeningEvent.offers !== undefined
+            && screeningEvent.offers.eligibleQuantity.maxValue !== undefined
+            && limit > screeningEvent.offers.eligibleQuantity.maxValue) {
+            limit = screeningEvent.offers.eligibleQuantity.maxValue;
+        }
         if (screeningEvent.remainingAttendeeCapacity !== undefined
             && limit > screeningEvent.remainingAttendeeCapacity) {
             limit = screeningEvent.remainingAttendeeCapacity;
@@ -146,22 +151,6 @@ export class PurchaseEventTicketModalComponent implements OnInit {
         });
 
         return reservations;
-    }
-
-    /**
-     * 券種数量変更
-     */
-    public changeSelect(id: string, event: Event) {
-        if (event.target === null) {
-            return;
-        }
-        const element = <HTMLSelectElement>event.target;
-        const value = Number(element.value);
-        const findResult = this.selectedTickets.find(s => s.id === id);
-        if (findResult === undefined) {
-            return;
-        }
-        findResult.count = value;
     }
 
     /**

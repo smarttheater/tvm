@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, ReservationService, UtilService } from '../../../../../services';
+import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -31,7 +31,6 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
         private router: Router,
         private actionService: ActionService,
         private utilService: UtilService,
-        private reservationService: ReservationService,
         private translate: TranslateService
     ) { }
 
@@ -91,27 +90,27 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
                 throw new Error('printer undefined');
             }
             // 二重発券防止
-            const reservationNumbers = orderData.order.acceptedOffers.map((o) => {
-                if (o.itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
-                    return '';
-                }
-                const itemOffered = <factory.chevre.reservation.IReservation<
-                    factory.chevre.reservationType.EventReservation
-                >>o.itemOffered;
-                return itemOffered.reservationNumber;
-            });
-            const searchResult = await this.reservationService.search({
-                typeOf: factory.chevre.reservationType.EventReservation,
-                reservationNumbers
-            });
-            const checkedInResult = searchResult.data.filter(r => r.checkedIn);
-            if (checkedInResult.length > 0) {
-                this.utilService.openAlert({
-                    title: this.translate.instant('common.error'),
-                    body: this.translate.instant('inquiry.confirm.alert.doubleTicketing')
-                });
-                return;
-            }
+            // const reservationNumbers = orderData.order.acceptedOffers.map((o) => {
+            //     if (o.itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
+            //         return '';
+            //     }
+            //     const itemOffered = <factory.chevre.reservation.IReservation<
+            //         factory.chevre.reservationType.EventReservation
+            //     >>o.itemOffered;
+            //     return itemOffered.reservationNumber;
+            // });
+            // const searchResult = await this.reservationService.search({
+            //     typeOf: factory.chevre.reservationType.EventReservation,
+            //     reservationNumbers
+            // });
+            // const checkedInResult = searchResult.data.filter(r => r.checkedIn);
+            // if (checkedInResult.length > 0) {
+            //     this.utilService.openAlert({
+            //         title: this.translate.instant('common.error'),
+            //         body: this.translate.instant('inquiry.confirm.alert.doubleTicketing')
+            //     });
+            //     return;
+            // }
             // 印刷
             const orders = [orderData.order];
             const pos = user.pos;

@@ -25,6 +25,7 @@ import { PurchaseEventTicketModalComponent } from './components/parts/purchase/e
 import { PurchaseSeatTicketModalComponent } from './components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 import { QRCodeReaderModalComponent } from './components/parts/qrcode/reader-modal/reader-modal.component';
 import { QRCodeViewerModalComponent } from './components/parts/qrcode/viewer-modal/viewer-modal.component';
+import { QuantityInputComponent } from './components/parts/quantity-input/quantity-input.component';
 import { ReservationDetailModalComponent } from './components/parts/reservation/detail-modal/detail-modal.component';
 import { ScreenComponent } from './components/parts/screen/screen.component';
 import { StaticModalComponent } from './components/parts/static-modal/static-modal.component';
@@ -42,7 +43,8 @@ const components = [
   ItemListComponent,
   CheckboxComponent,
   CurrentDateTimeComponent,
-  PrintResultComponent
+  PrintResultComponent,
+  QuantityInputComponent
 ];
 
 const entryComponents = [

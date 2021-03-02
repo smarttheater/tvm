@@ -11,6 +11,7 @@ import { PurchaseCinemaTopComponent } from './components/pages/cinema/purchase-c
 import { PurchaseEventDateComponent } from './components/pages/event/purchase-event-date/purchase-event-date.component';
 import { PurchaseEventScheduleComponent } from './components/pages/event/purchase-event-schedule/purchase-event-schedule.component';
 import { PurchaseEventSeatComponent } from './components/pages/event/purchase-event-seat/purchase-event-seat.component';
+import { PurchaseEventSelectComponent } from './components/pages/event/purchase-event-select/purchase-event-select.component';
 import { PurchaseEventTicketComponent } from './components/pages/event/purchase-event-ticket/purchase-event-ticket.component';
 import { PurchaseEventTopComponent } from './components/pages/event/purchase-event-top/purchase-event-top.component';
 import { PurchaseBaseComponent } from './components/pages/purchase-base/purchase-base.component';
@@ -65,6 +66,7 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
     PurchaseEventTopComponent,
     PurchaseEventDateComponent,
     PurchaseCartComponent,
+    PurchaseEventSelectComponent,
   ],
   imports: [
     CommonModule,

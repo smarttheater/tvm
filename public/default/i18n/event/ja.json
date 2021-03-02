@@ -45,6 +45,27 @@
                 }
                 
             },
+            "select": {
+                "title": "チケット選択",
+                "read": "チケットを選択してください。",
+                "next": "決定",
+                "prev": "戻る",
+                "addOn": "オプション選択",
+                "notfound": "チケットがありません。",
+                "remainingSeat": "残席数",
+                "success": {
+                    "temporaryReservation": "仮予約に成功しました。"
+                },
+                "alert": {
+                    "ticketCondition": "割引券の適用条件を再度ご確認ください。",
+                    "temporaryReservation": "仮予約に失敗しました。",
+                    "getScreeningEventSeats": "空席がありません。",
+                    "cart": "複数のパフォーマンスは選択できません。",
+                    "limit": "同時購入可能数は{{value}}件までです。",
+                    "cancel": "取り消しに失敗しました。"
+                }
+                
+            },
             "seat": {
                 "title": "座席選択",
                 "read": "座席を選択してください。",

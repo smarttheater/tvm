@@ -83,6 +83,10 @@ export interface IEnvironment {
      */
     PURCHASE_ITEM_MAX_LENGTH: string;
     /**
+     * 購入カート使用
+     */
+    PURCHASE_CART: boolean;
+    /**
      * 取引時間
      */
     PURCHASE_TRANSACTION_TIME: string;
@@ -162,7 +166,7 @@ export interface IEnvironment {
     /**
      * 印刷QRコードタイプ
      */
-    PRINT_QRCODE_TYPE: 'None' | 'token' | 'Custom' | 'Admission';
+    PRINT_QRCODE_TYPE: 'None' | 'token' | 'Custom';
     /**
      * 印刷QRコードカスタム
      */
@@ -214,6 +218,7 @@ const defaultEnvironment: IEnvironment = {
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,
     PURCHASE_ITEM_MAX_LENGTH: '50',
+    PURCHASE_CART: true,
     PURCHASE_TRANSACTION_TIME: '15',
     PURCHASE_TRANSACTION_TIME_DISPLAY: true,
     PURCHASE_TRANSACTION_IDENTIFIER: [],

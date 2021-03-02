@@ -105,15 +105,15 @@ workflows:
       #     filters:
       #       branches:
       #         only: develop
-      - prerelease:
-          requires:
-            - test
-          filters:
-            branches:
-              only: /feature\/.+-alpha.+/
-      - deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: master
+      # - prerelease:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: /feature\/.+-alpha.+/
+      # - deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: master

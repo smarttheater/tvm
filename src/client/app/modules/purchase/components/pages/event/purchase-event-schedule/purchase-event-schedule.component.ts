@@ -27,7 +27,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
     public isLoading: Observable<boolean>;
     public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup[];
     public screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent[];
-    public moment: typeof moment = moment;
+    public moment = moment;
     public environment = getEnvironment();
     public screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
     public videoFormatTypes: factory.chevre.categoryCode.ICategoryCode[];
@@ -146,9 +146,14 @@ export class PurchaseEventScheduleComponent implements OnInit {
             this.router.navigate(['/purchase/event/seat']);
             return;
         }
+        if (!this.environment.PURCHASE_CART) {
+            // カート機能なし
+            this.router.navigate(['/purchase/event/select']);
+            return;
+        }
         // 座席選択なし
         this.modal.show(PurchaseEventTicketModalComponent, {
-            class: 'modal-dialog-centered modal-lg',
+            class: 'modal-dialog-centered modal-xl',
             backdrop: 'static',
             initialState: {
                 screeningEventTicketOffers,

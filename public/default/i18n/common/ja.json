@@ -31,7 +31,7 @@
             "title": "決済方法選択",
             "read": "",
             "cash": {
-                "title": "現金を挿入してください",
+                "title": "現金を投入してください",
                 "read": "",
                 "insufficient": "不足金額",
                 "deposit": "お預かり金額",

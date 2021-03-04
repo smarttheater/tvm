@@ -306,6 +306,7 @@ export class PurchaseService {
             let roop = true;
             let result: factory.chevre.place.seat.IPlaceWithOffer[] = [];
             if (!new Models.Purchase.Performance(screeningEvent).isTicketedSeat()) {
+                this.utilService.loadEnd();
                 return result;
             }
             await this.cinerinoService.getServices();

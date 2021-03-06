@@ -5,28 +5,34 @@
 <div class="contents">
     <div class="container h-100 px-3">
         <div class="row h-100">
-            <div class="col-9 mh-100 scroll-horizontal">
+            <div class="col-3 h-100">
+
+            </div>
+            <div class="col-6 mh-100 scroll-horizontal">
                 <ul *ngIf="tickets.length > 0" class="mb-4">
-                    <li *ngFor="let ticket of tickets; let index = index;" class="ticket mb-3 pb-3 border-bottom border-gray"
+                    <li *ngFor="let ticket of tickets; let index = index;"
+                        class="ticket mb-3 pb-3 border-bottom border-gray"
                         [class.text-danger]="remainingAttendeeCapacityValue(ticket).length === 0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="w-75 text-left">
-                                <p *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
-                                    <span>{{ priceComponent.name | changeLanguage }}</span>
-                                    <!--
+                        <div class="container px-0">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-8 text-left">
+                                    <p *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
+                                        <span>{{ priceComponent.name | changeLanguage }}</span>
+                                        <!--
                                     --><span>&nbsp;/&nbsp;{{ priceComponent.price | currency :
-                                        priceComponent.priceCurrency }}</span>
-                                    <!--
+                                            priceComponent.priceCurrency }}</span>
+                                        <!--
                                     --><span *ngIf="priceComponent?.referenceQuantity?.value">{{
-                                        'common.referenceQuantityValue' | translate: { value:
-                                        priceComponent?.referenceQuantity?.value } }}</span>
-                                </p>
-                                <p *ngIf="ticket.description" class="text-x-small text-left">
-                                    {{ ticket.description | changeLanguage }}</p>
-                            </div>
-                            <div class="w-25 text-right">
-                                <app-quantity-input [(value)]="selectedTickets[index].count"
-                                    [maxValue]="remainingAttendeeCapacityValue(ticket).length"></app-quantity-input>
+                                            'common.referenceQuantityValue' | translate: { value:
+                                            priceComponent?.referenceQuantity?.value } }}</span>
+                                    </p>
+                                    <p *ngIf="ticket.description" class="text-x-small text-left">
+                                        {{ ticket.description | changeLanguage }}</p>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <app-quantity-input class="pl-3" [(value)]="selectedTickets[index].count"
+                                        [maxValue]="remainingAttendeeCapacityValue(ticket).length"></app-quantity-input>
+                                </div>
                             </div>
                         </div>
                         <ul *ngIf="ticket.addOn && ticket.addOn.length > 0" class="mt-2 bg-light-gray py-2 px-3">

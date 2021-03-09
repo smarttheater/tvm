@@ -66,7 +66,7 @@ export class PurchaseEventSelectComponent implements OnInit {
             this.screeningEvent = screeningEvent;
             this.screeningEventTicketOffers = screeningEventTicketOffers;
             this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
-            this.performance = new Models.Purchase.Performance(screeningEvent);
+            this.performance = new Models.Purchase.Performance({ screeningEvent });
             this.tickets = screeningEventTicketOffers.filter((ticketOffer) => {
                 const movieTicketTypeChargeSpecification =
                     <IMovieTicketTypeChargeSpecification>ticketOffer.priceSpecification.priceComponent.find(
@@ -110,7 +110,7 @@ export class PurchaseEventSelectComponent implements OnInit {
             && limit > screeningEvent.remainingAttendeeCapacity) {
             limit = screeningEvent.remainingAttendeeCapacity;
         }
-        if (new Models.Purchase.Performance(screeningEvent).isTicketedSeat()) {
+        if (new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()) {
             // イベント全体の残席数計算
             const screeningEventLimit = Functions.Purchase.getRemainingSeatLength({
                 screeningEvent,
@@ -219,12 +219,12 @@ export class PurchaseEventSelectComponent implements OnInit {
         }
         try {
             this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
-            const purchase = await this.actionService.purchase.getData();
-            if (purchase.screeningEvent !== undefined
-                && new Models.Purchase.Performance(purchase.screeningEvent).isTicketedSeat()) {
+            const { screeningEvent } = await this.actionService.purchase.getData();
+            if (screeningEvent !== undefined
+                && new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()) {
                 const remainingSeatLength = Functions.Purchase.getRemainingSeatLength({
                     screeningEventSeats: this.screeningEventSeats,
-                    screeningEvent: purchase.screeningEvent
+                    screeningEvent
                 });
                 if (remainingSeatLength < reservations.length) {
                     this.utilService.openAlert({

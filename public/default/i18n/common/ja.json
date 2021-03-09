@@ -173,6 +173,7 @@
         "prev": "戻る",
         "unselected": "未選択",
         "pos": "POS",
+        "signOut": "ログアウト",
         "printer": {
             "label": "プリンター",
             "ipAddress": "IPアドレス",

@@ -74,11 +74,14 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
                 startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate()
             });
             const filterResult = screeningEvents.filter((s) => {
-                const performance = new Models.Purchase.Performance(s);
+                const performance = new Models.Purchase.Performance({ screeningEvent: s });
                 return !(performance.isSales('end'));
             });
-            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({
-                screeningEvents: filterResult, sortType: 'startDate'
+            const now = moment((await this.utilService.getServerTime()).date).toDate();
+            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventSeries({
+                screeningEvents: filterResult,
+                sortType: 'startDate',
+                now
             });
         } catch (error) {
             console.error(error);

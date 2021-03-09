@@ -4,7 +4,7 @@ import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, MasterService } from '../../../../../../services';
+import { ActionService, MasterService, UtilService } from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-cinema-schedule-movie',
@@ -20,11 +20,13 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public animations: boolean[];
     public getAdditionalProperty = Functions.Purchase.getAdditionalProperty;
     public contentRatingTypes: factory.chevre.categoryCode.ICategoryCode[];
+    public now: Date;
 
     constructor(
         private router: Router,
         private masterService: MasterService,
-        private actionService: ActionService
+        private actionService: ActionService,
+        private utilService: UtilService
     ) { }
 
     /**
@@ -41,6 +43,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
                 || theater === undefined) {
                 throw new Error('scheduleDate or theater undefined');
             }
+            this.now = moment((await this.utilService.getServerTime()).date).toDate();
             this.contentRatingTypes = await this.masterService.searchCategoryCode({
                 categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.ContentRatingType
             });
@@ -91,7 +94,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public isSales(identifier: string) {
         const findResult = this.screeningEvents.find(s => {
             return (s.workPerformed?.identifier === identifier
-                && new Models.Purchase.Performance(s).isSales());
+                && new Models.Purchase.Performance({ screeningEvent: s, now: this.now }).isSales());
         });
         return (findResult !== undefined);
     }

@@ -66,7 +66,8 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                 startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
                 screeningEventSeries: this.screeningEventSeries
             });
-            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
+            const now = moment((await this.utilService.getServerTime()).date).toDate();
+            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventSeries({ screeningEvents, now });
             await this.addAnimationClass();
         } catch (error) {
             console.error(error);

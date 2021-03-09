@@ -81,7 +81,8 @@ export class PurchaseEventScheduleComponent implements OnInit {
                 startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
                 screeningEventSeries: this.screeningEventSeries
             });
-            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventsGroup({ screeningEvents });
+            const now = moment((await this.utilService.getServerTime()).date).toDate();
+            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventSeries({ screeningEvents, now });
             await this.addAnimationClass();
         } catch (error) {
             console.error(error);
@@ -138,7 +139,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
         if (screeningEvent === undefined || screen === undefined) {
             return;
         }
-        const performance = new Models.Purchase.Performance(screeningEvent);
+        const performance = new Models.Purchase.Performance({ screeningEvent });
         if (!performance.isInfinitetock()
             && !screen.openSeatingAllowed
             && performance.isTicketedSeat()) {
@@ -190,12 +191,12 @@ export class PurchaseEventScheduleComponent implements OnInit {
         }
         try {
             this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
-            const purchase = await this.actionService.purchase.getData();
-            if (purchase.screeningEvent !== undefined
-                && new Models.Purchase.Performance(purchase.screeningEvent).isTicketedSeat()) {
+            const { screeningEvent } = await this.actionService.purchase.getData();
+            if (screeningEvent !== undefined
+                && new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()) {
                 const remainingSeatLength = Functions.Purchase.getRemainingSeatLength({
                     screeningEventSeats: this.screeningEventSeats,
-                    screeningEvent: purchase.screeningEvent
+                    screeningEvent: screeningEvent
                 });
                 if (remainingSeatLength < reservations.length) {
                     this.utilService.openAlert({

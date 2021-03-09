@@ -8,7 +8,7 @@ import { CountryISO, NgxIntlTelInputComponent, SearchCountryField, TooltipLabel,
 import { Observable } from 'rxjs';
 import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, EpsonEPOSService, MasterService, PaymentService, UtilService } from '../../../../../services';
+import { ActionService, CinerinoService, EpsonEPOSService, MasterService, PaymentService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 import { LibphonenumberFormatPipe } from '../../../../shared/pipes/libphonenumber-format.pipe';
 
@@ -43,7 +43,8 @@ export class SettingComponent implements OnInit {
         private translate: TranslateService,
         private router: Router,
         private epsonEPOSService: EpsonEPOSService,
-        private paymentService: PaymentService
+        private paymentService: PaymentService,
+        private cinerinoService: CinerinoService
     ) { }
 
     /**
@@ -331,6 +332,15 @@ export class SettingComponent implements OnInit {
                     <code>${message}</code>
                 </div>`
             });
+        }
+    }
+
+    public async signOut() {
+        try {
+            await this.cinerinoService.getServices();
+            await this.cinerinoService.signOut();
+        } catch (error) {
+            console.error(error);
         }
     }
 

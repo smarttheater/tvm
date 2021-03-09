@@ -64,7 +64,8 @@
                                         {{ 'form.validation.required' | translate }}
                                     </p>
                                     <p *ngIf="settingForm.controls[key].errors?.maxlength" class="text-danger">
-                                        {{ 'form.validation.maxlength' | translate:{ value: settingForm.controls[key].errors?.maxlength.requiredLength } }}
+                                        {{ 'form.validation.maxlength' | translate:{ value:
+                                        settingForm.controls[key].errors?.maxlength.requiredLength } }}
                                     </p>
                                     <p *ngIf="settingForm.controls[key].errors?.email" class="text-danger">
                                         {{ 'form.validation.email' | translate }}
@@ -95,8 +96,8 @@
                                     </select>
                                     <button
                                         *ngIf="this.settingForm.controls.printerType.value && this.settingForm.controls.printerType.value !== connectionType.None"
-                                        type="button" class="btn btn-sm btn-primary py-2 mt-2"
-                                        (click)="print()">{{ 'setting.printer.testPrinting' | translate }}</button>
+                                        type="button" class="btn btn-sm btn-primary py-2 mt-2" (click)="print()">{{
+                                        'setting.printer.testPrinting' | translate }}</button>
                                 </div>
                             </div>
                         </div>
@@ -123,16 +124,16 @@
                             <div class="row">
                                 <p class="col-md-4 py-2 text-md-right">{{ 'setting.cashchanger.label' | translate }}</p>
                                 <div class="col-md-8">
-                                        <input type="text" class="form-control" formControlName="cashchanger"
-                                            placeholder="0.0.0.0">
-                                        <div *ngIf="settingForm.controls.cashchanger.invalid && settingForm.controls.cashchanger.touched"
-                                            class="mt-2">
-                                            <p *ngIf="settingForm.controls.cashchanger.errors?.required"
-                                                class="text-danger">
-                                                {{ 'form.validation.required' | translate }}</p>
-                                        </div>
-                                        <button type="button" class="btn btn-primary mt-2"
-                                            (click)="connectCash()">{{ 'setting.connect' | translate }}</button>
+                                    <input type="text" class="form-control" formControlName="cashchanger"
+                                        placeholder="0.0.0.0">
+                                    <div *ngIf="settingForm.controls.cashchanger.invalid && settingForm.controls.cashchanger.touched"
+                                        class="mt-2">
+                                        <p *ngIf="settingForm.controls.cashchanger.errors?.required"
+                                            class="text-danger">
+                                            {{ 'form.validation.required' | translate }}</p>
+                                    </div>
+                                    <button type="button" class="btn btn-primary mt-2" (click)="connectCash()">{{
+                                        'setting.connect' | translate }}</button>
                                 </div>
                             </div>
                         </div>
@@ -140,16 +141,15 @@
                             <div class="row">
                                 <p class="col-md-4 py-2 text-md-right">{{ 'setting.payment.label' | translate }}</p>
                                 <div class="col-md-8">
-                                        <input type="text" class="form-control" formControlName="payment"
-                                            placeholder="0.0.0.0">
-                                        <div *ngIf="settingForm.controls.payment.invalid && settingForm.controls.payment.touched"
-                                            class="mt-2">
-                                            <p *ngIf="settingForm.controls.payment.errors?.required"
-                                                class="text-danger">
-                                                {{ 'form.validation.required' | translate }}</p>
-                                        </div>
-                                        <button type="button" class="btn btn-primary mt-2"
-                                            (click)="connectPayment()">{{ 'setting.connect' | translate }}</button>
+                                    <input type="text" class="form-control" formControlName="payment"
+                                        placeholder="0.0.0.0">
+                                    <div *ngIf="settingForm.controls.payment.invalid && settingForm.controls.payment.touched"
+                                        class="mt-2">
+                                        <p *ngIf="settingForm.controls.payment.errors?.required" class="text-danger">
+                                            {{ 'form.validation.required' | translate }}</p>
+                                    </div>
+                                    <button type="button" class="btn btn-primary mt-2" (click)="connectPayment()">{{
+                                        'setting.connect' | translate }}</button>
                                 </div>
                             </div>
                         </div>
@@ -157,6 +157,8 @@
                 </form>
             </div>
             <div class="col-2">
+                <button type="button" class="btn btn-primary btn-block" (click)="signOut()">{{ 'setting.signOut' |
+                    translate }}</button>
             </div>
         </div>
     </div>

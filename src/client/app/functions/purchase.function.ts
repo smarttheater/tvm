@@ -14,13 +14,14 @@ export interface IScreeningEventsGroup {
 /**
  * 施設コンテンツごとのグループへ変換
  */
-export function screeningEvents2ScreeningEventsGroup(params: {
-    screeningEvents: factory.chevre.event.screeningEvent.IEvent[],
-    sortType?: 'screeningEventSeries' | 'screen' | 'startDate'
+export function screeningEvents2ScreeningEventSeries(params: {
+    screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
+    sortType?: 'screeningEventSeries' | 'screen' | 'startDate';
+    now: Date;
 }) {
     const environment = getEnvironment();
     const result: IScreeningEventsGroup[] = [];
-    const screeningEvents = params.screeningEvents;
+    const { screeningEvents, now } = params;
     screeningEvents.forEach((screeningEvent) => {
         const registered = result.find((data) => {
             const sortType = (params.sortType === undefined)
@@ -34,7 +35,7 @@ export function screeningEvents2ScreeningEventsGroup(params: {
                 return (moment(data.screeningEvent.startDate).format('HH') === moment(screeningEvent.startDate).format('HH'));
             }
         });
-        const performance = new Purchase.Performance(screeningEvent);
+        const performance = new Purchase.Performance({ screeningEvent, now });
         if (registered === undefined) {
             result.push({
                 screeningEvent,

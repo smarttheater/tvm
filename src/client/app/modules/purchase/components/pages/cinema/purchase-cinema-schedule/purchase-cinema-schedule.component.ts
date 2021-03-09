@@ -1,109 +1,93 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BAD_REQUEST, TOO_MANY_REQUESTS } from 'http-status';
 import * as moment from 'moment';
-import { BsDatepickerContainerComponent, BsDatepickerDirective, BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { Observable } from 'rxjs';
-import { Functions } from '../../../../../..';
+import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
 import { ActionService, MasterService, UtilService } from '../../../../../../services';
-import * as reducers from '../../../../../../store/reducers';
 
 @Component({
     selector: 'app-purchase-cinema-schedule',
     templateUrl: './purchase-cinema-schedule.component.html',
     styleUrls: ['./purchase-cinema-schedule.component.scss']
 })
-export class PurchaseCinemaScheduleComponent implements OnInit, OnDestroy {
-    public purchase: Observable<reducers.IPurchaseState>;
-    public error: Observable<string | null>;
-    public master: Observable<reducers.IMasterState>;
-    public user: Observable<reducers.IUserState>;
+export class PurchaseCinemaScheduleComponent implements OnInit {
+    public creativeWorks: factory.chevre.creativeWork.movie.ICreativeWork[];
     public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup[];
+    public screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent[];
+    public videoFormatTypes: factory.chevre.categoryCode.ICategoryCode[];
+    public contentRatingTypes: factory.chevre.categoryCode.ICategoryCode[];
     public moment = moment;
-    public scheduleDate: Date;
     public environment = getEnvironment();
-    private updateTimer: any;
-    @ViewChild('datepicker', { static: true }) private datepicker: BsDatepickerDirective;
 
     constructor(
-        private store: Store<reducers.IState>,
         private router: Router,
         private utilService: UtilService,
-        private translate: TranslateService,
         private actionService: ActionService,
         private masterService: MasterService,
-        private localeService: BsLocaleService
+        private translate: TranslateService,
     ) { }
 
     /**
      * 初期化
      */
     public async ngOnInit() {
-        this.purchase = this.store.pipe(select(reducers.getPurchase));
-        this.error = this.store.pipe(select(reducers.getError));
-        this.master = this.store.pipe(select(reducers.getMaster));
-        this.user = this.store.pipe(select(reducers.getUser));
-        this.screeningEventsGroup = [];
-    }
-
-    /**
-     * 破棄
-     */
-    public ngOnDestroy() {
-        clearTimeout(this.updateTimer);
-    }
-
-    /**
-     * 更新
-     */
-    private update() {
-        if (this.updateTimer !== undefined) {
-            clearTimeout(this.updateTimer);
-        }
-        const time = 600000; // 10 * 60 * 1000
-        this.updateTimer = setTimeout(() => {
-            this.selectDate();
-        }, time);
-    }
-
-    /**
-     * 日付選択
-     */
-    public async selectDate(date?: Date | null) {
-        if (date !== undefined && date !== null) {
-            this.scheduleDate = date;
-        }
-        const user = await this.actionService.user.getData();
-        const theater = user.theater;
-        if (this.scheduleDate === undefined) {
-            this.scheduleDate = moment()
-                .add(this.environment.PURCHASE_SCHEDULE_DEFAULT_SELECTED_DATE, 'day')
-                .toDate();
-        }
-        const scheduleDate = moment(this.scheduleDate).format('YYYY-MM-DD');
-        if (theater === undefined) {
-            return;
-        }
-        this.actionService.purchase.selectScheduleDate(scheduleDate);
         try {
-            const screeningEvents = await this.masterService.getSchedule({
-                superEvent: { locationBranchCodes: [theater.branchCode] },
-                startFrom: moment(scheduleDate).toDate(),
-                startThrough: moment(scheduleDate).add(1, 'day').toDate()
+            this.videoFormatTypes = [];
+            this.contentRatingTypes = [];
+            this.screeningEventSeries = [];
+            this.screeningEventsGroup = [];
+            this.creativeWorks = [];
+            const { theater } = await this.actionService.user.getData();
+            const { scheduleDate } = await this.actionService.purchase.getData();
+            if (scheduleDate === undefined
+                || theater === undefined) {
+                throw new Error('scheduleDate or theater undefined');
+            }
+            this.contentRatingTypes = await this.masterService.searchCategoryCode({
+                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.ContentRatingType
             });
-            this.screeningEventsGroup =
-                Functions.Purchase.screeningEvents2ScreeningEventSeries({ screeningEvents });
-            this.update();
+            this.videoFormatTypes = await this.masterService.searchCategoryCode({
+                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.VideoFormatType
+            });
+            this.creativeWorks = await this.masterService.searchMovies({
+                offers: {
+                    availableFrom: moment(scheduleDate).toDate(),
+                },
+            });
+            this.screeningEventSeries = await this.masterService.searchScreeningEventSeries({
+                workPerformed: {
+                    identifiers: this.creativeWorks.map(c => c.identifier),
+                },
+                location: {
+                    branchCode: {
+                        $eq: theater.branchCode
+                    }
+                }
+            });
+            const screeningEvents = await this.masterService.searchScreeningEvent({
+                superEvent: {
+                    locationBranchCodes: [theater.branchCode],
+                },
+                startFrom: moment(scheduleDate).toDate(),
+                startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate()
+            });
+            const filterResult = screeningEvents.filter((s) => {
+                const performance = new Models.Purchase.Performance({ screeningEvent: s });
+                return !(performance.isSales('end'));
+            });
+            const now = moment((await this.utilService.getServerTime()).date).toDate();
+            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventSeries({
+                screeningEvents: filterResult,
+                sortType: 'startDate',
+                now
+            });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
         }
     }
-
     /**
      * スケジュール選択
      */
@@ -122,80 +106,57 @@ export class PurchaseCinemaScheduleComponent implements OnInit, OnDestroy {
             });
             return;
         }
-        this.actionService.purchase.unsettledDelete();
         try {
+            if (screeningEvent.workPerformed?.identifier === undefined) {
+                throw new Error('workPerformed.identifier === undefined');
+            }
+            const creativeWork = this.getCreativeWorks(screeningEvent.workPerformed?.identifier);
+            const screeningEventSeries = this.getScreeningEventSeries(screeningEvent.superEvent.id);
+            if (creativeWork === undefined
+                || screeningEventSeries === undefined) {
+                throw new Error('creativeWork or screeningEventSeries === undefined');
+            }
+            this.actionService.purchase.unsettledDelete();
+            this.actionService.purchase.selectCreativeWork(creativeWork);
+            this.actionService.purchase.selectScreeningEventSeries(screeningEventSeries);
             await this.actionService.purchase.getScreeningEvent(screeningEvent);
-            if (screeningEvent.offers.seller === undefined
-                || screeningEvent.offers.seller.id === undefined) {
-                throw new Error('screeningEvent.offers.seller or screeningEvent.offers.seller.id undefined');
+            const { authorizeSeatReservations } = await this.actionService.purchase.getData();
+            if (authorizeSeatReservations.length > 0) {
+                await this.actionService.purchase.cancelTemporaryReservations(authorizeSeatReservations);
             }
-            await this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
-        } catch (error) {
-            console.error(error);
-            this.router.navigate(['/error']);
-            return;
-        }
-        const purchase = await this.actionService.purchase.getData();
-        const user = await this.actionService.user.getData();
-        if (purchase.seller === undefined) {
-            this.router.navigate(['/error']);
-            return;
-        }
-
-        if (purchase.authorizeSeatReservations.length > 0) {
-            try {
-                await this.actionService.purchase.cancelTemporaryReservations(purchase.authorizeSeatReservations);
-            } catch (error) {
-                console.error(error);
-                this.router.navigate(['/error']);
-                return;
-            }
-        }
-        try {
-            await this.actionService.purchase.startTransaction({
-                seller: purchase.seller,
-                pos: user.pos
-            });
             this.router.navigate(['/purchase/cinema/seat']);
         } catch (error) {
             console.error(error);
-            const errorObject = JSON.parse(error);
-            if (errorObject.status === TOO_MANY_REQUESTS) {
-                this.router.navigate(['/congestion']);
-                return;
-            }
-            if (errorObject.status === BAD_REQUEST) {
-                this.router.navigate(['/maintenance']);
-                return;
-            }
             this.router.navigate(['/error']);
+            return;
         }
     }
 
     /**
-     * Datepicker言語設定
+     * 施設コンテンツ取得
      */
-    public setDatePicker() {
-        this.user.subscribe((user) => {
-            this.localeService.use(user.language);
-        }).unsubscribe();
+    public getScreeningEventSeries(id: string) {
+        return this.screeningEventSeries.find(s => s.id === id);
     }
 
     /**
-     * Datepicker開閉
+     * コンテンツ取得
      */
-    public toggleDatepicker() {
-        this.setDatePicker();
-        this.datepicker.toggle();
+    public getCreativeWorks(identifier: string) {
+        return this.creativeWorks.find(c => c.identifier === identifier);
     }
 
     /**
-     * iOS bugfix（2回タップしないと選択できない）
+     * 上映方式区分取得
      */
-    public onShowPicker(container: BsDatepickerContainerComponent) {
-        Functions.Util.iOSDatepickerTapBugFix(container, [
-            this.datepicker
-        ]);
+    public getVideoFormatType(code: string) {
+        return this.videoFormatTypes.find(v => v.codeValue === code);
     }
 
+    /**
+     * レイティング区分取得
+     */
+    public getContentRatingType(code?: string) {
+        return this.contentRatingTypes.find(c => c.codeValue === code);
+    }
 }

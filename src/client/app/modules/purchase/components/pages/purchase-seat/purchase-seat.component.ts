@@ -6,7 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { SeatStatus } from '../../../../../models/purchase/screen';
 import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
@@ -18,9 +17,12 @@ export class PurchaseSeatComponent implements OnInit {
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
+    public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
     public screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
     public translateName: string;
+    public reservationCount: number;
+    public Number = Number;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -37,15 +39,14 @@ export class PurchaseSeatComponent implements OnInit {
         this.translateName = (this.environment.VIEW_TYPE === 'cinema')
             ? 'purchase.cinema.seat' : 'purchase.event.seat';
         this.screeningEventSeats = [];
+        this.reservationCount = 0;
         try {
-            const purchase = await this.actionService.purchase.getData();
-            const screeningEvent = purchase.screeningEvent;
-            const seller = purchase.seller;
+            const { screeningEvent, reservations, seller } = await this.actionService.purchase.getData();
             if (screeningEvent === undefined || seller === undefined) {
                 this.router.navigate(['/error']);
                 return;
             }
-            const reservations = purchase.reservations;
+            this.reservationCount = reservations.length;
             await this.resetSeats();
             reservations.forEach(r => {
                 if (r.seat === undefined) {
@@ -71,11 +72,25 @@ export class PurchaseSeatComponent implements OnInit {
     /**
      * 座席選択
      */
-    public selectSeat(data: {
+    public async selectSeat(data: {
         seat: Models.Purchase.Reservation.IReservationSeat,
         status: Models.Purchase.Screen.SeatStatus
     }) {
-        if (data.status === SeatStatus.Default) {
+        const { screeningEvent, reservations } = await this.actionService.purchase.getData();
+        if (data.status === Models.Purchase.Screen.SeatStatus.Default) {
+            if (screeningEvent !== undefined
+                && screeningEvent.offers !== undefined
+                && screeningEvent.offers.eligibleQuantity.maxValue !== undefined
+                && reservations.length >= screeningEvent.offers.eligibleQuantity.maxValue) {
+                this.utilService.openAlert({
+                    title: this.translate.instant('common.error'),
+                    body: this.translate.instant(
+                        `${this.translateName}.alert.limit`,
+                        { value: screeningEvent.offers.eligibleQuantity.maxValue }
+                    )
+                });
+                return;
+            }
             this.actionService.purchase.selectSeats([data.seat]);
         } else {
             this.actionService.purchase.cancelSeats([data.seat]);
@@ -143,12 +158,14 @@ export class PurchaseSeatComponent implements OnInit {
     }) {
         const screeningEventSeats = params.screeningEventSeats;
         const screeningEvent = params.screeningEvent;
-        const values: number[] = [];
-        if (screeningEvent === undefined) {
-            return values;
-        }
+        const values = [];
         let limit = Number(this.environment.PURCHASE_ITEM_MAX_LENGTH);
-        if (new Models.Purchase.Performance(screeningEvent).isTicketedSeat()) {
+        if (screeningEvent.offers !== undefined
+            && screeningEvent.offers.eligibleQuantity.maxValue !== undefined
+            && limit > screeningEvent.offers.eligibleQuantity.maxValue) {
+            limit = screeningEvent.offers.eligibleQuantity.maxValue;
+        }
+        if (new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()) {
             // イベント全体の残席数計算
             const screeningEventLimit = Functions.Purchase.getRemainingSeatLength({
                 screeningEventSeats, screeningEvent
@@ -166,18 +183,14 @@ export class PurchaseSeatComponent implements OnInit {
     /**
      * 自由席選択
      */
-    public async selectOpenSeating(event: Event) {
-        if (event.target === null) {
-            return;
-        }
-        const purchaseData = await this.actionService.purchase.getData();
-        const value = Number((<HTMLSelectElement>event.target).value);
-        const reservations = purchaseData.reservations;
+    public async selectOpenSeating() {
+        const { reservations } = await this.actionService.purchase.getData();
+        this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
         const screeningEventSeats = this.screeningEventSeats;
         const seats = Functions.Purchase.getEmptySeat({ reservations, screeningEventSeats });
         await this.resetSeats();
         const selectSeats: Models.Purchase.Reservation.IReservationSeat[] = [];
-        for (let i = 0; i < value; i++) {
+        for (let i = 0; i < Number(this.reservationCount); i++) {
             selectSeats.push(seats[i]);
         }
         this.actionService.purchase.selectSeats(selectSeats);
@@ -187,49 +200,39 @@ export class PurchaseSeatComponent implements OnInit {
      * onSubmit
      */
     public async onSubmit() {
-        const purchase = await this.actionService.purchase.getData();
-        const reservations = purchase.reservations;
-        const screeningEventTicketOffers = purchase.screeningEventTicketOffers;
-        if (reservations.length === 0) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant(`${this.translateName}.alert.unselected`)
-            });
-            return;
-        }
-        if (reservations.length > Number(this.environment.PURCHASE_ITEM_MAX_LENGTH)) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant(
-                    `${this.translateName}.alert.limit`,
-                    { value: this.environment.PURCHASE_ITEM_MAX_LENGTH }
-                )
-            });
-            return;
-        }
-        if (screeningEventTicketOffers.length === 0) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant(`${this.translateName}.alert.ticketNotfound`)
-            });
-            return;
-        }
+        const { screeningEventTicketOffers, screen } = await this.actionService.purchase.getData();
         try {
+            if (screeningEventTicketOffers.length === 0) {
+                this.utilService.openAlert({
+                    title: this.translate.instant('common.error'),
+                    body: this.translate.instant(`${this.translateName}.alert.ticketNotfound`)
+                });
+                return;
+            }
+            if (screen !== undefined && screen.openSeatingAllowed) {
+                // 自由席
+                await this.selectOpenSeating();
+            }
+            const { reservations } = await this.actionService.purchase.getData();
             await this.actionService.purchase.temporaryReservation({
                 reservations,
                 screeningEventSeats: this.screeningEventSeats
             });
             const navigate = (this.environment.VIEW_TYPE === 'cinema')
                 ? '/purchase/cinema/ticket'
-                : '/purchase/event/seat/ticket';
+                : '/purchase/event/ticket';
             this.router.navigate([navigate]);
         } catch (error) {
+            if (screen !== undefined && screen.openSeatingAllowed) {
+                // 自由席
+                await this.resetSeats();
+            }
             console.error(error);
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
                 body: `<p class="mb-4">${this.translate.instant(`${this.translateName}.alert.temporaryReservation`)}</p>
                 <div class="p-3 bg-light-gray select-text">
-                <code>${error}</code>
+                <code>${(JSON.stringify(error) === '{}') ? error : JSON.stringify(error)}</code>
             </div>`});
         }
     }

@@ -1,25 +1,30 @@
 {
     "purchase": {
         "event": {
-            "schedule": {
-                "title": "スケジュール確認",
-                "read": "スケジュールを確認してください。",
-                "notfound": "スケジュールがありません。他の日付を選択してください。",
-                "selectedDate": "{{value}}の空き状況",
-                "status": {
-                    "success": "購入",
-                    "warning": "購入",
-                    "danger": "満席",
-                    "endSale": "販売終了",
-                    "outsideSalesPeriod": "販売期間外"
+            "top": {
+                "title": "メニューを選んでください",
+                "purchase": {
+                    "title": "購入する",
+                    "read": "",
+                    "search": {
+                        "today": "本日",
+                        "other": "本日以外"
+                    }
+
                 },
-                "terms": "利用規約",
-                "infiniteStock": "在庫管理なし",
-                "next": "次へ",
-                "consent": "利用規約に同意して次へ",
-                "prev": ""
+                "inquiry": {
+                    "title": "発券する",
+                    "read": "",
+                    "print": "予約済みチケットを発券する"
+                }
             },
-            "ticket": {
+            "date": {
+                "title": "予約される日付を選んでください",
+                "read": "",
+                "next": "次へ",
+                "prev": "戻る"
+            },
+            "schedule": {
                 "title": "スケジュール選択",
                 "read": "スケジュールを選択してください。",
                 "next": "決定",
@@ -31,12 +36,33 @@
                     "temporaryReservation": "仮予約に成功しました。"
                 },
                 "alert": {
-                    "unselected": "チケットが未選択です。",
                     "ticketCondition": "割引券の適用条件を再度ご確認ください。",
                     "temporaryReservation": "仮予約に失敗しました。",
                     "getScreeningEventSeats": "空席がありません。",
                     "cart": "複数のパフォーマンスは選択できません。",
-                    "limit": "同時購入可能数は{{value}}件までです。"
+                    "limit": "同時購入可能数は{{value}}件までです。",
+                    "cancel": "取り消しに失敗しました。"
+                }
+                
+            },
+            "select": {
+                "title": "チケット選択",
+                "read": "チケットを選択してください。",
+                "next": "決定",
+                "prev": "戻る",
+                "addOn": "オプション選択",
+                "notfound": "チケットがありません。",
+                "remainingSeat": "残席数",
+                "success": {
+                    "temporaryReservation": "仮予約に成功しました。"
+                },
+                "alert": {
+                    "ticketCondition": "割引券の適用条件を再度ご確認ください。",
+                    "temporaryReservation": "仮予約に失敗しました。",
+                    "getScreeningEventSeats": "空席がありません。",
+                    "cart": "複数のパフォーマンスは選択できません。",
+                    "limit": "同時購入可能数は{{value}}件までです。",
+                    "cancel": "取り消しに失敗しました。"
                 }
                 
             },
@@ -49,13 +75,12 @@
                 "reset": "リセット",
                 "openSeating": "座席数", 
                 "alert": {
-                    "unselected": "座席が未選択です。",
                     "limit": "同時購入可能数は{{value}}件までです。",
                     "temporaryReservation": "仮予約に失敗しました。",
                     "ticketNotfound": "販売可能券種がありません。"
                 }
             },
-            "seatTicket": {
+            "ticket": {
                 "title": "チケット選択",
                 "read": "チケットを選択してください。",
                 "unselected": "チケットを選択してください",
@@ -65,7 +90,6 @@
                 "allSelect": "すべて選択",
                 "notfound":"",
                 "alert": {
-                    "unselected": "チケットが未選択です。",
                     "ticketCondition": "割引券の適用条件を再度ご確認ください。",
                     "temporaryReservation": "仮予約に失敗しました。"
                 }
@@ -81,6 +105,11 @@
                     "cancel": "キャンセルしてよろしいですか。"
                 }
             }
+        },
+        "step": {
+            "1": "チケット選択",
+            "2": "支払い方法選択<br>購入確認",
+            "3": "購入完了"
         }
     },
     "process": {

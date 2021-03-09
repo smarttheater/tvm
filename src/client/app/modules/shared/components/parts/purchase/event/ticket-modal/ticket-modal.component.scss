@@ -4,7 +4,7 @@
     right: 0;
 }
 .scroll-vertical {
-    max-height: 75vh;
+    max-height: calc(1080px * 0.9);
 }
 .ticket {
     &:last-child {

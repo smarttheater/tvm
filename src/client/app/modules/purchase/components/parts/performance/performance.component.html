@@ -1,60 +1,52 @@
-<div class="row mx-0 border boder-gray rounded p-3 py-md-3 text-md-center d-md-block align-items-center pointer h-100"
-    [ngClass]="{ 
+<div class="border border-gray p-3 pointer h-100" [ngClass]="{ 
                 'bg-white': performance.isSales() && !performance.isSeatStatus('danger'), 
                 'bg-dark-gray text-light-gray not-event': !performance.isSales() 
                 || performance.isSeatStatus('danger') 
                 || (performance.isInfinitetock() && environment.VIEW_TYPE === viewType.Cinema)
                 }" (click)="select.emit(performance.screeningEvent)">
-    <div class="col-md-12 col-8 px-0">
-        <div class="mb-1 text-small screen-name">
-            <p *ngIf="performance.screeningEvent.location.address | changeLanguage"
-                class="text-overflow-ellipsis mr-2 mr-md-0 d-inline-block d-md-block">
-                {{ performance.screeningEvent.location.address | changeLanguage }}</p>
-            <p class="text-overflow-ellipsis d-inline-block d-md-block">
-                {{ performance.screeningEvent.location.name | changeLanguage }}</p>
-        </div>
-        <div>
-            <strong class="text-large">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</strong>
-            <span>-</span>
-            <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>
-        </div>
-    </div>
-    <hr class="border-0 bg-light-gray my-2">
-    <div class="col-md-12 col-4 px-0 text-center">
-        <div class="status" *ngIf="performance.isSales() && !performance.isInfinitetock()">
-            <div *ngIf="performance.isSeatStatus('success')" class="d-flex justify-content-center align-items-center">
-                <div class="text-success mr-2">
-                    {{ 'common.performance.status.success' | translate }}</div>
-                <img src="/assets/images/icon/status_success.svg" alt="">
+    <div class="container px-0">
+        <div class="row align-items-center">
+            <div class="col-9">
+                <div class="mb-1 align-middle">
+                    <span
+                        class="text-x-large font-weight-bold">{{ moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
+                    <span>-</span>
+                    <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>
+                </div>
+                <div class="mb-1 text-small screen-name text-overflow-ellipsis">
+                    <p *ngIf="performance.screeningEvent.location.address | changeLanguage" class="mr-2 d-inline-block">
+                        {{ performance.screeningEvent.location.address | changeLanguage }}</p>
+                    <p class="d-inline-block">
+                        {{ performance.screeningEvent.location.name | changeLanguage }}</p>
+                    <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity">
+                        {{ 'common.seatValue' | translate: { value: performance.screeningEvent.maximumAttendeeCapacity } }}</p>
+                </div>
             </div>
-            <div *ngIf="performance.isSeatStatus('warning')" class="d-flex justify-content-center align-items-center">
-                <div class="text-warning mr-2">
-                    {{ 'common.performance.status.warning' | translate }}</div>
-                <img src="/assets/images/icon/status_warning.svg" alt="">
+            <div class="col-3">
+                <div class="status text-center" *ngIf="performance.isSales() && !performance.isInfinitetock()">
+                    <div *ngIf="performance.isSeatStatus('success')">
+                        <img src="/assets/images/icon/status_success.svg" alt="">
+                    </div>
+                    <div *ngIf="performance.isSeatStatus('warning')">
+                        <img src="/assets/images/icon/status_warning.svg" alt="">
+                    </div>
+                    <div *ngIf="performance.isSeatStatus('danger')">
+                        {{ 'common.performance.status.danger' | translate }}
+                        <!-- <img src="/assets/images/icon/status_danger.svg" alt=""> -->
+                    </div>
+                    <div *ngIf="performance.isSeatStatus()">
+                        <img src="/assets/images/icon/status_undefined.svg" alt="">
+                    </div>
+                </div>
+        
+                <div class="status text-center" *ngIf="performance.isSales('end')">
+                    {{ 'common.performance.status.endSale' | translate }}</div>
+                <div class="status text-center" *ngIf="performance.isSales('start')">
+                    {{ 'common.performance.status.outsideSalesPeriod' | translate }}</div>
+                <div *ngIf="performance.isSales() && performance.isInfinitetock()" class="status text-center">
+                    <img src="/assets/images/icon/status_success.svg" alt="">
+                </div>
             </div>
-            <div *ngIf="performance.isSeatStatus('danger')" class="d-flex justify-content-center align-items-center">
-                <div class="mr-2">
-                    {{ 'common.performance.status.danger' | translate }}</div>
-                <img src="/assets/images/icon/status_danger.svg" alt="">
-            </div>
-            <div *ngIf="performance.isSeatStatus()" class="d-flex justify-content-center align-items-center">
-                <div class="mr-2">
-                    {{ 'common.performance.status.success' | translate }}</div>
-                <img src="/assets/images/icon/status_undefined.svg" alt="">
-            </div>
-        </div>
-
-        <div class="status" *ngIf="performance.isSales('end')">
-            {{ 'common.performance.status.endSale' | translate }}</div>
-        <div class="status" *ngIf="performance.isSales('start')">
-            {{ 'common.performance.status.outsideSalesPeriod' | translate }}</div>
-        <div *ngIf="performance.isSales() && performance.isInfinitetock()" class="status">
-            <div class="d-flex justify-content-center align-items-center">
-                <div class="text-success mr-2">
-                    {{ 'common.performance.status.success' | translate }}</div>
-                <img src="/assets/images/icon/status_success.svg" alt="">
-            </div>
-            <!-- <p class="text-small">{{ 'common.performance.infiniteStock' | translate }}</p> -->
         </div>
     </div>
 </div>

@@ -41,6 +41,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
     public screenType: string;
     public zoomState: boolean;
     public scale: number;
+    public left: number;
     public height: number;
     public origin: string;
     public screenData: IScreen;
@@ -60,13 +61,14 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
     public async ngOnInit() {
         try {
             this.zoomState = false;
-            this.scale = 1;
+            this.scale = ScreenComponent.ZOOM_SCALE;
             this.height = 0;
+            this.left = 0;
             this.origin = '0 0';
             this.screenData = await this.getScreenData();
             this.createScreen();
             this.scaleDown();
-            this.setScrollEvent();
+            // this.setScrollEvent();
         } catch (error) {
             console.error(error);
         }
@@ -103,8 +105,8 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
      * 破棄
      */
     public ngOnDestroy() {
-        const element = <HTMLDivElement>document.getElementById('contents');
-        element.removeEventListener('scroll', this.onWindowScroll);
+        // const element = <HTMLDivElement>document.getElementById('contents');
+        // element.removeEventListener('scroll', this.onWindowScroll);
     }
 
     /**
@@ -130,9 +132,10 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
      * 拡大許可判定
      */
     public isZoomAllowed(): boolean {
-        const minWidth = 1346;
-        const mobileWidth = 1024;
-        return (window.innerWidth < mobileWidth || this.screenData.size.w > minWidth);
+        const zoomAllowed = (this.screenData.zoomAllowed === undefined)
+            ? true
+            : this.screenData.zoomAllowed;
+        return zoomAllowed;
     }
 
     /**
@@ -278,6 +281,7 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
             y: pos.y / this.scale - screen.offsetHeight / 2,
         };
         this.scale = ScreenComponent.ZOOM_SCALE;
+        this.left = 0;
         this.origin = '50% 50%';
 
         setTimeout(() => {
@@ -295,9 +299,20 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
         const element: HTMLElement = this.elementRef.nativeElement;
         const screen = <HTMLDivElement>element.querySelector('.screen');
         this.zoomState = false;
-        const scale = screen.offsetWidth / this.screenData.size.w;
-        this.scale = (scale > ScreenComponent.ZOOM_SCALE) ? ScreenComponent.ZOOM_SCALE : scale;
+        const base = {
+            width: screen.offsetWidth,
+            height: 732
+        };
+        const scale = {
+            width: base.width / this.screenData.size.w,
+            height: base.height / this.screenData.size.h
+        };
+        const currentScale = (scale.width < scale.height) ? scale.width : scale.height;
+        this.scale = (currentScale > ScreenComponent.ZOOM_SCALE)
+            ? ScreenComponent.ZOOM_SCALE
+            : currentScale;
         this.height = this.screenData.size.h * this.scale;
+        this.left = (screen.offsetWidth - (this.screenData.size.w * this.scale)) / 2;
         this.origin = '0 0';
     }
 
@@ -471,7 +486,8 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
                             code,
                             section,
                             status,
-                            ticketedSeat: (acceptedOffer !== undefined) ? acceptedOffer.ticketedSeat : undefined
+                            ticketedSeat: (acceptedOffer !== undefined) ? acceptedOffer.ticketedSeat : undefined,
+                            label: `${code.split('-')[0]}<br>${code.split('-')[1]}`,
                         };
                         seats[labelCount].data.push(seat);
                     }
@@ -512,7 +528,15 @@ export class ScreenComponent implements OnInit, AfterViewInit, AfterContentCheck
             return;
         }
         if (seat.ticketedSeat === undefined
-            || seat.status === SeatStatus.Disabled) {
+            || seat.status === Models.Purchase.Screen.SeatStatus.Disabled) {
+            return;
+        }
+        if (this.screenData.hc !== undefined
+            && this.screenData.hc.indexOf(seat.code) !== -1) {
+            return;
+        }
+        if (this.screenData.spare !== undefined
+            && this.screenData.spare.indexOf(seat.code) !== -1) {
             return;
         }
         this.select.emit({

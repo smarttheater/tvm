@@ -26,7 +26,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(orderAction.inquiryFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(orderAction.print, (state) => {
             return { ...state, loading: environment.PRINT_LOADING, process: 'orderAction.Print' };
@@ -36,18 +36,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(orderAction.printFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
-        on(orderAction.orderAuthorize, (state) => {
-            return { ...state, loading: true, process: 'orderAction.OrderAuthorize' };
-        }),
-        on(orderAction.orderAuthorizeSuccess, (state, payload) => {
-            const order = payload.order;
-            return { ...state, orderData: { ...state.orderData, order }, loading: false, process: '', error: null };
-        }),
-        on(orderAction.orderAuthorizeFail, (state, payload) => {
-            const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
-        })
     )(initialState, action);
 }

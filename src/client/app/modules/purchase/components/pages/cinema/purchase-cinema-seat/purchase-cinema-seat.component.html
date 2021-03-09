@@ -1,55 +1,85 @@
-<div class="contents-width mx-auto px-3 py-5">
-    <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'purchase.cinema.seat.title' | translate }}</h2>
-    <p class="mb-4 text-md-center" [innerHTML]="'purchase.cinema.seat.read' | translate"></p>
-
-    <div class="row">
-        <div class="col-lg-9">
-            <app-screen *ngIf="(user | async)?.theater 
+<app-header [isClear]="true">
+    <app-purchase-step [currentStep]="2"></app-purchase-step>
+</app-header>
+<app-page-title *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)"
+    title="{{ 'purchase.cinema.seat.title' | translate }}"></app-page-title>
+<app-page-title *ngIf="(purchase | async)?.screen?.openSeatingAllowed"
+    title="{{ 'purchase.cinema.seat.openSeating.title' | translate }}"></app-page-title>
+<div class="contents">
+    <div class="container h-100 px-3 pb-3">
+        <div class="row h-100">
+            <div class="col-3 h-100">
+                <app-seat-info *ngIf="(purchase | async)?.screen && !((purchase | async)?.screen?.openSeatingAllowed)">
+                </app-seat-info>
+            </div>
+            <div class="col-6">
+                <div *ngIf="(purchase | async)?.screen && !((purchase | async)?.screen?.openSeatingAllowed)">
+                    <app-screen *ngIf="(user | async)?.theater 
                 && screeningEventSeats.length > 0 
-                && (purchase | async)?.screen" 
-                class="mb-3"
-                [theaterCode]="(user | async)?.theater.branchCode"
-                [screenCode]="(purchase | async)?.screen.branchCode" [screeningEventSeats]="screeningEventSeats"
-                [openSeatingAllowed]="(purchase | async)?.screen.openSeatingAllowed"
-                [reservations]="(purchase | async)?.reservations"
-                [authorizeSeatReservation]="(purchase | async)?.authorizeSeatReservation" (select)="selectSeat($event)">
-            </app-screen>
-            <app-seat-info class="mb-4"></app-seat-info>
-            <div *ngIf="(purchase | async)?.screen?.openSeatingAllowed" class="mb-4">
-                <div class="d-flex align-items-center">
-                    <p class="mr-2">{{ 'purchase.cinema.seat.openSeating' | translate }}</p>
-                    <select class="form-control d-inline-block w-auto" (change)="selectOpenSeating($event)"
-                        [ngModel]="(purchase | async)?.reservations.length">
-                        <option value="0">0</option>
-                        <option *ngFor="let value of remainingAttendeeCapacityValue({
-                                screeningEvent: (purchase | async)?.screeningEvent,
-                                screeningEventSeats: screeningEventSeats,
-                                authorizeSeatReservations: (purchase | async)?.authorizeSeatReservations
-                            })" [value]="value">{{ value }}</option>
-                    </select>
+                && (purchase | async)?.screen" [theaterCode]="(user | async)?.theater.branchCode"
+                        [screenCode]="(purchase | async)?.screen.branchCode" [screeningEventSeats]="screeningEventSeats"
+                        [openSeatingAllowed]="(purchase | async)?.screen.openSeatingAllowed"
+                        [reservations]="(purchase | async)?.reservations"
+                        [authorizeSeatReservation]="(purchase | async)?.authorizeSeatReservation"
+                        (select)="selectSeat($event)">
+                    </app-screen>
+                </div>
+                <div *ngIf="(purchase | async)?.screen && (purchase | async)?.screen?.openSeatingAllowed" class="mb-4">
+                    <div class="container p-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 col-12">
+                                <p class="mb-2 mb-md-0 font-weight-bold text-large">
+                                    {{ 'purchase.cinema.seat.openSeating.seat' | translate }}
+                                </p>
+                            </div>
+                            <div class="col-md-9 col-12">
+                                <select class="form-control" [(ngModel)]="reservationCount">
+                                    <option [value]="0">0</option>
+                                    <option *ngFor="let value of remainingAttendeeCapacityValue({
+                screeningEventSeats: screeningEventSeats,
+                screeningEvent: (purchase | async)?.screeningEvent,
+                authorizeSeatReservations: (purchase | async)?.authorizeSeatReservations
+            })" [value]="value">{{ value }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            <app-purchase-info class="mb-4" [purchase]="purchase | async"></app-purchase-info>
-        </div>
-    </div>
-
-    <div *ngIf="environment.PURCHASE_TERMS">
-        <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'purchase.cinema.seat.terms' | translate }}</h2>
-        <div class="mb-4">
-            <app-purchase-terms [language]="(user | async)?.language"
-                [screeningEvent]="(purchase | async)?.screeningEvent"></app-purchase-terms>
+            <div class="col-3 mh-100">
+                <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
+            </div>
         </div>
     </div>
-
-    <div class="buttons mx-auto text-center">
-        <button *ngIf="!environment.PURCHASE_TERMS" type="submit" class="btn btn-primary btn-block py-3 mb-3" [disabled]="isLoading | async"
-            (click)="onSubmit()">{{ 'purchase.cinema.seat.next' | translate }}</button>
-        <button *ngIf="environment.PURCHASE_TERMS" type="submit" class="btn btn-primary btn-block py-3 mb-3" [disabled]="isLoading | async"
-            (click)="onSubmit()">{{ 'purchase.cinema.seat.consent' | translate }}</button>
-        <button type="button" class="btn btn-outline-primary btn-block py-3"
-            routerLink="/purchase/cinema/schedule">{{ 'purchase.cinema.seat.prev' | translate }}</button>
-    </div>
-
 </div>
+<app-footer>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
+    </div>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    (click)="prev()">{{ 'purchase.cinema.seat.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)" type="submit"
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2" [disabled]="(isLoading | async) 
+                || (purchase | async)?.reservations.length === 0" (click)="onSubmit()">
+                    <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.next' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.consent' | translate }}
+                    </ng-container>
+                </button>
+                <button *ngIf="(purchase | async)?.screen?.openSeatingAllowed" type="submit"
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2" [disabled]="(isLoading | async) 
+                || Number(reservationCount) === 0" (click)="onSubmit()">
+                    <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.next' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.consent' | translate }}
+                    </ng-container>
+                </button>
+            </div>
+        </div>
+    </div>
+</app-footer>

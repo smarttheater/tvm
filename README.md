@@ -6,7 +6,7 @@
 
 | Name                                | Required | Value                         | Purpose                                 |
 |-------------------------------------|----------|-------------------------------|-----------------------------------------|
-| `NODE_ENV`                          | true     | development, test, production | environment name                        |
+| `APP_ENV`                           | true     | development, test, production | environment name                        |
 | `REDIS_HOST`                        | true     |                               | redis host                              |
 | `REDIS_PORT`                        | true     |                               | redis port                              |
 | `REDIS_KEY`                         | true     |                               | redis key                               |
@@ -16,4 +16,5 @@
 | `AUTHORIZATION_CODE_CLIENT_SECRET`  | true     |                               | client secret oauth2                    |
 | `AUTHORIZATION_CODE_DOMAIN`         | true     |                               | oauth2 server domain                    |
 | `WAITER_SERVER_URL`                 | true     |                               | waiter server url                       |
+| `GMO_TOKEN_URL`                     | true     |                               | gmo token url                           |
 | `DEBUG`                             | false    |                               | debug                                   |

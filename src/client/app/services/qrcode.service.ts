@@ -20,7 +20,7 @@ export class QRCodeService {
     }) {
         this.modal.show(QRCodeReaderModalComponent, {
             initialState: { cb: args.cb },
-            class: 'modal-dialog-centered',
+            class: 'modal-dialog-centered modal-lg',
             animated: false
         });
     }
@@ -38,7 +38,7 @@ export class QRCodeService {
         const code = args.code;
         this.modal.show(QRCodeViewerModalComponent, {
             initialState: { title, body, code },
-            class: 'modal-dialog-centered'
+            class: 'modal-dialog-centered modal-lg'
         });
     }
 

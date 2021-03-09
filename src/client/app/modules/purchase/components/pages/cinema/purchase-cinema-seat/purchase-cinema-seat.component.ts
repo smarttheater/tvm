@@ -7,4 +7,19 @@ import { PurchaseSeatComponent } from '../../purchase-seat/purchase-seat.compone
     styleUrls: ['./purchase-cinema-seat.component.scss']
 })
 export class PurchaseCinemaSeatComponent extends PurchaseSeatComponent {
+    public async prev() {
+        const { screeningEvent, searchType } = await this.actionService.purchase.getData();
+        if (screeningEvent === undefined
+            || screeningEvent.workPerformed === undefined
+            || searchType === undefined) {
+            console.error('screeningEvent.workPerformed or searchType undefined');
+            this.router.navigate(['/error']);
+            return;
+        }
+        if (searchType === 'event') {
+            this.router.navigate([`/purchase/cinema/schedule`]);
+            return;
+        }
+        this.router.navigate([`/purchase/cinema/schedule/event`]);
+    }
 }

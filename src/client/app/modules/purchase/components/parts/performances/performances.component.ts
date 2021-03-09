@@ -11,12 +11,21 @@ import { Functions } from '../../../../..';
 export class PurchasePerformancesComponent implements OnInit {
 
     @Input() public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup;
+    @Input() public screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent;
+    @Input() public videoFormatTypes: factory.chevre.categoryCode.ICategoryCode[];
+    @Input() public animation?: boolean;
     @Output() public select = new EventEmitter<factory.chevre.event.screeningEvent.IEvent>();
-    public moment: typeof moment = moment;
+    public moment = moment;
 
     constructor() { }
 
     public ngOnInit() {
+        console.log(this.videoFormatTypes);
+        this.animation = (this.animation === undefined) ? false : this.animation;
+    }
+
+    public getVideoFormatType(code: string) {
+        return this.videoFormatTypes.find(v => v.codeValue === code);
     }
 
 }

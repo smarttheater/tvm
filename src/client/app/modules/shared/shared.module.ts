@@ -7,26 +7,28 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
-import { SwiperModule } from 'ngx-swiper-wrapper';
 import { BaseComponent } from './components/pages/base/base.component';
 import { AlertModalComponent } from './components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from './components/parts/confirm-modal/confirm-modal.component';
 import { ContentsComponent } from './components/parts/contents/contents.component';
+import { CurrentDateTimeComponent } from './components/parts/current-date-time/current-date-time.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { CheckboxComponent } from './components/parts/form/checkbox/checkbox.component';
-import { HeaderMenuComponent } from './components/parts/header-menu/header-menu.component';
 import { HeaderComponent } from './components/parts/header/header.component';
 import { ItemListComponent } from './components/parts/item-list/item-list.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
-import { MvtkCheckModalComponent } from './components/parts/mvtk/check-modal/check-modal.component';
+import { MovieTicketCheckModalComponent } from './components/parts/movie-ticket/check-modal/check-modal.component';
 import { NumericKeypadComponent } from './components/parts/numeric-keypad/numeric-keypad.component';
-import { OrderDetailModalComponent } from './components/parts/order/detail-modal/detail-modal.component';
+import { PageTitleComponent } from './components/parts/page-title/page-title.component';
+import { PrintResultComponent } from './components/parts/print-result/print-result.component';
 import { PurchaseEventTicketModalComponent } from './components/parts/purchase/event/ticket-modal/ticket-modal.component';
 import { PurchaseSeatTicketModalComponent } from './components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 import { QRCodeReaderModalComponent } from './components/parts/qrcode/reader-modal/reader-modal.component';
 import { QRCodeViewerModalComponent } from './components/parts/qrcode/viewer-modal/viewer-modal.component';
+import { QuantityInputComponent } from './components/parts/quantity-input/quantity-input.component';
 import { ReservationDetailModalComponent } from './components/parts/reservation/detail-modal/detail-modal.component';
 import { ScreenComponent } from './components/parts/screen/screen.component';
+import { StaticModalComponent } from './components/parts/static-modal/static-modal.component';
 import { ChangeLanguagePipe } from './pipes/change-language.pipe';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format.pipe';
@@ -36,24 +38,27 @@ const components = [
   ContentsComponent,
   FooterComponent,
   HeaderComponent,
-  HeaderMenuComponent,
   LoadingComponent,
   ScreenComponent,
   ItemListComponent,
-  CheckboxComponent
+  CheckboxComponent,
+  CurrentDateTimeComponent,
+  PrintResultComponent,
+  QuantityInputComponent
 ];
 
 const entryComponents = [
   AlertModalComponent,
   ConfirmModalComponent,
-  MvtkCheckModalComponent,
+  StaticModalComponent,
+  MovieTicketCheckModalComponent,
   NumericKeypadComponent,
-  OrderDetailModalComponent,
   PurchaseSeatTicketModalComponent,
   PurchaseEventTicketModalComponent,
   QRCodeReaderModalComponent,
   QRCodeViewerModalComponent,
   ReservationDetailModalComponent,
+  PageTitleComponent
 ];
 
 
@@ -72,7 +77,6 @@ const entryComponents = [
     ReactiveFormsModule,
     FormsModule,
     TranslateModule,
-    SwiperModule,
     ModalModule,
     BsDatepickerModule,
     PaginationModule,
@@ -87,7 +91,6 @@ const entryComponents = [
     ReactiveFormsModule,
     FormsModule,
     TranslateModule,
-    SwiperModule,
     ModalModule,
     BsDatepickerModule,
     PaginationModule,

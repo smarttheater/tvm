@@ -5,12 +5,12 @@ import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
-import { Functions } from '../../../../..';
+import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import { IReservation, IReservationTicket } from '../../../../../models/purchase/reservation';
 import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
-import { MvtkCheckModalComponent } from '../../../../shared/components/parts/mvtk/check-modal/check-modal.component';
+import { MovieTicketCheckModalComponent } from '../../../../shared/components/parts/movie-ticket/check-modal/check-modal.component';
 import { PurchaseSeatTicketModalComponent } from '../../../../shared/components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 
 @Component({
@@ -22,8 +22,10 @@ export class PurchaseTicketComponent implements OnInit {
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
     public additionalTicketText: string;
+    public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
     public translateName: string;
+    public isSelectedTicket: boolean;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -34,38 +36,31 @@ export class PurchaseTicketComponent implements OnInit {
         private translate: TranslateService
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.translateName = (this.environment.VIEW_TYPE === 'cinema')
-            ? 'purchase.cinema.ticket' : 'purchase.event.seatTicket';
+            ? 'purchase.cinema.ticket' : 'purchase.event.ticket';
         this.additionalTicketText = '';
+        this.isSelectedTicket = (await this.getUnselectedTicketReservations()).length === 0;
+    }
+
+    /**
+     * 券種未選択の予約取得
+     */
+    public async getUnselectedTicketReservations() {
+        const { reservations } = await this.actionService.purchase.getData();
+        return reservations.filter((reservation) => {
+            return (reservation.ticket === undefined);
+        });
     }
 
     /**
      * 確定
      */
     public async onSubmit() {
-        const purchase = await this.actionService.purchase.getData();
-        const transaction = purchase.transaction;
-        const screeningEvent = purchase.screeningEvent;
-        const reservations = purchase.reservations;
-        if (transaction === undefined
-            || screeningEvent === undefined) {
-            this.router.navigate(['/error']);
-            return;
-        }
-        const unselectedReservations = reservations.filter((reservation) => {
-            return (reservation.ticket === undefined);
-        });
-        if (unselectedReservations.length > 0) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant(`${this.translateName}.alert.unselected`)
-            });
-            return;
-        }
+        const { reservations } = await this.actionService.purchase.getData();
         const validResult = reservations.filter((reservation) => {
             if (reservation.ticket === undefined) {
                 return false;
@@ -104,8 +99,8 @@ export class PurchaseTicketComponent implements OnInit {
                 screeningEventSeats
             });
             const navigate = (this.environment.VIEW_TYPE === 'cinema')
-                ? '/purchase/confirm'
-                : '/purchase/event/ticket';
+                ? '/purchase/payment'
+                : '/purchase/event/schedule';
             this.router.navigate([navigate]);
         } catch (error) {
             console.error(error);
@@ -114,7 +109,7 @@ export class PurchaseTicketComponent implements OnInit {
                 body: `
                 <p class="mb-4">${this.translate.instant(`${this.translateName}.alert.temporaryReservation`)}</p>
                 <div class="p-3 bg-light-gray select-text text-left">
-                    <code>${error}</code>
+                    <code>${(JSON.stringify(error) === '{}') ? error : JSON.stringify(error)}</code>
                 </div>`
             });
         }
@@ -134,14 +129,16 @@ export class PurchaseTicketComponent implements OnInit {
                 reservations: purchase.reservations,
                 reservation: reservation,
                 pendingMovieTickets: purchase.pendingMovieTickets,
-                cb: (ticket: IReservationTicket) => {
+                cb: async (ticket: IReservationTicket) => {
                     if (reservation === undefined) {
                         const reservations = Functions.Util.deepCopy<IReservation[]>(purchase.reservations);
                         reservations.forEach(r => r.ticket = ticket);
                         this.actionService.purchase.selectTickets(reservations);
+                        this.isSelectedTicket = (await this.getUnselectedTicketReservations()).length === 0;
                         return;
                     }
                     this.actionService.purchase.selectTickets([{ ...reservation, ticket }]);
+                    this.isSelectedTicket = (await this.getUnselectedTicketReservations()).length === 0;
                 }
             },
         });
@@ -150,9 +147,12 @@ export class PurchaseTicketComponent implements OnInit {
     /**
      * ムビチケ認証表示
      */
-    public openMovieTicket() {
-        this.modal.show(MvtkCheckModalComponent, {
-            class: 'modal-dialog-centered'
+    public openMovieTicket(paymentMethodType: factory.chevre.paymentMethodType) {
+        this.modal.show(MovieTicketCheckModalComponent, {
+            initialState: {
+                paymentMethodType
+            },
+            class: 'modal-dialog-centered modal-lg'
         });
     }
 

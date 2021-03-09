@@ -1,9 +1,10 @@
 /**
  * AppComponent
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Functions } from '..';
 import { getEnvironment } from '../../environments/environment';
 
 declare const ga: Function;
@@ -25,10 +26,16 @@ export class AppComponent implements OnInit {
      * @method ngOnInit
      */
     public ngOnInit() {
+        Functions.Util.changeViewport();
         this.locales();
         if (this.environment.ANALYTICS_ID !== '') {
             this.analytics();
         }
+    }
+
+    @HostListener('window:resize', ['$event'])
+    public onResize() {
+        Functions.Util.changeViewport();
     }
 
     /**

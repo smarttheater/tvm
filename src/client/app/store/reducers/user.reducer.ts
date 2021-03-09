@@ -24,7 +24,11 @@ export interface IUserState {
     /**
      * 決済
      */
-    payment?: Models.Util.Payment.IPayment;
+    payment?: string;
+    /**
+     * 釣り銭
+     */
+    cashchanger?: string;
     /**
      * 言語
      */
@@ -55,6 +59,7 @@ export function reducer(initialState: IState, action: Action) {
             const pos = payload.pos;
             const theater = payload.theater;
             const printer = payload.printer;
+            const cashchanger = payload.cashchanger;
             const payment = payload.payment;
 
             return {
@@ -64,6 +69,7 @@ export function reducer(initialState: IState, action: Action) {
                     pos,
                     theater,
                     printer,
+                    cashchanger,
                     payment
                 }, loading: false, process: ''
             };

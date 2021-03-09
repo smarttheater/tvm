@@ -10,6 +10,7 @@ import { getEnvironment } from '../../../environments/environment';
 import { purchaseAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
+import { EpsonEPOSService } from '../epson-epos.service';
 import { UtilService } from '../util.service';
 
 @Injectable({
@@ -23,7 +24,8 @@ export class PurchaseService {
         private actions: Actions,
         private store: Store<reducers.IState>,
         private utilService: UtilService,
-        private cinerinoService: CinerinoService
+        private cinerinoService: CinerinoService,
+        private epsonEPOSService: EpsonEPOSService
     ) {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.error = this.store.pipe(select(reducers.getError));
@@ -81,6 +83,20 @@ export class PurchaseService {
     }
 
     /**
+     * コンテンツ選択
+     */
+    public selectCreativeWork(creativeWork: factory.chevre.creativeWork.movie.ICreativeWork) {
+        this.store.dispatch(purchaseAction.selectCreativeWork({ creativeWork }));
+    }
+
+    /**
+     * 施設コンテンツ選択
+     */
+    public selectScreeningEventSeries(screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent) {
+        this.store.dispatch(purchaseAction.selectScreeningEventSeries({ screeningEventSeries }));
+    }
+
+    /**
      * イベント取得
      */
     public async getScreeningEvent(screeningEvent: factory.chevre.event.screeningEvent.IEvent) {
@@ -112,13 +128,15 @@ export class PurchaseService {
         }
         const environment = getEnvironment();
         const now = (await this.utilService.getServerTime()).date;
-        const identifier = (pos === undefined)
-            ? [...environment.PURCHASE_TRANSACTION_IDENTIFIER]
-            : [
-                ...environment.PURCHASE_TRANSACTION_IDENTIFIER,
-                { name: 'posId', value: pos.id },
-                { name: 'posName', value: pos.name }
-            ];
+        const identifier = [
+            ...environment.PURCHASE_TRANSACTION_IDENTIFIER,
+            { name: 'userAgent', value: (navigator && navigator.userAgent !== undefined) ? navigator.userAgent : '' },
+            { name: 'appVersion', value: (navigator && navigator.appVersion !== undefined) ? navigator.appVersion : '' }
+        ];
+        if (pos !== undefined) {
+            identifier.push({ name: 'posId', value: pos.id });
+            identifier.push({ name: 'posName', value: pos.name });
+        }
         return new Promise<void>((resolve, reject) => {
             this.store.dispatch(purchaseAction.startTransaction({
                 expires: moment(now).add(environment.PURCHASE_TRANSACTION_TIME, 'minutes').toDate(),
@@ -142,9 +160,8 @@ export class PurchaseService {
      * 取引中止
      */
     public async cancelTransaction() {
-        const purchase = await this.getData();
+        const { transaction } = await this.getData();
         return new Promise<void>((resolve) => {
-            const transaction = purchase.transaction;
             if (transaction === undefined) {
                 resolve();
                 return;
@@ -160,6 +177,88 @@ export class PurchaseService {
             );
             race(success, fail).pipe(take(1)).subscribe();
         });
+    }
+
+    /**
+     * 先行販売日取得
+     */
+    public async getPreScheduleDates(params: {
+        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+    }) {
+        try {
+            this.utilService.loadStart({ process: 'purchaseAction.GetPreScheduleDates' });
+            const { theater } = params;
+            if (theater === undefined
+                || theater.offers === undefined
+                || theater.offers.availabilityStartsGraceTime === undefined
+                || theater.offers.availabilityStartsGraceTime.value === undefined
+                || theater.offers.availabilityStartsGraceTime.unitCode === undefined
+                || theater.offers.availabilityStartsGraceTime.unitCode === undefined) {
+                this.utilService.loadEnd();
+                return [];
+            }
+            const { value, unitCode } = theater.offers.availabilityStartsGraceTime;
+            const availabilityStartsGraceTime: {
+                value: number;
+                unit: 'day' | 'year' | 'second'
+            } = {
+                value: value * -1 + 1,
+                unit: (unitCode === factory.chevre.unitCode.Day) ? 'day'
+                    : (unitCode === factory.chevre.unitCode.Ann) ? 'year'
+                        : (unitCode === factory.chevre.unitCode.Sec) ? 'second'
+                            : 'second'
+            };
+            const superEvent = {
+                ids: [],
+                locationBranchCodes: (theater.branchCode === undefined) ? [] : [theater.branchCode],
+                workPerformedIdentifiers: []
+            };
+            await this.cinerinoService.getServices();
+            const now = moment((await this.utilService.getServerTime()).date).toDate();
+            const today = moment(moment().format('YYYYMMDD')).toDate();
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let screeningEvents: factory.chevre.event.screeningEvent.IEvent[] = [];
+            while (roop) {
+                const searchResult = await this.cinerinoService.event.search({
+                    page,
+                    limit,
+                    typeOf: factory.chevre.eventType.ScreeningEvent,
+                    eventStatuses: [factory.chevre.eventStatusType.EventScheduled],
+                    superEvent: superEvent,
+                    startFrom: moment(today, 'YYYYMMDD')
+                        .add(availabilityStartsGraceTime.value, availabilityStartsGraceTime.unit)
+                        .toDate(),
+                    offers: {
+                        validFrom: now,
+                        validThrough: now,
+                        availableFrom: now,
+                        availableThrough: now
+                    }
+                });
+                screeningEvents = screeningEvents.concat(searchResult.data);
+                page++;
+                roop = searchResult.data.length === limit;
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
+            }
+            const sheduleDates: string[] = [];
+            screeningEvents.forEach((screeningEvent) => {
+                const date = moment(screeningEvent.startDate).format('YYYYMMDD');
+                const findResult = sheduleDates.find(s => s === date);
+                if (findResult === undefined) {
+                    sheduleDates.push(date);
+                }
+            });
+            this.utilService.loadEnd();
+            return sheduleDates;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
     }
 
     /**
@@ -199,15 +298,16 @@ export class PurchaseService {
             this.utilService.loadStart({ process: 'purchaseAction.GetScreeningEventSeats' });
             const purchase = await this.getData();
             if (purchase.screeningEvent === undefined) {
-                throw new Error('purchase.screeningEvent === undefined').message;
+                throw new Error('purchase.screeningEvent === undefined');
             }
             const screeningEvent = purchase.screeningEvent;
             const limit = 100;
             let page = 1;
             let roop = true;
-            let screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[] = [];
-            if (!new Models.Purchase.Performance(screeningEvent).isTicketedSeat()) {
-                return screeningEventSeats;
+            let result: factory.chevre.place.seat.IPlaceWithOffer[] = [];
+            if (!new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()) {
+                this.utilService.loadEnd();
+                return result;
             }
             await this.cinerinoService.getServices();
             while (roop) {
@@ -216,13 +316,15 @@ export class PurchaseService {
                     page,
                     limit
                 });
-                screeningEventSeats = screeningEventSeats.concat(searchResult.data);
+                result = [...result, ...searchResult.data];
                 page++;
                 roop = searchResult.data.length === limit;
-                await Functions.Util.sleep(500);
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
             }
             this.utilService.loadEnd();
-            return screeningEventSeats;
+            return result;
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();
@@ -412,23 +514,25 @@ export class PurchaseService {
      */
     public async checkMovieTicket(params: {
         movieTicket: { code: string; password: string; };
-        seller: factory.chevre.seller.ISeller
+        paymentMethodType: factory.paymentMethodType
     }) {
         const movieTicket = params.movieTicket;
-        const purchase = await this.getData();
+        const paymentMethodType = params.paymentMethodType;
+        const { transaction, screeningEvent } = await this.getData();
         return new Promise<void>((resolve, reject) => {
-            if (purchase.transaction === undefined || purchase.screeningEvent === undefined) {
+            if (transaction === undefined
+                || screeningEvent === undefined) {
                 reject();
                 return;
             }
             this.store.dispatch(purchaseAction.checkMovieTicket({
-                transaction: purchase.transaction,
+                transaction,
+                screeningEvent,
                 movieTickets: [{
-                    typeOf: factory.chevre.paymentMethodType.MovieTicket,
+                    typeOf: paymentMethodType,
                     identifier: movieTicket.code, // 購入管理番号
                     accessCode: movieTicket.password // PINコード
-                }],
-                screeningEvent: purchase.screeningEvent
+                }]
             }));
             const success = this.actions.pipe(
                 ofType(purchaseAction.checkMovieTicketSuccess.type),
@@ -486,8 +590,9 @@ export class PurchaseService {
      */
     public async authorizeAnyPayment(params: {
         amount: number;
-        depositAmount?: number;
+        additionalProperty?: { name: string; value: any; }[]
     }) {
+        const { amount, additionalProperty } = params;
         const purchase = await this.getData();
         return new Promise<void>((resolve, reject) => {
             if (purchase.transaction === undefined || purchase.paymentMethod === undefined) {
@@ -495,19 +600,9 @@ export class PurchaseService {
                 return;
             }
             const transaction = purchase.transaction;
-            const amount = params.amount;
-            const depositAmount = params.depositAmount;
-            const additionalProperty = [];
-            if (purchase.paymentMethod.typeOf === factory.chevre.paymentMethodType.Cash
-                && depositAmount !== undefined) {
-                // 現金
-                additionalProperty.push({ name: 'depositAmount', value: String(depositAmount) });
-                additionalProperty.push({ name: 'change', value: String(depositAmount - amount) });
-            }
             this.store.dispatch(purchaseAction.authorizeAnyPayment({
                 transaction: transaction,
-                typeOf: purchase.paymentMethod.typeOf,
-                name: purchase.paymentMethod.category,
+                paymentMethod: purchase.paymentMethod.typeOf,
                 amount,
                 additionalProperty
             }));
@@ -531,5 +626,42 @@ export class PurchaseService {
         category?: string;
     }) {
         this.store.dispatch(purchaseAction.selectPaymentMethodType(params));
+    }
+
+    /**
+     * 検索方法選択
+     */
+    public selectSearchType(params: {
+        searchType: 'movie' | 'event';
+    }) {
+        this.store.dispatch(purchaseAction.selectSearchType(params));
+    }
+
+    /**
+     * オーダーIDを設定
+     */
+    public setOrderId(params: {
+        id: string;
+    }) {
+        this.store.dispatch(purchaseAction.setOrderId(params));
+    }
+
+    /**
+     * 預金返済
+     */
+    public async depositRepay(_params: { ipAddress: string; }) {
+        try {
+            this.utilService.loadStart({ process: 'load' });
+            const { paymentMethod } = await this.getData();
+            if (paymentMethod?.typeOf === factory.chevre.paymentMethodType.Cash) {
+                await this.epsonEPOSService.cashchanger.endDepositRepay();
+                await this.epsonEPOSService.cashchanger.disconnect();
+            }
+            this.utilService.loadEnd();
+        } catch (error) {
+            console.error(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
     }
 }

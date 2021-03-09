@@ -1,48 +1,81 @@
-<div class="contents-width mx-auto px-3 py-5">
-    <div *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash">
-        <h2 class="text-large mb-4 text-center font-weight-bold">
-            {{ 'purchase.paymentReception.cash.title' | translate }}
-        </h2>
-        <p class="mb-4 text-md-center" [innerHTML]="'purchase.paymentReception.cash.read' | translate"></p>
-        <div class="bg-white px-3 mb-4">
-            <div class="overflow-hidden">
-                <div class="py-3 row align-items-center border-bottom border-gray">
-                    <p class="mb-2 mb-md-0 col-md-4">{{ 'common.amount' | translate }}</p>
-                    <p class="col-md-8">{{ amount | currency : 'JPY' }}</p>
+<app-header [isClear]="true">
+    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Cinema" [currentStep]="4"></app-purchase-step>
+    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Event" [currentStep]="2"></app-purchase-step>
+</app-header>
+<app-page-title *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash"
+    title="{{ 'purchase.paymentReception.cash.title' | translate }}"></app-page-title>
+<div class="contents">
+    <div class="container h-100 px-3 pb-3">
+        <div class="row h-100">
+            <div class="col-3 h-100">
+                <img *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash" class="w-100 p-3 border border-gray"
+                    src="/default/images/purchase/payment/reception/cash.svg">
+            </div>
+            <div class="col-6">
+                <ng-container *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash">
+                    <div class="bg-white px-3 mb-4">
+                        <div class="overflow-hidden">
+                            <div class="p-3 row align-items-center bg-light-gray">
+                                <p class="col-4 text-large">
+                                    {{ 'purchase.paymentReception.cash.insufficient' | translate }}</p>
+                                <p class="col-8 text-x-large text-right font-weight-bold">
+                                    <span
+                                        *ngIf="(amount - getDeposit()) > 0">{{ (amount - getDeposit()) | currency : 'JPY' }}</span>
+                                    <span *ngIf="!((amount - getDeposit()) > 0)">{{ 0 | currency : 'JPY' }}</span>
+                                </p>
+                            </div>
+                            <div class="p-3 row align-items-center border-bottom border-gray">
+                                <p class="col-4 text-large">
+                                    {{ 'purchase.paymentReception.cash.deposit' | translate }}</p>
+                                <p class="col-8 text-x-large text-right font-weight-bold">
+                                    {{ getDeposit() | currency : 'JPY' }}</p>
+                            </div>
+                            <div class="p-3 row align-items-center">
+                                <p class="col-4 text-large">
+                                    {{ 'purchase.paymentReception.cash.change' | translate }}</p>
+                                <p class="col-8 text-x-large text-right font-weight-bold">
+                                    <span
+                                        *ngIf="(getDeposit() - amount) > 0">{{ (getDeposit() - amount) | currency : 'JPY' }}</span>
+                                    <span *ngIf="!((getDeposit() - amount) > 0)">{{ 0 | currency : 'JPY' }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
+                <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async" [isAmount]="true" [cancel]="false"></app-purchase-cart>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
+    </div>
+
+
+
+
+
+
+
+
+
+    <ng-container *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col-3">
+                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                        (click)="prev()">{{ 'purchase.paymentReception.cash.prev' | translate }}</button>
                 </div>
-                <div class="py-3 row align-items-center border-bottom border-gray">
-                    <p class="mb-2 mb-md-0 col-md-4">{{ 'purchase.paymentReception.cash.deposit' | translate }}</p>
-                    <p class="col-md-8">{{ deposit | currency : 'JPY' }}</p>
-                </div>
-                <div class="py-3 row align-items-center">
-                    <p class="mb-2 mb-md-0 col-md-4">{{ 'purchase.paymentReception.cash.change' | translate }}</p>
-                    <p class="col-md-8">{{ (deposit - amount) | currency : 'JPY' }}</p>
+                <div class="col-3">
+                    <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+                        [disabled]="(isLoading | async) || amount > getDeposit()"
+                        (click)="onSubmit()">{{ 'purchase.paymentReception.cash.next' | translate }}</button>
                 </div>
             </div>
         </div>
-        <div class="buttons mx-auto text-center">
-            <button type="button" class="btn btn-primary btn-block py-3 mb-3"
-                [disabled]="(isLoading | async) || amount > deposit" (click)="onSubmit()">{{ 'purchase.paymentReception.cash.next' | translate }}</button>
-            <button type="button" class="btn btn-outline-primary btn-block py-3" (click)="prev()">{{ 'purchase.paymentReception.cash.prev' | translate }}</button>
-        </div>
-    </div>
-    <div *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.CreditCard">
-        <h2 class="text-large mb-4 text-center font-weight-bold">
-            {{ 'purchase.paymentReception.creditcard.title' | translate }}
-        </h2>
-        <p class="mb-4 text-md-center" [innerHTML]="'purchase.paymentReception.creditcard.read' | translate"></p>
-    </div>
-    <div *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.EMoney">
-        <h2 class="text-large mb-4 text-center font-weight-bold">
-            {{ 'purchase.paymentReception.eMoney.title' | translate }}
-        </h2>
-        <p class="mb-4 text-md-center" [innerHTML]="'purchase.paymentReception.eMoney.read' | translate"></p>
-    </div>
-    <div *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Others
-    && (purchase | async)?.paymentMethod?.category === 'code'">
-        <h2 class="text-large mb-4 text-center font-weight-bold">
-            {{ 'purchase.paymentReception.code.title' | translate }}
-        </h2>
-        <p class="mb-4 text-md-center" [innerHTML]="'purchase.paymentReception.code.read' | translate"></p>
-    </div>
-</div>
+    </ng-container>
+</app-footer>

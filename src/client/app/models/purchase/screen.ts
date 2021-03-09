@@ -38,6 +38,7 @@ export interface IScreen {
     style?: string;
     columnLabel?: boolean;
     lineLabel?: boolean;
+    zoomAllowed?: boolean;
 }
 
 export interface ILabel {
@@ -73,4 +74,5 @@ export interface ISeat {
     section: string;
     status: SeatStatus;
     ticketedSeat?: IReservationSeat;
+    label: string;
 }

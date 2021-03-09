@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Models } from '../..';
+import { Functions, Models } from '../..';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +18,6 @@ export class EpsonPrinterService {
         this.ePOSDevice = new (<any>window).epson.ePOSDevice();
         await this.connect(params);
         this.device = (await this.createDevice()).data;
-        console.log('PRINTER device-----', this.device);
         this.device.onstatuschange = (status: any) => {
             console.log('PRINTER onstatuschange-----', status);
         };
@@ -90,7 +89,22 @@ export class EpsonPrinterService {
         for (const canvas of canvasList) {
             const mode = 'MODE_MONO';
             const cut = true;
+            await Functions.Util.sleep(500);
             this.device.print(canvas, cut, this.device[mode]);
+            const result = () => {
+                return new Promise<void>(async (resolve, reject) => {
+                    this.device.onreceive = (response: any) => {
+                        if (response.success) {
+                            // 印刷成功メッセージ表示
+                            resolve();
+                            return;
+                        }
+                        // エラーメッセージ表示
+                        reject(response);
+                    };
+                });
+            };
+            await result();
         }
     }
 

@@ -13,6 +13,14 @@ export interface IPurchaseState {
      */
     seller?: factory.chevre.seller.ISeller;
     /**
+     * コンテンツ
+     */
+    creativeWork?: factory.chevre.creativeWork.movie.ICreativeWork;
+    /**
+     * 施設コンテンツ
+     */
+    screeningEventSeries?: factory.chevre.event.screeningEventSeries.IEvent;
+    /**
      * イベント
      */
     screeningEvent?: factory.chevre.event.screeningEvent.IEvent;
@@ -51,11 +59,11 @@ export interface IPurchaseState {
     /**
      * クレジットカード決済
      */
-    authorizeCreditCardPayments: factory.action.authorize.paymentMethod.creditCard.IAction[];
+    authorizeCreditCardPayments: factory.action.authorize.paymentMethod.any.IAction[];
     /**
      * ムビチケ決済
      */
-    authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.movieTicket.IAction[];
+    authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.any.IAction[];
     /**
      * GMOオブジェクト
      */
@@ -64,6 +72,10 @@ export interface IPurchaseState {
      * オーダーカウント
      */
     orderCount: number;
+    /**
+     * オーダーID
+     */
+    orderId?: string;
     /**
      * 注文
      */
@@ -79,13 +91,12 @@ export interface IPurchaseState {
     /**
      * 決済
      */
-    authorizeAnyPayments: factory.action.authorize.paymentMethod.any.IAction<any>[];
+    authorizeAnyPayments: factory.action.authorize.paymentMethod.any.IAction[];
     /**
      * 支払い方法
      */
     paymentMethod?: {
-        typeOf: factory.chevre.paymentMethodType;
-        category?: string;
+        typeOf: factory.chevre.paymentMethodType | string;
     };
     /**
      * ムビチケ使用判定
@@ -95,6 +106,10 @@ export interface IPurchaseState {
      * 使用中ムビチケ
      */
     pendingMovieTickets: Models.Purchase.MovieTicket.IMovieTicket[];
+    /**
+     * 検索方法
+     */
+    searchType?: 'movie' | 'event';
 }
 
 export const purchaseInitialState: IPurchaseState = {
@@ -107,7 +122,7 @@ export const purchaseInitialState: IPurchaseState = {
     authorizeCreditCardPayments: [],
     authorizeAnyPayments: [],
     isUsedMovieTicket: false,
-    pendingMovieTickets: []
+    pendingMovieTickets: [],
 };
 
 export function reducer(initialState: IState, action: Action) {
@@ -126,7 +141,7 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeCreditCardPayments: [],
                     authorizeAnyPayments: [],
                     isUsedMovieTicket: false,
-                    pendingMovieTickets: []
+                    pendingMovieTickets: [],
                 }
             };
         }),
@@ -145,7 +160,7 @@ export function reducer(initialState: IState, action: Action) {
             };
         }),
         on(purchaseAction.getSeller, (state) => {
-            return { ...state, loading: false, process: 'purchaseAction.GetSeller' };
+            return { ...state, loading: true, process: 'purchaseAction.GetSeller' };
         }),
         on(purchaseAction.getSellerSuccess, (state, payload) => {
             const seller = payload.seller;
@@ -153,11 +168,19 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.getSellerFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.selectScheduleDate, (state, payload) => {
             const scheduleDate = payload.scheduleDate;
-            return { ...state, purchaseData: { ...state.purchaseData, scheduleDate }, loading: true, process: '', error: null };
+            return { ...state, purchaseData: { ...state.purchaseData, scheduleDate }, process: '', error: null };
+        }),
+        on(purchaseAction.selectCreativeWork, (state, payload) => {
+            const creativeWork = payload.creativeWork;
+            return { ...state, purchaseData: { ...state.purchaseData, creativeWork }, process: '', error: null };
+        }),
+        on(purchaseAction.selectScreeningEventSeries, (state, payload) => {
+            const screeningEventSeries = payload.screeningEventSeries;
+            return { ...state, purchaseData: { ...state.purchaseData, screeningEventSeries }, process: '', error: null };
         }),
         on(purchaseAction.getScreeningEvent, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.GetScreeningEvent' };
@@ -168,7 +191,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.getScreeningEventFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, error: (error.message) ? error.message :  JSON.stringify(error), loading: false, process: '' };
+            return { ...state, error: JSON.stringify(error), loading: false, process: '' };
         }),
         on(purchaseAction.startTransaction, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.StartTransaction' };
@@ -189,7 +212,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.getScreeningEventFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, error: (error.message) ? error.message :  JSON.stringify(error), loading: false, process: '' };
+            return { ...state, error: JSON.stringify(error), loading: false, process: '' };
         }),
         on(purchaseAction.cancelTransaction, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.CancelTransaction' };
@@ -220,7 +243,7 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeSeatReservations: [],
                     pendingMovieTickets: [],
                     checkMovieTicketActions: [],
-                }, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error)
+                }, loading: false, process: '', error: JSON.stringify(error)
             };
         }),
         on(purchaseAction.getScreen, (state) => {
@@ -243,7 +266,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.getScreenFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.selectSeats, (state, payload) => {
             const reservations = Functions.Util.deepCopy<Models.Purchase.Reservation.IReservation[]>(state.purchaseData.reservations);
@@ -284,7 +307,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.getTicketListSuccess, (state, payload) => {
             const screeningEventTicketOffers = payload.screeningEventTicketOffers;
-            const movieTicketTypeOffers = Functions.Purchase.getMovieTicketTypeOffers({screeningEventTicketOffers});
+            const movieTicketTypeOffers = Functions.Purchase.getMovieTicketTypeOffers({ screeningEventTicketOffers });
             const isUsedMovieTicket = (movieTicketTypeOffers.length > 0);
             return {
                 ...state,
@@ -298,7 +321,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.getTicketListFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.selectTickets, (state, payload) => {
             const reservations: Models.Purchase.Reservation.IReservation[] = [];
@@ -391,7 +414,6 @@ export function reducer(initialState: IState, action: Action) {
                 purchaseData: {
                     ...state.purchaseData,
                     authorizeSeatReservation,
-                    removeAuthorizeSeatReservation,
                     reservations,
                     authorizeSeatReservations,
                     pendingMovieTickets
@@ -400,7 +422,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.temporaryReservationFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.cancelTemporaryReservations, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.CancelTemporaryReservations' };
@@ -439,7 +461,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.cancelTemporaryReservationsFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.registerContact, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.RegisterContact' };
@@ -456,7 +478,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.registerContactFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.authorizeMovieTicket, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.AuthorizeMovieTicket' };
@@ -473,7 +495,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.authorizeMovieTicketFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.checkMovieTicket, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.CheckMovieTicket' };
@@ -502,7 +524,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.checkMovieTicketFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.endTransaction, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.EndTransaction' };
@@ -528,7 +550,7 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.endTransactionFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.authorizeAnyPayment, (state) => {
             return { ...state, loading: true, process: 'purchaseAction.AuthorizeAnyPayment' };
@@ -536,7 +558,7 @@ export function reducer(initialState: IState, action: Action) {
         on(purchaseAction.authorizeAnyPaymentSuccess, (state, payload) => {
             const authorizeAnyPayment = payload.authorizeAnyPayment;
             const authorizeAnyPayments =
-                Functions.Util.deepCopy<factory.action.authorize.paymentMethod.any.IAction<any>[]>(state.purchaseData.authorizeAnyPayments);
+                Functions.Util.deepCopy<factory.action.authorize.paymentMethod.any.IAction[]>(state.purchaseData.authorizeAnyPayments);
             authorizeAnyPayments.push(authorizeAnyPayment);
             return {
                 ...state,
@@ -548,12 +570,11 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.authorizeAnyPaymentFail, (state, payload) => {
             const error = payload.error;
-            return { ...state, loading: false, process: '', error: (error.message) ? error.message :  JSON.stringify(error) };
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
         }),
         on(purchaseAction.selectPaymentMethodType, (state, payload) => {
             const paymentMethod = {
                 typeOf: payload.typeOf,
-                category: payload.category
             };
 
             return {
@@ -562,6 +583,24 @@ export function reducer(initialState: IState, action: Action) {
                     ...state.purchaseData,
                     paymentMethod
                 }, loading: false, process: '', error: null
+            };
+        }),
+        on(purchaseAction.selectSearchType, (state, payload) => {
+            return {
+                ...state,
+                purchaseData: {
+                    ...state.purchaseData,
+                    searchType: payload.searchType
+                }
+            };
+        }),
+        on(purchaseAction.setOrderId, (state, payload) => {
+            return {
+                ...state,
+                purchaseData: {
+                    ...state.purchaseData,
+                    orderId: payload.id
+                }
             };
         }),
     )(initialState, action);

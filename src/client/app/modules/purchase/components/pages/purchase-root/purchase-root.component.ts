@@ -33,10 +33,10 @@ export class PurchaseRootComponent implements OnInit {
             }
             this.actionService.purchase.delete();
             if (this.environment.VIEW_TYPE === Models.Util.ViewType.Cinema) {
-                this.router.navigate(['/purchase/cinema/schedule']);
+                this.router.navigate(['/purchase/cinema']);
                 return;
             }
-            this.router.navigate(['/purchase/event/schedule']);
+            this.router.navigate(['/purchase/event']);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);

@@ -5,7 +5,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable, race } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { Functions } from '..';
-import { getEnvironment } from '../../environments/environment';
 import { masterAction } from '../store/actions';
 import * as reducers from '../store/reducers';
 import { CinerinoService } from './cinerino.service';
@@ -46,11 +45,11 @@ export class MasterService {
     }
 
     /**
-     * 販売者一覧取得
+     * 販売者一覧検索
      */
-    public async getSellers(params?: factory.seller.ISearchConditions) {
+    public async searchSellers(params?: factory.seller.ISearchConditions) {
         try {
-            this.utilService.loadStart({ process: 'masterAction.GetSellers' });
+            this.utilService.loadStart({ process: 'masterAction.SearchSellers' });
             await this.cinerinoService.getServices();
             const searchResult = await this.cinerinoService.seller.search((params === undefined) ? {} : params);
             this.utilService.loadEnd();
@@ -63,11 +62,11 @@ export class MasterService {
     }
 
     /**
-     * 劇場一覧取得
+     * 劇場一覧検索
      */
-    public async getTheaters(params?: factory.chevre.place.movieTheater.ISearchConditions) {
+    public async searchMovieTheaters(params?: factory.chevre.place.movieTheater.ISearchConditions) {
         try {
-            this.utilService.loadStart({ process: 'masterAction.GetTheaters' });
+            this.utilService.loadStart({ process: 'masterAction.SearchMovieTheaters' });
             await this.cinerinoService.getServices();
             const searchResult = await this.cinerinoService.place.searchMovieTheaters((params === undefined) ? {} : params);
             this.utilService.loadEnd();
@@ -80,9 +79,9 @@ export class MasterService {
     }
 
     /**
-     * スケジュール一覧取得
+     * スケジュール一覧検索
      */
-    public async getSchedule(params: {
+    public async searchScreeningEvent(params: {
         superEvent: {
             ids?: string[];
             locationBranchCodes?: string[];
@@ -90,9 +89,12 @@ export class MasterService {
         };
         startFrom: Date;
         startThrough: Date;
+        screeningEventSeries?: factory.chevre.event.screeningEventSeries.IEvent[];
+        screeningRooms?: factory.chevre.place.screeningRoom.IPlace[];
     }) {
         try {
-            this.utilService.loadStart({ process: 'masterAction.GetSchedule' });
+            this.utilService.loadStart({ process: 'masterAction.SearchScreeningEvent' });
+            const { screeningEventSeries, screeningRooms } = params;
             const limit = 100;
             let page = 1;
             let roop = true;
@@ -111,17 +113,35 @@ export class MasterService {
                 result = [...result, ...searchResult.data];
                 page++;
                 roop = searchResult.data.length === limit;
-                await Functions.Util.sleep(500);
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
             }
-            const environment = getEnvironment();
-            if (environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries') {
-                result = await this.sortScreeningEventSeries({
-                    screeningEvents: result,
-                    superEvent: params.superEvent
+            if (screeningEventSeries !== undefined) {
+                result = result.sort((a, b) => {
+                    const KEY_NAME = 'sortNumber';
+                    const sortNumberA = screeningEventSeries.find(s => s.id === a.superEvent.id)?.additionalProperty
+                        ?.find(p => p.name === KEY_NAME)?.value;
+                    const sortNumberB = screeningEventSeries.find(s => s.id === b.superEvent.id)?.additionalProperty
+                        ?.find(p => p.name === KEY_NAME)?.value;
+                    if (sortNumberA === undefined) { return 1; }
+                    if (sortNumberB === undefined) { return -1; }
+                    if (Number(sortNumberA) > Number(sortNumberB)) { return -1; }
+                    if (Number(sortNumberA) < Number(sortNumberB)) { return 1; }
+                    return 0;
                 });
-            } else if (environment.PURCHASE_SCHEDULE_SORT === 'screen') {
-                result = await this.sortScreen({
-                    screeningEvents: result
+            } else if (screeningRooms !== undefined) {
+                result = result.sort((a, b) => {
+                    const KEY_NAME = 'sortNumber';
+                    const sortNumberA = screeningRooms.find(s => s.id === a.superEvent.id)?.additionalProperty
+                        ?.find(p => p.name === KEY_NAME)?.value;
+                    const sortNumberB = screeningRooms.find(s => s.id === b.superEvent.id)?.additionalProperty
+                        ?.find(p => p.name === KEY_NAME)?.value;
+                    if (sortNumberA === undefined) { return 1; }
+                    if (sortNumberB === undefined) { return -1; }
+                    if (Number(sortNumberA) > Number(sortNumberB)) { return -1; }
+                    if (Number(sortNumberA) < Number(sortNumberB)) { return 1; }
+                    return 0;
                 });
             }
             this.utilService.loadEnd();
@@ -134,117 +154,149 @@ export class MasterService {
     }
 
     /**
-     * 施設コンテンツsortNumberでのソート
+     * 作品一覧検索
      */
-    public async sortScreeningEventSeries(params: {
-        screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
-        superEvent: {
-            ids?: string[];
-            locationBranchCodes?: string[];
-            workPerformedIdentifiers?: string[];
+    public async searchMovies(params: {
+        identifier?: string | {
+            $eq?: string;
+        };
+        name?: string;
+        datePublishedFrom?: Date;
+        datePublishedThrough?: Date;
+        offers?: {
+            availableFrom?: Date;
+            availableThrough?: Date;
         };
     }) {
-        const workPerformedIdentifiers: string[] = [];
-        const screeningEvents = params.screeningEvents;
-        screeningEvents.forEach(s => {
-            if (s.workPerformed?.identifier === undefined
-                || workPerformedIdentifiers.find(id => id === s.workPerformed?.identifier) !== undefined) {
-                return;
-            }
-            workPerformedIdentifiers.push(s.workPerformed.identifier);
-        });
-        const limit = 100;
-        let page = 1;
-        let roop = true;
-        let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
-        await this.cinerinoService.getServices();
-        while (roop) {
-            const searchResult = await this.cinerinoService.event.search({
-                page,
-                limit,
-                typeOf: factory.chevre.eventType.ScreeningEventSeries,
-                location: {
-                    branchCodes: params.superEvent.locationBranchCodes
-                },
-                workPerformed: {
-                    identifiers: workPerformedIdentifiers
+        try {
+            this.utilService.loadStart({ process: 'masterAction.SearchMovies' });
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.creativeWork.movie.ICreativeWork[] = [];
+            await this.cinerinoService.getServices();
+            while (roop) {
+                const searchResult = await this.cinerinoService.creativeWork.searchMovies({
+                    page,
+                    limit,
+                    ...params
+                });
+                result = [...result, ...searchResult.data];
+                page++;
+                roop = searchResult.data.length === limit;
+                if (roop) {
+                    await Functions.Util.sleep();
                 }
+            }
+            const sortResult = result.sort((a, b) => {
+                const KEY_NAME = 'sortNumber';
+                const sortNumberA = result
+                    .find(s => s.id === a.id)?.additionalProperty
+                    ?.find(p => p.name === KEY_NAME)?.value;
+                const sortNumberB = result
+                    .find(s => s.id === b.id)?.additionalProperty
+                    ?.find(p => p.name === KEY_NAME)?.value;
+                if (sortNumberA === undefined) {
+                    return 1;
+                }
+                if (sortNumberB === undefined) {
+                    return -1;
+                }
+                if (Number(sortNumberA) > Number(sortNumberB)) { return -1; }
+                if (Number(sortNumberA) < Number(sortNumberB)) { return 1; }
+                return 0;
             });
-            result = [...result, ...searchResult.data];
-            page++;
-            roop = searchResult.data.length === limit;
-            await Functions.Util.sleep(500);
+            this.utilService.loadEnd();
+            return sortResult;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
         }
-        const sortResult = screeningEvents.sort((a, b) => {
-            const KEY_NAME = 'sortNumber';
-            const sortNumberA = result
-                .find(s => s.id === a.superEvent.id)?.additionalProperty
-                ?.find(p => p.name === KEY_NAME)?.value;
-            const sortNumberB = result
-                .find(s => s.id === b.superEvent.id)?.additionalProperty
-                ?.find(p => p.name === KEY_NAME)?.value;
-            if (sortNumberA === undefined) {
-                return 1;
-            }
-            if (sortNumberB === undefined) {
-                return -1;
-            }
-            if (Number(sortNumberA) > Number(sortNumberB)) { return -1; }
-            if (Number(sortNumberA) < Number(sortNumberB)) { return 1; }
-            return 0;
-        });
-        return sortResult;
     }
 
     /**
-     * スクリーンsortNumberでのソート
+     * 施設コンテンツ検索
      */
-    public async sortScreen(params: {
-        screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
+    public async searchScreeningEventSeries(params: {
+        location?: {
+            branchCode?: {
+                $eq?: string;
+            };
+            branchCodes?: string[];
+        };
+        workPerformed?: {
+            identifiers?: string[];
+        };
     }) {
-        const workPerformedIdentifiers: string[] = [];
-        const screeningEvents = params.screeningEvents;
-        screeningEvents.forEach(s => {
-            if (s.workPerformed?.identifier === undefined
-                || workPerformedIdentifiers.find(id => id === s.workPerformed?.identifier) !== undefined) {
-                return;
+        try {
+            this.utilService.loadStart({ process: 'masterAction.SearchScreeningEventSeries' });
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
+            await this.cinerinoService.getServices();
+            while (roop) {
+                const searchResult = await this.cinerinoService.event.search({
+                    ...params,
+                    page,
+                    limit,
+                    typeOf: factory.chevre.eventType.ScreeningEventSeries,
+                });
+                result = [...result, ...searchResult.data];
+                page++;
+                roop = searchResult.data.length === limit;
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
             }
-            workPerformedIdentifiers.push(s.workPerformed.identifier);
-        });
-        const limit = 100;
-        let page = 1;
-        let roop = true;
-        let result: factory.chevre.place.screeningRoom.IPlace[] = [];
-        await this.cinerinoService.getServices();
-        while (roop) {
-            const searchResult = await this.cinerinoService.place.searchScreeningRooms({
-                page,
-                limit
-            });
-            result = [...result, ...searchResult.data];
-            page++;
-            roop = searchResult.data.length === limit;
-            await Functions.Util.sleep(500);
+            this.utilService.loadEnd();
+            return result;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
         }
-        const sortResult = screeningEvents.sort((a, b) => {
-            const KEY_NAME = 'sortNumber';
-            const sortNumberA = result
-                .find(s => s.id === a.superEvent.id)?.additionalProperty
-                ?.find(p => p.name === KEY_NAME)?.value;
-            const sortNumberB = result
-                .find(s => s.id === b.superEvent.id)?.additionalProperty
-                ?.find(p => p.name === KEY_NAME)?.value;
-            if (sortNumberA === undefined) {
-                return 1;
+    }
+
+    /**
+     * スクリーン検索
+     */
+    public async searchScreeningRooms(params: {
+        branchCode?: {
+            $eq?: string;
+        };
+        containedInPlace?: {
+            branchCode?: {
+                $eq?: string;
+            };
+        };
+    }) {
+        try {
+            this.utilService.loadStart({ process: 'masterAction.SearchScreeningRooms' });
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.place.screeningRoom.IPlace[] = [];
+            await this.cinerinoService.getServices();
+            while (roop) {
+                const searchResult = await this.cinerinoService.place.searchScreeningRooms({
+                    ...params,
+                    page,
+                    limit,
+                });
+                result = [...result, ...searchResult.data];
+                page++;
+                roop = searchResult.data.length === limit;
+                await Functions.Util.sleep();
             }
-            if (sortNumberB === undefined) {
-                return -1;
-            }
-            if (Number(sortNumberA) > Number(sortNumberB)) { return -1; }
-            if (Number(sortNumberA) < Number(sortNumberB)) { return 1; }
-            return 0;
-        });
-        return sortResult;
+            this.utilService.loadEnd();
+            return result;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
     }
 
     /**
@@ -263,5 +315,45 @@ export class MasterService {
             );
             race(success, fail).pipe(take(1)).subscribe();
         });
+    }
+
+    /**
+     * 区分情報取得
+     */
+    public async searchCategoryCode(params: {
+        categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier
+    }) {
+        try {
+            this.utilService.loadStart({ process: 'masterAction.SearchCategoryCode' });
+            const { categorySetIdentifier } = params;
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.categoryCode.ICategoryCode[] = [];
+            await this.cinerinoService.getServices();
+            while (roop) {
+                const searchResult = await this.cinerinoService.categoryCode.search({
+                    limit,
+                    page,
+                    inCodeSet: {
+                        identifier: {
+                            $eq: categorySetIdentifier
+                        }
+                    }
+                });
+                result = [...result, ...searchResult.data];
+                page++;
+                roop = searchResult.data.length === limit;
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
+            }
+            this.utilService.loadEnd();
+            return result;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
     }
 }

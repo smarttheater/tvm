@@ -1,29 +1,24 @@
-@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/bootstrap/scss/mixins";
 :host {
     display: block;
     width: 100%;
 }
 
 .position-fixed {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100%;
     top: 50%;
     left: 50%;
     right: 0;
     bottom: 0;
     z-index: 1051;
-    margin: -50vh 0 0 -50vw;
+    margin: -50% 0 0 -50%;
 }
 
 .numeric-keypad {
     position: fixed;
-    width: 300px;
+    width: 500px;
     z-index: 1051;
-    @include media-breakpoint-down(sm) {
-        width: 200px;
-    }
+    touch-action: manipulation;
 }
 
 .number {
@@ -36,9 +31,9 @@
     grid-gap: 0.5rem;
 }
 
-.d-grid > div {
+.d-grid > button {
     &:active {
         background-color: skyblue !important;
-        color: #fff;
+        color: #fff !important;
     }
 }

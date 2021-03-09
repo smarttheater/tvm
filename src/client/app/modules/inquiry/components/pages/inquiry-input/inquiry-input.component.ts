@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -14,10 +14,11 @@ import * as reducers from '../../../../../store/reducers';
     templateUrl: './inquiry-input.component.html',
     styleUrls: ['./inquiry-input.component.scss']
 })
-export class InquiryInputComponent implements OnInit {
+export class InquiryInputComponent implements OnInit, OnDestroy {
     public inquiryForm: FormGroup;
     public environment = getEnvironment();
     public isLoading: Observable<boolean>;
+    private timer: any;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -31,6 +32,21 @@ export class InquiryInputComponent implements OnInit {
     public ngOnInit() {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.createInquiryForm();
+        if (this.environment.INQUIRY_PRINT_WAIT_TIME !== '') {
+            const time = Number(this.environment.INQUIRY_PRINT_WAIT_TIME);
+            this.timer = setTimeout(() => {
+                this.router.navigate(['/']);
+            }, time);
+        }
+    }
+
+    /**
+     * 破棄
+     */
+    public ngOnDestroy() {
+        if (this.timer !== undefined) {
+            clearTimeout(this.timer);
+        }
     }
 
     /**

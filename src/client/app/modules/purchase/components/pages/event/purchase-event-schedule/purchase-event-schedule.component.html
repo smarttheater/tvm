@@ -1,46 +1,51 @@
-<div class="contents-width mx-auto px-3 pt-5">
-    <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'purchase.event.schedule.title' | translate }}</h2>
-    <p class="mb-4 text-md-center" [innerHTML]="'purchase.event.schedule.read' | translate"></p>
-</div>
-<div class="contents-width mx-auto p-3">
-    <div class="mb-3">
-        <div class="input-group">
-            <input type="text" placeholder="Datepicker" class="form-control" #datepicker="bsDatepicker" bsDatepicker
-                [(ngModel)]="scheduleDate"
-                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', adaptivePosition: true, showWeekNumbers: false, minDate: moment().toDate() }"
-                (bsValueChange)="selectDate($event)" readonly (click)="setDatePicker()"
-                (onShown)="onShowPicker($event)">
-            <div class="input-group-append pointer" (click)="toggleDatepicker()">
-                <span class="input-group-text"><i class="fas fa-caret-down"></i></span>
+<app-header [isClear]="true">
+    <app-purchase-step [currentStep]="1"></app-purchase-step>
+</app-header>
+<app-page-title title="{{ 'purchase.event.schedule.title' | translate }}"></app-page-title>
+<div class="contents">
+    <div class="container h-100 px-3">
+        <div class="row h-100">
+            <div class="col-9 mh-100 scroll-horizontal">
+                <p *ngIf="(purchase | async)?.scheduleDate" class="text-primary text-large mb-3">
+                    {{ (purchase | async)?.scheduleDate | formatDate: 'YYYY/MM/DD (ddd)' }}
+                </p>
+                <p *ngIf="screeningEventsGroup.length === 0" class="mb-3">
+                    {{ 'purchase.event.schedule.notfound' | translate }}
+                </p>
+                <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index" [screeningEventsGroup]="group"
+                    [screeningEventSeries]="getScreeningEventSeries(group.screeningEvent.superEvent.id)"
+                    [videoFormatTypes]="videoFormatTypes"
+                    [animation]="animations[index]"
+                    (select)="selectSchedule($event)" class="mb-3">
+                </app-purchase-performances>
+            </div>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-purchase-cart [purchase]="purchase | async" [isAmount]="false" [cancel]="true"></app-purchase-cart>
             </div>
         </div>
     </div>
-    <div class="mb-4">
-        <p *ngIf="(purchase | async)?.scheduleDate" class="text-primary text-large mb-3">
-            {{ 'purchase.event.schedule.selectedDate' | translate: {value: (purchase | async)?.scheduleDate | formatDate: 'YYYY/MM/DD (ddd)'} }}
-        </p>
-        <p *ngIf="screeningEventsGroup.length === 0" class="mb-3"
-            [innerHTML]="'purchase.event.schedule.notfound' | translate"></p>
-        <app-purchase-event-performances-confirm *ngFor="let group of screeningEventsGroup"
-            [screeningEventsGroup]="group" [readonly]="true" class="mb-3">
-        </app-purchase-event-performances-confirm>
+</div>
+<app-footer>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
     </div>
-
-    <div *ngIf="environment.PURCHASE_TERMS">
-        <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'purchase.event.schedule.terms' | translate }}</h2>
-        <div class="mb-4">
-            <app-purchase-terms [language]="(user | async)?.language"></app-purchase-terms>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                routerLink="/purchase/event">{{ 'purchase.event.schedule.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button type="submit"
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2" [disabled]="(isLoading | async) || (purchase | async)?.authorizeSeatReservations.length === 0" (click)="onSubmit()">
+                    <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.event.schedule.next' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="environment.PURCHASE_TERMS">{{ 'purchase.event.schedule.consent' | translate }}
+                    </ng-container>
+                </button>
+            </div>
         </div>
     </div>
+</app-footer>
 
-    <div class="buttons mx-auto text-center">
-        <button *ngIf="!environment.PURCHASE_TERMS" type="submit" class="btn btn-primary btn-block py-3 mb-3"
-            [disabled]="screeningEventsGroup.length === 0 || (isLoading | async)"
-            (click)="onSubmit()">{{ 'purchase.event.schedule.next' | translate }}</button>
-        <button *ngIf="environment.PURCHASE_TERMS" type="submit" class="btn btn-primary btn-block py-3 mb-3"
-            [disabled]="screeningEventsGroup.length === 0 || (isLoading | async)"
-            (click)="onSubmit()">{{ 'purchase.event.schedule.consent' | translate }}</button>
-        <!-- <button type="button" class="btn btn-outline-primary btn-block py-3"
-            routerLink="/purchase/event/schedule">{{ 'purchase.event.schedule.prev' | translate }}</button> -->
-    </div>
-</div>
+

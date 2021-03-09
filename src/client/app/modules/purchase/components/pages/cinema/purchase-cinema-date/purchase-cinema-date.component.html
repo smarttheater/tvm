@@ -1,0 +1,52 @@
+<app-header [isClear]="true">
+    <app-purchase-step [currentStep]="1"></app-purchase-step>
+</app-header>
+<app-page-title title="{{ 'purchase.cinema.date.title' | translate }}"></app-page-title>
+<div class="contents scroll-horizontal">
+    <div class="p-3">
+        <div class="mb-4">
+            <div class="p-4 bg-light-gray mb-3 font-weight-bold">{{ 'purchase.cinema.date.schedule' | translate }}</div>
+            <div class="container px-0">
+                <div class="row">
+                    <div class="col-3" *ngFor="let scheduleDate of scheduleDates">
+                        <button type="button" class="btn btn-block border border-gray py-5 mb-3"
+                            (click)="searchMovie(scheduleDate)">
+                            <div class="text-large">{{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD') }}</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="preScheduleDates.length > 0">
+            <div class="p-4 bg-light-gray mb-3 font-weight-bold">{{ 'purchase.cinema.date.preSchedule' | translate }}</div>
+            <div class="container px-0">
+                <div class="row">
+                    <div class="col-3" *ngFor="let scheduleDate of preScheduleDates">
+                        <button type="button" class="btn btn-block border border-gray py-5 mb-3"
+                            (click)="searchMovie(scheduleDate)">
+                            <div class="text-large">{{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD') }}</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<app-footer>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
+    </div>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    routerLink="/purchase/cinema">{{ 'purchase.cinema.date.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+                    disabled>{{ 'purchase.cinema.date.next' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</app-footer>

@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { getProject } from '../app/functions/util.function';
 
-interface IProfile {
+export interface IProfile {
     key: string;
     value: string;
     required?: boolean;
@@ -13,7 +13,7 @@ interface IProfile {
 /**
  * 環境変数
  */
-interface IEnvironment {
+export interface IEnvironment {
     /**
      * 本番判定
      */
@@ -63,13 +63,9 @@ interface IEnvironment {
      */
     PROFILE: IProfile[];
     /**
-     * 使用可能決済手段
+     * 決済タイムアウト(ms)
      */
-    PAYMENT_METHOD_TO_USE: ('Cash' | 'CreditCard' | 'EMoney')[];
-    /**
-     * カスタム決済手段
-     */
-    PAYMENT_METHOD_CUSTOM: { category: string; name: { ja: string; en: string; }, qrcode?: string; }[];
+    PAYMENT_TIMEOUT: string;
     /**
      * REGIGROW QRコード
      */
@@ -79,17 +75,17 @@ interface IEnvironment {
      */
     DISPLAY_TICKETED_SEAT: boolean;
     /**
-     * ヘッダーメニュー表示
+     * 入力キーパッド
      */
-    HEADER_MENU: boolean;
-    /**
-     * ヘッダーメニューの中身
-     */
-    HEADER_MENU_SCOPE: string[];
+    INPUT_KEYPAD: boolean;
     /**
      * 購入アイテム上限数
      */
     PURCHASE_ITEM_MAX_LENGTH: string;
+    /**
+     * 購入カート使用
+     */
+    PURCHASE_CART: boolean;
     /**
      * 取引時間
      */
@@ -102,10 +98,6 @@ interface IEnvironment {
      * 取引追加特性
      */
     PURCHASE_TRANSACTION_IDENTIFIER: { name: string, value: string }[];
-    /**
-     * 先行販売期間指定
-     */
-    PURCHASE_PRE_SCHEDULE_DATE: string;
     /**
      * スケジュール初期選択日（相対的）
      */
@@ -155,14 +147,6 @@ interface IEnvironment {
      */
     INQUIRY_PRINT_WAIT_TIME: string;
     /**
-     * 照会印刷完了待機時間
-     */
-    INQUIRY_PRINT_SUCCESS_WAIT_TIME: string;
-    /**
-     * 照会入力キーパッド
-     */
-    INQUIRY_INPUT_KEYPAD: boolean;
-    /**
      * 照会可能期間値（注文日）
      */
     INQUIRY_ORDER_DATE_FROM_VALUE: string;
@@ -175,6 +159,11 @@ interface IEnvironment {
      */
     ORDER_LINK: { name: { ja: string; en: string; }; url: string; params: { key: string; value?: string; }[] }[];
     /**
+     * 注文承認コード期限(s)
+     * デフォルト1814400s 21days
+     */
+    ORDER_AUTHORIZE_CODE_EXPIRES: string;
+    /**
      * 印刷QRコードタイプ
      */
     PRINT_QRCODE_TYPE: 'None' | 'token' | 'Custom';
@@ -186,6 +175,22 @@ interface IEnvironment {
      * 印刷時ローディング
      */
     PRINT_LOADING: boolean;
+    /**
+     * 印刷完了待機時間(ms)
+     */
+    PRINT_SUCCESS_WAIT_TIME: string;
+    /**
+     * エラー待機時間(ms)
+     */
+    ERROR_WAIT_TIME: string;
+    /**
+     * TOPメニュー
+     */
+    TOP_MENU: string[];
+    /**
+     * TOP画像
+     */
+    TOP_IMAGE: string;
 }
 
 export const isProduction = (document.querySelector('body.production') !== null);
@@ -198,7 +203,7 @@ const defaultEnvironment: IEnvironment = {
     ANALYTICS_ID: '',
     GTM_ID: '',
     VIEW_TYPE: 'event',
-    STORAGE_NAME: (getProject().projectId === '') ? 'TVM-STATE' : `${getProject().projectId.toUpperCase()}-TVM-STATE`,
+    STORAGE_NAME: 'TVM-STATE',
     STORAGE_TYPE: 'localStorage',
     BASE_URL: '/purchase/root',
     LANGUAGE: ['ja'],
@@ -208,17 +213,15 @@ const defaultEnvironment: IEnvironment = {
         { key: 'email', value: '', required: true, maxLength: 50 },
         { key: 'telephone', value: '', required: true, maxLength: 15, minLength: 9 }
     ],
-    PAYMENT_METHOD_TO_USE: ['Cash', 'CreditCard', 'EMoney'],
-    PAYMENT_METHOD_CUSTOM: [],
+    INPUT_KEYPAD: true,
+    PAYMENT_TIMEOUT: '300000',
     REGIGROW_QRCODE: '',
     DISPLAY_TICKETED_SEAT: true,
-    HEADER_MENU: true,
-    HEADER_MENU_SCOPE: ['purchase', 'inquiry', 'setting', 'auth'],
     PURCHASE_ITEM_MAX_LENGTH: '50',
+    PURCHASE_CART: true,
     PURCHASE_TRANSACTION_TIME: '15',
     PURCHASE_TRANSACTION_TIME_DISPLAY: true,
     PURCHASE_TRANSACTION_IDENTIFIER: [],
-    PURCHASE_PRE_SCHEDULE_DATE: '3',
     PURCHASE_SCHEDULE_DEFAULT_SELECTED_DATE: '0',
     PURCHASE_SCHEDULE_STATUS_THRESHOLD_VALUE: '30',
     PURCHASE_SCHEDULE_STATUS_THRESHOLD_UNIT: '%',
@@ -230,22 +233,28 @@ const defaultEnvironment: IEnvironment = {
     INQUIRY_PRINT: true,
     INQUIRY_PRINT_EXPIRED_VALUE: '0',
     INQUIRY_PRINT_EXPIRED_UNIT: 'hour',
-    INQUIRY_PRINT_WAIT_TIME: '',
-    INQUIRY_PRINT_SUCCESS_WAIT_TIME: '',
-    INQUIRY_INPUT_KEYPAD: true,
+    INQUIRY_PRINT_WAIT_TIME: '600000',
     INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
     INQUIRY_ORDER_DATE_FROM_UNIT: 'month',
     ORDER_LINK: [],
+    ORDER_AUTHORIZE_CODE_EXPIRES: '1814400',
     PRINT_QRCODE_TYPE: 'token',
     PRINT_QRCODE_CUSTOM: '',
     PRINT_LOADING: true,
+    PRINT_SUCCESS_WAIT_TIME: '10000',
+    ERROR_WAIT_TIME: '10000',
+    TOP_MENU: ['movie', 'time', 'inquiry'],
+    TOP_IMAGE: ''
 };
 
 export function getEnvironment(): IEnvironment {
     const environment = {
         ...defaultEnvironment,
+        STORAGE_NAME: (getProject().projectId === '')
+            ? 'TVM-STATE'
+            : `${getProject().projectId.toUpperCase()}-TVM-STATE`,
         ...(<any>window).environment,
-        production: isProduction
+        production: (document.querySelector('body.production') !== null)
     };
     return environment;
 }

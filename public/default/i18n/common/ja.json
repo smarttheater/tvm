@@ -17,21 +17,23 @@
             }
         },
         "payment": {
-            "title": "決済方法選択",
+            "title": "支払い方法を選択してください",
             "read": "決済方法を選択してください。",
+            "notPayment": "購入内容を確認して購入確定を押してください",
             "notfound": "購入中のアイテムがありません。",
-            "next": "次へ",
+            "next": "購入確定",
             "prev": "戻る",
             "alert": {
                 "notCompatible": "支払い方法が未対応です。"
             }
         },
         "paymentReception": {
-            "title": "決済受付",
+            "title": "決済方法選択",
             "read": "",
             "cash": {
-                "title": "決済受付（現金）",
-                "read": "現金を投入してください。",
+                "title": "現金を投入してください",
+                "read": "",
+                "insufficient": "不足金額",
                 "deposit": "お預かり金額",
                 "change": "お釣り",
                 "next": "購入確定",
@@ -39,50 +41,50 @@
                 "alert": {}
             },
             "creditcard": {
-                "title": "決済受付（クレジットカード）",
-                "read": "クレジットカードで決済してください",
+                "title": "クレジットカードを挿入してください",
+                "read": "",
                 "next": "購入確定",
                 "prev": "戻る",
                 "alert": {}
             },
             "eMoney": {
                 "title": "決済受付（電子マネー）",
-                "read": "電子マネーで決済してください",
+                "read": "",
                 "next": "購入確定",
                 "prev": "戻る",
                 "alert": {}
             },
             "code": {
                 "title": "決済受付（コード）",
-                "read": "コードで決済してください",
+                "read": "",
                 "next": "購入確定",
                 "prev": "戻る",
                 "alert": {}
             }
         },
         "confirm": {
-            "title": "購入情報確認",
-            "read": "購入情報をご確認ください。",
-            "next": "次へ",
-            "consent": "注意事項に同意して次へ",
-            "prev": "戻る",
-            "custody": "お預かり金額",
-            "change": "お釣り",
-            "warning": "注意事項",
-            "alert": {
-                "authorizeCreditCard": "クレジットカード情報を確認してください。",
-                "custody": "お預かり金額に誤りがあります。"
-            }
+            "title": "",
+            "read": "",
+            "next": "",
+            "consent": "",
+            "prev": "",
+            "custody": "",
+            "change": "",
+            "warning": "",
+            "alert": {}
         },
         "complete": {
-            "title": "購入完了",
-            "read": "ご購入ありがとうございます。",
-            "next": "再印刷",
+            "title": "お買い上げいただきありがとうございます",
+            "read": "",
+            "print": {
+                "total": "合計",
+                "ticket": "チケット",
+                "value": "{{value}}枚"
+            },
+            "next": "完了",
             "prev": "戻る",
-            "cooperationQRCode": "連携用QRコード",
             "alert": {
-                "print": "印刷に失敗しました",
-                "regiGrow": "RegiGrow連携に失敗しました"
+                "print": "印刷に失敗しました"
             }
         },
         "info": {
@@ -97,16 +99,16 @@
     },
     "inquiry": {
         "input": {
-            "title": "チケット情報照会",
-            "read": "予約番号と電話番号を入力してください。",
+            "title": "チケットご購入時の確認番号と電話番号を入力してください",
+            "read": "",
             "next": "照会",
             "prev": "戻る",
             "validation": "入力情報に誤りがあります。"
         },
         "confirm": {
-            "title": "照会結果",
-            "read": "ご購入ありがとうございます。",
-            "next": "印刷",
+            "title": "下記内容をご確認の上、チケットを発券してください",
+            "read": "",
+            "next": "発券",
             "prev": "戻る",
             "cancel": "キャンセル",
             "alert": {
@@ -124,7 +126,7 @@
         "print": {
             "title": "印刷完了",
             "read": "チケットの印刷が完了しました。",
-            "next": "",
+            "next": "完了",
             "prev": "戻る"
         }
     },
@@ -158,6 +160,12 @@
         "next": "",
         "prev": "戻る"
     },
+    "stop": {
+        "title": "停止",
+        "read": "お近くの係員までお声掛けください。",
+        "next": "",
+        "prev": "戻る"
+    },
     "setting": {
         "title": "設定",
         "read": "設定を変更できます。",
@@ -165,29 +173,20 @@
         "prev": "戻る",
         "unselected": "未選択",
         "pos": "POS",
+        "signOut": "ログアウト",
         "printer": {
             "label": "プリンター",
             "ipAddress": "IPアドレス",
             "ipAddressDescription": "※スター精密 Bluetooth接続(StarwebPRNT専用ブラウザー)の場合localhost:8001を設定してください。",
             "testPrinting": "テスト印刷"
         },
-        "payment": {
-            "label": "決済端末",
-            "cash": {
-                "label": "釣銭機"
-            },
-            "creditcard": {
-                "label": "クレジットカード"
-            },
-            "emoney": {
-                "label": "電子マネー"
-            },
-            "code": {
-                "label": "コード"
-            }
+        "cashchanger": {
+            "label": "釣銭機"
         },
-        "isPurchaseCart": "カート使用",
-        "viewType": "表示",
+        "payment": {
+            "label": "決済端末"
+        },
+        "connect": "接続",
         "starBluetoothAddress": "localhost:8001",
         "printType": {
             "none": "印刷しない",
@@ -197,46 +196,12 @@
             "epsonEPOS": "Epson ePOS"
         },
         "alert": {
+            "connection": "接続に成功しました。",
             "customer": "購入者情報に誤りがあります。",
             "payment": "決済情報に誤りがあります。",
             "validation": "入力情報に誤りがあります。",
             "success": "設定を保存しました。",
             "print": "印刷に失敗しました"
-        }
-    },
-    "development": {
-        "index": {
-            "title": "開発",
-            "read": "機能を確認できます。",
-            "next": "",
-            "prev": "戻る",
-            "list": {
-                "screen": {
-                    "title": "座席表確認",
-                    "read": "座席表確認できます。",
-                    "next": "選択"
-                }
-            }
-        },
-        "screen": {
-            "title": "座席表確認",
-            "read": "座席表を確認できます。",
-            "next": "更新",
-            "prev": "戻る"
-        },
-        "encryption": {
-            "title": "暗号化確認",
-            "read": "暗号化、復号化の確認ができます。",
-            "next": "更新",
-            "prev": "戻る",
-            "encodeText": "暗号化する文字列",
-            "encode": "暗号化",
-            "encrypted": "暗号化文字列",
-            "qrcode": "QRコード(salt,iv,encrypted)",
-            "iv": "IV(初期化ベクトル)",
-            "salt": "salt",
-            "decode": "復号化",
-            "decrypted": "復号化文字列"
         }
     },
     "form": {
@@ -285,41 +250,21 @@
             "holderName": "",
             "confirmationNumber": "12345"
         },
-        "required":"必須"
-    },
-    "menu": {
-        "purchase": "購入",
-        "inquiry": "照会",
-        "order": "注文",
-        "personSearch": "会員検索",
-        "reservation": "予約",
-        "admission": "入場",
-        "settings": "設定",
-        "logout": "ログアウト",
-        "login": "ログイン",
-        "confirm": {
-            "login": "ログインしてよろしいですか。",
-            "logout": "ログアウトしてよろしいですか。"
-        },
-        "development": "開発",
-        "instruction": "説明書"
+        "required": "必須"
     },
     "modal": {
-        "mvtk": {
+        "movieTicket": {
             "check": {
-                "success": "ムビチケ券を追加しました。",
-                "code": "ムビチケ購入番号",
-                "password": "ムビチケ暗証番号",
-                "camera": {
-                    "start": "カメラで読み取り",
-                    "stop": "カメラを停止"
-                },
+                "title": "QRコードをお持ちの方は読み取り機へかざしてください",
+                "success": "チケットを追加しました。",
+                "code": "購入番号",
+                "password": "暗証番号",
                 "next": "認証",
                 "prev": "",
                 "value": "[{{value}}枚]",
                 "alert": {
-                    "validation": "ムビチケ情報をご確認ください。",
-                    "used": "すでに使用済みのムビチケです。",
+                    "validation": "入力情報をご確認ください。",
+                    "used": "すでに使用済みです。",
                     "error": "エラーが発生しました"
                 }
             }
@@ -350,8 +295,13 @@
             "Check": "QRコードを確認しています"
         },
         "masterAction": {
-            "GetSellers": "販売者情報を取得しています",
-            "GetSchedule": "スケジュールを取得しています",
+            "SearchSellers": "販売者情報を取得しています",
+            "SearchMovieTheaters": "施設情報を取得しています",
+            "SearchScreeningEvent": "イベント情報を取得しています",
+            "SearchMovies": "コンテンツ情報を取得しています",
+            "SearchScreeningEventSeries": "施設コンテンツ情報を取得しています",
+            "SearchScreeningRooms": "ルーム情報を取得しています",
+            "SearchCategoryCode": "区分情報を取得しています",
             "GetProjects": "プロジェクトを取得しています"
         },
         "orderAction": {
@@ -368,6 +318,7 @@
             "StartTransaction": "取引を開始しています",
             "CancelTransaction": "取引を中止しています",
             "GetScreeningEvent": "イベント情報取得しています",
+            "GetPreScheduleDates": "先行販売情報を取得しています",
             "GetScreen": "スクリーン情報を取得しています",
             "GetScreenData": "座席情報を取得しています",
             "GetTicketList": "券種情報を取得しています",
@@ -467,6 +418,7 @@
         "startDate": "上映日時",
         "doorTime": "開場日時",
         "seat": "座席",
+        "seatValue": "({{value}}席)",
         "ticket": "券種",
         "referenceQuantityValue": "[{{value}}枚]",
         "customer": "購入者",
@@ -489,7 +441,7 @@
         "ticketing": "発券",
         "admission": "入場",
         "reservation": "予約",
-        "amount": "決済金額",
+        "amount": "合計金額",
         "dubbing": "吹替版",
         "subtitles": "字幕版",
         "orderDate": "購入日時",
@@ -504,15 +456,40 @@
             "holderName": "カード名義人"
         },
         "paymentMethodType": {
-            "cash": "現金",
-            "account": "アカウント",
-            "creditCard": "クレジットカード",
-            "eMoney": "電子マネー",
-            "movieTicket": "ムビチケ",
-            "others": "その他",
-            "regiGrow": "RegiGrow"
+            "cash": {
+                "label": "現金",
+                "use": ""
+            },
+            "account": {
+                "label": "アカウント",
+                "use": ""
+            },
+            "creditCard": {
+                "label": "クレジットカード",
+                "use": ""
+            },
+            "eMoney": {
+                "label": "電子マネー",
+                "use": ""
+            },
+            "movieTicket": {
+                "label": "ムビチケ",
+                "use": "<span class=\"font-weight-bold\">ムビチケ券のご利用について</span><br><span class=\"text-small\">ムビチケ券をご利用される方は認証を行い券種に追加してください。</span>"
+            },
+            "mgTicket": {
+                "label": "MGチケット",
+                "use": "<span class=\"font-weight-bold\">MGチケットのご利用について</span><br><span class=\"text-small\">MGチケットをご利用される方は認証を行い券種に追加してください。</span>"
+            },
+            "others": {
+                "label": "その他",
+                "use": ""
+            },
+            "regiGrow": {
+                "label": "RegiGrow",
+                "use": ""
+            }
         },
-        "timeLimit": "取引期限",
+        "timeLimit": "残り",
         "all": "すべて",
         "close": "閉じる",
         "done": "決定",
@@ -527,6 +504,7 @@
         "change": "変更",
         "remove": "削除",
         "etc": "その他",
-        "required": "必須"
+        "required": "必須",
+        "clear": "最初へ戻る"
     }
 }

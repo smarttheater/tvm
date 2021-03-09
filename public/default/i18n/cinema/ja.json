@@ -1,38 +1,88 @@
 {
     "purchase": {
         "cinema": {
+            "top": {
+                "title": "メニューを選んでください",
+                "movie": {
+                    "title": "作品から探す",
+                    "read": "作品が決まっている方におすすめ",
+                    "search": {
+                        "today": "本日の作品",
+                        "other": "本日以外の作品"
+                    }
+
+                },
+                "time": {
+                    "title": "時間で探す",
+                    "read": "今すぐ見たい方におすすめ",
+                    "search": "開始時間が早い順"
+                },
+                "inquiry": {
+                    "title": "発券する",
+                    "read": "　",
+                    "print": "予約済みチケットを発券する"
+                }
+            },
             "schedule": {
-                "title": "スケジュール選択",
-                "read": "スケジュールを選択してください。",
-                "preSalesSchedule": "先行販売スケジュール",
-                "salesSchedule": "通常販売スケジュール",
+                "title": "ご覧になりたい上映回を選んでください",
+                "read": "",
                 "notfound": "スケジュールがありません。",
                 "next": "次へ",
-                "prev": "",
+                "prev": "戻る",
+                "alert": {
+                    "ticketedSeat": "劇場表示では座席管理なしのパフォーマンスを選択できません。"
+                }
+            },
+            "date": {
+                "title": "ご覧になりたい上映日を選んでください",
+                "schedule": "通常販売",
+                "preSchedule": "先行販売",
+                "read": "",
+                "next": "次へ",
+                "prev": "戻る"
+            },
+            "scheduleMovie": {
+                "title": "ご覧になりたい作品を選んでください",
+                "notfound": "スケジュールがありません。",
+                "next": "次へ",
+                "prev": "戻る",
+                "alert": {
+                    "ticketedSeat": "劇場表示では座席管理なしのパフォーマンスを選択できません。"
+                }
+            },
+            "scheduleEvent": {
+                "title": "ご覧になりたい上映回を選んでください",
+                "read": "",
+                "notfound": "スケジュールがありません。",
+                "next": "次へ",
+                "prev": "戻る",
                 "alert": {
                     "ticketedSeat": "劇場表示では座席管理なしのパフォーマンスを選択できません。"
                 }
             },
             "seat": {
-                "title": "座席選択",
-                "read": "座席を選択してください。",
+                "title": "座席を選んでください",
+                "read": "",
                 "next": "次へ",
                 "consent": "利用規約に同意して次へ",
                 "terms": "利用規約",
                 "prev": "戻る",
                 "allSelect": "すべて選択",
                 "reset": "リセット",
-                "openSeating": "座席数", 
+                "openSeating": {
+                    "title": "枚数を選択してください",
+                    "read": "",
+                    "seat": "枚数"
+                },
                 "alert": {
-                    "unselected": "座席が未選択です。",
                     "limit": "同時購入可能数は{{value}}件までです。",
-                    "temporaryReservation": "仮予約に失敗しました。",
+                    "temporaryReservation": "仮予約に失敗しました。<br>※すでに他のお客様が同じ座席を選択した場合もこのエラーが表示されます。",
                     "ticketNotfound": "販売可能券種がありません。"
                 }
             },
             "ticket": {
-                "title": "チケット選択",
-                "read": "チケットを選択してください。",
+                "title": "チケットを選んでください",
+                "read": "",
                 "unselected": "チケットを選択してください",
                 "mvtk": "ムビチケ券を利用される方",
                 "next": "次へ",
@@ -40,22 +90,17 @@
                 "allSelect": "すべて選択",
                 "notfound":"",
                 "alert": {
-                    "unselected": "チケットが未選択です。",
                     "ticketCondition": "割引券の適用条件を再度ご確認ください。",
                     "temporaryReservation": "仮予約に失敗しました。"
                 }
-            },
-            "cart": {
-                "title": "購入情報",
-                "read": "購入情報をご確認ください。",
-                "notfound": "購入中のアイテムがありません。",
-                "next": "次へ",
-                "prev": "戻る",
-                "add": "追加する",
-                "confirm": {
-                    "cancel": "キャンセルしてよろしいですか。"
-                }
             }
+        },
+        "step": {
+            "1": "作品選択<br>上映時間選択",
+            "2": "座席選択",
+            "3": "券種選択",
+            "4": "支払い方法選択<br>購入確認",
+            "5": "購入完了"
         }
     },
     "process": {

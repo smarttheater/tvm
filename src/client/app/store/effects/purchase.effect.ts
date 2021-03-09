@@ -80,7 +80,7 @@ export class PurchaseEffects {
                 await this.cinerinoService.transaction.placeOrder.cancel({ id: transaction.id });
                 return purchaseAction.cancelTransactionSuccess();
             } catch (error) {
-                return purchaseAction.cancelTransactionFail({ error: error });
+                return purchaseAction.cancelTransactionSuccess();
             }
         })
     );
@@ -121,6 +121,7 @@ export class PurchaseEffects {
                 })).data[0];
                 if (screeningEvent.workPerformed !== undefined) {
                     screeningEvent.workPerformed.additionalProperty = searchMovie.additionalProperty;
+                    screeningEvent.workPerformed.thumbnailUrl = searchMovie.thumbnailUrl;
                 }
                 return purchaseAction.getScreeningEventSuccess({ screeningEvent });
             } catch (error) {
@@ -149,9 +150,9 @@ export class PurchaseEffects {
                         .voidSeatReservation(payload.authorizeSeatReservation);
                 }
                 const availableSeats = Functions.Purchase.selectAvailableSeat({ reservations, screeningEventSeats });
-                if (new Models.Purchase.Performance(screeningEvent).isTicketedSeat()
+                if (new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()
                     && availableSeats.length !== reservations.length) {
-                    throw new Error('Out of stock').message;
+                    throw new Error('Out of stock');
                 }
                 const authorizeSeatReservation =
                     <factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>>
@@ -160,7 +161,7 @@ export class PurchaseEffects {
                             event: { id: screeningEvent.id },
                             acceptedOffer: reservations.map((r, index) => {
                                 if (r.ticket === undefined || r.ticket.ticketOffer.id === undefined) {
-                                    throw new Error('ticket or ticket.ticketOffer.id is undefined').message;
+                                    throw new Error('ticket or ticket.ticketOffer.id is undefined');
                                 }
                                 return {
                                     id: r.ticket.ticketOffer.id,
@@ -177,10 +178,10 @@ export class PurchaseEffects {
                                             additionalTicketText: additionalTicketText,
                                             reservedTicket: {
                                                 typeOf: 'Ticket',
-                                                ticketedSeat: (new Models.Purchase.Performance(screeningEvent).isTicketedSeat())
+                                                ticketedSeat: (new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat())
                                                     ? availableSeats[index] : undefined,
                                             },
-                                            subReservation: (new Models.Purchase.Performance(screeningEvent).isTicketedSeat())
+                                            subReservation: (new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat())
                                                 ? availableSeats[index].subReservations.map(s => {
                                                     return {
                                                         reservedTicket: { typeOf: 'Ticket', ticketedSeat: s }
@@ -301,11 +302,10 @@ export class PurchaseEffects {
                 const transaction = payload.transaction;
                 const pendingMovieTickets = payload.pendingMovieTickets;
                 const authorizeSeatReservations = payload.authorizeSeatReservations;
-                const authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.movieTicket.IAction[] = [];
-                const seller = payload.seller;
+                const authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.any.IAction[] = [];
                 for (const authorizeSeatReservation of authorizeSeatReservations) {
                     const movieTickets = Functions.Purchase.createMovieTicketsFromAuthorizeSeatReservation({
-                        authorizeSeatReservation, pendingMovieTickets, seller
+                        authorizeSeatReservation, pendingMovieTickets
                     });
                     const movieTicketIdentifiers: {
                         identifier: string;
@@ -327,9 +327,10 @@ export class PurchaseEffects {
                         const authorizeMovieTicketPaymentResult =
                             await this.cinerinoService.payment.authorizeMovieTicket({
                                 object: {
-                                    typeOf: factory.chevre.paymentMethodType.MovieTicket,
+                                    typeOf: factory.action.authorize.paymentMethod.any.ResultType.Payment,
                                     amount: 0,
-                                    movieTickets: movieTicketIdentifier.movieTickets
+                                    movieTickets: movieTicketIdentifier.movieTickets,
+                                    paymentMethod: movieTicketIdentifier.movieTickets[0].typeOf
                                 },
                                 purpose: transaction
                             });
@@ -360,7 +361,7 @@ export class PurchaseEffects {
                     throw new Error('transaction.seller.id undefined');
                 }
                 const checkMovieTicketAction = await this.cinerinoService.payment.checkMovieTicket({
-                    typeOf: factory.chevre.paymentMethodType.MovieTicket,
+                    typeOf: movieTickets[0].typeOf,
                     movieTickets: movieTickets.map((movieTicket) => {
                         return {
                             ...movieTicket,
@@ -451,12 +452,23 @@ export class PurchaseEffects {
                     }, { async: true });
                 }
 
-                const result = await this.cinerinoService.transaction.placeOrder.confirm(params);
-                return purchaseAction.endTransactionSuccess({ order: result.order });
+                const { order } = await this.cinerinoService.transaction.placeOrder.confirm(params);
+                try {
+                    await this.cinerinoService.order.placeOrder({
+                        object: {
+                            orderNumber: order.orderNumber,
+                            confirmationNumber: order.confirmationNumber
+                        },
+                        purpose: {
+                            typeOf: factory.transactionType.PlaceOrder,
+                            id: transaction.id
+                        }
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+                return purchaseAction.endTransactionSuccess({ order });
             } catch (error) {
-                await this.cinerinoService.transaction.placeOrder.cancel({
-                    id: transaction.id
-                });
                 return purchaseAction.endTransactionFail({ error: error });
             }
         })
@@ -470,16 +482,16 @@ export class PurchaseEffects {
         ofType(purchaseAction.authorizeAnyPayment),
         map(action => action),
         mergeMap(async (payload) => {
+            const typeOf = factory.action.authorize.paymentMethod.any.ResultType.Payment;
             const transaction = payload.transaction;
-            const typeOf = payload.typeOf;
+            const paymentMethod = payload.paymentMethod;
             const amount = payload.amount;
-            const name = payload.name;
             const additionalProperty = payload.additionalProperty;
             try {
                 await this.cinerinoService.getServices();
                 const authorizeAnyPayment =
                     await this.cinerinoService.payment.authorizeAnyPayment({
-                        object: { typeOf, name, amount, additionalProperty },
+                        object: { typeOf, amount, paymentMethod, additionalProperty },
                         purpose: transaction
                     });
                 return purchaseAction.authorizeAnyPaymentSuccess({ authorizeAnyPayment });

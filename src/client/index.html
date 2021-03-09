@@ -16,8 +16,6 @@
         html {
             margin: 0;
             padding: 0;
-            height: 100%;
-            background-color: #eee;
         }
 
         .init-cover,
@@ -55,6 +53,7 @@
             text-indent: -9999em;
             border: 3px solid rgba(255, 255, 255, 0.2);
             border-left-color: #FFF;
+            will-change: transform;
             transform: translateZ(0);
             animation: init-load8 1.1s infinite linear;
         }
@@ -85,7 +84,6 @@
             <div class="init-loader">Loading...</div>
         </div>
     </app-root>
-    <script src="https://pt01.mul-pay.jp/ext/js/token.js"></script>
 </body>
 
 </html>

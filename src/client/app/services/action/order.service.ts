@@ -6,9 +6,12 @@ import * as moment from 'moment';
 import { Observable, race } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { Functions, Models } from '../..';
+import { getEnvironment } from '../../../environments/environment';
 import { orderAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
+import { EpsonEPOSService } from '../epson-epos.service';
+import { StarPrintService } from '../star-print.service';
 import { UtilService } from '../util.service';
 
 @Injectable({
@@ -21,7 +24,9 @@ export class OrderService {
         private store: Store<reducers.IState>,
         private actions: Actions,
         private cinerinoService: CinerinoService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private starPrintService: StarPrintService,
+        private epsonEPOSService: EpsonEPOSService
     ) {
         this.order = this.store.pipe(select(reducers.getOrder));
         this.error = this.store.pipe(select(reducers.getError));
@@ -89,7 +94,9 @@ export class OrderService {
                     orders = orders.concat(searchResult.data);
                     page++;
                     roop = searchResult.data.length === limit;
-                    await Functions.Util.sleep(500);
+                    if (roop) {
+                        await Functions.Util.sleep();
+                    }
                 }
             }
             this.utilService.loadEnd();
@@ -111,7 +118,7 @@ export class OrderService {
             telephone?: string;
         }
     }) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.store.dispatch(orderAction.inquiry(params));
             const success = this.actions.pipe(
                 ofType(orderAction.inquirySuccess.type),
@@ -134,45 +141,140 @@ export class OrderService {
         pos?: factory.chevre.place.movieTheater.IPOS;
         timeout?: number;
     }) {
-        return new Promise<void>((resolve, reject) => {
+        const environment = getEnvironment();
+        try {
             const orders = prams.orders;
-            const pos = prams.pos;
             const printer = prams.printer;
-            this.store.dispatch(orderAction.print({ orders, pos, printer }));
-            const success = this.actions.pipe(
-                ofType(orderAction.printSuccess.type),
-                tap(() => { resolve(); })
-            );
-            const fail = this.actions.pipe(
-                ofType(orderAction.printFail.type),
-                tap(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); })
-            );
-            race(success, fail).pipe(take(1)).subscribe();
-        });
+            const pos = prams.pos;
+            if (printer.connectionType === Models.Util.Printer.ConnectionType.None) {
+                return;
+            }
+            if (environment.PRINT_LOADING) {
+                this.utilService.loadStart({ process: 'orderAction.Print' });
+            }
+            await this.cinerinoService.getServices();
+            const authorizeOrders: { order: factory.order.IOrder, code?: string; }[] = [];
+            if (environment.PRINT_QRCODE_TYPE === Models.Order.Print.PrintQrcodeType.None) {
+                for (const order of orders) {
+                    authorizeOrders.push({ order });
+                }
+            } else if (environment.PRINT_QRCODE_TYPE === Models.Order.Print.PrintQrcodeType.Token) {
+                for (const order of orders) {
+                    authorizeOrders.push({ order, code: await this.authorizeOrder({ order }) });
+                }
+            } else {
+                for (const order of orders) {
+                    authorizeOrders.push({ order });
+                    this.authorizeOrder({ order });
+                }
+            }
+            const testFlg = authorizeOrders.length === 0;
+            const path = `/ejs/print/ticket.ejs`;
+            const url = (testFlg) ? '/default//ejs/print/test.ejs'
+                : (await Functions.Util.isFile(`${Functions.Util.getProject().storageUrl}${path}`))
+                    ? `${Functions.Util.getProject().storageUrl}${path}`
+                    : `/default${path}`;
+            const printData = await this.utilService.getText<string>(url);
+            Functions.Util.resetViewport();
+            const canvasList: HTMLCanvasElement[] = [];
+            if (testFlg) {
+                const canvas = await Functions.Order.createTestPrintCanvas4Html({ view: <string>printData });
+                canvasList.push(canvas);
+            } else {
+                for (const authorizeOrder of authorizeOrders) {
+                    let index = 0;
+                    for (const acceptedOffer of authorizeOrder.order.acceptedOffers) {
+                        const qrcode = Functions.Order.createQRCode({
+                            acceptedOffer,
+                            order: authorizeOrder.order,
+                            index,
+                            code: authorizeOrder.code
+                        });
+                        const canvas = await Functions.Order.createPrintCanvas4Html({
+                            view: <string>printData,
+                            order: authorizeOrder.order,
+                            pos,
+                            qrcode,
+                            index
+                        });
+                        canvasList.push(canvas);
+                        index++;
+                    }
+                }
+            }
+            Functions.Util.changeViewport();
+            await this.printProcess({ printer, canvasList, pos });
+            if (environment.PRINT_LOADING) {
+                this.utilService.loadEnd();
+            }
+        } catch (error) {
+            if (environment.PRINT_LOADING) {
+                this.utilService.loadEnd();
+            }
+            throw error;
+        }
     }
 
     /**
-     * 注文承認
+     * 印刷処理
      */
-    public async authorize(order: factory.order.IOrder) {
-        return new Promise<void>((resolve, reject) => {
-            this.store.dispatch(orderAction.orderAuthorize({
-                orderNumber: order.orderNumber,
-                customer: {
-                    telephone: order.customer.telephone
-                }
-            }));
-            const success = this.actions.pipe(
-                ofType(orderAction.orderAuthorizeSuccess.type),
-                tap(() => { resolve(); })
-            );
+    private async printProcess(params: {
+        printer: Models.Util.Printer.IPrinter;
+        canvasList: HTMLCanvasElement[];
+        pos?: factory.chevre.place.movieTheater.IPOS;
+    }) {
+        const printer = params.printer;
+        const canvasList = params.canvasList;
+        const pos = params.pos;
+        switch (printer.connectionType) {
+            case Models.Util.Printer.ConnectionType.StarBluetooth:
+            case Models.Util.Printer.ConnectionType.StarLAN:
+                this.starPrintService.initialize({ printer, pos });
+                await this.starPrintService.printProcess({ canvasList });
+                break;
+            case Models.Util.Printer.ConnectionType.Image:
+                const domList = canvasList.map(canvas => `<div class="mb-3 p-4 border border-light-gray shadow-sm">
+                <img class="w-100" src="${canvas.toDataURL()}" alt="">
+                </div>`);
+                this.utilService.openAlert({
+                    title: '',
+                    body: `<div class="px-5">${domList.join('\n')}</div>`
+                });
+                break;
+            case Models.Util.Printer.ConnectionType.EpsonEPOS:
+                await this.epsonEPOSService.printer.init({ printer });
+                await this.epsonEPOSService.printer.print({ canvasList });
+                await this.epsonEPOSService.printer.disconnect();
+                break;
+            default:
+                break;
+        }
+    }
 
-            const fail = this.actions.pipe(
-                ofType(orderAction.orderAuthorizeFail.type),
-                tap(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); })
-            );
-            race(success, fail).pipe(take(1)).subscribe();
+    /**
+     * 注文へ所有権発行
+     */
+    private async authorizeOrder(params: {
+        order: factory.order.IOrder;
+    }) {
+        const environment = getEnvironment();
+        const order = params.order;
+        const result = await Functions.Util.retry<string>({
+            process: (async () => {
+                const orderNumber = order.orderNumber;
+                const customer = { telephone: order.customer.telephone };
+                const { code } = await this.cinerinoService.order.authorize({
+                    object: { orderNumber, customer },
+                    result: {
+                        expiresInSeconds: Number(environment.ORDER_AUTHORIZE_CODE_EXPIRES)
+                    }
+                });
+                return code;
+            }),
+            interval: 2000,
+            limit: 10
         });
+        return result;
     }
 
 }

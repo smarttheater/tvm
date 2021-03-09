@@ -7,7 +7,7 @@ import { Purchase } from '../models';
  * イベントグループ
  */
 export interface IScreeningEventsGroup {
-    info: factory.chevre.event.screeningEvent.IEvent;
+    screeningEvent: factory.chevre.event.screeningEvent.IEvent;
     data: Purchase.Performance[];
 }
 
@@ -15,23 +15,30 @@ export interface IScreeningEventsGroup {
  * 施設コンテンツごとのグループへ変換
  */
 export function screeningEvents2ScreeningEventSeries(params: {
-    screeningEvents: factory.chevre.event.screeningEvent.IEvent[]
+    screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
+    sortType?: 'screeningEventSeries' | 'screen' | 'startDate';
+    now: Date;
 }) {
     const environment = getEnvironment();
     const result: IScreeningEventsGroup[] = [];
-    const screeningEvents = params.screeningEvents;
+    const { screeningEvents, now } = params;
     screeningEvents.forEach((screeningEvent) => {
         const registered = result.find((data) => {
-            if (environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries') {
-                return (data.info.superEvent.id === screeningEvent.superEvent.id);
+            const sortType = (params.sortType === undefined)
+                ? environment.PURCHASE_SCHEDULE_SORT
+                : params.sortType;
+            if (sortType === 'screeningEventSeries') {
+                return (data.screeningEvent.superEvent.id === screeningEvent.superEvent.id);
+            } else if (sortType === 'screen') {
+                return (data.screeningEvent.location.branchCode === screeningEvent.location.branchCode);
             } else {
-                return (data.info.location.branchCode === screeningEvent.location.branchCode);
+                return (moment(data.screeningEvent.startDate).format('HH') === moment(screeningEvent.startDate).format('HH'));
             }
         });
-        const performance = new Purchase.Performance(screeningEvent);
+        const performance = new Purchase.Performance({ screeningEvent, now });
         if (registered === undefined) {
             result.push({
-                info: screeningEvent,
+                screeningEvent,
                 data: [performance]
             });
         } else {
@@ -66,14 +73,14 @@ export function createGmoTokenObject(params: {
 }) {
     return new Promise<IGmoTokenObject>((resolve, reject) => {
         if (params.seller.paymentAccepted === undefined) {
-            throw new Error('seller.paymentAccepted is undefined').message;
+            throw new Error('seller.paymentAccepted is undefined');
         }
         const findPaymentAcceptedResult = params.seller.paymentAccepted.find((paymentAccepted) => {
             return (paymentAccepted.paymentMethodType === factory.chevre.paymentMethodType.CreditCard);
         });
         if (findPaymentAcceptedResult === undefined
             || findPaymentAcceptedResult.paymentMethodType !== factory.chevre.paymentMethodType.CreditCard) {
-            throw new Error('paymentMethodType CreditCard not found').message;
+            throw new Error('paymentMethodType CreditCard not found');
         }
         (<any>window).someCallbackFunction = function someCallbackFunction(response: {
             resultCode: string;
@@ -136,12 +143,10 @@ export function isAvailabilityMovieTicket(checkMovieTicketAction: factory.action
 export function createMovieTicketsFromAuthorizeSeatReservation(args: {
     authorizeSeatReservation: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
     pendingMovieTickets: Purchase.MovieTicket.IMovieTicket[];
-    seller: factory.chevre.seller.ISeller
 }) {
     const results: factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket[] = [];
     const authorizeSeatReservation = args.authorizeSeatReservation;
     const pendingMovieTickets = args.pendingMovieTickets;
-    const seller = args.seller;
     if (authorizeSeatReservation.result === undefined) {
         return [];
     }
@@ -179,8 +184,8 @@ export function createMovieTicketsFromAuthorizeSeatReservation(args: {
         }
 
         results.push({
-            typeOf: factory.chevre.paymentMethodType.MovieTicket,
-            project: seller.project,
+            typeOf: findReservation.typeOf,
+            project: findReservation.project,
             identifier: findReservation.identifier,
             accessCode: findReservation.accessCode,
             serviceType: findReservation.serviceType,
@@ -189,24 +194,6 @@ export function createMovieTicketsFromAuthorizeSeatReservation(args: {
     });
 
     return results;
-}
-
-/**
- * カスタム支払い方法名称取得
- */
-export function getCustomPaymentMethodTypeName(params: {
-    typeOf: factory.chevre.paymentMethodType;
-    category: string | undefined;
-}) {
-    const paymentMethodType = params.typeOf;
-    const category = params.category;
-    const environment = getEnvironment();
-    const findResult = environment.PAYMENT_METHOD_CUSTOM.find(p => p.category === category);
-    if (paymentMethodType !== factory.chevre.paymentMethodType.Others
-        || findResult === undefined) {
-        return { ja: '', en: '' };
-    }
-    return findResult.name;
 }
 
 /**
@@ -634,4 +621,21 @@ export function getMovieTicketTypeOffers(params: {
         return (movieTicketTypeChargeSpecifications.length > 0);
     });
     return result;
+}
+
+/**
+ * 追加特性取得
+ */
+export function getAdditionalProperty(
+    additionalProperty: factory.chevre.propertyValue.IPropertyValue<string>[] | undefined,
+    key: string
+) {
+    if (additionalProperty === undefined) {
+        return;
+    }
+    const target = additionalProperty.find(a => a.name === key);
+    if (target === undefined) {
+        return;
+    }
+    return target.value;
 }

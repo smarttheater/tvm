@@ -17,6 +17,16 @@ export const selectScheduleDate = createAction(
     props<{ scheduleDate: string }>()
 );
 
+export const selectCreativeWork = createAction(
+    `${LABEL} selectCreativeWork`,
+    props<{ creativeWork: factory.chevre.creativeWork.movie.ICreativeWork }>()
+);
+
+export const selectScreeningEventSeries = createAction(
+    `${LABEL} selectScreeningEventSeries`,
+    props<{ screeningEventSeries: factory.chevre.event.screeningEventSeries.IEvent }>()
+);
+
 export const getSeller = createAction(
     `${LABEL} getSeller`,
     props<{ id: string; }>()
@@ -30,6 +40,18 @@ export const getSellerSuccess = createAction(
 );
 
 export const getSellerFail = createAction(
+    `${LABEL} getSellerFail`,
+    props<{ error: Error }>()
+);
+
+export const getPreScheduleDatesSuccess = createAction(
+    `${LABEL} getPreScheduleDatesSuccess`,
+    props<{
+        sheduleDates: string[]
+    }>()
+);
+
+export const getPreScheduleDatesFail = createAction(
     `${LABEL} getSellerFail`,
     props<{ error: Error }>()
 );
@@ -58,7 +80,7 @@ export const startTransaction = createAction(
     props<{
         expires: Date;
         agent?: { identifier?: factory.person.IIdentifier; };
-        seller: { typeOf: factory.organizationType; id: string; };
+        seller: { typeOf: factory.chevre.organizationType; id: string; };
         object: {
             passport?: { token: factory.waiter.passport.IEncodedPassport; };
         };
@@ -221,7 +243,7 @@ export const authorizeMovieTicket = createAction(
     `${LABEL} authorizeMovieTicket`,
     props<{
         transaction: factory.transaction.placeOrder.ITransaction;
-        authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.movieTicket.IAction[];
+        authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.any.IAction[];
         authorizeSeatReservations: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[];
         pendingMovieTickets: Models.Purchase.MovieTicket.IMovieTicket[];
         seller: factory.chevre.seller.ISeller
@@ -231,7 +253,7 @@ export const authorizeMovieTicket = createAction(
 export const authorizeMovieTicketSuccess = createAction(
     `${LABEL} authorizeMovieTicketSuccess`,
     props<{
-        authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.movieTicket.IAction[]
+        authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.any.IAction[]
     }>()
 );
 
@@ -245,7 +267,7 @@ export const checkMovieTicket = createAction(
     props<{
         transaction: factory.transaction.placeOrder.ITransaction;
         movieTickets: {
-            typeOf: factory.chevre.paymentMethodType.MovieTicket;
+            typeOf: factory.paymentMethodType;
             identifier: string;
             accessCode: string;
         }[];
@@ -312,17 +334,16 @@ export const authorizeAnyPayment = createAction(
     `${LABEL} authorizeAnyPayment`,
     props<{
         transaction: factory.transaction.placeOrder.ITransaction;
-        typeOf: factory.chevre.paymentMethodType;
-        name?: string;
+        paymentMethod: factory.chevre.paymentMethodType | string;
         amount: number;
-        additionalProperty: { name: string; value: any; }[];
+        additionalProperty?: { name: string; value: any; }[];
     }>()
 );
 
 export const authorizeAnyPaymentSuccess = createAction(
     `${LABEL} authorizeAnyPaymentSuccess`,
     props<{
-        authorizeAnyPayment: factory.action.authorize.paymentMethod.any.IAction<any>
+        authorizeAnyPayment: factory.action.authorize.paymentMethod.any.IAction
     }>()
 );
 
@@ -334,12 +355,21 @@ export const authorizeAnyPaymentFail = createAction(
 export const selectPaymentMethodType = createAction(
     `${LABEL} selectPaymentMethodType`,
     props<{
-        typeOf: factory.chevre.paymentMethodType;
-        category?: string;
+        typeOf: factory.chevre.paymentMethodType | string;
     }>()
 );
 
+export const selectSearchType = createAction(
+    `${LABEL} selectSearchType`,
+    props<{
+        searchType: 'movie' | 'event';
+    }>()
+);
 
+export const setOrderId = createAction(
+    `${LABEL} setOrderId`,
+    props<{ id: string; }>()
+);
 
 
 

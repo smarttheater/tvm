@@ -4,9 +4,9 @@ import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { Models } from '../../../../..';
+import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../services';
+import { ActionService, MasterService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -15,21 +15,61 @@ import * as reducers from '../../../../../store/reducers';
     styleUrls: ['./purchase-payment.component.scss']
 })
 export class PurchasePaymentComponent implements OnInit {
+    public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public paymentMethodType = factory.chevre.paymentMethodType;
+    public payments: {
+        paymentAccepted: factory.chevre.seller.IPaymentAccepted;
+        categoryCode: factory.chevre.categoryCode.ICategoryCode;
+    }[];
     public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
+    public amount: number;
 
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
         private utilService: UtilService,
         private actionService: ActionService,
+        private masterService: MasterService,
         private translate: TranslateService
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
+        this.amount = 0;
+        this.payments = [];
+        try {
+            const { authorizeSeatReservations, seller } = await this.actionService.purchase.getData();
+            if (seller === undefined
+                || seller.paymentAccepted === undefined) {
+                throw new Error('seller or seller.paymentAccepted undefined');
+            }
+            this.amount = Functions.Purchase.getAmount(authorizeSeatReservations);
+            const paymentAccepted = seller.paymentAccepted.filter(p => {
+                return (p.paymentMethodType === factory.chevre.paymentMethodType.Cash
+                    || p.paymentMethodType === factory.chevre.paymentMethodType.CreditCard
+                    || p.paymentMethodType === factory.chevre.paymentMethodType.EMoney
+                    || p.paymentMethodType === 'Code');
+            });
+            const categoryCodePayment = await this.masterService.searchCategoryCode({
+                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.PaymentMethodType
+            });
+            paymentAccepted.forEach(p => {
+                const categoryCode = categoryCodePayment.find(c => c.codeValue === p.paymentMethodType);
+                if (categoryCode === undefined) {
+                    return;
+                }
+                this.payments.push({
+                    paymentAccepted: p,
+                    categoryCode
+                });
+            });
+        } catch (error) {
+            console.error(error);
+            this.router.navigate(['/error']);
+        }
     }
 
     /**
@@ -60,14 +100,6 @@ export class PurchasePaymentComponent implements OnInit {
             this.router.navigate(['/error']);
             console.error(error);
         }
-    }
-
-    /**
-     * 表示判定
-     */
-    public isDisplay(paymentMethodType: factory.chevre.paymentMethodType | string) {
-        const findResult = this.environment.PAYMENT_METHOD_TO_USE.find(p => p === paymentMethodType);
-        return (findResult !== undefined);
     }
 
 }

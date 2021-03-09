@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { timeout } from 'rxjs/operators';
 import { Functions } from '..';
+
 import {
     FUNC_CODE,
     FUNC_STATUS,
@@ -21,7 +22,6 @@ export class PaymentService {
     private connectionAddress: string;
     private requestTimeout: number;
     private delayTime: number;
-    private resultCountLimit: number;
     private offline: string;
 
     constructor(
@@ -32,18 +32,14 @@ export class PaymentService {
         ipAddress: string;
         requestTimeout?: number;
         delayTime?: number;
-        resultCountLimit?: number;
         isOffline?: '1';
     }) {
         this.connectionAddress = `http://${params.ipAddress}:8001`;
-        this.requestTimeout = (params.requestTimeout === undefined) ? 60000 : params.requestTimeout;
-        this.delayTime = (params.delayTime === undefined) ? 1000 : params.delayTime;
-        this.resultCountLimit = (params.resultCountLimit === undefined) ? 100 : params.resultCountLimit;
+        this.requestTimeout = (params.requestTimeout === undefined)
+            ? 60000 : params.requestTimeout;
+        this.delayTime = (params.delayTime === undefined)
+            ? 100 : params.delayTime;
         this.offline = (params.isOffline === undefined) ? '' : '1';
-    }
-
-    public creditCard() {
-
     }
 
     /**
@@ -52,9 +48,12 @@ export class PaymentService {
     public async exec(params: {
         func: TFuncCode;
         options?: IExecOptions;
+        timeout?: number;
     }): Promise<TResponseData> {
         const func = params.func;
+        const time = (params.timeout === undefined) ? 60000 : params.timeout;
         const execReqestData = this.createExecReqestData(params);
+        console.log('execReqestData', execReqestData);
         const execResult = await this.request<IResponseData>({
             requestData: execReqestData,
             methodName: 'Exec'
@@ -64,29 +63,32 @@ export class PaymentService {
             return execResult;
         }
         // 結果取得
+        let isTimeout = false;
+        const timer = setTimeout(() => { isTimeout = true; }, time);
         let count = 0;
         const resultReqestData = this.createResultReqestData({ func });
-        let resultResult = await this.request<TResponseData>({
+        let requestResult: TResponseData = await this.request<TResponseData>({
             requestData: resultReqestData,
             methodName: 'Result'
         });
-        console.log('Result', func, resultResult);
-        let roop = this.isProcessing({ status: resultResult.FUNC_STATUS });
+        console.log('Result:' + count, func, requestResult);
+        let roop = true;
         while (roop) {
             count++;
-            if (count > this.resultCountLimit) {
+            if (isTimeout) {
                 roop = false;
                 break;
             }
             await Functions.Util.sleep(this.delayTime);
-            resultResult = await this.request<TResponseData>({
+            requestResult = await this.request<TResponseData>({
                 requestData: resultReqestData,
                 methodName: 'Result'
             });
-            console.log('Result', func, resultResult);
-            roop = this.isProcessing({ status: resultResult.FUNC_STATUS });
+            console.log('Result:' + count, func, requestResult);
+            roop = this.isProcessing({ status: requestResult.FUNC_STATUS });
         }
-        return resultResult;
+        clearTimeout(timer);
+        return requestResult;
     }
 
     /**
@@ -142,9 +144,12 @@ export class PaymentService {
                     JOB: options.JOB,
                     ORDERID: options.ORDERID,
                     AMOUNT: options.AMOUNT,
-                    MACHINE_CODE: options.MACHINE_CODE,
-                    TRANID: options.TRANID,
-                    CANTRANID: options.CANTRANID,
+                    MACHINE_CODE: (options.MACHINE_CODE === undefined)
+                        ? '' : options.MACHINE_CODE,
+                    TRANID: (options.TRANID === undefined)
+                        ? '' : options.TRANID,
+                    CANTRANID: (options.CANTRANID === undefined)
+                        ? '' : options.CANTRANID,
                     OFFLINE: this.offline
                 };
                 break;
@@ -158,7 +163,8 @@ export class PaymentService {
                     FUNC: func,
                     JOB: options.JOB,
                     ORDERID: options.ORDERID,
-                    TRANID: options.TRANID
+                    TRANID: (options.TRANID === undefined)
+                        ? '' : options.TRANID,
                 };
                 break;
 

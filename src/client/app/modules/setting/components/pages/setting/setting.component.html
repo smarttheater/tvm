@@ -113,9 +113,7 @@
                                             class="text-danger">
                                             {{ 'form.validation.required' | translate }}</p>
                                     </div>
-                                    <p class="text-small mt-2">
-                                        {{ 'setting.printer.ipAddressDescription' | translate }}
-                                    </p>
+                                    <p class="text-small mt-2" [innerHtml]="'setting.printer.ipAddressDescription' | translate"></p>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +124,7 @@
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" formControlName="cashchanger"
                                         placeholder="0.0.0.0">
+                                    <p class="text-small mt-2" [innerHtml]="'setting.cashchanger.description' | translate"></p>
                                     <div *ngIf="settingForm.controls.cashchanger.invalid && settingForm.controls.cashchanger.touched"
                                         class="mt-2">
                                         <p *ngIf="settingForm.controls.cashchanger.errors?.required"

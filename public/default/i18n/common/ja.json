@@ -177,11 +177,12 @@
         "printer": {
             "label": "プリンター",
             "ipAddress": "IPアドレス",
-            "ipAddressDescription": "※スター精密 Bluetooth接続(StarwebPRNT専用ブラウザー)の場合localhost:8001を設定してください。",
+            "ipAddressDescription": "※スター精密 Bluetooth接続(StarwebPRNT専用ブラウザー)を使用する場合localhost:8001を設定してください。<br>※Epson ePOSを使用する場合SSL無しはポート番号8008、SSL有りの場合ポート番号8043を指定してください。",
             "testPrinting": "テスト印刷"
         },
         "cashchanger": {
-            "label": "釣銭機"
+            "label": "釣銭機",
+            "description": "※SSL無しはポート番号8008、SSL有りの場合ポート番号8043を指定してください。"
         },
         "payment": {
             "label": "決済端末"

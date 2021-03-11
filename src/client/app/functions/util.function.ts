@@ -287,5 +287,5 @@ export function changeViewport() {
 export function resetViewport() {
     const target = document.body;
     target.style.transform = 'scale(' + 1 + ')';
-    target.style.opacity = '0';
+    // target.style.opacity = '0';
 }

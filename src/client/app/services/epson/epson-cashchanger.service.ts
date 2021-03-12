@@ -22,7 +22,7 @@ interface IDeposit {
 export class EpsonCaschCangerService {
     private ePOSDevice: any;
     private device: any;
-    private deposit: IDeposit;
+    private deposit?: IDeposit;
 
     constructor() { }
 
@@ -31,6 +31,7 @@ export class EpsonCaschCangerService {
         timeout?: number;
     }) {
         this.device = undefined;
+        this.deposit = undefined;
         this.ePOSDevice = new (<any>window).epson.ePOSDevice();
         await this.connect(params);
         this.device = (await this.createDevice()).data;
@@ -73,6 +74,7 @@ export class EpsonCaschCangerService {
     public async disconnect() {
         this.ePOSDevice.disconnect();
         this.device = undefined;
+        this.deposit = undefined;
     }
 
     /**

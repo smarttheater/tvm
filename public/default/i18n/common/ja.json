@@ -1,24 +1,8 @@
 {
     "purchase": {
-        "input": {
-            "title": "購入者情報入力",
-            "read": "購入者情報を入力してください。",
-            "payment": {
-                "title": "決済情報入力",
-                "read": "決済情報を入力してください。"
-            },
-            "securityCode": "セキュリティーコードについて",
-            "next": "次へ",
-            "prev": "戻る",
-            "alert": {
-                "customer": "購入者情報に誤りがあります。",
-                "payment": "決済情報に誤りがあります。",
-                "gmoToken": "クレジットカード情報を確認してください。"
-            }
-        },
         "payment": {
             "title": "支払い方法を選択してください",
-            "read": "決済方法を選択してください。",
+            "read": "",
             "notPayment": "購入内容を確認して購入確定を押してください",
             "notfound": "購入中のアイテムがありません。",
             "next": "購入確定",
@@ -356,30 +340,6 @@
                 },
                 "about": "予約完了のお知らせ"
             }
-        },
-        "order": {
-            "return": {
-                "sender": {
-                    "name": "",
-                    "email": "noreply@smart-theater.com"
-                },
-                "toRecipient": {
-                    "name": "",
-                    "email": ""
-                },
-                "about": "返品完了のお知らせ"
-            },
-            "refundCreditCard": {
-                "sender": {
-                    "name": "",
-                    "email": "noreply@smart-theater.com"
-                },
-                "toRecipient": {
-                    "name": "",
-                    "email": ""
-                },
-                "about": "返金完了のお知らせ"
-            }
         }
     },
     "qrcode": {
@@ -450,29 +410,7 @@
         "reservationStatus": "予約ステータス",
         "additionalTicketText": "予約メモ",
         "qrcode": "QRコード",
-        "credit": {
-            "cardNumber": "カード番号",
-            "cardExpiration": "カード有効期限",
-            "securityCode": "セキュリティーコード",
-            "holderName": "カード名義人"
-        },
         "paymentMethodType": {
-            "cash": {
-                "label": "現金",
-                "use": ""
-            },
-            "account": {
-                "label": "アカウント",
-                "use": ""
-            },
-            "creditCard": {
-                "label": "クレジットカード",
-                "use": ""
-            },
-            "eMoney": {
-                "label": "電子マネー",
-                "use": ""
-            },
             "movieTicket": {
                 "label": "ムビチケ",
                 "use": "<span class=\"font-weight-bold\">ムビチケ券のご利用について</span><br><span class=\"text-small\">ムビチケ券をご利用される方は認証を行い券種に追加してください。</span>"
@@ -480,14 +418,6 @@
             "mgTicket": {
                 "label": "MGチケット",
                 "use": "<span class=\"font-weight-bold\">MGチケットのご利用について</span><br><span class=\"text-small\">MGチケットをご利用される方は認証を行い券種に追加してください。</span>"
-            },
-            "others": {
-                "label": "その他",
-                "use": ""
-            },
-            "regiGrow": {
-                "label": "RegiGrow",
-                "use": ""
             }
         },
         "timeLimit": "残り",

@@ -13,6 +13,7 @@
                 <div *ngIf="amount > 0">
                     <ng-container *ngFor="let payment of payments">
                         <button type="button" class="btn btn-block border border-gray p-4 mb-3"
+                            [class]="payment.paymentAccepted.paymentMethodType"
                             (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
                             <div class="d-flex align-items-center">
                                 <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.Cash"

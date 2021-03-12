@@ -37,6 +37,13 @@ export class EpsonCaschCangerService {
     }
 
     /**
+     * 接続確認
+     */
+    public isConnected() {
+        return this.device !== undefined;
+    }
+
+    /**
      * 接続
      */
     private async connect(params: {
@@ -65,6 +72,7 @@ export class EpsonCaschCangerService {
      */
     public async disconnect() {
         this.ePOSDevice.disconnect();
+        this.device = undefined;
     }
 
     /**

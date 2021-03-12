@@ -652,8 +652,7 @@ export class PurchaseService {
     public async depositRepay(_params: { ipAddress: string; }) {
         try {
             this.utilService.loadStart({ process: 'load' });
-            const { paymentMethod } = await this.getData();
-            if (paymentMethod?.typeOf === factory.chevre.paymentMethodType.Cash) {
+            if (this.epsonEPOSService.cashchanger.isConnected()) {
                 await this.epsonEPOSService.cashchanger.endDepositRepay();
                 await this.epsonEPOSService.cashchanger.disconnect();
             }

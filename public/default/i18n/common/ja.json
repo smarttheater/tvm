@@ -253,7 +253,8 @@
             "SearchScreeningEventSeries": "施設コンテンツ情報を取得しています",
             "SearchScreeningRooms": "ルーム情報を取得しています",
             "SearchCategoryCode": "区分情報を取得しています",
-            "GetProjects": "プロジェクトを取得しています"
+            "GetProjects": "プロジェクトを取得しています",
+            "GetTheaters": "施設情報を取得しています"
         },
         "orderAction": {
             "Search": "注文情報を取得しています",
@@ -281,10 +282,8 @@
             "Reserve": "取引を確定しています",
             "EndTransaction": "取引を確定しています",
             "AuthorizeAnyPayment": "決済情報を承認しています"
-        },
-        "userAction": {}
+        }
     },
-    "footer": {},
     "email": {
         "domain": "@smart-theater.com",
         "purchase": {
@@ -390,6 +389,7 @@
         "error": "エラー",
         "confirm": "確認",
         "complete": "完了",
+        "determine": "確定",
         "warning": "警告",
         "change": "変更",
         "remove": "削除",

@@ -25,6 +25,9 @@ export class ChangeLanguagePipe implements PipeTransform {
         if (lang.en !== undefined) {
             return lang.en;
         }
+        if (lang.ja !== undefined) {
+            return lang.ja;
+        }
         return '';
     }
 

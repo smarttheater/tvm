@@ -10,7 +10,6 @@
                         "today": "本日の作品",
                         "other": "本日以外の作品"
                     }
-
                 },
                 "time": {
                     "title": "時間で探す",
@@ -67,7 +66,6 @@
                 "reset": "リセット",
                 "openSeating": {
                     "title": "枚数を選択してください",
-                    
                     "seat": "枚数"
                 },
                 "alert": {
@@ -83,7 +81,7 @@
                 "next": "次へ",
                 "prev": "戻る",
                 "allSelect": "すべて選択",
-                "notfound":"",
+                "notfound": "",
                 "alert": {
                     "ticketCondition": "割引券の適用条件を再度ご確認ください。",
                     "temporaryReservation": "仮予約に失敗しました。"
@@ -96,11 +94,6 @@
             "3": "券種選択",
             "4": "支払い方法選択<br>購入確認",
             "5": "購入完了"
-        }
-    },
-    "process": {
-        "masterAction": {
-            "GetTheaters": "劇場情報を取得しています"
         }
     },
     "common": {

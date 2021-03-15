@@ -26,6 +26,7 @@ export class PurchaseCinemaTopComponent implements OnInit {
      */
     public async ngOnInit() {
         try {
+            this.actionService.user.updateLanguage('ja');
             const { cashchanger } = await this.actionService.user.getData();
             if (cashchanger !== undefined) {
                 await this.actionService.purchase.depositRepay({ ipAddress: cashchanger });

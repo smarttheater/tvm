@@ -48,3 +48,4 @@ dist/client/**/stats.json
 dist/client/**/stats-es2015.json
 *.gcp.yaml
 ssl/
+bin/output/

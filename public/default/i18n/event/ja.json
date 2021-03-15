@@ -9,7 +9,6 @@
                         "today": "本日",
                         "other": "本日以外"
                     }
-
                 },
                 "inquiry": {
                     "title": "発券する",
@@ -40,7 +39,6 @@
                     "limit": "同時購入可能数は{{value}}件までです。",
                     "cancel": "取り消しに失敗しました。"
                 }
-                
             },
             "select": {
                 "title": "チケット選択",
@@ -61,7 +59,6 @@
                     "limit": "同時購入可能数は{{value}}件までです。",
                     "cancel": "取り消しに失敗しました。"
                 }
-                
             },
             "seat": {
                 "title": "座席選択",
@@ -70,7 +67,7 @@
                 "prev": "戻る",
                 "allSelect": "すべて選択",
                 "reset": "リセット",
-                "openSeating": "座席数", 
+                "openSeating": "座席数",
                 "alert": {
                     "limit": "同時購入可能数は{{value}}件までです。",
                     "temporaryReservation": "仮予約に失敗しました。",
@@ -85,7 +82,7 @@
                 "next": "次へ",
                 "prev": "戻る",
                 "allSelect": "すべて選択",
-                "notfound":"",
+                "notfound": "",
                 "alert": {
                     "ticketCondition": "割引券の適用条件を再度ご確認ください。",
                     "temporaryReservation": "仮予約に失敗しました。"
@@ -107,11 +104,6 @@
             "1": "チケット選択",
             "2": "支払い方法選択<br>購入確認",
             "3": "購入完了"
-        }
-    },
-    "process": {
-        "masterAction": {
-            "GetTheaters": "施設情報を取得しています"
         }
     },
     "common": {

@@ -91,7 +91,6 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         await this.epsonEPOSService.cashchanger.init({
             ipAddress: cashchanger
         });
-        await this.epsonEPOSService.cashchanger.endDeposit();
         await this.epsonEPOSService.cashchanger.beginDeposit();
     }
 

@@ -1,4 +1,4 @@
-<app-header [isClear]="true">
+<app-header>
     <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Cinema" [currentStep]="4"></app-purchase-step>
     <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Event" [currentStep]="2"></app-purchase-step>
 </app-header>

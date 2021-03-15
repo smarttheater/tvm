@@ -16,6 +16,7 @@ import { FooterComponent } from './components/parts/footer/footer.component';
 import { CheckboxComponent } from './components/parts/form/checkbox/checkbox.component';
 import { HeaderComponent } from './components/parts/header/header.component';
 import { ItemListComponent } from './components/parts/item-list/item-list.component';
+import { LanguageComponent } from './components/parts/language/language.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
 import { MovieTicketCheckModalComponent } from './components/parts/movie-ticket/check-modal/check-modal.component';
 import { NumericKeypadComponent } from './components/parts/numeric-keypad/numeric-keypad.component';
@@ -44,7 +45,8 @@ const components = [
   CheckboxComponent,
   CurrentDateTimeComponent,
   PrintResultComponent,
-  QuantityInputComponent
+  QuantityInputComponent,
+  LanguageComponent,
 ];
 
 const entryComponents = [

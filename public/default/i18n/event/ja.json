@@ -5,7 +5,6 @@
                 "title": "メニューを選んでください",
                 "purchase": {
                     "title": "購入する",
-                    "read": "",
                     "search": {
                         "today": "本日",
                         "other": "本日以外"
@@ -14,13 +13,11 @@
                 },
                 "inquiry": {
                     "title": "発券する",
-                    "read": "",
                     "print": "予約済みチケットを発券する"
                 }
             },
             "date": {
                 "title": "予約される日付を選んでください",
-                "read": "",
                 "next": "次へ",
                 "prev": "戻る"
             },

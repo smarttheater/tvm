@@ -2,7 +2,6 @@
     "purchase": {
         "payment": {
             "title": "支払い方法を選択してください",
-            "read": "",
             "notPayment": "購入内容を確認して購入確定を押してください",
             "notfound": "購入中のアイテムがありません。",
             "next": "購入確定",
@@ -13,53 +12,32 @@
         },
         "paymentReception": {
             "title": "決済方法選択",
-            "read": "",
             "cash": {
                 "title": "現金を投入してください",
-                "read": "",
                 "insufficient": "不足金額",
                 "deposit": "お預かり金額",
                 "change": "お釣り",
                 "next": "購入確定",
-                "prev": "戻る",
-                "alert": {}
+                "prev": "戻る"
             },
             "creditcard": {
                 "title": "クレジットカードを挿入してください",
-                "read": "",
                 "next": "購入確定",
-                "prev": "戻る",
-                "alert": {}
+                "prev": "戻る"
             },
             "eMoney": {
                 "title": "決済受付（電子マネー）",
-                "read": "",
                 "next": "購入確定",
-                "prev": "戻る",
-                "alert": {}
+                "prev": "戻る"
             },
             "code": {
                 "title": "決済受付（コード）",
-                "read": "",
                 "next": "購入確定",
-                "prev": "戻る",
-                "alert": {}
+                "prev": "戻る"
             }
-        },
-        "confirm": {
-            "title": "",
-            "read": "",
-            "next": "",
-            "consent": "",
-            "prev": "",
-            "custody": "",
-            "change": "",
-            "warning": "",
-            "alert": {}
         },
         "complete": {
             "title": "お買い上げいただきありがとうございます",
-            "read": "",
             "print": {
                 "total": "合計",
                 "ticket": "チケット",
@@ -84,14 +62,12 @@
     "inquiry": {
         "input": {
             "title": "チケットご購入時の確認番号と電話番号を入力してください",
-            "read": "",
             "next": "照会",
             "prev": "戻る",
             "validation": "入力情報に誤りがあります。"
         },
         "confirm": {
             "title": "下記内容をご確認の上、チケットを発券してください",
-            "read": "",
             "next": "発券",
             "prev": "戻る",
             "cancel": "キャンセル",
@@ -117,37 +93,31 @@
     "error": {
         "title": "エラー",
         "read": "エラーが発生しました。",
-        "next": "",
         "prev": "戻る"
     },
     "notfound": {
         "title": "NOT FOUND",
         "read": "ページが見つかりません。",
-        "next": "",
         "prev": "戻る"
     },
     "expired": {
         "title": "エラー",
         "read": "取引の期限が切れました。",
-        "next": "",
         "prev": "戻る"
     },
     "congestion": {
         "title": "只今、アクセスが混雑しております。",
         "read": "現在アクセスが集中しております。<br>誠に申し訳ございませんがしばらく時間を置いてから再度アクセスしてください。",
-        "next": "",
         "prev": "戻る"
     },
     "maintenance": {
         "title": "メンテナンス",
         "read": "メンテナンスの為、インターネットでの販売を停止させていただきます。",
-        "next": "",
         "prev": "戻る"
     },
     "stop": {
         "title": "停止",
         "read": "お近くの係員までお声掛けください。",
-        "next": "",
         "prev": "戻る"
     },
     "setting": {
@@ -222,17 +192,13 @@
         },
         "placeholder": {
             "printerIpAddress": "0.0.0.0",
-            "familyName": "モーション",
-            "givenName": "ピクチャー",
+            "familyName": "ヤマダ",
+            "givenName": "タロウ",
             "email": "xxx@motionpicture.jp",
             "telephone": "0362778824",
             "age": "",
             "address": "",
             "gender": "",
-            "cardNumber": "",
-            "cardExpiration": "",
-            "securityCode": "",
-            "holderName": "",
             "confirmationNumber": "12345"
         },
         "required": "必須"
@@ -296,9 +262,6 @@
             "Inquiry": "注文情報を照会しています",
             "OrderAuthorize": "注文情報を承認しています"
         },
-        "reservationAction": {
-            "Search": "予約情報を取得しています"
-        },
         "purchaseAction": {
             "StartTransaction": "取引を開始しています",
             "CancelTransaction": "取引を中止しています",
@@ -313,8 +276,6 @@
             "TemporaryReservationFreeSeat": "仮予約しています",
             "CancelTemporaryReservations": "仮予約をキャンセルしています",
             "RegisterContact": "購入者情報を登録しています",
-            "AuthorizeCreditCard": "クレジットカード情報を承認しています",
-            "CreateGmoTokenObject": "GMOオブジェクトを作成しています",
             "AuthorizeMovieTicket": "ムビチケ情報を承認しています",
             "CheckMovieTicket": "ムビチケ情報を確認しています",
             "Reserve": "取引を確定しています",
@@ -323,9 +284,7 @@
         },
         "userAction": {}
     },
-    "footer": {
-        "copyright": "Copyright (c) Motionpicture co.,ltd. All rights reserved."
-    },
+    "footer": {},
     "email": {
         "domain": "@smart-theater.com",
         "purchase": {

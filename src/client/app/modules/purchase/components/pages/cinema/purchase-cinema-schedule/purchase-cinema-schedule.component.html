@@ -30,6 +30,7 @@
                                                 <img src="/assets/images/icon/status_warning.svg" alt="">
                                             </div>
                                             <div *ngIf="performance.isSeatStatus('danger')">
+                                                <!-- {{ 'common.performance.status.danger' | translate }} -->
                                                 <img src="/assets/images/icon/status_danger.svg" alt="">
                                             </div>
                                             <div *ngIf="performance.isSeatStatus()">
@@ -37,9 +38,13 @@
                                             </div>
                                         </div>
                                         <div class="status" *ngIf="performance.isSales('end')">
-                                            {{ 'common.performance.status.endSale' | translate }}</div>
+                                            <!-- {{ 'common.performance.status.endSale' | translate }} -->
+                                            <img src="/assets/images/icon/status_danger.svg" alt="">
+                                        </div>
                                         <div class="status" *ngIf="performance.isSales('start')">
-                                            {{ 'common.performance.status.outsideSalesPeriod' | translate }}</div>
+                                            <!-- {{ 'common.performance.status.outsideSalesPeriod' | translate }} -->
+                                            <img src="/assets/images/icon/status_danger.svg" alt="">
+                                        </div>
                                         <div *ngIf="performance.isSales() && performance.isInfinitetock()"
                                             class="status">
                                             <img src="/assets/images/icon/status_success.svg" alt="">

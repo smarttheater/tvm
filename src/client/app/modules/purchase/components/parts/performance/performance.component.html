@@ -30,19 +30,23 @@
                     <div *ngIf="performance.isSeatStatus('warning')">
                         <img src="/assets/images/icon/status_warning.svg" alt="">
                     </div>
-                    <div *ngIf="performance.isSeatStatus('danger')">
-                        {{ 'common.performance.status.danger' | translate }}
-                        <!-- <img src="/assets/images/icon/status_danger.svg" alt=""> -->
+                    <div *ngIf="performance.isSeatStatus('danger')" class="text-small">
+                        <!-- {{ 'common.performance.status.danger' | translate }} -->
+                        <img src="/assets/images/icon/status_danger.svg" alt="">
                     </div>
                     <div *ngIf="performance.isSeatStatus()">
                         <img src="/assets/images/icon/status_undefined.svg" alt="">
                     </div>
                 </div>
         
-                <div class="status text-center" *ngIf="performance.isSales('end')">
-                    {{ 'common.performance.status.endSale' | translate }}</div>
-                <div class="status text-center" *ngIf="performance.isSales('start')">
-                    {{ 'common.performance.status.outsideSalesPeriod' | translate }}</div>
+                <div class="status text-center text-small" *ngIf="performance.isSales('end')">
+                    <!-- {{ 'common.performance.status.endSale' | translate }} -->
+                    <img src="/assets/images/icon/status_danger.svg" alt="">
+                </div>
+                <div class="status text-center text-small" *ngIf="performance.isSales('start')">
+                    <!-- {{ 'common.performance.status.outsideSalesPeriod' | translate }} -->
+                    <img src="/assets/images/icon/status_danger.svg" alt="">
+                </div>
                 <div *ngIf="performance.isSales() && performance.isInfinitetock()" class="status text-center">
                     <img src="/assets/images/icon/status_success.svg" alt="">
                 </div>

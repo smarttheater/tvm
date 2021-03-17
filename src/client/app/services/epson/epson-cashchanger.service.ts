@@ -13,11 +13,23 @@ interface IDeposit {
     jpy2000: string;
     jpy5000: string;
     jpy10000: string;
-    status: 'BUSY' | 'PAUSE' | 'END' | 'DEVICE_ERROR' | 'SYSTEM_ERROR' | 'COMMAND_ERROR';
+    status: 'BUSY'
+    | 'PAUSE'
+    | 'END'
+    | 'DEVICE_ERROR'
+    | 'SYSTEM_ERROR'
+    | 'COMMAND_ERROR';
 }
 
 interface IDispense {
-    status: 'BUSY' | 'SUCCESS' | 'DEVICE_ERROR' | 'SYSTEM_ERROR' | 'COMMAND_ERROR';
+    status: 'BUSY'
+    | 'SUCCESS'
+    | 'SHORTAGE_ERROR'
+    | 'CASH_IN_TRAY_ERROR'
+    | 'DEVICE_ERROR'
+    | 'SYSTEM_ERROR'
+    | 'COMMAND_ERROR'
+    | 'ILLEGAL_PARAMETER_ERROR';
 }
 
 @Injectable({
@@ -115,12 +127,14 @@ export class EpsonCaschCangerService {
             throw new Error('device undefined');
         }
         const beginDeposit = () => {
-            return new Promise<void>((resolve) => {
+            return new Promise<void>((resolve, reject) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('beginDeposit', data);
                     if (data.status === 'BUSY') {
                         resolve();
+                        return;
                     }
+                    reject(new Error(data.status));
                 };
                 this.device.beginDeposit();
             });
@@ -141,23 +155,27 @@ export class EpsonCaschCangerService {
             throw new Error('device undefined');
         }
         const pauseDeposit = () => {
-            return new Promise<void>((resolve) => {
+            return new Promise<void>((resolve, reject) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('pauseDeposit', data);
                     if (data.status === 'PAUSE') {
                         resolve();
+                        return;
                     }
+                    reject(new Error(data.status));
                 };
                 this.device.pauseDeposit();
             });
         };
         const endDeposit = () => {
-            return new Promise<void>((resolve) => {
+            return new Promise<void>((resolve, reject) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('endDeposit', data);
                     if (data.status === 'END') {
                         resolve();
+                        return;
                     }
+                    reject(new Error(data.status));
                 };
                 this.device.endDeposit(this.device.DEPOSIT_NOCHANGE);
             });
@@ -176,23 +194,27 @@ export class EpsonCaschCangerService {
             throw new Error('device undefined');
         }
         const pauseDeposit = () => {
-            return new Promise<void>((resolve) => {
+            return new Promise<void>((resolve, reject) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('pauseDeposit', data);
                     if (data.status === 'PAUSE') {
                         resolve();
+                        return;
                     }
+                    reject(new Error(data.status));
                 };
                 this.device.pauseDeposit();
             });
         };
         const endDeposit = () => {
-            return new Promise<void>((resolve) => {
+            return new Promise<void>((resolve, reject) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('endDeposit', data);
                     if (data.status === 'END') {
                         resolve();
+                        return;
                     }
+                    reject(new Error(data.status));
                 };
                 this.device.endDeposit(this.device.DEPOSIT_REPAY);
             });
@@ -213,12 +235,14 @@ export class EpsonCaschCangerService {
             throw new Error('device undefined');
         }
         const dispenseChange = () => {
-            return new Promise<void>((resolve) => {
+            return new Promise<void>((resolve, reject) => {
                 this.device.ondispense = (data: IDispense) => {
                     console.warn('dispenseChange', data);
                     if (data.status === 'SUCCESS') {
                         resolve();
+                        return;
                     }
+                    reject(new Error(data.status));
                 };
                 this.device.dispenseChange(String(params.amount));
             });

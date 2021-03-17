@@ -68,7 +68,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         } catch (error) {
             console.error(error);
             this.utilService.loadEnd();
-            this.router.navigate(['/error']);
+            this.router.navigate(['/stop']);
         }
     }
 
@@ -263,26 +263,42 @@ export class PurchasePaymentReceptionComponent implements OnInit {
                 await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount, additionalProperty });
             }
             await this.actionService.purchase.registerContact(profile);
-            await this.actionService.purchase.endTransaction({ seller, language: user.language });
-            this.utilService.loadStart({ process: 'load' });
-            if (purchase.paymentMethod?.typeOf === this.paymentMethodType.Cash) {
+        } catch (error) {
+            console.error(error);
+            await this.endDepositRepay();
+            return;
+        }
+        try {
+            const { paymentMethod } = await this.actionService.purchase.getData();
+            if (paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金おつり
+                this.utilService.loadStart({ process: 'load' });
                 const deposit = this.getDeposit();
                 await this.epsonEPOSService.cashchanger.endDeposit();
                 if ((deposit - this.amount) > 0) {
                     await this.epsonEPOSService.cashchanger.dispenseChange({ amount: (deposit - this.amount) });
                 }
                 await this.epsonEPOSService.cashchanger.disconnect();
+                this.utilService.loadEnd();
             }
-            this.router.navigate(['/purchase/complete']);
-            this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.loadStart({ process: 'load' });
-            await this.epsonEPOSService.cashchanger.endDepositRepay();
-            await this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.loadEnd();
             console.error(error);
-            this.router.navigate(['/error']);
+            this.router.navigate(['/stop']);
+            return;
+        }
+        try {
+            const purchase = await this.actionService.purchase.getData();
+            const { language } = await this.actionService.user.getData();
+            const seller = purchase.seller;
+            if (seller === undefined) {
+                throw new Error('seller undefined');
+            }
+            await this.actionService.purchase.endTransaction({ seller, language });
+            this.router.navigate(['/purchase/complete']);
+        } catch (error) {
+            console.error(error);
+            await this.endDepositRepay();
         }
     }
 
@@ -312,5 +328,22 @@ export class PurchasePaymentReceptionComponent implements OnInit {
         const paymentTimeout = Number(this.environment.PAYMENT_TIMEOUT);
         const diff = moment(expires).diff(now, 'milliseconds');
         return (diff < paymentTimeout) ? diff : paymentTimeout;
+    }
+
+    /**
+     * 現金返金
+     */
+    private async endDepositRepay() {
+        try {
+            this.utilService.loadStart({ process: 'load' });
+            await this.epsonEPOSService.cashchanger.endDepositRepay();
+            await this.epsonEPOSService.cashchanger.disconnect();
+            this.utilService.loadEnd();
+            this.router.navigate(['/error']);
+        } catch (error) {
+            this.utilService.loadEnd();
+            console.error(error);
+            this.router.navigate(['/stop']);
+        }
     }
 }

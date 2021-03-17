@@ -13,7 +13,11 @@ interface IDeposit {
     jpy2000: string;
     jpy5000: string;
     jpy10000: string;
-    status: 'BUSY' | 'PAUSE' | 'END';
+    status: 'BUSY' | 'PAUSE' | 'END' | 'DEVICE_ERROR' | 'SYSTEM_ERROR' | 'COMMAND_ERROR';
+}
+
+interface IDispense {
+    status: 'BUSY' | 'SUCCESS' | 'DEVICE_ERROR' | 'SYSTEM_ERROR' | 'COMMAND_ERROR';
 }
 
 @Injectable({
@@ -35,6 +39,7 @@ export class EpsonCaschCangerService {
         this.ePOSDevice = new (<any>window).epson.ePOSDevice();
         await this.connect(params);
         this.device = (await this.createDevice()).data;
+        console.log(this.device);
     }
 
     /**
@@ -106,24 +111,26 @@ export class EpsonCaschCangerService {
      * 開始
      */
     public async beginDeposit() {
-        return new Promise<void>((resolve, reject) => {
-            if (this.device === undefined) {
-                reject(new Error('device undefined'));
-            }
-            // console.log(this.device);
-            this.device.beginDeposit();
-            this.device.ondeposit = (data: IDeposit) => {
-                console.log('beginDeposit', data);
-                // 入金処理
-                this.deposit = data;
-            };
-            // this.device.readCashCounts();
-            // this.device.oncashcounts = (data: IDeposit) => {
-            //     console.log('oncashcounts', data);
-            //     // 残金
-            // };
-            resolve();
-        });
+        if (this.device === undefined) {
+            throw new Error('device undefined');
+        }
+        const beginDeposit = () => {
+            return new Promise<void>((resolve) => {
+                this.device.ondeposit = (data: IDeposit) => {
+                    console.warn('beginDeposit', data);
+                    if (data.status === 'BUSY') {
+                        resolve();
+                    }
+                };
+                this.device.beginDeposit();
+            });
+        };
+        await beginDeposit();
+        this.device.ondeposit = (data: IDeposit) => {
+            console.warn('deposit', data);
+            // 入金処理
+            this.deposit = data;
+        };
     }
 
     /**
@@ -131,11 +138,33 @@ export class EpsonCaschCangerService {
      */
     public async endDeposit() {
         if (this.device === undefined) {
-            return;
+            throw new Error('device undefined');
         }
-        this.device.pauseDeposit();
+        const pauseDeposit = () => {
+            return new Promise<void>((resolve) => {
+                this.device.ondeposit = (data: IDeposit) => {
+                    console.warn('pauseDeposit', data);
+                    if (data.status === 'PAUSE') {
+                        resolve();
+                    }
+                };
+                this.device.pauseDeposit();
+            });
+        };
+        const endDeposit = () => {
+            return new Promise<void>((resolve) => {
+                this.device.ondeposit = (data: IDeposit) => {
+                    console.warn('endDeposit', data);
+                    if (data.status === 'END') {
+                        resolve();
+                    }
+                };
+                this.device.endDeposit(this.device.DEPOSIT_NOCHANGE);
+            });
+        };
+        await pauseDeposit();
         await Functions.Util.sleep(1000);
-        this.device.endDeposit(this.device.DEPOSIT_NOCHANGE);
+        await endDeposit();
         await Functions.Util.sleep(1000);
     }
 
@@ -144,11 +173,33 @@ export class EpsonCaschCangerService {
      */
     public async endDepositRepay() {
         if (this.device === undefined) {
-            return;
+            throw new Error('device undefined');
         }
-        this.device.pauseDeposit();
+        const pauseDeposit = () => {
+            return new Promise<void>((resolve) => {
+                this.device.ondeposit = (data: IDeposit) => {
+                    console.warn('pauseDeposit', data);
+                    if (data.status === 'PAUSE') {
+                        resolve();
+                    }
+                };
+                this.device.pauseDeposit();
+            });
+        };
+        const endDeposit = () => {
+            return new Promise<void>((resolve) => {
+                this.device.ondeposit = (data: IDeposit) => {
+                    console.warn('endDeposit', data);
+                    if (data.status === 'END') {
+                        resolve();
+                    }
+                };
+                this.device.endDeposit(this.device.DEPOSIT_REPAY);
+            });
+        };
+        await pauseDeposit();
         await Functions.Util.sleep(1000);
-        this.device.endDeposit(this.device.DEPOSIT_REPAY);
+        await endDeposit();
         await Functions.Util.sleep(1000);
     }
 
@@ -159,13 +210,20 @@ export class EpsonCaschCangerService {
         amount: number;
     }) {
         if (this.device === undefined) {
-            return;
+            throw new Error('device undefined');
         }
-        // this.device.ondispense = (data: IDeposit) => {
-        //     // 出金処理
-        //     console.log(data);
-        // };
-        this.device.dispenseChange(String(params.amount));
+        const dispenseChange = () => {
+            return new Promise<void>((resolve) => {
+                this.device.ondispense = (data: IDispense) => {
+                    console.warn('dispenseChange', data);
+                    if (data.status === 'SUCCESS') {
+                        resolve();
+                    }
+                };
+                this.device.dispenseChange(String(params.amount));
+            });
+        };
+        await dispenseChange();
         await Functions.Util.sleep(1000);
     }
 

@@ -27,10 +27,6 @@ export class PurchaseEventTopComponent implements OnInit {
     public async ngOnInit() {
         try {
             this.actionService.user.updateLanguage('ja');
-            const { cashchanger } = await this.actionService.user.getData();
-            if (cashchanger !== undefined) {
-                await this.actionService.purchase.depositRepay({ ipAddress: cashchanger });
-            }
             await this.actionService.purchase.cancelTransaction();
             await this.actionService.user.checkVersion();
             this.actionService.purchase.delete();

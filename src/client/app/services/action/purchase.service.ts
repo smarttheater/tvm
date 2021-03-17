@@ -10,7 +10,7 @@ import { getEnvironment } from '../../../environments/environment';
 import { purchaseAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
-import { EpsonEPOSService } from '../epson-epos.service';
+import { PaymentService } from '../payment.service';
 import { UtilService } from '../util.service';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class PurchaseService {
         private store: Store<reducers.IState>,
         private utilService: UtilService,
         private cinerinoService: CinerinoService,
-        private epsonEPOSService: EpsonEPOSService
+        private paymentService: PaymentService
     ) {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.error = this.store.pipe(select(reducers.getError));
@@ -647,20 +647,67 @@ export class PurchaseService {
     }
 
     /**
-     * 預金返済
+     * 決済取り消し
      */
-    public async depositRepay(_params: { ipAddress: string; }) {
-        try {
-            this.utilService.loadStart({ process: 'load' });
-            if (this.epsonEPOSService.cashchanger.isConnected()) {
-                await this.epsonEPOSService.cashchanger.endDepositRepay();
-                await this.epsonEPOSService.cashchanger.disconnect();
+    public async voidPayment(params: {
+        payment?: string;
+    }) {
+        const { payment } = params;
+        const { authorizeSeatReservations, orderId, paymentMethod } = await this.getData();
+        if (payment === undefined
+            || orderId === undefined
+            || paymentMethod === undefined) {
+            return;
+        }
+        const amount = Functions.Purchase.getAmount(authorizeSeatReservations);
+        await this.paymentService.init({ ipAddress: payment });
+        if (paymentMethod.typeOf === factory.chevre.paymentMethodType.CreditCard) {
+            const execResult = await this.paymentService.exec({
+                func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
+                options: {
+                    JOB: Models.Purchase.Payment.JOB.VOID,
+                    ORDERID: orderId,
+                    AMOUNT: String(amount),
+                },
+            });
+            if (execResult.FUNC_STATUS !== Models.Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                await this.paymentService.exec({
+                    func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION,
+                });
+                throw new Error(JSON.stringify(execResult));
             }
-            this.utilService.loadEnd();
-        } catch (error) {
-            console.error(error);
-            this.utilService.loadEnd();
-            throw error;
+        }
+        if (paymentMethod.typeOf === factory.chevre.paymentMethodType.EMoney) {
+            const execResult = await this.paymentService.exec({
+                func: Models.Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
+                options: {
+                    JOB: Models.Purchase.Payment.JOB.VOID,
+                    ORDERID: orderId,
+                    AMOUNT: String(amount),
+                },
+            });
+            if (execResult.FUNC_STATUS !== Models.Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                await this.paymentService.exec({
+                    func: Models.Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION,
+                });
+                throw new Error(JSON.stringify(execResult));
+            }
+        }
+        if (paymentMethod.typeOf === 'Code') {
+            const execResult = await this.paymentService.exec({
+                func: Models.Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
+                options: {
+                    JOB: Models.Purchase.Payment.JOB.VOID,
+                    ORDERID: orderId,
+                    AMOUNT: String(amount),
+                },
+            });
+            if (execResult.FUNC_STATUS !== Models.Purchase.Payment.FUNC_STATUS.SUCCESS) {
+                await this.paymentService.exec({
+                    func: Models.Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION,
+                });
+                throw new Error(JSON.stringify(execResult));
+            }
         }
     }
 }

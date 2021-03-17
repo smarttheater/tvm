@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import * as reducers from '../../../../../store/reducers';
     templateUrl: './purchase-payment-reception.component.html',
     styleUrls: ['./purchase-payment-reception.component.scss']
 })
-export class PurchasePaymentReceptionComponent implements OnInit {
+export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
@@ -69,6 +69,15 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             console.error(error);
             this.utilService.loadEnd();
             this.router.navigate(['/stop']);
+        }
+    }
+
+    public async ngOnDestroy() {
+        if (this.epsonEPOSService.cashchanger.isConnected()) {
+            await this.endDepositRepay();
+        }
+        if (this.epsonEPOSService.cashchanger.isConnected()) {
+            await this.endDepositRepay();
         }
     }
 
@@ -265,7 +274,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             await this.actionService.purchase.registerContact(profile);
         } catch (error) {
             console.error(error);
-            await this.endDepositRepay();
+            await this.endDepositRepay('/error');
             return;
         }
         try {
@@ -298,22 +307,7 @@ export class PurchasePaymentReceptionComponent implements OnInit {
             this.router.navigate(['/purchase/complete']);
         } catch (error) {
             console.error(error);
-            await this.endDepositRepay();
-        }
-    }
-
-    /**
-     * 決済選択へ戻る
-     */
-    public async prev() {
-        try {
-            const { cashchanger } = await this.actionService.user.getData();
-            if (cashchanger !== undefined) {
-                await this.actionService.purchase.depositRepay({ ipAddress: cashchanger });
-            }
-            this.router.navigate(['/purchase/payment']);
-        } catch (error) {
-            console.error(error);
+            this.router.navigate(['/error']);
         }
     }
 
@@ -333,13 +327,15 @@ export class PurchasePaymentReceptionComponent implements OnInit {
     /**
      * 現金返金
      */
-    private async endDepositRepay() {
+    private async endDepositRepay(routerLink?: string) {
         try {
             this.utilService.loadStart({ process: 'load' });
             await this.epsonEPOSService.cashchanger.endDepositRepay();
             await this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.loadEnd();
-            this.router.navigate(['/error']);
+            if (routerLink !== undefined) {
+                this.router.navigate([routerLink]);
+            }
         } catch (error) {
             this.utilService.loadEnd();
             console.error(error);

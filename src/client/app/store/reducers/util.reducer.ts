@@ -13,7 +13,7 @@ export function reducer(initialState: IState, action: Action) {
             return { ...state, loading: false, process: '' };
         }),
         on(utilAction.setError, (state, payload) => {
-            return { ...state, error: JSON.stringify(payload.error) };
+            return { ...state, error: payload.error };
         }),
     )(initialState, action);
 }

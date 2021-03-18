@@ -183,8 +183,8 @@ export class UtilService {
     /**
      * エラー設定
      */
-    public setError(erorr: any) {
-        this.store.dispatch(utilAction.setError(erorr));
+    public setError(error: any) {
+        this.store.dispatch(utilAction.setError({ error }));
     }
 
 }

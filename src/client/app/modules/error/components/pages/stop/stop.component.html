@@ -9,8 +9,8 @@
             <p>{{ (purchase | async)?.order.orderNumber }}</p>
         </div>
         
-        <div *ngIf="error | async" class="p-3">
-            <code>{{ (error | async) }}</code>
+        <div *ngIf="error | async" class="p-3 bg-dark-gray text-white">
+            <code class="text-white">{{ (error | async) }}</code>
         </div>
     </div>
 </div>

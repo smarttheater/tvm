@@ -76,9 +76,6 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         if (this.epsonEPOSService.cashchanger.isConnected()) {
             await this.endDepositRepay();
         }
-        if (this.epsonEPOSService.cashchanger.isConnected()) {
-            await this.endDepositRepay();
-        }
     }
 
     /**
@@ -246,28 +243,26 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      */
     public async onSubmit() {
         try {
-            const purchase = await this.actionService.purchase.getData();
-            const user = await this.actionService.user.getData();
-            const profile = user.customerContact;
-            const seller = purchase.seller;
+            const { pendingMovieTickets, paymentMethod, orderId, seller } = await this.actionService.purchase.getData();
+            const { customerContact } = await this.actionService.user.getData();
+            const profile = customerContact;
             if (profile === undefined
                 || seller === undefined) {
                 throw new Error('profile or seller undefined');
             }
-            if (purchase.pendingMovieTickets.length > 0) {
+            if (pendingMovieTickets.length > 0) {
                 await this.actionService.purchase.authorizeMovieTicket({ seller });
             }
-            if (purchase.paymentMethod !== undefined) {
-                const deposit = this.getDeposit();
+            if (paymentMethod !== undefined) {
                 const additionalProperty: { name: string; value: string; }[] = [];
-                if (purchase.paymentMethod.typeOf === factory.chevre.paymentMethodType.Cash
-                    && deposit !== undefined) {
+                if (paymentMethod.typeOf === factory.chevre.paymentMethodType.Cash) {
                     // 現金
+                    const deposit = this.getDeposit();
                     additionalProperty.push({ name: 'depositAmount', value: String(deposit) });
                     additionalProperty.push({ name: 'change', value: String(deposit - this.amount) });
                 }
-                if (purchase.orderId !== undefined) {
-                    additionalProperty.push({ name: 'orderId', value: purchase.orderId });
+                if (orderId !== undefined) {
+                    additionalProperty.push({ name: 'orderId', value: orderId });
                 }
                 await this.actionService.purchase.authorizeAnyPayment({ amount: this.amount, additionalProperty });
             }
@@ -338,7 +333,6 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             }
         } catch (error) {
             this.utilService.loadEnd();
-            console.error(error);
             this.router.navigate(['/stop']);
         }
     }

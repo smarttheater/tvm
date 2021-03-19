@@ -14,23 +14,31 @@ interface IDeposit {
     jpy2000: string;
     jpy5000: string;
     jpy10000: string;
-    status: 'BUSY'
-    | 'PAUSE'
-    | 'END'
-    | 'DEVICE_ERROR'
-    | 'SYSTEM_ERROR'
-    | 'COMMAND_ERROR';
+    status: DepositStatus;
+}
+
+enum DepositStatus {
+    BUSY = 'BUSY',
+    PAUSE = 'PAUSE',
+    END = 'END',
+    DEVICE_ERROR = 'DEVICE_ERROR',
+    SYSTEM_ERROR = 'SYSTEM_ERROR',
+    COMMAND_ERROR = 'COMMAND_ERROR',
 }
 
 interface IDispense {
-    status: 'BUSY'
-    | 'SUCCESS'
-    | 'SHORTAGE_ERROR'
-    | 'CASH_IN_TRAY_ERROR'
-    | 'DEVICE_ERROR'
-    | 'SYSTEM_ERROR'
-    | 'COMMAND_ERROR'
-    | 'ILLEGAL_PARAMETER_ERROR';
+    status: DispenseStatus;
+}
+
+enum DispenseStatus {
+    BUSY = 'BUSY',
+    SUCCESS = 'SUCCESS',
+    SHORTAGE_ERROR = 'SHORTAGE_ERROR',
+    CASH_IN_TRAY_ERROR = 'CASH_IN_TRAY_ERROR',
+    ILLEGAL_PARAMETER_ERROR = 'ILLEGAL_PARAMETER_ERROR',
+    DEVICE_ERROR = 'DEVICE_ERROR',
+    SYSTEM_ERROR = 'SYSTEM_ERROR',
+    COMMAND_ERROR = 'COMMAND_ERROR',
 }
 
 @Injectable({
@@ -133,22 +141,21 @@ export class EpsonCaschCangerService {
             throw new Error('device undefined');
         }
         const beginDeposit = () => {
-            return new Promise<void>((resolve, reject) => {
+            return new Promise<IDeposit>((resolve) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('beginDeposit', data);
-                    if (data.status === 'BUSY') {
-                        resolve();
-                        return;
-                    }
-                    this.disconnect();
-                    reject(new Error(data.status));
+                    resolve(data);
                 };
                 this.device.beginDeposit();
             });
         };
         try {
-            await beginDeposit();
+            const beginDepositResult = await beginDeposit();
+            if (beginDepositResult.status !== DepositStatus.BUSY) {
+                throw new Error(`status error: ${beginDepositResult.status}`);
+            }
         } catch (error) {
+            this.disconnect();
             this.utilService.setError(error);
             throw error;
         }
@@ -162,90 +169,45 @@ export class EpsonCaschCangerService {
     /**
      * 終了
      */
-    public async endDeposit() {
+    public async endDeposit(params: {
+        endDepositType: 'DEPOSIT_REPAY' | 'DEPOSIT_NOCHANGE';
+    }) {
+        const endDepositType = (params.endDepositType === 'DEPOSIT_REPAY')
+            ? this.device.DEPOSIT_REPAY : this.device.DEPOSIT_NOCHANGE;
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
         const pauseDeposit = () => {
-            return new Promise<void>((resolve, reject) => {
+            return new Promise<IDeposit>((resolve) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('pauseDeposit', data);
-                    if (data.status === 'PAUSE') {
-                        resolve();
-                        return;
-                    }
-                    this.disconnect();
-                    reject(new Error(data.status));
+                    resolve(data);
                 };
                 this.device.pauseDeposit();
             });
         };
         const endDeposit = () => {
-            return new Promise<void>((resolve, reject) => {
+            return new Promise<IDeposit>((resolve) => {
                 this.device.ondeposit = (data: IDeposit) => {
                     console.warn('endDeposit', data);
-                    if (data.status === 'END') {
-                        resolve();
-                        return;
-                    }
-                    this.disconnect();
-                    reject(new Error(data.status));
+                    resolve(data);
                 };
-                this.device.endDeposit(this.device.DEPOSIT_NOCHANGE);
+                this.device.endDeposit(endDepositType);
             });
         };
         try {
-            await pauseDeposit();
+            const pauseDepositResult = await pauseDeposit();
+            if (pauseDepositResult.status !== DepositStatus.PAUSE) {
+                throw new Error(`status error: ${pauseDepositResult.status}`);
+            }
             await Functions.Util.sleep(1000);
-            await endDeposit();
-            await Functions.Util.sleep(1000);
+            const endDepositResult = await endDeposit();
+            if (endDepositResult.status !== DepositStatus.END) {
+                throw new Error(`status error: ${endDepositResult.status}`);
+            }
+            await Functions.Util.sleep(3000);
         } catch (error) {
-            this.utilService.setError(error);
-            throw error;
-        }
-    }
-
-    /**
-     * 返金して終了
-     */
-    public async endDepositRepay() {
-        if (this.device === undefined) {
-            throw new Error('device undefined');
-        }
-        const pauseDeposit = () => {
-            return new Promise<void>((resolve, reject) => {
-                this.device.ondeposit = (data: IDeposit) => {
-                    console.warn('pauseDeposit', data);
-                    if (data.status === 'PAUSE') {
-                        resolve();
-                        return;
-                    }
-                    this.disconnect();
-                    reject(new Error(data.status));
-                };
-                this.device.pauseDeposit();
-            });
-        };
-        const endDeposit = () => {
-            return new Promise<void>((resolve, reject) => {
-                this.device.ondeposit = (data: IDeposit) => {
-                    console.warn('endDeposit', data);
-                    if (data.status === 'END') {
-                        resolve();
-                        return;
-                    }
-                    this.disconnect();
-                    reject(new Error(data.status));
-                };
-                this.device.endDeposit(this.device.DEPOSIT_REPAY);
-            });
-        };
-        try {
-            await pauseDeposit();
-            await Functions.Util.sleep(1000);
-            await endDeposit();
-            await Functions.Util.sleep(1000);
-        } catch (error) {
+            this.disconnect();
             this.utilService.setError(error);
             throw error;
         }
@@ -261,23 +223,22 @@ export class EpsonCaschCangerService {
             throw new Error('device undefined');
         }
         const dispenseChange = () => {
-            return new Promise<void>((resolve, reject) => {
+            return new Promise<IDispense>((resolve) => {
                 this.device.ondispense = (data: IDispense) => {
                     console.warn('dispenseChange', data);
-                    if (data.status === 'SUCCESS') {
-                        resolve();
-                        return;
-                    }
-                    this.disconnect();
-                    reject(new Error(data.status));
+                    resolve(data);
                 };
                 this.device.dispenseChange(String(params.amount));
             });
         };
         try {
-            await dispenseChange();
+            const dispenseChangeResult = await dispenseChange();
+            if (dispenseChangeResult.status !== DispenseStatus.SUCCESS) {
+                throw new Error(`status error: ${dispenseChangeResult.status}`);
+            }
             await Functions.Util.sleep(1000);
         } catch (error) {
+            this.disconnect();
             this.utilService.setError(error);
             throw error;
         }
@@ -301,7 +262,7 @@ export class EpsonCaschCangerService {
                 jpy2000: 0,
                 jpy5000: 0,
                 jpy10000: 0,
-                status: 'END'
+                status: DepositStatus.END
             };
         }
         return {

@@ -278,7 +278,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 // 現金おつり
                 this.utilService.loadStart({ process: 'load' });
                 const deposit = this.getDeposit();
-                await this.epsonEPOSService.cashchanger.endDeposit();
+                await this.epsonEPOSService.cashchanger.endDeposit({
+                    endDepositType: 'DEPOSIT_NOCHANGE'
+                });
                 if ((deposit - this.amount) > 0) {
                     await this.epsonEPOSService.cashchanger.dispenseChange({ amount: (deposit - this.amount) });
                 }
@@ -325,7 +327,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     private async endDepositRepay(routerLink?: string) {
         try {
             this.utilService.loadStart({ process: 'load' });
-            await this.epsonEPOSService.cashchanger.endDepositRepay();
+            await this.epsonEPOSService.cashchanger.endDeposit({
+                endDepositType: 'DEPOSIT_REPAY'
+            });
             await this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.loadEnd();
             if (routerLink !== undefined) {
@@ -335,5 +339,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             this.utilService.loadEnd();
             this.router.navigate(['/stop']);
         }
+    }
+
+    public async prev() {
+        await this.endDepositRepay('/purchase/payment');
     }
 }

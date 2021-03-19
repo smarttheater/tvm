@@ -186,6 +186,15 @@ export class EpsonCaschCangerService {
                 this.device.pauseDeposit();
             });
         };
+        const restartDeposit = () => {
+            return new Promise<IDeposit>((resolve) => {
+                this.device.ondeposit = (data: IDeposit) => {
+                    console.warn('restartDeposit', data);
+                    resolve(data);
+                };
+                this.device.restartDeposit();
+            });
+        };
         const endDeposit = () => {
             return new Promise<IDeposit>((resolve) => {
                 this.device.ondeposit = (data: IDeposit) => {
@@ -196,7 +205,17 @@ export class EpsonCaschCangerService {
             });
         };
         try {
-            const pauseDepositResult = await pauseDeposit();
+            let pauseDepositResult = await pauseDeposit();
+            if (pauseDepositResult.status !== DepositStatus.PAUSE) {
+                throw new Error(`status error: ${pauseDepositResult.status}`);
+            }
+            await Functions.Util.sleep(3000);
+            const restartDepositResult = await restartDeposit();
+            if (restartDepositResult.status !== DepositStatus.BUSY) {
+                throw new Error(`status error: ${restartDepositResult.status}`);
+            }
+            await Functions.Util.sleep(1000);
+            pauseDepositResult = await pauseDeposit();
             if (pauseDepositResult.status !== DepositStatus.PAUSE) {
                 throw new Error(`status error: ${pauseDepositResult.status}`);
             }

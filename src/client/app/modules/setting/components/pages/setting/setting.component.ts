@@ -210,7 +210,7 @@ export class SettingComponent implements OnInit {
                 cashchanger: (this.settingForm.controls.cashchanger.value === undefined)
                     ? undefined : this.settingForm.controls.cashchanger.value,
                 payment: (this.settingForm.controls.payment.value === undefined)
-                ? undefined : this.settingForm.controls.payment.value,
+                    ? undefined : this.settingForm.controls.payment.value,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
@@ -283,7 +283,7 @@ export class SettingComponent implements OnInit {
     }
 
     /**
-     * 接続確認
+     * 接続確認（現金）
      */
     public async connectCash() {
         try {
@@ -308,7 +308,29 @@ export class SettingComponent implements OnInit {
     }
 
     /**
-     * 接続確認
+     * 現金返金
+     */
+    public async endDeposit() {
+        try {
+            const ipAddress = this.settingForm.controls.cashchanger.value;
+            await this.epsonEPOSService.cashchanger.init({ ipAddress });
+            await this.epsonEPOSService.cashchanger.endDeposit({ endDepositType: 'DEPOSIT_REPAY' });
+            await this.epsonEPOSService.cashchanger.disconnect();
+        } catch (error) {
+            console.error(error);
+            const message = (error.message === undefined) ? error : error.message;
+            this.utilService.openAlert({
+                title: this.translate.instant('common.error'),
+                body: `
+                <div class="p-3 bg-light-gray select-text">
+                    <code>${message}</code>
+                </div>`
+            });
+        }
+    }
+
+    /**
+     * 接続確認（決済端末）
      */
     public async connectPayment() {
         try {

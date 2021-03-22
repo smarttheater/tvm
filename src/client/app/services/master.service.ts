@@ -88,9 +88,15 @@ export class MasterService {
             workPerformedIdentifiers?: string[];
         };
         startFrom: Date;
-        startThrough: Date;
+        startThrough?: Date;
         screeningEventSeries?: factory.chevre.event.screeningEventSeries.IEvent[];
         screeningRooms?: factory.chevre.place.screeningRoom.IPlace[];
+        offers?: {
+            validFrom?: Date;
+            validThrough?: Date;
+            availableFrom?: Date;
+            availableThrough?: Date;
+        };
     }) {
         try {
             this.utilService.loadStart({ process: 'masterAction.SearchScreeningEvent' });
@@ -108,7 +114,8 @@ export class MasterService {
                     eventStatuses: [factory.chevre.eventStatusType.EventScheduled],
                     superEvent: params.superEvent,
                     startFrom: params.startFrom,
-                    startThrough: params.startThrough
+                    startThrough: params.startThrough,
+                    offers: params.offers
                 });
                 result = [...result, ...searchResult.data];
                 page++;

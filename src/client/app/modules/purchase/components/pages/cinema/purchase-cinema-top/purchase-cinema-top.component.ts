@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
+import { TranslateService } from '@ngx-translate/core';
 import { BAD_REQUEST, TOO_MANY_REQUESTS } from 'http-status';
 import * as moment from 'moment';
 import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, MasterService } from '../../../../../../services';
+import { ActionService, MasterService, UtilService } from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-cinema-top',
@@ -19,6 +20,8 @@ export class PurchaseCinemaTopComponent implements OnInit {
         private masterService: MasterService,
         private actionService: ActionService,
         private router: Router,
+        private utilService: UtilService,
+        private translate: TranslateService
     ) { }
 
     /**
@@ -60,41 +63,42 @@ export class PurchaseCinemaTopComponent implements OnInit {
     }
 
     /**
-     * 販売者を設定
-     */
-    public async setSeller() {
-        const { theater } = await this.actionService.user.getData();
-        const { scheduleDate } = await this.actionService.purchase.getData();
-        if (theater === undefined
-            || scheduleDate === undefined) {
-            throw new Error('theater or scheduleDate undefined');
-        }
-        const screeningEvents = await this.masterService.searchScreeningEvent({
-            superEvent: {
-                locationBranchCodes: [theater.branchCode],
-            },
-            startFrom: moment(scheduleDate).toDate(),
-            startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
-        });
-        const screeningEvent = screeningEvents
-            .find(s => s.offers !== undefined && s.offers.seller !== undefined && s.offers.seller.id !== undefined);
-        if (screeningEvent === undefined
-            || screeningEvent.offers === undefined
-            || screeningEvent.offers.seller === undefined
-            || screeningEvent.offers.seller.id === undefined) {
-            throw new Error('screeningEvent.offers.seller === undefined');
-        }
-        await this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
-    }
-
-    /**
      * 取引開始
      */
-    public async startTransaction(params: { routerLink: string; }) {
-        const scheduleDate = moment().format('YYYY-MM-DD');
-        this.actionService.purchase.selectScheduleDate(scheduleDate);
+    public async startTransaction(params: {
+        routerLink: string;
+    }) {
+        const now = moment().toDate();
+        const today = moment(now).format('YYYY-MM-DD');
+        this.actionService.purchase.selectScheduleDate(today);
         try {
-            await this.setSeller();
+            const { theater } = await this.actionService.user.getData();
+            if (theater === undefined) {
+                throw new Error('theater undefined');
+            }
+            const screeningEvents = await this.masterService.searchScreeningEvent({
+                superEvent: {
+                    locationBranchCodes: [theater.branchCode],
+                },
+                startFrom: moment(today, 'YYYY-MM-DD').toDate(),
+                offers: {
+                    availableFrom: now,
+                    availableThrough: now
+                }
+            });
+            const screeningEvent = screeningEvents
+                .find(s => s.offers !== undefined && s.offers.seller !== undefined && s.offers.seller.id !== undefined);
+            if (screeningEvent === undefined
+                || screeningEvent.offers === undefined
+                || screeningEvent.offers.seller === undefined
+                || screeningEvent.offers.seller.id === undefined) {
+                    this.utilService.openAlert({
+                        title: this.translate.instant('common.error'),
+                        body: this.translate.instant('purchase.cinema.schedule.notfound')
+                    });
+                    return;
+            }
+            await this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);

@@ -2,7 +2,10 @@
     <app-purchase-step [currentStep]="1"></app-purchase-step>
 </app-header>
 <app-page-title title="{{ 'purchase.cinema.scheduleMovie.title' | translate }}"></app-page-title>
-<div class="contents scroll-horizontal">
+<div *ngIf="creativeWorks.length === 0" class="contents scroll-horizontal">
+    <p class="px-3">{{ 'purchase.cinema.scheduleMovie.notfound' | translate }}</p>
+</div>
+<div *ngIf="creativeWorks.length > 0" class="contents scroll-horizontal">
     <div class="container px-3">
         <div class="row">
             <div *ngFor="let creativeWork of creativeWorks; let index = index" class="item mb-3" [ngClass]="{

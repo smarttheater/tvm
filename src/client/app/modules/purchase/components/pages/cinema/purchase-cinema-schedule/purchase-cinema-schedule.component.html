@@ -2,7 +2,10 @@
     <app-purchase-step [currentStep]="1"></app-purchase-step>
 </app-header>
 <app-page-title title="{{ 'purchase.cinema.schedule.title' | translate }}"></app-page-title>
-<div class="contents scroll-horizontal">
+<div *ngIf="screeningEventsGroup.length === 0" class="contents scroll-horizontal">
+    <p class="px-3">{{ 'purchase.cinema.schedule.notfound' | translate }}</p>
+</div>
+<div *ngIf="screeningEventsGroup.length > 0" class="contents scroll-horizontal">
     <div class="px-3">
         <div *ngFor="let group of screeningEventsGroup">
             <div class="container px-0">
@@ -133,11 +136,11 @@
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
                 <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                    routerLink="/purchase/cinema">{{ 'purchase.cinema.scheduleMovie.prev' | translate }}</button>
+                    routerLink="/purchase/cinema">{{ 'purchase.cinema.schedule.prev' | translate }}</button>
             </div>
             <div class="col-3">
                 <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2" disabled>{{
-                    'purchase.cinema.scheduleMovie.next' | translate }}</button>
+                    'purchase.cinema.schedule.next' | translate }}</button>
             </div>
         </div>
     </div>

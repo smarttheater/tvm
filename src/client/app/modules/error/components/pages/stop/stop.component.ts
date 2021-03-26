@@ -21,6 +21,7 @@ export class StopComponent implements OnInit, OnDestroy {
     ) { }
 
     public async ngOnInit() {
+        this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.error = this.store.pipe(select(reducers.getError));
         try {
             const { payment } = await this.actionService.user.getData();

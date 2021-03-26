@@ -142,6 +142,7 @@
             "label": "Payment terminal"
         },
         "connect": "connect",
+        "endDeposit": "Return Deposit",
         "starBluetoothAddress": "localhost: 8001",
         "printType": {
             "none": "do not print",
@@ -389,6 +390,7 @@
         "error": "error",
         "confirm": "confirm",
         "complete": "complete",
+        "determine": "determine",
         "warning": "warning",
         "change": "change",
         "remove": "remove",

@@ -206,20 +206,25 @@ export class PurchaseEventSelectComponent implements OnInit {
     public async onSubmit() {
         const reservations = this.createReservations();
         const additionalTicketText = this.additionalTicketText;
-        // チケット枚数上限判定
-        if (reservations.length > Number(this.environment.PURCHASE_ITEM_MAX_LENGTH)) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant(
-                    'purchase.event.select.alert.limit',
-                    { value: this.environment.PURCHASE_ITEM_MAX_LENGTH }
-                )
-            });
-            return;
-        }
         try {
-            this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
             const { screeningEvent } = await this.actionService.purchase.getData();
+            // チケット枚数上限判定
+            const limit = (screeningEvent === undefined
+                || screeningEvent.offers === undefined
+                || screeningEvent.offers.eligibleQuantity.maxValue === undefined)
+                ? Number(this.environment.PURCHASE_ITEM_MAX_LENGTH)
+                : screeningEvent.offers.eligibleQuantity.maxValue;
+            if (reservations.length > limit) {
+                this.utilService.openAlert({
+                    title: this.translate.instant('common.error'),
+                    body: this.translate.instant(
+                        'purchase.event.select.alert.limit',
+                        { value: limit }
+                    )
+                });
+                return;
+            }
+            this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
             if (screeningEvent !== undefined
                 && new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()) {
                 const remainingSeatLength = Functions.Purchase.getRemainingSeatLength({

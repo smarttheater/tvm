@@ -142,7 +142,6 @@
             "label": "決済端末"
         },
         "connect": "接続",
-        "endDeposit": "預り金返却",
         "starBluetoothAddress": "localhost:8001",
         "printType": {
             "none": "印刷しない",

@@ -12,6 +12,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
-## 1.0.0 - 2020-xx-xx
+## 1.0.0 - 2021-03-29
 ### Added
 - リリース

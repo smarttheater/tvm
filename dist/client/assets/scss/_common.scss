@@ -275,6 +275,13 @@ button {
     border-radius: 0;
 }
 
+.btn:disabled {
+    opacity: 1 !important;
+    background-color: #666 !important;
+    border-color: #666 !important;
+    color: #EEE !important;
+}
+
 .page-title {
     height: 100px;
 } 
@@ -296,3 +303,8 @@ button {
 .modal-open .modal {
     overflow: hidden;
 }
+
+.video-format {
+    display: none;
+}
+

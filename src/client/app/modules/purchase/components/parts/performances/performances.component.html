@@ -1,0 +1,38 @@
+<div class="">
+    <div class="p-3 bg-light-gray">
+        <div class="mb-2">
+            <p class="font-weight-bold text-large">{{ screeningEventSeries.name | changeLanguage }}</p>
+            <p *ngIf="screeningEventSeries.headline && (screeningEventSeries.headline | changeLanguage)">
+                {{ screeningEventSeries.headline | changeLanguage }}</p>
+            <p class="text-small"
+                *ngIf="screeningEventSeries.description && (screeningEventSeries.description | changeLanguage)">{{
+                screeningEventSeries.description | changeLanguage }}</p>
+        </div>
+        <div class="d-flex align-items-center">
+            <div *ngIf="screeningEventSeries.dubLanguage"
+                class="text-small bg-dark-gray text-white py-1 px-3 mr-2 dub-language">{{
+                'common.dubbing' | translate }}</div>
+            <div *ngIf="screeningEventSeries.subtitleLanguage"
+                class="text-small bg-dark-gray text-white py-1 px-3 mr-2 subtitle-language">{{ 'common.subtitles' |
+                translate }}</div>
+            <div *ngFor="let videoFormat of screeningEventSeries.videoFormat"
+                class="video-format text-small bg-dark-gray text-white py-1 px-2 mr-2">
+                {{ getVideoFormatType(videoFormat.typeOf)?.name | changeLanguage }}
+            </div>
+            <div *ngIf="screeningEventsGroup.screeningEvent.workPerformed?.duration && moment.duration(screeningEventsGroup.screeningEvent.workPerformed?.duration).asMinutes() > 0"
+                class="text-small ml-auto">
+                <span class="mr-1">{{ 'common.duration' | translate }}</span>{{
+                moment.duration(screeningEventsGroup.screeningEvent.workPerformed?.duration).asMinutes() }}{{
+                'common.date.minute' | translate }}
+            </div>
+        </div>
+    </div>
+    <div class="container px-0 py-2">
+        <ul *ngIf="animation" class="row animation">
+            <li *ngFor="let performance of screeningEventsGroup.data" class="col-3 my-2">
+                <app-purchase-performance [performance]="performance" (select)="select.emit($event)" class="mb-3">
+                </app-purchase-performance>
+            </li>
+        </ul>
+    </div>
+</div>

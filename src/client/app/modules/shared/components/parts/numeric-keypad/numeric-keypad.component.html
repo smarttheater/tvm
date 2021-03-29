@@ -1,0 +1,44 @@
+<div #trigger (click)="show()">
+    <ng-content></ng-content>
+</div>
+<div *ngIf="isOpen" class="position-fixed">
+    <div class="position-fixed" (tap)="hide()"></div>
+
+    <div #keypad class="numeric-keypad p-3 text-center text-large shadow bg-light-gray" [ngStyle]="{
+    'top.px': position.y, 
+    'left.px': position.x
+}">
+        <div class="number d-grid mb-2 text-dark-gray">
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('7')">7</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('8')">8</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('9')">9</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('4')">4</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('5')">5</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('6')">6</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('1')">1</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('2')">2</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('3')">3</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('0')">0</button>
+            <button type="button" class="btn text-dark-gray text-large bg-white px-2 py-1 border-gray"
+                (tap)="inputCode('00')">00</button>
+            <button *ngIf="inputType === 'number' || inputType === 'string'" type="button"
+                class="btn bg-dark-gray text-white text-large px-2 py-1" (tap)="inputCode('000')">000</button>
+            <button *ngIf="inputType === 'telephone'" type="button"
+                class="btn bg-dark-gray text-white text-large px-2 py-1" (tap)="inputCode('+')">+</button>
+        </div>
+        <div class="etc d-grid">
+            <button type="button" class="btn bg-gray text-white text-large px-2 py-1" (tap)="clear()">C</button>
+            <button type="button" class="btn bg-success text-white px-2 py-1" (click)="hide()">{{ 'common.determine' | translate }}</button>
+        </div>
+    </div>
+</div>

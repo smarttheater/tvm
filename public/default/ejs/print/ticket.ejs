@@ -1,0 +1,65 @@
+<style>
+    .print {
+        font-size: 40px;
+        color: #000 !important;
+    }
+
+    .print .text-small {
+        font-size: 22px;
+    }
+</style>
+<div class="print" style="width: 500px;">
+    <div class="mb-3 d-flex justify-content-center align-items-center">
+        <p class="text-break font-weight-bold">
+            <%= order.acceptedOffers[index].itemOffered.reservationFor.superEvent.location.name.ja %>
+        </p>
+    </div>
+    <p class="text-center font-weight-bold mb-3">
+        <%= moment(order.acceptedOffers[index].itemOffered.reservationFor.startDate).tz('Asia/Tokyo').locale('ja').format('YYYY/MM/DD (ddd) HH:mm') %>～
+    </p>
+    <p class="text-center font-weight-bold mb-4"><%= order.acceptedOffers[index].itemOffered.reservationFor.name.ja %></p>
+    <div class="text-center font-weight-bold mb-3 border border-black"
+    style="border-width: 3px !important;
+    border-radius: 0.5rem !important;">
+        <p class="py-4">
+            <% if (order.acceptedOffers[index].itemOffered.reservationFor.location.address
+            && order.acceptedOffers[index].itemOffered.reservationFor.location.address.ja) { %>
+                <%= order.acceptedOffers[index].itemOffered.reservationFor.location.address.ja %>
+            <% } %>
+            <%= order.acceptedOffers[index].itemOffered.reservationFor.location.name.ja %>
+        </p>
+        <% if (order.acceptedOffers[index].itemOffered.reservedTicket.ticketedSeat) { %>
+        <div style="height: 3px; background-image: url(/default/images/print/circle.png); background-size: contain;"></div>
+        <p class="py-4">
+            <%= order.acceptedOffers[index].itemOffered.reservedTicket.ticketedSeat.seatNumber %>
+        </p>
+        <% } %>
+    </div>
+    <div class="mb-3">
+    <% for (let priceComponent of order.acceptedOffers[index].priceSpecification.priceComponent) { %>
+    <div class="d-flex align-items-center">
+    <p style="width: 60%;"><%= priceComponent.name.ja %></p>
+    <% if (priceComponent.price > 0) { %>
+    <p style="width: 40%; font-size: 30px;" class="ml-auto text-right">￥<%= priceComponent.price %><% if (priceComponent.referenceQuantity && priceComponent.referenceQuantity.value) { %>[<%= priceComponent.referenceQuantity.value %>枚]<% } %></p>
+    <% } %>
+    </div>
+    <% } %>
+    </div>
+    
+    <div class="d-flex align-items-center justify-content-between pb-3">
+        <div class="text-small">
+            <p class="mb-3">■ 上記日時１回限り有効<br>■ 変更、払戻不可</p>
+            <p>確認番号 <%= order.confirmationNumber %></p>
+            <p>注文番号 <%= order.orderNumber %></p>
+            <% if (pos) { %>
+            <p>端末 <%= pos.name %></p>
+            <% } %>
+            <p>(<%= moment().tz('Asia/Tokyo').locale('ja').format('YYYY/MM/DD (ddd) HH:mm') %> 発券)</p>
+        </div>
+        <% if (qrcode) { %>
+        <div>
+            <img width="180" height="180" src="<%= qrcode %>">
+        </div>
+        <% } %>
+    </div>
+</div>

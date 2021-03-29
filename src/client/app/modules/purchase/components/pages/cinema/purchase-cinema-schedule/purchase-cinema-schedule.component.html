@@ -1,0 +1,147 @@
+<app-header>
+    <app-purchase-step [currentStep]="1"></app-purchase-step>
+</app-header>
+<app-page-title title="{{ 'purchase.cinema.schedule.title' | translate }}"></app-page-title>
+<div *ngIf="screeningEventsGroup.length === 0" class="contents scroll-horizontal">
+    <p class="px-3">{{ 'purchase.cinema.schedule.notfound' | translate }}</p>
+</div>
+<div *ngIf="screeningEventsGroup.length > 0" class="contents scroll-horizontal">
+    <div class="px-3">
+        <div *ngFor="let group of screeningEventsGroup">
+            <div class="container px-0">
+                <div class="row align-items-stretch">
+                    <div class="col-1 pb-3">
+                        <div class="border-left border-dark p-3 h-100">
+                            {{ moment(group.screeningEvent.startDate).format('HH') }}:00
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div *ngFor="let performance of group.data" class="border border-gray py-4 px-3 mb-3" [ngClass]="{ 
+                                'not-event': !performance.isSales() 
+                                || performance.isSeatStatus('danger') 
+                                || performance.isInfinitetock()
+                                }" (click)="selectSchedule(performance.screeningEvent)">
+                            <div class="container px-0">
+                                <div class="row align-items-center">
+                                    <div class="col-1 text-center">
+                                        <div class="status"
+                                            *ngIf="performance.isSales() && !performance.isInfinitetock()">
+                                            <div *ngIf="performance.isSeatStatus('success')">
+                                                <img src="/assets/images/icon/status_success.svg" alt="">
+                                            </div>
+                                            <div *ngIf="performance.isSeatStatus('warning')">
+                                                <img src="/assets/images/icon/status_warning.svg" alt="">
+                                            </div>
+                                            <div *ngIf="performance.isSeatStatus('danger')">
+                                                <!-- {{ 'common.performance.status.danger' | translate }} -->
+                                                <img src="/assets/images/icon/status_danger.svg" alt="">
+                                            </div>
+                                            <div *ngIf="performance.isSeatStatus()">
+                                                <img src="/assets/images/icon/status_undefined.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="status" *ngIf="performance.isSales('end')">
+                                            <!-- {{ 'common.performance.status.endSale' | translate }} -->
+                                            <img src="/assets/images/icon/status_danger.svg" alt="">
+                                        </div>
+                                        <div class="status" *ngIf="performance.isSales('start')">
+                                            <!-- {{ 'common.performance.status.outsideSalesPeriod' | translate }} -->
+                                            <img src="/assets/images/icon/status_danger.svg" alt="">
+                                        </div>
+                                        <div *ngIf="performance.isSales() && performance.isInfinitetock()"
+                                            class="status">
+                                            <img src="/assets/images/icon/status_success.svg" alt="">
+                                            <!-- <p class="text-small">{{ 'common.performance.infiniteStock' | translate }}</p> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <span class="text-x-large font-weight-bold">{{
+                                            moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
+                                        <span>-</span>
+                                        <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm')
+                                            }}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="font-weight-bold text-large">
+                                            {{ performance.screeningEvent.name | changeLanguage }}</p>
+                                        <p *ngIf="performance.screeningEvent.superEvent.headline 
+                                                && (performance.screeningEvent.superEvent.headline | changeLanguage)">
+                                            {{ performance.screeningEvent.superEvent.headline | changeLanguage }}
+                                        </p>
+                                        <p class="text-small"
+                                            *ngIf="performance.screeningEvent.superEvent.description 
+                                                && (performance.screeningEvent.superEvent.description | changeLanguage)">
+                                            {{ performance.screeningEvent.superEvent.description | changeLanguage }}
+                                        </p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="mb-1 screen-name">
+                                            <p *ngIf="performance.screeningEvent.location.address | changeLanguage">
+                                                {{ performance.screeningEvent.location.address | changeLanguage }}
+                                            </p>
+                                            <p>
+                                                {{ performance.screeningEvent.location.name | changeLanguage }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity"
+                                            class="screen-name">
+                                            {{ 'common.seatValue' | translate: { value:
+                                            performance.screeningEvent.maximumAttendeeCapacity } }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3" *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id) 
+                                && getCreativeWorks(performance.screeningEvent.workPerformed?.identifier);">
+                                <div class="d-flex align-items-center">
+                                    <div *ngIf="getContentRatingType(getCreativeWorks(performance.screeningEvent.workPerformed?.identifier)?.contentRating)"
+                                        class="content-rating text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        getContentRatingType(getCreativeWorks(performance.screeningEvent.workPerformed?.identifier)?.contentRating)?.name
+                                        | changeLanguage }}
+                                    </div>
+                                    <div *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.dubLanguage"
+                                        class="dub-language text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        'common.dubbing' | translate }}</div>
+                                    <div *ngIf="getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.subtitleLanguage"
+                                        class="subtitle-language text-small bg-dark-gray text-white py-1 px-3 mr-2">{{
+                                        'common.subtitles'
+                                        | translate }}</div>
+                                    <div *ngFor="let videoFormat of getScreeningEventSeries(performance.screeningEvent.superEvent.id)?.videoFormat"
+                                        class="video-format text-small bg-dark-gray text-white py-1 px-2 mr-2">
+                                        {{ getVideoFormatType(videoFormat.typeOf)?.name | changeLanguage }}
+                                    </div>
+                                    <div *ngIf="performance.screeningEvent.workPerformed?.duration && moment.duration(performance.screeningEvent.workPerformed?.duration).asMinutes() > 0"
+                                        class="text-small ml-auto">
+                                        <span class="mr-1">{{ 'common.duration' | translate }}</span>{{
+                                        moment.duration(performance.screeningEvent.workPerformed?.duration).asMinutes()
+                                        }}{{
+                                        'common.date.minute' | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
+    </div>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    routerLink="/purchase/cinema">{{ 'purchase.cinema.schedule.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2" disabled>{{
+                    'purchase.cinema.schedule.next' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</app-footer>

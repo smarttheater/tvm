@@ -1,0 +1,13 @@
+.close {
+    position: absolute;
+    top: -30px;
+    right: 0;
+}
+.scroll-vertical {
+    max-height: calc(1080px * 0.9);
+}
+.ticket {
+    &:last-child {
+        margin-bottom: 0 !important;
+    }
+}

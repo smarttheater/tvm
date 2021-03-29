@@ -1,0 +1,95 @@
+<app-header>
+    <app-purchase-step [currentStep]="1"></app-purchase-step>
+</app-header>
+<app-page-title title="{{ 'purchase.event.ticket.title' | translate }}"></app-page-title>
+<div class="contents">
+    <div class="container h-100 px-3 pb-3">
+        <div class="row h-100">
+            <div class="col-3 h-100">
+                <app-movie-tickets *ngIf="(purchase | async)?.screeningEventTicketOffers"
+                    [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
+                    (select)="openMovieTicket($event)"></app-movie-tickets>
+            </div>
+            <div class="col-6 mh-100 scroll-horizontal">
+                <div>
+                    <ul class="py-2 bg-white">
+                        <li *ngFor="let reservation of (purchase | async)?.reservations">
+                            <div class="container px-3 py-2">
+                                <div class="row align-items-center">
+                                    <div class="col-2">
+                                        <p class="font-weight-bold text-large">{{ reservation.seat.seatNumber }}</p>
+                                    </div>
+                                    <div class="col-10">
+                                        <div>
+                                            <button *ngIf="reservation.ticket === undefined" type="button"
+                                                (click)="openTicketList(reservation)"
+                                                class="btn btn-block border border-gray py-3">{{ 'purchase.event.ticket.unselected' | translate }}</button>
+                                            <button *ngIf="reservation.ticket !== undefined" type="button"
+                                                (click)="openTicketList(reservation)"
+                                                class="btn btn-block btn-outline-primary py-3">
+                                                <div class="d-flex justify-content-between align-items-center"
+                                                    *ngFor="let priceComponent of reservation.ticket?.ticketOffer.priceSpecification.priceComponent">
+                                                    <p class="w-50 text-left">{{ priceComponent.name | changeLanguage }}
+                                                    </p>
+                                                    <p class="w-50 text-right">
+                                                        <span>{{ priceComponent.price | currency : priceComponent.priceCurrency }}</span>
+                                                        <!--
+                                                        --><span
+                                                            *ngIf="priceComponent?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center"
+                                                    *ngFor="let addOn of reservation.ticket?.addOn;">
+                                                    <p class="w-50 text-left">
+                                                        {{ addOn.priceSpecification.name | changeLanguage }}</p>
+                                                    <p class="w-50 text-right">
+                                                        <span>{{ addOn.priceSpecification.price | currency : addOn.priceSpecification.priceCurrency }}</span>
+                                                        <!--
+                                                        --><span
+                                                            *ngIf="addOn.priceSpecification?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: addOn.priceSpecification?.referenceQuantity?.value } }}</span>
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <!-- <p *ngIf="reservation.ticket.ticketOffer.description" class="text-small text-left">
+                                                        {{ reservation.ticket.ticketOffer.description | changeLanguage }}
+                                                    </p> -->
+                                                    <p *ngIf="reservation.ticket.movieTicket"
+                                                        class="text-small text-left">
+                                                        {{ 'modal.purchase.seatTicket.movieTicket.code' | translate }}
+                                                        {{ reservation.ticket.movieTicket.identifier }}
+                                                    </p>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async" [isAmount]="true"></app-purchase-info>
+                <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async" [isAmount]="true" [cancel]="false"></app-purchase-cart>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer>
+    <div class="position-absolute d-flex align-items-center h-100">
+        <app-transaction-remaining-time></app-transaction-remaining-time>
+    </div>
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center h-100">
+            <div class="col-3">
+                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    routerLink="/purchase/event/seat">{{ 'purchase.event.ticket.prev' | translate }}</button>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+                    [disabled]="(isLoading | async) || !isSelectedTicket"
+                    (click)="onSubmit()">{{ 'purchase.event.ticket.next' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</app-footer>

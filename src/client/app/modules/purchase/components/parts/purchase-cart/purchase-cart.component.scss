@@ -1,0 +1,71 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.min-h-100 {
+    min-height: 100%;
+}
+
+.image {
+    padding-top: calc(100% * 1.41);
+    background-color: #000;
+    position: relative;
+    .poster {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .poster-no {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #cbcbcb;
+        background-image: url(/default/images/noimage.png);
+    }
+}
+
+
+
+.loading {
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.loader,
+.loader:after {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+}   
+.loader {
+    position: relative;
+    text-indent: -9999em;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-left-color: #FFF;
+    transform: translateZ(0);
+    animation: load8 1.1s infinite linear;
+}
+
+@keyframes load8 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,103 @@
+{
+    "purchase": {
+        "cinema": {
+            "top": {
+                "title": "Choose a menu",
+                "movie": {
+                    "title": "Search by work",
+                    "read": "Recommended for those who have decided on a work",
+                    "search": {
+                        "today": "Today's work",
+                        "other": "Works other than today"
+                    }
+                },
+                "time": {
+                    "title": "Search by time",
+                    "read": "Recommended for those who want to see it now",
+                    "search": "early start time"
+                },
+                "inquiry": {
+                    "title": "Issue",
+                    "read": "",
+                    "print": "Issue a reserved ticket"
+                }
+            },
+            "schedule": {
+                "title": "Please select the screening you want to see",
+                "notfound": "No schedule.",
+                "next": "Next",
+                "prev": "back",
+                "alert": {
+                    "ticketedSeat": "Performance without seat management is not available in theater view."
+                }
+            },
+            "date": {
+                "title": "Please select the screening date you want to see",
+                "schedule": "Regular sale",
+                "preSchedule": "pre-sale",
+                "next": "Next",
+                "prev": "back"
+            },
+            "scheduleMovie": {
+                "title": "Please select the work you want to see",
+                "notfound": "No schedule.",
+                "next": "Next",
+                "prev": "Back",
+                "alert": {
+                    "ticketedSeat": "Performance without seat management is not available in theater view."
+                }
+            },
+            "scheduleEvent": {
+                "title": "Please select the screening you want to see",
+                "notfound": "No schedule.",
+                "next": "Next",
+                "prev": "Back",
+                "alert": {
+                    "ticketedSeat": "Performance without seat management is not available in theater view."
+                }
+            },
+            "seat": {
+                "title": "Please choose a seat",
+                "next": "Next",
+                "consent": "I agree to the terms of use and continue",
+                "terms": "Terms of Service",
+                "prev": "back",
+                "allSelect": "select all",
+                "reset": "reset",
+                "openSeating": {
+                    "title": "Please select the number",
+                    "seat": "Number of sheets"
+                },
+                "alert": {
+                    "limit": "Up to {{value}} can be purchased at the same time.",
+                    "temporaryReservation": "Temporary reservation failed. <br> * This error will be displayed even if other passengers have already selected the same seat.",
+                    "ticketNotfound": "There are no ticket types available for sale."
+                }
+            },
+            "ticket": {
+                "title": "Please choose a ticket",
+                "unselected": "Please select a ticket",
+                "mvtk": "For those who use the movie ticket",
+                "next": "Next",
+                "prev": "Back",
+                "allSelect": "select all",
+                "notfound": "",
+                "alert": {
+                    "ticketCondition": "Please check the terms and conditions of the discount voucher again.",
+                    "temporaryReservation": "Temporary reservation failed."
+                }
+            }
+        },
+        "step": {
+            "1": "Select work <br> Select show time",
+            "2": "Seat selection",
+            "3": "Ticket type selection",
+            "4": "Payment method selection <br> Purchase confirmation",
+            "5": "Purchase completed"
+        }
+    },
+    "common": {
+        "theater": "theater",
+        "duration": "Screening time"
+    }
+}

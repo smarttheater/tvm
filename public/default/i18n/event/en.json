@@ -1,0 +1,113 @@
+{
+    "purchase": {
+        "event": {
+            "top": {
+                "title": "Choose a menu",
+                "purchase": {
+                    "title": "Purchase",
+                    "search": {
+                        "today": "Today",
+                        "other": "other than today"
+                    }
+                },
+                "inquiry": {
+                    "title": "Issue",
+                    "print": "Issue a reserved ticket"
+                }
+            },
+            "date": {
+                "title": "Choose a reserved date",
+                "next": "Next",
+                "prev": "back"
+            },
+            "schedule": {
+                "title": "Schedule selection",
+                "read": "Please select a schedule.",
+                "next": "decision",
+                "prev": "back",
+                "addOn": "Select option",
+                "notfound": "No schedule.",
+                "remainingSeat": "Number of remaining seats",
+                "success": {
+                    "temporaryReservation": "Successful tentative reservation."
+                },
+                "alert": {
+                    "ticketCondition": "Please check the terms and conditions of the discount voucher again.",
+                    "temporaryReservation": "Temporary reservation failed.",
+                    "getScreeningEventSeats": "No seats available.",
+                    "cart": "Multiple performances cannot be selected.",
+                    "limit": "Up to {{value}} can be purchased at the same time.",
+                    "cancel": "Failed to cancel."
+                }
+            },
+            "select": {
+                "title": "Ticket selection",
+                "read": "Please select a ticket.",
+                "next": "decision",
+                "prev": "back",
+                "addOn": "select option",
+                "notfound": "No ticket.",
+                "remainingSeat": "Number of remaining seats",
+                "success": {
+                    "temporaryReservation": "Successful tentative reservation."
+                },
+                "alert": {
+                    "ticketCondition": "Please check the terms and conditions of the discount voucher again.",
+                    "temporaryReservation": "Temporary reservation failed.",
+                    "getScreeningEventSeats": "No seats available.",
+                    "cart": "Multiple performances cannot be selected.",
+                    "limit": "The maximum number of simultaneous purchases is {{value}}.",
+                    "cancel": "Failed to cancel."
+                }
+            },
+            "seat": {
+                "title": "Seat selection",
+                "read": "Please select a seat.",
+                "next": "Next",
+                "prev": "back",
+                "allSelect": "select all",
+                "reset": "reset",
+                "openSeating": "Number of seats",
+                "alert": {
+                    "limit": "Up to {{value}} can be purchased at the same time.",
+                    "temporaryReservation": "Temporary reservation failed.",
+                    "ticketNotfound": "There are no ticket types available for sale."
+                }
+            },
+            "ticket": {
+                "title": "Ticket selection",
+                "read": "Please select a ticket.",
+                "unselected": "Please select a ticket",
+                "mvtk": "For those who use the movie ticket",
+                "next": "Next",
+                "prev": "Back",
+                "allSelect": "select all",
+                "notfound": "",
+                "alert": {
+                    "ticketCondition": "Please check the terms and conditions of the discount voucher again.",
+                    "temporaryReservation": "Temporary reservation failed."
+                }
+            },
+            "cart": {
+                "title": "Selected Tickets",
+                "read": "Please check the selected ticket.",
+                "notfound": "There are no tickets selected.",
+                "next": "Next",
+                "prev": "back",
+                "add": "Add",
+                "confirm": {
+                    "cancel": "Are you sure you want to cancel?"
+                }
+            }
+        },
+        "step": {
+            "1": "Ticket selection",
+            "2": "Payment method selection <br> Purchase confirmation",
+            "3": "Purchase completed"
+        }
+    },
+    "common": {
+        "theater": "facility",
+        "duration": "Time required"
+    }
+}

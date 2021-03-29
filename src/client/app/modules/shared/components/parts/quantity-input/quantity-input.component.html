@@ -1,0 +1,15 @@
+<div class="container px-0">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-4 text-center">
+            <button type="button" class="btn btn-primary text-large px-3" [disabled]="value === 0"
+                (click)="decrement()">-</button>
+        </div>
+        <div class="col-4 text-center text-large">
+            {{ value }}
+        </div>
+        <div class="col-4 text-center">
+            <button type="button" class="btn btn-primary text-large px-3" [disabled]="value >= maxValue"
+                (click)="increment()">+</button>
+        </div>
+    </div>
+</div>

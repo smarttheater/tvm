@@ -180,6 +180,7 @@ export class EpsonCaschCangerService {
         const pauseDeposit = () => {
             return new Promise<IDeposit>((resolve) => {
                 this.device.ondeposit = (data: IDeposit) => {
+                    this.deposit = data;
                     console.warn('pauseDeposit', data);
                     resolve(data);
                 };
@@ -189,6 +190,7 @@ export class EpsonCaschCangerService {
         const restartDeposit = () => {
             return new Promise<IDeposit>((resolve) => {
                 this.device.ondeposit = (data: IDeposit) => {
+                    this.deposit = data;
                     console.warn('restartDeposit', data);
                     resolve(data);
                 };
@@ -198,6 +200,7 @@ export class EpsonCaschCangerService {
         const endDeposit = () => {
             return new Promise<IDeposit>((resolve) => {
                 this.device.ondeposit = (data: IDeposit) => {
+                    this.deposit = data;
                     console.warn('endDeposit', data);
                     resolve(data);
                 };

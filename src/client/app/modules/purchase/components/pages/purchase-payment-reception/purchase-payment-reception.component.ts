@@ -277,10 +277,10 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             if (paymentMethod?.typeOf === this.paymentMethodType.Cash) {
                 // 現金おつり
                 this.utilService.loadStart({ process: 'load' });
-                const deposit = this.getDeposit();
                 await this.epsonEPOSService.cashchanger.endDeposit({
                     endDepositType: 'DEPOSIT_NOCHANGE'
                 });
+                const deposit = this.getDeposit();
                 if ((deposit - this.amount) > 0) {
                     await this.epsonEPOSService.cashchanger.dispenseChange({ amount: (deposit - this.amount) });
                 }

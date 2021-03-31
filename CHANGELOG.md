@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.0.3 - 2021-03-31
+### Added
+ - 色設定追加
+
 ## 1.0.2 - 2021-03-29
 ### Fixed
  - 釣り銭計算タイミング修正

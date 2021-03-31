@@ -23,6 +23,10 @@ export interface IEnvironment {
      */
     APP_TITLE: string;
     /**
+     * プライマリーカラー
+     */
+     PRIMARY_COLOR: string;
+    /**
      * 入り口URL（非推奨）
      */
     ENTRANCE_SERVER_URL: string;
@@ -198,6 +202,7 @@ export const isProduction = (document.querySelector('body.production') !== null)
 const defaultEnvironment: IEnvironment = {
     production: false,
     APP_TITLE: '',
+    PRIMARY_COLOR: '#0175c2',
     ENTRANCE_SERVER_URL: '',
     INSTRUCTION_URL: '',
     ANALYTICS_ID: '',

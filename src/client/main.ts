@@ -116,6 +116,8 @@ async function setProjectConfig(params: {
         ((ANALYTICS_ID === undefined || ANALYTICS_ID === '') && analyticsId !== undefined) ? analyticsId : ANALYTICS_ID;
 
     const environment = getEnvironment();
+    // 色設定
+    await applyColor({ primaryColor: environment.PRIMARY_COLOR });
     // スタイル設定
     const style = document.createElement('link');
     style.rel = 'stylesheet';
@@ -148,6 +150,29 @@ async function setProjectConfig(params: {
     if (environment.production) {
         enableProdMode();
     }
+}
+
+/**
+ * 色設定
+ */
+ function applyColor(params: { primaryColor: string; }) {
+    const { primaryColor } = params;
+    const style = document.createElement('style');
+    style.id = 'applyColor';
+    style.innerHTML = `
+.btn-primary,
+.btn-outline-primary:hover,
+header::after,
+.wrapper .bg-primary { background-color: ${primaryColor} !important; }
+
+.btn-primary,
+.btn-outline-primary,
+.wrapper .border-primary { border-color: ${primaryColor} !important; }
+
+.btn-outline-primary,
+.wrapper .text-primary { color: ${primaryColor} !important; }
+    `;
+    document.head.appendChild(style);
 }
 
 

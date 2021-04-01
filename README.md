@@ -16,5 +16,5 @@
 | `AUTHORIZATION_CODE_CLIENT_SECRET`  | true     |                               | client secret oauth2                    |
 | `AUTHORIZATION_CODE_DOMAIN`         | true     |                               | oauth2 server domain                    |
 | `WAITER_SERVER_URL`                 | true     |                               | waiter server url                       |
-| `GMO_TOKEN_URL`                     | true     |                               | gmo token url                           |
+| `APP_PASSWORD`                      | true     |                               | app password                            |
 | `DEBUG`                             | false    |                               | debug                                   |

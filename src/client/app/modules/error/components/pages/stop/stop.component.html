@@ -8,9 +8,22 @@
             <p>{{ 'common.orderNumber' | translate }}</p>
             <p>{{ (purchase | async)?.order.orderNumber }}</p>
         </div>
-        
+
         <div *ngIf="error | async" class="p-3 bg-dark-gray text-white">
             <code class="text-white">{{ (error | async) }}</code>
         </div>
     </div>
+</div>
+<div class="fixed-bottom px-3">
+    <p>{{ message }}</p>
+    <form>
+        <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" [inputValue]="password"
+            (change)="password = $event" (hidden)="checkPassword()" viewPosition="Top" inputType="string" maxlength="6">
+            <label class="d-inline-flex align-items-center">
+                <i class="fas fa-cogs text-large pr-3"></i>
+                <input type="password" class="form-control border-0" id="password" name="password" [(ngModel)]="password"
+                    readonly>
+            </label>
+        </app-numeric-keypad>
+    </form>
 </div>

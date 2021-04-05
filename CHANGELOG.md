@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.1.0 - 2021-04-05
+### Added
+ - 利用停止復旧機能追加
+### Fixed
+ - 色設定修正
+
 ## 1.0.3 - 2021-03-31
 ### Added
  - 色設定追加

@@ -162,6 +162,7 @@ async function setProjectConfig(params: {
     style.innerHTML = `
 .btn-primary,
 .btn-outline-primary:hover,
+.btn-outline-primary:active,
 header::after,
 .wrapper .bg-primary { background-color: ${primaryColor} !important; }
 
@@ -171,6 +172,9 @@ header::after,
 
 .btn-outline-primary,
 .wrapper .text-primary { color: ${primaryColor} !important; }
+
+.btn-outline-primary:hover,
+.btn-outline-primary:active { color: #FFF !important; }
     `;
     document.head.appendChild(style);
 }

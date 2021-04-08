@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.1.1 - 2021-04-08
+### Changed
+ - redisClient生成変更
+
 ## 1.1.0 - 2021-04-05
 ### Added
  - 利用停止復旧機能追加

@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.1.2 - 2021-04-12
+### Changed
+ - 自由席での枚数選択画面UI変更
+ - 施設テンプレートでアドオンの個数選択可能に変更
+
 ## 1.1.1 - 2021-04-08
 ### Changed
  - redisClient生成変更

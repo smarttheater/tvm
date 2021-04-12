@@ -8,6 +8,15 @@ import { getEnvironment } from '../../../../../../../../environments/environment
 type IMovieTicketTypeChargeSpecification =
     factory.chevre.priceSpecification.IPriceSpecification<factory.chevre.priceSpecificationType.MovieTicketTypeChargeSpecification>;
 
+interface ISelectedTickets {
+    id: string;
+    count: number;
+    addOn: {
+        id: string;
+        count: number;
+    }[];
+}
+
 @Component({
     selector: 'app-purchase-event-ticket-modal',
     templateUrl: './ticket-modal.component.html',
@@ -23,11 +32,7 @@ export class PurchaseEventTicketModalComponent implements OnInit {
         additionalTicketText?: string;
     }) => void;
     public tickets: factory.chevre.event.screeningEvent.ITicketOffer[];
-    public selectedTickets: {
-        id: string;
-        count: number;
-        addOn: { id: string; }[];
-    }[];
+    public selectedTickets: ISelectedTickets[];
     public moment = moment;
     public getRemainingSeatLength = Functions.Purchase.getRemainingSeatLength;
     public performance: Models.Purchase.Performance;
@@ -51,18 +56,23 @@ export class PurchaseEventTicketModalComponent implements OnInit {
                 );
             return movieTicketTypeChargeSpecification === undefined;
         });
-        const selectedTickets: {
-            id: string;
-            count: number;
-            addOn: { id: string; }[];
-        }[] = [];
-        this.tickets.forEach((ticket) => {
-            if (ticket.id === undefined) {
-                return;
-            }
-            selectedTickets.push({ id: ticket.id, count: 0, addOn: [] });
-        });
-        this.selectedTickets = selectedTickets;
+        const selectedTickets: ISelectedTickets[] = [];
+            this.tickets.forEach(t => {
+                if (t.id === undefined) {
+                    return;
+                }
+                const addOn: { id: string; count: number; }[] = [];
+                if (t.addOn !== undefined) {
+                    t.addOn.forEach(a => {
+                        if (a.id === undefined) {
+                            return;
+                        }
+                        addOn.push({ id: a.id, count: 0 });
+                    });
+                }
+                selectedTickets.push({ id: t.id, count: 0, addOn });
+            });
+            this.selectedTickets = selectedTickets;
         this.additionalTicketText = '';
     }
 
@@ -111,13 +121,15 @@ export class PurchaseEventTicketModalComponent implements OnInit {
     }
 
     /**
-     * 閉じる
+     * アドオン予約可能数計算
      */
-    public close() {
-        this.modal.hide();
-        const reservations = this.createReservations();
-        const additionalTicketText = this.additionalTicketText;
-        this.cb({ reservations, additionalTicketText });
+    public remainingAttendeeCapacityAddOnValue(screeningEventTicketOffer: factory.chevre.event.screeningEvent.ITicketOffer) {
+        const id = screeningEventTicketOffer.id;
+        const findResult = this.selectedTickets.find(s => s.id === id);
+        if (findResult === undefined) {
+            return [];
+        }
+        return [...Array(findResult.count)].map((_, i) => i + 1);
     }
 
     /**
@@ -125,7 +137,7 @@ export class PurchaseEventTicketModalComponent implements OnInit {
      */
     public createReservations() {
         const reservations: Models.Purchase.Reservation.IReservation[] = [];
-        this.selectedTickets.forEach((t) => {
+        this.selectedTickets.forEach(t => {
             const count = t.count;
             for (let i = 0; i < count; i++) {
                 const findResult = this.screeningEventTicketOffers.find(s => s.id === t.id);
@@ -137,7 +149,7 @@ export class PurchaseEventTicketModalComponent implements OnInit {
                     if (findResult.addOn === undefined) {
                         return;
                     }
-                    const findAddOnResult = findResult.addOn.find(a2 => a2.id === a.id);
+                    const findAddOnResult = findResult.addOn.find(a2 => a2.id === a.id && i < a.count);
                     if (findAddOnResult === undefined) {
                         return;
                     }
@@ -149,24 +161,33 @@ export class PurchaseEventTicketModalComponent implements OnInit {
                 });
             }
         });
-
         return reservations;
     }
 
     /**
-     * 券種アドオン変更
+     * 券種数量変更
      */
-    public changeAddOn(id: string, addOnId: string) {
+    public changeSelect(id: string, count: number) {
         const findResult = this.selectedTickets.find(s => s.id === id);
         if (findResult === undefined) {
             return;
         }
-        const findAddOnResult = findResult.addOn.find(a => a.id === addOnId);
-        if (findAddOnResult === undefined) {
-            findResult.addOn.push({ id: addOnId });
-            return;
-        }
-        findResult.addOn = findResult.addOn.filter(a => a.id !== addOnId);
+        findResult.count = count;
+        findResult.addOn.forEach(a => {
+            if (a.count > count) {
+                a.count = count;
+            }
+        });
+    }
+
+    /**
+     * 閉じる
+     */
+    public close() {
+        this.modal.hide();
+        const reservations = this.createReservations();
+        const additionalTicketText = this.additionalTicketText;
+        this.cb({ reservations, additionalTicketText });
     }
 
 }

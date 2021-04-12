@@ -239,7 +239,7 @@ export class EpsonCaschCangerService {
      * 出金
      */
     public async dispenseChange(params: {
-        amount: number;
+        change: number;
     }) {
         if (this.device === undefined) {
             throw new Error('device undefined');
@@ -250,7 +250,7 @@ export class EpsonCaschCangerService {
                     console.warn('dispenseChange', data);
                     resolve(data);
                 };
-                this.device.dispenseChange(String(params.amount));
+                this.device.dispenseChange(String(params.change));
             });
         };
         try {

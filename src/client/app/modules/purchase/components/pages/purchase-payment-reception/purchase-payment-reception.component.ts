@@ -269,28 +269,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             await this.actionService.purchase.registerContact(profile);
         } catch (error) {
             console.error(error);
-            await this.endDepositRepay('/error');
-            return;
-        }
-        try {
-            const { paymentMethod } = await this.actionService.purchase.getData();
-            if (paymentMethod?.typeOf === this.paymentMethodType.Cash) {
-                // 現金おつり
-                this.utilService.loadStart({ process: 'load' });
-                await this.epsonEPOSService.cashchanger.endDeposit({
-                    endDepositType: 'DEPOSIT_NOCHANGE'
-                });
-                const deposit = this.getDeposit();
-                if ((deposit - this.amount) > 0) {
-                    await this.epsonEPOSService.cashchanger.dispenseChange({ amount: (deposit - this.amount) });
-                }
-                await this.epsonEPOSService.cashchanger.disconnect();
-                this.utilService.loadEnd();
-            }
-        } catch (error) {
-            this.utilService.loadEnd();
-            console.error(error);
-            this.router.navigate(['/stop']);
+            this.router.navigate(['/error']);
             return;
         }
         try {
@@ -301,11 +280,50 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 throw new Error('seller undefined');
             }
             await this.actionService.purchase.endTransaction({ seller, language });
-            this.router.navigate(['/purchase/complete']);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
+            return;
         }
+        try {
+            const { order } = await this.actionService.purchase.getData();
+            const { printer, pos } = await this.actionService.user.getData();
+            if (order === undefined
+                || printer === undefined) {
+                throw new Error('order or printer undefined');
+            }
+            const orders = [order];
+            await this.actionService.order.print({ orders, pos, printer });
+        } catch (error) {
+            this.router.navigate(['/stop']);
+            return;
+        }
+        try {
+            const { order } = await this.actionService.purchase.getData();
+            if (order === undefined) {
+                throw new Error('order undefined');
+            }
+            const findResult = order.paymentMethods.find(p => p.typeOf === this.paymentMethodType.Cash);
+            if (findResult !== undefined) {
+                // 現金おつり
+                this.utilService.loadStart({ process: 'load' });
+                await this.epsonEPOSService.cashchanger.endDeposit({
+                    endDepositType: 'DEPOSIT_NOCHANGE'
+                });
+                const change = Number(findResult.additionalProperty.find(a => a.name === 'change')?.value);
+                if (!Number.isNaN(change) && change > 0) {
+                    await this.epsonEPOSService.cashchanger.dispenseChange({ change });
+                }
+                await this.epsonEPOSService.cashchanger.disconnect();
+                this.utilService.loadEnd();
+            }
+        } catch (error) {
+            this.utilService.loadEnd();
+            console.error(error);
+            this.router.navigate(['/stop']);
+            return;
+        }
+        this.router.navigate(['/purchase/complete']);
     }
 
     /**
@@ -324,7 +342,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     /**
      * 現金返金
      */
-    private async endDepositRepay(routerLink?: string) {
+    private async endDepositRepay() {
         try {
             this.utilService.loadStart({ process: 'load' });
             await this.epsonEPOSService.cashchanger.endDeposit({
@@ -332,9 +350,6 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             });
             await this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.loadEnd();
-            if (routerLink !== undefined) {
-                this.router.navigate([routerLink]);
-            }
         } catch (error) {
             this.utilService.loadEnd();
             this.router.navigate(['/stop']);
@@ -342,6 +357,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     }
 
     public async prev() {
-        await this.endDepositRepay('/purchase/payment');
+        await this.endDepositRepay();
+        this.router.navigate(['/purchase/payment']);
     }
 }

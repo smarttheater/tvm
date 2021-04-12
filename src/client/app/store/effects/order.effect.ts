@@ -20,6 +20,43 @@ export class OrderEffects {
     ) { }
 
     /**
+     * Cancel
+     */
+    @Effect()
+    public cancel = this.actions.pipe(
+        ofType(orderAction.cancel),
+        map(action => action),
+        mergeMap(async (payload) => {
+            const orders = payload.orders;
+            const agent = payload.agent;
+            try {
+                await this.cinerino.getServices();
+                for (const order of orders) {
+                    const startResult = await this.cinerino.transaction.returnOrder.start({
+                        expires: moment().add(30, 'seconds').toDate(),
+                        object: {
+                            order: {
+                                orderNumber: order.orderNumber,
+                                customer: {
+                                    telephone: order.customer.telephone,
+                                }
+                            }
+                        },
+                        agent
+                    });
+                    await this.cinerino.transaction.returnOrder.confirm({
+                        id: startResult.id,
+                    });
+                }
+
+                return orderAction.cancelSuccess();
+            } catch (error) {
+                return orderAction.cancelFail({ error: error });
+            }
+        })
+    );
+
+    /**
      * inquiry
      */
     @Effect()

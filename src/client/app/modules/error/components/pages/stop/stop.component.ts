@@ -37,7 +37,10 @@ export class StopComponent implements OnInit, OnDestroy {
             console.error(error);
         }
         try {
-            await this.actionService.purchase.cancelTransaction();
+            const { transaction } = await this.actionService.purchase.getData();
+            if (transaction !== undefined) {
+                await this.actionService.purchase.cancelTransaction();
+            }
         } catch (error) {
             console.error(error);
         }

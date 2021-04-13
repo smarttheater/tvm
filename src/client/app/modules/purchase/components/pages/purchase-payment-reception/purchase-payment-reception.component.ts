@@ -285,6 +285,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             return;
         }
         try {
+            if (this.epsonEPOSService.cashchanger.isConnected()) {
+                this.epsonEPOSService.cashchanger.disconnect();
+            }
             const { order } = await this.actionService.purchase.getData();
             const { printer, pos } = await this.actionService.user.getData();
             if (order === undefined

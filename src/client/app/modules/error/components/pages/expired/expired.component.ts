@@ -28,7 +28,10 @@ export class ExpiredComponent implements OnInit, OnDestroy {
             return;
         }
         try {
-            await this.actionService.purchase.cancelTransaction();
+            const { transaction } = await this.actionService.purchase.getData();
+            if (transaction !== undefined) {
+                await this.actionService.purchase.cancelTransaction();
+            }
         } catch (error) {
             console.error(error);
         }

@@ -7,6 +7,27 @@ export const remove = createAction(
     `${LABEL} remove`,
 );
 
+
+export const cancel = createAction(
+    `${LABEL} cancel`,
+    props<{
+        orders: factory.order.IOrder[];
+        language: string;
+        agent?: {
+            identifier?: factory.person.IIdentifier;
+        };
+    }>()
+);
+
+export const cancelSuccess = createAction(
+    `${LABEL} cancelSuccess`,
+);
+
+export const cancelFail = createAction(
+    `${LABEL} cancelFail`,
+    props<{ error: Error }>()
+);
+
 export const inquiry = createAction(
     `${LABEL} inquiry`,
     props<{

@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.2.0 - 2021-04-14
+### Changed
+ - 注文配送を同期へ変更
+ - 取引確処理の順序変更
+
 ## 1.1.2 - 2021-04-12
 ### Changed
  - 自由席での枚数選択画面UI変更

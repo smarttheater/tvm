@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import * as moment from 'moment';
 import { Observable, race } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { Functions, Models } from '../..';
@@ -51,61 +50,35 @@ export class OrderService {
     }
 
     /**
-     * 注文検索
+     * 注文キャンセル
      */
-    public async search(params: factory.order.ISearchConditions) {
-        try {
-            this.utilService.loadStart({ process: 'orderAction.Search' });
-            await this.cinerinoService.getServices();
-            const searchResult = await this.cinerinoService.order.search(params);
-            this.utilService.loadEnd();
-            return searchResult;
-        } catch (error) {
-            this.utilService.setError(error);
-            this.utilService.loadEnd();
-            throw error;
-        }
-    }
-
-    /**
-     * 分割検索
-     */
-    public async splitSearch(params: factory.order.ISearchConditions) {
-        try {
-            this.utilService.loadStart({ process: 'orderAction.Search' });
-            await this.cinerinoService.getServices();
-            let orders: factory.order.IOrder[] = [];
-            const splitDay = 1;
-            const splitCount =
-                Math.ceil(moment(params.orderDateThrough).diff(moment(params.orderDateFrom), 'days') / splitDay);
-            for (let i = 0; i < splitCount; i++) {
-                const limit = 10;
-                let page = 1;
-                let roop = true;
-                const orderDateThrough = moment(params.orderDateThrough).add(-1 * splitDay * i, 'days').toDate();
-                const orderDateFrom =
-                    (moment(params.orderDateThrough).add(-1 * splitDay * (i + 1), 'days').toDate() > moment(params.orderDateFrom).toDate())
-                        ? moment(params.orderDateThrough).add(-1 * splitDay * (i + 1), 'days').toDate()
-                        : moment(params.orderDateFrom).toDate();
-                while (roop) {
-                    params.limit = limit;
-                    params.page = page;
-                    const searchResult = await this.cinerinoService.order.search({ ...params, orderDateThrough, orderDateFrom });
-                    orders = orders.concat(searchResult.data);
-                    page++;
-                    roop = searchResult.data.length === limit;
-                    if (roop) {
-                        await Functions.Util.sleep();
-                    }
-                }
-            }
-            this.utilService.loadEnd();
-            return { data: orders, totalCount: orders.length };
-        } catch (error) {
-            this.utilService.setError(error);
-            this.utilService.loadEnd();
-            throw error;
-        }
+     public async cancel(params: {
+        orders: factory.order.IOrder[];
+        language: string;
+        pos?: factory.chevre.place.movieTheater.IPOS;
+    }) {
+        const identifier = (params.pos === undefined)
+            ? []
+            : [
+                { name: 'posId', value: params.pos.id },
+                { name: 'posName', value: params.pos.name }
+            ];
+        return new Promise<void>((resolve, reject) => {
+            this.store.dispatch(orderAction.cancel({
+                orders: params.orders,
+                language: params.language,
+                agent: { identifier }
+            }));
+            const success = this.actions.pipe(
+                ofType(orderAction.cancelSuccess.type),
+                tap(() => { resolve(); })
+            );
+            const fail = this.actions.pipe(
+                ofType(orderAction.cancelFail.type),
+                tap(() => { this.error.subscribe((error) => { reject(error); }).unsubscribe(); })
+            );
+            race(success, fail).pipe(take(1)).subscribe();
+        });
     }
 
     /**

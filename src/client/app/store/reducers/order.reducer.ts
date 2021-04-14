@@ -17,6 +17,16 @@ export function reducer(initialState: IState, action: Action) {
         on(orderAction.remove, state => {
             return { ...state, orderData: {} };
         }),
+        on(orderAction.cancel, (state) => {
+            return { ...state, loading: true, process: 'orderAction.Cancel' };
+        }),
+        on(orderAction.cancelSuccess, (state) => {
+            return { ...state, loading: false, process: '', error: null };
+        }),
+        on(orderAction.cancelFail, (state, payload) => {
+            const error = payload.error;
+            return { ...state, loading: false, process: '', error: JSON.stringify(error) };
+        }),
         on(orderAction.inquiry, (state) => {
             return { ...state, loading: true, process: 'orderAction.Inquiry' };
         }),

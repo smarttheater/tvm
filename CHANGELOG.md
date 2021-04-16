@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.2.1 - 2021-04-16
+### Changed
+ - 施設テンプレートでムビチケを利用可能へ変更
+
 ## 1.2.0 - 2021-04-14
 ### Changed
  - 注文配送を同期へ変更

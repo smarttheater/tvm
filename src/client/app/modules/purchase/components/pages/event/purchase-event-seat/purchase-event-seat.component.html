@@ -62,14 +62,16 @@
                     (click)="prev()">{{ 'purchase.event.seat.prev' | translate }}</button>
             </div>
             <div class="col-3">
-                <button *ngIf="!environment.PURCHASE_TERMS" type="submit"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    [disabled]="(isLoading | async) || (purchase | async)?.reservations.length === 0"
-                    (click)="onSubmit()">{{ 'purchase.event.seat.next' | translate }}</button>
-                <button *ngIf="environment.PURCHASE_TERMS" type="submit"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    [disabled]="(isLoading | async) || (purchase | async)?.reservations.length === 0"
-                    (click)="onSubmit()">{{ 'purchase.event.seat.consent' | translate }}</button>
+                <button *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)" type="submit"
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2" [disabled]="(isLoading | async) 
+                || (purchase | async)?.reservations.length === 0" (click)="onSubmit()">
+                {{ 'purchase.event.seat.next' | translate }}
+                </button>
+                <button *ngIf="(purchase | async)?.screen?.openSeatingAllowed" type="submit"
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2" [disabled]="(isLoading | async) 
+                || Number(reservationCount) === 0" (click)="onSubmit()">
+                {{ 'purchase.event.seat.next' | translate }}
+                </button>
             </div>
         </div>
     </div>

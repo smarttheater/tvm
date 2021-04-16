@@ -140,34 +140,35 @@ export class PurchaseEventScheduleComponent implements OnInit {
             return;
         }
         const performance = new Models.Purchase.Performance({ screeningEvent });
-        if (!performance.isInfinitetock()
-            && !screen.openSeatingAllowed
-            && performance.isTicketedSeat()) {
-            // 座席選択あり
-            this.router.navigate(['/purchase/event/seat']);
-            return;
-        }
+        const movieTicketTypeOffers = Functions.Purchase.getMovieTicketTypeOffers({ screeningEventTicketOffers });
         if (!this.environment.PURCHASE_CART) {
             // カート機能なし
             this.router.navigate(['/purchase/event/select']);
             return;
         }
-        // 座席選択なし
-        this.modal.show(PurchaseEventTicketModalComponent, {
-            class: 'modal-dialog-centered modal-xl',
-            backdrop: 'static',
-            initialState: {
-                screeningEventTicketOffers,
-                screeningEventSeats,
-                screeningEvent,
-                cb: (params: {
-                    reservations: Models.Purchase.Reservation.IReservation[];
-                    additionalTicketText?: string;
-                }) => {
-                    this.selectTicket(params);
+        if (performance.isInfinitetock()
+            || !performance.isTicketedSeat()
+            || (screen.openSeatingAllowed && movieTicketTypeOffers.length === 0)) {
+            // 座席選択なし
+            this.modal.show(PurchaseEventTicketModalComponent, {
+                class: 'modal-dialog-centered modal-xl',
+                backdrop: 'static',
+                initialState: {
+                    screeningEventTicketOffers,
+                    screeningEventSeats,
+                    screeningEvent,
+                    cb: (params: {
+                        reservations: Models.Purchase.Reservation.IReservation[];
+                        additionalTicketText?: string;
+                    }) => {
+                        this.selectTicket(params);
+                    }
                 }
-            }
-        });
+            });
+            return;
+        }
+        // 座席選択あり
+        this.router.navigate(['/purchase/event/seat']);
     }
 
     /**

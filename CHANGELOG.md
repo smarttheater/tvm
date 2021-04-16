@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+## 1.2.2 - 2021-04-16
+### Fixed
+ - 購入確定後入金不具合修正
 
 ## 1.2.1 - 2021-04-16
 ### Changed

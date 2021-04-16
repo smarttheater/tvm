@@ -15,11 +15,11 @@ function object2Array(v, l, r) {
         object2Array(v1, l1, r);
     });
 }
-const languages = ['ja', 'en'];
+const languages = ['ja', 'en', 'ko', 'zh', 'zh-TW'];
 languages.forEach((language) => {
-    const list = ['common', 'cinema', 'event'];
+    const list = ['common', 'mail', 'contents', 'cinema', 'event'];
     list.forEach((name) => {
-        const json = JSON.parse(fs.readFileSync(`./public/default/i18n/${name}/ja.json`, 'utf8'));
+        const json = JSON.parse(fs.readFileSync(`./public/default/i18n/${name}/${language}.json`, 'utf8'));
         const r = [];
         Object.keys(json).forEach(k => {
             const v = json[k];
@@ -28,7 +28,7 @@ languages.forEach((language) => {
         });
         const parser = new json2csv.Parser();
         const result = parser.parse(r);
-        fs.writeFileSync(`./bin/output/csv/${name}/ja.csv`, result);
+        fs.writeFileSync(`./bin/output/csv/${name}/${language}.csv`, result);
     });
 });
 

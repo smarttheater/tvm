@@ -1,0 +1,224 @@
+{
+    "form": {
+        "label": {
+            "theaterBranchCode": "Facilities",
+            "posId": "POS",
+            "printerType": "Printer",
+            "printerIpAddress": "Printer IP address",
+            "familyName": "Last name (double-byte katakana)",
+            "givenName": "Name (double-byte katakana)",
+            "email": "email address",
+            "telephone": "phone number",
+            "age": "age",
+            "address": "address",
+            "gender": "gender"
+        },
+        "option": {
+            "man": "man",
+            "woman": "woman",
+            "unselected": "unselected"
+        },
+        "validation": {
+            "required": "Not entered",
+            "maxlength": "Enter less than or equal to {{value}} characters",
+            "minlength": "Enter at least {{value}} characters",
+            "fullKana": "Please enter in full-width katakana",
+            "lowercaseLetters": "Please enter in half-width lowercase letters",
+            "number": "Enter numbers",
+            "email": "Invalid format",
+            "telephone": "Invalid format",
+            "unselected": "Not selected.",
+            "pattern": "Invalidation"
+        },
+        "placeholder": {
+            "printerIpAddress": "0.0.0.0",
+            "familyName": "Yamada",
+            "givenName": "Taro",
+            "email": "xxx@motionpicture.jp",
+            "telephone": "0362778824",
+            "age": "",
+            "address": "",
+            "gender": "",
+            "confirmationNumber": "12345"
+        },
+        "required": "required"
+    },
+    "modal": {
+        "movieTicket": {
+            "check": {
+                "title": "If you have a QR code, hold it over the reader",
+                "success": "Tickets have been added.",
+                "code": "Purchase number",
+                "password": "PIN",
+                "next": "Authentication",
+                "prev": "",
+                "value": "[{{value}} sheets]",
+                "alert": {
+                    "validation": "Please check your input.",
+                    "used": "Already used.",
+                    "error": "An error has occurred"
+                }
+            }
+        },
+        "purchase": {
+            "transaction": {
+                "title": "confirmation",
+                "read": "There is a transaction in progress.",
+                "next": "Add and proceed",
+                "prev": "Move to cart"
+            },
+            "seatTicket": {
+                "addOn": "Select Option",
+                "notfound": "No ticket types available for sale.",
+                "movieTicket": {
+                    "code": "Mubichike purchase number"
+                }
+            }
+        }
+    },
+    "process": {
+        "load": "loading",
+        "authAction": {
+            "CheckLogin": "Checking login",
+            "Logout": "Logout"
+        },
+        "admissionAction": {
+            "Check": "Checking QR code"
+        },
+        "masterAction": {
+            "SearchSellers": "Getting seller information",
+            "SearchMovieTheaters": "Getting facility information",
+            "SearchScreeningEvent": "Getting event information",
+            "SearchMovies": "Getting content information",
+            "SearchScreeningEventSeries": "Getting facility content information",
+            "SearchScreeningRooms": "Getting room information",
+            "SearchCategoryCode": "Getting classification information",
+            "GetProjects": "Getting projects",
+            "GetTheaters": "Getting facility information"
+        },
+        "orderAction": {
+            "Search": "Getting order information",
+            "Cancel": "Cancelling order information",
+            "Print": "Printing",
+            "Inquiry": "Inquiring order information",
+            "OrderAuthorize": "Approve order information"
+        },
+        "purchaseAction": {
+            "StartTransaction": "Starting a transaction",
+            "CancelTransaction": "Cancel Transaction",
+            "GetScreeningEvent": "Getting event information",
+            "GetPreScheduleDates": "Getting pre-sale information",
+            "GetScreen": "Getting screen information",
+            "GetScreenData": "Getting seat information",
+            "GetTicketList": "Getting ticket type information",
+            "GetScreeningEventSeats": "Getting vacant seat information",
+            "GetSeller": "Getting seller information",
+            "TemporaryReservation": "Temporary reservation",
+            "TemporaryReservationFreeSeat": "Temporary reservation",
+            "CancelTemporaryReservations": "Cancelling tentative reservation",
+            "RegisterContact": "Registering purchaser information",
+            "AuthorizeMovieTicket": "Approving movie ticket information",
+            "CheckMovieTicket": "Checking movie ticket information",
+            "Reserve": "confirmed transaction",
+            "EndTransaction": "Confirmed transaction",
+            "AuthorizeAnyPayment": "Approving payment information"
+        }
+    },
+    "qrcode": {
+        "reader": {
+            "title": "Scan the QR code."
+        },
+        "viewer": {
+            "title": ""
+        }
+    },
+    "common": {
+        "performance": {
+            "status": {
+                "success": "Purchase",
+                "warning": "Purchase",
+                "danger": "full",
+                "endSale": "Discontinued",
+                "outsideSalesPeriod": "Outside Sales"
+            },
+            "infiniteStock": "no inventory control"
+        },
+        "date": {
+            "year": "year",
+            "month": "month",
+            "day": "day",
+            "hour": "hour",
+            "minute": "minute",
+            "second": "seconds"
+        },
+        "confirmationNumber": "confirmation number",
+        "orderNumber": "order number",
+        "reservationId": "reservation ID",
+        "reservationNumber": "reservation number",
+        "seller": "seller",
+        "screen": "screen",
+        "event": "works",
+        "startDate": "Screening date and time",
+        "doorTime": "Opening date and time",
+        "seat": "seat",
+        "seatValue": "({{value}} seats)",
+        "ticket": "ticket type",
+        "referenceQuantityValue": "[{{value}} sheets]",
+        "customer": "buyer",
+        "customerName": "name",
+        "familyName": "last name",
+        "givenName": "name",
+        "email": "email address",
+        "emailDescription": "[When using domain specified reception] <br> * If you are using domain specified reception for mobile phones, please add\"@smart-theater.com\". <br> * If you are using au (@ ezweb.ne.jp), please add \"@smart-theater.com\" to the \"Spoofing Restriction Avoidance List\" in addition to the above. ",
+        "telephone": "phone number",
+        "age": "age",
+        "address": "address",
+        "gender": {
+            "label": "gender",
+            "man": "male",
+            "woman": "woman",
+            "unselected": "unselected"
+        },
+        "paymentMethod": "Payment method",
+        "price": "amount",
+        "ticketing": "ticketing",
+        "admission": "entrance",
+        "reservation": "reservation",
+        "amount": "total amount",
+        "dubbing": "dubbed version",
+        "subtitles": "subtitled version",
+        "orderDate": "Purchase date",
+        "orderStatus": "order status",
+        "reservationStatus": "reservation status",
+        "additionalTicketText": "Reservation memo",
+        "qrcode": "QR code",
+        "paymentMethodType": {
+            "movieTicket": {
+                "label": "Movie ticket",
+                "use": "<span class=\"font-weight-bold\">About the use of the movie ticket</span><br><span class=\"text-small\">If you use a movie ticket, please authenticate and add it to the ticket type.</span>"
+            },
+            "mgTicket": {
+                "label": "MG ticket",
+                "use": "<span class=\"font-weight-bold\">About the use of MG tickets</span><br><span class=\"text-small\">If you use MG ticket, please authenticate and add it to the ticket type.</span>"
+            }
+        },
+        "timeLimit": "remaining",
+        "all": "all",
+        "close": "close",
+        "done": "decision",
+        "yes": "yes",
+        "no": "no",
+        "on": "ON",
+        "off": "OFF",
+        "error": "error",
+        "confirm": "confirm",
+        "complete": "complete",
+        "determine": "determine",
+        "warning": "warning",
+        "change": "change",
+        "remove": "remove",
+        "etc": "Other",
+        "required": "required",
+        "clear": "return to the beginning"
+    }
+}

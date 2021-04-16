@@ -1,0 +1,18 @@
+{
+    "email": {
+        "domain": "@smart-theater.com",
+        "purchase": {
+            "complete": {
+                "sender": {
+                    "name": "",
+                    "email": "noreply@smart-theater.com"
+                },
+                "toRecipient": {
+                    "name": "",
+                    "email": ""
+                },
+                "about": "예약 완료 안내"
+            }
+        }
+    }
+}

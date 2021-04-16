@@ -1,0 +1,162 @@
+{
+    "purchase": {
+        "payment": {
+            "title": "请选择付款方式",
+            "notPayment": "请确认您的购买并按确认购买",
+            "notfound": "没有物品可以购买",
+            "next": "购买确认",
+            "prev": "回来",
+            "alert": {
+                "notCompatible": "不支持付款方法"
+            }
+        },
+        "paymentReception": {
+            "title": "选择付款方式",
+            "cash": {
+                "title": "请插入现金",
+                "insufficient": "金额不足",
+                "deposit": "存款金额",
+                "change": "改变",
+                "next": "购买确认",
+                "prev": "回来"
+            },
+            "creditcard": {
+                "title": "请插入您的信用卡",
+                "next": "购买确认",
+                "prev": "回来"
+            },
+            "eMoney": {
+                "title": "付款接待（电子货币）",
+                "next": "购买确认",
+                "prev": "回来"
+            },
+            "code": {
+                "title": "付款接收（代码）",
+                "next": "购买确认",
+                "prev": "回来"
+            }
+        },
+        "complete": {
+            "title": "感谢您的购买",
+            "print": {
+                "total": "总计",
+                "ticket": "票",
+                "value": "{{value}}纸张"
+            },
+            "next": "完成",
+            "prev": "回来",
+            "alert": {
+                "print": "打印失败"
+            }
+        },
+        "info": {
+            "read": "目前选定的门票是："
+        },
+        "seat": {
+            "normal": "可选",
+            "active": "选择",
+            "disabled": "不可选",
+            "space": "不出售"
+        }
+    },
+    "inquiry": {
+        "input": {
+            "title": "购买机票时请输入确认号码和电话号码",
+            "next": "询问",
+            "prev": "回来",
+            "validation": "输入信息不正确"
+        },
+        "confirm": {
+            "title": "请在签发机票前查看以下内容",
+            "next": "票务",
+            "prev": "回来",
+            "cancel": "取消",
+            "alert": {
+                "cancel": "取消失败",
+                "authorize": "无法显示 QR 代码显示",
+                "print": "打印失败",
+                "printSuccess": "打印完成",
+                "printExpired": "打印截止日期已过",
+                "doubleTicketing": "已经打印的票"
+            },
+            "confirm": {
+                "cancel": "你确定要取消吗？"
+            }
+        },
+        "print": {
+            "title": "打印完成",
+            "read": "票务打印完成",
+            "next": "完成",
+            "prev": "回来"
+        }
+    },
+    "error": {
+        "title": "错误",
+        "read": "出现了错误",
+        "prev": "回来"
+    },
+    "not": {
+        "found": {
+            "title": "找不到",
+            "read": "找不到页面",
+            "prev": "回来"
+        }
+    },
+    "expired": {
+        "title": "错误",
+        "read": "交易已过期",
+        "prev": "回来"
+    },
+    "congestion": {
+        "title": "访问现在很忙",
+        "read": "目前，访问集中<br>我们很抱歉，但请等一会儿，然后再试一次",
+        "prev": "回来"
+    },
+    "maintenance": {
+        "title": "维护",
+        "read": "为了维护，我们将停止在互联网上销售",
+        "prev": "回来"
+    },
+    "stop": {
+        "title": "停止",
+        "read": "请与您附近的工作人员交谈",
+        "prev": "回来"
+    },
+    "setting": {
+        "title": "设置",
+        "read": "您可以更改设置",
+        "next": "更改设置",
+        "prev": "回来",
+        "unselected": "未选",
+        "pos": "POS",
+        "signOut": "注销",
+        "printer": {
+            "label": "打印机",
+            "ipAddress": "IP 地址",
+            "testPrinting": "测试打印"
+        },
+        "cashchanger": {
+            "label": "换机"
+        },
+        "payment": {
+            "label": "支付终端"
+        },
+        "connect": "连接",
+        "endDeposit": "退回押金",
+        "starBluetoothAddress": "本地托家：8001",
+        "printType": {
+            "none": "不要打印",
+            "image": "图像显示",
+            "starLAN": "星微子局域网连接",
+            "starBluetooth": "星微子蓝牙连接"
+        },
+        "alert": {
+            "connection": "连接成功了",
+            "customer": "不正确的买家信息",
+            "payment": "付款信息不正确",
+            "validation": "输入信息不正确",
+            "success": "设置已保存",
+            "print": "打印失败"
+        }
+    }
+}

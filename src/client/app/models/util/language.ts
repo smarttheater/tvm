@@ -12,7 +12,9 @@ export enum Language {
     de = 'German',
     it = 'Italian',
     ja = '日本語',
-    ko = 'Korean',
+    ko = '한국어',
+    'zh-TW' = '中文（繁體）',
+    zh = '中文（简体）',
     pt = 'Portuguese',
     ru = 'Russian'
 }

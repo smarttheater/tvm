@@ -1,0 +1,113 @@
+{
+    "purchase": {
+        "event": {
+            "top": {
+                "title": "选择菜单",
+                "purchase": {
+                    "title": "购买",
+                    "search": {
+                        "today": "今天",
+                        "other": "今天除外"
+                    }
+                },
+                "inquiry": {
+                    "title": "出票",
+                    "print": "签发预订机票"
+                }
+            },
+            "date": {
+                "title": "选择保留日期",
+                "next": "下一个",
+                "prev": "回来"
+            },
+            "schedule": {
+                "title": "时间表选择",
+                "read": "请选择一个时间表",
+                "next": "决定",
+                "prev": "回来",
+                "addOn": "选择选项",
+                "notfound": "没有时间表",
+                "remainingSeat": "剩余座位数",
+                "success": {
+                    "temporaryReservation": "成功的暂定保留"
+                },
+                "alert": {
+                    "ticketCondition": "请再次查看折扣凭证的条款和条件",
+                    "temporaryReservation": "临时预订失败",
+                    "getScreeningEventSeats": "没有可用的座位",
+                    "cart": "不能选择多个性能",
+                    "limit": "最多{{value}}可以同时购买",
+                    "cancel": "未能取消"
+                }
+            },
+            "select": {
+                "title": "门票选择",
+                "read": "请选择一张票",
+                "next": "决定",
+                "prev": "回来",
+                "addOn": "选择选项",
+                "notfound": "没有票",
+                "remainingSeat": "剩余座位数",
+                "success": {
+                    "temporaryReservation": "成功的暂定保留"
+                },
+                "alert": {
+                    "ticketCondition": "请再次查看折扣券的条款和条件",
+                    "temporaryReservation": "临时预订失败",
+                    "getScreeningEventSeats": "没有可用的座位",
+                    "cart": "不能选择多个性能",
+                    "limit": "同时购买的最大数量是{{value}}",
+                    "cancel": "未能取消"
+                }
+            },
+            "seat": {
+                "title": "座位选择",
+                "read": "请选择一个座位",
+                "next": "下一个",
+                "prev": "回来",
+                "allSelect": "选择所有",
+                "reset": "重置",
+                "openSeating": "座位数",
+                "alert": {
+                    "limit": "最多{{value}}可以同时购买",
+                    "temporaryReservation": "临时预订失败",
+                    "ticketNotfound": "没有可供出售的机票类型"
+                }
+            },
+            "ticket": {
+                "title": "门票选择",
+                "read": "请选择一张票",
+                "unselected": "请选择一张票",
+                "mvtk": "对于那些使用电影票的人",
+                "next": "下一个",
+                "prev": "回来",
+                "allSelect": "选择所有",
+                "notfound": "",
+                "alert": {
+                    "ticketCondition": "请再次查看折扣凭证的条款和条件",
+                    "temporaryReservation": "临时预订失败"
+                }
+            },
+            "cart": {
+                "title": "精选门票",
+                "read": "请检查选定的机票",
+                "notfound": "没有选择门票",
+                "next": "下一个",
+                "prev": "回来",
+                "add": "添加",
+                "confirm": {
+                    "cancel": "你确定要取消吗？"
+                }
+            }
+        },
+        "step": {
+            "1": "门票选择",
+            "2": "付款方法选择<br>购买确认",
+            "3": "购买完成"
+        }
+    },
+    "common": {
+        "theater": "设施",
+        "duration": "需要时间"
+    }
+}

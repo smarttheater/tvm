@@ -1,0 +1,113 @@
+{
+    "purchase": {
+        "event": {
+            "top": {
+                "title": "메뉴 선택",
+                "purchase": {
+                    "title": "구매",
+                    "search": {
+                        "today": "오늘",
+                        "other": "오늘 외"
+                    }
+                },
+                "inquiry": {
+                    "title": "문제",
+                    "print": "예약 된 티켓 발급"
+                }
+            },
+            "date": {
+                "title": "예약 된 날짜 선택",
+                "next": "다음",
+                "prev": "뒤로"
+            },
+            "schedule": {
+                "title": "일정 선택",
+                "read": "일정을 선택하세요.",
+                "next": "결정",
+                "prev": "뒤로",
+                "addOn": "옵션 선택",
+                "notfound": "일정 없음.",
+                "remainingSeat": "남은 좌석 수",
+                "success": {
+                    "temporaryReservation": "성공적인 임시 예약."
+                },
+                "alert": {
+                    "ticketCondition": "할인 바우처 이용 약관을 다시 확인 해주세요.",
+                    "temporaryReservation": "임시 예약 실패.",
+                    "getScreeningEventSeats": "사용 가능한 좌석이 없습니다.",
+                    "cart": "여러 공연은 선택할 수 없습니다.",
+                    "limit": "동시에 최대 {{value}}까지 구매할 수 있습니다.",
+                    "cancel": "취소 실패."
+                }
+            },
+            "select": {
+                "title": "티켓 선택",
+                "read": "티켓을 선택하세요.",
+                "next": "결정",
+                "prev": "뒤로",
+                "addOn": "옵션 선택",
+                "notfound": "티켓이 없습니다.",
+                "remainingSeat": "남은 좌석 수",
+                "success": {
+                    "temporaryReservation": "성공적인 임시 예약."
+                },
+                "alert": {
+                    "ticketCondition": "할인 바우처 이용 약관을 다시 확인하세요.",
+                    "temporaryReservation": "임시 예약 실패.",
+                    "getScreeningEventSeats": "사용 가능한 좌석이 없습니다.",
+                    "cart": "여러 공연은 선택할 수 없습니다.",
+                    "limit": "최대 동시 구매 수는 {{value}}입니다.",
+                    "cancel": "취소 실패."
+                }
+            },
+            "seat": {
+                "title": "좌석 선택",
+                "read": "좌석을 선택하세요.",
+                "next": "다음",
+                "prev": "뒤로",
+                "allSelect": "모두 선택",
+                "reset": "재설정",
+                "openSeating": "좌석 수",
+                "alert": {
+                    "limit": "동시에 최대 {{value}}까지 구매할 수 있습니다.",
+                    "temporaryReservation": "임시 예약 실패.",
+                    "ticketNotfound": "판매 가능한 티켓 유형이 없습니다."
+                }
+            },
+            "ticket": {
+                "title": "티켓 선택",
+                "read": "티켓을 선택하세요.",
+                "unselected": "티켓을 선택하세요",
+                "mvtk": "영화 티켓을 이용하시는 분들께",
+                "next": "다음",
+                "prev": "뒤로",
+                "allSelect": "모두 선택",
+                "notfound": "",
+                "alert": {
+                    "ticketCondition": "할인 바우처 이용 약관을 다시 확인하세요.",
+                    "temporaryReservation": "임시 예약 실패."
+                }
+            },
+            "cart": {
+                "title": "선택한 티켓",
+                "read": "선택한 티켓을 확인하세요.",
+                "notfound": "선택된 티켓이 없습니다.",
+                "next": "다음",
+                "prev": "뒤로",
+                "add": "추가",
+                "confirm": {
+                    "cancel": "정말 취소 하시겠습니까?"
+                }
+            }
+        },
+        "step": {
+            "1": "티켓 선택",
+            "2": "결제 수단 선택 <br> 구매 확인",
+            "3": "구매 완료"
+        }
+    },
+    "common": {
+        "theater": "시설",
+        "duration": "소요 시간"
+    }
+}

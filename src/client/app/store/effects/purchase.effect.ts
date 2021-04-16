@@ -437,7 +437,7 @@ export class PurchaseEffects {
                 };
                 if (environment.PURCHASE_COMPLETE_MAIL_CUSTOM && params.email !== undefined) {
                     // 完了メールをカスタマイズ
-                    const path = `/ejs/mail/complete/${payload.language}.ejs`;
+                    const path = `/ejs/mail/complete/ja.ejs`;
                     const url = (await Functions.Util.isFile(`${Functions.Util.getProject().storageUrl}${path}`))
                         ? `${Functions.Util.getProject().storageUrl}${path}`
                         : `/default${path}`;

@@ -133,9 +133,9 @@
                                             class="text-danger">
                                             {{ 'form.validation.required' | translate }}</p>
                                     </div>
-                                    <button type="button" class="btn btn-primary mt-2 mr-2" (click)="connectCash()">{{
+                                    <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="epsonEPOSService.cashchanger.isConnected()" (click)="connectCash()">{{
                                         'setting.connect' | translate }}</button>
-                                    <button type="button" class="btn btn-primary mt-2" (click)="endDeposit()">{{
+                                    <button type="button" class="btn btn-primary mt-2" [disabled]="epsonEPOSService.cashchanger.isConnected()" (click)="endDeposit()">{{
                                         'setting.endDeposit' | translate }}</button>
                                 </div>
                             </div>

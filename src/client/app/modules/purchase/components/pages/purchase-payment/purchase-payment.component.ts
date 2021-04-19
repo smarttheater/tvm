@@ -15,6 +15,7 @@ import * as reducers from '../../../../../store/reducers';
     styleUrls: ['./purchase-payment.component.scss']
 })
 export class PurchasePaymentComponent implements OnInit {
+    public isLoading: Observable<boolean>;
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public paymentMethodType = factory.chevre.paymentMethodType;
@@ -36,6 +37,7 @@ export class PurchasePaymentComponent implements OnInit {
     ) { }
 
     public async ngOnInit() {
+        this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
         this.amount = 0;

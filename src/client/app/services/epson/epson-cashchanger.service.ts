@@ -62,7 +62,6 @@ export class EpsonCaschCangerService {
             this.ePOSDevice = new (<any>window).epson.ePOSDevice();
             await this.connect(params);
             this.device = (await this.createDevice()).data;
-            console.log(this.device);
         } catch (error) {
             this.utilService.setError(error);
             throw error;

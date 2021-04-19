@@ -67,7 +67,7 @@
         <div class="container h-100">
             <div class="row align-items-center justify-content-center h-100">
                 <div class="col-3">
-                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    <button [disabled]="isLoading | async" type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
                     (click)="prev()">{{ 'purchase.paymentReception.cash.prev' | translate }}</button>
                 </div>
                 <div class="col-3">

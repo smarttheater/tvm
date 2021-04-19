@@ -281,6 +281,7 @@ export class EpsonCaschCangerService {
             await pauseDeposit();
             await Functions.Util.sleep(1000);
             await endDeposit();
+            await Functions.Util.sleep(1000);
         } catch (error) {
             this.disconnect();
             this.utilService.setError(error);

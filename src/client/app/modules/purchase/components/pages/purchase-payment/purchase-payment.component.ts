@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../services';
+import { ActionService, EpsonEPOSService, MasterService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -33,7 +33,8 @@ export class PurchasePaymentComponent implements OnInit {
         private utilService: UtilService,
         private actionService: ActionService,
         private masterService: MasterService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private epsonEPOSService: EpsonEPOSService,
     ) { }
 
     public async ngOnInit() {
@@ -82,6 +83,9 @@ export class PurchasePaymentComponent implements OnInit {
         category?: string
     ) {
         try {
+            if (this.epsonEPOSService.cashchanger.isConnected()) {
+                return;
+            }
             const seller = (await this.actionService.purchase.getData()).seller;
             if (seller === undefined
                 || seller.paymentAccepted === undefined) {

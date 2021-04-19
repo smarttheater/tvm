@@ -45,11 +45,12 @@ enum DispenseStatus {
     providedIn: 'root'
 })
 export class EpsonCaschCangerService {
+    constructor(private utilService: UtilService) { }
+    private static WITE_TIME = 300;
+    private static LIMIT_COUNT = 10;
     private ePOSDevice: any;
     private device: any;
     private deposit?: IDeposit;
-
-    constructor(private utilService: UtilService) { }
 
     public async init(params: {
         ipAddress: string;
@@ -150,7 +151,7 @@ export class EpsonCaschCangerService {
                     this.device.beginDeposit();
                 });
             };
-            const limit = 20;
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
             let count = 0;
             let roop = true;
             while (roop) {
@@ -160,7 +161,7 @@ export class EpsonCaschCangerService {
                     throw new Error(`beginDeposit status error: ${processResult.status}`);
                 }
                 if (processResult.status !== DepositStatus.BUSY) {
-                    await Functions.Util.sleep(300);
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
                     count++;
                     continue;
                 }
@@ -202,7 +203,7 @@ export class EpsonCaschCangerService {
                     this.device.pauseDeposit();
                 });
             };
-            const limit = 20;
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
             let count = 0;
             let roop = true;
             while (roop) {
@@ -212,7 +213,7 @@ export class EpsonCaschCangerService {
                     throw new Error(`pauseDeposit status error: ${processResult.status}`);
                 }
                 if (processResult.status !== DepositStatus.PAUSE) {
-                    await Functions.Util.sleep(300);
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
                     count++;
                     continue;
                 }
@@ -229,7 +230,7 @@ export class EpsonCaschCangerService {
                     this.device.restartDeposit();
                 });
             };
-            const limit = 20;
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
             let count = 0;
             let roop = true;
             while (roop) {
@@ -239,7 +240,7 @@ export class EpsonCaschCangerService {
                     throw new Error(`restartDeposit status error: ${processResult.status}`);
                 }
                 if (processResult.status !== DepositStatus.BUSY) {
-                    await Functions.Util.sleep(300);
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
                     count++;
                     continue;
                 }
@@ -256,7 +257,7 @@ export class EpsonCaschCangerService {
                     this.device.endDeposit(endDepositType);
                 });
             };
-            const limit = 20;
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
             let count = 0;
             let roop = true;
             while (roop) {
@@ -266,7 +267,7 @@ export class EpsonCaschCangerService {
                     throw new Error(`endDeposit status error: ${processResult.status}`);
                 }
                 if (processResult.status !== DepositStatus.END) {
-                    await Functions.Util.sleep(300);
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
                     count++;
                     continue;
                 }
@@ -306,7 +307,7 @@ export class EpsonCaschCangerService {
                     this.device.dispenseChange(String(params.change));
                 });
             };
-            const limit = 20;
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
             let count = 0;
             let roop = true;
             while (roop) {
@@ -316,7 +317,7 @@ export class EpsonCaschCangerService {
                     throw new Error(`dispenseChange status error: ${processResult.status}`);
                 }
                 if (processResult.status !== DispenseStatus.SUCCESS) {
-                    await Functions.Util.sleep(300);
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
                     count++;
                     continue;
                 }

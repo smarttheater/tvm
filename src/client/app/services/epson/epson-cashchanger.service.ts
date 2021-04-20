@@ -3,17 +3,17 @@ import { Functions } from '../..';
 import { UtilService } from '../util.service';
 
 interface IDeposit {
-    amount: string;
-    jpy1: string;
-    jpy5: string;
-    jpy10: string;
-    jpy50: string;
-    jpy100: string;
-    jpy500: string;
-    jpy1000: string;
-    jpy2000: string;
-    jpy5000: string;
-    jpy10000: string;
+    amount?: string;
+    jpy1?: string;
+    jpy5?: string;
+    jpy10?: string;
+    jpy50?: string;
+    jpy100?: string;
+    jpy500?: string;
+    jpy1000?: string;
+    jpy2000?: string;
+    jpy5000?: string;
+    jpy10000?: string;
     status: DepositStatus;
 }
 
@@ -24,6 +24,7 @@ enum DepositStatus {
     DEVICE_ERROR = 'DEVICE_ERROR',
     SYSTEM_ERROR = 'SYSTEM_ERROR',
     COMMAND_ERROR = 'COMMAND_ERROR',
+    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
 }
 
 interface IDispense {
@@ -39,6 +40,7 @@ enum DispenseStatus {
     DEVICE_ERROR = 'DEVICE_ERROR',
     SYSTEM_ERROR = 'SYSTEM_ERROR',
     COMMAND_ERROR = 'COMMAND_ERROR',
+    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
 }
 
 @Injectable({
@@ -46,8 +48,9 @@ enum DispenseStatus {
 })
 export class EpsonCaschCangerService {
     constructor(private utilService: UtilService) { }
-    private static WITE_TIME = 300;
+    private static WITE_TIME = 1000;
     private static LIMIT_COUNT = 10;
+    private static METHOD_TIMEOUT = 2000;
     private ePOSDevice: any;
     private device: any;
     private deposit?: IDeposit;
@@ -62,6 +65,7 @@ export class EpsonCaschCangerService {
             this.ePOSDevice = new (<any>window).epson.ePOSDevice();
             await this.connect(params);
             this.device = (await this.createDevice()).data;
+            console.log(this.device);
         } catch (error) {
             this.utilService.setError(error);
             throw error;
@@ -143,7 +147,11 @@ export class EpsonCaschCangerService {
         const beginDeposit = async () => {
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
                     this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
                         this.deposit = data;
                         resolve(data);
                     };
@@ -169,6 +177,7 @@ export class EpsonCaschCangerService {
         };
         try {
             await beginDeposit();
+            await Functions.Util.sleep(1000);
         } catch (error) {
             this.disconnect();
             this.utilService.setError(error);
@@ -195,7 +204,11 @@ export class EpsonCaschCangerService {
         const pauseDeposit = async () => {
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
                     this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
                         this.deposit = data;
                         resolve(data);
                     };
@@ -222,7 +235,11 @@ export class EpsonCaschCangerService {
         const restartDeposit = async () => {
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
                     this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
                         this.deposit = data;
                         resolve(data);
                     };
@@ -249,7 +266,11 @@ export class EpsonCaschCangerService {
         const endDeposit = async () => {
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
                     this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
                         this.deposit = data;
                         resolve(data);
                     };

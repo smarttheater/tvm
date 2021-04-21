@@ -20,7 +20,6 @@ export class PurchasePerformancesComponent implements OnInit {
     constructor() { }
 
     public ngOnInit() {
-        console.log(this.videoFormatTypes);
         this.animation = (this.animation === undefined) ? false : this.animation;
     }
 

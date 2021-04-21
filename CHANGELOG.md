@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.2.4 - 2021-04-21
+### Changed
+ - ルーティングログを非表示へ変更
+
 ## 1.2.3 - 2021-04-21
 ### Added
  - 設定画面から自動返金機能追加

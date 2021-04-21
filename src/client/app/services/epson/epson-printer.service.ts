@@ -18,8 +18,7 @@ export class EpsonPrinterService {
         this.ePOSDevice = new (<any>window).epson.ePOSDevice();
         await this.connect(params);
         this.device = (await this.createDevice()).data;
-        this.device.onstatuschange = (status: any) => {
-            console.log('PRINTER onstatuschange-----', status);
+        this.device.onstatuschange = (_status: any) => {
         };
     }
 

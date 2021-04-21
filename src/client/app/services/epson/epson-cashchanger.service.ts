@@ -65,7 +65,6 @@ export class EpsonCaschCangerService {
             this.ePOSDevice = new (<any>window).epson.ePOSDevice();
             await this.connect(params);
             this.device = (await this.createDevice()).data;
-            console.log(this.device);
         } catch (error) {
             this.utilService.setError(error);
             throw error;
@@ -163,7 +162,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('beginDeposit', processResult);
+                // console.warn('beginDeposit', processResult);
                 if (limit < count) {
                     throw new Error(`beginDeposit status error: ${processResult.status}`);
                 }
@@ -184,7 +183,7 @@ export class EpsonCaschCangerService {
             throw error;
         }
         this.device.ondeposit = (data: IDeposit) => {
-            console.warn('deposit', data);
+            // console.warn('deposit', data);
             // 入金処理
             this.deposit = data;
         };
@@ -220,7 +219,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('pauseDeposit', processResult);
+                // console.warn('pauseDeposit', processResult);
                 if (limit < count) {
                     throw new Error(`pauseDeposit status error: ${processResult.status}`);
                 }
@@ -251,7 +250,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('restartDeposit', processResult);
+                // console.warn('restartDeposit', processResult);
                 if (limit < count) {
                     throw new Error(`restartDeposit status error: ${processResult.status}`);
                 }
@@ -282,7 +281,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('endDeposit', processResult);
+                // console.warn('endDeposit', processResult);
                 if (limit < count) {
                     throw new Error(`endDeposit status error: ${processResult.status}`);
                 }
@@ -333,7 +332,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('dispenseChange', processResult);
+                // console.warn('dispenseChange', processResult);
                 if (limit < count) {
                     throw new Error(`dispenseChange status error: ${processResult.status}`);
                 }

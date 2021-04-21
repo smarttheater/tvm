@@ -1,0 +1,103 @@
+{
+    "purchase": {
+        "cinema": {
+            "top": {
+                "title": "选择菜单",
+                "movie": {
+                    "title": "按工作搜索",
+                    "read": "推荐给那些决定工作的人",
+                    "search": {
+                        "today": "今天的工作",
+                        "other": "除今天外的作品"
+                    }
+                },
+                "time": {
+                    "title": "按时间搜索",
+                    "read": "推荐给那些现在想看的人",
+                    "search": "提前开始时间"
+                },
+                "inquiry": {
+                    "title": "出票",
+                    "read": "",
+                    "print": "签发保留票"
+                }
+            },
+            "schedule": {
+                "title": "请选择您想看的放映",
+                "notfound": "没有时间表",
+                "next": "下一个",
+                "prev": "回来",
+                "alert": {
+                    "ticketedSeat": "没有座位管理的性能在影院视图中不可用"
+                }
+            },
+            "date": {
+                "title": "请选择您希望看到的放映日期",
+                "schedule": "定期销售",
+                "preSchedule": "预售",
+                "next": "下一个",
+                "prev": "回来"
+            },
+            "scheduleMovie": {
+                "title": "请选择您想看的作品",
+                "notfound": "没有时间表",
+                "next": "下一个",
+                "prev": "后退",
+                "alert": {
+                    "ticketedSeat": "没有座位管理的性能在影院视图中不可用"
+                }
+            },
+            "scheduleEvent": {
+                "title": "请选择您想看的放映",
+                "notfound": "没有时间表",
+                "next": "下一个",
+                "prev": "回来",
+                "alert": {
+                    "ticketedSeat": "没有座位管理的性能在影院视图中不可用"
+                }
+            },
+            "seat": {
+                "title": "请选择一个座位",
+                "next": "下一个",
+                "consent": "我同意使用条款并继续",
+                "terms": "服务条款",
+                "prev": "回来",
+                "allSelect": "选择所有",
+                "reset": "重置",
+                "openSeating": {
+                    "title": "请选择号码",
+                    "seat": "床单数量"
+                },
+                "alert": {
+                    "limit": "最多{{value}}可以同时购买",
+                    "temporaryReservation": "临时预订失败<br>* 即使其他乘客已经选择了同一个座位，也会显示此错误",
+                    "ticketNotfound": "没有可供出售的机票类型"
+                }
+            },
+            "ticket": {
+                "title": "请选择一张票",
+                "unselected": "请选择一张票",
+                "mvtk": "对于那些使用电影票的人",
+                "next": "下一个",
+                "prev": "回来",
+                "allSelect": "选择所有",
+                "notfound": "",
+                "alert": {
+                    "ticketCondition": "请再次查看折扣凭证的条款和条件",
+                    "temporaryReservation": "临时预订失败"
+                }
+            }
+        },
+        "step": {
+            "1": "选择工作<br>选择演出时间",
+            "2": "座位选择",
+            "3": "票型选择",
+            "4": "付款方法选择<br>购买确认",
+            "5": "购买完成"
+        }
+    },
+    "common": {
+        "theater": "剧院",
+        "duration": "筛选时间"
+    }
+}

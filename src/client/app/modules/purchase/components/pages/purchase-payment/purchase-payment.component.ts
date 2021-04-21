@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../services';
+import { ActionService, EpsonEPOSService, MasterService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -15,6 +15,7 @@ import * as reducers from '../../../../../store/reducers';
     styleUrls: ['./purchase-payment.component.scss']
 })
 export class PurchasePaymentComponent implements OnInit {
+    public isLoading: Observable<boolean>;
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public paymentMethodType = factory.chevre.paymentMethodType;
@@ -32,10 +33,12 @@ export class PurchasePaymentComponent implements OnInit {
         private utilService: UtilService,
         private actionService: ActionService,
         private masterService: MasterService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private epsonEPOSService: EpsonEPOSService,
     ) { }
 
     public async ngOnInit() {
+        this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
         this.amount = 0;
@@ -80,6 +83,9 @@ export class PurchasePaymentComponent implements OnInit {
         category?: string
     ) {
         try {
+            if (this.epsonEPOSService.cashchanger.isConnected()) {
+                return;
+            }
             const seller = (await this.actionService.purchase.getData()).seller;
             if (seller === undefined
                 || seller.paymentAccepted === undefined) {

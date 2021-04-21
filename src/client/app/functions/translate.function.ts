@@ -17,6 +17,8 @@ export class CustomTranslateHttpLoader implements TranslateLoader {
         const suffix = `.json?date=${moment().toISOString()}`;
         const resources = [
             `/default/i18n/common/${lang}${suffix}`,
+            `/default/i18n/mail/${lang}${suffix}`,
+            `/default/i18n/contents/${lang}${suffix}`,
             `/default/i18n/${getEnvironment().VIEW_TYPE}/${lang}${suffix}`,
             `${getProject().storageUrl}/i18n/${lang}${suffix}`,
         ];

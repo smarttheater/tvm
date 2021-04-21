@@ -1,0 +1,18 @@
+{
+    "email": {
+        "domain": "@smart-theater.com",
+        "purchase": {
+            "complete": {
+                "sender": {
+                    "name": "",
+                    "email": "noreply@smart-theater.com"
+                },
+                "toRecipient": {
+                    "name": "",
+                    "email": ""
+                },
+                "about": "予約完了のお知らせ"
+            }
+        }
+    }
+}

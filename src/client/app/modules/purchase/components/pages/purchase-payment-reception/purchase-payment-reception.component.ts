@@ -351,7 +351,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                     // 現金おつり
                     await this.epsonEPOSService.cashchanger.dispenseChange({ change });
                 }
-                await this.epsonEPOSService.cashchanger.disconnect();
+                this.epsonEPOSService.cashchanger.disconnect();
                 this.utilService.loadEnd();
             }
         } catch (error) {
@@ -385,7 +385,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             await this.epsonEPOSService.cashchanger.endDeposit({
                 endDepositType: 'DEPOSIT_REPAY'
             });
-            await this.epsonEPOSService.cashchanger.disconnect();
+            this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.loadEnd();
         } catch (error) {
             this.utilService.loadEnd();

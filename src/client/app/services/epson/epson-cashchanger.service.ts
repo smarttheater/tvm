@@ -3,17 +3,17 @@ import { Functions } from '../..';
 import { UtilService } from '../util.service';
 
 interface IDeposit {
-    amount: string;
-    jpy1: string;
-    jpy5: string;
-    jpy10: string;
-    jpy50: string;
-    jpy100: string;
-    jpy500: string;
-    jpy1000: string;
-    jpy2000: string;
-    jpy5000: string;
-    jpy10000: string;
+    amount?: string;
+    jpy1?: string;
+    jpy5?: string;
+    jpy10?: string;
+    jpy50?: string;
+    jpy100?: string;
+    jpy500?: string;
+    jpy1000?: string;
+    jpy2000?: string;
+    jpy5000?: string;
+    jpy10000?: string;
     status: DepositStatus;
 }
 
@@ -24,6 +24,7 @@ enum DepositStatus {
     DEVICE_ERROR = 'DEVICE_ERROR',
     SYSTEM_ERROR = 'SYSTEM_ERROR',
     COMMAND_ERROR = 'COMMAND_ERROR',
+    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
 }
 
 interface IDispense {
@@ -39,17 +40,20 @@ enum DispenseStatus {
     DEVICE_ERROR = 'DEVICE_ERROR',
     SYSTEM_ERROR = 'SYSTEM_ERROR',
     COMMAND_ERROR = 'COMMAND_ERROR',
+    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
 }
 
 @Injectable({
     providedIn: 'root'
 })
 export class EpsonCaschCangerService {
+    constructor(private utilService: UtilService) { }
+    private static WITE_TIME = 1000;
+    private static LIMIT_COUNT = 10;
+    private static METHOD_TIMEOUT = 2000;
     private ePOSDevice: any;
     private device: any;
     private deposit?: IDeposit;
-
-    constructor(private utilService: UtilService) { }
 
     public async init(params: {
         ipAddress: string;
@@ -140,20 +144,40 @@ export class EpsonCaschCangerService {
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
-        const beginDeposit = () => {
-            return new Promise<IDeposit>((resolve) => {
-                this.device.ondeposit = (data: IDeposit) => {
-                    console.warn('beginDeposit', data);
-                    resolve(data);
-                };
-                this.device.beginDeposit();
-            });
+        const beginDeposit = async () => {
+            const process = async () => {
+                return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
+                    this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
+                        this.deposit = data;
+                        resolve(data);
+                    };
+                    this.device.beginDeposit();
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                console.warn('beginDeposit', processResult);
+                if (limit < count) {
+                    throw new Error(`beginDeposit status error: ${processResult.status}`);
+                }
+                if (processResult.status !== DepositStatus.BUSY) {
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
         };
         try {
-            const beginDepositResult = await beginDeposit();
-            if (beginDepositResult.status !== DepositStatus.BUSY) {
-                throw new Error(`status error: ${beginDepositResult.status}`);
-            }
+            await beginDeposit();
+            await Functions.Util.sleep(1000);
         } catch (error) {
             this.disconnect();
             this.utilService.setError(error);
@@ -177,57 +201,108 @@ export class EpsonCaschCangerService {
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
-        const pauseDeposit = () => {
-            return new Promise<IDeposit>((resolve) => {
-                this.device.ondeposit = (data: IDeposit) => {
-                    this.deposit = data;
-                    console.warn('pauseDeposit', data);
-                    resolve(data);
-                };
-                this.device.pauseDeposit();
-            });
+        const pauseDeposit = async () => {
+            const process = async () => {
+                return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
+                    this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
+                        this.deposit = data;
+                        resolve(data);
+                    };
+                    this.device.pauseDeposit();
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                console.warn('pauseDeposit', processResult);
+                if (limit < count) {
+                    throw new Error(`pauseDeposit status error: ${processResult.status}`);
+                }
+                if (processResult.status !== DepositStatus.PAUSE) {
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
         };
-        const restartDeposit = () => {
-            return new Promise<IDeposit>((resolve) => {
-                this.device.ondeposit = (data: IDeposit) => {
-                    this.deposit = data;
-                    console.warn('restartDeposit', data);
-                    resolve(data);
-                };
-                this.device.restartDeposit();
-            });
+        const restartDeposit = async () => {
+            const process = async () => {
+                return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
+                    this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
+                        this.deposit = data;
+                        resolve(data);
+                    };
+                    this.device.restartDeposit();
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                console.warn('restartDeposit', processResult);
+                if (limit < count) {
+                    throw new Error(`restartDeposit status error: ${processResult.status}`);
+                }
+                if (processResult.status !== DepositStatus.BUSY) {
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
         };
-        const endDeposit = () => {
-            return new Promise<IDeposit>((resolve) => {
-                this.device.ondeposit = (data: IDeposit) => {
-                    this.deposit = data;
-                    console.warn('endDeposit', data);
-                    resolve(data);
-                };
-                this.device.endDeposit(endDepositType);
-            });
+        const endDeposit = async () => {
+            const process = async () => {
+                return new Promise<IDeposit>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: DepositStatus.TIMEOUT_ERROR });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
+                    this.device.ondeposit = (data: IDeposit) => {
+                        clearTimeout(timer);
+                        this.deposit = data;
+                        resolve(data);
+                    };
+                    this.device.endDeposit(endDepositType);
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                console.warn('endDeposit', processResult);
+                if (limit < count) {
+                    throw new Error(`endDeposit status error: ${processResult.status}`);
+                }
+                if (processResult.status !== DepositStatus.END) {
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
         };
         try {
-            let pauseDepositResult = await pauseDeposit();
-            if (pauseDepositResult.status !== DepositStatus.PAUSE) {
-                throw new Error(`status error: ${pauseDepositResult.status}`);
-            }
+            await pauseDeposit();
             await Functions.Util.sleep(3000);
-            const restartDepositResult = await restartDeposit();
-            if (restartDepositResult.status !== DepositStatus.BUSY) {
-                throw new Error(`status error: ${restartDepositResult.status}`);
-            }
+            await restartDeposit();
             await Functions.Util.sleep(1000);
-            pauseDepositResult = await pauseDeposit();
-            if (pauseDepositResult.status !== DepositStatus.PAUSE) {
-                throw new Error(`status error: ${pauseDepositResult.status}`);
-            }
+            await pauseDeposit();
             await Functions.Util.sleep(1000);
-            const endDepositResult = await endDeposit();
-            if (endDepositResult.status !== DepositStatus.END) {
-                throw new Error(`status error: ${endDepositResult.status}`);
-            }
-            await Functions.Util.sleep(3000);
+            await endDeposit();
+            await Functions.Util.sleep(1000);
         } catch (error) {
             this.disconnect();
             this.utilService.setError(error);
@@ -244,21 +319,34 @@ export class EpsonCaschCangerService {
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
-        const dispenseChange = () => {
-            return new Promise<IDispense>((resolve) => {
-                this.device.ondispense = (data: IDispense) => {
-                    console.warn('dispenseChange', data);
-                    resolve(data);
-                };
-                this.device.dispenseChange(String(params.change));
-            });
+        const dispenseChange = async () => {
+            const process = async () => {
+                return new Promise<IDispense>((resolve) => {
+                    this.device.ondispense = (data: IDispense) => {
+                        resolve(data);
+                    };
+                    this.device.dispenseChange(String(params.change));
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                console.warn('dispenseChange', processResult);
+                if (limit < count) {
+                    throw new Error(`dispenseChange status error: ${processResult.status}`);
+                }
+                if (processResult.status !== DispenseStatus.SUCCESS) {
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
         };
         try {
-            const dispenseChangeResult = await dispenseChange();
-            if (dispenseChangeResult.status !== DispenseStatus.SUCCESS) {
-                throw new Error(`status error: ${dispenseChangeResult.status}`);
-            }
-            await Functions.Util.sleep(1000);
+            await dispenseChange();
         } catch (error) {
             this.disconnect();
             this.utilService.setError(error);

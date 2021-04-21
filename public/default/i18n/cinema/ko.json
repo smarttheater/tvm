@@ -1,0 +1,103 @@
+{
+    "purchase": {
+        "cinema": {
+            "top": {
+                "title": "메뉴 선택",
+                "movie": {
+                    "title": "직장으로 검색",
+                    "read": "작품을 결정하신 분에게 추천",
+                    "search": {
+                        "today": "오늘의 작품",
+                        "other": "오늘 이외의 작품"
+                    }
+                },
+                "time": {
+                    "title": "시간으로 검색",
+                    "read": "지금보고 싶은 사람들에게 추천",
+                    "search": "조기 시작 시간"
+                },
+                "inquiry": {
+                    "title": "문제",
+                    "read": "",
+                    "print": "예약 된 티켓 발급"
+                }
+            },
+            "schedule": {
+                "title": "보고 싶은 상영을 선택하세요",
+                "notfound": "일정 없음.",
+                "next": "다음",
+                "prev": "뒤로",
+                "alert": {
+                    "ticketedSeat": "좌석 관리가없는 공연은 극장보기에서 사용할 수 없습니다."
+                }
+            },
+            "date": {
+                "title": "보고 싶은 상영 날짜를 선택하세요",
+                "schedule": "정기 판매",
+                "preSchedule": "사전 판매",
+                "next": "다음",
+                "prev": "뒤로"
+            },
+            "scheduleMovie": {
+                "title": "보고 싶은 작품을 선택하세요",
+                "notfound": "일정 없음.",
+                "next": "다음",
+                "prev": "뒤로",
+                "alert": {
+                    "ticketedSeat": "좌석 관리가없는 공연은 극장보기에서 사용할 수 없습니다."
+                }
+            },
+            "scheduleEvent": {
+                "title": "보고 싶은 상영을 선택하세요",
+                "notfound": "일정 없음.",
+                "next": "다음",
+                "prev": "뒤로",
+                "alert": {
+                    "ticketedSeat": "좌석 관리가없는 공연은 극장보기에서 사용할 수 없습니다."
+                }
+            },
+            "seat": {
+                "title": "좌석을 선택하세요",
+                "next": "다음",
+                "consent": "이용 약관에 동의하고 계속합니다.",
+                "terms": "서비스 약관",
+                "prev": "뒤로",
+                "allSelect": "모두 선택",
+                "reset": "재설정",
+                "openSeating": {
+                    "title": "번호를 선택하세요",
+                    "seat": "매수"
+                },
+                "alert": {
+                    "limit": "최대 {{value}} 개를 동시에 구매할 수 있습니다.",
+                    "temporaryReservation": "임시 예약 실패. <br> *이 오류는 다른 승객이 이미 같은 좌석을 선택한 경우에도 표시됩니다.",
+                    "ticketNotfound": "판매 가능한 티켓 유형이 없습니다."
+                }
+            },
+            "ticket": {
+                "title": "티켓을 선택하세요",
+                "unselected": "티켓을 선택하세요",
+                "mvtk": "영화 티켓을 이용하시는 분들께",
+                "next": "다음",
+                "prev": "뒤로",
+                "allSelect": "모두 선택",
+                "notfound": "",
+                "alert": {
+                    "ticketCondition": "할인 바우처 이용 약관을 다시 확인하세요.",
+                    "temporaryReservation": "임시 예약 실패."
+                }
+            }
+        },
+        "step": {
+            "1": "직장 선택 <br> 상영 시간 선택",
+            "2": "좌석 선택",
+            "3": "티켓 유형 선택",
+            "4": "결제 수단 선택 <br> 구매 확인",
+            "5": "구매 완료"
+        }
+    },
+    "common": {
+        "theater": "극장",
+        "duration": "상영 시간"
+    }
+}

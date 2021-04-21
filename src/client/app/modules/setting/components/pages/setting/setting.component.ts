@@ -35,6 +35,7 @@ export class SettingComponent implements OnInit {
     @ViewChild('intlTelInput') private intlTelInput: NgxIntlTelInputComponent;
 
     constructor(
+        public epsonEPOSService: EpsonEPOSService,
         private formBuilder: FormBuilder,
         private store: Store<reducers.IState>,
         private utilService: UtilService,
@@ -42,7 +43,6 @@ export class SettingComponent implements OnInit {
         private masterService: MasterService,
         private translate: TranslateService,
         private router: Router,
-        private epsonEPOSService: EpsonEPOSService,
         private paymentService: PaymentService,
         private cinerinoService: CinerinoService
     ) { }
@@ -62,6 +62,16 @@ export class SettingComponent implements OnInit {
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
+        }
+        try {
+            const ipAddress = this.settingForm.controls.cashchanger.value;
+            if (ipAddress !== '') {
+                await this.epsonEPOSService.cashchanger.init({ ipAddress });
+                await this.epsonEPOSService.cashchanger.endDeposit({ endDepositType: 'DEPOSIT_REPAY' });
+                this.epsonEPOSService.cashchanger.disconnect();
+            }
+        } catch (error) {
+            console.error(error);
         }
         setTimeout(() => {
             if (this.intlTelInput === undefined) {
@@ -289,7 +299,7 @@ export class SettingComponent implements OnInit {
         try {
             const ipAddress = this.settingForm.controls.cashchanger.value;
             await this.epsonEPOSService.cashchanger.init({ ipAddress });
-            await this.epsonEPOSService.cashchanger.disconnect();
+            this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
                 body: this.translate.instant('setting.alert.connection')
@@ -315,7 +325,7 @@ export class SettingComponent implements OnInit {
             const ipAddress = this.settingForm.controls.cashchanger.value;
             await this.epsonEPOSService.cashchanger.init({ ipAddress });
             await this.epsonEPOSService.cashchanger.endDeposit({ endDepositType: 'DEPOSIT_REPAY' });
-            await this.epsonEPOSService.cashchanger.disconnect();
+            this.epsonEPOSService.cashchanger.disconnect();
         } catch (error) {
             console.error(error);
             const message = (error.message === undefined) ? error : error.message;

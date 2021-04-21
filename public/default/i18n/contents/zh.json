@@ -1,0 +1,221 @@
+{
+    "form": {
+        "label": {
+            "theaterBranchCode": "设施",
+            "posId": "POS",
+            "printerType": "打印机",
+            "printerIpAddress": "打印机 IP 地址",
+            "familyName": "姓氏（双节卡塔卡纳）",
+            "givenName": "名称（双节卡塔卡纳）",
+            "email": "电子邮件地址",
+            "telephone": "电话号码",
+            "age": "年龄",
+            "address": "地址",
+            "gender": "性别"
+        },
+        "option": {
+            "man": "伙计",
+            "woman": "女人",
+            "unselected": "未选"
+        },
+        "validation": {
+            "required": "未输入",
+            "maxlength": "输入少于或等于{{value}}字符",
+            "minlength": "输入至少{{value}}字符",
+            "fullKana": "请输入全宽卡塔卡纳",
+            "lowercaseLetters": "请输入半宽小写字母",
+            "number": "输入数字",
+            "email": "无效格式",
+            "telephone": "无效格式",
+            "unselected": "未选定",
+            "pattern": "无效"
+        },
+        "placeholder": {
+            "printerIpAddress": "0.0.0.0",
+            "familyName": "山田",
+            "givenName": "太郎",
+            "email": "xxx@motionpicture.jp",
+            "age": "",
+            "address": "",
+            "gender": "",
+            "confirmationNumber": "12345"
+        },
+        "required": "需要"
+    },
+    "modal": {
+        "movieTicket": {
+            "check": {
+                "title": "如果您有 QR 代码，则将其保留在读卡器上",
+                "success": "门票已添加",
+                "code": "购买编号",
+                "password": "PIN",
+                "next": "认证",
+                "prev": "",
+                "value": "[{{value}}床单]",
+                "alert": {
+                    "validation": "请检查您的输入",
+                    "used": "已经用过了",
+                    "error": "出现了错误"
+                }
+            }
+        },
+        "purchase": {
+            "transaction": {
+                "title": "确认",
+                "read": "交易正在进行中",
+                "next": "添加并继续",
+                "prev": "移动到推车"
+            },
+            "seatTicket": {
+                "addOn": "选择选项",
+                "notfound": "没有门票类型可供出售",
+                "movieTicket": {
+                    "code": "穆比奇克购买号"
+                }
+            }
+        }
+    },
+    "process": {
+        "load": "加载",
+        "authAction": {
+            "CheckLogin": "检查登录",
+            "Logout": "注销"
+        },
+        "admissionAction": {
+            "Check": "检查 QR 代码"
+        },
+        "masterAction": {
+            "SearchSellers": "获取卖方信息",
+            "SearchMovieTheaters": "获取设施信息",
+            "SearchScreeningEvent": "获取事件信息",
+            "SearchMovies": "获取内容信息",
+            "SearchScreeningEventSeries": "获取设施内容信息",
+            "SearchScreeningRooms": "获取房间信息",
+            "SearchCategoryCode": "获取分类信息",
+            "GetProjects": "获取项目",
+            "GetTheaters": "获取设施信息"
+        },
+        "orderAction": {
+            "Search": "获取订单信息",
+            "Cancel": "取消订单信息",
+            "Print": "打印",
+            "Inquiry": "查询订单信息",
+            "OrderAuthorize": "批准订单信息"
+        },
+        "purchaseAction": {
+            "StartTransaction": "开始交易",
+            "CancelTransaction": "取消交易",
+            "GetScreeningEvent": "获取事件信息",
+            "GetPreScheduleDates": "获取预售信息",
+            "GetScreen": "获取屏幕信息",
+            "GetScreenData": "获取座位信息",
+            "GetTicketList": "获取票务类型信息",
+            "GetScreeningEventSeats": "获取空位信息",
+            "GetSeller": "获取卖家信息",
+            "TemporaryReservation": "临时预订",
+            "TemporaryReservationFreeSeat": "临时预订",
+            "CancelTemporaryReservations": "取消暂定预订",
+            "RegisterContact": "注册购买者信息",
+            "AuthorizeMovieTicket": "批准电影票信息",
+            "CheckMovieTicket": "查看电影票信息",
+            "Reserve": "确认交易",
+            "EndTransaction": "已确认交易",
+            "AuthorizeAnyPayment": "批准付款信息"
+        }
+    },
+    "qrcode": {
+        "reader": {
+            "title": "扫描 QR 代码"
+        },
+        "viewer": {
+            "title": ""
+        }
+    },
+    "common": {
+        "performance": {
+            "status": {
+                "success": "购买",
+                "warning": "购买",
+                "danger": "满",
+                "endSale": "已停产",
+                "outsideSalesPeriod": "外部销售"
+            },
+            "infiniteStock": "没有库存控制"
+        },
+        "date": {
+            "year": "年",
+            "month": "月",
+            "day": "天",
+            "hour": "小时",
+            "minute": "分钟",
+            "second": "秒"
+        },
+        "confirmationNumber": "确认号码",
+        "orderNumber": "订单号",
+        "reservationNumber": "预订号码",
+        "seller": "卖家",
+        "screen": "屏幕",
+        "event": "工作",
+        "startDate": "筛选日期和时间",
+        "doorTime": "开放日期和时间",
+        "seat": "座位",
+        "seatValue": "（{{value}}座位）",
+        "ticket": "票型",
+        "referenceQuantityValue": "[{{value}}床单]",
+        "customer": "买家",
+        "customerName": "名称",
+        "familyName": "姓氏",
+        "givenName": "名称",
+        "email": "电子邮件地址",
+        "emailDescription": "[使用域指定接收时]<br>*如果您使用手机指定的域名接收，请添加\"@smart-theater.com\"<br>* 如果您正在使用 au （@ ezweb.ne.jp），请将\"@smart-theater.com\"添加到\"欺骗限制避免列表\"中，此外，请添加上述内容",
+        "telephone": "电话号码",
+        "age": "年龄",
+        "address": "地址",
+        "gender": {
+            "label": "性别",
+            "man": "男性",
+            "woman": "女人",
+            "unselected": "未选"
+        },
+        "paymentMethod": "付款方法",
+        "price": "金额",
+        "ticketing": "票务",
+        "admission": "入口",
+        "reservation": "保留",
+        "amount": "总金额",
+        "dubbing": "配音版本",
+        "subtitles": "字幕版本",
+        "orderDate": "购买日期",
+        "orderStatus": "订单状态",
+        "reservationStatus": "保留状态",
+        "additionalTicketText": "预订备忘录",
+        "qrcode": "QR 代码",
+        "paymentMethodType": {
+            "movieTicket": {
+                "label": "电影票",
+                "use": "<span class=\"font-weight-bold\">关于电影票的使用</span><br><span class=\"text-small\">如果您使用电影票，请验证并将其添加到票证类型 </span>"
+            },
+            "mgTicket": {
+                "use": "<span class=\"font-weight-bold\">有关MG票的使用</span><br><span class=\"text-small\">如果您使用MG票证，请验证并将其添加到票证类型 </span>"
+            }
+        },
+        "timeLimit": "剩余",
+        "all": "所有",
+        "close": "关闭",
+        "done": "决定",
+        "yes": " 是的",
+        "no": "不",
+        "on": "打开",
+        "off": "关闭",
+        "error": "错误",
+        "confirm": "确认",
+        "complete": "完成",
+        "determine": "确定",
+        "warning": "警告",
+        "change": "改变",
+        "remove": "删除",
+        "etc": "其他",
+        "required": "需要",
+        "clear": "回到起点"
+    }
+}

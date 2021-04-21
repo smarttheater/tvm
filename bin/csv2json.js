@@ -35,13 +35,18 @@ async function readCSV(file) {
 }
 
 async function main() {
-    const languages = ['ja', 'en'];
+    const languages = ['ja', 'en', 'ko', 'zh', 'zh-TW'];
     languages.forEach((language) => {
-        const list = ['common', 'cinema', 'event'];
+        const list = ['common', 'mail', 'contents', 'cinema', 'event'];
         list.forEach(async (name) => {
             const csv = await readCSV(`./bin/output/csv/${name}/${language}.csv`);
             const result = {};
             csv.forEach(c => {
+                try {
+                    c.key.split('_');
+                } catch (error) {
+                    console.error(c, name, language);
+                }
                 const list = c.key.split('_');
                 const v = c.value;
                 let key = result;

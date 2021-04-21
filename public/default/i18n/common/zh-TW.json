@@ -1,0 +1,162 @@
+{
+    "purchase": {
+        "payment": {
+            "title": "請選擇付款條件",
+            "notPayment": "請確認您的購買並按確認購買",
+            "notfound": "沒有物品可以購買",
+            "next": "購買確認",
+            "prev": "回來",
+            "alert": {
+                "notCompatible": "不支援付款方法"
+            }
+        },
+        "paymentReception": {
+            "title": "選擇付款條件",
+            "cash": {
+                "title": "請插入現金",
+                "insufficient": "金額不足",
+                "deposit": "存款金額",
+                "change": "改變",
+                "next": "購買確認",
+                "prev": "回來"
+            },
+            "creditcard": {
+                "title": "請插入您的信用卡",
+                "next": "購買確認",
+                "prev": "回來"
+            },
+            "eMoney": {
+                "title": "付款接待（電子貨幣）",
+                "next": "購買確認",
+                "prev": "回來"
+            },
+            "code": {
+                "title": "付款接收（代碼）",
+                "next": "購買確認",
+                "prev": "回來"
+            }
+        },
+        "complete": {
+            "title": "感謝您的購買",
+            "print": {
+                "total": "總計",
+                "ticket": "票",
+                "value": "[價值]紙張"
+            },
+            "next": "完成",
+            "prev": "回來",
+            "alert": {
+                "print": "列印失敗"
+            }
+        },
+        "info": {
+            "read": "目前選定的門票是："
+        },
+        "seat": {
+            "normal": "可選",
+            "active": "選擇",
+            "disabled": "不可選",
+            "space": "不出售"
+        }
+    },
+    "inquiry": {
+        "input": {
+            "title": "購買機票時請輸入確認號碼和電話號碼",
+            "next": "詢問",
+            "prev": "回來",
+            "validation": "輸入資訊不正確"
+        },
+        "confirm": {
+            "title": "請在簽發機票前查看以下內容",
+            "next": "票務",
+            "prev": "回來",
+            "cancel": "取消",
+            "alert": {
+                "cancel": "取消失敗",
+                "authorize": "無法顯示 QR 代碼顯示",
+                "print": "列印失敗",
+                "printSuccess": "列印完成",
+                "printExpired": "列印截止日期已過",
+                "doubleTicketing": "已經列印的票"
+            },
+            "confirm": {
+                "cancel": "你確定要取消嗎？"
+            }
+        },
+        "print": {
+            "title": "列印完成",
+            "read": "票務列印完成",
+            "next": "完成",
+            "prev": "回來"
+        }
+    },
+    "error": {
+        "title": "錯誤",
+        "read": "出現了錯誤",
+        "prev": "回來"
+    },
+    "not": {
+        "found": {
+            "title": "找不到",
+            "read": "找不到頁面",
+            "prev": "回來"
+        }
+    },
+    "expired": {
+        "title": "錯誤",
+        "read": "交易已過期",
+        "prev": "回來"
+    },
+    "congestion": {
+        "title": "訪問現在很忙",
+        "read": "目前，訪問集中<br>我們很抱歉，但請等一會兒，然後再試一次",
+        "prev": "回來"
+    },
+    "maintenance": {
+        "title": "維護",
+        "read": "為了維護，我們將停止在互聯網上銷售",
+        "prev": "回來"
+    },
+    "stop": {
+        "title": "停止",
+        "read": "請與您附近的工作人員交談",
+        "prev": "回來"
+    },
+    "setting": {
+        "title": "設置",
+        "read": "您可以更改設置",
+        "next": "更改設置",
+        "prev": "回來",
+        "unselected": "未選",
+        "pos": "POS",
+        "signOut": "註銷",
+        "printer": {
+            "label": "印表機",
+            "ipAddress": "IP 位址",
+            "testPrinting": "測試列印"
+        },
+        "cashchanger": {
+            "label": "換機"
+        },
+        "payment": {
+            "label": "支付終端"
+        },
+        "connect": "連接",
+        "endDeposit": "退回押金",
+        "starBluetoothAddress": "本地托家：8001",
+        "printType": {
+            "none": "不要列印",
+            "image": "圖像顯示",
+            "starLAN": "星微子局域網連接",
+            "starBluetooth": "星微子藍牙連接"
+        },
+        "alert": {
+            "connection": "連接成功了",
+            "customer": "不正確的買家資訊",
+            "payment": "付款資訊不正確",
+            "validation": "輸入資訊不正確",
+            "success": "設置已保存",
+            "print": "列印失敗"
+        }
+    }
+}

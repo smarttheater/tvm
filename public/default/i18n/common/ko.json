@@ -1,0 +1,165 @@
+{
+    "purchase": {
+        "payment": {
+            "title": "결제 수단을 선택하세요.",
+            "notPayment": "구매를 확인하고 구매 확인을 누르세요",
+            "notfound": "구매할 항목이 없습니다.",
+            "next": "구매 확인",
+            "prev": "뒤로",
+            "alert": {
+                "notCompatible": "결제 수단이 지원되지 않습니다."
+            }
+        },
+        "paymentReception": {
+            "title": "결제 수단 선택",
+            "cash": {
+                "title": "현금을 넣어주세요",
+                "insufficient": "금액 부족",
+                "deposit": "입금액",
+                "change": "변경",
+                "next": "구매 확인",
+                "prev": "뒤로"
+            },
+            "creditcard": {
+                "title": "신용 카드를 입력하세요.",
+                "next": "구매 확인",
+                "prev": "뒤로"
+            },
+            "eMoney": {
+                "title": "결제 접수 (전자 화폐)",
+                "next": "구매 확인",
+                "prev": "뒤로"
+            },
+            "code": {
+                "title": "결제 접수 (코드)",
+                "next": "구매 확인",
+                "prev": "뒤로"
+            }
+        },
+        "complete": {
+            "title": "구매해 주셔서 감사합니다.",
+            "print": {
+                "total": "total",
+                "ticket": "티켓",
+                "value": "{{value}} 시트"
+            },
+            "next": "완료",
+            "prev": "뒤로",
+            "alert": {
+                "print": "인쇄 실패"
+            }
+        },
+        "info": {
+            "read": "현재 선택된 티켓 :"
+        },
+        "seat": {
+            "normal": "선택 가능",
+            "active": "선택",
+            "disabled": "선택할 수 없음",
+            "space": "판매용 아님"
+        }
+    },
+    "inquiry": {
+        "input": {
+            "title": "티켓 구매시 확인 번호와 전화 번호를 입력 해주세요",
+            "next": "문의",
+            "prev": "뒤로",
+            "validation": "입력 정보가 ​​잘못되었습니다."
+        },
+        "confirm": {
+            "title": "티켓 발권 전 아래 사항을 확인 해주세요",
+            "next": "티켓팅",
+            "prev": "뒤로",
+            "cancel": "취소",
+            "alert": {
+                "cancel": "취소 실패.",
+                "authorize": "QR 코드 표시를 표시 할 수 없습니다.",
+                "print": "인쇄 실패",
+                "printSuccess": "인쇄 완료",
+                "printExpired": "인쇄 마감일이 만료되었습니다.",
+                "doubleTicketing": "이미 인쇄 된 티켓"
+            },
+            "confirm": {
+                "cancel": "정말 취소 하시겠습니까?"
+            }
+        },
+        "print": {
+            "title": "인쇄 완료",
+            "read": "티켓 인쇄가 완료되었습니다.",
+            "next": "완료",
+            "prev": "뒤로"
+        }
+    },
+    "error": {
+        "title": "오류",
+        "read": "오류가 발생했습니다.",
+        "prev": "뒤로"
+    },
+    "not": {
+        "found": {
+            "title": "찾을 수 없음",
+            "read": "페이지를 찾을 수 없음",
+            "prev": "뒤로"
+        }
+    },
+    "expired": {
+        "title": "오류",
+        "read": "거래가 만료되었습니다.",
+        "prev": "뒤로"
+    },
+    "congestion": {
+        "title": "지금 액세스가 바쁩니다.",
+        "read": "현재 액세스가 집중되어 있습니다. <br> 죄송 합니다만 잠시 기다렸다가 다시 시도해주세요.",
+        "prev": "뒤"
+    },
+    "maintenance": {
+        "title": "유지",
+        "read": "유지 보수를 위해 인터넷 판매를 중단하겠습니다.",
+        "prev": "뒤"
+    },
+    "stop": {
+        "title": "stop",
+        "read": "가까운 직원에게 문의하세요.",
+        "prev": "뒤로"
+    },
+    "setting": {
+        "title": "환경",
+        "read": "설정을 변경할 수 있습니다.",
+        "next": "설정 변경",
+        "prev": "뒤로",
+        "unselected": "선택하지 않음",
+        "pos": "POS",
+        "signOut": "로그 아웃",
+        "printer": {
+            "label": "프린터",
+            "ipAddress": "IP 주소",
+            "ipAddressDescription": "* Star Micronics Bluetooth 연결 (Starweb PRNT 전용 브라우저)을 사용하는 경우 localhost : 8001을 설정하십시오. <br> * SSL없이 Epson ePOS 포트 번호 8008을 사용하는 경우 SSL을 사용하는 포트 번호 8043을 지정하십시오.",
+            "testPrinting": "테스트 인쇄"
+        },
+        "cashchanger": {
+            "label": "기계 변경",
+            "description": "* SSL없이 포트 번호 8008을 지정하고 SSL을 사용하여 포트 번호 8043을 지정하십시오."
+        },
+        "payment": {
+            "label": "결제 단말기"
+        },
+        "connect": "잇다",
+        "endDeposit": "입금 반환",
+        "starBluetoothAddress": "로컬 호스트 : 8001",
+        "printType": {
+            "none": "인쇄 안 함",
+            "image": "이미지 표시",
+            "starLAN": "Star Micronics LAN 연결",
+            "starBluetooth": "Star Micronics Bluetooth 연결",
+            "epsonEPOS": "Epson ePOS"
+        },
+        "alert": {
+            "connection": "연결에 성공했습니다.",
+            "customer": "잘못된 구매자 정보입니다.",
+            "payment": "결제 정보가 잘못되었습니다.",
+            "validation": "잘못된 입력 정보입니다.",
+            "success": "설정이 저장되었습니다.",
+            "print": "인쇄 실패"
+        }
+    }
+}

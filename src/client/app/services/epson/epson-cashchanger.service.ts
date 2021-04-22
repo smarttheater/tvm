@@ -25,6 +25,8 @@ enum DepositStatus {
     SYSTEM_ERROR = 'SYSTEM_ERROR',
     COMMAND_ERROR = 'COMMAND_ERROR',
     TIMEOUT_ERROR = 'TIMEOUT_ERROR',
+    CASH_IN_TRAY_ERROR = 'CASH_IN_TRAY_ERROR',
+    REJECT_UNIT_ERROR = 'REJECT_UNIT_ERROR',
 }
 
 interface IDispense {
@@ -48,8 +50,8 @@ enum DispenseStatus {
 })
 export class EpsonCaschCangerService {
     constructor(private utilService: UtilService) { }
-    private static WITE_TIME = 1000;
-    private static LIMIT_COUNT = 10;
+    private static WITE_TIME = 2000;
+    private static LIMIT_COUNT = 5;
     private static METHOD_TIMEOUT = 2000;
     private ePOSDevice: any;
     private device: any;
@@ -162,8 +164,9 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                // console.warn('beginDeposit', processResult);
-                if (limit < count) {
+                console.warn('beginDeposit', processResult);
+                if (limit < count
+                    || processResult.status === DepositStatus.CASH_IN_TRAY_ERROR) {
                     throw new Error(`beginDeposit status error: ${processResult.status}`);
                 }
                 if (processResult.status !== DepositStatus.BUSY) {
@@ -183,7 +186,7 @@ export class EpsonCaschCangerService {
             throw error;
         }
         this.device.ondeposit = (data: IDeposit) => {
-            // console.warn('deposit', data);
+            console.warn('deposit', data);
             // 入金処理
             this.deposit = data;
         };
@@ -219,7 +222,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                // console.warn('pauseDeposit', processResult);
+                console.warn('pauseDeposit', processResult);
                 if (limit < count) {
                     throw new Error(`pauseDeposit status error: ${processResult.status}`);
                 }
@@ -250,7 +253,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                // console.warn('restartDeposit', processResult);
+                console.warn('restartDeposit', processResult);
                 if (limit < count) {
                     throw new Error(`restartDeposit status error: ${processResult.status}`);
                 }
@@ -281,7 +284,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                // console.warn('endDeposit', processResult);
+                console.warn('endDeposit', processResult);
                 if (limit < count) {
                     throw new Error(`endDeposit status error: ${processResult.status}`);
                 }
@@ -332,7 +335,7 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                // console.warn('dispenseChange', processResult);
+                console.warn('dispenseChange', processResult);
                 if (limit < count) {
                     throw new Error(`dispenseChange status error: ${processResult.status}`);
                 }

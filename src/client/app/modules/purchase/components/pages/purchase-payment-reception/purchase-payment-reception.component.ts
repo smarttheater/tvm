@@ -74,7 +74,11 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
 
     public async ngOnDestroy() {
         if (this.epsonEPOSService.cashchanger.isConnected()) {
-            await this.endDepositRepay();
+            try {
+                await this.endDepositRepay();
+            } catch (error) {
+                this.router.navigate(['/stop']);
+            }
         }
     }
 
@@ -389,12 +393,16 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             this.utilService.loadEnd();
         } catch (error) {
             this.utilService.loadEnd();
-            this.router.navigate(['/stop']);
+            throw new Error(error);
         }
     }
 
     public async prev() {
-        await this.endDepositRepay();
-        this.router.navigate(['/purchase/payment']);
+        try {
+            await this.endDepositRepay();
+            this.router.navigate(['/purchase/payment']);
+        } catch (error) {
+            this.router.navigate(['/stop']);
+        }
     }
 }

@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+
+## 1.2.5 - 2021-04-23
+### Fixed
+ - バージョン確認を修正
+ - 釣銭機処理後のステータス確認を修正
+
 ## 1.2.4 - 2021-04-21
 ### Changed
  - ルーティングログを非表示へ変更

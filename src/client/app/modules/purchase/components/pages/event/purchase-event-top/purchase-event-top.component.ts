@@ -6,7 +6,7 @@ import { BAD_REQUEST, TOO_MANY_REQUESTS } from 'http-status';
 import * as moment from 'moment';
 import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../../services';
+import { ActionService, EpsonEPOSService, MasterService, UtilService } from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-event-top',
@@ -21,7 +21,8 @@ export class PurchaseEventTopComponent implements OnInit {
         private actionService: ActionService,
         private router: Router,
         private utilService: UtilService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private epsonEPOSService: EpsonEPOSService,
     ) { }
 
     /**
@@ -31,8 +32,10 @@ export class PurchaseEventTopComponent implements OnInit {
         try {
             this.actionService.user.updateLanguage('ja');
             await this.actionService.purchase.cancelTransaction();
-            await this.actionService.user.checkVersion();
             this.actionService.purchase.delete();
+            if (!this.epsonEPOSService.cashchanger.isConnected()) {
+                await this.actionService.user.checkVersion();
+            }
         } catch (error) {
             console.error(error);
         }

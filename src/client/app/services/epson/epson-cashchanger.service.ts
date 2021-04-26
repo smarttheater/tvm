@@ -49,7 +49,9 @@ enum DispenseStatus {
     providedIn: 'root'
 })
 export class EpsonCaschCangerService {
-    constructor(private utilService: UtilService) { }
+    constructor(private utilService: UtilService) {
+        this.ePOSDevice = new (<any>window).epson.ePOSDevice();
+    }
     private static WITE_TIME = 2000;
     private static LIMIT_COUNT = 5;
     private static METHOD_TIMEOUT = 2000;
@@ -62,9 +64,6 @@ export class EpsonCaschCangerService {
         timeout?: number;
     }) {
         try {
-            this.device = undefined;
-            this.deposit = undefined;
-            this.ePOSDevice = new (<any>window).epson.ePOSDevice();
             await this.connect(params);
             this.device = (await this.createDevice()).data;
         } catch (error) {
@@ -77,7 +76,7 @@ export class EpsonCaschCangerService {
      * 接続確認
      */
     public isConnected() {
-        return this.device !== undefined;
+        return this.ePOSDevice !== undefined && this.ePOSDevice.isConnected();
     }
 
     /**
@@ -107,10 +106,56 @@ export class EpsonCaschCangerService {
     /**
      * 接続終了
      */
-    public disconnect() {
-        this.ePOSDevice.disconnect();
+    public async disconnect() {
+        const disconnect = async () => {
+            const process = async () => {
+                return new Promise<{ status: 'TIMEOUT_ERROR' | 'SUCCESS' }>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: 'TIMEOUT_ERROR' });
+                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
+                    this.ePOSDevice.ondisconnect = () => {
+                        clearTimeout(timer);
+                        resolve({ status: 'SUCCESS' });
+                    };
+                    this.ePOSDevice.disconnect();
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                console.warn('disconnect', processResult);
+                if (limit < count) {
+                    throw new Error(`disconnect status error: ${processResult.status}`);
+                }
+                if (processResult.status !== 'SUCCESS') {
+                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
+        };
+        await disconnect();
         this.device = undefined;
         this.deposit = undefined;
+    }
+
+    /**
+     * 再接続終了
+     */
+    public async reconnect() {
+        return new Promise<void>((resolve, reject) => {
+            this.ePOSDevice.onreconnect = () => {
+                console.warn('reconnect: onreconnect');
+                resolve();
+            };
+            this.ePOSDevice.ondisconnect = () => {
+                console.warn('reconnect: ondisconnect');
+                reject(new Error('reconnect fail'));
+            };
+        });
     }
 
     /**
@@ -145,7 +190,11 @@ export class EpsonCaschCangerService {
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
+
         const beginDeposit = async () => {
+            if (!this.isConnected()) {
+                await this.reconnect();
+            }
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
                     const timer = setTimeout(() => {
@@ -199,11 +248,15 @@ export class EpsonCaschCangerService {
         endDepositType: 'DEPOSIT_REPAY' | 'DEPOSIT_NOCHANGE';
     }) {
         const endDepositType = (params.endDepositType === 'DEPOSIT_REPAY')
-            ? this.device.DEPOSIT_REPAY : this.device.DEPOSIT_NOCHANGE;
+            ? this.device.DEPOSIT_REPAY
+            : this.device.DEPOSIT_NOCHANGE;
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
         const pauseDeposit = async () => {
+            if (!this.isConnected()) {
+                await this.reconnect();
+            }
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
                     const timer = setTimeout(() => {
@@ -223,7 +276,8 @@ export class EpsonCaschCangerService {
             while (roop) {
                 const processResult = await process();
                 console.warn('pauseDeposit', processResult);
-                if (limit < count) {
+                if (limit < count
+                    || processResult.status === DepositStatus.DEVICE_ERROR) {
                     throw new Error(`pauseDeposit status error: ${processResult.status}`);
                 }
                 if (processResult.status !== DepositStatus.PAUSE) {
@@ -235,6 +289,9 @@ export class EpsonCaschCangerService {
             }
         };
         const restartDeposit = async () => {
+            if (!this.isConnected()) {
+                await this.reconnect();
+            }
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
                     const timer = setTimeout(() => {
@@ -266,6 +323,9 @@ export class EpsonCaschCangerService {
             }
         };
         const endDeposit = async () => {
+            if (!this.isConnected()) {
+                await this.reconnect();
+            }
             const process = async () => {
                 return new Promise<IDeposit>((resolve) => {
                     const timer = setTimeout(() => {
@@ -321,7 +381,11 @@ export class EpsonCaschCangerService {
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
+
         const dispenseChange = async () => {
+            if (!this.isConnected()) {
+                await this.reconnect();
+            }
             const process = async () => {
                 return new Promise<IDispense>((resolve) => {
                     this.device.ondispense = (data: IDispense) => {

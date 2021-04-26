@@ -5,17 +5,21 @@ import { Functions, Models } from '../..';
     providedIn: 'root'
 })
 export class EpsonPrinterService {
+
+    constructor() {
+        this.ePOSDevice = new (<any>window).epson.ePOSDevice();
+    }
+    private static WITE_TIME = 2000;
+    private static LIMIT_COUNT = 5;
+    private static METHOD_TIMEOUT = 2000;
     private ePOSDevice: any;
     private device: any;
-
-    constructor() { }
 
     public async init(params: {
         printer: Models.Util.Printer.IPrinter;
         timeout?: number;
     }) {
         this.device = undefined;
-        this.ePOSDevice = new (<any>window).epson.ePOSDevice();
         await this.connect(params);
         this.device = (await this.createDevice()).data;
         this.device.onstatuschange = (_status: any) => {
@@ -50,7 +54,38 @@ export class EpsonPrinterService {
      * 接続終了
      */
     public async disconnect() {
-        this.ePOSDevice.disconnect();
+        const disconnect = async () => {
+            const process = async () => {
+                return new Promise<{ status: 'TIMEOUT_ERROR' | 'SUCCESS' }>((resolve) => {
+                    const timer = setTimeout(() => {
+                        resolve({ status: 'TIMEOUT_ERROR' });
+                    }, EpsonPrinterService.METHOD_TIMEOUT);
+                    this.ePOSDevice.ondisconnect = () => {
+                        clearTimeout(timer);
+                        resolve({ status: 'SUCCESS' });
+                    };
+                    this.ePOSDevice.disconnect();
+                });
+            };
+            const limit = EpsonPrinterService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                console.warn('disconnect', processResult);
+                if (limit < count) {
+                    throw new Error(`disconnect status error: ${processResult.status}`);
+                }
+                if (processResult.status !== 'SUCCESS') {
+                    await Functions.Util.sleep(EpsonPrinterService.WITE_TIME);
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
+        };
+        await disconnect();
+        this.device = undefined;
     }
 
     /**

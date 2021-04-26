@@ -58,13 +58,15 @@ export class EpsonCaschCangerService {
     private ePOSDevice: any;
     private device: any;
     private deposit?: IDeposit;
+    private ipAddress?: string;
 
     public async init(params: {
         ipAddress: string;
         timeout?: number;
     }) {
         try {
-            await this.connect(params);
+            this.ipAddress = params.ipAddress;
+            await this.connect();
             this.device = (await this.createDevice()).data;
         } catch (error) {
             this.utilService.setError(error);
@@ -82,18 +84,17 @@ export class EpsonCaschCangerService {
     /**
      * 接続
      */
-    private async connect(params: {
-        ipAddress: string;
-    }) {
+    private async connect() {
         // 安全でないコンテンツを許可する必要があります
         return new Promise<string>((resolve, reject) => {
-            const ipAddress = params.ipAddress;
-            if (ipAddress === '') {
+            const ipAddress = this.ipAddress;
+            if (ipAddress === undefined || ipAddress === '') {
                 reject(new Error('IP address of the printer is not set'));
                 return;
             }
             const url = new URL(`${location.protocol}${ipAddress}`);
             this.ePOSDevice.connect(url.hostname, url.port, (data: string) => {
+                console.warn('connect', data);
                 if (data === 'OK' || data === 'SSL_CONNECT_OK') {
                     resolve(data);
                     return;
@@ -138,6 +139,7 @@ export class EpsonCaschCangerService {
             }
         };
         await disconnect();
+        await this.deleteDevice();
         this.device = undefined;
         this.deposit = undefined;
     }
@@ -173,11 +175,31 @@ export class EpsonCaschCangerService {
                 this.ePOSDevice.DEVICE_TYPE_CASH_CHANGER,
                 options,
                 (data: any, code: string) => {
-                    if (data === null) {
-                        reject(new Error(code));
+                    console.warn('createDevice', code);
+                    if (code === 'OK') {
+                        resolve({ data, code });
                         return;
                     }
-                    resolve({ data, code });
+                    reject(new Error(code));
+                }
+            );
+        });
+    }
+
+    /**
+     * デバイス削除
+     */
+    private async deleteDevice() {
+        return new Promise<{ code: string; }>((resolve, reject) => {
+            this.ePOSDevice.deleteDevice(
+                this.device,
+                (code: string) => {
+                    console.warn('deleteDevice', code);
+                    if (code === 'OK' || code === 'DEVICE_NOT_OPEN') {
+                        resolve({ code });
+                        return;
+                    }
+                    reject(new Error(code));
                 }
             );
         });

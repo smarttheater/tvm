@@ -299,7 +299,7 @@ export class SettingComponent implements OnInit {
         try {
             const ipAddress = this.settingForm.controls.cashchanger.value;
             await this.epsonEPOSService.cashchanger.init({ ipAddress });
-            this.epsonEPOSService.cashchanger.disconnect();
+            await this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
                 body: this.translate.instant('setting.alert.connection')
@@ -325,7 +325,7 @@ export class SettingComponent implements OnInit {
             const ipAddress = this.settingForm.controls.cashchanger.value;
             await this.epsonEPOSService.cashchanger.init({ ipAddress });
             await this.epsonEPOSService.cashchanger.endDeposit({ endDepositType: 'DEPOSIT_REPAY' });
-            this.epsonEPOSService.cashchanger.disconnect();
+            await this.epsonEPOSService.cashchanger.disconnect();
         } catch (error) {
             console.error(error);
             const message = (error.message === undefined) ? error : error.message;

@@ -290,7 +290,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         }
         try {
             if (this.epsonEPOSService.cashchanger.isConnected()) {
-                this.epsonEPOSService.cashchanger.disconnect();
+                await this.epsonEPOSService.cashchanger.disconnect();
             }
             const { order } = await this.actionService.purchase.getData();
             const { printer, pos } = await this.actionService.user.getData();
@@ -355,7 +355,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                     // 現金おつり
                     await this.epsonEPOSService.cashchanger.dispenseChange({ change });
                 }
-                this.epsonEPOSService.cashchanger.disconnect();
+                await this.epsonEPOSService.cashchanger.disconnect();
                 this.utilService.loadEnd();
             }
         } catch (error) {
@@ -389,7 +389,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             await this.epsonEPOSService.cashchanger.endDeposit({
                 endDepositType: 'DEPOSIT_REPAY'
             });
-            this.epsonEPOSService.cashchanger.disconnect();
+            await this.epsonEPOSService.cashchanger.disconnect();
             this.utilService.loadEnd();
         } catch (error) {
             this.utilService.loadEnd();

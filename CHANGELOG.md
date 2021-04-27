@@ -13,6 +13,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Security
 
 
+## 1.2.6 - 2021-04-27
+### Fixed
+ - 接続確認修正
+
 ## 1.2.5 - 2021-04-23
 ### Fixed
  - バージョン確認を修正

@@ -54,7 +54,7 @@ export class EpsonCaschCangerService {
     }
     private static WITE_TIME = 2000;
     private static LIMIT_COUNT = 5;
-    private static METHOD_TIMEOUT = 2000;
+    private static METHOD_TIMEOUT = 5000;
     private ePOSDevice: any;
     private device: any;
     private deposit?: IDeposit;

@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.3.0 - 2021-05-07
+### Added
+ - 多言語対応 (en,ko,zh,zh-TW)
+### Changed
+ - sample.pdf削除
 
 ## 1.2.6 - 2021-04-27
 ### Fixed

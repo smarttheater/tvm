@@ -53,11 +53,12 @@
                                 'common.referenceQuantityValue' |
                                 translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
                         </p>
-                        <p *ngIf="ticket.description" class="text-x-small text-left">
+                        <p *ngIf="ticket.description" class="text-x-small text-left mt-1">
                             {{ ticket.description | changeLanguage }}</p>
                     </div>
                     <div class="col-4 text-right">
-                        <app-quantity-input [value]="selectedTickets[i].count" (valueChange)="changeSelect(ticket.id, $event)"
+                        <app-quantity-input [value]="selectedTickets[i].count"
+                            (valueChange)="changeSelect(ticket.id, $event)"
                             [maxValue]="remainingAttendeeCapacityValue(ticket).length"></app-quantity-input>
                     </div>
                 </div>
@@ -68,16 +69,20 @@
                     <div class="container px-0">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-8 text-left">
-                                <p class="pl-4" *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
-                                    <span>{{ addOn.priceSpecification?.name | changeLanguage }}</span>
-                                    <!--
-                                --><span>&nbsp;/&nbsp;{{ addOn.priceSpecification?.price | currency :
-                                        addOn.priceSpecification?.priceCurrency }}</span>
-                                    <!--
-                                --><span *ngIf="priceComponent?.referenceQuantity?.value">{{
-                                        'common.referenceQuantityValue' | translate: { value:
-                                        addOn.priceSpecification?.referenceQuantity?.value } }}</span>
-                                </p>
+                                <div class="pl-4">
+                                    <p *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
+                                        <span>{{ addOn.priceSpecification?.name | changeLanguage }}</span>
+                                        <!--
+                                        --><span>&nbsp;/&nbsp;{{ addOn.priceSpecification?.price | currency :
+                                            addOn.priceSpecification?.priceCurrency }}</span>
+                                        <!--
+                                        --><span *ngIf="priceComponent?.referenceQuantity?.value">{{
+                                            'common.referenceQuantityValue' | translate: { value:
+                                            addOn.priceSpecification?.referenceQuantity?.value } }}</span>
+                                    </p>
+                                    <p *ngIf="addOn.description" class="text-x-small text-left mt-1">
+                                        {{ addOn.description | changeLanguage }}</p>
+                                </div>
                             </div>
                             <div class="col-4 text-right">
                                 <app-quantity-input [(value)]="selectedTickets[i].addOn[i2].count"

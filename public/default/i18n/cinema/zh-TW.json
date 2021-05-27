@@ -17,9 +17,9 @@
                     "search": "提前開始時間"
                 },
                 "inquiry": {
-                    "title": "出票",
+                    "title": "取票",
                     "read": "",
-                    "print": "簽發保留票"
+                    "print": "取預訂票"
                 }
             },
             "schedule": {

@@ -4,15 +4,15 @@
             "top": {
                 "title": "選擇功能表",
                 "purchase": {
-                    "title": "購買",
+                    "title": "售票",
                     "search": {
                         "today": "今天",
                         "other": "今天除外"
                     }
                 },
                 "inquiry": {
-                    "title": "出票",
-                    "print": "簽發預訂機票"
+                    "title": "取票",
+                    "print": "取預訂票"
                 }
             },
             "date": {

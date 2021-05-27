@@ -25,7 +25,7 @@ export interface IEnvironment {
     /**
      * プライマリーカラー
      */
-     PRIMARY_COLOR: string;
+    PRIMARY_COLOR: string;
     /**
      * 入り口URL（非推奨）
      */
@@ -101,7 +101,7 @@ export interface IEnvironment {
     /**
      * 取引追加特性
      */
-    PURCHASE_TRANSACTION_IDENTIFIER: { name: string, value: string }[];
+    PURCHASE_TRANSACTION_IDENTIFIER: { name: string; value: string }[];
     /**
      * スケジュール初期選択日（相対的）
      */
@@ -161,7 +161,11 @@ export interface IEnvironment {
     /**
      * 注文関連リンク
      */
-    ORDER_LINK: { name: { ja: string; en: string; }; url: string; params: { key: string; value?: string; }[] }[];
+    ORDER_LINK: {
+        name: { ja: string; en: string };
+        url: string;
+        params: { key: string; value?: string }[];
+    }[];
     /**
      * 注文承認コード期限(s)
      * デフォルト1814400s 21days
@@ -188,16 +192,12 @@ export interface IEnvironment {
      */
     ERROR_WAIT_TIME: string;
     /**
-     * TOPメニュー
-     */
-    TOP_MENU: string[];
-    /**
      * TOP画像
      */
     TOP_IMAGE: string;
 }
 
-export const isProduction = (document.querySelector('body.production') !== null);
+export const isProduction = document.querySelector('body.production') !== null;
 
 const defaultEnvironment: IEnvironment = {
     production: false,
@@ -213,10 +213,28 @@ const defaultEnvironment: IEnvironment = {
     BASE_URL: '/purchase/root',
     LANGUAGE: ['ja'],
     PROFILE: [
-        { key: 'familyName', value: '', required: true, pattern: /^[ァ-ヶー]+$/, maxLength: 12 },
-        { key: 'givenName', value: '', required: true, pattern: /^[ァ-ヶー]+$/, maxLength: 12 },
+        {
+            key: 'familyName',
+            value: '',
+            required: true,
+            pattern: /^[ァ-ヶー]+$/,
+            maxLength: 12,
+        },
+        {
+            key: 'givenName',
+            value: '',
+            required: true,
+            pattern: /^[ァ-ヶー]+$/,
+            maxLength: 12,
+        },
         { key: 'email', value: '', required: true, maxLength: 50 },
-        { key: 'telephone', value: '', required: true, maxLength: 15, minLength: 9 }
+        {
+            key: 'telephone',
+            value: '',
+            required: true,
+            maxLength: 15,
+            minLength: 9,
+        },
     ],
     INPUT_KEYPAD: true,
     PAYMENT_TIMEOUT: '300000',
@@ -248,18 +266,18 @@ const defaultEnvironment: IEnvironment = {
     PRINT_LOADING: true,
     PRINT_SUCCESS_WAIT_TIME: '10000',
     ERROR_WAIT_TIME: '10000',
-    TOP_MENU: ['movie', 'time', 'inquiry'],
-    TOP_IMAGE: ''
+    TOP_IMAGE: '',
 };
 
 export function getEnvironment(): IEnvironment {
     const environment = {
         ...defaultEnvironment,
-        STORAGE_NAME: (getProject().projectId === '')
-            ? 'TVM-STATE'
-            : `${getProject().projectId.toUpperCase()}-TVM-STATE`,
+        STORAGE_NAME:
+            getProject().projectId === ''
+                ? 'TVM-STATE'
+                : `${getProject().projectId.toUpperCase()}-TVM-STATE`,
         ...(<any>window).environment,
-        production: (document.querySelector('body.production') !== null)
+        production: document.querySelector('body.production') !== null,
     };
     return environment;
 }

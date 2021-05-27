@@ -30,23 +30,23 @@ export enum ConnectionType {
 export const printers = [
     {
         connectionType: ConnectionType.None,
-        name: 'setting.printType.none'
+        name: 'setting.device.printType.none',
     },
     {
         connectionType: ConnectionType.Image,
-        name: 'setting.printType.image'
+        name: 'setting.device.printType.image',
     },
     {
         connectionType: ConnectionType.StarLAN,
-        name: 'setting.printType.starLAN'
+        name: 'setting.device.printType.starLAN',
     },
     {
         connectionType: ConnectionType.StarBluetooth,
-        name: 'setting.printType.starBluetooth'
+        name: 'setting.device.printType.starBluetooth',
     },
     {
         connectionType: ConnectionType.EpsonEPOS,
-        name: 'setting.printType.epsonEPOS'
+        name: 'setting.device.printType.epsonEPOS',
     },
 ];
 

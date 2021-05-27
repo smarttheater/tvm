@@ -30,6 +30,10 @@ export interface IUserState {
      */
     cashchanger?: string;
     /**
+     * アプリケーションタイプ
+     */
+    applicationType?: Models.Util.Application.ApplicationType;
+    /**
      * 言語
      */
     language: string;
@@ -40,18 +44,20 @@ export interface IUserState {
 }
 
 export const userInitialState: IUserState = {
-    language: 'ja'
+    language: 'ja',
 };
 
 export function reducer(initialState: IState, action: Action) {
     return createReducer(
         initialState,
-        on(userAction.remove, state => {
+        on(userAction.remove, (state) => {
             return {
                 ...state,
                 userData: {
-                    language: 'ja'
-                }, loading: false, process: ''
+                    language: 'ja',
+                },
+                loading: false,
+                process: '',
             };
         }),
         on(userAction.updateAll, (state, payload) => {
@@ -61,17 +67,22 @@ export function reducer(initialState: IState, action: Action) {
             const printer = payload.printer;
             const cashchanger = payload.cashchanger;
             const payment = payload.payment;
+            const applicationType = payload.applicationType;
 
             return {
-                ...state, userData: {
+                ...state,
+                userData: {
                     ...state.userData,
                     customerContact,
                     pos,
                     theater,
                     printer,
                     cashchanger,
-                    payment
-                }, loading: false, process: ''
+                    payment,
+                    applicationType,
+                },
+                loading: false,
+                process: '',
             };
         }),
         on(userAction.updateLanguage, (state, payload) => {
@@ -81,6 +92,6 @@ export function reducer(initialState: IState, action: Action) {
         on(userAction.setVersion, (state, payload) => {
             const version = payload.version;
             return { ...state, userData: { ...state.userData, version } };
-        }),
+        })
     )(initialState, action);
 }

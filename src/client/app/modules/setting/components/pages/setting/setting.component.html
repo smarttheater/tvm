@@ -8,9 +8,13 @@
             </div>
             <div class="col-8 h-100 scroll-horizontal">
                 <form *ngIf="settingForm" [formGroup]="settingForm">
-                    <div class="p-3 bg-white">
+                    <div class="mb-5">
+                        <p
+                            class="text-large font-weight-bold bg-light-gray border-left border-white-bold border-primary p-3 mb-4">
+                            {{ 'setting.basic.title' | translate }}
+                        </p>
                         <div *ngFor="let key of getProfileFormKeys()" class="form-group row">
-                            <div class="col-md-4 py-2 text-md-right ">
+                            <div class="col-4 text-right py-3">
                                 <div class="d-inline-flex align-items-center">
                                     <p *ngIf="!getAdditionalProperty(key)">{{ 'form.label.' + key | translate }}</p>
                                     <p *ngIf="getAdditionalProperty(key)">
@@ -20,7 +24,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-8">
                                 <input *ngIf="key !== 'theaterBranchCode'
                                     && key !== 'posId'
                                     && key !== 'email' 
@@ -85,75 +89,94 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <p class="col-md-4 py-2 text-md-right">{{ 'setting.printer.label' | translate }}</p>
-                                <div class="col-md-8">
-                                    <select class="form-control" formControlName="printerType"
-                                        (change)="changePrinterType()">
-                                        <option *ngFor="let printer of printers" [value]="printer.connectionType">
-                                            {{ printer.name | translate }}</option>
-                                    </select>
-                                    <button
-                                        *ngIf="this.settingForm.controls.printerType.value && this.settingForm.controls.printerType.value !== connectionType.None"
-                                        type="button" class="btn btn-sm btn-primary py-2 mt-2" (click)="print()">{{
-                                        'setting.printer.testPrinting' | translate }}</button>
-                                </div>
+                    </div>
+                    <div class="mb-5">
+                        <p
+                            class="text-large font-weight-bold bg-light-gray border-left border-white-bold border-primary p-3 mb-4">
+                            {{ 'setting.device.title' | translate }}
+                        </p>
+                        <div class="form-group row">
+                            <p class="col-4 text-right py-3">{{ 'setting.device.printer.label' | translate }}</p>
+                            <div class="col-8">
+                                <select class="form-control" formControlName="printerType"
+                                    (change)="changePrinterType()">
+                                    <option *ngFor="let printer of printers" [value]="printer.connectionType">
+                                        {{ printer.name | translate }}</option>
+                                </select>
+                                <button
+                                    *ngIf="this.settingForm.controls.printerType.value && this.settingForm.controls.printerType.value !== connectionType.None"
+                                    type="button" class="btn btn-sm btn-primary py-2 mt-2" (click)="print()">{{
+                                    'setting.device.printer.testPrinting' | translate }}</button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <p class="col-md-4 py-2 text-md-right">{{ 'setting.printer.ipAddress' | translate }}</p>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" formControlName="printerIpAddress"
-                                        placeholder="0.0.0.0">
-                                    <div *ngIf="settingForm.controls.printerIpAddress.invalid && settingForm.controls.printerIpAddress.touched"
-                                        class="mt-2">
-                                        <p *ngIf="settingForm.controls.printerIpAddress.errors?.required"
-                                            class="text-danger">
-                                            {{ 'form.validation.required' | translate }}</p>
-                                    </div>
-                                    <p class="text-small mt-2"
-                                        [innerHtml]="'setting.printer.ipAddressDescription' | translate"></p>
+                        <div class="form-group row">
+                            <p class="col-4 text-right py-3">{{ 'setting.device.printer.ipAddress' | translate }}</p>
+                            <div class="col-8">
+                                <input type="text" class="form-control" formControlName="printerIpAddress"
+                                    placeholder="0.0.0.0">
+                                <div *ngIf="settingForm.controls.printerIpAddress.invalid && settingForm.controls.printerIpAddress.touched"
+                                    class="mt-2">
+                                    <p *ngIf="settingForm.controls.printerIpAddress.errors?.required"
+                                        class="text-danger">
+                                        {{ 'form.validation.required' | translate }}</p>
                                 </div>
+                                <p class="text-small mt-2"
+                                    [innerHtml]="'setting.device.printer.ipAddressDescription' | translate"></p>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="row">
-                                <p class="col-md-4 py-2 text-md-right">{{ 'setting.cashchanger.label' | translate }}</p>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" formControlName="cashchanger"
-                                        placeholder="0.0.0.0">
-                                    <p class="text-small mt-2"
-                                        [innerHtml]="'setting.cashchanger.description' | translate"></p>
-                                    <div *ngIf="settingForm.controls.cashchanger.invalid && settingForm.controls.cashchanger.touched"
-                                        class="mt-2">
-                                        <p *ngIf="settingForm.controls.cashchanger.errors?.required"
-                                            class="text-danger">
-                                            {{ 'form.validation.required' | translate }}</p>
-                                    </div>
-                                    <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="epsonEPOSService.cashchanger.isConnected()" (click)="connectCash()">{{
-                                        'setting.connect' | translate }}</button>
-                                    <button type="button" class="btn btn-primary mt-2" [disabled]="epsonEPOSService.cashchanger.isConnected()" (click)="endDeposit()">{{
-                                        'setting.endDeposit' | translate }}</button>
+                        <div class="form-group row">
+                            <p class="col-4 text-right py-3">{{ 'setting.device.cashchanger.label' | translate }}</p>
+                            <div class="col-8">
+                                <input type="text" class="form-control" formControlName="cashchanger"
+                                    placeholder="0.0.0.0">
+                                <p class="text-small mt-2"
+                                    [innerHtml]="'setting.device.cashchanger.description' | translate">
+                                </p>
+                                <div *ngIf="settingForm.controls.cashchanger.invalid && settingForm.controls.cashchanger.touched"
+                                    class="mt-2">
+                                    <p *ngIf="settingForm.controls.cashchanger.errors?.required" class="text-danger">
+                                        {{ 'form.validation.required' | translate }}</p>
                                 </div>
+                                <button type="button" class="btn btn-primary mt-2 mr-2"
+                                    [disabled]="epsonEPOSService.cashchanger.isConnected()" (click)="connectCash()">{{
+                                    'setting.device.connect' | translate }}</button>
+                                <button type="button" class="btn btn-primary mt-2"
+                                    [disabled]="epsonEPOSService.cashchanger.isConnected()" (click)="endDeposit()">{{
+                                    'setting.device.endDeposit' | translate }}</button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <p class="col-md-4 py-2 text-md-right">{{ 'setting.payment.label' | translate }}</p>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" formControlName="payment"
-                                        placeholder="0.0.0.0">
-                                    <div *ngIf="settingForm.controls.payment.invalid && settingForm.controls.payment.touched"
-                                        class="mt-2">
-                                        <p *ngIf="settingForm.controls.payment.errors?.required" class="text-danger">
-                                            {{ 'form.validation.required' | translate }}</p>
-                                    </div>
-                                    <button type="button" class="btn btn-primary mt-2" (click)="connectPayment()">{{
-                                        'setting.connect' | translate }}</button>
+                        <div class="form-group row">
+                            <p class="col-4 text-right py-3">{{ 'setting.device.payment.label' | translate }}</p>
+                            <div class="col-8">
+                                <input type="text" class="form-control" formControlName="payment" placeholder="0.0.0.0">
+                                <div *ngIf="settingForm.controls.payment.invalid && settingForm.controls.payment.touched"
+                                    class="mt-2">
+                                    <p *ngIf="settingForm.controls.payment.errors?.required" class="text-danger">
+                                        {{ 'form.validation.required' | translate }}</p>
                                 </div>
+                                <button type="button" class="btn btn-primary mt-2" (click)="connectPayment()">{{
+                                    'setting.device.connect' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <p
+                            class="text-large font-weight-bold bg-light-gray border-left border-white-bold border-primary p-3 mb-4">
+                            {{ 'setting.application.title' | translate }}
+                        </p>
+                        <div class="form-group row">
+                            <p class="col-4 text-right py-3">
+                                {{ 'setting.application.applicationType.label' | translate }}
+                            </p>
+                            <div class="col-8">
+                                <select class="form-control" formControlName="applicationType">
+                                    <option [value]="applicationType.Tvm">
+                                        {{ 'setting.application.applicationType.option.tvm' | translate }}
+                                    </option>
+                                    <option [value]="applicationType.Printer">
+                                        {{ 'setting.application.applicationType.option.printer' | translate }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>

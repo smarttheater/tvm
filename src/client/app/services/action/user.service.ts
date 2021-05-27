@@ -10,7 +10,7 @@ import * as reducers from '../../store/reducers';
 import { UtilService } from '../util.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class UserService {
     public user: Observable<reducers.IUserState>;
@@ -28,9 +28,11 @@ export class UserService {
      */
     public async getData() {
         return new Promise<reducers.IUserState>((resolve) => {
-            this.user.subscribe((user) => {
-                resolve(user);
-            }).unsubscribe();
+            this.user
+                .subscribe((user) => {
+                    resolve(user);
+                })
+                .unsubscribe();
         });
     }
 
@@ -51,6 +53,7 @@ export class UserService {
         printer: Models.Util.Printer.IPrinter;
         cashchanger?: string;
         payment?: string;
+        applicationType: Models.Util.Application.ApplicationType;
     }) {
         this.store.dispatch(userAction.updateAll(params));
     }
@@ -74,16 +77,16 @@ export class UserService {
      */
     public async checkVersion() {
         const query = `?date=${moment().toISOString()}`;
-        const { version } = await this.utilService.getJson<{ version: string }>(`/api/version${query}`);
+        const { version } = await this.utilService.getJson<{ version: string }>(
+            `/api/version${query}`
+        );
         const data = await this.getData();
         if (data.version === undefined) {
             this.store.dispatch(userAction.setVersion({ version }));
         }
-        if (data.version !== undefined
-            && data.version !== version) {
+        if (data.version !== undefined && data.version !== version) {
             this.store.dispatch(userAction.setVersion({ version }));
             location.reload();
         }
     }
-
 }

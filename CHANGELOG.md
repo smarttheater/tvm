@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.4.1 - 2021-05-27
+
+### Changed
+
+-   文言変更 (ko,zh,zh-TW)
+
 ## 1.4.0 - 2021-05-20
 
 ### Changed

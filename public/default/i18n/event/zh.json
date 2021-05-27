@@ -4,15 +4,15 @@
             "top": {
                 "title": "选择菜单",
                 "purchase": {
-                    "title": "购买",
+                    "title": "售票",
                     "search": {
                         "today": "今天",
                         "other": "今天除外"
                     }
                 },
                 "inquiry": {
-                    "title": "出票",
-                    "print": "签发预订机票"
+                    "title": "取票",
+                    "print": "取预订票"
                 }
             },
             "date": {

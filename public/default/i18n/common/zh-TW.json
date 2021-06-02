@@ -127,29 +127,45 @@
         "read": "您可以更改設置",
         "next": "更改設置",
         "prev": "回來",
+        "basic": {
+            "title": "基本信息"
+        },
+        "device": {
+            "title": "外接設備",
+            "printer": {
+                "label": "印表機",
+                "ipAddress": "IP 位址",
+                "testPrinting": "測試列印"
+            },
+            "cashchanger": {
+                "label": "換機"
+            },
+            "payment": {
+                "label": "支付終端"
+            },
+            "connect": "連接",
+            "endDeposit": "退回押金",
+            "starBluetoothAddress": "本地托家：8001",
+            "printType": {
+                "none": "不要列印",
+                "image": "圖像顯示",
+                "starLAN": "星微子局域網連接",
+                "starBluetooth": "星微子藍牙連接"
+            }
+        },
+        "application": {
+            "title": "應用",
+            "applicationType": {
+                "label": "模式",
+                "option": {
+                    "tvm": "自動售票機",
+                    "printer": "售票機"
+                }
+            }
+        },
         "unselected": "未選",
         "pos": "POS",
         "signOut": "註銷",
-        "printer": {
-            "label": "印表機",
-            "ipAddress": "IP 位址",
-            "testPrinting": "測試列印"
-        },
-        "cashchanger": {
-            "label": "換機"
-        },
-        "payment": {
-            "label": "支付終端"
-        },
-        "connect": "連接",
-        "endDeposit": "退回押金",
-        "starBluetoothAddress": "本地托家：8001",
-        "printType": {
-            "none": "不要列印",
-            "image": "圖像顯示",
-            "starLAN": "星微子局域網連接",
-            "starBluetooth": "星微子藍牙連接"
-        },
         "alert": {
             "connection": "連接成功了",
             "customer": "不正確的買家資訊",

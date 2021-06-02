@@ -1,35 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
+import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BAD_REQUEST, TOO_MANY_REQUESTS } from 'http-status';
 import * as moment from 'moment';
-import { Functions } from '../../../../../..';
+import { Observable } from 'rxjs';
+import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, EpsonEPOSService, MasterService, UtilService } from '../../../../../../services';
+import {
+    ActionService,
+    EpsonEPOSService,
+    MasterService,
+    UtilService,
+} from '../../../../../../services';
+import * as reducers from '../../../../../../store/reducers';
 
 @Component({
     selector: 'app-purchase-event-top',
     templateUrl: './purchase-event-top.component.html',
-    styleUrls: ['./purchase-event-top.component.scss']
+    styleUrls: ['./purchase-event-top.component.scss'],
 })
 export class PurchaseEventTopComponent implements OnInit {
+    public user: Observable<reducers.IUserState>;
+    public applicationType = Models.Util.Application.ApplicationType;
     public environment = getEnvironment();
 
     constructor(
+        private store: Store<reducers.IState>,
         private masterService: MasterService,
         private actionService: ActionService,
         private router: Router,
         private utilService: UtilService,
         private translate: TranslateService,
-        private epsonEPOSService: EpsonEPOSService,
-    ) { }
+        private epsonEPOSService: EpsonEPOSService
+    ) {}
 
     /**
      * 初期化
      */
     public async ngOnInit() {
         try {
+            this.user = this.store.pipe(select(reducers.getUser));
             this.actionService.user.updateLanguage('ja');
             await this.actionService.purchase.cancelTransaction();
             this.actionService.purchase.delete();
@@ -58,7 +70,7 @@ export class PurchaseEventTopComponent implements OnInit {
     /**
      * 取引開始
      */
-    public async startTransaction(params: { routerLink: string; }) {
+    public async startTransaction(params: { routerLink: string }) {
         const now = moment().toDate();
         const today = moment(now).format('YYYY-MM-DD');
         this.actionService.purchase.selectScheduleDate(today);
@@ -67,29 +79,40 @@ export class PurchaseEventTopComponent implements OnInit {
             if (theater === undefined) {
                 throw new Error('theater undefined');
             }
-            const screeningEvents = await this.masterService.searchScreeningEvent({
-                superEvent: {
-                    locationBranchCodes: [theater.branchCode],
-                },
-                startFrom: moment(today, 'YYYY-MM-DD').toDate(),
-                offers: {
-                    availableFrom: now,
-                    availableThrough: now
-                }
-            });
-            const screeningEvent = screeningEvents
-                .find(s => s.offers !== undefined && s.offers.seller !== undefined && s.offers.seller.id !== undefined);
-            if (screeningEvent === undefined
-                || screeningEvent.offers === undefined
-                || screeningEvent.offers.seller === undefined
-                || screeningEvent.offers.seller.id === undefined) {
-                    this.utilService.openAlert({
-                        title: this.translate.instant('common.error'),
-                        body: this.translate.instant('purchase.event.schedule.notfound')
-                    });
-                    return;
+            const screeningEvents =
+                await this.masterService.searchScreeningEvent({
+                    superEvent: {
+                        locationBranchCodes: [theater.branchCode],
+                    },
+                    startFrom: moment(today, 'YYYY-MM-DD').toDate(),
+                    offers: {
+                        availableFrom: now,
+                        availableThrough: now,
+                    },
+                });
+            const screeningEvent = screeningEvents.find(
+                (s) =>
+                    s.offers !== undefined &&
+                    s.offers.seller !== undefined &&
+                    s.offers.seller.id !== undefined
+            );
+            if (
+                screeningEvent === undefined ||
+                screeningEvent.offers === undefined ||
+                screeningEvent.offers.seller === undefined ||
+                screeningEvent.offers.seller.id === undefined
+            ) {
+                this.utilService.openAlert({
+                    title: this.translate.instant('common.error'),
+                    body: this.translate.instant(
+                        'purchase.event.schedule.notfound'
+                    ),
+                });
+                return;
             }
-            await this.actionService.purchase.getSeller(screeningEvent.offers.seller.id);
+            await this.actionService.purchase.getSeller(
+                screeningEvent.offers.seller.id
+            );
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -100,7 +123,7 @@ export class PurchaseEventTopComponent implements OnInit {
             const user = await this.actionService.user.getData();
             await this.actionService.purchase.startTransaction({
                 seller: <factory.chevre.seller.ISeller>purchase.seller,
-                pos: user.pos
+                pos: user.pos,
             });
             const { routerLink } = params;
             this.router.navigate([routerLink]);
@@ -119,19 +142,10 @@ export class PurchaseEventTopComponent implements OnInit {
     }
 
     /**
-     * 表示判定
-     */
-    public isDisplay(value: string) {
-        const findResult = this.environment.TOP_MENU.find(t => t === value);
-        return findResult !== undefined;
-    }
-
-    /**
      * 画像取得
      */
     public getImageUrl() {
         const { storageUrl } = Functions.Util.getProject();
         return `${storageUrl}${this.environment.TOP_IMAGE}`;
     }
-
 }

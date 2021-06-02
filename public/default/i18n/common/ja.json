@@ -125,32 +125,48 @@
         "read": "設定を変更できます。",
         "next": "設定を変更",
         "prev": "戻る",
+        "basic": {
+            "title": "基本情報"
+        },
+        "device": {
+            "title": "外部機器",
+            "printer": {
+                "label": "プリンター",
+                "ipAddress": "IPアドレス",
+                "ipAddressDescription": "※スター精密 Bluetooth接続(StarwebPRNT専用ブラウザー)を使用する場合localhost:8001を設定してください。<br>※Epson ePOSを使用する場合SSL無しはポート番号8008、SSL有りの場合ポート番号8043を指定してください。",
+                "testPrinting": "テスト印刷"
+            },
+            "cashchanger": {
+                "label": "釣銭機",
+                "description": "※SSL無しはポート番号8008、SSL有りの場合ポート番号8043を指定してください。"
+            },
+            "payment": {
+                "label": "決済端末"
+            },
+            "connect": "接続",
+            "endDeposit": "預り金返却",
+            "starBluetoothAddress": "localhost:8001",
+            "printType": {
+                "none": "印刷しない",
+                "image": "画像表示",
+                "starLAN": "スター精密 LAN接続",
+                "starBluetooth": "スター精密 Bluetooth接続",
+                "epsonEPOS": "Epson ePOS"
+            }
+        },
+        "application": {
+            "title": "アプリケーション",
+            "applicationType": {
+                "label": "モード",
+                "option": {
+                    "tvm": "券売機",
+                    "printer": "発券機"
+                }
+            }
+        },
         "unselected": "未選択",
         "pos": "POS",
         "signOut": "ログアウト",
-        "printer": {
-            "label": "プリンター",
-            "ipAddress": "IPアドレス",
-            "ipAddressDescription": "※スター精密 Bluetooth接続(StarwebPRNT専用ブラウザー)を使用する場合localhost:8001を設定してください。<br>※Epson ePOSを使用する場合SSL無しはポート番号8008、SSL有りの場合ポート番号8043を指定してください。",
-            "testPrinting": "テスト印刷"
-        },
-        "cashchanger": {
-            "label": "釣銭機",
-            "description": "※SSL無しはポート番号8008、SSL有りの場合ポート番号8043を指定してください。"
-        },
-        "payment": {
-            "label": "決済端末"
-        },
-        "connect": "接続",
-        "endDeposit": "預り金返却",
-        "starBluetoothAddress": "localhost:8001",
-        "printType": {
-            "none": "印刷しない",
-            "image": "画像表示",
-            "starLAN": "スター精密 LAN接続",
-            "starBluetooth": "スター精密 Bluetooth接続",
-            "epsonEPOS": "Epson ePOS"
-        },
         "alert": {
             "connection": "接続に成功しました。",
             "customer": "購入者情報に誤りがあります。",

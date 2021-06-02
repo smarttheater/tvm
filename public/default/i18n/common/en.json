@@ -127,32 +127,48 @@
         "read": "You can change the settings.",
         "next": "change settings",
         "prev": "back",
+        "basic": {
+            "title": "Basic information"
+        },
+        "device": {
+            "title": "External device",
+            "printer": {
+                "label": "printer",
+                "ipAddress": "IP address",
+                "ipAddressDescription": "* When using Star Micronics Bluetooth connection (Starweb PRNT dedicated browser), set localhost: 8001. <br> * When using Epson ePOS Port number 8008 without SSL, port with SSL Please specify the number 8043. ",
+                "testPrinting": "test printing"
+            },
+            "cashchanger": {
+                "label": "change machine",
+                "description": "* Specify port number 8008 without SSL, and port number 8043 with SSL."
+            },
+            "payment": {
+                "label": "Payment terminal"
+            },
+            "connect": "connect",
+            "endDeposit": "Return deposit",
+            "starBluetoothAddress": "localhost: 8001",
+            "printType": {
+                "none": "do not print",
+                "image": "image display",
+                "starLAN": "Star Micronics LAN connection",
+                "starBluetooth": "Star Micronics Bluetooth Connection",
+                "epsonEPOS": "Epson ePOS"
+            }
+        },
+        "application": {
+            "title": "application",
+            "applicationType": {
+                "label": "mode",
+                "option": {
+                    "tvm": "Ticket-vending machine",
+                    "printer": "Ticketing machine"
+                }
+            }
+        },
         "unselected": "unselected",
         "pos": "POS",
         "signOut": "Logout",
-        "printer": {
-            "label": "printer",
-            "ipAddress": "IP address",
-            "ipAddressDescription": "* When using Star Micronics Bluetooth connection (Starweb PRNT dedicated browser), set localhost: 8001. <br> * When using Epson ePOS Port number 8008 without SSL, port with SSL Please specify the number 8043. ",
-            "testPrinting": "test printing"
-        },
-        "cashchanger": {
-            "label": "change machine",
-            "description": "* Specify port number 8008 without SSL, and port number 8043 with SSL."
-        },
-        "payment": {
-            "label": "Payment terminal"
-        },
-        "connect": "connect",
-        "endDeposit": "Return deposit",
-        "starBluetoothAddress": "localhost: 8001",
-        "printType": {
-            "none": "do not print",
-            "image": "image display",
-            "starLAN": "Star Micronics LAN connection",
-            "starBluetooth": "Star Micronics Bluetooth Connection",
-            "epsonEPOS": "Epson ePOS"
-        },
         "alert": {
             "connection": "The connection was successful.",
             "customer": "Incorrect buyer information.",

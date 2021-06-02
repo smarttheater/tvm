@@ -5,10 +5,11 @@
     <div class="h-100 d-flex align-items-center px-4">
         <div class="container px-0">
             <div class="row justify-content-center mb-5">
-                <div class="col-4">
+                <div *ngIf="(user | async)?.applicationType !== applicationType.Printer" class="col-4">
                     <div class="bg-light-gray p-4 h-100">
                         <div class="text-center mb-3">
-                            <div class="font-weight-bold mb-3">{{ 'purchase.event.top.purchase.read' | translate }}</div>
+                            <div class="font-weight-bold mb-3">{{ 'purchase.event.top.purchase.read' | translate }}
+                            </div>
                             <div class="mb-3">
                                 <img height="80" src="/default/images/purchase/event/top/time.svg" alt="">
                             </div>
@@ -24,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="isDisplay('inquiry')" class="col-4">
+                <div class="col-4">
                     <div class="bg-light-gray p-4 h-100">
                         <div class="text-center mb-3">
                             <div class="font-weight-bold mb-3">{{ 'purchase.event.top.inquiry.read' | translate }}

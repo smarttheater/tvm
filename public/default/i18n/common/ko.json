@@ -127,32 +127,48 @@
         "read": "설정을 변경할 수 있습니다.",
         "next": "설정 변경",
         "prev": "뒤로",
+        "basic": {
+            "title": "기본 정보"
+        },
+        "device": {
+            "title": "외부 기기",
+            "printer": {
+                "label": "프린터",
+                "ipAddress": "IP 주소",
+                "ipAddressDescription": "* Star Micronics Bluetooth 연결 (Starweb PRNT 전용 브라우저)을 사용하는 경우 localhost : 8001을 설정하십시오. <br> * SSL없이 Epson ePOS 포트 번호 8008을 사용하는 경우 SSL을 사용하는 포트 번호 8043을 지정하십시오.",
+                "testPrinting": "테스트 인쇄"
+            },
+            "cashchanger": {
+                "label": "기계 변경",
+                "description": "* SSL없이 포트 번호 8008을 지정하고 SSL을 사용하여 포트 번호 8043을 지정하십시오."
+            },
+            "payment": {
+                "label": "결제 단말기"
+            },
+            "connect": "잇다",
+            "endDeposit": "입금 반환",
+            "starBluetoothAddress": "로컬 호스트 : 8001",
+            "printType": {
+                "none": "인쇄 안 함",
+                "image": "이미지 표시",
+                "starLAN": "Star Micronics LAN 연결",
+                "starBluetooth": "Star Micronics Bluetooth 연결",
+                "epsonEPOS": "Epson ePOS"
+            }
+        },
+        "application": {
+            "title": "응용 프로그램",
+            "applicationType": {
+                "label": "모드",
+                "option": {
+                    "tvm": "매표기",
+                    "printer": "발권기"
+                }
+            }
+        },
         "unselected": "선택하지 않음",
         "pos": "POS",
         "signOut": "로그 아웃",
-        "printer": {
-            "label": "프린터",
-            "ipAddress": "IP 주소",
-            "ipAddressDescription": "* Star Micronics Bluetooth 연결 (Starweb PRNT 전용 브라우저)을 사용하는 경우 localhost : 8001을 설정하십시오. <br> * SSL없이 Epson ePOS 포트 번호 8008을 사용하는 경우 SSL을 사용하는 포트 번호 8043을 지정하십시오.",
-            "testPrinting": "테스트 인쇄"
-        },
-        "cashchanger": {
-            "label": "기계 변경",
-            "description": "* SSL없이 포트 번호 8008을 지정하고 SSL을 사용하여 포트 번호 8043을 지정하십시오."
-        },
-        "payment": {
-            "label": "결제 단말기"
-        },
-        "connect": "잇다",
-        "endDeposit": "입금 반환",
-        "starBluetoothAddress": "로컬 호스트 : 8001",
-        "printType": {
-            "none": "인쇄 안 함",
-            "image": "이미지 표시",
-            "starLAN": "Star Micronics LAN 연결",
-            "starBluetooth": "Star Micronics Bluetooth 연결",
-            "epsonEPOS": "Epson ePOS"
-        },
         "alert": {
             "connection": "연결에 성공했습니다.",
             "customer": "잘못된 구매자 정보입니다.",

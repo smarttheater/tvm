@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.5.0 - 2021-06-02
+
+### Added
+
+-   ローカル設定にモード切替（券売機、発券機）を追加
+
 ## 1.4.1 - 2021-05-27
 
 ### Changed

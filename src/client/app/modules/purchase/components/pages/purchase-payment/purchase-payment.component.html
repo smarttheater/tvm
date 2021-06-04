@@ -12,20 +12,21 @@
             <div class="col-6">
                 <div *ngIf="amount > 0">
                     <ng-container *ngFor="let payment of payments">
-                        <button type="button" [disabled]="isLoading | async" class="btn btn-block border border-gray p-4 mb-3"
+                        <button type="button" [disabled]="isLoading | async"
+                            class="btn btn-block border border-gray p-4 mb-3"
                             [class]="payment.paymentAccepted.paymentMethodType"
                             (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
                             <div class="d-flex align-items-center">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.Cash"
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === customPaymentMethodType.Cash"
                                     width="50" class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
                                 <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.CreditCard"
                                     width="50" class="mr-3" src="/default/images/purchase/payment/icon/creditCard.svg"
                                     alt="">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.EMoney"
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === customPaymentMethodType.EMoney"
                                     width="50" class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg"
                                     alt="">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === 'Code'" width="50"
-                                    class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
+                                <img *ngIf="payment.paymentAccepted.paymentMethodType === customPaymentMethodType.Code"
+                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
                                 <p class="text-large">{{ payment.categoryCode?.name | changeLanguage }}</p>
                             </div>
                         </button>

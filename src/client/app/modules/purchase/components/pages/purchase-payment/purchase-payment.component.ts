@@ -6,19 +6,25 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, EpsonEPOSService, MasterService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    EpsonEPOSService,
+    MasterService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
     selector: 'app-purchase-payment',
     templateUrl: './purchase-payment.component.html',
-    styleUrls: ['./purchase-payment.component.scss']
+    styleUrls: ['./purchase-payment.component.scss'],
 })
 export class PurchasePaymentComponent implements OnInit {
     public isLoading: Observable<boolean>;
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public paymentMethodType = factory.chevre.paymentMethodType;
+    public customPaymentMethodType = Models.Purchase.Payment.PaymentMethodType;
     public payments: {
         paymentAccepted: factory.chevre.seller.IPaymentAccepted;
         categoryCode: factory.chevre.categoryCode.ICategoryCode;
@@ -34,8 +40,8 @@ export class PurchasePaymentComponent implements OnInit {
         private actionService: ActionService,
         private masterService: MasterService,
         private translate: TranslateService,
-        private epsonEPOSService: EpsonEPOSService,
-    ) { }
+        private epsonEPOSService: EpsonEPOSService
+    ) {}
 
     public async ngOnInit() {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
@@ -44,29 +50,42 @@ export class PurchasePaymentComponent implements OnInit {
         this.amount = 0;
         this.payments = [];
         try {
-            const { authorizeSeatReservations, seller } = await this.actionService.purchase.getData();
-            if (seller === undefined
-                || seller.paymentAccepted === undefined) {
+            const { authorizeSeatReservations, seller } =
+                await this.actionService.purchase.getData();
+            if (seller === undefined || seller.paymentAccepted === undefined) {
                 throw new Error('seller or seller.paymentAccepted undefined');
             }
-            this.amount = Functions.Purchase.getAmount(authorizeSeatReservations);
-            const paymentAccepted = seller.paymentAccepted.filter(p => {
-                return (p.paymentMethodType === factory.chevre.paymentMethodType.Cash
-                    || p.paymentMethodType === factory.chevre.paymentMethodType.CreditCard
-                    || p.paymentMethodType === factory.chevre.paymentMethodType.EMoney
-                    || p.paymentMethodType === 'Code');
+            this.amount = Functions.Purchase.getAmount(
+                authorizeSeatReservations
+            );
+            const paymentAccepted = seller.paymentAccepted.filter((p) => {
+                return (
+                    p.paymentMethodType ===
+                        factory.chevre.paymentMethodType.CreditCard ||
+                    p.paymentMethodType ===
+                        Models.Purchase.Payment.PaymentMethodType.Cash ||
+                    p.paymentMethodType ===
+                        Models.Purchase.Payment.PaymentMethodType.EMoney ||
+                    p.paymentMethodType ===
+                        Models.Purchase.Payment.PaymentMethodType.Code
+                );
             });
-            const categoryCodePayment = await this.masterService.searchCategoryCode({
-                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.PaymentMethodType
-            });
-            paymentAccepted.forEach(p => {
-                const categoryCode = categoryCodePayment.find(c => c.codeValue === p.paymentMethodType);
+            const categoryCodePayment =
+                await this.masterService.searchCategoryCode({
+                    categorySetIdentifier:
+                        factory.chevre.categoryCode.CategorySetIdentifier
+                            .PaymentMethodType,
+                });
+            paymentAccepted.forEach((p) => {
+                const categoryCode = categoryCodePayment.find(
+                    (c) => c.codeValue === p.paymentMethodType
+                );
                 if (categoryCode === undefined) {
                     return;
                 }
                 this.payments.push({
                     paymentAccepted: p,
-                    categoryCode
+                    categoryCode,
                 });
             });
         } catch (error) {
@@ -87,25 +106,32 @@ export class PurchasePaymentComponent implements OnInit {
                 return;
             }
             const seller = (await this.actionService.purchase.getData()).seller;
-            if (seller === undefined
-                || seller.paymentAccepted === undefined) {
-                throw new Error('seller is undefined or paymentAccepted is undefined');
+            if (seller === undefined || seller.paymentAccepted === undefined) {
+                throw new Error(
+                    'seller is undefined or paymentAccepted is undefined'
+                );
             }
-            const findResult = seller.paymentAccepted
-                .find(paymentAccepted => paymentAccepted.paymentMethodType === typeOf);
+            const findResult = seller.paymentAccepted.find(
+                (paymentAccepted) =>
+                    paymentAccepted.paymentMethodType === typeOf
+            );
             if (findResult === undefined) {
                 this.utilService.openAlert({
                     title: this.translate.instant('common.error'),
-                    body: this.translate.instant('purchase.payment.alert.notCompatible')
+                    body: this.translate.instant(
+                        'purchase.payment.alert.notCompatible'
+                    ),
                 });
                 return;
             }
-            this.actionService.purchase.selectPaymentMethodType({ typeOf, category });
+            this.actionService.purchase.selectPaymentMethodType({
+                typeOf,
+                category,
+            });
             this.router.navigate(['/purchase/payment/reception']);
         } catch (error) {
             this.router.navigate(['/error']);
             console.error(error);
         }
     }
-
 }

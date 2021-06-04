@@ -11,13 +11,9 @@ export enum PaymentMethodType {
      */
     EMoney = 'EMoney',
     /**
-     * クレジットカード決済
+     * コード決済
      */
-    CreditCard = 'CreditCard',
-    /**
-     * RegiGrow決済
-     */
-    RegiGrow = 'RegiGrow'
+    Code = 'RegiGrow',
 }
 
 /**
@@ -43,7 +39,7 @@ export namespace FUNC_CODE {
         /**
          * 中断要求
          */
-        'INTERRUPTION' = '3008'
+        'INTERRUPTION' = '3008',
     }
     /**
      * カード決済
@@ -68,7 +64,7 @@ export namespace FUNC_CODE {
         /**
          * 状況確認
          */
-        'SITUATION' = '4100'
+        'SITUATION' = '4100',
     }
     /**
      * コード決済
@@ -114,7 +110,11 @@ export namespace FUNC_CODE {
     }
 }
 
-export type TFuncCode = FUNC_CODE.TERMINAL | FUNC_CODE.CREDITCARD | FUNC_CODE.CODE | FUNC_CODE.EMONEY;
+export type TFuncCode =
+    | FUNC_CODE.TERMINAL
+    | FUNC_CODE.CREDITCARD
+    | FUNC_CODE.CODE
+    | FUNC_CODE.EMONEY;
 
 /**
  * 基本部_機能コード応答値
@@ -340,4 +340,9 @@ export interface IFrontResponseData extends IResponseData {
     ACTION_DATE: string;
 }
 
-export type TResponseData = IResponseData | IFrontResponseData | ICreditCardResponseData | ICodeResponseData | IEMoneyResponseData;
+export type TResponseData =
+    | IResponseData
+    | IFrontResponseData
+    | ICreditCardResponseData
+    | ICodeResponseData
+    | IEMoneyResponseData;

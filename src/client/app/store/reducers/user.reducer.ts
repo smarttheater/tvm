@@ -61,7 +61,7 @@ export function reducer(initialState: IState, action: Action) {
             };
         }),
         on(userAction.updateAll, (state, payload) => {
-            const customerContact = payload.customerContact;
+            const customerContact = payload.profile;
             const pos = payload.pos;
             const theater = payload.theater;
             const printer = payload.printer;

@@ -11,7 +11,7 @@ export const updateAll = createAction(
     props<{
         pos?: factory.chevre.place.movieTheater.IPOS;
         theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
-        customerContact: factory.transaction.placeOrder.ICustomerProfile;
+        profile: factory.person.IProfile;
         printer: Models.Util.Printer.IPrinter;
         cashchanger?: string;
         payment?: string;

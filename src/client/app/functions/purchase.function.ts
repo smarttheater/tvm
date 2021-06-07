@@ -147,17 +147,10 @@ export function sameMovieTicketFilter(params: {
         ) {
             return;
         }
-        const actionObject = action.object.find(
-            (o) => o.movieTickets !== undefined
-        );
-        const checkActionObject = checkMovieTicketAction.object.find(
-            (o) => o.movieTickets !== undefined
-        );
         if (
-            actionObject?.movieTickets === undefined ||
-            checkActionObject?.movieTickets === undefined ||
-            actionObject.movieTickets[0].identifier !==
-                checkActionObject.movieTickets[0].identifier
+            checkMovieTicketAction.result === undefined ||
+            action.result.movieTickets[0].identifier !==
+                checkMovieTicketAction.result.movieTickets[0].identifier
         ) {
             return;
         }

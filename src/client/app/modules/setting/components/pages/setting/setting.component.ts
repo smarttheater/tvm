@@ -248,7 +248,7 @@ export class SettingComponent implements OnInit {
             this.actionService.user.updateAll({
                 pos,
                 theater,
-                customerContact: {
+                profile: {
                     familyName:
                         this.settingForm.controls.familyName === undefined
                             ? undefined

@@ -14,6 +14,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.8.0 - 2021-06-11
+
+### Changed
+
+-   コンテンツ名称を多言語対応
+-   外部決済 ID 生成を変更
+
+### Fixed
+
+-   クレジットカードアイコン修正
+
 ## 1.7.0 - 2021-06-09
 
 ### Changed

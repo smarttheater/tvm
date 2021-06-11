@@ -826,3 +826,11 @@ export function getAdditionalProperty(
     }
     return target.value;
 }
+
+export function createOrderId(prefix?: string) {
+    const id =
+        prefix === undefined
+            ? `${moment().format('YYYYMMDDHHmmsss')}`
+            : `${prefix}-${moment().format('YYYYMMDDHHmmsss')}`;
+    return id;
+}

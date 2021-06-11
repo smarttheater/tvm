@@ -10,21 +10,22 @@
         <div class="row">
             <div *ngFor="let creativeWork of creativeWorks; let index = index" class="item mb-3" [ngClass]="{
                    'not-event not-sales': !isSales(creativeWork.identifier)
-               }" [class.animation]="animations[index]"
-                (click)="selectCreativeWork(creativeWork)">
+               }" [class.animation]="animations[index]" (click)="selectCreativeWork(creativeWork)">
                 <div class="position-relative">
                     <div class="image">
                         <div class="poster-title d-flex align-items-center">
-                            <p class="p-3 text-white text-small">{{ creativeWork.name }}</p>
+                            <p class="p-3 text-white text-small">{{ creativeWork.name | changeLanguage }}</p>
                         </div>
                         <div class="poster" *ngIf="creativeWork.thumbnailUrl"
                             [style.backgroundImage]="'url('+ creativeWork.thumbnailUrl +')'">
                         </div>
                     </div>
-                    <div class="content-rating p-2 bg-dark text-white" *ngIf="getContentRatingType(creativeWork?.contentRating)">
+                    <div class="content-rating p-2 bg-dark text-white"
+                        *ngIf="getContentRatingType(creativeWork?.contentRating)">
                         {{ getContentRatingType(creativeWork?.contentRating)?.name | changeLanguage }}
                     </div>
-                    <p class="p-2 bg-dark text-white text-overflow-ellipsis text-small">{{ creativeWork.name }}</p>
+                    <p class="p-2 bg-dark text-white text-overflow-ellipsis text-small">{{ creativeWork.name |
+                        changeLanguage }}</p>
                 </div>
             </div>
         </div>
@@ -41,8 +42,8 @@
                     routerLink="/purchase/cinema">{{ 'purchase.cinema.scheduleMovie.prev' | translate }}</button>
             </div>
             <div class="col-3">
-                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    disabled>{{ 'purchase.cinema.scheduleMovie.next' | translate }}</button>
+                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2" disabled>{{
+                    'purchase.cinema.scheduleMovie.next' | translate }}</button>
             </div>
         </div>
     </div>

@@ -126,7 +126,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      */
     private async creditcard() {
         const { transaction } = await this.actionService.purchase.getData();
-        const { payment } = await this.actionService.user.getData();
+        const { payment, pos } = await this.actionService.user.getData();
         if (transaction === undefined || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
@@ -134,7 +134,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.creditcard.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/creditcard.svg" alt="">',
         });
-        const orderId = moment().format('YYYYMMDDHHmmsss');
+        const orderId = Functions.Purchase.createOrderId(pos?.id);
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
@@ -178,7 +178,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      */
     private async eMoney() {
         const { transaction } = await this.actionService.purchase.getData();
-        const { payment } = await this.actionService.user.getData();
+        const { payment, pos } = await this.actionService.user.getData();
         if (transaction === undefined || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
@@ -186,7 +186,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
         });
-        const orderId = moment().format('YYYYMMDDHHmmsss');
+        const orderId = Functions.Purchase.createOrderId(pos?.id);
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
@@ -230,7 +230,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      */
     private async code() {
         const { transaction } = await this.actionService.purchase.getData();
-        const { payment } = await this.actionService.user.getData();
+        const { payment, pos } = await this.actionService.user.getData();
         if (transaction === undefined || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
@@ -238,7 +238,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
         });
-        const orderId = moment().format('YYYYMMDDHHmmsss');
+        const orderId = Functions.Purchase.createOrderId(pos?.id);
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({

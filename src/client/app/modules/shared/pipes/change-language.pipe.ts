@@ -3,22 +3,28 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
     name: 'changeLanguage',
-    pure: false
+    pure: false,
 })
 export class ChangeLanguagePipe implements PipeTransform {
-    constructor(
-        private translate: TranslateService
-    ) { }
+    constructor(private translate: TranslateService) {}
 
-    public transform(lang?: {
-        ja?: string;
-        en?: string;
-        kr?: string;
-    }) {
+    public transform(
+        lang?:
+            | {
+                  ja?: string;
+                  en?: string;
+                  kr?: string;
+              }
+            | string
+    ) {
         if (lang === undefined || lang === null) {
             return '';
         }
-        const currentLang = this.translate.currentLang || this.translate.defaultLang;
+        if (typeof lang === 'string') {
+            return lang;
+        }
+        const currentLang =
+            this.translate.currentLang || this.translate.defaultLang;
         if ((<any>lang)[currentLang] !== undefined) {
             return (<any>lang)[currentLang];
         }
@@ -30,5 +36,4 @@ export class ChangeLanguagePipe implements PipeTransform {
         }
         return '';
     }
-
 }

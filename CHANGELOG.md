@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.9.0 - 2021-06-14
+
+### Changed
+
+-   bootstrap-icons へ変更
+
 ## 1.8.0 - 2021-06-11
 
 ### Changed

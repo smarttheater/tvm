@@ -134,7 +134,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.creditcard.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/creditcard.svg" alt="">',
         });
-        const orderId = Functions.Purchase.createOrderId(pos?.id);
+        const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
@@ -186,7 +186,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
         });
-        const orderId = Functions.Purchase.createOrderId(pos?.id);
+        const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({
@@ -238,7 +238,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
         });
-        const orderId = Functions.Purchase.createOrderId(pos?.id);
+        const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
         this.actionService.purchase.setOrderId({ id: orderId });
         await this.paymentService.init({ ipAddress: payment });
         const execResult = await this.paymentService.exec({

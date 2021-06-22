@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.11.0 - 2021-06-22
+
+-   Remise 請求番号調整
+
 ## 1.10.0 - 2021-06-16
 
 -   cinerino/sdk>=3.2.0 で再実装

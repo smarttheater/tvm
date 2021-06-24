@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.12.0 - 2021-06-24
+
+### Added
+
+-   チケットへ枚数表記追加
+
 ## 1.11.0 - 2021-06-22
 
 -   Remise 請求番号調整

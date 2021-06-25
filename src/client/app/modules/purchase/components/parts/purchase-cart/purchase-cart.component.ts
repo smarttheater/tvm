@@ -9,7 +9,7 @@ import * as reducers from '../../../../../store/reducers';
 @Component({
     selector: 'app-purchase-cart',
     templateUrl: './purchase-cart.component.html',
-    styleUrls: ['./purchase-cart.component.scss']
+    styleUrls: ['./purchase-cart.component.scss'],
 })
 export class PurchaseCartComponent implements OnInit {
     @Input() public purchase: reducers.IPurchaseState;
@@ -23,11 +23,13 @@ export class PurchaseCartComponent implements OnInit {
         private utilService: UtilService,
         private translate: TranslateService,
         private actionService: ActionService
-    ) { }
+    ) {}
 
     public ngOnInit() {
-        this.amount = (this.isAmount)
-            ? Functions.Purchase.getAmount(this.purchase.authorizeSeatReservations)
+        this.amount = this.isAmount
+            ? Functions.Purchase.getAmount(
+                  this.purchase.authorizeSeatReservations
+              )
             : 0;
     }
 
@@ -42,19 +44,22 @@ export class PurchaseCartComponent implements OnInit {
             body: this.translate.instant('purchase.event.cart.confirm.cancel'),
             cb: async () => {
                 try {
-                    const authorizeSeatReservations = [authorizeSeatReservation];
-                    await this.actionService.purchase.cancelTemporaryReservations(authorizeSeatReservations);
+                    const authorizeSeatReservations = [
+                        authorizeSeatReservation,
+                    ];
+                    await this.actionService.purchase.transaction.voidSeatReservation(
+                        { authorizeSeatReservations }
+                    );
                 } catch (error) {
                     console.error(error);
                     this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
-                        body: this.translate.instant('purchase.event.cart.alert.cancel'),
+                        body: this.translate.instant(
+                            'purchase.event.cart.alert.cancel'
+                        ),
                     });
                 }
-            }
+            },
         });
     }
-
-
-
 }

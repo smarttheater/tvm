@@ -8,16 +8,18 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../../services';
-import * as reducers from '../../../../../../store/reducers';
 import {
-    PurchaseEventTicketModalComponent
-} from '../../../../../shared/components/parts/purchase/event/ticket-modal/ticket-modal.component';
+    ActionService,
+    MasterService,
+    UtilService,
+} from '../../../../../../services';
+import * as reducers from '../../../../../../store/reducers';
+import { PurchaseEventTicketModalComponent } from '../../../../../shared/components/parts/purchase/event/ticket-modal/ticket-modal.component';
 
 @Component({
     selector: 'app-purchase-event-schedule',
     templateUrl: './purchase-event-schedule.component.html',
-    styleUrls: ['./purchase-event-schedule.component.scss']
+    styleUrls: ['./purchase-event-schedule.component.scss'],
 })
 export class PurchaseEventScheduleComponent implements OnInit {
     public purchase: Observable<reducers.IPurchaseState>;
@@ -41,7 +43,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
         private actionService: ActionService,
         private masterService: MasterService,
         private modal: BsModalService
-    ) { }
+    ) {}
 
     public async ngOnInit() {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
@@ -58,31 +60,45 @@ export class PurchaseEventScheduleComponent implements OnInit {
             const purchase = await this.actionService.purchase.getData();
             const theater = user.theater;
             const scheduleDate = purchase.scheduleDate;
-            if (theater === undefined
-                || scheduleDate === undefined) {
+            if (theater === undefined || scheduleDate === undefined) {
                 throw new Error('scheduleDate or theater undefined');
             }
-            this.videoFormatTypes = await this.masterService.searchCategoryCode({
-                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.VideoFormatType
-            });
-            this.screeningEventSeries = await this.masterService.searchScreeningEventSeries({
-                workPerformed: {
-                    identifiers: [],
-                },
-                location: {
-                    branchCode: {
-                        $eq: theater.branchCode
-                    }
+            this.videoFormatTypes = await this.masterService.searchCategoryCode(
+                {
+                    categorySetIdentifier:
+                        factory.chevre.categoryCode.CategorySetIdentifier
+                            .VideoFormatType,
                 }
-            });
-            const screeningEvents = await this.masterService.searchScreeningEvent({
-                superEvent: { locationBranchCodes: [theater.branchCode] },
-                startFrom: moment(scheduleDate).toDate(),
-                startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
-                screeningEventSeries: this.screeningEventSeries
-            });
-            const now = moment((await this.utilService.getServerTime()).date).toDate();
-            this.screeningEventsGroup = Functions.Purchase.screeningEvents2ScreeningEventSeries({ screeningEvents, now });
+            );
+            this.screeningEventSeries =
+                await this.masterService.searchScreeningEventSeries({
+                    workPerformed: {
+                        identifiers: [],
+                    },
+                    location: {
+                        branchCode: {
+                            $eq: theater.branchCode,
+                        },
+                    },
+                });
+            const screeningEvents =
+                await this.masterService.searchScreeningEvent({
+                    superEvent: { locationBranchCodes: [theater.branchCode] },
+                    startFrom: moment(scheduleDate).toDate(),
+                    startThrough: moment(scheduleDate)
+                        .add(1, 'day')
+                        .add(-1, 'millisecond')
+                        .toDate(),
+                    screeningEventSeries: this.screeningEventSeries,
+                });
+            const now = moment(
+                (await this.utilService.getServerTime()).date
+            ).toDate();
+            this.screeningEventsGroup =
+                Functions.Purchase.screeningEvents2ScreeningEventSeries({
+                    screeningEvents,
+                    now,
+                });
             await this.addAnimationClass();
         } catch (error) {
             console.error(error);
@@ -93,36 +109,47 @@ export class PurchaseEventScheduleComponent implements OnInit {
     /**
      * スケジュール選択
      */
-    public async selectSchedule(screeningEvent: factory.event.screeningEvent.IEvent) {
+    public async selectSchedule(
+        screeningEvent: factory.event.screeningEvent.IEvent
+    ) {
         const purchase = await this.actionService.purchase.getData();
         if (purchase.seller === undefined) {
             this.router.navigate(['/error']);
             return;
         }
-        if (purchase.authorizeSeatReservations.length > 0
-            && Number(this.environment.PURCHASE_ITEM_MAX_LENGTH) === 1) {
+        if (
+            purchase.authorizeSeatReservations.length > 0 &&
+            Number(this.environment.PURCHASE_ITEM_MAX_LENGTH) === 1
+        ) {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
-                body: this.translate.instant('purchase.event.schedule.alert.cart')
+                body: this.translate.instant(
+                    'purchase.event.schedule.alert.cart'
+                ),
             });
             return;
         }
         try {
-            await this.actionService.purchase.getScreeningEvent(screeningEvent);
-            this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
-            await this.actionService.purchase.getTicketList({ seller: purchase.seller });
-            await this.actionService.purchase.getScreen({
+            await this.actionService.purchase.event.getScreeningEvent(
+                screeningEvent
+            );
+            this.screeningEventSeats =
+                await this.actionService.purchase.event.getScreeningEventSeats();
+            await this.actionService.purchase.event.searchTicketOffers();
+            await this.actionService.purchase.getScreeningRoom({
                 branchCode: { $eq: screeningEvent.location.branchCode },
                 containedInPlace: {
-                    branchCode: { $eq: screeningEvent.superEvent.location.branchCode }
-                }
+                    branchCode: {
+                        $eq: screeningEvent.superEvent.location.branchCode,
+                    },
+                },
             });
             this.openTicketList();
         } catch (error) {
             console.error(error);
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
-                body: ''
+                body: '',
             });
         }
     }
@@ -140,15 +167,20 @@ export class PurchaseEventScheduleComponent implements OnInit {
             return;
         }
         const performance = new Models.Purchase.Performance({ screeningEvent });
-        const movieTicketTypeOffers = Functions.Purchase.getMovieTicketTypeOffers({ screeningEventTicketOffers });
+        const movieTicketTypeOffers =
+            Functions.Purchase.getMovieTicketTypeOffers({
+                screeningEventTicketOffers,
+            });
         if (!this.environment.PURCHASE_CART) {
             // カート機能なし
             this.router.navigate(['/purchase/event/select']);
             return;
         }
-        if (performance.isInfinitetock()
-            || !performance.isTicketedSeat()
-            || (screen.openSeatingAllowed && movieTicketTypeOffers.length === 0)) {
+        if (
+            performance.isInfinitetock() ||
+            !performance.isTicketedSeat() ||
+            (screen.openSeatingAllowed && movieTicketTypeOffers.length === 0)
+        ) {
             // 座席選択なし
             this.modal.show(PurchaseEventTicketModalComponent, {
                 class: 'modal-dialog-centered modal-xl',
@@ -162,8 +194,8 @@ export class PurchaseEventScheduleComponent implements OnInit {
                         additionalTicketText?: string;
                     }) => {
                         this.selectTicket(params);
-                    }
-                }
+                    },
+                },
             });
             return;
         }
@@ -180,29 +212,41 @@ export class PurchaseEventScheduleComponent implements OnInit {
     }) {
         const reservations = params.reservations;
         const additionalTicketText = params.additionalTicketText;
-        if (reservations.length > Number(this.environment.PURCHASE_ITEM_MAX_LENGTH)) {
+        if (
+            reservations.length >
+            Number(this.environment.PURCHASE_ITEM_MAX_LENGTH)
+        ) {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
                 body: this.translate.instant(
                     'purchase.event.schedule.alert.limit',
                     { value: this.environment.PURCHASE_ITEM_MAX_LENGTH }
-                )
+                ),
             });
             return;
         }
         try {
-            this.screeningEventSeats = await this.actionService.purchase.getScreeningEventSeats();
-            const { screeningEvent } = await this.actionService.purchase.getData();
-            if (screeningEvent !== undefined
-                && new Models.Purchase.Performance({ screeningEvent }).isTicketedSeat()) {
-                const remainingSeatLength = Functions.Purchase.getRemainingSeatLength({
-                    screeningEventSeats: this.screeningEventSeats,
-                    screeningEvent: screeningEvent
-                });
+            this.screeningEventSeats =
+                await this.actionService.purchase.event.getScreeningEventSeats();
+            const { screeningEvent } =
+                await this.actionService.purchase.getData();
+            if (
+                screeningEvent !== undefined &&
+                new Models.Purchase.Performance({
+                    screeningEvent,
+                }).isTicketedSeat()
+            ) {
+                const remainingSeatLength =
+                    Functions.Purchase.getRemainingSeatLength({
+                        screeningEventSeats: this.screeningEventSeats,
+                        screeningEvent: screeningEvent,
+                    });
                 if (remainingSeatLength < reservations.length) {
                     this.utilService.openAlert({
                         title: this.translate.instant('common.error'),
-                        body: this.translate.instant('purchase.event.schedule.alert.getScreeningEventSeats')
+                        body: this.translate.instant(
+                            'purchase.event.schedule.alert.getScreeningEventSeats'
+                        ),
                     });
                     return;
                 }
@@ -211,19 +255,23 @@ export class PurchaseEventScheduleComponent implements OnInit {
             console.error(error);
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
-                body: ''
+                body: '',
             });
         }
 
         try {
-            await this.actionService.purchase.temporaryReservation({
-                reservations,
-                additionalTicketText,
-                screeningEventSeats: this.screeningEventSeats
-            });
+            await this.actionService.purchase.transaction.authorizeSeatReservation(
+                {
+                    reservations,
+                    additionalTicketText,
+                    screeningEventSeats: this.screeningEventSeats,
+                }
+            );
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
-                body: this.translate.instant('purchase.event.schedule.success.temporaryReservation')
+                body: this.translate.instant(
+                    'purchase.event.schedule.success.temporaryReservation'
+                ),
             });
             this.actionService.purchase.unsettledDelete();
         } catch (error) {
@@ -231,10 +279,12 @@ export class PurchaseEventScheduleComponent implements OnInit {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
                 body: `
-                <p class="mb-4">${this.translate.instant('purchase.event.schedule.alert.temporaryReservation')}</p>
+                <p class="mb-4">${this.translate.instant(
+                    'purchase.event.schedule.alert.temporaryReservation'
+                )}</p>
                 <div class="p-3 bg-light-gray select-text text-left">
                     <code>${error}</code>
-                </div>`
+                </div>`,
             });
         }
     }
@@ -243,25 +293,30 @@ export class PurchaseEventScheduleComponent implements OnInit {
      * 券種確定
      */
     public async onSubmit() {
-        const { authorizeSeatReservations } = await this.actionService.purchase.getData();
+        const { authorizeSeatReservations } =
+            await this.actionService.purchase.getData();
         // チケット未選択判定
         if (authorizeSeatReservations.length === 0) {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
-                body: this.translate.instant('purchase.event.schedule.alert.unselected')
+                body: this.translate.instant(
+                    'purchase.event.schedule.alert.unselected'
+                ),
             });
             return;
         }
         // チケット枚数上限判定
         let itemCount = 0;
-        authorizeSeatReservations.forEach(a => itemCount += a.object.acceptedOffer.length);
+        authorizeSeatReservations.forEach(
+            (a) => (itemCount += a.object.acceptedOffer.length)
+        );
         if (itemCount > Number(this.environment.PURCHASE_ITEM_MAX_LENGTH)) {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
                 body: this.translate.instant(
                     'purchase.event.schedule.alert.limit',
                     { value: Number(this.environment.PURCHASE_ITEM_MAX_LENGTH) }
-                )
+                ),
             });
             return;
         }
@@ -287,8 +342,6 @@ export class PurchaseEventScheduleComponent implements OnInit {
      * 施設コンテンツ取得
      */
     public getScreeningEventSeries(id: string) {
-        return this.screeningEventSeries.find(s => s.id === id);
+        return this.screeningEventSeries.find((s) => s.id === id);
     }
-
 }
-

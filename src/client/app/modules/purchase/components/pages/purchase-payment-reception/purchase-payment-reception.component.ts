@@ -290,9 +290,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 throw new Error('profile or seller undefined');
             }
             if (pendingMovieTickets.length > 0) {
-                await this.actionService.purchase.authorizeMovieTicket({
-                    seller,
-                });
+                await this.actionService.purchase.payment.authorizeMovieTicket();
             }
             if (paymentMethod !== undefined) {
                 const additionalProperty: { name: string; value: string }[] =
@@ -318,12 +316,12 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                         value: orderId,
                     });
                 }
-                await this.actionService.purchase.authorizeAnyPayment({
+                await this.actionService.purchase.payment.authorizeAnyPayment({
                     amount: this.amount,
                     additionalProperty,
                 });
             }
-            await this.actionService.purchase.registerContact(profile);
+            await this.actionService.purchase.transaction.setProfile(profile);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -331,12 +329,13 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         }
         try {
             const { seller } = await this.actionService.purchase.getData();
-            const { language } = await this.actionService.user.getData();
-            if (seller === undefined) {
-                throw new Error('seller undefined');
+            const { language, theater } =
+                await this.actionService.user.getData();
+            if (seller === undefined || theater === undefined) {
+                throw new Error('seller or theater undefined');
             }
-            await this.actionService.purchase.endTransaction({
-                seller,
+            await this.actionService.purchase.transaction.confirm({
+                theater,
                 language,
             });
         } catch (error) {

@@ -7,21 +7,20 @@ import { ActionService } from '../../../../../services';
 @Component({
     selector: 'app-expired',
     templateUrl: './expired.component.html',
-    styleUrls: ['./expired.component.scss']
+    styleUrls: ['./expired.component.scss'],
 })
 export class ExpiredComponent implements OnInit, OnDestroy {
     public environment = getEnvironment();
     private timer: any;
 
-    constructor(
-        private actionService: ActionService,
-        private router: Router
-    ) { }
+    constructor(private actionService: ActionService, private router: Router) {}
 
     public async ngOnInit() {
         try {
             const { payment } = await this.actionService.user.getData();
-            await this.actionService.purchase.voidPayment({ payment });
+            await this.actionService.purchase.payment.voidDevicePayment({
+                payment,
+            });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/stop']);
@@ -30,7 +29,7 @@ export class ExpiredComponent implements OnInit, OnDestroy {
         try {
             const { transaction } = await this.actionService.purchase.getData();
             if (transaction !== undefined) {
-                await this.actionService.purchase.cancelTransaction();
+                await this.actionService.purchase.transaction.cancel();
             }
         } catch (error) {
             console.error(error);
@@ -53,5 +52,4 @@ export class ExpiredComponent implements OnInit, OnDestroy {
             clearTimeout(this.timer);
         }
     }
-
 }

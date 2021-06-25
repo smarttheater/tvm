@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BAD_REQUEST, TOO_MANY_REQUESTS } from 'http-status';
@@ -43,7 +42,7 @@ export class PurchaseCinemaTopComponent implements OnInit {
         try {
             this.user = this.store.pipe(select(reducers.getUser));
             this.actionService.user.updateLanguage('ja');
-            await this.actionService.purchase.cancelTransaction();
+            await this.actionService.purchase.transaction.cancel();
             this.actionService.purchase.delete();
             if (!this.epsonEPOSService.cashchanger.isConnected()) {
                 await this.actionService.user.checkVersion();
@@ -124,21 +123,17 @@ export class PurchaseCinemaTopComponent implements OnInit {
                 });
                 return;
             }
-            await this.actionService.purchase.getSeller(
-                screeningEvent.offers.seller.id
-            );
+            await this.actionService.purchase.getSeller({
+                id: screeningEvent.offers.seller.id,
+            });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
             return;
         }
         try {
-            const purchase = await this.actionService.purchase.getData();
-            const user = await this.actionService.user.getData();
-            await this.actionService.purchase.startTransaction({
-                seller: <factory.chevre.seller.ISeller>purchase.seller,
-                pos: user.pos,
-            });
+            const { pos } = await this.actionService.user.getData();
+            await this.actionService.purchase.transaction.start({ pos });
             const { routerLink } = params;
             this.router.navigate([routerLink]);
         } catch (error) {

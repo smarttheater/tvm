@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.0.0 - 2021-06-29
+
+### Changed
+
+-   購入関連サービス細分化
+
 ## 1.12.0 - 2021-06-24
 
 ### Added

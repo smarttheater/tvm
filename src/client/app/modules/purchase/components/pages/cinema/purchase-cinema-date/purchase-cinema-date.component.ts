@@ -11,7 +11,7 @@ import * as reducers from '../../../../../../store/reducers';
 @Component({
     selector: 'app-purchase-cinema-date',
     templateUrl: './purchase-cinema-date.component.html',
-    styleUrls: ['./purchase-cinema-date.component.scss']
+    styleUrls: ['./purchase-cinema-date.component.scss'],
 })
 export class PurchaseCinemaDateComponent implements OnInit {
     public purchase: Observable<reducers.IPurchaseState>;
@@ -23,8 +23,8 @@ export class PurchaseCinemaDateComponent implements OnInit {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private actionService: ActionService,
-    ) { }
+        private actionService: ActionService
+    ) {}
 
     /**
      * 初期化
@@ -39,7 +39,10 @@ export class PurchaseCinemaDateComponent implements OnInit {
                 throw new Error('theater undefined');
             }
             this.scheduleDates = this.cteateScheduleDate({ theater });
-            this.preScheduleDates = await this.actionService.purchase.getPreScheduleDates({ theater });
+            this.preScheduleDates =
+                await this.actionService.purchase.event.getPreScheduleDates({
+                    theater,
+                });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -52,17 +55,25 @@ export class PurchaseCinemaDateComponent implements OnInit {
         const { theater } = params;
         const now = moment().toDate();
         const today = moment(moment(now).format('YYYYMMDD')).toDate();
-        if (theater.offers === undefined
-            || theater.offers.availabilityStartsGraceTime === undefined
-            || theater.offers.availabilityStartsGraceTime.value === undefined
-            || theater.offers.availabilityStartsGraceTime.unitCode !== factory.chevre.unitCode.Day) {
+        if (
+            theater.offers === undefined ||
+            theater.offers.availabilityStartsGraceTime === undefined ||
+            theater.offers.availabilityStartsGraceTime.value === undefined ||
+            theater.offers.availabilityStartsGraceTime.unitCode !==
+                factory.chevre.unitCode.Day
+        ) {
             return [];
         }
-        const limitDate = moment(today).add(theater.offers.availabilityStartsGraceTime.value * -1, 'days');
+        const limitDate = moment(today).add(
+            theater.offers.availabilityStartsGraceTime.value * -1,
+            'days'
+        );
         const limit = limitDate.diff(moment(today), 'days');
         const result = [];
         for (let i = 0; i < limit; i++) {
-            const date = moment(moment(today).add(i + 1, 'day')).format('YYYY-MM-DD');
+            const date = moment(moment(today).add(i + 1, 'day')).format(
+                'YYYY-MM-DD'
+            );
             result.push(date);
         }
         return result;

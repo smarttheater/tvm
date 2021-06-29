@@ -9,7 +9,7 @@ import * as reducers from '../../../../../store/reducers';
 @Component({
     selector: 'app-error',
     templateUrl: './error.component.html',
-    styleUrls: ['./error.component.scss']
+    styleUrls: ['./error.component.scss'],
 })
 export class ErrorComponent implements OnInit, OnDestroy {
     public error: Observable<string | null>;
@@ -20,13 +20,15 @@ export class ErrorComponent implements OnInit, OnDestroy {
         private store: Store<reducers.IState>,
         private actionService: ActionService,
         private router: Router
-    ) { }
+    ) {}
 
     public async ngOnInit() {
         this.error = this.store.pipe(select(reducers.getError));
         try {
             const { payment } = await this.actionService.user.getData();
-            await this.actionService.purchase.voidPayment({ payment });
+            await this.actionService.purchase.payment.voidDevicePayment({
+                payment,
+            });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/stop']);
@@ -35,7 +37,7 @@ export class ErrorComponent implements OnInit, OnDestroy {
         try {
             const { transaction } = await this.actionService.purchase.getData();
             if (transaction !== undefined) {
-                await this.actionService.purchase.cancelTransaction();
+                await this.actionService.purchase.transaction.cancel();
             }
         } catch (error) {
             console.error(error);
@@ -58,5 +60,4 @@ export class ErrorComponent implements OnInit, OnDestroy {
             clearTimeout(this.timer);
         }
     }
-
 }

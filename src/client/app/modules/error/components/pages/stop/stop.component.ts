@@ -9,7 +9,7 @@ import * as reducers from '../../../../../store/reducers';
 @Component({
     selector: 'app-stop',
     templateUrl: './stop.component.html',
-    styleUrls: ['./stop.component.scss']
+    styleUrls: ['./stop.component.scss'],
 })
 export class StopComponent implements OnInit, OnDestroy {
     public purchase: Observable<reducers.IPurchaseState>;
@@ -23,7 +23,7 @@ export class StopComponent implements OnInit, OnDestroy {
         private actionService: ActionService,
         private utilService: UtilService,
         private router: Router
-    ) { }
+    ) {}
 
     public async ngOnInit() {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
@@ -32,14 +32,16 @@ export class StopComponent implements OnInit, OnDestroy {
         this.message = '';
         try {
             const { payment } = await this.actionService.user.getData();
-            await this.actionService.purchase.voidPayment({ payment });
+            await this.actionService.purchase.payment.voidDevicePayment({
+                payment,
+            });
         } catch (error) {
             console.error(error);
         }
         try {
             const { transaction } = await this.actionService.purchase.getData();
             if (transaction !== undefined) {
-                await this.actionService.purchase.cancelTransaction();
+                await this.actionService.purchase.transaction.cancel();
             }
         } catch (error) {
             console.error(error);
@@ -77,7 +79,5 @@ export class StopComponent implements OnInit, OnDestroy {
             this.message = `status: ${error.status} statusText: ${error.statusText}`;
             this.password = '';
         }
-
     }
-
 }

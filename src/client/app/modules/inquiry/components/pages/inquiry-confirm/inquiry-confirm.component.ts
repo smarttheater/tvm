@@ -13,7 +13,7 @@ import * as reducers from '../../../../../store/reducers';
 @Component({
     selector: 'app-inquiry-confirm',
     templateUrl: './inquiry-confirm.component.html',
-    styleUrls: ['./inquiry-confirm.component.scss']
+    styleUrls: ['./inquiry-confirm.component.scss'],
 })
 export class InquiryConfirmComponent implements OnInit, OnDestroy {
     public order: Observable<reducers.IOrderState>;
@@ -32,7 +32,7 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
         private actionService: ActionService,
         private utilService: UtilService,
         private translate: TranslateService
-    ) { }
+    ) {}
 
     public async ngOnInit() {
         this.eventOrders = [];
@@ -67,18 +67,6 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
      * 印刷
      */
     public async print() {
-        const today = moment().format('YYYYMMDD');
-        const limit = moment(today)
-            .add(this.environment.INQUIRY_PRINT_EXPIRED_VALUE, this.environment.INQUIRY_PRINT_EXPIRED_UNIT)
-            .format('YYYYMMDD');
-        const findResult = this.eventOrders.find(o => moment(o.event.startDate).format('YYYYMMDD') < limit);
-        if (findResult !== undefined) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant('inquiry.confirm.alert.printExpired')
-            });
-            return;
-        }
         try {
             const orderData = await this.actionService.order.getData();
             const user = await this.actionService.user.getData();
@@ -89,38 +77,48 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
             if (user.printer === undefined) {
                 throw new Error('printer undefined');
             }
-            // 二重発券防止
-            // const reservationNumbers = orderData.order.acceptedOffers.map((o) => {
-            //     if (o.itemOffered.typeOf !== factory.chevre.reservationType.EventReservation) {
-            //         return '';
-            //     }
-            //     const itemOffered = <factory.chevre.reservation.IReservation<
-            //         factory.chevre.reservationType.EventReservation
-            //     >>o.itemOffered;
-            //     return itemOffered.reservationNumber;
-            // });
-            // const searchResult = await this.reservationService.search({
-            //     typeOf: factory.chevre.reservationType.EventReservation,
-            //     reservationNumbers
-            // });
-            // const checkedInResult = searchResult.data.filter(r => r.checkedIn);
-            // if (checkedInResult.length > 0) {
-            //     this.utilService.openAlert({
-            //         title: this.translate.instant('common.error'),
-            //         body: this.translate.instant('inquiry.confirm.alert.doubleTicketing')
-            //     });
-            //     return;
-            // }
-            // 印刷
-            const orders = [orderData.order];
+            const order = orderData.order;
+            const orders = [order];
             const pos = user.pos;
             const printer = user.printer;
-            await this.actionService.order.print({ orders, pos, printer });
-            this.router.navigate(['/inquiry/print']);
+            const now = (await this.utilService.getServerTime()).date;
+            const today = moment(now).format('YYYYMMDD');
+            const eventOrders = Functions.Purchase.order2EventOrders({ order });
+            const findResult = eventOrders.find((o) => {
+                const startDate = moment(o.event.startDate).format('YYYYMMDD');
+                return startDate !== today;
+            });
+            const process = async () => {
+                // 処理
+                if (this.timer !== undefined) {
+                    clearTimeout(this.timer);
+                }
+
+                await this.actionService.order.print({ orders, pos, printer });
+                this.router.navigate(['/inquiry/print']);
+            };
+
+            if (findResult !== undefined) {
+                this.utilService.openConfirm({
+                    title: this.translate.instant('common.confirm'),
+                    body: this.translate.instant(
+                        'inquiry.confirm.confirm.printExpired'
+                    ),
+                    cb: async () => {
+                        try {
+                        } catch (error2) {
+                            console.error(error2);
+                            this.router.navigate(['/error']);
+                        }
+                        await process();
+                    },
+                });
+                return;
+            }
+            await process();
         } catch (error) {
             console.error(error);
             this.router.navigate(['/stop']);
         }
     }
-
 }

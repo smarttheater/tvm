@@ -76,10 +76,10 @@
                 "authorize": "The QR code display cannot be displayed.",
                 "print": "Print failed",
                 "printSuccess": "Print completed",
-                "printExpired": "The print deadline has expired",
                 "doubleTicketing": "Already printed ticket"
             },
             "confirm": {
+                "printExpired": "Is it okay if reservations other than the same day are included?",
                 "cancel": "Are you sure you want to cancel?"
             }
         },

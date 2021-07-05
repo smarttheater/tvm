@@ -76,10 +76,10 @@
                 "authorize": "QR 코드 표시를 표시 할 수 없습니다.",
                 "print": "인쇄 실패",
                 "printSuccess": "인쇄 완료",
-                "printExpired": "인쇄 마감일이 만료되었습니다.",
                 "doubleTicketing": "이미 인쇄 된 티켓"
             },
             "confirm": {
+                "printExpired": "당일 이외의 예약이 포함되어 있지만시겠습니까?",
                 "cancel": "정말 취소 하시겠습니까?"
             }
         },

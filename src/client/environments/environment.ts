@@ -139,14 +139,6 @@ export interface IEnvironment {
      */
     INQUIRY_PRINT: boolean;
     /**
-     * 照会印刷期限値
-     */
-    INQUIRY_PRINT_EXPIRED_VALUE: string;
-    /**
-     * 照会印刷期限単位
-     */
-    INQUIRY_PRINT_EXPIRED_UNIT: moment.DurationInputArg2;
-    /**
      * 照会印刷待機時間
      */
     INQUIRY_PRINT_WAIT_TIME: string;
@@ -254,8 +246,6 @@ const defaultEnvironment: IEnvironment = {
     PURCHASE_WARNING: false,
     INQUIRY_QRCODE: false,
     INQUIRY_PRINT: true,
-    INQUIRY_PRINT_EXPIRED_VALUE: '0',
-    INQUIRY_PRINT_EXPIRED_UNIT: 'hour',
     INQUIRY_PRINT_WAIT_TIME: '600000',
     INQUIRY_ORDER_DATE_FROM_VALUE: '-3',
     INQUIRY_ORDER_DATE_FROM_UNIT: 'month',

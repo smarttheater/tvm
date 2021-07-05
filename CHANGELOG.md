@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.1.0 - 2021-07-05
+
+### Added
+
+-   上映日当日以外での印刷時に警告表示
+
 ## 2.0.0 - 2021-06-29
 
 ### Changed

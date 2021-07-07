@@ -17,16 +17,7 @@
                             [class]="payment.paymentAccepted.paymentMethodType"
                             (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
                             <div class="d-flex align-items-center">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === customPaymentMethodType.Cash"
-                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/cash.svg" alt="">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === paymentMethodType.CreditCard"
-                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/creditcard.svg"
-                                    alt="">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === customPaymentMethodType.EMoney"
-                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/eMoney.svg"
-                                    alt="">
-                                <img *ngIf="payment.paymentAccepted.paymentMethodType === customPaymentMethodType.Code"
-                                    width="50" class="mr-3" src="/default/images/purchase/payment/icon/code.svg" alt="">
+                                <img *ngIf="payment.image" width="50" class="mr-3" [src]="payment.image" alt="">
                                 <p class="text-large">{{ payment.categoryCode?.name | changeLanguage }}</p>
                             </div>
                         </button>

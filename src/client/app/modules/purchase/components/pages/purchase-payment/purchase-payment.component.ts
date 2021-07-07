@@ -28,6 +28,7 @@ export class PurchasePaymentComponent implements OnInit {
     public payments: {
         paymentAccepted: factory.chevre.seller.IPaymentAccepted;
         categoryCode: factory.chevre.categoryCode.ICategoryCode;
+        image?: string;
     }[];
     public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
@@ -50,6 +51,8 @@ export class PurchasePaymentComponent implements OnInit {
         this.amount = 0;
         this.payments = [];
         try {
+            const { cashchanger, payment } =
+                await this.actionService.user.getData();
             const { authorizeSeatReservations, seller } =
                 await this.actionService.purchase.getData();
             if (seller === undefined || seller.paymentAccepted === undefined) {
@@ -60,14 +63,18 @@ export class PurchasePaymentComponent implements OnInit {
             );
             const paymentAccepted = seller.paymentAccepted.filter((p) => {
                 return (
-                    p.paymentMethodType ===
-                        factory.chevre.paymentMethodType.CreditCard ||
-                    p.paymentMethodType ===
-                        Models.Purchase.Payment.PaymentMethodType.Cash ||
-                    p.paymentMethodType ===
-                        Models.Purchase.Payment.PaymentMethodType.EMoney ||
-                    p.paymentMethodType ===
-                        Models.Purchase.Payment.PaymentMethodType.Code
+                    (p.paymentMethodType ===
+                        Models.Purchase.Payment.PaymentMethodType.Cash &&
+                        cashchanger) ||
+                    (p.paymentMethodType ===
+                        factory.chevre.paymentMethodType.CreditCard &&
+                        payment) ||
+                    (p.paymentMethodType ===
+                        Models.Purchase.Payment.PaymentMethodType.EMoney &&
+                        payment) ||
+                    (p.paymentMethodType ===
+                        Models.Purchase.Payment.PaymentMethodType.Code &&
+                        payment)
                 );
             });
             const categoryCodePayment =
@@ -83,9 +90,31 @@ export class PurchasePaymentComponent implements OnInit {
                 if (categoryCode === undefined) {
                     return;
                 }
+                const imageTable = [
+                    {
+                        paymentMethodType: this.customPaymentMethodType.Cash,
+                        image: '/default/images/purchase/payment/icon/cash.svg',
+                    },
+                    {
+                        paymentMethodType: this.paymentMethodType.CreditCard,
+                        image: '/default/images/purchase/payment/icon/creditcard.svg',
+                    },
+                    {
+                        paymentMethodType: this.customPaymentMethodType.EMoney,
+                        image: '/default/images/purchase/payment/icon/eMoney.svg',
+                    },
+                    {
+                        paymentMethodType: this.customPaymentMethodType.Code,
+                        image: '/default/images/purchase/payment/icon/code.svg',
+                    },
+                ];
+
                 this.payments.push({
                     paymentAccepted: p,
                     categoryCode,
+                    image: imageTable.find(
+                        (i) => i.paymentMethodType === p.paymentMethodType
+                    )?.image,
                 });
             });
         } catch (error) {

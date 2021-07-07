@@ -33,8 +33,17 @@
                         {{ 'setting.application.applicationType.option.printer' | translate }}
                     </option>
                 </select>
-                <input *ngIf="key === 'applicationPassword'" type="password" class="form-control"
-                    [formControlName]="key">
+                <ng-container *ngIf="key === 'applicationPassword'">
+                    <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
+                        [inputValue]="formGroup.controls.applicationPassword.value"
+                        (change)="formGroup.controls.applicationPassword.setValue($event)">
+                        <input type="password" class="form-control" [formControlName]="key" readonly>
+                    </app-numeric-keypad>
+                    <input *ngIf="!environment.INPUT_KEYPAD" type="password" class="form-control"
+                        [formControlName]="key">
+                </ng-container>
+
+
             </div>
         </div>
     </ng-container>

@@ -3,13 +3,18 @@
         <div class="mb-3 text-large text-center">{{ title }}</div>
         <p class="mb-3 text-md-center" [innerHTML]="body"></p>
         <div *ngIf="code" class="mb-3 text-md-center">
-            <input type="text" class="form-control w-75 mx-auto" name="code" id="code" [(ngModel)]="input.code">
+            <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string" [inputValue]="input.code"
+                (change)="input.code = $event">
+                <input type="text" class="form-control mx-auto" name="code" [(ngModel)]="input.code" readonly>
+            </app-numeric-keypad>
+            <input *ngIf="!environment.INPUT_KEYPAD" type="text" class="form-control mx-auto" name="code"
+                [(ngModel)]="input.code">
         </div>
     </div>
     <div class="buttons mx-auto text-center">
         <button type="button" [disabled]="code && code !== input.code" class="btn btn-primary btn-block py-3 mb-3"
             (click)="close()">{{ 'common.yes' | translate }}</button>
-        <button type="button" class="btn btn-outline-primary btn-block py-3"
-            (click)="modal.hide()">{{ 'common.no' | translate }}</button>
+        <button type="button" class="btn btn-outline-primary btn-block py-3" (click)="modal.hide()">{{ 'common.no' |
+            translate }}</button>
     </div>
 </div>

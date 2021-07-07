@@ -147,6 +147,9 @@
             },
             "connect": "connect",
             "endDeposit": "Return deposit",
+            "readCounts": "Counting",
+            "collectAll": "Full collection",
+            "collectPart": "Leftover collection",
             "starBluetoothAddress": "localhost: 8001",
             "printType": {
                 "none": "do not print",
@@ -164,6 +167,9 @@
                     "tvm": "Ticket-vending machine",
                     "printer": "Ticketing machine"
                 }
+            },
+            "applicationPassword": {
+                "label": "password"
             }
         },
         "unselected": "unselected",
@@ -176,6 +182,13 @@
             "validation": "Incorrect input information.",
             "success": "The settings have been saved.",
             "print": "Printing failed"
+        },
+        "confirm": {
+            "collect": "Are you sure you want to perform the recovery?"
         }
+    },
+    "admin": {
+        "title": "Administrator function",
+        "read": "Please enter your password."
     }
 }

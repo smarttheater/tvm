@@ -34,10 +34,21 @@
                 <p *ngIf="formGroup.controls.cashchanger.errors?.required" class="text-danger">
                     {{ 'form.validation.required' | translate }}</p>
             </div>
-            <button type="button" class="btn btn-primary mt-2 mr-2" (click)="cashchanger.emit('connect')">{{
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('connect')">{{
                 'setting.device.connect' | translate }}</button>
-            <button type="button" class="btn btn-primary mt-2" (click)="cashchanger.emit('endDeposit')">{{
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('endDeposit')">{{
                 'setting.device.endDeposit' | translate }}</button>
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('readCounts')">{{
+                'setting.device.readCounts' | translate }}</button>
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('collectAll')">{{
+                'setting.device.collectAll' | translate }}</button>
+            <button type="button" class="btn btn-primary mt-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('collectPart')">{{
+                'setting.device.collectPart' | translate }}</button>
         </div>
     </div>
     <div class="form-group row">
@@ -48,7 +59,7 @@
                 <p *ngIf="formGroup.controls.payment.errors?.required" class="text-danger">
                     {{ 'form.validation.required' | translate }}</p>
             </div>
-            <button type="button" class="btn btn-primary mt-2" (click)="payment.emit()">{{
+            <button type="button" class="btn btn-primary mt-2" [disabled]="isConnected" (click)="payment.emit()">{{
                 'setting.device.connect' | translate }}</button>
         </div>
     </div>

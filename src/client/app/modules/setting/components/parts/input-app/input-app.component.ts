@@ -27,6 +27,7 @@ export class InputAppComponent implements OnInit, OnDestroy {
         theater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
         pos?: factory.chevre.place.movieTheater.IPOS;
         applicationType?: Models.Util.Application.ApplicationType;
+        applicationPassword?: string;
     };
     @Input()
     public theaters: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom[];
@@ -37,9 +38,10 @@ export class InputAppComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.posList = [];
         this.formGroup = this.createForm();
-        const { theater, pos, applicationType } = this.data;
+        const { theater, pos, applicationType, applicationPassword } =
+            this.data;
         if (theater !== undefined) {
-            this.formGroup.controls.theaterBranchCode.setValue(theater.id);
+            this.formGroup.controls.theaterId.setValue(theater.id);
             this.changeTheater();
         }
         if (pos !== undefined) {
@@ -47,6 +49,11 @@ export class InputAppComponent implements OnInit, OnDestroy {
         }
         if (applicationType !== undefined) {
             this.formGroup.controls.applicationType.setValue(applicationType);
+        }
+        if (applicationPassword !== undefined) {
+            this.formGroup.controls.applicationPassword.setValue(
+                applicationPassword
+            );
         }
         this.valueChanges.emit(this.formGroup);
         this.subscription = this.formGroup.valueChanges.subscribe(() => {
@@ -66,9 +73,10 @@ export class InputAppComponent implements OnInit, OnDestroy {
      */
     private createForm() {
         const formGroup = this.formBuilder.group({
-            theaterBranchCode: ['', [Validators.required]],
+            theaterId: ['', [Validators.required]],
             posId: [''],
             applicationType: [''],
+            applicationPassword: [''],
         });
 
         return formGroup;
@@ -78,7 +86,7 @@ export class InputAppComponent implements OnInit, OnDestroy {
      * 必須判定
      */
     public isRequired(key: String) {
-        if (key === 'theaterBranchCode') {
+        if (key === 'theaterId') {
             return true;
         }
         return (
@@ -113,12 +121,9 @@ export class InputAppComponent implements OnInit, OnDestroy {
 
     public changeTheater() {
         this.formGroup.controls.posId.setValue('');
-        const theaterBranchCode =
-            this.formGroup.controls.theaterBranchCode.value;
-        const findResult = this.theaters.find(
-            (t) => t.id === theaterBranchCode
-        );
-        if (theaterBranchCode === '' || findResult === undefined) {
+        const theaterId = this.formGroup.controls.theaterId.value;
+        const findResult = this.theaters.find((t) => t.id === theaterId);
+        if (theaterId === '' || findResult === undefined) {
             this.posList = [];
             return;
         }

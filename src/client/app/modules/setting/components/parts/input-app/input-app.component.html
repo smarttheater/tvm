@@ -3,11 +3,11 @@
         <div *ngIf="!(key === 'posId' && posList.length === 0)" class="form-group row align-items-center">
             <div class="col-4 py-2 text-right">
                 <div class="d-inline-flex align-items-center">
-                    <p *ngIf="key !== 'applicationType'">
+                    <p *ngIf="!(key === 'applicationType' || key === 'applicationPassword')">
                         {{ 'form.label.' + key | translate }}
                     </p>
-                    <p *ngIf="key === 'applicationType'">
-                        {{ 'setting.application.applicationType.label' | translate }}
+                    <p *ngIf="key === 'applicationType' || key === 'applicationPassword'">
+                        {{ 'setting.application.' + key + '.label' | translate }}
                     </p>
                     <p *ngIf="isRequired(key)" class="badge badge-danger ml-2">{{ 'form.required' |
                         translate }}
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col-8">
-                <select *ngIf="key === 'theaterBranchCode'" class="form-control" [formControlName]="key"
+                <select *ngIf="key === 'theaterId'" class="form-control" [formControlName]="key"
                     (change)="changeTheater()">
                     <option value="">{{ 'setting.unselected' | translate }}</option>
                     <option *ngFor="let theater of theaters" [value]="theater.id">
@@ -33,6 +33,8 @@
                         {{ 'setting.application.applicationType.option.printer' | translate }}
                     </option>
                 </select>
+                <input *ngIf="key === 'applicationPassword'" type="password" class="form-control"
+                    [formControlName]="key">
             </div>
         </div>
     </ng-container>

@@ -45,8 +45,45 @@ enum DispenseStatus {
     TIMEOUT_ERROR = 'TIMEOUT_ERROR',
 }
 
+interface ICashcount {
+    jpy1?: string;
+    jpy5?: string;
+    jpy10?: string;
+    jpy50?: string;
+    jpy100?: string;
+    jpy500?: string;
+    jpy1000?: string;
+    jpy2000?: string;
+    jpy5000?: string;
+    jpy10000?: string;
+    status: CashcountStatus;
+}
+
+enum CashcountStatus {
+    SUCCESS = 'SUCCESS',
+    DISCREPANCY = 'DISCREPANCY',
+    DEVICE_ERROR = 'DEVICE_ERROR',
+    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
+}
+
+interface ICollect {
+    status: CollectStatus;
+}
+
+enum CollectStatus {
+    SUCCESS = 'SUCCESS',
+    BUSY = 'BUSY',
+    SHORTAGE = 'SHORTAGE',
+    CASH_IN_TRAY_ERROR = 'CASH_IN_TRAY_ERROR',
+    COMMAND_ERROR = 'COMMAND_ERROR',
+    DEVICE_ERROR = 'DEVICE_ERROR',
+    SYSTEM_ERROR = 'SYSTEM_ERROR',
+    ERROR_NOT_SUPPORTED = 'ERROR_NOT_SUPPORTED',
+    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
+}
+
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class EpsonCaschCangerService {
     constructor(private utilService: UtilService) {
@@ -60,10 +97,7 @@ export class EpsonCaschCangerService {
     private deposit?: IDeposit;
     private ipAddress?: string;
 
-    public async init(params: {
-        ipAddress: string;
-        timeout?: number;
-    }) {
+    public async init(params: { ipAddress: string; timeout?: number }) {
         try {
             this.ipAddress = params.ipAddress;
             await this.connect();
@@ -77,7 +111,7 @@ export class EpsonCaschCangerService {
     /**
      * 接続確認
      */
-    public isConnected() {
+    public isConnected(): boolean {
         return this.ePOSDevice !== undefined && this.ePOSDevice.isConnected();
     }
 
@@ -94,7 +128,7 @@ export class EpsonCaschCangerService {
             }
             const url = new URL(`${location.protocol}${ipAddress}`);
             this.ePOSDevice.connect(url.hostname, url.port, (data: string) => {
-                console.warn('connect', data);
+                // console.warn('connect', data);
                 if (data === 'OK' || data === 'SSL_CONNECT_OK') {
                     resolve(data);
                     return;
@@ -110,28 +144,34 @@ export class EpsonCaschCangerService {
     public async disconnect() {
         const disconnect = async () => {
             const process = async () => {
-                return new Promise<{ status: 'TIMEOUT_ERROR' | 'SUCCESS' }>((resolve) => {
-                    const timer = setTimeout(() => {
-                        resolve({ status: 'TIMEOUT_ERROR' });
-                    }, EpsonCaschCangerService.METHOD_TIMEOUT);
-                    this.ePOSDevice.ondisconnect = () => {
-                        clearTimeout(timer);
-                        resolve({ status: 'SUCCESS' });
-                    };
-                    this.ePOSDevice.disconnect();
-                });
+                return new Promise<{ status: 'TIMEOUT_ERROR' | 'SUCCESS' }>(
+                    (resolve) => {
+                        const timer = setTimeout(() => {
+                            resolve({ status: 'TIMEOUT_ERROR' });
+                        }, EpsonCaschCangerService.METHOD_TIMEOUT);
+                        this.ePOSDevice.ondisconnect = () => {
+                            clearTimeout(timer);
+                            resolve({ status: 'SUCCESS' });
+                        };
+                        this.ePOSDevice.disconnect();
+                    }
+                );
             };
             const limit = EpsonCaschCangerService.LIMIT_COUNT;
             let count = 0;
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('disconnect', processResult);
+                // console.warn('disconnect', processResult);
                 if (limit < count) {
-                    throw new Error(`disconnect status error: ${processResult.status}`);
+                    throw new Error(
+                        `disconnect status error: ${processResult.status}`
+                    );
                 }
                 if (processResult.status !== 'SUCCESS') {
-                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
                     count++;
                     continue;
                 }
@@ -150,11 +190,11 @@ export class EpsonCaschCangerService {
     public async reconnect() {
         return new Promise<void>((resolve, reject) => {
             this.ePOSDevice.onreconnect = () => {
-                console.warn('reconnect: onreconnect');
+                // console.warn('reconnect: onreconnect');
                 resolve();
             };
             this.ePOSDevice.ondisconnect = () => {
-                console.warn('reconnect: ondisconnect');
+                // console.warn('reconnect: ondisconnect');
                 reject(new Error('reconnect fail'));
             };
         });
@@ -165,17 +205,21 @@ export class EpsonCaschCangerService {
      */
     private async createDevice(params?: {
         deviceId: string;
-        options: { crypto: boolean; buffer: boolean; }
+        options: { crypto: boolean; buffer: boolean };
     }) {
-        return new Promise<{ data: any; code: string; }>((resolve, reject) => {
-            const deviceId = (params === undefined) ? 'local_cashchanger' : params.deviceId;
-            const options = (params === undefined) ? { crypto: (location.protocol === 'https:'), buffer: false } : params.options;
+        return new Promise<{ data: any; code: string }>((resolve, reject) => {
+            const deviceId =
+                params === undefined ? 'local_cashchanger' : params.deviceId;
+            const options =
+                params === undefined
+                    ? { crypto: location.protocol === 'https:', buffer: false }
+                    : params.options;
             this.ePOSDevice.createDevice(
                 deviceId,
                 this.ePOSDevice.DEVICE_TYPE_CASH_CHANGER,
                 options,
                 (data: any, code: string) => {
-                    console.warn('createDevice', code);
+                    // console.warn('createDevice', code);
                     if (code === 'OK') {
                         resolve({ data, code });
                         return;
@@ -190,18 +234,15 @@ export class EpsonCaschCangerService {
      * デバイス削除
      */
     private async deleteDevice() {
-        return new Promise<{ code: string; }>((resolve, reject) => {
-            this.ePOSDevice.deleteDevice(
-                this.device,
-                (code: string) => {
-                    console.warn('deleteDevice', code);
-                    if (code === 'OK' || code === 'DEVICE_NOT_OPEN') {
-                        resolve({ code });
-                        return;
-                    }
-                    reject(new Error(code));
+        return new Promise<{ code: string }>((resolve, reject) => {
+            this.ePOSDevice.deleteDevice(this.device, (code: string) => {
+                // console.warn('deleteDevice', code);
+                if (code === 'OK' || code === 'DEVICE_NOT_OPEN') {
+                    resolve({ code });
+                    return;
                 }
-            );
+                reject(new Error(code));
+            });
         });
     }
 
@@ -235,13 +276,19 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('beginDeposit', processResult);
-                if (limit < count
-                    || processResult.status === DepositStatus.CASH_IN_TRAY_ERROR) {
-                    throw new Error(`beginDeposit status error: ${processResult.status}`);
+                // console.warn('beginDeposit', processResult);
+                if (
+                    limit < count ||
+                    processResult.status === DepositStatus.CASH_IN_TRAY_ERROR
+                ) {
+                    throw new Error(
+                        `beginDeposit status error: ${processResult.status}`
+                    );
                 }
                 if (processResult.status !== DepositStatus.BUSY) {
-                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
                     count++;
                     continue;
                 }
@@ -257,7 +304,7 @@ export class EpsonCaschCangerService {
             throw error;
         }
         this.device.ondeposit = (data: IDeposit) => {
-            console.warn('deposit', data);
+            // console.warn('deposit', data);
             // 入金処理
             this.deposit = data;
         };
@@ -269,9 +316,10 @@ export class EpsonCaschCangerService {
     public async endDeposit(params: {
         endDepositType: 'DEPOSIT_REPAY' | 'DEPOSIT_NOCHANGE';
     }) {
-        const endDepositType = (params.endDepositType === 'DEPOSIT_REPAY')
-            ? this.device.DEPOSIT_REPAY
-            : this.device.DEPOSIT_NOCHANGE;
+        const endDepositType =
+            params.endDepositType === 'DEPOSIT_REPAY'
+                ? this.device.DEPOSIT_REPAY
+                : this.device.DEPOSIT_NOCHANGE;
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
@@ -297,13 +345,19 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('pauseDeposit', processResult);
-                if (limit < count
-                    || processResult.status === DepositStatus.DEVICE_ERROR) {
-                    throw new Error(`pauseDeposit status error: ${processResult.status}`);
+                // console.warn('pauseDeposit', processResult);
+                if (
+                    limit < count ||
+                    processResult.status === DepositStatus.DEVICE_ERROR
+                ) {
+                    throw new Error(
+                        `pauseDeposit status error: ${processResult.status}`
+                    );
                 }
                 if (processResult.status !== DepositStatus.PAUSE) {
-                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
                     count++;
                     continue;
                 }
@@ -332,12 +386,16 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('restartDeposit', processResult);
+                // console.warn('restartDeposit', processResult);
                 if (limit < count) {
-                    throw new Error(`restartDeposit status error: ${processResult.status}`);
+                    throw new Error(
+                        `restartDeposit status error: ${processResult.status}`
+                    );
                 }
                 if (processResult.status !== DepositStatus.BUSY) {
-                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
                     count++;
                     continue;
                 }
@@ -366,12 +424,16 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('endDeposit', processResult);
+                // console.warn('endDeposit', processResult);
                 if (limit < count) {
-                    throw new Error(`endDeposit status error: ${processResult.status}`);
+                    throw new Error(
+                        `endDeposit status error: ${processResult.status}`
+                    );
                 }
                 if (processResult.status !== DepositStatus.END) {
-                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
                     count++;
                     continue;
                 }
@@ -397,9 +459,7 @@ export class EpsonCaschCangerService {
     /**
      * 出金
      */
-    public async dispenseChange(params: {
-        change: number;
-    }) {
+    public async dispenseChange(params: { change: number }) {
         if (this.device === undefined) {
             throw new Error('device undefined');
         }
@@ -421,12 +481,16 @@ export class EpsonCaschCangerService {
             let roop = true;
             while (roop) {
                 const processResult = await process();
-                console.warn('dispenseChange', processResult);
+                // console.warn('dispenseChange', processResult);
                 if (limit < count) {
-                    throw new Error(`dispenseChange status error: ${processResult.status}`);
+                    throw new Error(
+                        `dispenseChange status error: ${processResult.status}`
+                    );
                 }
                 if (processResult.status !== DispenseStatus.SUCCESS) {
-                    await Functions.Util.sleep(EpsonCaschCangerService.WITE_TIME);
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
                     count++;
                     continue;
                 }
@@ -446,8 +510,7 @@ export class EpsonCaschCangerService {
      * 入金情報取得
      */
     public getDeposit() {
-        if (this.deposit === undefined
-            || this.deposit.amount === undefined) {
+        if (this.deposit === undefined || this.deposit.amount === undefined) {
             return {
                 amount: 0,
                 jpy1: 0,
@@ -460,7 +523,7 @@ export class EpsonCaschCangerService {
                 jpy2000: 0,
                 jpy5000: 0,
                 jpy10000: 0,
-                status: DepositStatus.END
+                status: DepositStatus.END,
             };
         }
         return {
@@ -475,9 +538,111 @@ export class EpsonCaschCangerService {
             jpy2000: Number(this.deposit.jpy2000),
             jpy5000: Number(this.deposit.jpy5000),
             jpy10000: Number(this.deposit.jpy10000),
-            status: this.deposit.status
+            status: this.deposit.status,
         };
     }
 
+    /**
+     * 計数
+     */
+    public async readCounts() {
+        if (this.device === undefined) {
+            throw new Error('device undefined');
+        }
 
+        const readCashCounts = async () => {
+            if (!this.isConnected()) {
+                await this.reconnect();
+            }
+            const process = async () => {
+                return new Promise<ICashcount>((resolve) => {
+                    this.device.oncashcounts = (data: ICashcount) => {
+                        resolve(data);
+                    };
+                    this.device.readCashCounts();
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            let processResult: ICashcount = await process();
+            while (roop) {
+                // console.warn('oncashcounts', processResult);
+                if (limit < count) {
+                    throw new Error(
+                        `oncashcounts status error: ${processResult.status}`
+                    );
+                }
+                if (processResult.status !== CashcountStatus.SUCCESS) {
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
+                    count++;
+                    processResult = await process();
+                    continue;
+                }
+                roop = false;
+            }
+            return processResult;
+        };
+        try {
+            return await readCashCounts();
+        } catch (error) {
+            this.disconnect();
+            this.utilService.setError(error);
+            throw error;
+        }
+    }
+
+    /**
+     * 回収
+     */
+    public async collect(params: { collectType: 'ALL_CASH' | 'PART_OF_CASH' }) {
+        if (this.device === undefined) {
+            throw new Error('device undefined');
+        }
+        const collect = async () => {
+            if (!this.isConnected()) {
+                await this.reconnect();
+            }
+            const process = async () => {
+                return new Promise<ICollect>((resolve) => {
+                    this.device.oncollect = (data: ICollect) => {
+                        resolve(data);
+                    };
+                    this.device.collectCash(params.collectType);
+                });
+            };
+            const limit = EpsonCaschCangerService.LIMIT_COUNT;
+            let count = 0;
+            let roop = true;
+            while (roop) {
+                const processResult = await process();
+                // console.warn('collect', processResult);
+                if (limit < count) {
+                    throw new Error(
+                        `collect status error: ${processResult.status}`
+                    );
+                }
+                if (
+                    processResult.status !== CollectStatus.SUCCESS &&
+                    processResult.status !== CollectStatus.SHORTAGE
+                ) {
+                    await Functions.Util.sleep(
+                        EpsonCaschCangerService.WITE_TIME
+                    );
+                    count++;
+                    continue;
+                }
+                roop = false;
+            }
+        };
+        try {
+            await collect();
+        } catch (error) {
+            this.disconnect();
+            this.utilService.setError(error);
+            throw error;
+        }
+    }
 }

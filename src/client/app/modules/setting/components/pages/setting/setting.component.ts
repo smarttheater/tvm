@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
@@ -16,13 +17,14 @@ import {
     UtilService,
 } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
+import { CaschcangerCountModalComponent } from '../../../../shared/components/parts/caschcanger/count-modal/count-modal.component';
 
 @Component({
     selector: 'app-setting',
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss'],
 })
-export class SettingComponent implements OnInit, AfterViewInit {
+export class SettingComponent implements OnInit {
     public user: Observable<reducers.IUserState>;
     public master: Observable<reducers.IMasterState>;
     public error: Observable<string | null>;
@@ -35,6 +37,7 @@ export class SettingComponent implements OnInit, AfterViewInit {
             theater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
             pos?: factory.chevre.place.movieTheater.IPOS;
             applicationType?: Models.Util.Application.ApplicationType;
+            applicationPassword?: string;
         };
         device: {
             printerType?: Models.Util.Printer.ConnectionType;
@@ -57,7 +60,8 @@ export class SettingComponent implements OnInit, AfterViewInit {
         private translate: TranslateService,
         private router: Router,
         private paymentService: PaymentService,
-        private cinerinoService: CinerinoService
+        private cinerinoService: CinerinoService,
+        private modal: BsModalService
     ) {}
 
     /**
@@ -75,13 +79,14 @@ export class SettingComponent implements OnInit, AfterViewInit {
                 theater,
                 pos,
                 applicationType,
+                applicationPassword,
                 printer,
                 cashchanger,
                 payment,
                 customerContact,
             } = await this.actionService.user.getData();
             this.inputData = {
-                app: { theater, pos, applicationType },
+                app: { theater, pos, applicationType, applicationPassword },
                 device: {
                     printerType: printer?.connectionType,
                     printerIpAddress: printer?.ipAddress,
@@ -94,17 +99,16 @@ export class SettingComponent implements OnInit, AfterViewInit {
             console.error(error);
             this.router.navigate(['/error']);
         }
-    }
-
-    public async ngAfterViewInit() {
         try {
-            const ipAddress = this.deviceForm.controls.cashchanger.value;
-            if (ipAddress !== '') {
-                await this.epsonEPOSService.cashchanger.init({ ipAddress });
+            const { cashchanger } = await this.actionService.user.getData();
+            if (cashchanger !== undefined) {
+                await this.epsonEPOSService.cashchanger.init({
+                    ipAddress: cashchanger,
+                });
                 await this.epsonEPOSService.cashchanger.endDeposit({
                     endDepositType: 'DEPOSIT_REPAY',
                 });
-                this.epsonEPOSService.cashchanger.disconnect();
+                await this.epsonEPOSService.cashchanger.disconnect();
             }
         } catch (error) {
             console.error(error);
@@ -136,12 +140,9 @@ export class SettingComponent implements OnInit, AfterViewInit {
             return;
         }
         try {
-            const theaterBranchCode =
-                this.appForm.controls.theaterBranchCode.value;
+            const theaterId = this.appForm.controls.theaterId.value;
             const posId = this.appForm.controls.posId.value;
-            const theater = this.theaters.find(
-                (t) => t.branchCode === theaterBranchCode
-            );
+            const theater = this.theaters.find((t) => t.id === theaterId);
             if (theater === undefined) {
                 throw new Error('theater not found');
             }
@@ -197,6 +198,8 @@ export class SettingComponent implements OnInit, AfterViewInit {
                         ? undefined
                         : this.deviceForm.controls.payment.value,
                 applicationType: this.appForm.controls.applicationType.value,
+                applicationPassword:
+                    this.appForm.controls.applicationPassword.value,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
@@ -239,7 +242,14 @@ export class SettingComponent implements OnInit, AfterViewInit {
     /**
      * 釣銭機連携
      */
-    public async cashchanger(method: 'endDeposit' | 'connect') {
+    public async cashchanger(
+        method:
+            | 'endDeposit'
+            | 'connect'
+            | 'readCounts'
+            | 'collectAll'
+            | 'collectPart'
+    ) {
         try {
             const ipAddress = this.deviceForm.controls.cashchanger.value;
             if (method === 'connect') {
@@ -257,15 +267,59 @@ export class SettingComponent implements OnInit, AfterViewInit {
                 });
                 await this.epsonEPOSService.cashchanger.disconnect();
             }
+            if (method === 'readCounts') {
+                await this.epsonEPOSService.cashchanger.init({ ipAddress });
+                const counts =
+                    await this.epsonEPOSService.cashchanger.readCounts();
+                await this.epsonEPOSService.cashchanger.disconnect();
+                console.log('counts', counts);
+                this.modal.show(CaschcangerCountModalComponent, {
+                    initialState: {
+                        counts,
+                    },
+                    class: 'modal-dialog-centered modal-lg',
+                });
+            }
+            if (method === 'collectAll' || method === 'collectPart') {
+                this.utilService.openConfirm({
+                    title: this.translate.instant('common.confirm'),
+                    body: this.translate.instant('setting.confirm.collect'),
+                    cb: async () => {
+                        try {
+                            const collectType =
+                                method === 'collectAll'
+                                    ? 'ALL_CASH'
+                                    : 'PART_OF_CASH';
+                            await this.epsonEPOSService.cashchanger.init({
+                                ipAddress,
+                            });
+                            await this.epsonEPOSService.cashchanger.collect({
+                                collectType,
+                            });
+                            await this.epsonEPOSService.cashchanger.disconnect();
+                        } catch (error) {
+                            console.error(error);
+                            this.utilService.openAlert({
+                                title: this.translate.instant('common.error'),
+                                body: '',
+                                error:
+                                    JSON.stringify(error) === '{}'
+                                        ? error
+                                        : JSON.stringify(error),
+                            });
+                        }
+                    },
+                });
+            }
         } catch (error) {
             console.error(error);
-            const message = error.message === undefined ? error : error.message;
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
-                body: `
-                <div class="p-3 bg-light-gray select-text">
-                    <code>${message}</code>
-                </div>`,
+                body: '',
+                error:
+                    JSON.stringify(error) === '{}'
+                        ? error
+                        : JSON.stringify(error),
             });
         }
     }

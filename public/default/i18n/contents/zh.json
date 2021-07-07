@@ -1,7 +1,7 @@
 {
     "form": {
         "label": {
-            "theaterBranchCode": "设施",
+            "theaterId": "设施",
             "posId": "POS",
             "printerType": "打印机",
             "printerIpAddress": "打印机 IP 地址",

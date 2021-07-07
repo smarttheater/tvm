@@ -1,11 +1,21 @@
-<div class="contents-width mx-auto px-3 py-5">
-    <div class="mb-4">
-        <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'notfound.title' | translate }}</h2>
-        <p class="mb-4 text-center" [innerHTML]="'notfound.read' | translate"></p>
+<app-header></app-header>
+<app-page-title title="{{ 'notfound.title' | translate }}"></app-page-title>
+<div class="contents">
+    <div class="container h-100 px-3 pb-3">
+        <div class="row h-100">
+            <div class="col-3 h-100">
+            </div>
+            <div class="col-6">
+                <p class="mb-4 text-center" [innerHTML]="'notfound.read' | translate"></p>
 
-    </div>
-
-    <div class="buttons mx-auto text-center">
-        <button type="button" class="btn btn-outline-primary btn-block py-3" routerLink="/">{{ 'notfound.prev' | translate }}</button>
+                <div class="buttons mx-auto text-center">
+                    <button type="button" class="btn btn-outline-primary btn-block py-3" routerLink="/">
+                        {{ 'notfound.prev' | translate }}
+                    </button>
+                </div>
+            </div>
+            <div class="col-3">
+            </div>
+        </div>
     </div>
 </div>

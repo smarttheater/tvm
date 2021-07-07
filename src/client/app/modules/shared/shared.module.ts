@@ -9,6 +9,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { BaseComponent } from './components/pages/base/base.component';
 import { AlertModalComponent } from './components/parts/alert-modal/alert-modal.component';
+import { CaschcangerCountModalComponent } from './components/parts/caschcanger/count-modal/count-modal.component';
 import { ConfirmModalComponent } from './components/parts/confirm-modal/confirm-modal.component';
 import { ContentsComponent } from './components/parts/contents/contents.component';
 import { CurrentDateTimeComponent } from './components/parts/current-date-time/current-date-time.component';
@@ -35,68 +36,68 @@ import { FormatDatePipe } from './pipes/format-date.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format.pipe';
 
 const components = [
-  BaseComponent,
-  ContentsComponent,
-  FooterComponent,
-  HeaderComponent,
-  LoadingComponent,
-  ScreenComponent,
-  ItemListComponent,
-  CheckboxComponent,
-  CurrentDateTimeComponent,
-  PrintResultComponent,
-  QuantityInputComponent,
-  LanguageComponent,
+    BaseComponent,
+    ContentsComponent,
+    FooterComponent,
+    HeaderComponent,
+    LoadingComponent,
+    ScreenComponent,
+    ItemListComponent,
+    CheckboxComponent,
+    CurrentDateTimeComponent,
+    PrintResultComponent,
+    QuantityInputComponent,
+    LanguageComponent,
+    PageTitleComponent,
 ];
 
 const entryComponents = [
-  AlertModalComponent,
-  ConfirmModalComponent,
-  StaticModalComponent,
-  MovieTicketCheckModalComponent,
-  NumericKeypadComponent,
-  PurchaseSeatTicketModalComponent,
-  PurchaseEventTicketModalComponent,
-  QRCodeReaderModalComponent,
-  QRCodeViewerModalComponent,
-  ReservationDetailModalComponent,
-  PageTitleComponent
+    AlertModalComponent,
+    ConfirmModalComponent,
+    StaticModalComponent,
+    MovieTicketCheckModalComponent,
+    NumericKeypadComponent,
+    PurchaseSeatTicketModalComponent,
+    PurchaseEventTicketModalComponent,
+    QRCodeReaderModalComponent,
+    QRCodeViewerModalComponent,
+    ReservationDetailModalComponent,
+    CaschcangerCountModalComponent,
 ];
 
-
 @NgModule({
-  declarations: [
-    ...components,
-    ...entryComponents,
-    LibphonenumberFormatPipe,
-    ChangeLanguagePipe,
-    FormatDatePipe,
-  ],
-  entryComponents,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    FormsModule,
-    TranslateModule,
-    ModalModule,
-    BsDatepickerModule,
-    PaginationModule,
-    NgxIntlTelInputModule,
-  ],
-  exports: [
-    ...components,
-    ...entryComponents,
-    LibphonenumberFormatPipe,
-    ChangeLanguagePipe,
-    FormatDatePipe,
-    ReactiveFormsModule,
-    FormsModule,
-    TranslateModule,
-    ModalModule,
-    BsDatepickerModule,
-    PaginationModule,
-    NgxIntlTelInputModule,
-  ]
+    declarations: [
+        ...components,
+        ...entryComponents,
+        LibphonenumberFormatPipe,
+        ChangeLanguagePipe,
+        FormatDatePipe,
+    ],
+    entryComponents,
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        FormsModule,
+        TranslateModule,
+        ModalModule,
+        BsDatepickerModule,
+        PaginationModule,
+        NgxIntlTelInputModule,
+    ],
+    exports: [
+        ...components,
+        ...entryComponents,
+        LibphonenumberFormatPipe,
+        ChangeLanguagePipe,
+        FormatDatePipe,
+        ReactiveFormsModule,
+        FormsModule,
+        TranslateModule,
+        ModalModule,
+        BsDatepickerModule,
+        PaginationModule,
+        NgxIntlTelInputModule,
+    ],
 })
-export class SharedModule { }
+export class SharedModule {}

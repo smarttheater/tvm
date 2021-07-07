@@ -9,13 +9,14 @@ export const remove = createAction(`${LABEL} remove`);
 export const updateAll = createAction(
     `${LABEL} updateAll`,
     props<{
-        pos?: factory.chevre.place.movieTheater.IPOS;
         theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
-        profile: factory.person.IProfile;
+        pos?: factory.chevre.place.movieTheater.IPOS;
+        applicationType: Models.Util.Application.ApplicationType;
+        applicationPassword?: string;
         printer: Models.Util.Printer.IPrinter;
         cashchanger?: string;
         payment?: string;
-        applicationType: Models.Util.Application.ApplicationType;
+        profile: factory.person.IProfile;
     }>()
 );
 

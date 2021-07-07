@@ -18,8 +18,8 @@
                     {{ 'setting.device.title' | translate }}
                 </p>
                 <app-input-device *ngIf="inputData?.device" [data]="inputData?.device"
-                    (valueChanges)="deviceForm = $event" (print)="print()" (payment)="payment()"
-                    (cashchanger)="cashchanger($event)">
+                    [isConnected]="epsonEPOSService.cashchanger.isConnected()" (valueChanges)="deviceForm = $event"
+                    (print)="print()" (payment)="payment()" (cashchanger)="cashchanger($event)">
                 </app-input-device>
                 <p
                     class="text-large font-weight-bold bg-light-gray border-left border-white-bold border-primary p-3 mb-4">

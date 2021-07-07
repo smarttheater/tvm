@@ -29,10 +29,13 @@ export class InputDeviceComponent implements OnInit, OnDestroy {
         cashchanger?: string;
         payment?: string;
     };
+    @Input() public isConnected: boolean;
     @Output() public valueChanges = new EventEmitter<FormGroup>();
     @Output() public print = new EventEmitter<void>();
     @Output() public payment = new EventEmitter<void>();
-    @Output() public cashchanger = new EventEmitter<'endDeposit' | 'connect'>();
+    @Output() public cashchanger = new EventEmitter<
+        'endDeposit' | 'connect' | 'readCounts' | 'collectAll' | 'collectPart'
+    >();
 
     constructor(
         private formBuilder: FormBuilder,

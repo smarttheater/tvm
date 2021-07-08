@@ -1,0 +1,50 @@
+<form [formGroup]="formGroup">
+    <ng-container *ngFor="let key of getProfileFormKeys()">
+        <div *ngIf="!(key === 'posId' && posList.length === 0)" class="form-group row align-items-center">
+            <div class="col-4 py-2 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <p *ngIf="!(key === 'applicationType' || key === 'applicationPassword')">
+                        {{ 'form.label.' + key | translate }}
+                    </p>
+                    <p *ngIf="key === 'applicationType' || key === 'applicationPassword'">
+                        {{ 'setting.application.' + key + '.label' | translate }}
+                    </p>
+                    <p *ngIf="isRequired(key)" class="badge badge-danger ml-2">{{ 'form.required' |
+                        translate }}
+                    </p>
+                </div>
+            </div>
+            <div class="col-8">
+                <select *ngIf="key === 'theaterId'" class="form-control" [formControlName]="key"
+                    (change)="changeTheater()">
+                    <option value="">{{ 'setting.unselected' | translate }}</option>
+                    <option *ngFor="let theater of theaters" [value]="theater.id">
+                        {{ theater.name | changeLanguage }}</option>
+                </select>
+                <select *ngIf="key === 'posId'" class="form-control" [formControlName]="key">
+                    <option value="">{{ 'setting.unselected' | translate }}</option>
+                    <option *ngFor="let pos of posList" [value]="pos.id">{{ pos.name }}</option>
+                </select>
+                <select *ngIf="key === 'applicationType'" class="form-control" [formControlName]="key">
+                    <option [value]="applicationType.Tvm">
+                        {{ 'setting.application.applicationType.option.tvm' | translate }}
+                    </option>
+                    <option [value]="applicationType.Printer">
+                        {{ 'setting.application.applicationType.option.printer' | translate }}
+                    </option>
+                </select>
+                <ng-container *ngIf="key === 'applicationPassword'">
+                    <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
+                        [inputValue]="formGroup.controls.applicationPassword.value"
+                        (change)="formGroup.controls.applicationPassword.setValue($event)">
+                        <input type="password" class="form-control" [formControlName]="key" readonly>
+                    </app-numeric-keypad>
+                    <input *ngIf="!environment.INPUT_KEYPAD" type="password" class="form-control"
+                        [formControlName]="key">
+                </ng-container>
+
+
+            </div>
+        </div>
+    </ng-container>
+</form>

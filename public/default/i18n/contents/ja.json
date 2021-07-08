@@ -1,7 +1,7 @@
 {
     "form": {
         "label": {
-            "theaterBranchCode": "施設",
+            "theaterId": "施設",
             "posId": "POS",
             "printerType": "プリンター",
             "printerIpAddress": "プリンターIPアドレス",

@@ -1,7 +1,7 @@
 {
     "form": {
         "label": {
-            "theaterBranchCode": "設施",
+            "theaterId": "設施",
             "posId": "POS",
             "printerType": "印表機",
             "printerIpAddress": "印表機 IP 位址",

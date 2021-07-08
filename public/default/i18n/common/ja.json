@@ -145,6 +145,9 @@
             },
             "connect": "接続",
             "endDeposit": "預り金返却",
+            "readCounts": "計数",
+            "collectAll": "全額回収",
+            "collectPart": "残置回収",
             "starBluetoothAddress": "localhost:8001",
             "printType": {
                 "none": "印刷しない",
@@ -162,6 +165,9 @@
                     "tvm": "券売機",
                     "printer": "発券機"
                 }
+            },
+            "applicationPassword": {
+                "label": "パスワード"
             }
         },
         "unselected": "未選択",
@@ -174,6 +180,13 @@
             "validation": "入力情報に誤りがあります。",
             "success": "設定を保存しました。",
             "print": "印刷に失敗しました"
+        },
+        "confirm": {
+            "collect": "回収を実行してよろしいですか？"
         }
+    },
+    "admin": {
+        "title": "管理者機能",
+        "read": "パスワードを入力してください。"
     }
 }

@@ -1,21 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ValidatorFn,
-    Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import {
-    CountryISO,
-    NgxIntlTelInputComponent,
-    SearchCountryField,
-    TooltipLabel,
-} from 'ngx-intl-tel-input';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
@@ -28,7 +17,7 @@ import {
     UtilService,
 } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
-import { LibphonenumberFormatPipe } from '../../../../shared/pipes/libphonenumber-format.pipe';
+import { CaschcangerCountModalComponent } from '../../../../shared/components/parts/caschcanger/count-modal/count-modal.component';
 
 @Component({
     selector: 'app-setting',
@@ -36,26 +25,34 @@ import { LibphonenumberFormatPipe } from '../../../../shared/pipes/libphonenumbe
     styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent implements OnInit {
-    public settingForm: FormGroup;
     public user: Observable<reducers.IUserState>;
     public master: Observable<reducers.IMasterState>;
     public error: Observable<string | null>;
     public isLoading: Observable<boolean>;
     public posList: { id: string; name: string; typeOf: string }[];
-    public printers = Models.Util.Printer.printers;
-    public connectionType = Models.Util.Printer.ConnectionType;
-    public viewType = Models.Util.ViewType;
     public theaters: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom[];
     public environment = getEnvironment();
-    public SearchCountryField = SearchCountryField;
-    public TooltipLabel = TooltipLabel;
-    public CountryISO = CountryISO;
-    public applicationType = Models.Util.Application.ApplicationType;
-    @ViewChild('intlTelInput') private intlTelInput: NgxIntlTelInputComponent;
+    public inputData: {
+        app: {
+            theater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+            pos?: factory.chevre.place.movieTheater.IPOS;
+            applicationType?: Models.Util.Application.ApplicationType;
+            applicationPassword?: string;
+        };
+        device: {
+            printerType?: Models.Util.Printer.ConnectionType;
+            printerIpAddress?: string;
+            cashchanger?: string;
+            payment?: string;
+        };
+        profile?: factory.person.IProfile;
+    };
+    public appForm: FormGroup;
+    public deviceForm: FormGroup;
+    public profileForm: FormGroup;
 
     constructor(
         public epsonEPOSService: EpsonEPOSService,
-        private formBuilder: FormBuilder,
         private store: Store<reducers.IState>,
         private utilService: UtilService,
         private actionService: ActionService,
@@ -63,7 +60,8 @@ export class SettingComponent implements OnInit {
         private translate: TranslateService,
         private router: Router,
         private paymentService: PaymentService,
-        private cinerinoService: CinerinoService
+        private cinerinoService: CinerinoService,
+        private modal: BsModalService
     ) {}
 
     /**
@@ -77,154 +75,64 @@ export class SettingComponent implements OnInit {
         this.theaters = [];
         try {
             this.theaters = await this.masterService.searchMovieTheaters();
-            await this.createSettlingForm();
+            const {
+                theater,
+                pos,
+                applicationType,
+                applicationPassword,
+                printer,
+                cashchanger,
+                payment,
+                customerContact,
+            } = await this.actionService.user.getData();
+            this.inputData = {
+                app: { theater, pos, applicationType, applicationPassword },
+                device: {
+                    printerType: printer?.connectionType,
+                    printerIpAddress: printer?.ipAddress,
+                    cashchanger,
+                    payment,
+                },
+                profile: customerContact,
+            };
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
         }
         try {
-            const ipAddress = this.settingForm.controls.cashchanger.value;
-            if (ipAddress !== '') {
-                await this.epsonEPOSService.cashchanger.init({ ipAddress });
+            const { cashchanger } = await this.actionService.user.getData();
+            if (cashchanger !== undefined) {
+                await this.epsonEPOSService.cashchanger.init({
+                    ipAddress: cashchanger,
+                });
                 await this.epsonEPOSService.cashchanger.endDeposit({
                     endDepositType: 'DEPOSIT_REPAY',
                 });
-                this.epsonEPOSService.cashchanger.disconnect();
+                await this.epsonEPOSService.cashchanger.disconnect();
             }
         } catch (error) {
             console.error(error);
         }
-        setTimeout(() => {
-            if (this.intlTelInput === undefined) {
-                return;
-            }
-            const findResult = this.intlTelInput.allCountries.find(
-                (c) => c.iso2 === CountryISO.Japan
-            );
-            if (findResult === undefined) {
-                return;
-            }
-            findResult.placeHolder = this.translate.instant(
-                'form.placeholder.telephone'
-            );
-        }, 0);
-    }
-
-    /**
-     * フォーム作成
-     */
-    private async createSettlingForm() {
-        const profile = this.environment.PROFILE;
-        this.settingForm = this.formBuilder.group({
-            theaterBranchCode: ['', [Validators.required]],
-            posId: [''],
-            printerType: [Models.Util.Printer.ConnectionType.None],
-            printerIpAddress: [''],
-            cashchanger: [''],
-            payment: [''],
-            applicationType: [Models.Util.Application.ApplicationType.Tvm],
-        });
-        profile.forEach((p) => {
-            const validators: ValidatorFn[] = [];
-            if (p.required !== undefined && p.required) {
-                validators.push(Validators.required);
-            }
-            if (p.maxLength !== undefined) {
-                validators.push(Validators.maxLength(p.maxLength));
-            }
-            if (p.minLength !== undefined) {
-                validators.push(Validators.minLength(p.minLength));
-            }
-            if (p.pattern !== undefined) {
-                validators.push(Validators.pattern(p.pattern));
-            }
-            if (p.key === 'email') {
-                validators.push(Validators.email);
-            }
-            this.settingForm.addControl(
-                p.key,
-                new FormControl(p.value, validators)
-            );
-        });
-        const user = await this.actionService.user.getData();
-        if (user.theater !== undefined) {
-            this.settingForm.controls.theaterBranchCode.setValue(
-                user.theater.branchCode
-            );
-            this.changePosList();
-        }
-        if (user.pos !== undefined) {
-            this.settingForm.controls.posId.setValue(user.pos.id);
-        }
-        const customerContact = user.customerContact;
-        if (customerContact !== undefined) {
-            Object.keys(customerContact).forEach((key) => {
-                const value = (<any>customerContact)[key];
-                if (
-                    value === undefined ||
-                    this.settingForm.controls[key] === undefined
-                ) {
-                    return;
-                }
-                if (key === 'telephone') {
-                    this.settingForm.controls.telephone.setValue(
-                        new LibphonenumberFormatPipe().transform(value)
-                    );
-                    return;
-                }
-                this.settingForm.controls[key].setValue(value);
-            });
-        }
-        if (user.printer !== undefined) {
-            this.settingForm.controls.printerType.setValue(
-                user.printer.connectionType
-            );
-            this.settingForm.controls.printerIpAddress.setValue(
-                user.printer.ipAddress
-            );
-        }
-        if (user.cashchanger !== undefined) {
-            this.settingForm.controls.cashchanger.setValue(user.cashchanger);
-        }
-        if (user.payment !== undefined) {
-            this.settingForm.controls.payment.setValue(user.payment);
-        }
-        if (user.applicationType !== undefined) {
-            this.settingForm.controls.applicationType.setValue(
-                user.applicationType
-            );
-        }
-    }
-
-    /**
-     * POS変更
-     */
-    public changePosList() {
-        this.settingForm.controls.posId.setValue('');
-        const theaterBranchCode =
-            this.settingForm.controls.theaterBranchCode.value;
-        if (theaterBranchCode === '') {
-            this.posList = [];
-            return;
-        }
-        const findResult = this.theaters.find(
-            (t) => t.branchCode === theaterBranchCode
-        );
-        if (findResult === undefined) {
-            this.posList = [];
-            return;
-        }
-        this.posList = findResult.hasPOS === undefined ? [] : findResult.hasPOS;
     }
 
     /**
      * 設定変更
      */
     public async onSubmit() {
-        Object.keys(this.settingForm.controls).forEach((key) => {
-            this.settingForm.controls[key].markAsTouched();
+        Object.keys(this.appForm.controls).forEach((key) => {
+            this.appForm.controls[key].markAsTouched();
         });
-        if (this.settingForm.invalid) {
+        Object.keys(this.deviceForm.controls).forEach((key) => {
+            this.deviceForm.controls[key].markAsTouched();
+        });
+        Object.keys(this.profileForm.controls).forEach((key) => {
+            this.profileForm.controls[key].markAsTouched();
+        });
+        if (
+            this.appForm.invalid ||
+            this.deviceForm.invalid ||
+            this.profileForm.invalid
+        ) {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
                 body: this.translate.instant('setting.alert.validation'),
@@ -232,12 +140,9 @@ export class SettingComponent implements OnInit {
             return;
         }
         try {
-            const theaterBranchCode =
-                this.settingForm.controls.theaterBranchCode.value;
-            const posId = this.settingForm.controls.posId.value;
-            const theater = this.theaters.find(
-                (t) => t.branchCode === theaterBranchCode
-            );
+            const theaterId = this.appForm.controls.theaterId.value;
+            const posId = this.appForm.controls.posId.value;
+            const theater = this.theaters.find((t) => t.id === theaterId);
             if (theater === undefined) {
                 throw new Error('theater not found');
             }
@@ -250,50 +155,51 @@ export class SettingComponent implements OnInit {
                 theater,
                 profile: {
                     familyName:
-                        this.settingForm.controls.familyName === undefined
+                        this.profileForm.controls.familyName === undefined
                             ? undefined
-                            : this.settingForm.controls.familyName.value,
+                            : this.profileForm.controls.familyName.value,
                     givenName:
-                        this.settingForm.controls.givenName === undefined
+                        this.profileForm.controls.givenName === undefined
                             ? undefined
-                            : this.settingForm.controls.givenName.value,
+                            : this.profileForm.controls.givenName.value,
                     email:
-                        this.settingForm.controls.email === undefined
+                        this.profileForm.controls.email === undefined
                             ? undefined
-                            : this.settingForm.controls.email.value,
+                            : this.profileForm.controls.email.value,
                     telephone:
-                        this.settingForm.controls.telephone === undefined
+                        this.profileForm.controls.telephone === undefined
                             ? undefined
-                            : this.settingForm.controls.telephone.value
+                            : this.profileForm.controls.telephone.value
                                   .e164Number,
                     // ? undefined : this.settingForm.controls.telephone.value,
                     age:
-                        this.settingForm.controls.age === undefined
+                        this.profileForm.controls.age === undefined
                             ? undefined
-                            : this.settingForm.controls.age.value,
+                            : this.profileForm.controls.age.value,
                     address:
-                        this.settingForm.controls.address === undefined
+                        this.profileForm.controls.address === undefined
                             ? undefined
-                            : this.settingForm.controls.address.value,
+                            : this.profileForm.controls.address.value,
                     gender:
-                        this.settingForm.controls.gender === undefined
+                        this.profileForm.controls.gender === undefined
                             ? undefined
-                            : this.settingForm.controls.gender.value,
+                            : this.profileForm.controls.gender.value,
                 },
                 printer: {
-                    ipAddress: this.settingForm.controls.printerIpAddress.value,
-                    connectionType: this.settingForm.controls.printerType.value,
+                    ipAddress: this.deviceForm.controls.printerIpAddress.value,
+                    connectionType: this.deviceForm.controls.printerType.value,
                 },
                 cashchanger:
-                    this.settingForm.controls.cashchanger.value === undefined
+                    this.deviceForm.controls.cashchanger.value === undefined
                         ? undefined
-                        : this.settingForm.controls.cashchanger.value,
+                        : this.deviceForm.controls.cashchanger.value,
                 payment:
-                    this.settingForm.controls.payment.value === undefined
+                    this.deviceForm.controls.payment.value === undefined
                         ? undefined
-                        : this.settingForm.controls.payment.value,
-                applicationType:
-                    this.settingForm.controls.applicationType.value,
+                        : this.deviceForm.controls.payment.value,
+                applicationType: this.appForm.controls.applicationType.value,
+                applicationPassword:
+                    this.appForm.controls.applicationPassword.value,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
@@ -309,8 +215,8 @@ export class SettingComponent implements OnInit {
      */
     public async print() {
         const printer = {
-            connectionType: this.settingForm.controls.printerType.value,
-            ipAddress: this.settingForm.controls.printerIpAddress.value,
+            connectionType: this.deviceForm.controls.printerType.value,
+            ipAddress: this.deviceForm.controls.printerIpAddress.value,
         };
         try {
             await this.actionService.order.print({ orders: [], printer });
@@ -334,112 +240,96 @@ export class SettingComponent implements OnInit {
     }
 
     /**
-     * プリンター変更
+     * 釣銭機連携
      */
-    public changePrinterType() {
-        if (
-            this.settingForm.controls.printerType.value ===
-            Models.Util.Printer.ConnectionType.StarBluetooth
-        ) {
-            this.settingForm.controls.printerIpAddress.setValue(
-                this.translate.instant('setting.device.starBluetoothAddress')
-            );
-        }
-    }
-
-    /**
-     * 必須判定
-     */
-    public isRequired(key: String) {
-        if (key === 'theaterBranchCode') {
-            return true;
-        }
-        return (
-            this.environment.PROFILE.find(
-                (p) => p.key === key && p.required
-            ) !== undefined
-        );
-    }
-
-    /**
-     * 購入者情報フォームのコントロールkeyを配列で返却
-     */
-    public getProfileFormKeys() {
-        return Object.keys(this.settingForm.controls).filter((key) => {
-            return (
-                key !== 'printerType' &&
-                key !== 'printerIpAddress' &&
-                key !== 'payment' &&
-                key !== 'cashchanger' &&
-                key !== 'applicationType'
-            );
-        });
-    }
-
-    /**
-     * 追加特性項目取得
-     */
-    public getAdditionalProperty(key: string) {
-        return this.environment.PROFILE.find(
-            (p) => /additionalProperty/.test(p.key) && p.key === key
-        );
-    }
-
-    /**
-     * 接続確認（現金）
-     */
-    public async connectCash() {
+    public async cashchanger(
+        method:
+            | 'endDeposit'
+            | 'connect'
+            | 'readCounts'
+            | 'collectAll'
+            | 'collectPart'
+    ) {
         try {
-            const ipAddress = this.settingForm.controls.cashchanger.value;
-            await this.epsonEPOSService.cashchanger.init({ ipAddress });
-            await this.epsonEPOSService.cashchanger.disconnect();
-            this.utilService.openAlert({
-                title: this.translate.instant('common.complete'),
-                body: this.translate.instant('setting.alert.connection'),
-            });
+            const ipAddress = this.deviceForm.controls.cashchanger.value;
+            if (method === 'connect') {
+                await this.epsonEPOSService.cashchanger.init({ ipAddress });
+                await this.epsonEPOSService.cashchanger.disconnect();
+                this.utilService.openAlert({
+                    title: this.translate.instant('common.complete'),
+                    body: this.translate.instant('setting.alert.connection'),
+                });
+            }
+            if (method === 'endDeposit') {
+                await this.epsonEPOSService.cashchanger.init({ ipAddress });
+                await this.epsonEPOSService.cashchanger.endDeposit({
+                    endDepositType: 'DEPOSIT_REPAY',
+                });
+                await this.epsonEPOSService.cashchanger.disconnect();
+            }
+            if (method === 'readCounts') {
+                await this.epsonEPOSService.cashchanger.init({ ipAddress });
+                const counts =
+                    await this.epsonEPOSService.cashchanger.readCounts();
+                await this.epsonEPOSService.cashchanger.disconnect();
+                console.log('counts', counts);
+                this.modal.show(CaschcangerCountModalComponent, {
+                    initialState: {
+                        counts,
+                    },
+                    class: 'modal-dialog-centered modal-lg',
+                });
+            }
+            if (method === 'collectAll' || method === 'collectPart') {
+                this.utilService.openConfirm({
+                    title: this.translate.instant('common.confirm'),
+                    body: this.translate.instant('setting.confirm.collect'),
+                    cb: async () => {
+                        try {
+                            const collectType =
+                                method === 'collectAll'
+                                    ? 'ALL_CASH'
+                                    : 'PART_OF_CASH';
+                            await this.epsonEPOSService.cashchanger.init({
+                                ipAddress,
+                            });
+                            await this.epsonEPOSService.cashchanger.collect({
+                                collectType,
+                            });
+                            await this.epsonEPOSService.cashchanger.disconnect();
+                        } catch (error) {
+                            console.error(error);
+                            this.utilService.openAlert({
+                                title: this.translate.instant('common.error'),
+                                body: '',
+                                error:
+                                    JSON.stringify(error) === '{}'
+                                        ? error
+                                        : JSON.stringify(error),
+                            });
+                        }
+                    },
+                });
+            }
         } catch (error) {
             console.error(error);
-            const message = error.message === undefined ? error : error.message;
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
-                body: `
-                <div class="p-3 bg-light-gray select-text">
-                    <code>${message}</code>
-                </div>`,
+                body: '',
+                error:
+                    JSON.stringify(error) === '{}'
+                        ? error
+                        : JSON.stringify(error),
             });
         }
     }
 
     /**
-     * 現金返金
+     * 決済端末連携
      */
-    public async endDeposit() {
+    public async payment() {
         try {
-            const ipAddress = this.settingForm.controls.cashchanger.value;
-            await this.epsonEPOSService.cashchanger.init({ ipAddress });
-            await this.epsonEPOSService.cashchanger.endDeposit({
-                endDepositType: 'DEPOSIT_REPAY',
-            });
-            await this.epsonEPOSService.cashchanger.disconnect();
-        } catch (error) {
-            console.error(error);
-            const message = error.message === undefined ? error : error.message;
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: `
-                <div class="p-3 bg-light-gray select-text">
-                    <code>${message}</code>
-                </div>`,
-            });
-        }
-    }
-
-    /**
-     * 接続確認（決済端末）
-     */
-    public async connectPayment() {
-        try {
-            const ipAddress = this.settingForm.controls.payment.value;
+            const ipAddress = this.deviceForm.controls.payment.value;
             await this.paymentService.init({ ipAddress });
             const execREsult = await this.paymentService.exec({
                 func: Models.Purchase.Payment.FUNC_CODE.TERMINAL.COMMUNICATION,

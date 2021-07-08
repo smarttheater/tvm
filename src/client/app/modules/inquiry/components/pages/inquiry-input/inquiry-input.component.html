@@ -1,6 +1,5 @@
 <form [formGroup]="inquiryForm">
-    <app-header>
-    </app-header>
+    <app-header></app-header>
     <app-page-title title="{{ 'inquiry.input.title' | translate }}"></app-page-title>
     <div class="contents">
         <div class="container h-100 px-3 pb-3">
@@ -13,7 +12,8 @@
                         <div class="inquiry-form mx-auto p-3 bg-white">
 
                             <div class="form-group">
-                                <label class="mb-3 font-weight-bold" for="">{{ 'common.confirmationNumber' | translate }}</label>
+                                <label class="mb-3 font-weight-bold" for="">{{ 'common.confirmationNumber' | translate
+                                    }}</label>
                                 <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
                                     [inputValue]="inquiryForm.controls.confirmationNumber.value"
                                     (change)="changeConfirmationNumber($event)">
@@ -51,10 +51,12 @@
                                     <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="text-danger">
                                         {{ 'form.validation.required' | translate }}</p>
                                     <p *ngIf="inquiryForm.controls.telephone.errors?.minlength" class="text-danger">
-                                        {{ 'form.validation.minlength' | translate: { value: inquiryForm.controls.telephone.errors?.minlength.requiredLength } }}
+                                        {{ 'form.validation.minlength' | translate: { value:
+                                        inquiryForm.controls.telephone.errors?.minlength.requiredLength } }}
                                     </p>
                                     <p *ngIf="inquiryForm.controls.telephone.errors?.maxlength" class="text-danger">
-                                        {{ 'form.validation.maxlength' | translate: { value: inquiryForm.controls.telephone.errors?.maxlength.requiredLength } }}
+                                        {{ 'form.validation.maxlength' | translate: { value:
+                                        inquiryForm.controls.telephone.errors?.maxlength.requiredLength } }}
                                     </p>
                                     <p *ngIf="inquiryForm.controls.telephone.errors?.telephone" class="text-danger">
                                         {{ 'form.validation.telephone' | translate }}</p>
@@ -79,8 +81,8 @@
                 </div>
                 <div class="col-3">
                     <button type="submit" [disabled]="isLoading | async"
-                        class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                        (click)="onSubmit()">{{ 'inquiry.input.next' | translate }}</button>
+                        class="text-large btn btn-primary btn-block font-weight-bold py-2" (click)="onSubmit()">{{
+                        'inquiry.input.next' | translate }}</button>
                 </div>
             </div>
         </div>

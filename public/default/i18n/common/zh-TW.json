@@ -145,7 +145,10 @@
             },
             "connect": "連接",
             "endDeposit": "退回押金",
-            "starBluetoothAddress": "本地托家：8001",
+            "readCounts": "數數",
+            "collectAll": "全系列",
+            "collectPart": "剩飯剩菜",
+            "starBluetoothAddress": "localhost: 8001",
             "printType": {
                 "none": "不要列印",
                 "image": "圖像顯示",
@@ -161,6 +164,9 @@
                     "tvm": "自動售票機",
                     "printer": "售票機"
                 }
+            },
+            "applicationPassword": {
+                "label": "密碼"
             }
         },
         "unselected": "未選",
@@ -173,6 +179,13 @@
             "validation": "輸入資訊不正確",
             "success": "設置已保存",
             "print": "列印失敗"
+        },
+        "confirm": {
+            "collect": "您確定要執行恢復嗎？"
         }
+    },
+    "admin": {
+        "title": "管理員功能",
+        "read": "請輸入您的密碼。"
     }
 }

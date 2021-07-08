@@ -2,7 +2,11 @@
  * NgModule
  */
 import { NgModule } from '@angular/core';
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import {
+    BrowserModule,
+    HammerModule,
+    HAMMER_GESTURE_CONFIG,
+} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -11,16 +15,14 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { Functions } from '.';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
+import { HammerConfig } from './models/util/hammer';
 import { CoreModule } from './modules/core/core.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { StoreModule } from './store.module';
 import { CoreStoreModule } from './store/core/store';
 
-
 @NgModule({
-    declarations: [
-        AppComponent,
-    ],
+    declarations: [AppComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -33,9 +35,14 @@ import { CoreStoreModule } from './store/core/store';
         ModalModule.forRoot(),
         BsDatepickerModule.forRoot(),
         PaginationModule.forRoot(),
-        TranslateModule.forRoot(Functions.Translate.getTranslateModuleConfig())
+        TranslateModule.forRoot(Functions.Translate.getTranslateModuleConfig()),
     ],
-    providers: [],
-    bootstrap: [AppComponent]
+    providers: [
+        {
+            provide: HAMMER_GESTURE_CONFIG,
+            useClass: HammerConfig,
+        },
+    ],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

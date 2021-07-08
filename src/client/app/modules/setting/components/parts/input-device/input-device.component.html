@@ -1,0 +1,66 @@
+<form [formGroup]="formGroup">
+    <div class="form-group row">
+        <p class="col-4 text-right py-3">{{ 'setting.device.printer.label' | translate }}</p>
+        <div class="col-8">
+            <select class="form-control" formControlName="printerType" (change)="changePrinterType()">
+                <option *ngFor="let printer of printers" [value]="printer.connectionType">
+                    {{ printer.name | translate }}</option>
+            </select>
+            <button
+                *ngIf="this.formGroup.controls.printerType.value && this.formGroup.controls.printerType.value !== connectionType.None"
+                type="button" class="btn btn-sm btn-primary py-2 mt-2" (click)="print.emit()">{{
+                'setting.device.printer.testPrinting' | translate }}</button>
+        </div>
+    </div>
+    <div class="form-group row">
+        <p class="col-4 text-right py-3">{{ 'setting.device.printer.ipAddress' | translate }}</p>
+        <div class="col-8">
+            <input type="text" class="form-control" formControlName="printerIpAddress" placeholder="0.0.0.0">
+            <div *ngIf="formGroup.controls.printerIpAddress.invalid && formGroup.controls.printerIpAddress.touched"
+                class="mt-2">
+                <p *ngIf="formGroup.controls.printerIpAddress.errors?.required" class="text-danger">
+                    {{ 'form.validation.required' | translate }}</p>
+            </div>
+            <p class="text-small mt-2" [innerHtml]="'setting.device.printer.ipAddressDescription' | translate"></p>
+        </div>
+    </div>
+    <div class="form-group row">
+        <p class="col-4 text-right py-3">{{ 'setting.device.cashchanger.label' | translate }}</p>
+        <div class="col-8">
+            <input type="text" class="form-control" formControlName="cashchanger" placeholder="0.0.0.0">
+            <p class="text-small mt-2" [innerHtml]="'setting.device.cashchanger.description' | translate">
+            </p>
+            <div *ngIf="formGroup.controls.cashchanger.invalid && formGroup.controls.cashchanger.touched" class="mt-2">
+                <p *ngIf="formGroup.controls.cashchanger.errors?.required" class="text-danger">
+                    {{ 'form.validation.required' | translate }}</p>
+            </div>
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('connect')">{{
+                'setting.device.connect' | translate }}</button>
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('endDeposit')">{{
+                'setting.device.endDeposit' | translate }}</button>
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('readCounts')">{{
+                'setting.device.readCounts' | translate }}</button>
+            <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('collectAll')">{{
+                'setting.device.collectAll' | translate }}</button>
+            <button type="button" class="btn btn-primary mt-2" [disabled]="isConnected"
+                (click)="cashchanger.emit('collectPart')">{{
+                'setting.device.collectPart' | translate }}</button>
+        </div>
+    </div>
+    <div class="form-group row">
+        <p class="col-4 text-right py-3">{{ 'setting.device.payment.label' | translate }}</p>
+        <div class="col-8">
+            <input type="text" class="form-control" formControlName="payment" placeholder="0.0.0.0">
+            <div *ngIf="formGroup.controls.payment.invalid && formGroup.controls.payment.touched" class="mt-2">
+                <p *ngIf="formGroup.controls.payment.errors?.required" class="text-danger">
+                    {{ 'form.validation.required' | translate }}</p>
+            </div>
+            <button type="button" class="btn btn-primary mt-2" [disabled]="isConnected" (click)="payment.emit()">{{
+                'setting.device.connect' | translate }}</button>
+        </div>
+    </div>
+</form>

@@ -6,13 +6,21 @@ import { userAction } from '../actions';
 
 export interface IUserState {
     /**
+     * 劇場
+     */
+    theater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+    /**
      * POS
      */
     pos?: factory.chevre.place.movieTheater.IPOS;
     /**
-     * 劇場
+     * アプリケーションタイプ
      */
-    theater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+    applicationType?: Models.Util.Application.ApplicationType;
+    /**
+     * アプリケーションパスワード
+     */
+    applicationPassword?: string;
     /**
      * 購入者情報
      */
@@ -22,17 +30,13 @@ export interface IUserState {
      */
     printer?: Models.Util.Printer.IPrinter;
     /**
-     * 決済
+     * 決済端末
      */
     payment?: string;
     /**
-     * 釣り銭
+     * 釣銭機
      */
     cashchanger?: string;
-    /**
-     * アプリケーションタイプ
-     */
-    applicationType?: Models.Util.Application.ApplicationType;
     /**
      * 言語
      */
@@ -68,6 +72,7 @@ export function reducer(initialState: IState, action: Action) {
             const cashchanger = payload.cashchanger;
             const payment = payload.payment;
             const applicationType = payload.applicationType;
+            const applicationPassword = payload.applicationPassword;
 
             return {
                 ...state,
@@ -80,6 +85,7 @@ export function reducer(initialState: IState, action: Action) {
                     cashchanger,
                     payment,
                     applicationType,
+                    applicationPassword,
                 },
                 loading: false,
                 process: '',

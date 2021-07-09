@@ -83,7 +83,7 @@ export interface IPurchaseState {
     /**
      * ムビチケ認証情報リスト
      */
-    checkMovieTicketActions: factory.action.check.paymentMethod.movieTicket.IAction[];
+    checkMovieTickets: factory.action.check.paymentMethod.movieTicket.IAction[];
     /**
      * ムビチケ認証情報
      */
@@ -106,13 +106,22 @@ export interface IPurchaseState {
      * 検索方法
      */
     searchType?: 'movie' | 'event';
+    /**
+     * プロダクト認証情報リスト
+     */
+    checkProducts: {
+        code: string;
+        token: string;
+        typeOfGood: factory.product.IProduct;
+    }[];
 }
 
 export const purchaseInitialState: IPurchaseState = {
     reservations: [],
     screeningEventTicketOffers: [],
     orderCount: 0,
-    checkMovieTicketActions: [],
+    checkMovieTickets: [],
+    checkProducts: [],
     authorizeSeatReservations: [],
     authorizeMovieTicketPayments: [],
     authorizeCreditCardPayments: [],
@@ -130,7 +139,8 @@ export function reducer(initialState: IState, action: Action) {
                     reservations: [],
                     screeningEventTicketOffers: [],
                     orderCount: 0,
-                    checkMovieTicketActions: [],
+                    checkMovieTickets: [],
+                    checkProducts: [],
                     authorizeSeatReservations: [],
                     authorizeMovieTicketPayments: [],
                     authorizeCreditCardPayments: [],
@@ -208,7 +218,8 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeMovieTicketPayments: [],
                     authorizeSeatReservations: [],
                     pendingMovieTickets: [],
-                    checkMovieTicketActions: [],
+                    checkMovieTickets: [],
+                    checkProducts: [],
                 },
                 process: '',
                 error: null,
@@ -225,7 +236,8 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeMovieTicketPayments: [],
                     authorizeSeatReservations: [],
                     pendingMovieTickets: [],
-                    checkMovieTicketActions: [],
+                    checkMovieTickets: [],
+                    checkProducts: [],
                 },
                 process: '',
             };
@@ -495,13 +507,13 @@ export function reducer(initialState: IState, action: Action) {
         }),
         on(purchaseAction.setCheckMovieTicket, (state, payload) => {
             const checkMovieTicketAction = payload.checkMovieTicketAction;
-            const checkMovieTicketActions = Functions.Util.deepCopy<
+            const checkMovieTickets = Functions.Util.deepCopy<
                 factory.action.check.paymentMethod.movieTicket.IAction[]
-            >(state.purchaseData.checkMovieTicketActions);
+            >(state.purchaseData.checkMovieTickets);
             const sameMovieTicketFilterResults =
                 Functions.Purchase.sameMovieTicketFilter({
                     checkMovieTicketAction,
-                    checkMovieTicketActions,
+                    checkMovieTickets,
                 });
             if (
                 sameMovieTicketFilterResults.length === 0 &&
@@ -509,7 +521,7 @@ export function reducer(initialState: IState, action: Action) {
                     checkMovieTicketAction
                 )
             ) {
-                checkMovieTicketActions.push(checkMovieTicketAction);
+                checkMovieTickets.push(checkMovieTicketAction);
             }
 
             return {
@@ -517,7 +529,7 @@ export function reducer(initialState: IState, action: Action) {
                 purchaseData: {
                     ...state.purchaseData,
                     checkMovieTicketAction,
-                    checkMovieTicketActions,
+                    checkMovieTickets,
                 },
                 process: '',
                 error: null,
@@ -532,7 +544,8 @@ export function reducer(initialState: IState, action: Action) {
                     screeningEventTicketOffers: [],
                     orderCount: 0,
                     authorizeSeatReservations: [],
-                    checkMovieTicketActions: [],
+                    checkMovieTickets: [],
+                    checkProducts: [],
                     authorizeCreditCardPayments: [],
                     authorizeMovieTicketPayments: [],
                     authorizeAnyPayments: [],
@@ -590,6 +603,32 @@ export function reducer(initialState: IState, action: Action) {
                     ...state.purchaseData,
                     orderId: payload.id,
                 },
+            };
+        }),
+        on(purchaseAction.setCheckProduct, (state, payload) => {
+            // const checkProducts = Functions.Util.deepCopy<
+            //     {
+            //         code: string;
+            //         token: string;
+            //         typeOfGood: factory.chevre.product.IProduct;
+            //     }[]
+            // >(state.purchaseData.checkProducts);
+            // const identifier = payload.checkProduct.typeOfGood.identifier;
+            // const findResult = state.purchaseData.checkProducts.find(
+            //     (c) => c.typeOfGood.identifier === identifier
+            // );
+            // if (findResult === undefined) {
+            //     checkProducts.push(payload.checkProduct);
+            // }
+            const checkProducts = [payload.checkProduct];
+            return {
+                ...state,
+                purchaseData: {
+                    ...state.purchaseData,
+                    checkProducts,
+                },
+                process: '',
+                error: null,
             };
         })
     )(initialState, action);

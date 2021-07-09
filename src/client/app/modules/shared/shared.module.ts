@@ -19,6 +19,7 @@ import { HeaderComponent } from './components/parts/header/header.component';
 import { ItemListComponent } from './components/parts/item-list/item-list.component';
 import { LanguageComponent } from './components/parts/language/language.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
+import { MembershipCheckModalComponent } from './components/parts/membership/check-modal/check-modal.component';
 import { MovieTicketCheckModalComponent } from './components/parts/movie-ticket/check-modal/check-modal.component';
 import { NumericKeypadComponent } from './components/parts/numeric-keypad/numeric-keypad.component';
 import { PageTitleComponent } from './components/parts/page-title/page-title.component';
@@ -63,6 +64,7 @@ const entryComponents = [
     QRCodeViewerModalComponent,
     ReservationDetailModalComponent,
     CaschcangerCountModalComponent,
+    MembershipCheckModalComponent,
 ];
 
 @NgModule({

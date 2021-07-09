@@ -20,7 +20,9 @@ type IMovieTicketTypeChargeSpecification =
     styleUrls: ['./check-modal.component.scss'],
 })
 export class MovieTicketCheckModalComponent implements OnInit {
-    @Input() public paymentMethodType: factory.chevre.paymentMethodType;
+    @Input() public paymentMethodType:
+        | factory.chevre.paymentMethodType
+        | 'SurfRock';
     public purchase: Observable<reducers.IPurchaseState>;
     public isLoading: Observable<boolean>;
     public inputForm: FormGroup;
@@ -52,7 +54,6 @@ export class MovieTicketCheckModalComponent implements OnInit {
         const KEY_ESCAPE = 'Escape';
         if (event.key === KEY_ENTER && this.inputCode.length > 0) {
             // 読み取り完了
-            console.log('読み取り完了', this.inputCode);
             const separation =
                 this.paymentMethodType === factory.paymentMethodType.MovieTicket
                     ? 10
@@ -62,7 +63,6 @@ export class MovieTicketCheckModalComponent implements OnInit {
                 separation,
                 this.inputCode.length
             );
-            console.log(code, password);
             this.inputForm.controls.code.setValue(code);
             this.inputForm.controls.password.setValue(password);
             this.inputCode = '';

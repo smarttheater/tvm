@@ -59,6 +59,22 @@
                 }
             }
         },
+        "membership": {
+            "check": {
+                "title": "如果您有 QR 代码，则将其保留在读卡器上",
+                "success": "门票已添加",
+                "code": "购买编号",
+                "password": "PIN",
+                "next": "认证",
+                "prev": "",
+                "value": "[{{value}}床单]",
+                "alert": {
+                    "validation": "请检查您的输入",
+                    "used": "已经用过了",
+                    "error": "出现了错误"
+                }
+            }
+        },
         "purchase": {
             "transaction": {
                 "title": "确认",
@@ -117,6 +133,7 @@
             "SetProfile": "注册购买者信息",
             "AuthorizeMovieTicket": "批准电影票信息",
             "CheckMovieTicket": "查看电影票信息",
+            "CheckProduct": "检查产品信息",
             "ConfirmTransaction": "已确认交易",
             "AuthorizeAnyPayment": "批准付款信息"
         }
@@ -194,8 +211,17 @@
                 "use": "<span class=\"font-weight-bold\">关于电影票的使用</span><br><span class=\"text-small\">如果您使用电影票，请验证并将其添加到票证类型 </span>"
             },
             "mgTicket": {
+                "label": "MG票",
                 "use": "<span class=\"font-weight-bold\">有关MG票的使用</span><br><span class=\"text-small\">如果您使用MG票证，请验证并将其添加到票证类型 </span>"
+            },
+            "surfRock": {
+                "label": "SurfRock",
+                "use": "<span class=\"font-weight-bold\">有关SurfRock的使用</span><br><span class=\"text-small\">如果您使用SurfRock证，请验证并将其添加到票证类型 </span>"
             }
+        },
+        "membership": {
+            "label": "会员资格",
+            "use": "<span class=\"font-weight-bold\">有关会员资格的使用</span><br><span class=\"text-small\">如果您使用会员资格证，请验证并将其添加到票证类型 </span>"
         },
         "timeLimit": "剩余",
         "all": "所有",

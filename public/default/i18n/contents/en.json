@@ -60,6 +60,22 @@
                 }
             }
         },
+        "membership": {
+            "check": {
+                "title": "If you have a QR code, hold it over the reader",
+                "success": "Tickets have been added.",
+                "code": "Purchase number",
+                "password": "PIN",
+                "next": "Authentication",
+                "prev": "",
+                "value": "[{{value}} sheets]",
+                "alert": {
+                    "validation": "Please check your input.",
+                    "used": "Already used.",
+                    "error": "An error has occurred"
+                }
+            }
+        },
         "purchase": {
             "transaction": {
                 "title": "confirmation",
@@ -118,6 +134,7 @@
             "SetProfile": "Registering purchaser information",
             "AuthorizeMovieTicket": "Approving movie ticket information",
             "CheckMovieTicket": "Checking movie ticket information",
+            "CheckProduct": "Checking product information",
             "ConfirmTransaction": "Confirmed transaction",
             "AuthorizeAnyPayment": "Approving payment information"
         }
@@ -198,7 +215,15 @@
             "mgTicket": {
                 "label": "MG ticket",
                 "use": "<span class=\"font-weight-bold\">About the use of MG tickets</span><br><span class=\"text-small\">If you use MG ticket, please authenticate and add it to the ticket type.</span>"
+            },
+            "surfRock": {
+                "label": "SurfRock",
+                "use": "<span class=\"font-weight-bold\">About the use of SurfRocks</span><br><span class=\"text-small\">If you use SurfRock, please authenticate and add it to the ticket type.</span>"
             }
+        },
+        "membership": {
+            "label": "membership",
+            "use": "<span class=\"font-weight-bold\">About the use of memberships</span><br><span class=\"text-small\">If you use membership, please authenticate and add it to the ticket type.</span>"
         },
         "timeLimit": "remaining",
         "all": "all",

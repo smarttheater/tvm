@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
+import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../..';
 import { purchaseAction } from '../../../store/actions';
@@ -122,7 +123,7 @@ export class ActionPaymentService {
             code: string;
             password: string;
         };
-        paymentMethodType: factory.paymentMethodType;
+        paymentMethodType: factory.paymentMethodType | 'SurfRock';
     }) {
         try {
             this.utilService.loadStart({
@@ -181,6 +182,47 @@ export class ActionPaymentService {
                 purchaseAction.setCheckMovieTicket({ checkMovieTicketAction })
             );
             this.utilService.loadEnd();
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
+    }
+
+    /**
+     * プロダクト認証
+     */
+    public async checkProduct(params: {
+        input: {
+            identifier: string;
+            accessCode: string;
+        };
+    }) {
+        try {
+            this.utilService.loadStart({
+                process: 'purchaseAction.CheckProduct',
+            });
+            await this.cinerinoService.getServices();
+            const { code } = await this.cinerinoService.serviceOutput.authorize(
+                {
+                    object: params.input,
+                }
+            );
+            const { token } = await this.cinerinoService.token.getToken({
+                code,
+            });
+            const { typeOfGood } =
+                jwtDecode<{ typeOfGood: factory.product.IProduct }>(token);
+            const checkProduct = {
+                code,
+                token,
+                typeOfGood,
+            };
+            this.store.dispatch(
+                purchaseAction.setCheckProduct({ checkProduct })
+            );
+            this.utilService.loadEnd();
+            return checkProduct;
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();

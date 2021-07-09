@@ -144,3 +144,14 @@ export const setOrderId = createAction(
     `${LABEL} setOrderId`,
     props<{ id: string }>()
 );
+
+export const setCheckProduct = createAction(
+    `${LABEL} setCheckProduct`,
+    props<{
+        checkProduct: {
+            code: string;
+            token: string;
+            typeOfGood: factory.product.IProduct;
+        };
+    }>()
+);

@@ -572,10 +572,8 @@ export function reducer(initialState: IState, action: Action) {
                 error: null,
             };
         }),
-        on(purchaseAction.selectPaymentMethodType, (state, payload) => {
-            const paymentMethod = {
-                typeOf: payload.typeOf,
-            };
+        on(purchaseAction.setPaymentMethodType, (state, payload) => {
+            const paymentMethod = payload.paymentMethod;
 
             return {
                 ...state,

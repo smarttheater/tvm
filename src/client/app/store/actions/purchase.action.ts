@@ -126,10 +126,12 @@ export const setAuthorizeAnyPayment = createAction(
     }>()
 );
 
-export const selectPaymentMethodType = createAction(
-    `${LABEL} selectPaymentMethodType`,
+export const setPaymentMethodType = createAction(
+    `${LABEL} setPaymentMethodType`,
     props<{
-        typeOf: factory.chevre.paymentMethodType | string;
+        paymentMethod?: {
+            typeOf: string;
+        };
     }>()
 );
 

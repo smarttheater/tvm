@@ -110,7 +110,7 @@ export const setAuthorizeMovieTicket = createAction(
 export const setCheckMovieTicket = createAction(
     `${LABEL} setCheckMovieTicket`,
     props<{
-        checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction;
+        checkMovieTicket: factory.action.check.paymentMethod.movieTicket.IAction;
     }>()
 );
 

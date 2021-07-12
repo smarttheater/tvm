@@ -85,10 +85,6 @@ export interface IPurchaseState {
      */
     checkMovieTickets: factory.action.check.paymentMethod.movieTicket.IAction[];
     /**
-     * ムビチケ認証情報
-     */
-    checkMovieTicketAction?: factory.action.check.paymentMethod.movieTicket.IAction;
-    /**
      * 決済
      */
     authorizeAnyPayments: factory.action.authorize.paymentMethod.any.IAction[];
@@ -158,7 +154,6 @@ export function reducer(initialState: IState, action: Action) {
                     screeningEvent: undefined,
                     screeningEventTicketOffers: [],
                     authorizeSeatReservation: undefined,
-                    checkMovieTicketAction: undefined,
                 },
             };
         }),
@@ -506,29 +501,26 @@ export function reducer(initialState: IState, action: Action) {
             };
         }),
         on(purchaseAction.setCheckMovieTicket, (state, payload) => {
-            const checkMovieTicketAction = payload.checkMovieTicketAction;
+            const checkMovieTicket = payload.checkMovieTicket;
             const checkMovieTickets = Functions.Util.deepCopy<
                 factory.action.check.paymentMethod.movieTicket.IAction[]
             >(state.purchaseData.checkMovieTickets);
             const sameMovieTicketFilterResults =
                 Functions.Purchase.sameMovieTicketFilter({
-                    checkMovieTicketAction,
+                    checkMovieTicket,
                     checkMovieTickets,
                 });
             if (
                 sameMovieTicketFilterResults.length === 0 &&
-                Functions.Purchase.isAvailabilityMovieTicket(
-                    checkMovieTicketAction
-                )
+                Functions.Purchase.isAvailabilityMovieTicket(checkMovieTicket)
             ) {
-                checkMovieTickets.push(checkMovieTicketAction);
+                checkMovieTickets.push(checkMovieTicket);
             }
 
             return {
                 ...state,
                 purchaseData: {
                     ...state.purchaseData,
-                    checkMovieTicketAction,
                     checkMovieTickets,
                 },
                 process: '',

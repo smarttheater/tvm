@@ -125,15 +125,15 @@ export function createGmoTokenObject(params: {
  */
 export function sameMovieTicketFilter(params: {
     checkMovieTickets: factory.action.check.paymentMethod.movieTicket.IAction[];
-    checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction;
+    checkMovieTicket: factory.action.check.paymentMethod.movieTicket.IAction;
 }) {
-    const { checkMovieTicketAction, checkMovieTickets } = params;
+    const { checkMovieTicket, checkMovieTickets } = params;
     if (
-        checkMovieTicketAction.result === undefined ||
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut === null ||
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut[0].ykknInfo === null
+        checkMovieTicket.result === undefined ||
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut ===
+            null ||
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut[0]
+            .ykknInfo === null
     ) {
         return [];
     }
@@ -148,9 +148,9 @@ export function sameMovieTicketFilter(params: {
             return;
         }
         if (
-            checkMovieTicketAction.result === undefined ||
+            checkMovieTicket.result === undefined ||
             action.result.movieTickets[0].identifier !==
-                checkMovieTicketAction.result.movieTickets[0].identifier
+                checkMovieTicket.result.movieTickets[0].identifier
         ) {
             return;
         }
@@ -164,14 +164,14 @@ export function sameMovieTicketFilter(params: {
  * ムビチケ有効
  */
 export function isAvailabilityMovieTicket(
-    checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction
+    checkMovieTicket: factory.action.check.paymentMethod.movieTicket.IAction
 ) {
     return (
-        checkMovieTicketAction.result !== undefined &&
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut !== null &&
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut[0].ykknInfo !== null
+        checkMovieTicket.result !== undefined &&
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut !==
+            null &&
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut[0]
+            .ykknInfo !== null
     );
 }
 

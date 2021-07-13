@@ -173,13 +173,12 @@ export class PurchaseService {
     public authorizeCreditCard() {}
 
     /**
-     * 決済方法取得
+     * 決済方法設定
      */
-    public selectPaymentMethodType(params: {
-        typeOf: factory.chevre.paymentMethodType;
-        category?: string;
+    public setPaymentMethodType(params: {
+        paymentMethod?: { typeOf: string };
     }) {
-        this.store.dispatch(purchaseAction.selectPaymentMethodType(params));
+        this.store.dispatch(purchaseAction.setPaymentMethodType(params));
     }
 
     /**

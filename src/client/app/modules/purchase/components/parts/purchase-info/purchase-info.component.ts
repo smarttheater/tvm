@@ -6,7 +6,7 @@ import * as reducers from '../../../../../store/reducers';
 @Component({
     selector: 'app-purchase-info',
     templateUrl: './purchase-info.component.html',
-    styleUrls: ['./purchase-info.component.scss']
+    styleUrls: ['./purchase-info.component.scss'],
 })
 export class PurchaseInfoComponent implements OnInit {
     @Input() public purchase: reducers.IPurchaseState;
@@ -16,15 +16,14 @@ export class PurchaseInfoComponent implements OnInit {
     public moment = moment;
     public getAdditionalProperty = Functions.Purchase.getAdditionalProperty;
 
-    constructor() { }
+    constructor() {}
 
     public ngOnInit() {
-        this.image = this.purchase.screeningEvent?.workPerformed?.thumbnailUrl;
-        this.amount = (this.isAmount)
-            ? Functions.Purchase.getAmount(this.purchase.authorizeSeatReservations)
+        this.image = this.purchase.creativeWork?.thumbnailUrl;
+        this.amount = this.isAmount
+            ? Functions.Purchase.getAmount(
+                  this.purchase.authorizeSeatReservations
+              )
             : 0;
     }
-
-
-
 }

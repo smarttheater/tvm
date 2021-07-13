@@ -5,10 +5,9 @@
 <div class="contents">
     <div class="container h-100 px-3 pb-3">
         <div class="row h-100">
-            <div class="col-3 h-100">
-                <app-movie-tickets *ngIf="(purchase | async)?.screeningEventTicketOffers"
-                    [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
-                    (select)="openMovieTicket($event)"></app-movie-tickets>
+            <div class="col-3 mh-100 scroll-horizontal">
+                <app-input-tickets *ngIf="(purchase | async)?.screeningEventTicketOffers"
+                    [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"></app-input-tickets>
             </div>
             <div class="col-6 mh-100 scroll-horizontal">
                 <div>
@@ -23,7 +22,8 @@
                                         <div>
                                             <button *ngIf="reservation.ticket === undefined" type="button"
                                                 (click)="openTicketList(reservation)"
-                                                class="btn btn-block border border-gray py-3">{{ 'purchase.cinema.ticket.unselected' | translate }}</button>
+                                                class="btn btn-block border border-gray py-3">{{
+                                                'purchase.cinema.ticket.unselected' | translate }}</button>
                                             <button *ngIf="reservation.ticket !== undefined" type="button"
                                                 (click)="openTicketList(reservation)"
                                                 class="btn btn-block btn-outline-primary py-3">
@@ -32,10 +32,12 @@
                                                     <p class="w-50 text-left">{{ priceComponent.name | changeLanguage }}
                                                     </p>
                                                     <p class="w-50 text-right">
-                                                        <span>{{ priceComponent.price | currency : priceComponent.priceCurrency }}</span>
+                                                        <span>{{ priceComponent.price | currency :
+                                                            priceComponent.priceCurrency }}</span>
                                                         <!--
-                                                        --><span
-                                                            *ngIf="priceComponent?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
+                                                        --><span *ngIf="priceComponent?.referenceQuantity?.value">{{
+                                                            'common.referenceQuantityValue' | translate: { value:
+                                                            priceComponent?.referenceQuantity?.value } }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center"
@@ -43,10 +45,14 @@
                                                     <p class="w-50 text-left">
                                                         {{ addOn.priceSpecification.name | changeLanguage }}</p>
                                                     <p class="w-50 text-right">
-                                                        <span>{{ addOn.priceSpecification.price | currency : addOn.priceSpecification.priceCurrency }}</span>
+                                                        <span>{{ addOn.priceSpecification.price | currency :
+                                                            addOn.priceSpecification.priceCurrency }}</span>
                                                         <!--
                                                         --><span
-                                                            *ngIf="addOn.priceSpecification?.referenceQuantity?.value">{{ 'common.referenceQuantityValue' | translate: { value: addOn.priceSpecification?.referenceQuantity?.value } }}</span>
+                                                            *ngIf="addOn.priceSpecification?.referenceQuantity?.value">{{
+                                                            'common.referenceQuantityValue' | translate: { value:
+                                                            addOn.priceSpecification?.referenceQuantity?.value }
+                                                            }}</span>
                                                     </p>
                                                 </div>
                                                 <div>
@@ -86,8 +92,8 @@
             </div>
             <div class="col-3">
                 <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    [disabled]="(isLoading | async) || !isSelectedTicket"
-                    (click)="onSubmit()">{{ 'purchase.cinema.ticket.next' | translate }}</button>
+                    [disabled]="(isLoading | async) || !isSelectedTicket" (click)="onSubmit()">{{
+                    'purchase.cinema.ticket.next' | translate }}</button>
             </div>
         </div>
     </div>

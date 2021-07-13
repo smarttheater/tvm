@@ -60,6 +60,22 @@
                 }
             }
         },
+        "membership": {
+            "check": {
+                "title": "QR 코드가있는 경우 리더 위에 올려 놓으세요.",
+                "success": "티켓이 추가되었습니다.",
+                "code": "구매 번호",
+                "password": "PIN",
+                "next": "인증",
+                "prev": "",
+                "value": "[{{value}} 시트]",
+                "alert": {
+                    "validation": "입력 한 내용을 확인하세요.",
+                    "used": "이미 사용됨.",
+                    "error": "오류가 발생했습니다."
+                }
+            }
+        },
         "purchase": {
             "transaction": {
                 "title": "확인",
@@ -118,6 +134,7 @@
             "SetProfile": "구매자 정보 등록",
             "AuthorizeMovieTicket": "영화 티켓 정보 승인",
             "CheckMovieTicket": "영화 티켓 정보 확인 중",
+            "CheckProduct": "제품 정보를 확인하고 있습니다",
             "ConfirmTransaction": "확인 된 거래",
             "AuthorizeAnyPayment": "결제 정보 승인"
         }
@@ -198,7 +215,15 @@
             "mgTicket": {
                 "label": "MG 티켓",
                 "use": "<span class =\"font-weight-bold\"> MG 티켓 사용 정보 </ span> <br> <span class =\"text-small\"> MG 티켓을 사용하는 경우 인증하고 티켓 유형에 추가하세요. </ span> "
+            },
+            "surfRock": {
+                "label": "SurfRock",
+                "use": "<span class =\"font-weight-bold\"> SurfRock 사용 정보 </ span> <br> <span class =\"text-small\"> SurfRock을 사용하는 경우 인증하고 티켓 유형에 추가하세요. </ span> "
             }
+        },
+        "membership": {
+            "label": "회원",
+            "use": "<span class =\"font-weight-bold\"> 회원 사용 정보 </ span> <br> <span class =\"text-small\"> 회원을 사용하는 경우 인증하고 티켓 유형에 추가하세요. </ span> "
         },
         "timeLimit": "남음",
         "all": "모두",

@@ -21,7 +21,7 @@ import { PurchasePaymentComponent } from './components/pages/purchase-payment/pu
 import { PurchaseRootComponent } from './components/pages/purchase-root/purchase-root.component';
 import { PurchaseSeatComponent } from './components/pages/purchase-seat/purchase-seat.component';
 import { PurchaseTicketComponent } from './components/pages/purchase-ticket/purchase-ticket.component';
-import { MovieTicketsComponent } from './components/parts/movie-tickets/movie-tickets.component';
+import { InputTicketsComponent } from './components/parts/input-tickets/input-tickets.component';
 import { PurchasePerformanceComponent } from './components/parts/performance/performance.component';
 import { PurchasePerformancesComponent } from './components/parts/performances/performances.component';
 import { PurchaseCartComponent } from './components/parts/purchase-cart/purchase-cart.component';
@@ -33,45 +33,40 @@ import { PurchaseStepComponent } from './components/parts/step/step.component';
 import { TransactionRemainingTimeComponent } from './components/parts/transaction-remaining-time/transaction-remaining-time.component';
 import { PurchaseRoutingModule } from './purchase-routing.module';
 
-
 @NgModule({
-  declarations: [
-    PurchaseBaseComponent,
-    PurchaseRootComponent,
-    PurchaseCinemaSeatComponent,
-    PurchaseCinemaTicketComponent,
-    PurchaseEventTicketComponent,
-    PurchasePaymentComponent,
-    PurchasePaymentReceptionComponent,
-    PurchaseCompleteComponent,
-    PurchaseCinemaScheduleComponent,
-    PurchaseEventScheduleComponent,
-    PurchasePerformanceComponent,
-    PurchasePerformancesComponent,
-    PurchaseInfoComponent,
-    PurchaseTermsComponent,
-    PurchaseWarningComponent,
-    TransactionRemainingTimeComponent,
-    PurchaseEventSeatComponent,
-    PurchaseEventTicketComponent,
-    PurchaseTicketComponent,
-    PurchaseSeatComponent,
-    SeatInfoComponent,
-    PurchaseCinemaScheduleMovieComponent,
-    PurchaseCinemaScheduleEventComponent,
-    PurchaseCinemaTopComponent,
-    PurchaseCinemaDateComponent,
-    PurchaseStepComponent,
-    MovieTicketsComponent,
-    PurchaseEventTopComponent,
-    PurchaseEventDateComponent,
-    PurchaseCartComponent,
-    PurchaseEventSelectComponent,
-  ],
-  imports: [
-    CommonModule,
-    PurchaseRoutingModule,
-    SharedModule,
-  ]
+    declarations: [
+        PurchaseBaseComponent,
+        PurchaseRootComponent,
+        PurchaseCinemaSeatComponent,
+        PurchaseCinemaTicketComponent,
+        PurchaseEventTicketComponent,
+        PurchasePaymentComponent,
+        PurchasePaymentReceptionComponent,
+        PurchaseCompleteComponent,
+        PurchaseCinemaScheduleComponent,
+        PurchaseEventScheduleComponent,
+        PurchasePerformanceComponent,
+        PurchasePerformancesComponent,
+        PurchaseInfoComponent,
+        PurchaseTermsComponent,
+        PurchaseWarningComponent,
+        TransactionRemainingTimeComponent,
+        PurchaseEventSeatComponent,
+        PurchaseEventTicketComponent,
+        PurchaseTicketComponent,
+        PurchaseSeatComponent,
+        SeatInfoComponent,
+        PurchaseCinemaScheduleMovieComponent,
+        PurchaseCinemaScheduleEventComponent,
+        PurchaseCinemaTopComponent,
+        PurchaseCinemaDateComponent,
+        PurchaseStepComponent,
+        InputTicketsComponent,
+        PurchaseEventTopComponent,
+        PurchaseEventDateComponent,
+        PurchaseCartComponent,
+        PurchaseEventSelectComponent,
+    ],
+    imports: [CommonModule, PurchaseRoutingModule, SharedModule],
 })
-export class PurchaseModule { }
+export class PurchaseModule {}

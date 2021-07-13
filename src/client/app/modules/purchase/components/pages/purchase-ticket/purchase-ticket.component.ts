@@ -13,7 +13,6 @@ import {
 } from '../../../../../models/purchase/reservation';
 import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
-import { MovieTicketCheckModalComponent } from '../../../../shared/components/parts/movie-ticket/check-modal/check-modal.component';
 import { PurchaseSeatTicketModalComponent } from '../../../../shared/components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 
 @Component({
@@ -157,7 +156,7 @@ export class PurchaseTicketComponent implements OnInit {
             initialState: {
                 authorizeSeatReservation: purchase.authorizeSeatReservation,
                 screeningEventTicketOffers: purchase.screeningEventTicketOffers,
-                checkMovieTicketActions: purchase.checkMovieTicketActions,
+                checkMovieTickets: purchase.checkMovieTickets,
                 reservations: purchase.reservations,
                 reservation: reservation,
                 pendingMovieTickets: purchase.pendingMovieTickets,
@@ -181,20 +180,6 @@ export class PurchaseTicketComponent implements OnInit {
                             .length === 0;
                 },
             },
-        });
-    }
-
-    /**
-     * ムビチケ認証表示
-     */
-    public openMovieTicket(
-        paymentMethodType: factory.chevre.paymentMethodType
-    ) {
-        this.modal.show(MovieTicketCheckModalComponent, {
-            initialState: {
-                paymentMethodType,
-            },
-            class: 'modal-dialog-centered modal-lg',
         });
     }
 }

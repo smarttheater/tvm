@@ -124,21 +124,21 @@ export function createGmoTokenObject(params: {
  * ムビチケ検索
  */
 export function sameMovieTicketFilter(params: {
-    checkMovieTicketActions: factory.action.check.paymentMethod.movieTicket.IAction[];
-    checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction;
+    checkMovieTickets: factory.action.check.paymentMethod.movieTicket.IAction[];
+    checkMovieTicket: factory.action.check.paymentMethod.movieTicket.IAction;
 }) {
-    const { checkMovieTicketAction, checkMovieTicketActions } = params;
+    const { checkMovieTicket, checkMovieTickets } = params;
     if (
-        checkMovieTicketAction.result === undefined ||
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut === null ||
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut[0].ykknInfo === null
+        checkMovieTicket.result === undefined ||
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut ===
+            null ||
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut[0]
+            .ykknInfo === null
     ) {
         return [];
     }
     const result: factory.action.check.paymentMethod.movieTicket.IAction[] = [];
-    checkMovieTicketActions.forEach((action) => {
+    checkMovieTickets.forEach((action) => {
         if (
             action.result === undefined ||
             action.result.purchaseNumberAuthResult.knyknrNoInfoOut === null ||
@@ -148,9 +148,9 @@ export function sameMovieTicketFilter(params: {
             return;
         }
         if (
-            checkMovieTicketAction.result === undefined ||
+            checkMovieTicket.result === undefined ||
             action.result.movieTickets[0].identifier !==
-                checkMovieTicketAction.result.movieTickets[0].identifier
+                checkMovieTicket.result.movieTickets[0].identifier
         ) {
             return;
         }
@@ -164,14 +164,14 @@ export function sameMovieTicketFilter(params: {
  * ムビチケ有効
  */
 export function isAvailabilityMovieTicket(
-    checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction
+    checkMovieTicket: factory.action.check.paymentMethod.movieTicket.IAction
 ) {
     return (
-        checkMovieTicketAction.result !== undefined &&
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut !== null &&
-        checkMovieTicketAction.result.purchaseNumberAuthResult
-            .knyknrNoInfoOut[0].ykknInfo !== null
+        checkMovieTicket.result !== undefined &&
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut !==
+            null &&
+        checkMovieTicket.result.purchaseNumberAuthResult.knyknrNoInfoOut[0]
+            .ykknInfo !== null
     );
 }
 
@@ -836,4 +836,17 @@ export function createRemiseOrderId(prefix?: string) {
             ? `${moment().format('YYYYMMDDHHmmsss')}`
             : `${prefix}${moment().format('YYYYMMDDHHmmsss')}`;
     return id;
+}
+
+/**
+ * メンバーシップオファー取得
+ */
+export function getMembershipTypeOffers(params: {
+    screeningEventTicketOffers: factory.chevre.event.screeningEvent.ITicketOffer[];
+}) {
+    const screeningEventTicketOffers = params.screeningEventTicketOffers;
+    const result = screeningEventTicketOffers.filter((o) => {
+        return o.eligibleMembershipType !== undefined;
+    });
+    return result;
 }

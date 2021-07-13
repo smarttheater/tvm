@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.4.0 - 2021-07-13
+
+### Changed
+
+-   メンバーシップを使用しての注文をトークン利用へ変更
+
+#### Fixed
+
+-   決済方法「現金」選択後に 0 円で購入するとエラーになる不具合修正
+
 ## 2.3.0 - 2021-07-08
 
 ### Added

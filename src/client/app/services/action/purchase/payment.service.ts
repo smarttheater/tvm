@@ -147,7 +147,7 @@ export class ActionPaymentService {
                     'transaction or transaction.seller.id or screeningEvent undefined'
                 );
             }
-            const checkMovieTicketAction =
+            const checkMovieTicket =
                 await this.cinerinoService.payment.checkMovieTicket({
                     typeOf: movieTickets[0].typeOf,
                     movieTickets: movieTickets.map((movieTicket) => {
@@ -179,9 +179,10 @@ export class ActionPaymentService {
                 });
 
             this.store.dispatch(
-                purchaseAction.setCheckMovieTicket({ checkMovieTicketAction })
+                purchaseAction.setCheckMovieTicket({ checkMovieTicket })
             );
             this.utilService.loadEnd();
+            return checkMovieTicket;
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();

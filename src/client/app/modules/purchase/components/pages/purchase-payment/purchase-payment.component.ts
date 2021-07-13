@@ -117,6 +117,7 @@ export class PurchasePaymentComponent implements OnInit {
                     )?.image,
                 });
             });
+            this.actionService.purchase.setPaymentMethodType({});
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -127,8 +128,7 @@ export class PurchasePaymentComponent implements OnInit {
      * 決済方法選択
      */
     public async selectPaymentMethodType(
-        typeOf: factory.chevre.paymentMethodType,
-        category?: string
+        typeOf: factory.chevre.paymentMethodType
     ) {
         try {
             if (this.epsonEPOSService.cashchanger.isConnected()) {
@@ -153,9 +153,8 @@ export class PurchasePaymentComponent implements OnInit {
                 });
                 return;
             }
-            this.actionService.purchase.selectPaymentMethodType({
-                typeOf,
-                category,
+            this.actionService.purchase.setPaymentMethodType({
+                paymentMethod: { typeOf },
             });
             this.router.navigate(['/purchase/payment/reception']);
         } catch (error) {

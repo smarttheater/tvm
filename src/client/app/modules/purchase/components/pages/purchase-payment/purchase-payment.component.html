@@ -58,12 +58,10 @@
                 </div>
             </div>
             <div class="col-3">
-                <button *ngIf="amount > 0" type="submit"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2" disabled>{{
-                    'purchase.payment.next' | translate }}</button>
-                <button *ngIf="amount === 0" type="submit" routerLink="/purchase/payment/reception"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2">{{ 'purchase.payment.next' |
-                    translate }}</button>
+                <button type="submit" [disabled]="amount > 0" routerLink="/purchase/payment/reception"
+                    class="text-large btn btn-primary btn-block font-weight-bold py-2">
+                    {{ 'purchase.payment.next' | translate }}
+                </button>
             </div>
         </div>
     </div>

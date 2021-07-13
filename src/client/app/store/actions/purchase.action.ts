@@ -110,7 +110,7 @@ export const setAuthorizeMovieTicket = createAction(
 export const setCheckMovieTicket = createAction(
     `${LABEL} setCheckMovieTicket`,
     props<{
-        checkMovieTicketAction: factory.action.check.paymentMethod.movieTicket.IAction;
+        checkMovieTicket: factory.action.check.paymentMethod.movieTicket.IAction;
     }>()
 );
 
@@ -126,10 +126,12 @@ export const setAuthorizeAnyPayment = createAction(
     }>()
 );
 
-export const selectPaymentMethodType = createAction(
-    `${LABEL} selectPaymentMethodType`,
+export const setPaymentMethodType = createAction(
+    `${LABEL} setPaymentMethodType`,
     props<{
-        typeOf: factory.chevre.paymentMethodType | string;
+        paymentMethod?: {
+            typeOf: string;
+        };
     }>()
 );
 

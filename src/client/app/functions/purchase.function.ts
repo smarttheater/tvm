@@ -406,9 +406,10 @@ export function getAmount(
     const amounts = authorizeSeatReservations.map((reservations) =>
         reservations.result === undefined ? 0 : reservations.result.price
     );
-    const amount = amounts.reduce(
-        (previousValue, currentValue) => previousValue + currentValue
-    );
+    let amount = 0;
+    amounts.forEach((a) => {
+        amount += a;
+    });
 
     return amount;
 }

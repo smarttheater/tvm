@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
-import { Functions, Models } from '../../../../..';
+import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import {
     IReservation,
@@ -150,28 +150,25 @@ export class PurchaseTicketComponent implements OnInit {
      * 券種一覧表示
      */
     public async openTicketList(reservation?: IReservation) {
-        const purchase = await this.actionService.purchase.getData();
+        const {
+            authorizeSeatReservation,
+            screeningEventTicketOffers,
+            checkMovieTickets,
+            checkProducts,
+            reservations,
+            pendingMovieTickets,
+        } = await this.actionService.purchase.getData();
         this.modal.show(PurchaseSeatTicketModalComponent, {
             class: 'modal-dialog-centered modal-lg',
             initialState: {
-                authorizeSeatReservation: purchase.authorizeSeatReservation,
-                screeningEventTicketOffers: purchase.screeningEventTicketOffers,
-                checkMovieTickets: purchase.checkMovieTickets,
-                reservations: purchase.reservations,
-                reservation: reservation,
-                pendingMovieTickets: purchase.pendingMovieTickets,
+                authorizeSeatReservation,
+                screeningEventTicketOffers,
+                checkMovieTickets,
+                checkProducts,
+                reservations,
+                reservation,
+                pendingMovieTickets,
                 cb: async (ticket: IReservationTicket) => {
-                    if (reservation === undefined) {
-                        const reservations = Functions.Util.deepCopy<
-                            IReservation[]
-                        >(purchase.reservations);
-                        reservations.forEach((r) => (r.ticket = ticket));
-                        this.actionService.purchase.selectTickets(reservations);
-                        this.isSelectedTicket =
-                            (await this.getUnselectedTicketReservations())
-                                .length === 0;
-                        return;
-                    }
                     this.actionService.purchase.selectTickets([
                         { ...reservation, ticket },
                     ]);

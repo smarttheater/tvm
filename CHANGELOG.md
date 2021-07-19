@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.5.0 - 2021-07-19
+
+### Added
+
+-   本日以外の日付選択へ曜日追加
+
+### Fixed
+
+-   チケット選択画面の購入情報表示修正
+
 ## 2.4.0 - 2021-07-13
 
 ### Changed

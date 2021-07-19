@@ -79,17 +79,21 @@ export class PurchaseEventSelectComponent implements OnInit {
             this.performance = new Models.Purchase.Performance({
                 screeningEvent,
             });
-            this.tickets = screeningEventTicketOffers.filter((ticketOffer) => {
-                const movieTicketTypeChargeSpecification = <
-                    IMovieTicketTypeChargeSpecification
-                >ticketOffer.priceSpecification.priceComponent.find(
-                    (c) =>
-                        c.typeOf ===
-                        factory.chevre.priceSpecificationType
-                            .MovieTicketTypeChargeSpecification
-                );
-                return movieTicketTypeChargeSpecification === undefined;
-            });
+            this.tickets = screeningEventTicketOffers
+                .filter((ticketOffer) => {
+                    const movieTicketTypeChargeSpecification = <
+                        IMovieTicketTypeChargeSpecification
+                    >ticketOffer.priceSpecification.priceComponent.find(
+                        (c) =>
+                            c.typeOf ===
+                            factory.chevre.priceSpecificationType
+                                .MovieTicketTypeChargeSpecification
+                    );
+                    return movieTicketTypeChargeSpecification === undefined;
+                })
+                .filter((ticketOffer) => {
+                    return ticketOffer.eligibleMembershipType === undefined;
+                });
             const selectedTickets: ISelectedTickets[] = [];
             this.tickets.forEach((t) => {
                 if (t.id === undefined) {

@@ -70,6 +70,7 @@ export class UserService {
         this.translate.use(language);
         const html = <HTMLElement>document.querySelector('html');
         html.setAttribute('lang', language);
+        moment.locale(language);
         this.store.dispatch(userAction.updateLanguage({ language }));
     }
 

@@ -129,7 +129,8 @@ export class ActionTransactionService {
                 process: 'purchaseAction.ConfirmTransaction',
             });
             const environment = getEnvironment();
-            const { language, theater } = params;
+            const { theater } = params;
+            const language = 'ja';
             const { transaction, authorizeSeatReservations, seller } =
                 await this.storeService.getPurchaseData();
             if (

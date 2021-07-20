@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.5.1 - 2021-07-20
+
+### Fixed
+
+-   言語切替不具合修正
+
 ## 2.5.0 - 2021-07-19
 
 ### Added

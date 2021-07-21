@@ -433,7 +433,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     private getPaymentTimeout(params: {
         transaction: factory.transaction.placeOrder.ITransaction;
     }) {
-        const expires = params.transaction.expires;
+        const expires = moment(params.transaction.expires).add(-15, 'seconds');
         const now = moment();
         const paymentTimeout = Number(this.environment.PAYMENT_TIMEOUT);
         const diff = moment(expires).diff(now, 'milliseconds');

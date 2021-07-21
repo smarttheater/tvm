@@ -32,7 +32,10 @@ export class PurchaseEventTicketModalComponent implements OnInit {
         reservations: Models.Purchase.Reservation.IReservation[];
         additionalTicketText?: string;
     }) => void;
-    public tickets: factory.chevre.event.screeningEvent.ITicketOffer[];
+    public tickets: {
+        offer: factory.chevre.event.screeningEvent.ITicketOffer;
+        capacityValue: number;
+    }[];
     public selectedTickets: ISelectedTickets[];
     public moment = moment;
     public getRemainingSeatLength = Functions.Purchase.getRemainingSeatLength;
@@ -64,22 +67,29 @@ export class PurchaseEventTicketModalComponent implements OnInit {
             })
             .filter((ticketOffer) => {
                 return ticketOffer.eligibleMembershipType === undefined;
+            })
+            .map((ticketOffer) => {
+                return {
+                    offer: ticketOffer,
+                    capacityValue:
+                        this.remainingAttendeeCapacityValue(ticketOffer).length,
+                };
             });
         const selectedTickets: ISelectedTickets[] = [];
         this.tickets.forEach((t) => {
-            if (t.id === undefined) {
+            if (t.offer.id === undefined) {
                 return;
             }
             const addOn: { id: string; count: number }[] = [];
-            if (t.addOn !== undefined) {
-                t.addOn.forEach((a) => {
+            if (t.offer.addOn !== undefined) {
+                t.offer.addOn.forEach((a) => {
                     if (a.id === undefined) {
                         return;
                     }
                     addOn.push({ id: a.id, count: 0 });
                 });
             }
-            selectedTickets.push({ id: t.id, count: 0, addOn });
+            selectedTickets.push({ id: t.offer.id, count: 0, addOn });
         });
         this.selectedTickets = selectedTickets;
         this.additionalTicketText = '';
@@ -91,7 +101,6 @@ export class PurchaseEventTicketModalComponent implements OnInit {
     public remainingAttendeeCapacityValue(
         screeningEventTicketOffer: factory.chevre.event.screeningEvent.ITicketOffer
     ) {
-        const values = [];
         const screeningEvent = this.screeningEvent;
         const screeningEventSeats = this.screeningEventSeats;
         let limit = Number(this.environment.PURCHASE_ITEM_MAX_LENGTH);
@@ -137,10 +146,7 @@ export class PurchaseEventTicketModalComponent implements OnInit {
                 }
             }
         }
-        for (let i = 0; i < limit; i++) {
-            values.push(i + 1);
-        }
-        return values;
+        return [...Array(limit)].map((_, i) => i + 1);
     }
 
     /**

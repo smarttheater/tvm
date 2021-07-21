@@ -39,11 +39,11 @@
     <hr class="border-top border-gray mb-3">
     <ul *ngIf="tickets.length > 0" class="mb-4">
         <li *ngFor="let ticket of tickets; let i = index;" class="ticket mb-3 pb-3 border-bottom border-gray"
-            [class.text-danger]="remainingAttendeeCapacityValue(ticket).length === 0">
+            [class.text-danger]="ticket.capacityValue === 0">
             <div class="container px-0">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-8 text-left">
-                        <p *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
+                        <p *ngFor="let priceComponent of ticket.offer.priceSpecification.priceComponent">
                             <span>{{ priceComponent.name | changeLanguage }}</span>
                             <!--
                             --><span>&nbsp;/&nbsp;{{ priceComponent.price | currency : priceComponent.priceCurrency
@@ -53,24 +53,24 @@
                                 'common.referenceQuantityValue' |
                                 translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
                         </p>
-                        <p *ngIf="ticket.description" class="text-small text-left mt-1">
+                        <p *ngIf="ticket.offer.description" class="text-small text-left mt-1">
                             {{ ticket.description | changeLanguage }}</p>
                     </div>
                     <div class="col-4 text-right">
                         <app-quantity-input [value]="selectedTickets[i].count"
-                            (valueChange)="changeSelect(ticket.id, $event)"
-                            [maxValue]="remainingAttendeeCapacityValue(ticket).length"></app-quantity-input>
+                            (valueChange)="changeSelect(ticket.offer.id, $event)" [maxValue]="ticket.capacityValue">
+                        </app-quantity-input>
                     </div>
                 </div>
             </div>
 
-            <ul *ngIf="ticket.addOn && ticket.addOn.length > 0" class="mt-3">
-                <li class="my-1" *ngFor="let addOn of ticket.addOn; let i2 = index">
+            <ul *ngIf="ticket.offer.addOn && ticket.offer.addOn.length > 0" class="mt-3">
+                <li class="my-1" *ngFor="let addOn of ticket.offer.addOn; let i2 = index">
                     <div class="container px-0">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-8 text-left">
                                 <div class="pl-4">
-                                    <p *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
+                                    <p *ngFor="let priceComponent of ticket.offer.priceSpecification.priceComponent">
                                         <span>{{ addOn.priceSpecification?.name | changeLanguage }}</span>
                                         <!--
                                         --><span>&nbsp;/&nbsp;{{ addOn.priceSpecification?.price | currency :
@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-4 text-right">
                                 <app-quantity-input [(value)]="selectedTickets[i].addOn[i2].count"
-                                    [maxValue]="remainingAttendeeCapacityAddOnValue(ticket).length">
+                                    [maxValue]="remainingAttendeeCapacityAddOnValue(ticket.offer).length">
                                 </app-quantity-input>
                             </div>
                         </div>

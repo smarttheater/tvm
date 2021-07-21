@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.6.0 - 2021-07-21
+
+### Fixed
+
+-   クレジットカード決済エラーハンドリング修正
+-   決済端末タイムアウト時間修正
+
 ## 2.5.1 - 2021-07-20
 
 ### Fixed

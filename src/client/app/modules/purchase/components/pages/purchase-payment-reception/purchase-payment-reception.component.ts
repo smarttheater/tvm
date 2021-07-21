@@ -20,15 +20,6 @@ import * as reducers from '../../../../../store/reducers';
     styleUrls: ['./purchase-payment-reception.component.scss'],
 })
 export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
-    public purchase: Observable<reducers.IPurchaseState>;
-    public user: Observable<reducers.IUserState>;
-    public isLoading: Observable<boolean>;
-    public paymentMethodType = factory.chevre.paymentMethodType;
-    public customPaymentMethodType = Models.Purchase.Payment.PaymentMethodType;
-    public viewType = Models.Util.ViewType;
-    public amount: number;
-    public environment = getEnvironment();
-
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
@@ -37,6 +28,14 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         private epsonEPOSService: EpsonEPOSService,
         private paymentService: PaymentService
     ) {}
+    public purchase: Observable<reducers.IPurchaseState>;
+    public user: Observable<reducers.IUserState>;
+    public isLoading: Observable<boolean>;
+    public paymentMethodType = factory.chevre.paymentMethodType;
+    public customPaymentMethodType = Models.Purchase.Payment.PaymentMethodType;
+    public viewType = Models.Util.ViewType;
+    public amount: number;
+    public environment = getEnvironment();
 
     public async ngOnInit() {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
@@ -85,7 +84,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         } catch (error) {
             console.error(error);
             this.utilService.loadEnd();
-            this.router.navigate(['/stop']);
+            // this.router.navigate(['/stop']);
         }
     }
 
@@ -130,6 +129,11 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         if (transaction === undefined || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const timeout = this.getPaymentTimeout({ transaction });
+        if (timeout < 0) {
+            this.router.navigate(['/expired']);
+            return;
+        }
         const modal = this.utilService.openStaticModal({
             title: '', // this.translate.instant('purchase.paymentReception.creditcard.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/creditcard.svg" alt="">',
@@ -147,13 +151,15 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 // TRANID: '',
                 // CANTRANID: ''
             },
-            timeout: this.getPaymentTimeout({ transaction }),
+            timeout,
         });
         if (
             execResult.FUNC_STATUS ===
                 Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
             execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL
+                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
+            execResult.FUNC_STATUS ===
+                Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
         ) {
             modal.hide();
             this.router.navigate(['/purchase/payment']);
@@ -182,6 +188,11 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         if (transaction === undefined || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const timeout = this.getPaymentTimeout({ transaction });
+        if (timeout < 0) {
+            this.router.navigate(['/expired']);
+            return;
+        }
         const modal = this.utilService.openStaticModal({
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
@@ -199,13 +210,15 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 // TRANID: '',
                 // CANTRANID: ''
             },
-            timeout: this.getPaymentTimeout({ transaction }),
+            timeout,
         });
         if (
             execResult.FUNC_STATUS ===
                 Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
             execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL
+                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
+            execResult.FUNC_STATUS ===
+                Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
         ) {
             modal.hide();
             this.router.navigate(['/purchase/payment']);
@@ -234,6 +247,11 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         if (transaction === undefined || payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
+        const timeout = this.getPaymentTimeout({ transaction });
+        if (timeout < 0) {
+            this.router.navigate(['/expired']);
+            return;
+        }
         const modal = this.utilService.openStaticModal({
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
@@ -251,13 +269,15 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 // TRANID: '',
                 // CANTRANID: ''
             },
-            timeout: this.getPaymentTimeout({ transaction }),
+            timeout,
         });
         if (
             execResult.FUNC_STATUS ===
                 Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
             execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL
+                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
+            execResult.FUNC_STATUS ===
+                Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
         ) {
             modal.hide();
             this.router.navigate(['/purchase/payment']);
@@ -433,7 +453,11 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     private getPaymentTimeout(params: {
         transaction: factory.transaction.placeOrder.ITransaction;
     }) {
-        const expires = moment(params.transaction.expires).add(-15, 'seconds');
+        const PAYMENT_NECESSARY_TIME = 20000;
+        const expires = moment(params.transaction.expires).add(
+            -1 * PAYMENT_NECESSARY_TIME,
+            'milliseconds'
+        );
         const now = moment();
         const paymentTimeout = Number(this.environment.PAYMENT_TIMEOUT);
         const diff = moment(expires).diff(now, 'milliseconds');

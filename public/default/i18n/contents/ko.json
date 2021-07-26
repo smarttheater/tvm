@@ -1,247 +1,194 @@
 {
-    "form": {
-        "label": {
-            "theaterId": "시설",
-            "posId": "POS",
-            "printerType": "프린터",
-            "printerIpAddress": "프린터 IP 주소",
-            "familyName": "성 (더블 바이트 가타카나)",
-            "givenName": "이름 (더블 바이트 가타카나)",
-            "email": "이메일 주소",
-            "telephone": "전화 번호",
-            "age": "age",
-            "address": "address",
-            "gender": "gender"
-        },
-        "option": {
-            "man": "man",
-            "woman": "여자",
-            "unselected": "unselected"
-        },
-        "validation": {
-            "required": "입력되지 않음",
-            "maxlength": "{{value}} 자 이하로 입력",
-            "minlength": "최소 {{value}} 자 이상 입력",
-            "fullKana": "전각 가타카나를 입력하세요.",
-            "lowercaseLetters": "반각 소문자로 입력하세요",
-            "number": "숫자 입력",
-            "email": "잘못된 형식",
-            "telephone": "잘못된 형식",
-            "unselected": "선택되지 않음.",
-            "pattern": "무효화"
-        },
-        "placeholder": {
-            "printerIpAddress": "0.0.0.0",
-            "familyName": "야마다",
-            "givenName": "타로",
-            "email": "xxx@motionpicture.jp",
-            "telephone": "0362778824",
-            "age": "",
-            "address": "",
-            "gender": "",
-            "confirmationNumber": "12345"
-        },
-        "required": "필수"
-    },
-    "modal": {
-        "movieTicket": {
-            "check": {
-                "title": "QR 코드가있는 경우 리더 위에 올려 놓으세요.",
-                "success": "티켓이 추가되었습니다.",
-                "code": "구매 번호",
-                "password": "PIN",
-                "next": "인증",
-                "prev": "",
-                "value": "[{{value}} 시트]",
-                "alert": {
-                    "validation": "입력 한 내용을 확인하세요.",
-                    "used": "이미 사용됨.",
-                    "error": "오류가 발생했습니다."
-                }
+    "purchase": {
+        "payment": {
+            "title": "결제 수단을 선택하세요.",
+            "notPayment": "구매를 확인하고 구매 확인을 누르세요",
+            "notfound": "구매할 항목이 없습니다.",
+            "next": "구매 확인",
+            "prev": "뒤로",
+            "alert": {
+                "notCompatible": "결제 수단이 지원되지 않습니다."
             }
         },
-        "membership": {
-            "check": {
-                "title": "QR 코드가있는 경우 리더 위에 올려 놓으세요.",
-                "success": "티켓이 추가되었습니다.",
-                "code": "구매 번호",
-                "password": "PIN",
-                "next": "인증",
-                "prev": "",
-                "value": "[{{value}} 시트]",
-                "alert": {
-                    "validation": "입력 한 내용을 확인하세요.",
-                    "used": "이미 사용됨.",
-                    "error": "오류가 발생했습니다."
-                }
-            }
-        },
-        "purchase": {
-            "transaction": {
-                "title": "확인",
-                "read": "진행중인 거래가 있습니다.",
-                "next": "추가 및 계속",
-                "prev": "장바구니로 이동"
+        "paymentReception": {
+            "title": "결제 수단 선택",
+            "cash": {
+                "title": "현금을 넣어주세요",
+                "insufficient": "금액 부족",
+                "deposit": "입금액",
+                "change": "변경",
+                "next": "구매 확인",
+                "prev": "뒤로"
             },
-            "seatTicket": {
-                "addOn": "옵션 선택",
-                "notfound": "판매 가능한 티켓 유형이 없습니다.",
-                "movieTicket": {
-                    "code": "Mubichike 구매 번호"
-                }
+            "creditcard": {
+                "title": "신용 카드를 입력하세요.",
+                "next": "구매 확인",
+                "prev": "뒤로"
+            },
+            "eMoney": {
+                "title": "결제 접수 (전자 화폐)",
+                "next": "구매 확인",
+                "prev": "뒤로"
+            },
+            "code": {
+                "title": "결제 접수 (코드)",
+                "next": "구매 확인",
+                "prev": "뒤로"
             }
+        },
+        "complete": {
+            "title": "구매해 주셔서 감사합니다.",
+            "print": {
+                "total": "total",
+                "ticket": "티켓",
+                "value": "{{value}} 시트"
+            },
+            "next": "완료",
+            "prev": "뒤로",
+            "alert": {
+                "print": "인쇄 실패"
+            }
+        },
+        "info": {
+            "read": "현재 선택된 티켓 :"
+        },
+        "seat": {
+            "normal": "선택 가능",
+            "active": "선택",
+            "disabled": "선택할 수 없음",
+            "space": "판매용 아님"
         }
     },
-    "process": {
-        "load": "로드 중",
-        "authAction": {
-            "CheckLogin": "로그인 확인 중",
-            "Logout": "로그 아웃"
+    "inquiry": {
+        "input": {
+            "title": "티켓 구매시 확인 번호와 전화 번호를 입력 해주세요",
+            "next": "문의",
+            "prev": "뒤로",
+            "validation": "입력 정보가 ​​잘못되었습니다."
         },
-        "admissionAction": {
-            "Check": "QR 코드 확인 중"
-        },
-        "masterAction": {
-            "SearchSellers": "판매자 정보 가져 오기",
-            "SearchMovieTheaters": "시설 정보 가져 오기",
-            "SearchScreeningEvent": "이벤트 정보 가져 오기",
-            "SearchMovies": "콘텐츠 정보 가져 오기",
-            "SearchScreeningEventSeries": "시설 콘텐츠 정보 가져 오기",
-            "SearchScreeningRooms": "방 정보 가져 오기",
-            "SearchCategoryCode": "분류 정보 가져 오기",
-            "GetProjects": "프로젝트 가져 오기",
-            "GetTheaters": "시설 정보 가져 오기"
-        },
-        "orderAction": {
-            "Search": "주문 정보 가져 오기",
-            "Cancel": "주문 정보 취소",
-            "Print": "인쇄",
-            "Inquiry": "주문 정보 조회",
-            "OrderAuthorize": "주문 정보 승인"
-        },
-        "purchaseAction": {
-            "StartTransaction": "거래 시작",
-            "CancelTransaction": "거래 취소",
-            "GetScreeningEvent": "이벤트 정보 가져 오기",
-            "GetPreScheduleDates": "사전 판매 정보 가져 오기",
-            "GetScreeningRoom": "화면 정보 가져 오기",
-            "GetScreenData": "좌석 정보 가져 오기",
-            "SearchTicketOffers": "티켓 유형 정보 가져 오기",
-            "GetScreeningEventSeats": "빈 좌석 정보 가져 오기",
-            "GetSeller": "판매자 정보 가져 오기",
-            "AuthorizeSeatReservation": "임시 예약",
-            "VoidSeatReservation": "임시 예약 취소",
-            "SetProfile": "구매자 정보 등록",
-            "AuthorizeMovieTicket": "영화 티켓 정보 승인",
-            "CheckMovieTicket": "영화 티켓 정보 확인 중",
-            "CheckProduct": "제품 정보를 확인하고 있습니다",
-            "ConfirmTransaction": "확인 된 거래",
-            "AuthorizeAnyPayment": "결제 정보 승인"
-        }
-    },
-    "qrcode": {
-        "reader": {
-            "title": "QR 코드를 스캔하세요."
-        },
-        "viewer": {
-            "title": ""
-        }
-    },
-    "common": {
-        "performance": {
-            "status": {
-                "success": "구매",
-                "warning": "구매",
-                "danger": "full",
-                "endSale": "단종",
-                "outsideSalesPeriod": "외부 판매"
+        "confirm": {
+            "title": "티켓 발권 전 아래 사항을 확인 해주세요",
+            "next": "티켓팅",
+            "prev": "뒤로",
+            "cancel": "취소",
+            "alert": {
+                "cancel": "취소 실패.",
+                "authorize": "QR 코드 표시를 표시 할 수 없습니다.",
+                "print": "인쇄 실패",
+                "printSuccess": "인쇄 완료",
+                "doubleTicketing": "이미 인쇄 된 티켓"
             },
-            "infiniteStock": "재고 관리 없음"
-        },
-        "date": {
-            "year": "연도",
-            "month": "달",
-            "day": "일",
-            "hour": "시간",
-            "minute": "분",
-            "second": "초"
-        },
-        "confirmationNumber": "확인 번호",
-        "orderNumber": "주문 번호",
-        "reservationId": "예약 ID",
-        "reservationNumber": "예약 번호",
-        "seller": "판매자",
-        "screen": "화면",
-        "event": "작동",
-        "startDate": "상영 날짜 및 시간",
-        "doorTime": "개장 날짜 및 시간",
-        "seat": "좌석",
-        "seatValue": "({{value}} 좌석)",
-        "ticket": "티켓 유형",
-        "referenceQuantityValue": "[{{value}} 시트]",
-        "customer": "구매자",
-        "customerName": "이름",
-        "familyName": "성",
-        "givenName": "이름",
-        "email": "이메일 주소",
-        "emailDescription": "[도메인 지정 수신을 사용하는 경우] <br> * 휴대폰에 도메인 지정 수신을 사용하는 경우\"@smart-theater.com\"을 추가하십시오. <br> * au ( @ ezweb.ne.jp), \"스푸핑 제한 회피 목록 \"에 \"@ smart-theater.com \"을 추가하십시오. ",
-        "telephone": "전화 번호",
-        "age": "나이",
-        "address": "주소",
-        "gender": {
-            "label": "성별",
-            "man": "남성",
-            "woman": "여성",
-            "unselected": "선택하지 않음"
-        },
-        "paymentMethod": "결제 방법",
-        "price": "금액",
-        "ticketing": "티켓팅",
-        "admission": "입구",
-        "reservation": "예약",
-        "amount": "총 금액",
-        "dubbing": "더빙 버전",
-        "subtitles": "자막 버전",
-        "orderDate": "구매 날짜",
-        "orderStatus": "주문 상태",
-        "reservationStatus": "예약 상태",
-        "additionalTicketText": "예약 메모",
-        "qrcode": "QR 코드",
-        "paymentMethodType": {
-            "movieTicket": {
-                "label": "영화 티켓",
-                "use": "<span class =\"font-weight-bold\"> 영화 티켓 사용 정보 </ span> <br> <span class =\"text-small\"> 영화를 사용하는 경우 티켓을 인증하고 티켓 유형에 추가하세요. </ span> "
-            },
-            "mgTicket": {
-                "label": "MG 티켓",
-                "use": "<span class =\"font-weight-bold\"> MG 티켓 사용 정보 </ span> <br> <span class =\"text-small\"> MG 티켓을 사용하는 경우 인증하고 티켓 유형에 추가하세요. </ span> "
-            },
-            "surfRock": {
-                "label": "SurfRock",
-                "use": "<span class =\"font-weight-bold\"> SurfRock 사용 정보 </ span> <br> <span class =\"text-small\"> SurfRock을 사용하는 경우 인증하고 티켓 유형에 추가하세요. </ span> "
+            "confirm": {
+                "printExpired": "당일 이외의 예약이 포함되어 있지만시겠습니까?",
+                "cancel": "정말 취소 하시겠습니까?"
             }
         },
-        "membership": {
-            "label": "회원",
-            "use": "<span class =\"font-weight-bold\"> 회원 사용 정보 </ span> <br> <span class =\"text-small\"> 회원을 사용하는 경우 인증하고 티켓 유형에 추가하세요. </ span> "
+        "print": {
+            "title": "인쇄 완료",
+            "read": "티켓 인쇄가 완료되었습니다.",
+            "next": "완료",
+            "prev": "뒤로"
+        }
+    },
+    "error": {
+        "title": "오류",
+        "read": "오류가 발생했습니다.",
+        "prev": "뒤로"
+    },
+    "not": {
+        "found": {
+            "title": "찾을 수 없음",
+            "read": "페이지를 찾을 수 없음",
+            "prev": "뒤로"
+        }
+    },
+    "expired": {
+        "title": "오류",
+        "read": "거래가 만료되었습니다.",
+        "prev": "뒤로"
+    },
+    "congestion": {
+        "title": "지금 액세스가 바쁩니다.",
+        "read": "현재 액세스가 집중되어 있습니다. <br> 죄송 합니다만 잠시 기다렸다가 다시 시도해주세요.",
+        "prev": "뒤"
+    },
+    "maintenance": {
+        "title": "유지",
+        "read": "유지 보수를 위해 인터넷 판매를 중단하겠습니다.",
+        "prev": "뒤"
+    },
+    "stop": {
+        "title": "stop",
+        "read": "가까운 직원에게 문의하세요.",
+        "prev": "뒤로"
+    },
+    "setting": {
+        "title": "환경",
+        "read": "설정을 변경할 수 있습니다.",
+        "next": "설정 변경",
+        "prev": "뒤로",
+        "basic": {
+            "title": "기본 정보"
         },
-        "timeLimit": "남음",
-        "all": "모두",
-        "close": "닫기",
-        "done": "결정",
-        "yes": "예",
-        "no": "아니",
-        "on": "의 위에",
-        "off": "떨어져서",
-        "error": "오류",
-        "confirm": "확인",
-        "complete": "완전한",
-        "determine": "결정",
-        "warning": "경고",
-        "change": "변경",
-        "remove": "제거",
-        "etc": "기타",
-        "required": "필수",
-        "clear": "처음으로 돌아 가기"
+        "device": {
+            "title": "외부 기기",
+            "printer": {
+                "label": "프린터",
+                "ipAddress": "IP 주소",
+                "ipAddressDescription": "* Star Micronics Bluetooth 연결 (Starweb PRNT 전용 브라우저)을 사용하는 경우 localhost : 8001을 설정하십시오. <br> * SSL없이 Epson ePOS 포트 번호 8008을 사용하는 경우 SSL을 사용하는 포트 번호 8043을 지정하십시오.",
+                "testPrinting": "테스트 인쇄"
+            },
+            "cashchanger": {
+                "label": "기계 변경",
+                "description": "* SSL없이 포트 번호 8008을 지정하고 SSL을 사용하여 포트 번호 8043을 지정하십시오."
+            },
+            "payment": {
+                "label": "결제 단말기"
+            },
+            "connect": "잇다",
+            "endDeposit": "입금 반환",
+            "readCounts": "계수",
+            "collectAll": "전액 회수",
+            "collectPart": "残置 회수",
+            "starBluetoothAddress": "localhost: 8001",
+            "printType": {
+                "none": "인쇄 안 함",
+                "image": "이미지 표시",
+                "starLAN": "Star Micronics LAN 연결",
+                "starBluetooth": "Star Micronics Bluetooth 연결",
+                "epsonEPOS": "Epson ePOS"
+            }
+        },
+        "application": {
+            "title": "응용 프로그램",
+            "applicationType": {
+                "label": "모드",
+                "option": {
+                    "tvm": "매표기",
+                    "printer": "발권기"
+                }
+            },
+            "applicationPassword": {
+                "label": "비밀번호"
+            }
+        },
+        "unselected": "선택하지 않음",
+        "pos": "POS",
+        "signOut": "로그 아웃",
+        "alert": {
+            "connection": "연결에 성공했습니다.",
+            "customer": "잘못된 구매자 정보입니다.",
+            "payment": "결제 정보가 잘못되었습니다.",
+            "validation": "잘못된 입력 정보입니다.",
+            "success": "설정이 저장되었습니다.",
+            "print": "인쇄 실패"
+        },
+        "confirm": {
+            "collect": "조회 작업을 수행 하시겠습니까?"
+        }
+    },
+    "admin": {
+        "title": "관리자 기능",
+        "read": "암호를 입력하십시오."
     }
 }

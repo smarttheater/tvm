@@ -167,20 +167,33 @@ export class PurchaseEventScheduleComponent implements OnInit {
             return;
         }
         const performance = new Models.Purchase.Performance({ screeningEvent });
+        const isInfinitetock = performance.isInfinitetock();
+        const isTicketedSeat = performance.isTicketedSeat();
+        const isOpenSeatingAllowed =
+            screen.openSeatingAllowed === undefined
+                ? false
+                : screen.openSeatingAllowed;
         const movieTicketTypeOffers =
             Functions.Purchase.getMovieTicketTypeOffers({
                 screeningEventTicketOffers,
             });
+        const membershipTypeOffers = Functions.Purchase.getMembershipTypeOffers(
+            {
+                screeningEventTicketOffers,
+            }
+        );
+        const isOpenModal =
+            (isInfinitetock && !isOpenSeatingAllowed) ||
+            (!isTicketedSeat && !isOpenSeatingAllowed) ||
+            (isOpenSeatingAllowed &&
+                movieTicketTypeOffers.length === 0 &&
+                membershipTypeOffers.length === 0);
         if (!this.environment.PURCHASE_CART) {
             // カート機能なし
             this.router.navigate(['/purchase/event/select']);
             return;
         }
-        if (
-            performance.isInfinitetock() ||
-            !performance.isTicketedSeat() ||
-            (screen.openSeatingAllowed && movieTicketTypeOffers.length === 0)
-        ) {
+        if (isOpenModal) {
             // 座席選択なし
             this.modal.show(PurchaseEventTicketModalComponent, {
                 class: 'modal-dialog-centered modal-xl',

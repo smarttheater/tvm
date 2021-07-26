@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
-import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
@@ -29,8 +28,7 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
         private router: Router,
         private utilService: UtilService,
         private actionService: ActionService,
-        private masterService: MasterService,
-        private translate: TranslateService
+        private masterService: MasterService
     ) {}
 
     /**
@@ -117,28 +115,6 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
     public async selectSchedule(
         screeningEvent: factory.chevre.event.screeningEvent.IEvent
     ) {
-        if (
-            screeningEvent.remainingAttendeeCapacity === undefined ||
-            screeningEvent.remainingAttendeeCapacity === 0
-        ) {
-            return;
-        }
-        if (
-            screeningEvent.offers === undefined ||
-            screeningEvent.offers.itemOffered.serviceOutput === undefined ||
-            screeningEvent.offers.itemOffered.serviceOutput.reservedTicket ===
-                undefined ||
-            screeningEvent.offers.itemOffered.serviceOutput.reservedTicket
-                .ticketedSeat === undefined
-        ) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant(
-                    'purchase.cinema.schedule.alert.ticketedSeat'
-                ),
-            });
-            return;
-        }
         try {
             if (screeningEvent.workPerformed?.identifier === undefined) {
                 throw new Error('workPerformed.identifier === undefined');

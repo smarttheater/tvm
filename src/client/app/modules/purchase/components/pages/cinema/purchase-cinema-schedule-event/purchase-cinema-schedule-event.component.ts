@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
-import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
@@ -27,8 +26,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
         private router: Router,
         private masterService: MasterService,
         private actionService: ActionService,
-        private utilService: UtilService,
-        private translate: TranslateService
+        private utilService: UtilService
     ) {}
 
     /**
@@ -104,28 +102,6 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
     public async selectSchedule(
         screeningEvent: factory.chevre.event.screeningEvent.IEvent
     ) {
-        if (
-            screeningEvent.remainingAttendeeCapacity === undefined ||
-            screeningEvent.remainingAttendeeCapacity === 0
-        ) {
-            return;
-        }
-        if (
-            screeningEvent.offers === undefined ||
-            screeningEvent.offers.itemOffered.serviceOutput === undefined ||
-            screeningEvent.offers.itemOffered.serviceOutput.reservedTicket ===
-                undefined ||
-            screeningEvent.offers.itemOffered.serviceOutput.reservedTicket
-                .ticketedSeat === undefined
-        ) {
-            this.utilService.openAlert({
-                title: this.translate.instant('common.error'),
-                body: this.translate.instant(
-                    'purchase.cinema.schedule.alert.ticketedSeat'
-                ),
-            });
-            return;
-        }
         try {
             const screeningEventSeries = this.getScreeningEventSeries(
                 screeningEvent.superEvent.id

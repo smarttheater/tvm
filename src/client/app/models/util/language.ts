@@ -1,4 +1,3 @@
-
 /**
  * 言語
  */
@@ -14,7 +13,7 @@ export enum Language {
     ja = '日本語',
     ko = '한국어',
     'zh-TW' = '中文（繁體）',
-    zh = '中文（简体）',
+    'zh-CN' = '中文（简体）',
     pt = 'Portuguese',
-    ru = 'Russian'
+    ru = 'Russian',
 }

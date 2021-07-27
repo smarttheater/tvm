@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.7.0 - 2021-07-27
+
+### Added
+
+-   在庫無限でのメンバーシップを使用した予約対応
+
+### Fixed
+
+-   中国語簡体での曜日表記修正
+
 ## 2.6.0 - 2021-07-21
 
 ### Fixed

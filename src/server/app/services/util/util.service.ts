@@ -10,7 +10,7 @@
 export enum DIGITS {
     '02' = -2,
     '03' = -3,
-    '08' = -8
+    '08' = -8,
 }
 
 /**
@@ -31,7 +31,7 @@ export enum ENV {
     /**
      * 本番
      */
-    Production = 'production'
+    Production = 'production',
 }
 
 /**
@@ -45,11 +45,12 @@ export function escapeHtml(str: string): string {
     const change = (match: string): string => {
         const changeList: any = {
             '&': '&amp;',
-            '\'': '&#x27;',
+            // tslint:disable-next-line:quotemark
+            "'": '&#x27;',
             '`': '&#x60;',
             '"': '&quot;',
             '<': '&lt;',
-            '>': '&gt;'
+            '>': '&gt;',
         };
 
         return changeList[match];
@@ -67,26 +68,4 @@ export function escapeHtml(str: string): string {
  */
 export function formatPrice(price: number): string {
     return String(price).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-}
-
-/**
- * ベース64エンコード
- * @memberof services.util
- * @function bace64Encode
- * @param {string} str
- * @returns {string}
- */
-export function bace64Encode(str: string): string {
-    return new Buffer(str).toString('base64');
-}
-
-/**
- * ベース64デコード
- * @memberof services.util
- * @function base64Decode
- * @param {string} str
- * @returns {string}
- */
-export function base64Decode(str: string): string {
-    return new Buffer(str, 'base64').toString();
 }

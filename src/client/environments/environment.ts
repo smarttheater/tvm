@@ -260,7 +260,7 @@ const defaultEnvironment: IEnvironment = {
 };
 
 export function getEnvironment(): IEnvironment {
-    const environment = {
+    const environment: IEnvironment = {
         ...defaultEnvironment,
         STORAGE_NAME:
             getProject().projectId === ''
@@ -269,5 +269,8 @@ export function getEnvironment(): IEnvironment {
         ...(<any>window).environment,
         production: document.querySelector('body.production') !== null,
     };
+    environment.LANGUAGE = environment.LANGUAGE.map((l) =>
+        l === 'zh' ? 'zh-CN' : l
+    );
     return environment;
 }

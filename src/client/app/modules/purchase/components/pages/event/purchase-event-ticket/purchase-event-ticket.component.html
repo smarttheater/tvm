@@ -16,7 +16,9 @@
                             <div class="container px-3 py-2">
                                 <div class="row align-items-center">
                                     <div class="col-2">
-                                        <p class="font-weight-bold text-large">{{ reservation.seat.seatNumber }}</p>
+                                        <p *ngIf="reservation.seat?.seatNumber" class="font-weight-bold text-large">
+                                            {{ reservation.seat?.seatNumber }}
+                                        </p>
                                     </div>
                                     <div class="col-10">
                                         <div>

@@ -1,246 +1,191 @@
 {
-    "form": {
-        "label": {
-            "theaterId": "設施",
-            "posId": "POS",
-            "printerType": "印表機",
-            "printerIpAddress": "印表機 IP 位址",
-            "familyName": "姓氏（雙節卡塔卡納）",
-            "givenName": "名稱（雙節卡塔卡納）",
-            "email": "電子郵件位址",
-            "telephone": "電話號碼",
-            "age": "年齡",
-            "address": "位址",
-            "gender": "性別"
-        },
-        "option": {
-            "man": "夥計",
-            "woman": "女人",
-            "unselected": "未選"
-        },
-        "validation": {
-            "required": "未輸入",
-            "maxlength": "輸入少於或等於{{value}}字元",
-            "minlength": "輸入至少{{value}}字元",
-            "fullKana": "請輸入全寬卡塔卡納",
-            "lowercaseLetters": "請輸入半寬小寫字母",
-            "number": "輸入數位",
-            "email": "無效格式",
-            "telephone": "無效格式",
-            "unselected": "未選定",
-            "pattern": "無效"
-        },
-        "placeholder": {
-            "printerIpAddress": "0.0.0.0",
-            "familyName": "山田",
-            "givenName": "太郎",
-            "email": "xxx@motionpicture.jp",
-            "age": "",
-            "address": "",
-            "gender": "",
-            "confirmationNumber": "12345"
-        },
-        "required": "需要"
-    },
-    "modal": {
-        "movieTicket": {
-            "check": {
-                "title": "如果您有 QR 代碼，則將其保留在讀卡機上",
-                "success": "門票已添加",
-                "code": "購買編號",
-                "password": "PIN",
-                "next": "認證",
-                "prev": "",
-                "value": "[{{value}}床單]",
-                "alert": {
-                    "validation": "請檢查您的輸入",
-                    "used": "已經用過了",
-                    "error": "出現了錯誤"
-                }
+    "purchase": {
+        "payment": {
+            "title": "請選擇付款條件",
+            "notPayment": "請確認您的購買並按確認購買",
+            "notfound": "沒有物品可以購買",
+            "next": "購買確認",
+            "prev": "回來",
+            "alert": {
+                "notCompatible": "不支援付款方法"
             }
         },
-        "membership": {
-            "check": {
-                "title": "如果您有 QR 代碼，則將其保留在讀卡機上",
-                "success": "門票已添加",
-                "code": "購買編號",
-                "password": "PIN",
-                "next": "認證",
-                "prev": "",
-                "value": "[{{value}}床單]",
-                "alert": {
-                    "validation": "請檢查您的輸入",
-                    "used": "已經用過了",
-                    "error": "出現了錯誤"
-                }
-            }
-        },
-        "purchase": {
-            "transaction": {
-                "title": "確認",
-                "read": "交易正在進行中",
-                "next": "添加並繼續",
-                "prev": "移動到推車"
+        "paymentReception": {
+            "title": "選擇付款條件",
+            "cash": {
+                "title": "請插入現金",
+                "insufficient": "金額不足",
+                "deposit": "存款金額",
+                "change": "改變",
+                "next": "購買確認",
+                "prev": "回來"
             },
-            "seatTicket": {
-                "addOn": "選擇選項",
-                "notfound": "沒有門票類型可供出售",
-                "movieTicket": {
-                    "code": "穆比奇克購買號"
-                }
+            "creditcard": {
+                "title": "請插入您的信用卡",
+                "next": "購買確認",
+                "prev": "回來"
+            },
+            "eMoney": {
+                "title": "付款接待（電子貨幣）",
+                "next": "購買確認",
+                "prev": "回來"
+            },
+            "code": {
+                "title": "付款接收（代碼）",
+                "next": "購買確認",
+                "prev": "回來"
             }
+        },
+        "complete": {
+            "title": "感謝您的購買",
+            "print": {
+                "total": "總計",
+                "ticket": "票",
+                "value": "[價值]紙張"
+            },
+            "next": "完成",
+            "prev": "回來",
+            "alert": {
+                "print": "列印失敗"
+            }
+        },
+        "info": {
+            "read": "目前選定的門票是："
+        },
+        "seat": {
+            "normal": "可選",
+            "active": "選擇",
+            "disabled": "不可選",
+            "space": "不出售"
         }
     },
-    "process": {
-        "load": "載入",
-        "authAction": {
-            "CheckLogin": "檢查登錄",
-            "Logout": "註銷"
+    "inquiry": {
+        "input": {
+            "title": "購買機票時請輸入確認號碼和電話號碼",
+            "next": "詢問",
+            "prev": "回來",
+            "validation": "輸入資訊不正確"
         },
-        "admissionAction": {
-            "Check": "檢查 QR 代碼"
-        },
-        "masterAction": {
-            "SearchSellers": "獲取賣方資訊",
-            "SearchMovieTheaters": "獲取設施資訊",
-            "SearchScreeningEvent": "獲取事件資訊",
-            "SearchMovies": "獲取內容資訊",
-            "SearchScreeningEventSeries": "獲取設施內容資訊",
-            "SearchScreeningRooms": "獲取房間資訊",
-            "SearchCategoryCode": "獲取分類資訊",
-            "GetProjects": "獲取專案",
-            "GetTheaters": "獲取設施資訊"
-        },
-        "orderAction": {
-            "Search": "獲取訂單資訊",
-            "Cancel": "取消訂單資訊",
-            "Print": "列印",
-            "Inquiry": "查詢訂單資訊",
-            "OrderAuthorize": "批准訂單資訊"
-        },
-        "purchaseAction": {
-            "StartTransaction": "開始交易",
-            "CancelTransaction": "取消交易",
-            "GetScreeningEvent": "獲取事件資訊",
-            "GetPreScheduleDates": "獲取預售資訊",
-            "GetScreeningRoom": "獲取屏幕資訊",
-            "GetScreenData": "獲取座位資訊",
-            "SearchTicketOffers": "獲取票務類型資訊",
-            "GetScreeningEventSeats": "獲取空位資訊",
-            "GetSeller": "獲取賣家資訊",
-            "AuthorizeSeatReservation": "臨時預訂",
-            "VoidSeatReservation": "取消暫定預訂",
-            "SetProfile": "註冊購買者資訊",
-            "AuthorizeMovieTicket": "批准電影票資訊",
-            "CheckMovieTicket": "查看電影票資訊",
-            "CheckProduct": "檢查產品信息",
-            "ConfirmTransaction": "已確認交易",
-            "AuthorizeAnyPayment": "批准付款資訊"
-        }
-    },
-    "qrcode": {
-        "reader": {
-            "title": "掃描 QR 代碼"
-        },
-        "viewer": {
-            "title": ""
-        }
-    },
-    "common": {
-        "performance": {
-            "status": {
-                "success": "購買",
-                "warning": "購買",
-                "danger": "滿",
-                "endSale": "已停產",
-                "outsideSalesPeriod": "外部銷售"
+        "confirm": {
+            "title": "請在簽發機票前查看以下內容",
+            "next": "票務",
+            "prev": "回來",
+            "cancel": "取消",
+            "alert": {
+                "cancel": "取消失敗",
+                "authorize": "無法顯示 QR 代碼顯示",
+                "print": "列印失敗",
+                "printSuccess": "列印完成",
+                "doubleTicketing": "已經列印的票"
             },
-            "infiniteStock": "沒有庫存控制"
-        },
-        "date": {
-            "year": "年",
-            "month": "月",
-            "day": "天",
-            "hour": "小時",
-            "minute": "分鐘",
-            "second": "秒"
-        },
-        "confirmationNumber": "確認號碼",
-        "orderNumber": "訂單號",
-        "reservationId": "預訂 ID",
-        "reservationNumber": "預訂號碼",
-        "seller": "賣家",
-        "screen": "螢幕",
-        "event": "工作",
-        "startDate": "篩選日期和時間",
-        "doorTime": "開放日期和時間",
-        "seat": "座位",
-        "seatValue": "（{{value}}座位）",
-        "ticket": "票型",
-        "referenceQuantityValue": "[{{value}}床單]",
-        "customer": "買家",
-        "customerName": "名稱",
-        "familyName": "姓氏",
-        "givenName": "名稱",
-        "email": "電子郵件位址",
-        "emailDescription": "[使用功能變數指定接收時]<br>*如果您使用手機指定的功能變數名稱接收，請添加\"@smart-theater.com\"<br>* 如果您正在使用 au （@ ezweb.ne.jp），請將\"@smart-theater.com\"添加到\"欺騙限制避免清單\"中，此外，請添加上述內容",
-        "telephone": "電話號碼",
-        "age": "年齡",
-        "address": "位址",
-        "gender": {
-            "label": "性別",
-            "man": "男性",
-            "woman": "女人",
-            "unselected": "未選"
-        },
-        "paymentMethod": "付款方法",
-        "price": "金額",
-        "ticketing": "票務",
-        "admission": "入口",
-        "reservation": "保留",
-        "amount": "總金額",
-        "dubbing": "配音版本",
-        "subtitles": "字幕版本",
-        "orderDate": "購買日期",
-        "orderStatus": "訂單狀態",
-        "reservationStatus": "保留狀態",
-        "additionalTicketText": "預訂備忘錄",
-        "qrcode": "QR 代碼",
-        "paymentMethodType": {
-            "movieTicket": {
-                "label": "電影票",
-                "use": "<span class=\"font-weight-bold\">關於電影票的使用</span><br><span class=\"text-small\">如果您使用電影票，請驗證並將其添加到票證類型 </span>"
-            },
-            "mgTicket": {
-                "label": "MG票",
-                "use": "<span class=\"font-weight-bold\">有關MG票的使用</span><br><span class=\"text-small\">如果您使用MG票證，請驗證並將其添加到票證類型 </span>"
-            },
-            "surfRock": {
-                "label": "SurfRock",
-                "use": "<span class=\"font-weight-bold\">有關SurfRock的使用</span><br><span class=\"text-small\">如果您使用SurfRock證，請驗證並將其添加到票證類型 </span>"
+            "confirm": {
+                "printExpired": "如果包括當天以外的預訂，可以嗎？",
+                "cancel": "你確定要取消嗎？"
             }
         },
-        "membership": {
-            "label": "會員資格",
-            "use": "<span class=\"font-weight-bold\">有關會員資格的使用</span><br><span class=\"text-small\">如果您使用會員資格證，請驗證並將其添加到票證類型 </span>"
+        "print": {
+            "title": "列印完成",
+            "read": "票務列印完成",
+            "next": "完成",
+            "prev": "回來"
+        }
+    },
+    "error": {
+        "title": "錯誤",
+        "read": "出現了錯誤",
+        "prev": "回來"
+    },
+    "not": {
+        "found": {
+            "title": "找不到",
+            "read": "找不到頁面",
+            "prev": "回來"
+        }
+    },
+    "expired": {
+        "title": "錯誤",
+        "read": "交易已過期",
+        "prev": "回來"
+    },
+    "congestion": {
+        "title": "訪問現在很忙",
+        "read": "目前，訪問集中<br>我們很抱歉，但請等一會兒，然後再試一次",
+        "prev": "回來"
+    },
+    "maintenance": {
+        "title": "維護",
+        "read": "為了維護，我們將停止在互聯網上銷售",
+        "prev": "回來"
+    },
+    "stop": {
+        "title": "停止",
+        "read": "請與您附近的工作人員交談",
+        "prev": "回來"
+    },
+    "setting": {
+        "title": "設置",
+        "read": "您可以更改設置",
+        "next": "更改設置",
+        "prev": "回來",
+        "basic": {
+            "title": "基本信息"
         },
-        "timeLimit": "剩餘",
-        "all": "所有",
-        "close": "關閉",
-        "done": "決定",
-        "yes": " 是的",
-        "no": "不",
-        "on": "打開",
-        "off": "關閉",
-        "error": "錯誤",
-        "confirm": "確認",
-        "complete": "完成",
-        "determine": "確定",
-        "warning": "警告",
-        "change": "改變",
-        "remove": "刪除",
-        "etc": "其他",
-        "required": "需要",
-        "clear": "回到起點"
+        "device": {
+            "title": "外接設備",
+            "printer": {
+                "label": "印表機",
+                "ipAddress": "IP 位址",
+                "testPrinting": "測試列印"
+            },
+            "cashchanger": {
+                "label": "換機"
+            },
+            "payment": {
+                "label": "支付終端"
+            },
+            "connect": "連接",
+            "endDeposit": "退回押金",
+            "readCounts": "數數",
+            "collectAll": "全系列",
+            "collectPart": "剩飯剩菜",
+            "starBluetoothAddress": "localhost: 8001",
+            "printType": {
+                "none": "不要列印",
+                "image": "圖像顯示",
+                "starLAN": "星微子局域網連接",
+                "starBluetooth": "星微子藍牙連接"
+            }
+        },
+        "application": {
+            "title": "應用",
+            "applicationType": {
+                "label": "模式",
+                "option": {
+                    "tvm": "自動售票機",
+                    "printer": "售票機"
+                }
+            },
+            "applicationPassword": {
+                "label": "密碼"
+            }
+        },
+        "unselected": "未選",
+        "pos": "POS",
+        "signOut": "註銷",
+        "alert": {
+            "connection": "連接成功了",
+            "customer": "不正確的買家資訊",
+            "payment": "付款資訊不正確",
+            "validation": "輸入資訊不正確",
+            "success": "設置已保存",
+            "print": "列印失敗"
+        },
+        "confirm": {
+            "collect": "您確定要執行恢復嗎？"
+        }
+    },
+    "admin": {
+        "title": "管理員功能",
+        "read": "請輸入您的密碼。"
     }
 }

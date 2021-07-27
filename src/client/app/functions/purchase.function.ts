@@ -60,67 +60,6 @@ export function screeningEvents2ScreeningEventSeries(params: {
 }
 
 /**
- * GMOトークンオブジェクト
- */
-export interface IGmoTokenObject {
-    token: string;
-    toBeExpiredAt: string;
-    maskedCardNo: string;
-    isSecurityCodeSet: boolean;
-}
-
-/**
- * GMOトークンオブジェクト生成
- */
-export function createGmoTokenObject(params: {
-    creditCard: {
-        cardno: string;
-        expire: string;
-        holderName: string;
-        securityCode: string;
-    };
-    seller: factory.chevre.seller.ISeller;
-}) {
-    return new Promise<IGmoTokenObject>((resolve, reject) => {
-        if (params.seller.paymentAccepted === undefined) {
-            throw new Error('seller.paymentAccepted is undefined');
-        }
-        const findPaymentAcceptedResult = params.seller.paymentAccepted.find(
-            (paymentAccepted) => {
-                return (
-                    paymentAccepted.paymentMethodType ===
-                    factory.chevre.paymentMethodType.CreditCard
-                );
-            }
-        );
-        if (
-            findPaymentAcceptedResult === undefined ||
-            findPaymentAcceptedResult.paymentMethodType !==
-                factory.chevre.paymentMethodType.CreditCard
-        ) {
-            throw new Error('paymentMethodType CreditCard not found');
-        }
-        (<any>window).someCallbackFunction =
-            function someCallbackFunction(response: {
-                resultCode: string;
-                tokenObject: IGmoTokenObject;
-            }) {
-                if (response.resultCode === '000') {
-                    resolve(response.tokenObject);
-                } else {
-                    reject(new Error(response.resultCode));
-                }
-            };
-        const Multipayment = (<any>window).Multipayment;
-        Multipayment.init((<any>findPaymentAcceptedResult).gmoInfo.shopId);
-        Multipayment.getToken(
-            params.creditCard,
-            (<any>window).someCallbackFunction
-        );
-    });
-}
-
-/**
  * ムビチケ検索
  */
 export function sameMovieTicketFilter(params: {

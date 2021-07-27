@@ -21,7 +21,6 @@ import {
     CountryISO,
     NgxIntlTelInputComponent,
     SearchCountryField,
-    TooltipLabel,
 } from 'ngx-intl-tel-input';
 import { Subscription } from 'rxjs';
 import { getEnvironment } from '../../../../../../environments/environment';
@@ -35,7 +34,6 @@ import { LibphonenumberFormatPipe } from '../../../../shared/pipes/libphonenumbe
 export class InputCustomerComponent implements OnInit, OnDestroy {
     public environment = getEnvironment();
     public SearchCountryField = SearchCountryField;
-    public TooltipLabel = TooltipLabel;
     public CountryISO = CountryISO;
     public formGroup: FormGroup;
     public subscription?: Subscription;

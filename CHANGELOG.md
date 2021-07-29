@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.0.0 - 2021-07-29
+
+### Changed
+
+-   angular11 へアップデート
+-   html2canvas@1.0.0へ変更
+
 ## 2.7.0 - 2021-07-27
 
 ### Added

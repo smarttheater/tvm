@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.base64Decode = exports.bace64Encode = exports.formatPrice = exports.escapeHtml = exports.ENV = exports.requestAsync = void 0;
+exports.formatPrice = exports.escapeHtml = exports.ENV = exports.requestAsync = void 0;
 /**
  * 共通
  * @namespace services.util
@@ -64,11 +64,12 @@ function escapeHtml(str) {
     const change = (match) => {
         const changeList = {
             '&': '&amp;',
-            '\'': '&#x27;',
+            // tslint:disable-next-line:quotemark
+            "'": '&#x27;',
             '`': '&#x60;',
             '"': '&quot;',
             '<': '&lt;',
-            '>': '&gt;'
+            '>': '&gt;',
         };
         return changeList[match];
     };
@@ -86,25 +87,3 @@ function formatPrice(price) {
     return String(price).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 }
 exports.formatPrice = formatPrice;
-/**
- * ベース64エンコード
- * @memberof services.util
- * @function bace64Encode
- * @param {string} str
- * @returns {string}
- */
-function bace64Encode(str) {
-    return new Buffer(str).toString('base64');
-}
-exports.bace64Encode = bace64Encode;
-/**
- * ベース64デコード
- * @memberof services.util
- * @function base64Decode
- * @param {string} str
- * @returns {string}
- */
-function base64Decode(str) {
-    return new Buffer(str, 'base64').toString();
-}
-exports.base64Decode = base64Decode;

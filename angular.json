@@ -23,7 +23,6 @@
             ],
             "styles": [
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "node_modules/swiper/css/swiper.css",
               "node_modules/intl-tel-input/build/css/intlTelInput.css",
               "src/client/styles.scss"
             ],
@@ -31,7 +30,6 @@
               "src/client/assets/lib/star-web-print/StarWebPrintTrader.js",
               "src/client/assets/lib/star-web-print/StarWebPrintBuilder.js",
               "src/client/assets/lib/epson/epos-2.14.0.js",
-              "node_modules/swiper/js/swiper.js",
               "src/client/assets/lib/ejs.min.js"
             ],
             "allowedCommonJsDependencies": [

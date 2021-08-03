@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.1.0 - 2021-08-03
+
+### Changed
+
+-   swiper 削除
+
 ## 3.0.0 - 2021-07-29
 
 ### Changed

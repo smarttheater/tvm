@@ -205,23 +205,11 @@
         "reservationStatus": "保留状态",
         "additionalTicketText": "预订备忘录",
         "qrcode": "QR 代码",
-        "paymentMethodType": {
-            "movieTicket": {
-                "label": "电影票",
-                "use": "<span class=\"font-weight-bold\">关于电影票的使用</span><br><span class=\"text-small\">如果您使用电影票，请验证并将其添加到票证类型 </span>"
-            },
-            "mgTicket": {
-                "label": "MG票",
-                "use": "<span class=\"font-weight-bold\">有关MG票的使用</span><br><span class=\"text-small\">如果您使用MG票证，请验证并将其添加到票证类型 </span>"
-            },
-            "surfRock": {
-                "label": "SurfRock",
-                "use": "<span class=\"font-weight-bold\">有关SurfRock的使用</span><br><span class=\"text-small\">如果您使用SurfRock证，请验证并将其添加到票证类型 </span>"
-            }
+        "inputTicket": {
+            "read": "如果您有以下情况，请从这里添加一张票。"
         },
         "membership": {
-            "label": "会员资格",
-            "use": "<span class=\"font-weight-bold\">有关会员资格的使用</span><br><span class=\"text-small\">如果您使用会员资格证，请验证并将其添加到票证类型 </span>"
+            "label": "会员资格"
         },
         "timeLimit": "剩余",
         "all": "所有",

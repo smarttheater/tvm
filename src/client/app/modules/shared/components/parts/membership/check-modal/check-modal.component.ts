@@ -1,6 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -15,7 +14,7 @@ import * as reducers from '../../../../../../store/reducers';
     styleUrls: ['./check-modal.component.scss'],
 })
 export class MembershipCheckModalComponent implements OnInit {
-    @Input() public paymentMethodType: factory.chevre.paymentMethodType;
+    @Input() public paymentMethodType: string;
     public purchase: Observable<reducers.IPurchaseState>;
     public isLoading: Observable<boolean>;
     public inputForm: FormGroup;
@@ -48,9 +47,7 @@ export class MembershipCheckModalComponent implements OnInit {
         if (event.key === KEY_ENTER && this.inputCode.length > 0) {
             // 読み取り完了
             const separation =
-                this.paymentMethodType === factory.paymentMethodType.MovieTicket
-                    ? 10
-                    : 9;
+                this.paymentMethodType === 'MovieTicket' ? 10 : 9;
             const code = this.inputCode.slice(0, separation);
             const password = this.inputCode.slice(
                 separation,

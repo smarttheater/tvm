@@ -31,8 +31,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
-    public paymentMethodType = factory.chevre.paymentMethodType;
-    public customPaymentMethodType = Models.Purchase.Payment.PaymentMethodType;
+    public paymentMethodType = Models.Purchase.Payment.PaymentMethodType;
     public viewType = Models.Util.ViewType;
     public amount: number;
     public environment = getEnvironment();

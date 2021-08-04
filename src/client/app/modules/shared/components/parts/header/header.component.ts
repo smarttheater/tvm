@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -21,10 +19,7 @@ export class HeaderComponent implements OnInit {
 
     constructor(
         private store: Store<reducers.IState>,
-        private translate: TranslateService,
-        private utilService: UtilService,
-        private actionService: ActionService,
-        private router: Router
+        private translate: TranslateService
     ) {}
 
     public ngOnInit() {
@@ -40,21 +35,5 @@ export class HeaderComponent implements OnInit {
                 html.setAttribute('lang', this.language);
             })
             .unsubscribe();
-    }
-
-    public async openInputModal() {
-        const { applicationPassword } = await this.actionService.user.getData();
-        if (applicationPassword === undefined || applicationPassword === '') {
-            return;
-        }
-        this.utilService.openConfirm({
-            title: this.translate.instant('admin.title'),
-            body: this.translate.instant('admin.read'),
-            code: applicationPassword,
-            cb: () => {
-                this.router.navigate(['/setting']);
-            },
-            backdrop: 'static',
-        });
     }
 }

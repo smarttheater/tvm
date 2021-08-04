@@ -45,21 +45,21 @@
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
                 <div *ngIf="environment.VIEW_TYPE === viewType.Cinema">
-                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                    <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-2"
                         routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
                 </div>
                 <div *ngIf="environment.VIEW_TYPE === viewType.Event">
                     <button *ngIf="environment.PURCHASE_CART" type="button"
-                        class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                        class="text-large btn btn-custom-secondary btn-block font-weight-bold py-2"
                         routerLink="/purchase/event/schedule">{{ 'purchase.payment.prev' | translate }}</button>
                     <button *ngIf="!environment.PURCHASE_CART" type="button"
-                        class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                        class="text-large btn btn-custom-secondary btn-block font-weight-bold py-2"
                         routerLink="/purchase/event/select">{{ 'purchase.payment.prev' | translate }}</button>
                 </div>
             </div>
             <div class="col-3">
                 <button type="submit" [disabled]="amount > 0" routerLink="/purchase/payment/reception"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2">
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold py-2">
                     {{ 'purchase.payment.next' | translate }}
                 </button>
             </div>

@@ -16,10 +16,11 @@
                             <div class="font-weight-bold">{{ 'purchase.event.top.purchase.title' | translate }}</div>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-block btn-primary py-3 mb-3" (click)="toPurchase()">
+                            <button type="button" class="btn btn-block btn-custom-primary py-3 mb-3"
+                                (click)="toPurchase()">
                                 {{ 'purchase.event.top.purchase.search.today' | translate }}
                             </button>
-                            <button type="button" class="btn btn-block btn-primary py-3" (click)="changeDate()">
+                            <button type="button" class="btn btn-block btn-custom-primary py-3" (click)="changeDate()">
                                 {{ 'purchase.event.top.purchase.search.other' | translate }}
                             </button>
                         </div>
@@ -36,7 +37,7 @@
                             <div class="font-weight-bold">{{ 'purchase.event.top.inquiry.title' | translate }}</div>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-block btn-primary rounded-pill py-3"
+                            <button type="button" class="btn btn-block btn-custom-primary rounded-pill py-3"
                                 routerLink="/inquiry/input">
                                 {{ 'purchase.event.top.inquiry.print' | translate }}
                             </button>
@@ -47,4 +48,5 @@
         </div>
     </div>
     <div *ngIf="environment.TOP_IMAGE" class="image"><img [src]="getImageUrl()" class="w-100" alt=""></div>
+    <app-language></app-language>
 </div>

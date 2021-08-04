@@ -90,11 +90,11 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-2"
                     routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.ticket.prev' | translate }}</button>
             </div>
             <div class="col-3">
-                <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+                <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold py-2"
                     [disabled]="(isLoading | async) || !isSelectedTicket" (click)="onSubmit()">{{
                     'purchase.cinema.ticket.next' | translate }}</button>
             </div>

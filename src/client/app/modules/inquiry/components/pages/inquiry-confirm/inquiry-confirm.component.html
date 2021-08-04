@@ -24,22 +24,26 @@
                                 *ngIf="eventOrder.event.superEvent.headline && (eventOrder.event.superEvent.headline | changeLanguage)">
                                 {{ eventOrder.event.superEvent.headline | changeLanguage }}</p>
                             <p class="text-small"
-                                *ngIf="eventOrder.event.superEvent.description && (eventOrder.event.superEvent.description | changeLanguage)">{{
+                                *ngIf="eventOrder.event.superEvent.description && (eventOrder.event.superEvent.description | changeLanguage)">
+                                {{
                                 eventOrder.event.superEvent.description | changeLanguage }}</p>
                         </div>
                         <p class="mb-1">
-                            {{ eventOrder.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{ eventOrder.event.endDate | formatDate: 'HH:mm' }}
+                            {{ eventOrder.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{
+                            eventOrder.event.endDate | formatDate: 'HH:mm' }}
                         </p>
                         <p class="text-small mb-1">
-                            <span
-                                class="theater-name">{{ eventOrder.event.superEvent.location.name | changeLanguage }}</span>
+                            <span class="theater-name">{{ eventOrder.event.superEvent.location.name | changeLanguage
+                                }}</span>
                             <span class="screen-name">&nbsp;/&nbsp;<span
-                                    *ngIf="eventOrder.event.location.address | changeLanguage"
-                                    class="mr-2">{{ eventOrder.event.location.address | changeLanguage }}</span>{{ eventOrder.event.location.name | changeLanguage }}</span>
+                                    *ngIf="eventOrder.event.location.address | changeLanguage" class="mr-2">{{
+                                    eventOrder.event.location.address | changeLanguage }}</span>{{
+                                eventOrder.event.location.name | changeLanguage }}</span>
                             <span
                                 *ngIf="eventOrder.event.workPerformed?.duration && moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() > 0">
-                                &nbsp;/&nbsp;<span
-                                    class="mr-1">{{ 'common.duration' | translate }}</span>{{ moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() }}{{ 'common.date.minute' | translate }}
+                                &nbsp;/&nbsp;<span class="mr-1">{{ 'common.duration' | translate }}</span>{{
+                                moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() }}{{
+                                'common.date.minute' | translate }}
                             </span>
                         </p>
                     </div>
@@ -57,13 +61,14 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
+                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-2"
                     routerLink="/inquiry/input">{{ 'inquiry.confirm.prev' | translate }}</button>
             </div>
             <div class="col-3">
                 <button *ngIf="environment.INQUIRY_PRINT"
                     [disabled]="(order | async)?.order.orderStatus !== orderStatus.OrderDelivered" type="button"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2" (click)="print()">{{ 'inquiry.confirm.next' | translate }}</button>
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold py-2" (click)="print()">{{
+                    'inquiry.confirm.next' | translate }}</button>
             </div>
         </div>
     </div>

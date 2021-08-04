@@ -12,8 +12,9 @@
                                 <div class="mr-2"><img [src]="project.logo" class="logo" [alt]="project.name"></div>
                                 <p class="text-small font-weight-bold text-overflow-ellipsis">{{ project.name }}</p>
                             </div>
-                            <a class="btn btn-primary px-3 mr-3" [href]="'/?projectId=' + project.id">起動</a>
-                            <a class="btn btn-primary px-3" [href]="'/?projectId=' + project.id + '#/setting'">設定</a>
+                            <a class="btn btn-custom-primary px-3 mr-3" [href]="'/?projectId=' + project.id">起動</a>
+                            <a class="btn btn-custom-primary px-3"
+                                [href]="'/?projectId=' + project.id + '#/setting'">設定</a>
                         </div>
                     </div>
                 </li>
@@ -25,11 +26,11 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
-                (click)="signOut()">ログアウト</button>
+                <button type="button" class="btn btn-custom-secondary btn-block font-weight-bold py-2"
+                    (click)="signOut()">ログアウト</button>
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-primary btn-block font-weight-bold py-2"
+                <button type="button" class="btn btn-custom-primary btn-block font-weight-bold py-2"
                     disabled>次へ</button>
             </div>
         </div>

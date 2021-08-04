@@ -104,7 +104,9 @@
 
     <div class="buttons mx-auto text-center text-center w-75">
         <button [disabled]="selectedTickets && createReservations().length === 0" type="button"
-            class="btn btn-primary btn-block py-3 mb-3" (click)="close()">{{ 'purchase.event.schedule.next' | translate
+            class="btn btn-custom-primary btn-block font-weight-bold py-3 mb-3" (click)="close()">{{
+            'purchase.event.schedule.next' |
+            translate
             }}</button>
         <button type="button" class="btn btn-outline-primary btn-block py-3" (click)="modal.hide()">{{ 'common.close' |
             translate }}</button>

@@ -1,32 +1,35 @@
-@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/bootstrap/scss/mixins";
-@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss";
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss';
 
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600&display=swap');
-$font-family: -apple-system, 'Titillium Web', "Lucida Grande", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", "メイリオ", Meiryo, Helvetica, Arial, sans-serif;
+$font-family: -apple-system, 'Titillium Web', 'Lucida Grande',
+    'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', '游ゴシック',
+    'メイリオ', Meiryo, Helvetica, Arial, sans-serif;
 
 $theme-colors: (
-    primary: #0175c2, 
-    secondary: $secondary, 
-    success: #0081CC, 
-    info: $info, 
-    warning: #F29600, 
-    danger: #E50012, 
-    light: #FFF, 
-    dark: $gray-800
+    primary: #0175c2,
+    secondary: $secondary,
+    success: #0081cc,
+    info: $info,
+    warning: #f29600,
+    danger: #e50012,
+    light: #fff,
+    dark: $gray-800,
 );
 
 $dark-gray: #666;
-$gray: #AAA;
-$light-gray: #EEE;
+$gray: #ddd;
+$light-gray: #eee;
 
-$body-bg: #FFF;
+$body-bg: #fff;
 $body-color: #333;
-$body-font-size: 24px;
+$body-font-size: 28px;
 
 $box-shadow-sm: 0 0 0.25rem rgba(0, 0, 0, 0.7);
 $border-width: 2px;
+$border-color: #ddd;
 $btn-border-width: 2px;
 
 $input-padding-y: 1rem;

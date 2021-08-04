@@ -1,7 +1,7 @@
 <app-header>
-    <app-purchase-step [currentStep]="1"></app-purchase-step>
+    <app-page-title title="{{ 'purchase.event.schedule.title' | translate }}"></app-page-title>
 </app-header>
-<app-page-title title="{{ 'purchase.event.schedule.title' | translate }}"></app-page-title>
+
 <div class="contents">
     <div class="container h-100 px-3">
         <div class="row h-100">
@@ -26,17 +26,25 @@
     </div>
 </div>
 <app-footer>
-    <div class="position-absolute d-flex align-items-center h-100">
-        <app-transaction-remaining-time></app-transaction-remaining-time>
-    </div>
+
     <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                    routerLink="/purchase/event">{{ 'purchase.event.schedule.prev' | translate }}</button>
+        <div class="row align-items-center justify-content-end h-100">
+            <div class="col-6">
+                <app-purchase-step [currentStep]="1"></app-purchase-step>
             </div>
-            <div class="col-3">
-                <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+            <div class="col-2">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                    {{ 'common.clear' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
+                    routerLink="/purchase/event">
+                    {{ 'purchase.event.schedule.prev' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
                     [disabled]="(isLoading | async) || (purchase | async)?.authorizeSeatReservations.length === 0"
                     (click)="onSubmit()">
                     <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.event.schedule.next' | translate }}

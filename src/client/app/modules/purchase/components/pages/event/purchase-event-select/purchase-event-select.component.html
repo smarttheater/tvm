@@ -30,7 +30,8 @@
                                         {{ ticket.description | changeLanguage }}</p>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <app-quantity-input class="pl-3" [value]="selectedTickets[i].count" (valueChange)="changeSelect(ticket.id, $event)"
+                                    <app-quantity-input class="pl-3" [value]="selectedTickets[i].count"
+                                        (valueChange)="changeSelect(ticket.id, $event)"
                                         [maxValue]="remainingAttendeeCapacityValue(ticket).length"></app-quantity-input>
                                 </div>
                             </div>
@@ -40,7 +41,8 @@
                                 <div class="container px-0">
                                     <div class="row justify-content-between align-items-center">
                                         <div class="col-8 text-left">
-                                            <p class="pl-4" *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
+                                            <p class="pl-4"
+                                                *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
                                                 <span>{{ addOn.priceSpecification?.name | changeLanguage }}</span>
                                                 <!--
                                             --><span>&nbsp;/&nbsp;{{ addOn.priceSpecification?.price | currency :
@@ -52,7 +54,8 @@
                                             </p>
                                         </div>
                                         <div class="col-4 text-right">
-                                            <app-quantity-input class="pl-3" [(value)]="selectedTickets[i].addOn[i2].count"
+                                            <app-quantity-input class="pl-3"
+                                                [(value)]="selectedTickets[i].addOn[i2].count"
                                                 [maxValue]="remainingAttendeeCapacityAddOnValue(ticket).length">
                                             </app-quantity-input>
                                         </div>
@@ -78,11 +81,12 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center h-100">
             <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                    (click)="prev()">{{ 'purchase.event.select.prev' | translate }}</button>
+                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-2"
+                    (click)="prev()">{{
+                    'purchase.event.select.prev' | translate }}</button>
             </div>
             <div class="col-3">
-                <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
+                <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold py-2"
                     [disabled]="(isLoading | async) || (selectedTickets && createReservations().length === 0)"
                     (click)="onSubmit()">
                     {{ 'purchase.event.select.next' | translate }}

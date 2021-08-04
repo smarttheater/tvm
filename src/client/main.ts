@@ -29,13 +29,15 @@ async function main() {
         // 無効なストレージ削除
         localStorage.removeItem('');
     }
-    if (params.projectId !== undefined
-        || location.hash === '#/auth/signin') {
+    if (params.projectId !== undefined || location.hash === '#/auth/signin') {
         sessionStorage.removeItem('PROJECT');
     }
-    const projectId = (params.projectId === undefined)
-        ? (Functions.Util.getProject().projectId === '') ? undefined : Functions.Util.getProject().projectId
-        : params.projectId;
+    const projectId =
+        params.projectId === undefined
+            ? Functions.Util.getProject().projectId === ''
+                ? undefined
+                : Functions.Util.getProject().projectId
+            : params.projectId;
     if (projectId === undefined && location.hash !== '#/auth/signin') {
         location.href = '/#/auth/signin';
         location.reload();
@@ -48,22 +50,27 @@ async function main() {
     await setProjectConfig({
         storageUrl: Functions.Util.getProject().storageUrl,
         gtmId: config.gtmId,
-        analyticsId: config.analyticsId
+        analyticsId: config.analyticsId,
     });
 }
 
 /**
  * プロジェクト情報設定
  */
-async function setProject(params: { projectId?: string; }) {
+async function setProject(params: { projectId?: string }) {
     const fetchResult = await fetch('/api/project', {
         method: 'POST',
         cache: 'no-cache',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify(params)
+        body: JSON.stringify(params),
     });
     if (!fetchResult.ok) {
-        throw new Error(JSON.stringify({ status: fetchResult.status, statusText: fetchResult.statusText }));
+        throw new Error(
+            JSON.stringify({
+                status: fetchResult.status,
+                statusText: fetchResult.statusText,
+            })
+        );
     }
     const result: {
         projectId: string;
@@ -74,11 +81,14 @@ async function setProject(params: { projectId?: string; }) {
         gtmId?: string;
         analyticsId?: string;
     } = await fetchResult.json();
-    sessionStorage.setItem('PROJECT', JSON.stringify({
-        projectId: result.projectId,
-        projectName: result.projectName,
-        storageUrl: result.storageUrl
-    }));
+    sessionStorage.setItem(
+        'PROJECT',
+        JSON.stringify({
+            projectId: result.projectId,
+            projectName: result.projectName,
+            storageUrl: result.storageUrl,
+        })
+    );
     const script = document.createElement('script');
     script.src = result.gmoTokenUrl;
     document.body.appendChild(script);
@@ -97,11 +107,14 @@ async function setProjectConfig(params: {
     const { storageUrl, gtmId, analyticsId } = params;
     const now = momentTimezone().toISOString();
     // 設定読み込み
-    const fetchResult = await fetch(`${storageUrl}/js/environment.js?=date${now}`, {
-        method: 'GET',
-        cache: 'no-cache',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' }
-    });
+    const fetchResult = await fetch(
+        `${storageUrl}/js/environment.js?=date${now}`,
+        {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        }
+    );
     if (fetchResult.ok) {
         (<any>window).eval(await fetchResult.text());
     } else {
@@ -111,9 +124,14 @@ async function setProjectConfig(params: {
     // GTM_ID, ANALYTICS_IDを設定
     const { GTM_ID, ANALYTICS_ID } = <IEnvironment>(<any>window).environment;
     (<IEnvironment>(<any>window).environment).GTM_ID =
-        ((GTM_ID === undefined || GTM_ID === '') && gtmId !== undefined) ? gtmId : GTM_ID;
+        (GTM_ID === undefined || GTM_ID === '') && gtmId !== undefined
+            ? gtmId
+            : GTM_ID;
     (<IEnvironment>(<any>window).environment).ANALYTICS_ID =
-        ((ANALYTICS_ID === undefined || ANALYTICS_ID === '') && analyticsId !== undefined) ? analyticsId : ANALYTICS_ID;
+        (ANALYTICS_ID === undefined || ANALYTICS_ID === '') &&
+        analyticsId !== undefined
+            ? analyticsId
+            : ANALYTICS_ID;
 
     const environment = getEnvironment();
     // 色設定
@@ -130,7 +148,9 @@ async function setProjectConfig(params: {
     const favicon = document.createElement('link');
     favicon.rel = 'icon';
     favicon.type = 'image/x-icon"';
-    favicon.href = (await Functions.Util.isFile(`${storageUrl}/favicon.ico`)) ? `${storageUrl}/favicon.ico` : '/default/favicon.ico';
+    favicon.href = (await Functions.Util.isFile(`${storageUrl}/favicon.ico`))
+        ? `${storageUrl}/favicon.ico`
+        : '/default/favicon.ico';
     document.head.appendChild(favicon);
 
     // タイトル設定
@@ -139,11 +159,16 @@ async function setProjectConfig(params: {
     if (environment.GTM_ID) {
         (function (w, d, s, l, i) {
             (<any>w)[l] = (<any>w)[l] || [];
-            (<any>w)[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            (<any>w)[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js',
+            });
             const f = d.getElementsByTagName(s)[0];
-            const j = d.createElement(s), dl = l !== 'dataLayer' ? '&l=' + l : '';
+            const j = d.createElement(s),
+                dl = l !== 'dataLayer' ? '&l=' + l : '';
             (<any>j).async = true;
-            (<any>j).src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            (<any>j).src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             (<any>f).parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', environment.GTM_ID);
     }
@@ -155,18 +180,18 @@ async function setProjectConfig(params: {
 /**
  * 色設定
  */
- function applyColor(params: { primaryColor: string; }) {
+function applyColor(params: { primaryColor: string }) {
     const { primaryColor } = params;
     const style = document.createElement('style');
     style.id = 'applyColor';
     style.innerHTML = `
-.btn-primary,
+.btn-custom-primary,
 .btn-outline-primary:hover,
 .btn-outline-primary:active,
 header::after,
 .wrapper .bg-primary { background-color: ${primaryColor} !important; }
 
-.btn-primary,
+.btn-custom-primary,
 .btn-outline-primary,
 .wrapper .border-primary { border-color: ${primaryColor} !important; }
 
@@ -176,15 +201,14 @@ header::after,
 .btn-outline-primary:hover,
 .btn-outline-primary:active { color: #FFF !important; }
     `;
-    document.head.appendChild(style);
+    // document.head.appendChild(style);
 }
 
-
-main().then(async () => {
-    const { AppModule } = await import('./app/app.module');
-    platformBrowserDynamic().bootstrapModule(AppModule);
-}).catch((error) => {
-    console.error(error);
-});
-
-
+main()
+    .then(async () => {
+        const { AppModule } = await import('./app/app.module');
+        platformBrowserDynamic().bootstrapModule(AppModule);
+    })
+    .catch((error) => {
+        console.error(error);
+    });

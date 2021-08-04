@@ -5,7 +5,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 @Component({
     selector: 'app-qrcode-reader-modal',
     templateUrl: './reader-modal.component.html',
-    styleUrls: ['./reader-modal.component.scss']
+    styleUrls: ['./reader-modal.component.scss'],
 })
 export class QRCodeReaderModalComponent implements OnInit, OnDestroy {
     @Input() public cb: Function;
@@ -15,9 +15,7 @@ export class QRCodeReaderModalComponent implements OnInit, OnDestroy {
     public readerResult?: string;
     public running: boolean;
 
-    constructor(
-        public modal: BsModalRef
-    ) { }
+    constructor(public modal: BsModalRef) {}
 
     public async ngOnInit() {
         this.running = false;
@@ -26,11 +24,11 @@ export class QRCodeReaderModalComponent implements OnInit, OnDestroy {
         const constraints: MediaStreamConstraints = {
             audio: false,
             video: {
-                width: { min: 640, ideal: 1280, max: 1920 },
-                height: { min: 360, ideal: 720, max: 1080 },
+                // width: { min: 640, ideal: 1280, max: 1920 },
+                // height: { min: 360, ideal: 720, max: 1080 },
                 frameRate: { ideal: 5, max: 20 },
-                facingMode: { exact: 'environment' }
-            }
+                facingMode: { exact: 'environment' },
+            },
         };
         this.start(constraints);
     }
@@ -44,7 +42,9 @@ export class QRCodeReaderModalComponent implements OnInit, OnDestroy {
      */
     public async start(constraints?: MediaStreamConstraints) {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            const stream = await navigator.mediaDevices.getUserMedia(
+                constraints
+            );
             this.stream = stream;
             this.video.srcObject = this.stream;
             const scanLoopTime = 500;
@@ -93,7 +93,6 @@ export class QRCodeReaderModalComponent implements OnInit, OnDestroy {
         if (qrcode !== null) {
             this.readerResult = qrcode.data;
         }
-        return (qrcode !== null);
+        return qrcode !== null;
     }
-
 }

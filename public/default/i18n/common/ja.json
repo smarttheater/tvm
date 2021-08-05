@@ -137,6 +137,10 @@
             "CheckProduct": "プロダクト情報を確認しています",
             "ConfirmTransaction": "取引を確定しています",
             "AuthorizeAnyPayment": "決済情報を承認しています"
+        },
+        "productAction": {
+            "SearchOffers": "オファーを検索しています",
+            "Search": "プロダクトを検索しています"
         }
     },
     "qrcode": {

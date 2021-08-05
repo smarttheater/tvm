@@ -136,6 +136,10 @@
             "CheckProduct": "檢查產品信息",
             "ConfirmTransaction": "已確認交易",
             "AuthorizeAnyPayment": "批准付款資訊"
+        },
+        "productAction": {
+            "SearchOffers": "搜索報價",
+            "Search": "搜索產品"
         }
     },
     "qrcode": {

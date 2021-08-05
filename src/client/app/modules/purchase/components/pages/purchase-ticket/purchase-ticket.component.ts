@@ -28,6 +28,7 @@ export class PurchaseTicketComponent implements OnInit {
     public environment = getEnvironment();
     public translateName: string;
     public isSelectedTicket: boolean;
+    public paymentServices: factory.service.paymentService.IService[];
 
     constructor(
         private store: Store<reducers.IState>,
@@ -42,6 +43,7 @@ export class PurchaseTicketComponent implements OnInit {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
+        const paymentServices: factory.service.paymentService.IService[] = [];
         this.translateName =
             this.environment.VIEW_TYPE === 'cinema'
                 ? 'purchase.cinema.ticket'
@@ -49,6 +51,34 @@ export class PurchaseTicketComponent implements OnInit {
         this.additionalTicketText = '';
         this.isSelectedTicket =
             (await this.getUnselectedTicketReservations()).length === 0;
+        const { seller } = await this.actionService.purchase.getData();
+        if (seller === undefined) {
+            throw new Error('seller undefined');
+        }
+        const products = await this.actionService.product.search({
+            typeOf: {
+                $eq: factory.service.paymentService.PaymentServiceType
+                    .MovieTicket,
+            },
+        });
+        products.forEach((p) => {
+            if (
+                p.typeOf !==
+                    factory.service.paymentService.PaymentServiceType
+                        .MovieTicket ||
+                p.provider === undefined
+            ) {
+                return;
+            }
+            const findResult = p.provider.find(
+                (provider) => provider.id === seller.id
+            );
+            if (findResult === undefined) {
+                return;
+            }
+            paymentServices.push(p);
+        });
+        this.paymentServices = paymentServices;
     }
 
     /**

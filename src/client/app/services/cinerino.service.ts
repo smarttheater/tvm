@@ -18,6 +18,7 @@ export class CinerinoService {
     public place: cinerino.service.Place;
     public person: cinerino.service.Person;
     public project: cinerino.service.Project;
+    public product: cinerino.service.Product;
     public ownershipInfo: cinerino.service.person.OwnershipInfo;
     public reservation: cinerino.service.Reservation;
     public payment: cinerino.service.Payment;
@@ -52,6 +53,7 @@ export class CinerinoService {
                 ...option,
                 project: undefined,
             });
+            this.product = new cinerino.service.Product(option);
             this.ownershipInfo = new cinerino.service.person.OwnershipInfo(
                 option
             );

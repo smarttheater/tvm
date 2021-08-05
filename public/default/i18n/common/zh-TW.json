@@ -136,6 +136,10 @@
             "CheckProduct": "檢查產品信息",
             "ConfirmTransaction": "已確認交易",
             "AuthorizeAnyPayment": "批准付款資訊"
+        },
+        "productAction": {
+            "SearchOffers": "搜索報價",
+            "Search": "搜索產品"
         }
     },
     "qrcode": {
@@ -206,23 +210,11 @@
         "reservationStatus": "保留狀態",
         "additionalTicketText": "預訂備忘錄",
         "qrcode": "QR 代碼",
-        "paymentMethodType": {
-            "movieTicket": {
-                "label": "電影票",
-                "use": "<span class=\"font-weight-bold\">關於電影票的使用</span><br><span class=\"text-small\">如果您使用電影票，請驗證並將其添加到票證類型 </span>"
-            },
-            "mgTicket": {
-                "label": "MG票",
-                "use": "<span class=\"font-weight-bold\">有關MG票的使用</span><br><span class=\"text-small\">如果您使用MG票證，請驗證並將其添加到票證類型 </span>"
-            },
-            "surfRock": {
-                "label": "SurfRock",
-                "use": "<span class=\"font-weight-bold\">有關SurfRock的使用</span><br><span class=\"text-small\">如果您使用SurfRock證，請驗證並將其添加到票證類型 </span>"
-            }
+        "inputTicket": {
+            "read": "如果您有以下情況，請從這裡添加一張票。"
         },
         "membership": {
-            "label": "會員資格",
-            "use": "<span class=\"font-weight-bold\">有關會員資格的使用</span><br><span class=\"text-small\">如果您使用會員資格證，請驗證並將其添加到票證類型 </span>"
+            "label": "會員資格"
         },
         "timeLimit": "剩餘",
         "all": "所有",

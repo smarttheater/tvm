@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -16,12 +16,9 @@ import { MovieTicketCheckModalComponent } from '../../../../shared/components/pa
 export class InputTicketsComponent implements OnInit {
     @Input()
     public screeningEventTicketOffers: factory.chevre.event.screeningEvent.ITicketOffer[];
-    @Output() public select = new EventEmitter<factory.paymentMethodType>();
-    public isMovieTicket: boolean;
-    public isMGTicket: boolean;
-    public isSurfRock: boolean;
+    @Input() public paymentServices: factory.service.paymentService.IService[];
+    public availablePaymentServices: factory.service.paymentService.IService[];
     public isMembership: boolean;
-    public paymentMethodType = factory.paymentMethodType;
     public moment = moment;
     public environment = getEnvironment();
     public viewType = Models.Util.ViewType;
@@ -34,42 +31,25 @@ export class InputTicketsComponent implements OnInit {
             Functions.Purchase.getMovieTicketTypeOffers({
                 screeningEventTicketOffers,
             });
-        this.isMovieTicket =
-            movieTicketTypeOffers.find((m) => {
-                const findResult = m.priceSpecification.priceComponent.find(
-                    (p) =>
-                        p.typeOf ===
-                            factory.chevre.priceSpecificationType
-                                .UnitPriceSpecification &&
-                        p.appliesToMovieTicket?.serviceOutput?.typeOf ===
-                            factory.chevre.paymentMethodType.MovieTicket
-                );
-                return findResult !== undefined;
-            }) !== undefined;
-        this.isMGTicket =
-            movieTicketTypeOffers.find((m) => {
-                const findResult = m.priceSpecification.priceComponent.find(
-                    (p) =>
-                        p.typeOf ===
-                            factory.chevre.priceSpecificationType
-                                .UnitPriceSpecification &&
-                        p.appliesToMovieTicket?.serviceOutput?.typeOf ===
-                            factory.chevre.paymentMethodType.MGTicket
-                );
-                return findResult !== undefined;
-            }) !== undefined;
-        this.isSurfRock =
-            movieTicketTypeOffers.find((m) => {
-                const findResult = m.priceSpecification.priceComponent.find(
-                    (p) =>
-                        p.typeOf ===
-                            factory.chevre.priceSpecificationType
-                                .UnitPriceSpecification &&
-                        p.appliesToMovieTicket?.serviceOutput?.typeOf ===
-                            'SurfRock'
-                );
-                return findResult !== undefined;
-            }) !== undefined;
+        this.availablePaymentServices = [];
+        this.paymentServices.forEach((s) => {
+            const isAvailable =
+                movieTicketTypeOffers.find((m) => {
+                    const findResult = m.priceSpecification.priceComponent.find(
+                        (p) =>
+                            p.typeOf ===
+                                factory.chevre.priceSpecificationType
+                                    .UnitPriceSpecification &&
+                            p.appliesToMovieTicket?.serviceOutput?.typeOf ===
+                                s.serviceType?.codeValue
+                    );
+                    return findResult !== undefined;
+                }) !== undefined;
+            if (!isAvailable) {
+                return;
+            }
+            this.availablePaymentServices.push(s);
+        });
         this.isMembership =
             Functions.Purchase.getMembershipTypeOffers({
                 screeningEventTicketOffers,
@@ -79,9 +59,7 @@ export class InputTicketsComponent implements OnInit {
     /**
      * ムビチケ認証表示
      */
-    public openMovieTicket(
-        paymentMethodType: factory.chevre.paymentMethodType | 'SurfRock'
-    ) {
+    public openMovieTicket(paymentMethodType: string) {
         this.modal.show(MovieTicketCheckModalComponent, {
             initialState: {
                 paymentMethodType,
@@ -96,7 +74,7 @@ export class InputTicketsComponent implements OnInit {
     public openMembership() {
         this.modal.show(MembershipCheckModalComponent, {
             initialState: {},
-            class: 'modal-dialog-centered',
+            class: 'modal-dialog-centered modal-lg',
         });
     }
 }

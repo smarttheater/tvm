@@ -12,7 +12,7 @@ export interface IOrderSearchConditions {
         telephone: string;
     };
     orderStatus: '' | factory.orderStatus;
-    paymentMethodType: '' | factory.chevre.paymentMethodType;
+    paymentMethodType: string;
     eventStartDateFrom?: Date;
     eventStartDateThrough?: Date;
     posId: string;

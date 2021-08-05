@@ -23,8 +23,7 @@ export class PurchasePaymentComponent implements OnInit {
     public isLoading: Observable<boolean>;
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
-    public paymentMethodType = factory.chevre.paymentMethodType;
-    public customPaymentMethodType = Models.Purchase.Payment.PaymentMethodType;
+    public paymentMethodType = Models.Purchase.Payment.PaymentMethodType;
     public payments: {
         paymentAccepted: factory.chevre.seller.IPaymentAccepted;
         categoryCode: factory.chevre.categoryCode.ICategoryCode;
@@ -92,7 +91,7 @@ export class PurchasePaymentComponent implements OnInit {
                 }
                 const imageTable = [
                     {
-                        paymentMethodType: this.customPaymentMethodType.Cash,
+                        paymentMethodType: this.paymentMethodType.Cash,
                         image: '/default/images/purchase/payment/icon/cash.svg',
                     },
                     {
@@ -100,11 +99,11 @@ export class PurchasePaymentComponent implements OnInit {
                         image: '/default/images/purchase/payment/icon/creditcard.svg',
                     },
                     {
-                        paymentMethodType: this.customPaymentMethodType.EMoney,
+                        paymentMethodType: this.paymentMethodType.EMoney,
                         image: '/default/images/purchase/payment/icon/eMoney.svg',
                     },
                     {
-                        paymentMethodType: this.customPaymentMethodType.Code,
+                        paymentMethodType: this.paymentMethodType.Code,
                         image: '/default/images/purchase/payment/icon/code.svg',
                     },
                 ];
@@ -127,9 +126,7 @@ export class PurchasePaymentComponent implements OnInit {
     /**
      * 決済方法選択
      */
-    public async selectPaymentMethodType(
-        typeOf: factory.chevre.paymentMethodType
-    ) {
+    public async selectPaymentMethodType(typeOf: string) {
         try {
             if (this.epsonEPOSService.cashchanger.isConnected()) {
                 return;

@@ -92,7 +92,7 @@ export interface IPurchaseState {
      * 支払い方法
      */
     paymentMethod?: {
-        typeOf: factory.chevre.paymentMethodType | string;
+        typeOf: string;
     };
     /**
      * 使用中ムビチケ

@@ -7,6 +7,10 @@ export enum PaymentMethodType {
      */
     Cash = 'Cash',
     /**
+     * クレジットカード
+     */
+    CreditCard = 'CreditCard',
+    /**
      * 電子マネー
      */
     EMoney = 'EMoney',

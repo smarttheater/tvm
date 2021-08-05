@@ -137,6 +137,10 @@
             "CheckProduct": "プロダクト情報を確認しています",
             "ConfirmTransaction": "取引を確定しています",
             "AuthorizeAnyPayment": "決済情報を承認しています"
+        },
+        "productAction": {
+            "SearchOffers": "オファーを検索しています",
+            "Search": "プロダクトを検索しています"
         }
     },
     "qrcode": {
@@ -207,23 +211,11 @@
         "reservationStatus": "予約ステータス",
         "additionalTicketText": "予約メモ",
         "qrcode": "QRコード",
-        "paymentMethodType": {
-            "movieTicket": {
-                "label": "ムビチケ",
-                "use": "<span class=\"font-weight-bold\">ムビチケ券のご利用について</span><br><span class=\"text-small\">ムビチケ券をご利用される方は認証を行い券種に追加してください。</span>"
-            },
-            "mgTicket": {
-                "label": "MGチケット",
-                "use": "<span class=\"font-weight-bold\">MGチケットのご利用について</span><br><span class=\"text-small\">MGチケットをご利用される方は認証を行い券種に追加してください。</span>"
-            },
-            "surfRock": {
-                "label": "SurfRock",
-                "use": "<span class=\"font-weight-bold\">SurfRockのご利用について</span><br><span class=\"text-small\">SurfRockをご利用される方は認証を行い券種に追加してください。</span>"
-            }
+        "inputTicket": {
+            "read": "下記をお持ちの方はこちらからチケットを追加してください。"
         },
         "membership": {
-            "label": "メンバーシップ",
-            "use": "<span class=\"font-weight-bold\">メンバーシップのご利用について</span><br><span class=\"text-small\">メンバーシップをご利用される方は認証を行い券種に追加してください。</span>"
+            "label": "メンバーシップ"
         },
         "timeLimit": "残り",
         "all": "すべて",

@@ -137,6 +137,10 @@
             "CheckProduct": "Checking product information",
             "ConfirmTransaction": "Confirmed transaction",
             "AuthorizeAnyPayment": "Approving payment information"
+        },
+        "productAction": {
+            "SearchOffers": "Searching for an offer",
+            "Search": "Searching for products"
         }
     },
     "qrcode": {
@@ -207,23 +211,11 @@
         "reservationStatus": "reservation status",
         "additionalTicketText": "Reservation memo",
         "qrcode": "QR code",
-        "paymentMethodType": {
-            "movieTicket": {
-                "label": "Movie ticket",
-                "use": "<span class=\"font-weight-bold\">About the use of the movie ticket</span><br><span class=\"text-small\">If you use a movie ticket, please authenticate and add it to the ticket type.</span>"
-            },
-            "mgTicket": {
-                "label": "MG ticket",
-                "use": "<span class=\"font-weight-bold\">About the use of MG tickets</span><br><span class=\"text-small\">If you use MG ticket, please authenticate and add it to the ticket type.</span>"
-            },
-            "surfRock": {
-                "label": "SurfRock",
-                "use": "<span class=\"font-weight-bold\">About the use of SurfRocks</span><br><span class=\"text-small\">If you use SurfRock, please authenticate and add it to the ticket type.</span>"
-            }
+        "inputTicket": {
+            "read": "If you have the following, please add a ticket from here."
         },
         "membership": {
-            "label": "membership",
-            "use": "<span class=\"font-weight-bold\">About the use of memberships</span><br><span class=\"text-small\">If you use membership, please authenticate and add it to the ticket type.</span>"
+            "label": "membership"
         },
         "timeLimit": "remaining",
         "all": "all",

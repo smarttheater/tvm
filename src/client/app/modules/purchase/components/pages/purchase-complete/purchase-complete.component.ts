@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -12,7 +11,7 @@ import * as reducers from '../../../../../store/reducers';
 @Component({
     selector: 'app-purchase-complete',
     templateUrl: './purchase-complete.component.html',
-    styleUrls: ['./purchase-complete.component.scss']
+    styleUrls: ['./purchase-complete.component.scss'],
 })
 export class PurchaseCompleteComponent implements OnInit, OnDestroy {
     public purchase: Observable<reducers.IPurchaseState>;
@@ -23,7 +22,6 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
     public viewType = Models.Util.ViewType;
     public environment = getEnvironment();
     public qrcode?: string;
-    public paymentMethodType = factory.chevre.paymentMethodType;
     public connectionType = Models.Util.Printer.ConnectionType;
     public createOrderLink = Functions.Order.createOrderLink;
     private timer: any;
@@ -31,8 +29,8 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private actionService: ActionService,
-    ) { }
+        private actionService: ActionService
+    ) {}
 
     public async ngOnInit() {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
@@ -65,5 +63,4 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
             clearTimeout(this.timer);
         }
     }
-
 }

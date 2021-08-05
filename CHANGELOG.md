@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.2.0 - 2021-08-05
+
+### Changed
+
+-   複数のムビチケ IF 決済に対して動的に実装する
+
 ## 3.1.0 - 2021-08-03
 
 ### Changed

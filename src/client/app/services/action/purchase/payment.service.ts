@@ -123,7 +123,7 @@ export class ActionPaymentService {
             code: string;
             password: string;
         };
-        paymentMethodType: factory.paymentMethodType | 'SurfRock';
+        paymentMethodType: string;
     }) {
         try {
             this.utilService.loadStart({
@@ -292,7 +292,8 @@ export class ActionPaymentService {
         const amount = Functions.Purchase.getAmount(authorizeSeatReservations);
         await this.paymentService.init({ ipAddress: payment });
         if (
-            paymentMethod.typeOf === factory.chevre.paymentMethodType.CreditCard
+            paymentMethod.typeOf ===
+            Models.Purchase.Payment.PaymentMethodType.CreditCard
         ) {
             const execResult = await this.paymentService.exec({
                 func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,

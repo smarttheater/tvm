@@ -137,6 +137,10 @@
             "CheckProduct": "Checking product information",
             "ConfirmTransaction": "Confirmed transaction",
             "AuthorizeAnyPayment": "Approving payment information"
+        },
+        "productAction": {
+            "SearchOffers": "Searching for an offer",
+            "Search": "Searching for products"
         }
     },
     "qrcode": {

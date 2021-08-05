@@ -1,7 +1,7 @@
 <app-header>
-    <app-purchase-step [currentStep]="1"></app-purchase-step>
+    <app-page-title title="{{ 'purchase.event.date.title' | translate }}"></app-page-title>
 </app-header>
-<app-page-title title="{{ 'purchase.event.date.title' | translate }}"></app-page-title>
+
 <div class="contents scroll-horizontal">
     <div class="p-3">
         <div class="mb-4">
@@ -21,19 +21,27 @@
     </div>
 </div>
 <app-footer>
-    <div class="position-absolute d-flex align-items-center h-100">
-        <app-transaction-remaining-time></app-transaction-remaining-time>
-    </div>
     <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-2"
-                    routerLink="/purchase/event">{{ 'purchase.event.date.prev' | translate }}</button>
+        <div class="row align-items-center justify-content-end h-100">
+            <div class="col-6">
+                <app-purchase-step [currentStep]="1"></app-purchase-step>
             </div>
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold py-2"
-                    disabled>{{
-                    'purchase.event.date.next' | translate }}</button>
+            <div class="col-2">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                    {{ 'common.clear' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
+                    routerLink="/purchase/event">
+                    {{ 'purchase.event.date.prev' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
+                    disabled>
+                    {{ 'purchase.event.date.next' | translate }}
+                </button>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <app-header>
+    <app-page-title title="{{ 'setting.title' | translate }}"></app-page-title>
 </app-header>
-<app-page-title title="{{ 'setting.title' | translate }}"></app-page-title>
 <div class="contents">
     <div class="container h-100 px-3 pb-3">
         <div class="row h-100">
@@ -41,14 +41,26 @@
 </div>
 <app-footer>
     <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="btn btn-custom-secondary btn-block font-weight-bold py-2"
-                    [routerLink]="environment.BASE_URL">{{ 'setting.prev' | translate }}</button>
+        <div class="row align-items-center justify-content-end h-100">
+            <div class="col-6">
+
             </div>
-            <div class="col-3">
-                <button type="submit" class="btn btn-custom-primary btn-block font-weight-bold py-2"
-                    [disabled]="isLoading | async" (click)="onSubmit()">{{ 'setting.next' | translate }}</button>
+            <div class="col-2">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                    {{ 'common.clear' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
+                    [routerLink]="environment.BASE_URL">
+                    {{ 'setting.prev' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
+                    [disabled]="isLoading | async" (click)="onSubmit()">
+                    {{ 'setting.next' | translate }}
+                </button>
             </div>
         </div>
     </div>

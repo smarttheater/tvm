@@ -1,5 +1,6 @@
-<div class="border border-gray p-3 pointer h-100" [ngClass]="{ 
-                'bg-white': performance.isSales() && !performance.isSeatStatus('danger'), 
+<div class="p-3 pointer h-100 btn btn-block text-left shadow-none" [ngClass]="{ 
+                'btn-custom-success': performance.isSales() && performance.isSeatStatus('success'),
+                'btn-custom-warning': performance.isSales() && performance.isSeatStatus('warning'), 
                 'bg-dark-gray text-light-gray not-event': !performance.isSales() 
                 || performance.isSeatStatus('danger') 
                 }" (click)="select.emit(performance.screeningEvent)">
@@ -19,7 +20,8 @@
                         {{ performance.screeningEvent.location.name | changeLanguage }}</p>
                     <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity">
                         {{ 'common.seatValue' | translate: { value: performance.screeningEvent.maximumAttendeeCapacity }
-                        }}</p>
+                        }}
+                    </p>
                 </div>
             </div>
             <div class="col-3">

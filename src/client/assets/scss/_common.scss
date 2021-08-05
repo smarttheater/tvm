@@ -17,9 +17,15 @@ html,
 body {
     height: 100%;
     font-family: $font-family;
-    font-size: $body-font-size;
+    font-size: 28px;
     font-display: swap;
     touch-action: none;
+    @include media-breakpoint-down(lg) {
+        font-size: 20px;
+    }
+    @include media-breakpoint-down(md) {
+        font-size: 14px;
+    }
 }
 
 html {
@@ -325,10 +331,21 @@ button {
 
 .btn-custom-primary {
     background: linear-gradient(0deg, #385bb2 0%, #042d92 100%);
-    border: 1px solid #042d92;
+    border: 2px solid #042d92;
+    color: #fff;
 }
 
 .btn-custom-secondary {
-    background: linear-gradient(0deg, #ddd 0%, #eee 100%);
-    border: 1px solid #fff;
+    background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+    border: 2px solid #fff;
+}
+
+.btn-custom-success {
+    background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+    border: 2px solid theme-color('success');
+}
+
+.btn-custom-warning {
+    background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+    border: 2px solid theme-color('warning');
 }

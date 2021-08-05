@@ -14329,6 +14329,18 @@ body {
   font-display: swap;
   touch-action: none;
 }
+@media (max-width: 1199.98px) {
+  html,
+body {
+    font-size: 20px;
+  }
+}
+@media (max-width: 991.98px) {
+  html,
+body {
+    font-size: 14px;
+  }
+}
 html {
   background-color: #000;
 }
@@ -14592,11 +14604,20 @@ button {
 }
 .btn-custom-primary {
   background: linear-gradient(0deg, #385bb2 0%, #042d92 100%);
-  border: 1px solid #042d92;
+  border: 2px solid #042d92;
+  color: #fff;
 }
 .btn-custom-secondary {
-  background: linear-gradient(0deg, #ddd 0%, #eee 100%);
-  border: 1px solid #fff;
+  background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+  border: 2px solid #fff;
+}
+.btn-custom-success {
+  background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+  border: 2px solid #0081cc;
+}
+.btn-custom-warning {
+  background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+  border: 2px solid #f29600;
 }
 
 /*# sourceMappingURL=styles.css.map*/

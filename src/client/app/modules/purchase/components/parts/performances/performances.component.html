@@ -2,7 +2,7 @@
     <div class="p-3 bg-light-gray">
         <div class="container px-0">
             <div class="row">
-                <div class="col-10">
+                <div class="col-9">
                     <div class="mb-2">
                         <p class="font-weight-bold text-large">
                             {{ screeningEventSeries.name | changeLanguage }}
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                     <div *ngIf="screeningEventsGroup.screeningEvent.workPerformed?.duration && moment.duration(screeningEventsGroup.screeningEvent.workPerformed?.duration).asMinutes() > 0"
                         class="text-right">
                         <div class="d-inline-flex py-1 px-2 bg-white text-small rounded">

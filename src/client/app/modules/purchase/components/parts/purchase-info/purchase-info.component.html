@@ -1,4 +1,4 @@
-<div class="min-h-100 border border-gray">
+<div class="min-h-100 bg-dark-gray text-white">
     <div class="p-3">
         <div class="container px-0 mb-2">
             <div class="row">
@@ -20,17 +20,20 @@
             </div>
         </div>
         <p class="text-small"
-            *ngIf="purchase.screeningEvent?.superEvent.description && (purchase.screeningEvent?.superEvent.description | changeLanguage)">{{
-                        purchase.screeningEvent?.superEvent.description | changeLanguage }}</p>
+            *ngIf="purchase.screeningEvent?.superEvent.description && (purchase.screeningEvent?.superEvent.description | changeLanguage)">
+            {{
+            purchase.screeningEvent?.superEvent.description | changeLanguage }}</p>
         <p class="font-weight-bold text-small">
-            {{ purchase.screeningEvent?.startDate | formatDate: 'YYYY/MM/DD(ddd) HH:mm' }}-{{ purchase.screeningEvent?.endDate | formatDate: 'HH:mm' }}
+            {{ purchase.screeningEvent?.startDate | formatDate: 'YYYY/MM/DD(ddd) HH:mm' }}-{{
+            purchase.screeningEvent?.endDate | formatDate: 'HH:mm' }}
         </p>
         <p class="screen-name text-small font-weight-bold">
-            <span *ngIf="purchase.screeningEvent?.location.address | changeLanguage"
-                class="mr-2">{{ purchase.screeningEvent?.location.address | changeLanguage }}</span>{{ purchase.screeningEvent?.location.name | changeLanguage }}
+            <span *ngIf="purchase.screeningEvent?.location.address | changeLanguage" class="mr-2">{{
+                purchase.screeningEvent?.location.address | changeLanguage }}</span>{{
+            purchase.screeningEvent?.location.name | changeLanguage }}
         </p>
     </div>
-    <div class="d-flex justify-content-between p-3 bg-light-gray">
+    <div class="d-flex justify-content-between p-3 border-top border-white">
         <p class="font-weight-bold">{{ 'common.amount' | translate }}</p>
         <p *ngIf="isAmount" class="font-weight-bold">{{ amount | currency : 'JPY' }}</p>
         <p *ngIf="!isAmount" class="font-weight-bold">¥-</p>

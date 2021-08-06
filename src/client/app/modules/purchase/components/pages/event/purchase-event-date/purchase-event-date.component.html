@@ -2,13 +2,13 @@
     <app-page-title title="{{ 'purchase.event.date.title' | translate }}"></app-page-title>
 </app-header>
 
-<div class="contents scroll-horizontal">
+<div class="contents scroll-vertical">
     <div class="p-3">
         <div class="mb-4">
             <div class="container px-0">
                 <div class="row">
                     <div class="col-3" *ngFor="let scheduleDate of scheduleDates">
-                        <button type="button" class="btn btn-block border border-gray py-5 mb-3"
+                        <button type="button" class="btn btn-block btn-custom-secondary shadow-sm py-4 mb-3"
                             (click)="toPurchase(scheduleDate)">
                             <div class="text-large">{{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
                             </div>
@@ -27,19 +27,20 @@
                 <app-purchase-step [currentStep]="1"></app-purchase-step>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
                     {{ 'common.clear' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
+                <button type="button"
+                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
                     routerLink="/purchase/event">
                     {{ 'purchase.event.date.prev' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
-                    disabled>
+                <button type="button"
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" disabled>
                     {{ 'purchase.event.date.next' | translate }}
                 </button>
             </div>

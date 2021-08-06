@@ -1,10 +1,10 @@
 <app-header>
     <app-page-title title="{{ 'purchase.cinema.scheduleMovie.title' | translate }}"></app-page-title>
 </app-header>
-<div *ngIf="creativeWorks.length === 0" class="contents scroll-horizontal">
+<div *ngIf="creativeWorks.length === 0" class="contents scroll-vertical">
     <p class="p-3">{{ 'purchase.cinema.scheduleMovie.notfound' | translate }}</p>
 </div>
-<div *ngIf="creativeWorks.length > 0" class="contents scroll-horizontal">
+<div *ngIf="creativeWorks.length > 0" class="contents scroll-vertical">
     <div class="container p-3">
         <div class="row">
             <div *ngFor="let creativeWork of creativeWorks; let index = index" class="item mb-3" [ngClass]="{
@@ -36,19 +36,20 @@
                 <app-purchase-step [currentStep]="1"></app-purchase-step>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
                     {{ 'common.clear' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
+                <button type="button"
+                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
                     routerLink="/purchase/cinema">
                     {{ 'purchase.cinema.scheduleMovie.prev' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
-                    disabled>
+                <button type="button"
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" disabled>
                     {{ 'purchase.cinema.scheduleMovie.next' | translate }}
                 </button>
             </div>

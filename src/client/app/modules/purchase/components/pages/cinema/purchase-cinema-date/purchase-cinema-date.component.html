@@ -1,15 +1,15 @@
 <app-header>
-    <app-purchase-step [currentStep]="1"></app-purchase-step>
+    <app-page-title title="{{ 'purchase.cinema.date.title' | translate }}"></app-page-title>
 </app-header>
-<app-page-title title="{{ 'purchase.cinema.date.title' | translate }}"></app-page-title>
-<div class="contents scroll-horizontal">
+
+<div class="contents scroll-vertical">
     <div class="p-3">
         <div class="mb-4">
             <div class="p-4 bg-light-gray mb-3 font-weight-bold">{{ 'purchase.cinema.date.schedule' | translate }}</div>
             <div class="container px-0">
                 <div class="row">
                     <div class="col-3" *ngFor="let scheduleDate of scheduleDates">
-                        <button type="button" class="btn btn-block border border-gray py-5 mb-3"
+                        <button type="button" class="btn btn-block btn-custom-secondary py-4 shadow-sm mb-3"
                             (click)="searchMovie(scheduleDate)">
                             <div class="text-large">{{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
                             </div>
@@ -24,7 +24,7 @@
             <div class="container px-0">
                 <div class="row">
                     <div class="col-3" *ngFor="let scheduleDate of preScheduleDates">
-                        <button type="button" class="btn btn-block border border-gray py-5 mb-3"
+                        <button type="button" class="btn btn-block btn-custom-secondary py-4 shadow-sm mb-3"
                             (click)="searchMovie(scheduleDate)">
                             <div class="text-large">{{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
                             </div>
@@ -37,19 +37,28 @@
     </div>
 </div>
 <app-footer>
-    <div class="position-absolute d-flex align-items-center h-100">
-        <app-transaction-remaining-time></app-transaction-remaining-time>
-    </div>
     <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
-                    routerLink="/purchase/cinema">{{ 'purchase.cinema.date.prev' | translate }}</button>
+        <div class="row align-items-center justify-content-end h-100">
+            <div class="col-6">
+                <app-purchase-step [currentStep]="1"></app-purchase-step>
             </div>
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
-                    disabled>{{
-                    'purchase.cinema.date.next' | translate }}</button>
+            <div class="col-2">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+                    {{ 'common.clear' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="button"
+                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+                    routerLink="/purchase/cinema">
+                    {{ 'purchase.cinema.date.prev' | translate }}
+                </button>
+            </div>
+            <div class="col-2">
+                <button type="button"
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" disabled>
+                    {{ 'purchase.cinema.date.next' | translate }}
+                </button>
             </div>
         </div>
     </div>

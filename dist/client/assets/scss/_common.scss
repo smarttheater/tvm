@@ -129,6 +129,10 @@ button {
     white-space: normal !important;
 }
 
+.line-height-1 {
+    line-height: 1;
+}
+
 .overflow-hidden {
     overflow: hidden;
 }
@@ -291,13 +295,6 @@ button {
     max-width: 100%;
 }
 
-.btn:disabled {
-    opacity: 1 !important;
-    background-color: #666 !important;
-    border-color: #666 !important;
-    color: #eee !important;
-}
-
 .page-title {
     height: 100px;
 }
@@ -325,8 +322,22 @@ button {
 }
 
 .btn {
-    border-radius: 0.75rem;
-    box-shadow: 0 0 0.25rem rgb(0 0 0 / 70%);
+    border-radius: 0.5em;
+    &:hover {
+        color: #fff !important;
+        text-decoration: none;
+    }
+}
+
+.btn:disabled {
+    opacity: 1 !important;
+    background: linear-gradient(0deg, #999 0%, #ccc 100%);
+    border: 2px solid #999;
+    color: #fff !important;
+    box-shadow: none !important;
+    &:hover {
+        color: #fff !important;
+    }
 }
 
 .btn-custom-primary {
@@ -336,16 +347,28 @@ button {
 }
 
 .btn-custom-secondary {
-    background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+    background: linear-gradient(0deg, #eee 0%, #fff 100%);
     border: 2px solid #fff;
+    color: #333;
+    &:hover {
+        color: #333 !important;
+    }
 }
 
 .btn-custom-success {
-    background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+    background: linear-gradient(0deg, #eee 0%, #fff 100%);
     border: 2px solid theme-color('success');
+    color: #333;
+    &:hover {
+        color: #333 !important;
+    }
 }
 
 .btn-custom-warning {
-    background: linear-gradient(0deg, #ddd 0%, #fff 100%);
+    background: linear-gradient(0deg, #eee 0%, #fff 100%);
     border: 2px solid theme-color('warning');
+    color: #333;
+    &:hover {
+        color: #333 !important;
+    }
 }

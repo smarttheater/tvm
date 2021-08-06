@@ -13,9 +13,11 @@
     </div>
     <div class="buttons mx-auto text-center">
         <button type="button" [disabled]="code && code !== input.code"
-            class="btn btn-custom-primary btn-block font-weight-bold py-3 mb-3" (click)="close()">{{ 'common.yes' |
-            translate }}</button>
-        <button type="button" class="btn btn-outline-primary btn-block py-3" (click)="modal.hide()">{{ 'common.no' |
-            translate }}</button>
+            class="btn btn-block btn-custom-primary py-3 mb-3" (click)="close()">
+            {{ 'common.yes' | translate }}
+        </button>
+        <button type="button" class="btn btn-block btn-custom-secondary py-3 shadow-sm" (click)="modal.hide()">
+            {{ 'common.no' | translate }}
+        </button>
     </div>
 </div>

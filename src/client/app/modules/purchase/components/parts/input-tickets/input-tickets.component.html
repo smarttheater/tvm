@@ -1,22 +1,23 @@
-<div *ngIf="availablePaymentServices.length || isMembership" class="py-4 px-3 border border-gray">
-    <p class="mb-4">{{ 'common.inputTicket.read' | translate }}</p>
-    <ng-container *ngIf="availablePaymentServices.length">
-        <div *ngFor="let service of availablePaymentServices" class="mb-4">
-            <button type="button" (click)="openMovieTicket(service.serviceType?.codeValue)"
-                class="btn btn-block bg-white border border-gray py-3 rounded-pill"
-                [class]="service.serviceType?.codeValue">
-                <div class="font-weight-bold text-large bg-image">{{ service.name | changeLanguage }}</div>
-            </button>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="isMembership">
-        <div class="mb-4">
-            <button type="button" (click)="openMembership()"
-                class="btn btn-block bg-white border border-gray py-3 rounded-pill membership">
-                <div class="font-weight-bold text-large">
-                    {{ 'common.membership.label' | translate }}
-                </div>
-            </button>
-        </div>
-    </ng-container>
+<div *ngIf="availablePaymentServices.length || isMembership" class="py-4 px-3 bg-light-gray">
+    <p class=" mb-4">{{ 'common.inputTicket.read' | translate }}</p>
+    <div class="row">
+        <ng-container *ngIf="availablePaymentServices.length">
+            <div *ngFor="let service of availablePaymentServices" class="my-2 col-4">
+                <button type="button" (click)="openMovieTicket(service.serviceType?.codeValue)"
+                    class="btn btn-block btn-custom-secondary py-3 shadow-sm" [class]="service.serviceType?.codeValue">
+                    <div class="text-large bg-image">{{ service.name | changeLanguage }}</div>
+                </button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isMembership">
+            <div class="my-2 col-4">
+                <button type="button" (click)="openMembership()"
+                    class="btn btn-block btn-custom-secondary py-3 shadow-sm membership">
+                    <div class="text-large">
+                        {{ 'common.membership.label' | translate }}
+                    </div>
+                </button>
+            </div>
+        </ng-container>
+    </div>
 </div>

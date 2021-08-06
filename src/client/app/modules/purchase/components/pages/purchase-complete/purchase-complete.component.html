@@ -3,17 +3,16 @@
 </app-header>
 
 <div class="contents">
-    <div class="container h-100 px-3 pb-3">
+    <div class="container h-100">
         <div class="row h-100">
-            <div class="col-3 h-100">
-            </div>
+            <div class="col-3"></div>
             <div class="col-6">
-                <app-print-result *ngIf="(purchase | async)?.order" [order]="(purchase | async)?.order">
-                </app-print-result>
+                <div class="py-4">
+                    <app-print-result *ngIf="(purchase | async)?.order" [order]="(purchase | async)?.order">
+                    </app-print-result>
+                </div>
             </div>
-            <div class="col-3 mh-100">
-
-            </div>
+            <div class="col-3"></div>
         </div>
     </div>
 </div>
@@ -27,19 +26,19 @@
                 </app-purchase-step>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
                     {{ 'common.clear' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
-                    disabled>
+                <button type="button"
+                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3" disabled>
                     {{ 'purchase.complete.prev' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
-                    routerLink="/">
+                <button type="button"
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" routerLink="/">
                     {{ 'purchase.complete.next' | translate }}
                 </button>
             </div>

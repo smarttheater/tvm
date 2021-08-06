@@ -5,23 +5,22 @@
 <div class="contents">
     <div class="h-100 d-flex align-items-center px-4">
         <div class="container px-0">
-            <div class="row justify-content-center mb-5">
+            <div class="row justify-content-center">
                 <div *ngIf="(user | async)?.applicationType !== applicationType.Printer" class="col-4">
                     <div class="bg-light-gray p-4 h-100">
                         <div class="text-center mb-3">
-                            <div class="font-weight-bold mb-3">{{ 'purchase.event.top.purchase.read' | translate }}
-                            </div>
                             <div class="mb-3">
                                 <img height="80" src="/default/images/purchase/event/top/time.svg" alt="">
                             </div>
                             <div class="font-weight-bold">{{ 'purchase.event.top.purchase.title' | translate }}</div>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-block btn-custom-primary py-3 mb-3"
+                            <button type="button" class="btn btn-block btn-custom-primary shadow-sm py-3 mb-3"
                                 (click)="toPurchase()">
                                 {{ 'purchase.event.top.purchase.search.today' | translate }}
                             </button>
-                            <button type="button" class="btn btn-block btn-custom-primary py-3" (click)="changeDate()">
+                            <button type="button" class="btn btn-block btn-custom-primary shadow-sm py-3"
+                                (click)="changeDate()">
                                 {{ 'purchase.event.top.purchase.search.other' | translate }}
                             </button>
                         </div>
@@ -30,15 +29,13 @@
                 <div class="col-4">
                     <div class="bg-light-gray p-4 h-100">
                         <div class="text-center mb-3">
-                            <div class="font-weight-bold mb-3">{{ 'purchase.event.top.inquiry.read' | translate }}
-                            </div>
                             <div class="mb-3">
                                 <img height="80" src="/default/images/purchase/event/top/inquiry.svg" alt="">
                             </div>
                             <div class="font-weight-bold">{{ 'purchase.event.top.inquiry.title' | translate }}</div>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-block btn-custom-primary rounded-pill py-3"
+                            <button type="button" class="btn btn-block btn-custom-primary shadow-sm py-3"
                                 routerLink="/inquiry/input">
                                 {{ 'purchase.event.top.inquiry.print' | translate }}
                             </button>

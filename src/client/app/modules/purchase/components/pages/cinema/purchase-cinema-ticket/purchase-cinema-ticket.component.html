@@ -3,21 +3,16 @@
 </app-header>
 
 <div class="contents">
-    <div class="container h-100 px-3 pb-3">
+    <div class="container h-100">
         <div class="row h-100">
-            <div class="col-3 mh-100 scroll-horizontal">
-                <app-input-tickets *ngIf="(purchase | async)?.screeningEventTicketOffers && paymentServices"
-                    [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
-                    [paymentServices]="paymentServices"></app-input-tickets>
-            </div>
-            <div class="col-6 mh-100 scroll-horizontal">
-                <div>
-                    <ul class="py-2 bg-white">
-                        <li *ngFor="let reservation of (purchase | async)?.reservations">
+            <div class="col-9 mh-100 scroll-vertical px-0">
+                <div class="container py-4 px-3">
+                    <ul class="row align-items-center mb-4">
+                        <li *ngFor="let reservation of (purchase | async)?.reservations" class="col-6">
                             <div class="container px-3 py-2">
                                 <div class="row align-items-center">
                                     <div class="col-2">
-                                        <p *ngIf="reservation.seat?.seatNumber" class="font-weight-bold text-large">
+                                        <p *ngIf="reservation.seat?.seatNumber" class="">
                                             {{ reservation.seat?.seatNumber }}
                                         </p>
                                     </div>
@@ -25,11 +20,11 @@
                                         <div>
                                             <button *ngIf="reservation.ticket === undefined" type="button"
                                                 (click)="openTicketList(reservation)"
-                                                class="btn btn-block border border-gray py-3">{{
+                                                class="btn btn-block btn-custom-secondary py-3 shadow-sm">{{
                                                 'purchase.cinema.ticket.unselected' | translate }}</button>
                                             <button *ngIf="reservation.ticket !== undefined" type="button"
                                                 (click)="openTicketList(reservation)"
-                                                class="btn btn-block btn-outline-primary py-3">
+                                                class="btn btn-block btn-custom-success py-3">
                                                 <div class="d-flex justify-content-between align-items-center"
                                                     *ngFor="let priceComponent of reservation.ticket?.ticketOffer.priceSpecification.priceComponent">
                                                     <p class="w-50 text-left">{{ priceComponent.name | changeLanguage }}
@@ -75,9 +70,12 @@
                             </div>
                         </li>
                     </ul>
+                    <app-input-tickets *ngIf="(purchase | async)?.screeningEventTicketOffers && paymentServices"
+                        [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
+                        [paymentServices]="paymentServices"></app-input-tickets>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-horizontal">
+            <div class="col-3 mh-100 scroll-vertical px-0">
                 <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
             </div>
         </div>
@@ -90,18 +88,20 @@
                 <app-purchase-step [currentStep]="3"></app-purchase-step>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
                     {{ 'common.clear' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
+                <button type="button"
+                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
                     routerLink="/purchase/cinema/seat">
                     {{ 'purchase.cinema.ticket.prev' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
+                <button type="submit"
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
                     [disabled]="(isLoading | async) || !isSelectedTicket" (click)="onSubmit()">
                     {{ 'purchase.cinema.ticket.next' | translate }}
                 </button>

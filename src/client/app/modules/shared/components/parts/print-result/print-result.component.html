@@ -1,11 +1,17 @@
-<div class="container bg-light-gray">
+<div class="container bg-light-gray text-large">
     <div class="p-3 row align-items-center">
-        <p class="col-4 text-large">{{ 'purchase.complete.print.ticket' | translate }}</p>
-        <p class="col-8 text-x-large text-right font-weight-bold">{{ 'purchase.complete.print.value' | translate: { value: order.acceptedOffers.length } }}</p>
+        <p class="col-4">
+            {{ 'purchase.complete.print.ticket' | translate }}
+        </p>
+        <p class="col-8 text-right">
+            {{ 'purchase.complete.print.value' | translate: { value: order.acceptedOffers.length } }}
+        </p>
     </div>
     <hr class="border-top border-gray my-0 mx-2">
     <div class="p-3 row align-items-center border-gray">
-        <p class="col-4 text-large"> {{ 'purchase.complete.print.total' | translate }}</p>
-        <p class="col-8 text-x-large text-right font-weight-bold">{{ 'purchase.complete.print.value' | translate: { value: order.acceptedOffers.length } }}</p>
+        <p class="col-4"> {{ 'purchase.complete.print.total' | translate }}</p>
+        <p class="col-8 text-right">
+            {{ 'purchase.complete.print.value' | translate: { value: order.acceptedOffers.length } }}
+        </p>
     </div>
 </div>

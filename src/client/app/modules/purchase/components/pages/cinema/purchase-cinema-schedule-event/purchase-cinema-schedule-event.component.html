@@ -1,7 +1,7 @@
 <app-header>
     <app-page-title title="{{ 'purchase.cinema.scheduleEvent.title' | translate }}"></app-page-title>
 </app-header>
-<div class="contents scroll-horizontal">
+<div class="contents scroll-vertical">
     <div class="p-3">
         <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index"
             [screeningEventsGroup]="group"
@@ -18,19 +18,20 @@
                 <app-purchase-step [currentStep]="1"></app-purchase-step>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2" routerLink="/">
+                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
                     {{ 'common.clear' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold py-3"
+                <button type="button"
+                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
                     routerLink="/purchase/cinema/schedule/movie">
                     {{ 'purchase.cinema.scheduleEvent.prev' | translate }}
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold py-3"
-                    disabled>
+                <button type="button"
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" disabled>
                     {{ 'purchase.cinema.scheduleEvent.next' | translate }}
                 </button>
             </div>

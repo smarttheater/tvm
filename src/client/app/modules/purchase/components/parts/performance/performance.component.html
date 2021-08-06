@@ -1,14 +1,13 @@
-<div class="p-3 pointer h-100 btn btn-block text-left shadow-none" [ngClass]="{ 
-                'btn-custom-success': performance.isSales() && performance.isSeatStatus('success'),
-                'btn-custom-warning': performance.isSales() && performance.isSeatStatus('warning'), 
-                'bg-dark-gray text-light-gray not-event': !performance.isSales() 
-                || performance.isSeatStatus('danger') 
+<div class="p-3 pointer h-100 btn btn-block text-left" [ngClass]="{  
+                'bg-dark-gray text-light-gray not-event': !performance.isSales() || performance.isSeatStatus('danger'),
+                'btn-custom-warning': performance.isSales() && performance.isSeatStatus('warning'),
+                'btn-custom-success': performance.isSales()
                 }" (click)="select.emit(performance.screeningEvent)">
     <div class="container px-0">
         <div class="row align-items-center">
             <div class="col-9">
                 <div class="mb-1 align-middle">
-                    <span class="text-x-large font-weight-bold">{{
+                    <span class="text-large font-weight-bold">{{
                         moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
                     <span>-</span>
                     <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</span>

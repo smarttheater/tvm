@@ -2,11 +2,12 @@
     <app-page-title title="{{ 'purchase.event.top.title' | translate }}"></app-page-title>
 </app-header>
 
-<div class="contents">
-    <div class="h-100 d-flex align-items-center px-4">
+<div class="contents scroll-vertical">
+    <div class="min-h-100 d-flex align-items-center px-4 py-4 py-md-0">
         <div class="container px-0">
             <div class="row justify-content-center">
-                <div *ngIf="(user | async)?.applicationType !== applicationType.Printer" class="col-4">
+                <div *ngIf="(user | async)?.applicationType !== applicationType.Printer"
+                    class="col-12 col-md-4 mb-4 mb-md-0">
                     <div class="bg-light-gray p-4 h-100">
                         <div class="text-center mb-3">
                             <div class="mb-3">
@@ -26,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-4">
                     <div class="bg-light-gray p-4 h-100">
                         <div class="text-center mb-3">
                             <div class="mb-3">
@@ -46,14 +47,9 @@
         </div>
     </div>
     <div *ngIf="environment.TOP_IMAGE" class="image"><img [src]="getImageUrl()" class="w-100" alt=""></div>
-    <app-language></app-language>
 </div>
 <app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-end h-100">
-            <div class="col-2">
-                <app-language></app-language>
-            </div>
-        </div>
+    <div class="col-3 col-md-2">
+        <app-language></app-language>
     </div>
 </app-footer>

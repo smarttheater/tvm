@@ -1,10 +1,11 @@
-<app-header>
+<app-header [step]="1">
     <app-page-title title="{{ 'purchase.event.select.title' | translate }}"></app-page-title>
+    <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
 <div class="contents">
     <div class="container h-100 px-3">
         <div class="row h-100">
-            <div class="col-9 mh-100 scroll-vertical px-0">
+            <div class="col-12 col-md-9 mh-100 scroll-vertical px-0">
                 <div class="pt-4 px-3">
                     <ul *ngIf="tickets.length > 0" class="mb-4">
                         <li *ngFor="let ticket of tickets; let i = index;"
@@ -12,7 +13,7 @@
                             [class.text-danger]="remainingAttendeeCapacityValue(ticket).length === 0">
                             <div class="container px-0">
                                 <div class="row justify-content-between align-items-center">
-                                    <div class="col-8 text-left">
+                                    <div class="col-7 col-md-8 text-left">
                                         <p *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
                                             <span>{{ priceComponent.name | changeLanguage }}</span>
                                             <!--
@@ -26,7 +27,7 @@
                                         <p *ngIf="ticket.description" class="text-x-small text-left">
                                             {{ ticket.description | changeLanguage }}</p>
                                     </div>
-                                    <div class="col-4 text-right">
+                                    <div class="col-5 col-md-4 text-right">
                                         <app-quantity-input class="pl-3" [value]="selectedTickets[i].count"
                                             (valueChange)="changeSelect(ticket.id, $event)"
                                             [maxValue]="remainingAttendeeCapacityValue(ticket).length">
@@ -38,7 +39,7 @@
                                 <li class="my-1" *ngFor="let addOn of ticket.addOn; let i2 = index">
                                     <div class="container px-0">
                                         <div class="row justify-content-between align-items-center">
-                                            <div class="col-8 text-left">
+                                            <div class="col-7 col-md-8 text-left">
                                                 <p class="pl-4"
                                                     *ngFor="let priceComponent of ticket.priceSpecification.priceComponent">
                                                     <span>{{ addOn.priceSpecification?.name | changeLanguage }}</span>
@@ -51,7 +52,7 @@
                                                         addOn.priceSpecification?.referenceQuantity?.value } }}</span>
                                                 </p>
                                             </div>
-                                            <div class="col-4 text-right">
+                                            <div class="col-5 col-md-4 text-right">
                                                 <app-quantity-input class="pl-3"
                                                     [(value)]="selectedTickets[i].addOn[i2].count"
                                                     [maxValue]="remainingAttendeeCapacityAddOnValue(ticket).length">
@@ -66,39 +67,30 @@
                     <p *ngIf="tickets.length === 0" class="mb-4">{{ 'purchase.event.select.notfound' | translate }}</p>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-vertical px-0">
+            <div class="col-12 col-md-3 mh-100 scroll-vertical px-0">
                 <app-purchase-cart [purchase]="purchase | async" [isAmount]="false" [cancel]="false">
                 </app-purchase-cart>
             </div>
         </div>
     </div>
 </div>
-<app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-end h-100">
-            <div class="col-6">
-                <app-purchase-step [currentStep]="1"></app-purchase-step>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
-                    {{ 'common.clear' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="button"
-                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
-                    (click)="prev()">
-                    {{ 'purchase.event.select.prev' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="submit"
-                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
-                    [disabled]="(isLoading | async) || (selectedTickets && createReservations().length === 0)"
-                    (click)="onSubmit()">
-                    {{ 'purchase.event.select.next' | translate }}
-                </button>
-            </div>
-        </div>
+<app-footer [step]="1">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            (click)="prev()">
+            {{ 'purchase.event.select.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            [disabled]="(isLoading | async) || (selectedTickets && createReservations().length === 0)"
+            (click)="onSubmit()">
+            {{ 'purchase.event.select.next' | translate }}
+        </button>
     </div>
 </app-footer>

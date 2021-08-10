@@ -1,4 +1,4 @@
-<app-header>
+<app-header [step]="environment.VIEW_TYPE === viewType.Cinema ? 5 : 3">
     <app-page-title title="{{ 'purchase.complete.title' | translate }}"></app-page-title>
 </app-header>
 
@@ -16,32 +16,22 @@
         </div>
     </div>
 </div>
-<app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-end h-100">
-            <div class="col-6">
-                <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Cinema" [currentStep]="5">
-                </app-purchase-step>
-                <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Event" [currentStep]="3">
-                </app-purchase-step>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
-                    {{ 'common.clear' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="button"
-                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3" disabled>
-                    {{ 'purchase.complete.prev' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="button"
-                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" routerLink="/">
-                    {{ 'purchase.complete.next' | translate }}
-                </button>
-            </div>
-        </div>
+<app-footer [step]="environment.VIEW_TYPE === viewType.Cinema ? 5 : 3">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            disabled>
+            {{ 'purchase.complete.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/">
+            {{ 'purchase.complete.next' | translate }}
+        </button>
     </div>
 </app-footer>

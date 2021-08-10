@@ -1,5 +1,6 @@
-<app-header>
+<app-header [step]="1">
     <app-page-title title="{{ 'purchase.event.date.title' | translate }}"></app-page-title>
+    <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
 
 <div class="contents scroll-vertical">
@@ -20,30 +21,22 @@
 
     </div>
 </div>
-<app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-end h-100">
-            <div class="col-6">
-                <app-purchase-step [currentStep]="1"></app-purchase-step>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
-                    {{ 'common.clear' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="button"
-                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
-                    routerLink="/purchase/event">
-                    {{ 'purchase.event.date.prev' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="button"
-                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" disabled>
-                    {{ 'purchase.event.date.next' | translate }}
-                </button>
-            </div>
-        </div>
+<app-footer [step]="1">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/purchase/event">
+            {{ 'purchase.event.date.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            disabled>
+            {{ 'purchase.event.date.next' | translate }}
+        </button>
     </div>
 </app-footer>

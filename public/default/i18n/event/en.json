@@ -102,7 +102,7 @@
         },
         "step": {
             "1": "Ticket selection",
-            "2": "Payment method selection <br> Purchase confirmation",
+            "2": "Payment method selection / Purchase confirmation",
             "3": "Purchase completed"
         }
     },

@@ -6,11 +6,9 @@ import { Component, Input, OnInit } from '@angular/core';
     styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
-    @Input() public topButton?: boolean;
+    @Input() public step?: number;
 
     constructor() {}
 
-    public ngOnInit() {
-        this.topButton = this.topButton === undefined ? true : this.topButton;
-    }
+    public ngOnInit() {}
 }

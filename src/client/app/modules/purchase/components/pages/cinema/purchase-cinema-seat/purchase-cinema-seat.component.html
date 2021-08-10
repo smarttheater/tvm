@@ -1,25 +1,27 @@
-<app-header>
+<app-header [step]="2">
     <app-page-title *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)"
         title="{{ 'purchase.cinema.seat.title' | translate }}"></app-page-title>
     <app-page-title *ngIf="(purchase | async)?.screen?.openSeatingAllowed"
         title="{{ 'purchase.cinema.seat.openSeating.title' | translate }}"></app-page-title>
+    <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
 
 <div class="contents">
     <div class="container h-100">
         <div class="row h-100">
-            <div class="col-9 px-0">
+            <div #screenContainer class="col-12 col-md-9 px-0">
                 <div *ngIf="(purchase | async)?.screen && !((purchase | async)?.screen?.openSeatingAllowed)">
                     <app-screen *ngIf="(user | async)?.theater 
                 && screeningEventSeats.length > 0 
-                && (purchase | async)?.screen" [theaterCode]="(user | async)?.theater.branchCode"
+                && (purchase | async)?.screen
+                && outerHeight" [theaterCode]="(user | async)?.theater.branchCode"
                         [screenCode]="(purchase | async)?.screen.branchCode" [screeningEventSeats]="screeningEventSeats"
                         [openSeatingAllowed]="(purchase | async)?.screen.openSeatingAllowed"
                         [reservations]="(purchase | async)?.reservations"
-                        [authorizeSeatReservation]="(purchase | async)?.authorizeSeatReservation" [outerHeight]="700"
-                        (select)="selectSeat($event)">
+                        [authorizeSeatReservation]="(purchase | async)?.authorizeSeatReservation"
+                        [outerHeight]="outerHeight" (select)="selectSeat($event)">
                     </app-screen>
-                    <app-seat-info
+                    <app-seat-info #seatInfo
                         *ngIf="(purchase | async)?.screen && !((purchase | async)?.screen?.openSeatingAllowed)">
                     </app-seat-info>
                 </div>
@@ -48,48 +50,39 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-vertical px-0">
+            <div class="col-12 col-md-3 mh-100 scroll-vertical px-0">
                 <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
             </div>
         </div>
     </div>
 </div>
-<app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-end h-100">
-            <div class="col-6">
-                <app-purchase-step [currentStep]="2"></app-purchase-step>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
-                    {{ 'common.clear' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="button"
-                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
-                    (click)="prev()">{{
-                    'purchase.cinema.seat.prev' | translate }}</button>
-            </div>
-            <div class="col-2">
-                <button *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)" type="submit"
-                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
-                    [disabled]="(isLoading | async) || (purchase | async)?.reservations.length === 0"
-                    (click)="onSubmit()">
-                    <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.next' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.consent' | translate }}
-                    </ng-container>
-                </button>
-                <button *ngIf="(purchase | async)?.screen?.openSeatingAllowed" type="submit"
-                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
-                    [disabled]="(isLoading | async)  || Number(reservationCount) === 0" (click)="onSubmit()">
-                    <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.next' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.consent' | translate }}
-                    </ng-container>
-                </button>
-            </div>
-        </div>
+<app-footer [step]="2">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            (click)="prev()">{{
+            'purchase.cinema.seat.prev' | translate }}</button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)" type="submit"
+            class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            [disabled]="(isLoading | async) || (purchase | async)?.reservations.length === 0" (click)="onSubmit()">
+            <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.next' | translate }}
+            </ng-container>
+            <ng-container *ngIf="environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.consent' | translate }}
+            </ng-container>
+        </button>
+        <button *ngIf="(purchase | async)?.screen?.openSeatingAllowed" type="submit"
+            class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            [disabled]="(isLoading | async)  || Number(reservationCount) === 0" (click)="onSubmit()">
+            <ng-container *ngIf="!environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.next' | translate }}
+            </ng-container>
+            <ng-container *ngIf="environment.PURCHASE_TERMS">{{ 'purchase.cinema.seat.consent' | translate }}
+            </ng-container>
+        </button>
     </div>
 </app-footer>

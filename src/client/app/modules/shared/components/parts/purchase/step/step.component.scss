@@ -1,3 +1,5 @@
+@import '../../../../../../../assets/scss/theme';
+
 :host {
     display: block;
     height: 100%;
@@ -11,7 +13,7 @@
         position: absolute;
         top: 0;
         height: 100%;
-        width: 20px;
+        width: 0.8rem;
     }
     &.active {
         &::after {
@@ -30,7 +32,7 @@
         }
     }
     &::after {
-        right: -20px;
+        right: -0.8rem;
         background: linear-gradient(
                     to bottom left,
                     rgba(255, 255, 255, 0) 50%,
@@ -39,9 +41,23 @@
                 no-repeat top left/100% 50%,
             linear-gradient(to top left, rgba(255, 255, 255, 0) 50%, #eee 50.5%)
                 no-repeat bottom right/100% 50%;
+        @include media-breakpoint-down(sm) {
+            background: linear-gradient(
+                        to bottom left,
+                        rgba(255, 255, 255, 0) 50%,
+                        $dark-gray 50.5%
+                    )
+                    no-repeat top left/100% 50%,
+                linear-gradient(
+                        to top left,
+                        rgba(255, 255, 255, 0) 50%,
+                        $dark-gray 50.5%
+                    )
+                    no-repeat bottom right/100% 50%;
+        }
     }
     &::before {
-        right: -22px;
+        right: calc(-0.8rem - 2px);
         background: linear-gradient(
                     to bottom left,
                     rgba(255, 255, 255, 0) 50%,
@@ -50,5 +66,19 @@
                 no-repeat top left/100% 50%,
             linear-gradient(to top left, rgba(255, 255, 255, 0) 50%, #bbb 50.5%)
                 no-repeat bottom right/100% 50%;
+        // @include media-breakpoint-down(sm) {
+        //     background: linear-gradient(
+        //                 to bottom left,
+        //                 rgba(255, 255, 255, 0) 50%,
+        //                 #fff 50.5%
+        //             )
+        //             no-repeat top left/100% 50%,
+        //         linear-gradient(
+        //                 to top left,
+        //                 rgba(255, 255, 255, 0) 50%,
+        //                 #fff 50.5%
+        //             )
+        //             no-repeat bottom right/100% 50%;
+        // }
     }
 }

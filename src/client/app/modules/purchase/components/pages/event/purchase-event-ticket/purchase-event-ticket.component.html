@@ -1,14 +1,15 @@
-<app-header>
+<app-header [step]="1">
     <app-page-title title="{{ 'purchase.event.ticket.title' | translate }}"></app-page-title>
+    <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
 
 <div class="contents">
     <div class="container h-100">
         <div class="row h-100">
-            <div class="col-9 mh-100 scroll-vertical px-0">
+            <div class="col-12 col-md-9 mh-100 scroll-vertical px-0">
                 <div class="container py-4 px-3">
-                    <ul class="row align-items-center mb-4">
-                        <li *ngFor="let reservation of (purchase | async)?.reservations" class="col-6">
+                    <ul class="row align-items-center mb-4 px-5 px-md-3">
+                        <li *ngFor="let reservation of (purchase | async)?.reservations" class="col-12 col-md-6">
                             <div class="container px-3 py-2">
                                 <div class="row align-items-center">
                                     <div class="col-2">
@@ -75,7 +76,7 @@
                         [paymentServices]="paymentServices"></app-input-tickets>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-vertical px-0">
+            <div class="col-12 col-md-3 mh-100 scroll-vertical px-0">
                 <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async"
                     [isAmount]="true"></app-purchase-info>
                 <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async"
@@ -84,31 +85,22 @@
         </div>
     </div>
 </div>
-<app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-end h-100">
-            <div class="col-6">
-                <app-purchase-step [currentStep]="1"></app-purchase-step>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
-                    {{ 'common.clear' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="button"
-                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
-                    routerLink="/purchase/event/seat">
-                    {{ 'purchase.event.ticket.prev' | translate }}
-                </button>
-            </div>
-            <div class="col-2">
-                <button type="submit"
-                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
-                    [disabled]="(isLoading | async) || !isSelectedTicket" (click)="onSubmit()">
-                    {{ 'purchase.event.ticket.next' | translate }}
-                </button>
-            </div>
-        </div>
+<app-footer [step]="1">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/purchase/event/seat">
+            {{ 'purchase.event.ticket.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            [disabled]="(isLoading | async) || !isSelectedTicket" (click)="onSubmit()">
+            {{ 'purchase.event.ticket.next' | translate }}
+        </button>
     </div>
 </app-footer>

@@ -89,10 +89,10 @@
             }
         },
         "step": {
-            "1": "Select work <br> Select show time",
+            "1": "Select work / Select show time",
             "2": "Seat selection",
             "3": "Ticket type selection",
-            "4": "Payment method selection <br> Purchase confirmation",
+            "4": "Payment method selection / Purchase confirmation",
             "5": "Purchase completed"
         }
     },

@@ -5,7 +5,7 @@
     <div class="p-3" *ngIf="(master | async)?.projects.length > 0">
         <div class="container px-0">
             <ul class="row">
-                <li *ngFor="let project of (master | async)?.projects" class="col-3 mb-3">
+                <li *ngFor="let project of (master | async)?.projects" class="col-6 col-md-3 mb-3">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
@@ -23,13 +23,9 @@
     </div>
 </div>
 <app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-end h-100">
-            <div class="col-2">
-                <button type="button" class="btn btn-custom-secondary btn-block font-weight-bold py-3"
-                    (click)="signOut()">ログアウト</button>
-            </div>
-        </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-custom-secondary btn-block font-weight-bold py-3"
+            (click)="signOut()">ログアウト</button>
     </div>
 </app-footer>
 

@@ -36,3 +36,40 @@ $input-padding-x: 1rem;
 $input-height: calc(1.5em + ($input-padding-y * 2) + 2px);
 $input-border-width: 2px;
 $input-border-color: $gray;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 769px,
+    md: 1081px,
+    lg: 1392px,
+    xl: 1920px,
+);
+
+$container-max-widths: (
+    sm: 720px,
+    md: 1028px,
+    lg: 1360px,
+    xl: 1860px,
+);
+
+$modal-xl: 1340px;
+$modal-lg: 1140px;
+$modal-md: 900px;
+$modal-sm: 600px;
+
+html,
+body {
+    font-size: 28px;
+    @include media-breakpoint-down(lg) {
+        font-size: 20px;
+    }
+    @include media-breakpoint-down(md) {
+        font-size: 16px;
+    }
+    @include media-breakpoint-down(sm) {
+        font-size: 24px;
+    }
+    @include media-breakpoint-down(xs) {
+        font-size: 16px;
+    }
+}

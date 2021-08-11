@@ -9,7 +9,7 @@
 <div class="contents">
     <div class="container h-100">
         <div class="row h-100">
-            <div #screenContainer class="col-12 col-md-9 px-0">
+            <div #screenContainer class="col-12 col-md-9 mh-100 scroll-vertical px-0">
                 <div *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)">
                     <app-screen *ngIf="(user | async)?.theater 
                 && screeningEventSeats.length > 0 

@@ -201,7 +201,7 @@ button {
 }
 
 .border-white-bold {
-    border-width: 10px !important;
+    border-width: 1rem !important;
 }
 
 // color
@@ -380,7 +380,8 @@ button {
     }
 }
 
-app-purchase-base {
+app-purchase-base,
+app-setting {
     @include media-breakpoint-down(sm) {
         .col-12.col-md-9 {
             height: 70%;

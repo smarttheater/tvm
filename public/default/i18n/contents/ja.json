@@ -173,6 +173,7 @@
         "unselected": "未選択",
         "pos": "POS",
         "signOut": "ログアウト",
+        "reload": "更新",
         "alert": {
             "connection": "接続に成功しました。",
             "customer": "購入者情報に誤りがあります。",

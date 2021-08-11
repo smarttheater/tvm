@@ -257,6 +257,7 @@ export class OrderService {
                 this.utilService.openAlert({
                     title: '',
                     body: `<div class="px-5">${domList.join('\n')}</div>`,
+                    className: 'modal-dialog-centered modal-sm',
                 });
                 break;
             case Models.Util.Printer.ConnectionType.EpsonEPOS:

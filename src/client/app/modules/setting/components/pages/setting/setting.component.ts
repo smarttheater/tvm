@@ -352,6 +352,9 @@ export class SettingComponent implements OnInit {
         }
     }
 
+    /**
+     * サインアウト
+     */
     public async signOut() {
         try {
             await this.cinerinoService.getServices();
@@ -359,5 +362,12 @@ export class SettingComponent implements OnInit {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    /**
+     * リロード
+     */
+    public reload() {
+        location.reload();
     }
 }

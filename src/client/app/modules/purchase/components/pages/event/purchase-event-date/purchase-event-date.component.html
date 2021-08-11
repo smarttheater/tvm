@@ -8,10 +8,11 @@
         <div class="mb-4">
             <div class="container px-0">
                 <div class="row">
-                    <div class="col-3" *ngFor="let scheduleDate of scheduleDates">
+                    <div class="col-4 col-md-3" *ngFor="let scheduleDate of scheduleDates">
                         <button type="button" class="btn btn-block btn-custom-secondary shadow-sm py-4 mb-3"
                             (click)="toPurchase(scheduleDate)">
-                            <div class="text-large">{{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
+                            <div class="text-large">
+                                {{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
                             </div>
                         </button>
                     </div>

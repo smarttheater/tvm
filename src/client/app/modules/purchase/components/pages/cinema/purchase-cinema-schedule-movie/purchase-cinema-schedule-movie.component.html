@@ -8,7 +8,8 @@
 <div *ngIf="creativeWorks.length > 0" class="contents scroll-vertical">
     <div class="container p-3">
         <div class="row">
-            <div *ngFor="let creativeWork of creativeWorks; let index = index" class="item mb-3" [ngClass]="{
+            <div *ngFor="let creativeWork of creativeWorks; let index = index" class="col-4 col-sm-3 col-md-2 item mb-3"
+                [ngClass]="{
                    'not-event not-sales': !isSales(creativeWork.identifier)
                }" [class.animation]="animations[index]" (click)="selectCreativeWork(creativeWork)">
                 <div class="position-relative mb-2">

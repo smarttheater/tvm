@@ -10,12 +10,12 @@
         <div *ngFor="let group of screeningEventsGroup" class="mb-3">
             <div class="container px-0">
                 <div class="row align-items-stretch">
-                    <div class="col-1">
+                    <div class="col-2 col-md-1">
                         <div class="border-left border-dark p-3 h-100">
                             {{ moment(group.screeningEvent.startDate).format('HH') }}:00
                         </div>
                     </div>
-                    <div class="col-11">
+                    <div class="col-10 col-md-11">
                         <div class="pt-3">
                             <div *ngFor="let performance of group.data" class="btn btn-block text-left p-3 mb-3 pointer"
                                 [ngClass]="{ 

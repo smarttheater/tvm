@@ -1,6 +1,6 @@
 <form [formGroup]="formGroup">
     <div *ngFor="let key of getProfileFormKeys()" class="form-group row align-items-center">
-        <div class="col-md-4 py-2 text-md-right ">
+        <div class="col-4 py-2 text-right ">
             <div class="d-inline-flex align-items-center">
                 <p *ngIf="!getAdditionalProperty(key)">{{ 'form.label.' + key | translate }}</p>
                 <p *ngIf="getAdditionalProperty(key)">
@@ -9,7 +9,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-8">
             <input *ngIf="key !== 'email' && key !== 'telephone' && key !== 'gender' && !getAdditionalProperty(key)"
                 type="text" class="form-control" [formControlName]="key" [id]="key"
                 [placeholder]="'form.placeholder.' + key | translate">

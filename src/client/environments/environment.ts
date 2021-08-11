@@ -194,7 +194,7 @@ export const isProduction = document.querySelector('body.production') !== null;
 const defaultEnvironment: IEnvironment = {
     production: false,
     APP_TITLE: '',
-    PRIMARY_COLOR: '#0175c2',
+    PRIMARY_COLOR: '#042d92',
     ENTRANCE_SERVER_URL: '',
     INSTRUCTION_URL: '',
     ANALYTICS_ID: '',

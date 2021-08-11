@@ -64,7 +64,7 @@ export class InputTicketsComponent implements OnInit {
             initialState: {
                 paymentMethodType,
             },
-            class: 'modal-dialog-centered modal-lg',
+            class: 'modal-dialog-centered',
         });
     }
 
@@ -74,7 +74,7 @@ export class InputTicketsComponent implements OnInit {
     public openMembership() {
         this.modal.show(MembershipCheckModalComponent, {
             initialState: {},
-            class: 'modal-dialog-centered modal-lg',
+            class: 'modal-dialog-centered',
         });
     }
 }

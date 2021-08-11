@@ -25,7 +25,7 @@
                                 }" (click)="selectSchedule(performance.screeningEvent)">
                                 <div class="container px-0">
                                     <div class="row align-items-center">
-                                        <div class="col-1 text-center">
+                                        <div class="col-2 col-md-1 text-center">
                                             <div class="status"
                                                 *ngIf="performance.isSales() && !performance.isInfinitetock()">
                                                 <div *ngIf="performance.isSeatStatus('success')">
@@ -56,14 +56,27 @@
                                                 <!-- <p class="text-small">{{ 'common.performance.infiniteStock' | translate }}</p> -->
                                             </div>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-4 col-md-3">
                                             <span class="text-x-large font-weight-bold">{{
                                                 moment(performance.screeningEvent.startDate).format('HH:mm') }}</span>
                                             <span>-</span>
                                             <span>{{ moment(performance.screeningEvent.endDate).format('HH:mm')
                                                 }}</span>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 col-md-8">
+                                            <div class="screen-name d-flex align-items-center mb-1 font-weight-bold">
+                                                <p *ngIf="performance.screeningEvent.location.address | changeLanguage"
+                                                    class="mr-2">
+                                                    {{ performance.screeningEvent.location.address | changeLanguage }}
+                                                </p>
+                                                <p class="mr-2">
+                                                    {{ performance.screeningEvent.location.name | changeLanguage }}
+                                                </p>
+                                                <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity" class="">
+                                                    {{ 'common.seatValue' | translate: { value:
+                                                    performance.screeningEvent.maximumAttendeeCapacity } }}
+                                                </p>
+                                            </div>
                                             <p class="font-weight-bold text-large">
                                                 {{ performance.screeningEvent.name | changeLanguage }}</p>
                                             <p *ngIf="performance.screeningEvent.superEvent.headline 
@@ -75,21 +88,6 @@
                                                 && (performance.screeningEvent.superEvent.description | changeLanguage)">
                                                 {{ performance.screeningEvent.superEvent.description | changeLanguage }}
                                             </p>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="mb-1 screen-name">
-                                                <p *ngIf="performance.screeningEvent.location.address | changeLanguage">
-                                                    {{ performance.screeningEvent.location.address | changeLanguage }}
-                                                </p>
-                                                <p>
-                                                    {{ performance.screeningEvent.location.name | changeLanguage }}
-                                                </p>
-                                                <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity"
-                                                    class="screen-name">
-                                                    {{ 'common.seatValue' | translate: { value:
-                                                    performance.screeningEvent.maximumAttendeeCapacity } }}
-                                                </p>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -123,7 +123,7 @@
     "setting": {
         "title": "設定",
         "read": "設定を変更できます。",
-        "next": "設定を変更",
+        "next": "保存",
         "prev": "戻る",
         "basic": {
             "title": "基本情報"

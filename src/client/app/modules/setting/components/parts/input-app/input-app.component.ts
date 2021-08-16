@@ -38,8 +38,7 @@ export class InputAppComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.posList = [];
         this.formGroup = this.createForm();
-        const { theater, pos, applicationType, applicationPassword } =
-            this.data;
+        const { theater, pos, applicationPassword } = this.data;
         if (theater !== undefined) {
             this.formGroup.controls.theaterId.setValue(theater.id);
             this.changeTheater();
@@ -47,9 +46,11 @@ export class InputAppComponent implements OnInit, OnDestroy {
         if (pos !== undefined) {
             this.formGroup.controls.posId.setValue(pos.id);
         }
-        if (applicationType !== undefined) {
-            this.formGroup.controls.applicationType.setValue(applicationType);
-        }
+        const applicationType =
+            this.data.applicationType === undefined
+                ? this.applicationType.Tvm
+                : this.data.applicationType;
+        this.formGroup.controls.applicationType.setValue(applicationType);
         if (applicationPassword !== undefined) {
             this.formGroup.controls.applicationPassword.setValue(
                 applicationPassword

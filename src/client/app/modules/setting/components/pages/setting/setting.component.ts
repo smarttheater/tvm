@@ -86,7 +86,12 @@ export class SettingComponent implements OnInit {
                 customerContact,
             } = await this.actionService.user.getData();
             this.inputData = {
-                app: { theater, pos, applicationType, applicationPassword },
+                app: {
+                    theater,
+                    pos,
+                    applicationType,
+                    applicationPassword,
+                },
                 device: {
                     printerType: printer?.connectionType,
                     printerIpAddress: printer?.ipAddress,
@@ -277,7 +282,7 @@ export class SettingComponent implements OnInit {
                     initialState: {
                         counts,
                     },
-                    class: 'modal-dialog-centered modal-lg',
+                    class: 'modal-dialog-centered',
                 });
             }
             if (method === 'collectAll' || method === 'collectPart') {

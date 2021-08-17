@@ -44,9 +44,7 @@ export class UtilService {
             initialState: { title, body, error },
             backdrop: backdrop === undefined ? true : backdrop,
             class:
-                className === undefined
-                    ? 'modal-dialog-centered modal-lg'
-                    : className,
+                className === undefined ? 'modal-dialog-centered' : className,
         });
         return modalRef;
     }
@@ -67,9 +65,7 @@ export class UtilService {
             initialState: { title, body, code, cb },
             backdrop: backdrop === undefined ? true : backdrop,
             class:
-                className === undefined
-                    ? 'modal-dialog-centered modal-lg'
-                    : className,
+                className === undefined ? 'modal-dialog-centered' : className,
         });
         return modalRef;
     }

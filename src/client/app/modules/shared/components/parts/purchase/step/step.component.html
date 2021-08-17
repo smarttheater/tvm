@@ -1,6 +1,6 @@
 <ul class="d-inline-flex align-items-center h-100 mb-0 border rounded-lg overflow-hidden">
     <li *ngFor="let step of steps" class="step px-0 h-100 triangle" [class.active]="currentStep === step">
-        <div [class.d-none]="currentStep !== step" class="px-3 py-2 text-dark-gray bg-white h-100">
+        <div [class.d-none]="currentStep !== step" class="pl-4 pr-3 py-2 text-dark-gray bg-white h-100">
             <div class="d-flex align-items-center h-100 font-weight-bold">
                 <div class="text-large mr-2">{{ step }}</div>
                 <p class="text-small" [innerHtml]="'purchase.step.' + step | translate"></p>

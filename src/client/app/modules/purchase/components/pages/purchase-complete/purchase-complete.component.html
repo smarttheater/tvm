@@ -4,15 +4,13 @@
 
 <div class="contents">
     <div class="container h-100">
-        <div class="row h-100">
-            <div class="col-3"></div>
-            <div class="col-6">
+        <div class="row h-100 justify-content-center">
+            <div class="col-9 col-md-6">
                 <div class="py-4">
                     <app-print-result *ngIf="(purchase | async)?.order" [order]="(purchase | async)?.order">
                     </app-print-result>
                 </div>
             </div>
-            <div class="col-3"></div>
         </div>
     </div>
 </div>

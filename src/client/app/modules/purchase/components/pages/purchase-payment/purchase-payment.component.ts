@@ -66,7 +66,7 @@ export class PurchasePaymentComponent implements OnInit {
                         Models.Purchase.Payment.PaymentMethodType.Cash &&
                         cashchanger) ||
                     (p.paymentMethodType ===
-                        factory.chevre.paymentMethodType.CreditCard &&
+                        Models.Purchase.Payment.PaymentMethodType.CreditCard &&
                         payment) ||
                     (p.paymentMethodType ===
                         Models.Purchase.Payment.PaymentMethodType.EMoney &&

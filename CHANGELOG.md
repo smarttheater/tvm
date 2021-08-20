@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.4.0 - 2021-08-20
+
+### Changed
+
+-   オファーの適用座席区分対応
+
 ## 3.3.0 - 2021-08-19
 
 ### Changed

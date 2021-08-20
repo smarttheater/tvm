@@ -42,6 +42,18 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
         this.addOnList = [];
         let movieTickets: Models.Purchase.Reservation.IReservationTicket[] = [];
         this.screeningEventTicketOffers.forEach((ticketOffer) => {
+            if (
+                this.reservation?.seat !== undefined &&
+                ticketOffer.eligibleSeatingType !== undefined &&
+                !Functions.Purchase.isEligibleSeatingType({
+                    seat: this.reservation.seat,
+                    eligibleSeatingType: ticketOffer.eligibleSeatingType,
+                })
+            ) {
+                // 適用座席タイプ違い
+                return;
+            }
+
             const movieTicketPriceComponent =
                 this.getMovieTicketPriceComponent(ticketOffer);
 
@@ -62,19 +74,7 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
                 }
                 return;
             }
-            if (ticketOffer.eligibleSeatingType !== undefined) {
-                // 適用座席タイプ条件ありオファー
-                if (
-                    this.reservation?.seat !== undefined &&
-                    Functions.Purchase.isEligibleSeatingType({
-                        seat: this.reservation.seat,
-                        eligibleSeatingType: ticketOffer.eligibleSeatingType,
-                    })
-                ) {
-                    this.tickets.push({ ticketOffer });
-                }
-                return;
-            }
+
             // 通常オファー
             this.tickets.push({ ticketOffer });
         });

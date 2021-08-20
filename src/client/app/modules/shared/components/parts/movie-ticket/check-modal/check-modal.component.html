@@ -28,11 +28,9 @@
                         {{ 'form.validation.minlength' | translate:{ value:
                         inputForm.controls.code.errors?.minlength.requiredLength } }}
                     </p>
-                    <p *ngIf="paymentMethodType !== 'MGTicket' && inputForm.controls.code.errors?.pattern"
-                        class="text-danger">
+                    <p *ngIf="codeValue !== 'MGTicket' && inputForm.controls.code.errors?.pattern" class="text-danger">
                         {{ 'form.validation.number' | translate }}</p>
-                    <p *ngIf="paymentMethodType === 'MGTicket' && inputForm.controls.code.errors?.pattern"
-                        class="text-danger">
+                    <p *ngIf="codeValue === 'MGTicket' && inputForm.controls.code.errors?.pattern" class="text-danger">
                         {{ 'form.validation.halfSizeAlphanumeric' | translate }}</p>
                 </div>
             </div>

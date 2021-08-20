@@ -15,7 +15,6 @@
                     </app-numeric-keypad>
                     <input *ngIf="!environment.INPUT_KEYPAD" type="text" class="form-control" formControlName="code"
                         id="code" autocomplete="off" placeholder="012345789" maxlength="10">
-                    <!-- <button type="button" class="btn btn-custom-primary" (click)="openQRReader()"></button> -->
                 </div>
                 <div *ngIf="inputForm.controls.code.invalid && inputForm.controls.code.touched" class="mt-2">
                     <p *ngIf="inputForm.controls.code.errors?.required" class="text-danger">
@@ -28,11 +27,9 @@
                         {{ 'form.validation.minlength' | translate:{ value:
                         inputForm.controls.code.errors?.minlength.requiredLength } }}
                     </p>
-                    <p *ngIf="paymentMethodType === 'MovieTicket' && inputForm.controls.code.errors?.pattern"
-                        class="text-danger">
+                    <p *ngIf="codeValue !== 'MGTicket' && inputForm.controls.code.errors?.pattern" class="text-danger">
                         {{ 'form.validation.number' | translate }}</p>
-                    <p *ngIf="paymentMethodType !== 'MovieTicket' && inputForm.controls.code.errors?.pattern"
-                        class="text-danger">
+                    <p *ngIf="codeValue === 'MGTicket' && inputForm.controls.code.errors?.pattern" class="text-danger">
                         {{ 'form.validation.halfSizeAlphanumeric' | translate }}</p>
                 </div>
             </div>

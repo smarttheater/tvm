@@ -16,8 +16,14 @@ import { MovieTicketCheckModalComponent } from '../../../../shared/components/pa
 export class InputTicketsComponent implements OnInit {
     @Input()
     public screeningEventTicketOffers: factory.chevre.event.screeningEvent.ITicketOffer[];
-    @Input() public paymentServices: factory.service.paymentService.IService[];
-    public availablePaymentServices: factory.service.paymentService.IService[];
+    @Input() public movieTicketPaymentMethods: {
+        paymentService: factory.service.paymentService.IService;
+        paymentMethodType: factory.chevre.categoryCode.ICategoryCode;
+    }[];
+    public availableMovieTicketpaymentMethods: {
+        paymentService: factory.service.paymentService.IService;
+        paymentMethodType: factory.chevre.categoryCode.ICategoryCode;
+    }[];
     public isMembership: boolean;
     public moment = moment;
     public environment = getEnvironment();
@@ -31,24 +37,24 @@ export class InputTicketsComponent implements OnInit {
             Functions.Purchase.getMovieTicketTypeOffers({
                 screeningEventTicketOffers,
             });
-        this.availablePaymentServices = [];
-        this.paymentServices.forEach((s) => {
+        this.availableMovieTicketpaymentMethods = [];
+        this.movieTicketPaymentMethods.forEach((p) => {
             const isAvailable =
                 movieTicketTypeOffers.find((m) => {
                     const findResult = m.priceSpecification.priceComponent.find(
-                        (p) =>
-                            p.typeOf ===
+                        (c) =>
+                            c.typeOf ===
                                 factory.chevre.priceSpecificationType
                                     .UnitPriceSpecification &&
-                            p.appliesToMovieTicket?.serviceOutput?.typeOf ===
-                                s.serviceType?.codeValue
+                            c.appliesToMovieTicket?.serviceOutput?.typeOf ===
+                                p.paymentMethodType.codeValue
                     );
                     return findResult !== undefined;
                 }) !== undefined;
             if (!isAvailable) {
                 return;
             }
-            this.availablePaymentServices.push(s);
+            this.availableMovieTicketpaymentMethods.push(p);
         });
         this.isMembership =
             Functions.Purchase.getMembershipTypeOffers({
@@ -59,10 +65,10 @@ export class InputTicketsComponent implements OnInit {
     /**
      * ムビチケ認証表示
      */
-    public openMovieTicket(paymentMethodType: string) {
+    public openMovieTicket(codeValue: string) {
         this.modal.show(MovieTicketCheckModalComponent, {
             initialState: {
-                paymentMethodType,
+                codeValue,
             },
             class: 'modal-dialog-centered',
         });

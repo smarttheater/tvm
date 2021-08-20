@@ -11,7 +11,11 @@ import {
     IReservation,
     IReservationTicket,
 } from '../../../../../models/purchase/reservation';
-import { ActionService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    MasterService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 import { PurchaseSeatTicketModalComponent } from '../../../../shared/components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 
@@ -28,13 +32,17 @@ export class PurchaseTicketComponent implements OnInit {
     public environment = getEnvironment();
     public translateName: string;
     public isSelectedTicket: boolean;
-    public paymentServices: factory.service.paymentService.IService[];
+    public movieTicketPaymentMethods?: {
+        paymentService: factory.service.paymentService.IService;
+        paymentMethodType: factory.chevre.categoryCode.ICategoryCode;
+    }[];
 
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
         private modal: BsModalService,
         private actionService: ActionService,
+        private masterService: MasterService,
         private utilService: UtilService,
         private translate: TranslateService
     ) {}
@@ -43,7 +51,10 @@ export class PurchaseTicketComponent implements OnInit {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
-        const paymentServices: factory.service.paymentService.IService[] = [];
+        const paymentMethods: {
+            paymentService: factory.service.paymentService.IService;
+            paymentMethodType: factory.chevre.categoryCode.ICategoryCode;
+        }[] = [];
         this.translateName =
             this.environment.VIEW_TYPE === 'cinema'
                 ? 'purchase.cinema.ticket'
@@ -55,6 +66,10 @@ export class PurchaseTicketComponent implements OnInit {
         if (seller === undefined) {
             throw new Error('seller undefined');
         }
+        const paymentMethodTypes = await this.masterService.searchCategoryCode({
+            categorySetIdentifier:
+                factory.categoryCode.CategorySetIdentifier.PaymentMethodType,
+        });
         const products = await this.actionService.product.search({
             typeOf: {
                 $eq: factory.service.paymentService.PaymentServiceType
@@ -73,12 +88,18 @@ export class PurchaseTicketComponent implements OnInit {
             const findResult = p.provider.find(
                 (provider) => provider.id === seller.id
             );
-            if (findResult === undefined) {
+            const paymentMethodType = paymentMethodTypes.find(
+                (t) => t.codeValue === p.serviceType?.codeValue
+            );
+            if (findResult === undefined || paymentMethodType === undefined) {
                 return;
             }
-            paymentServices.push(p);
+            paymentMethods.push({
+                paymentService: p,
+                paymentMethodType,
+            });
         });
-        this.paymentServices = paymentServices;
+        this.movieTicketPaymentMethods = paymentMethods;
     }
 
     /**

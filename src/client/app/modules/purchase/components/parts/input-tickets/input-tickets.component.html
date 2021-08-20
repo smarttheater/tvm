@@ -1,11 +1,18 @@
-<div *ngIf="availablePaymentServices.length || isMembership" class="py-4 px-3 bg-light-gray">
+<div *ngIf="availableMovieTicketpaymentMethods.length || isMembership" class="py-4 px-3 bg-light-gray">
     <p class=" mb-4">{{ 'common.inputTicket.read' | translate }}</p>
     <div class="row">
-        <ng-container *ngIf="availablePaymentServices.length">
-            <div *ngFor="let service of availablePaymentServices" class="my-2 col-4">
-                <button type="button" (click)="openMovieTicket(service.serviceType?.codeValue)"
-                    class="btn btn-block btn-custom-secondary py-3 shadow-sm" [class]="service.serviceType?.codeValue">
-                    <div class="text-large bg-image">{{ service.name | changeLanguage }}</div>
+        <ng-container *ngIf="availableMovieTicketpaymentMethods.length">
+            <div *ngFor="let paymentMethod of availableMovieTicketpaymentMethods" class="my-2 col-4">
+                <button type="button" (click)="openMovieTicket(paymentMethod.paymentMethodType.codeValue)"
+                    class="btn btn-block btn-custom-secondary py-3 shadow-sm"
+                    [class]="paymentMethod.paymentMethodType.codeValue">
+                    <div *ngIf="paymentMethod.paymentMethodType.image" class="bg-image"
+                        [style.background-image]="'url(' + paymentMethod.paymentMethodType.image + ')'">
+                        &nbsp;
+                    </div>
+                    <div *ngIf="!paymentMethod.paymentMethodType.image" class="text-large bg-image">
+                        {{ paymentMethod.paymentMethodType.name | changeLanguage }}
+                    </div>
                 </button>
             </div>
         </ng-container>
@@ -13,7 +20,7 @@
             <div class="my-2 col-4">
                 <button type="button" (click)="openMembership()"
                     class="btn btn-block btn-custom-secondary py-3 shadow-sm membership">
-                    <div class="text-large">
+                    <div class="text-large bg-image">
                         {{ 'common.membership.label' | translate }}
                     </div>
                 </button>

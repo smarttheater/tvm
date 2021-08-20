@@ -20,7 +20,7 @@ type IMovieTicketTypeChargeSpecification =
     styleUrls: ['./check-modal.component.scss'],
 })
 export class MovieTicketCheckModalComponent implements OnInit {
-    @Input() public paymentMethodType: string;
+    @Input() public codeValue: string;
     public purchase: Observable<reducers.IPurchaseState>;
     public isLoading: Observable<boolean>;
     public inputForm: FormGroup;
@@ -52,8 +52,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
         const KEY_ESCAPE = 'Escape';
         if (event.key === KEY_ENTER && this.inputCode.length > 0) {
             // 読み取り完了
-            const separation =
-                this.paymentMethodType === 'MovieTicket' ? 10 : 9;
+            const separation = this.codeValue === 'MGTicket' ? 9 : 10;
             const code = this.inputCode.slice(0, separation);
             const password = this.inputCode.slice(
                 separation,
@@ -71,14 +70,14 @@ export class MovieTicketCheckModalComponent implements OnInit {
         const CODE_LENGTH = 10;
         // const PASSWORD_LENGTH = 4;
         const codeValidators =
-            this.paymentMethodType === 'MovieTicket'
-                ? [
+            this.codeValue === 'MGTicket'
+                ? [Validators.required, Validators.pattern(/^[0-9a-zA-Z]+$/)]
+                : [
                       Validators.required,
                       Validators.maxLength(CODE_LENGTH),
                       Validators.minLength(CODE_LENGTH),
                       Validators.pattern(/^[0-9]+$/),
-                  ]
-                : [Validators.required, Validators.pattern(/^[0-9a-zA-Z]+$/)];
+                  ];
         this.inputForm = this.formBuilder.group({
             code: ['', codeValidators],
             password: ['', [Validators.required]],
@@ -111,7 +110,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
                         code: this.inputForm.controls.code.value,
                         password: this.inputForm.controls.password.value,
                     },
-                    paymentMethodType: this.paymentMethodType,
+                    paymentMethodType: this.codeValue,
                 });
             if (
                 checkMovieTicket === undefined ||

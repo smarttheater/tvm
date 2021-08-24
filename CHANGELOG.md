@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.5.0 - 2021-08-24
+
+### Changed
+
+-   ムビチケ IF 決済の画像を変更可能にする
+
 ## 3.4.0 - 2021-08-20
 
 ### Changed

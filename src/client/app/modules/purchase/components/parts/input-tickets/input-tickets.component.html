@@ -1,11 +1,17 @@
-<div *ngIf="availablePaymentServices.length || isMembership" class="py-4 px-3 border border-gray">
+<div *ngIf="availableMovieTicketpaymentMethods.length || isMembership" class="py-4 px-3 border border-gray">
     <p class="mb-4">{{ 'common.inputTicket.read' | translate }}</p>
-    <ng-container *ngIf="availablePaymentServices.length">
-        <div *ngFor="let service of availablePaymentServices" class="mb-4">
-            <button type="button" (click)="openMovieTicket(service.serviceType?.codeValue)"
+    <ng-container *ngIf="availableMovieTicketpaymentMethods.length">
+        <div *ngFor="let paymentMethod of availableMovieTicketpaymentMethods" class="mb-4">
+            <button type="button" (click)="openMovieTicket(paymentMethod.paymentMethodType.codeValue)"
                 class="btn btn-block bg-white border border-gray py-3 rounded-pill"
-                [class]="service.serviceType?.codeValue">
-                <div class="font-weight-bold text-large bg-image">{{ service.name | changeLanguage }}</div>
+                [class]="paymentMethod.paymentMethodType.codeValue">
+                <div *ngIf="paymentMethod.paymentMethodType.image" class="bg-image"
+                    [style.background-image]="'url(' + paymentMethod.paymentMethodType.image + ')'">
+                    &nbsp;
+                </div>
+                <div *ngIf="!paymentMethod.paymentMethodType.image" class="font-weight-bold text-large bg-image">
+                    {{ paymentMethod.paymentMethodType.name | changeLanguage }}
+                </div>
             </button>
         </div>
     </ng-container>

@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.6.0 - 2021-08-25
+
+### Changed
+
+-   ムビチケ画像を外部管理に変更
+
 ## 3.5.0 - 2021-08-24
 
 ### Changed

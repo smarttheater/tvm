@@ -14,6 +14,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.7.0 - 2021-08-26
+
+### Changed
+
+-   デフォルト券種選択での適用座席区分対応
+
+## 3.6.0 - 2021-08-25
+
+### Changed
+
+-   ムビチケ画像を外部管理に変更
+
+## 3.5.0 - 2021-08-24
+
+### Changed
+
+-   ムビチケ IF 決済の画像を変更可能にする
+
+## 3.4.0 - 2021-08-20
+
+### Changed
+
+-   オファーの適用座席区分対応
+
 ## 3.3.0 - 2021-08-19
 
 ### Changed

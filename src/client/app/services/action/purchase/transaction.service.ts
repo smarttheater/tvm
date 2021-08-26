@@ -320,12 +320,24 @@ export class ActionTransactionService {
                 checkProducts,
             } = await this.storeService.getPurchaseData();
             const reservations = params.reservations.map((r) => {
+                const defaultTicketOffers = screeningEventTicketOffers.filter(
+                    (t) => {
+                        return (
+                            r.seat === undefined ||
+                            t.eligibleSeatingType === undefined ||
+                            Functions.Purchase.isEligibleSeatingType({
+                                seat: r.seat,
+                                eligibleSeatingType: t.eligibleSeatingType,
+                            })
+                        );
+                    }
+                );
                 return {
                     seat: r.seat,
                     ticket:
                         r.ticket === undefined
                             ? {
-                                  ticketOffer: screeningEventTicketOffers[0],
+                                  ticketOffer: defaultTicketOffers[0],
                               }
                             : r.ticket,
                 };

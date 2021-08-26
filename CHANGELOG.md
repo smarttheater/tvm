@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.7.0 - 2021-08-26
+
+### Changed
+
+-   デフォルト券種選択での適用座席区分対応
+
 ## 3.6.0 - 2021-08-25
 
 ### Changed

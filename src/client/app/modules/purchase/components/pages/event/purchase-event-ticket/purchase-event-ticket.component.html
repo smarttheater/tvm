@@ -72,7 +72,8 @@
                         </li>
                     </ul>
                     <app-input-tickets
-                        *ngIf="(purchase | async)?.screeningEventTicketOffers && movieTicketPaymentMethods"
+                        *ngIf="(purchase | async)?.screeningEventTicketOffers && (purchase | async)?.screeningEvent && movieTicketPaymentMethods"
+                        [screeningEvent]="(purchase | async)?.screeningEvent"
                         [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
                         [movieTicketPaymentMethods]="movieTicketPaymentMethods"></app-input-tickets>
                 </div>

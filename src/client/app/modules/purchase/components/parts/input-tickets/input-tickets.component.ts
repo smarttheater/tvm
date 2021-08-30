@@ -15,6 +15,8 @@ import { MovieTicketCheckModalComponent } from '../../../../shared/components/pa
 })
 export class InputTicketsComponent implements OnInit {
     @Input()
+    public screeningEvent: factory.chevre.event.screeningEvent.IEvent;
+    @Input()
     public screeningEventTicketOffers: factory.chevre.event.screeningEvent.ITicketOffer[];
     @Input() public movieTicketPaymentMethods: {
         paymentService: factory.service.paymentService.IService;
@@ -33,6 +35,10 @@ export class InputTicketsComponent implements OnInit {
 
     public async ngOnInit() {
         const screeningEventTicketOffers = this.screeningEventTicketOffers;
+        const performance = new Models.Purchase.Performance({
+            screeningEvent: this.screeningEvent,
+        });
+        const isTicketedSeat = performance.isTicketedSeat();
         const movieTicketTypeOffers =
             Functions.Purchase.getMovieTicketTypeOffers({
                 screeningEventTicketOffers,
@@ -51,7 +57,7 @@ export class InputTicketsComponent implements OnInit {
                     );
                     return findResult !== undefined;
                 }) !== undefined;
-            if (!isAvailable) {
+            if (!isAvailable || !isTicketedSeat) {
                 return;
             }
             this.availableMovieTicketpaymentMethods.push(p);

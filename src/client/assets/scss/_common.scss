@@ -328,6 +328,10 @@ button {
     display: none;
 }
 
+.buttons {
+    max-width: 600px;
+}
+
 .btn {
     border-radius: 0.5em;
     &:hover {

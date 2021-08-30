@@ -1,4 +1,4 @@
-<div class="p-3 scroll-vertical">
+<div class="p-4 scroll-vertical">
     <div class="mb-3">
         <div class="mb-1">
             <p class="font-weight-bold text-large">
@@ -8,7 +8,7 @@
                 *ngIf="screeningEvent.superEvent.headline && (screeningEvent.superEvent.headline | changeLanguage)">
                 {{ screeningEvent.superEvent.headline | changeLanguage }}
             </p>
-            <p class="text-small"
+            <p class="text-x-small"
                 *ngIf="screeningEvent.superEvent.description && (screeningEvent.superEvent.description | changeLanguage)">
                 {{ screeningEvent.superEvent.description | changeLanguage }}
             </p>
@@ -56,7 +56,7 @@
                                 'common.referenceQuantityValue' |
                                 translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
                         </p>
-                        <p *ngIf="ticket.offer.description" class="text-small text-left mt-1">
+                        <p *ngIf="ticket.offer.description" class="text-x-small text-left mt-1">
                             {{ ticket.description | changeLanguage }}</p>
                     </div>
                     <div class="col-5 col-md-4 text-right">
@@ -83,7 +83,7 @@
                                             'common.referenceQuantityValue' | translate: { value:
                                             addOn.priceSpecification?.referenceQuantity?.value } }}</span>
                                     </p>
-                                    <p *ngIf="addOn.description" class="text-small text-left mt-1">
+                                    <p *ngIf="addOn.description" class="text-x-small text-left mt-1">
                                         {{ addOn.description | changeLanguage }}</p>
                                 </div>
                             </div>

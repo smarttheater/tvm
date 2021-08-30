@@ -13,7 +13,7 @@
                         <div class="row justify-content-center">
                             <div class="col-8">
                                 <button *ngFor="let payment of payments" type="button" [disabled]="isLoading | async"
-                                    class="btn btn-block btn-custom-secondary py-3 shadow-sm px-4 mb-3"
+                                    class="btn btn-block btn-custom-success py-3 px-4 mb-3"
                                     [class]="payment.paymentAccepted.paymentMethodType"
                                     (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
                                     <div class="d-flex align-items-center">
@@ -38,7 +38,7 @@
 </div>
 <app-footer [step]="environment.VIEW_TYPE === viewType.Cinema ? 4 : 2">
     <div class="col-3 col-md-2 mr-auto mr-md-0">
-        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
             {{ 'common.clear' | translate }}
         </button>
     </div>

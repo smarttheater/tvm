@@ -59,7 +59,7 @@ $modal-sm: 600px;
 
 html,
 body {
-    font-size: 32px;
+    font-size: 30px;
     @include media-breakpoint-down(lg) {
         font-size: 20px;
     }

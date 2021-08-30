@@ -18,13 +18,14 @@
                         <div class="row">
                             <div class="col-6 col-md-12">
                                 <button type="button"
-                                    class="btn btn-block btn-custom-primary shadow-sm py-5 py-md-3 mb-3"
+                                    class="btn btn-block btn-custom-primary shadow-sm py-5 py-md-3 mb-3 text-large"
                                     (click)="toPurchase()">
                                     {{ 'purchase.event.top.purchase.search.today' | translate }}
                                 </button>
                             </div>
                             <div class="col-6 col-md-12">
-                                <button type="button" class="btn btn-block btn-custom-primary shadow-sm py-5 py-md-3"
+                                <button type="button"
+                                    class="btn btn-block btn-custom-primary shadow-sm py-5 py-md-3 text-large"
                                     (click)="changeDate()">
                                     {{ 'purchase.event.top.purchase.search.other' | translate }}
                                 </button>
@@ -41,7 +42,7 @@
                             <div class="font-weight-bold">{{ 'purchase.event.top.inquiry.title' | translate }}</div>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-block btn-custom-primary shadow-sm py-3"
+                            <button type="button" class="btn btn-block btn-custom-primary shadow-sm py-3 text-large"
                                 routerLink="/inquiry/input">
                                 {{ 'purchase.event.top.inquiry.print' | translate }}
                             </button>

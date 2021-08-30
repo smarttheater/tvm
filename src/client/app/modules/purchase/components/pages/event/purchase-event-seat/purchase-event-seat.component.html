@@ -27,16 +27,16 @@
                 </div>
                 <div *ngIf="(purchase | async)?.screen?.openSeatingAllowed" class="mb-4">
                     <div class="container p-3">
-                        <div class="row justify-content-center">
-                            <div class="col-9">
+                        <div class="row justify-content-center border-top border-bottom w-100 mx-auto">
+                            <div class="col-12">
                                 <div class="container p-3">
                                     <div class="row align-items-center">
-                                        <div class="col-6">
+                                        <div class="col-6 col-md-7">
                                             <p class="mb-2 mb-md-0 font-weight-bold text-large">
                                                 {{ 'purchase.event.seat.openSeating.seat' | translate }}
                                             </p>
                                         </div>
-                                        <div class="col-6 text-right">
+                                        <div class="col-6 col-md-5 text-right">
                                             <app-quantity-input class="pl-3" [(value)]="reservationCount" [maxValue]="remainingAttendeeCapacityValue({
                                                         screeningEventSeats: screeningEventSeats,
                                                         screeningEvent: (purchase | async)?.screeningEvent,
@@ -61,7 +61,7 @@
 </div>
 <app-footer [step]="1">
     <div class="col-3 col-md-2 mr-auto mr-md-0">
-        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
             {{ 'common.clear' | translate }}
         </button>
     </div>

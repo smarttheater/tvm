@@ -13,7 +13,7 @@
                             <div class="container px-3 py-2">
                                 <div class="row align-items-center">
                                     <div class="col-2">
-                                        <p *ngIf="reservation.seat?.seatNumber" class="">
+                                        <p *ngIf="reservation.seat?.seatNumber" class="text-large">
                                             {{ reservation.seat?.seatNumber }}
                                         </p>
                                     </div>
@@ -21,8 +21,9 @@
                                         <div>
                                             <button *ngIf="reservation.ticket === undefined" type="button"
                                                 (click)="openTicketList(reservation)"
-                                                class="btn btn-block btn-custom-secondary py-3 shadow-sm">{{
-                                                'purchase.event.ticket.unselected' | translate }}</button>
+                                                class="btn btn-block btn-custom-secondary py-3 shadow-sm">
+                                                {{ 'purchase.event.ticket.unselected' | translate }}
+                                            </button>
                                             <button *ngIf="reservation.ticket !== undefined" type="button"
                                                 (click)="openTicketList(reservation)"
                                                 class="btn btn-block btn-custom-success py-3">
@@ -55,7 +56,7 @@
                                                     </p>
                                                 </div>
                                                 <div>
-                                                    <!-- <p *ngIf="reservation.ticket.ticketOffer.description" class="text-small text-left">
+                                                    <!-- <p *ngIf="reservation.ticket.ticketOffer.description" class="text-x-small text-left">
                                                         {{ reservation.ticket.ticketOffer.description | changeLanguage }}
                                                     </p> -->
                                                     <p *ngIf="reservation.ticket.movieTicket"
@@ -89,7 +90,7 @@
 </div>
 <app-footer [step]="1">
     <div class="col-3 col-md-2 mr-auto mr-md-0">
-        <button type="button" class="btn btn-custom-secondary btn-block py-2 shadow-sm" routerLink="/">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
             {{ 'common.clear' | translate }}
         </button>
     </div>

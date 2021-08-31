@@ -11,7 +11,7 @@ import { getProject } from './util.function';
  * 多言語カスタムローダー
  */
 export class CustomTranslateHttpLoader implements TranslateLoader {
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {}
 
     public getTranslation(lang: string) {
         const suffix = `.json?date=${moment().toISOString()}`;
@@ -20,18 +20,20 @@ export class CustomTranslateHttpLoader implements TranslateLoader {
             `/default/i18n/mail/${lang}${suffix}`,
             `/default/i18n/contents/${lang}${suffix}`,
             `/default/i18n/${getEnvironment().VIEW_TYPE}/${lang}${suffix}`,
-            `${getProject().storageUrl}/i18n/${lang}${suffix}`,
+            `${getProject().storageUrl.application}/i18n/${lang}${suffix}`,
         ];
 
         return forkJoin(
             resources.map((url) => {
-                return this.http.get(url).pipe(catchError((error) => {
-                    console.error(error);
-                    return of({});
-                }));
+                return this.http.get(url).pipe(
+                    catchError((error) => {
+                        console.error(error);
+                        return of({});
+                    })
+                );
             })
         ).pipe(
-            map(response => {
+            map((response) => {
                 return response.reduce((a, b) => {
                     return deepmerge(a, b);
                 });
@@ -48,8 +50,7 @@ export function getTranslateModuleConfig(): TranslateModuleConfig {
         loader: {
             provide: TranslateLoader,
             useClass: CustomTranslateHttpLoader,
-            deps: [HttpClient]
-        }
+            deps: [HttpClient],
+        },
     };
 }
-

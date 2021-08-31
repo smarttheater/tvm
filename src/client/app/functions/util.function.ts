@@ -1,18 +1,24 @@
 import * as libphonenumber from 'libphonenumber-js';
-import { BsDatepickerContainerComponent, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
+import {
+    BsDatepickerContainerComponent,
+    BsDatepickerDirective,
+} from 'ngx-bootstrap/datepicker';
 import { CellHoverEvent } from 'ngx-bootstrap/datepicker/models';
 
 /**
  * 電話番号変換
  */
-export function formatTelephone(telephone: string, format?: libphonenumber.NumberFormat) {
+export function formatTelephone(
+    telephone: string,
+    format?: libphonenumber.NumberFormat
+) {
     if (telephone === undefined) {
         return '';
     }
-    const parsedNumber = (new RegExp(/^\+/).test(telephone))
+    const parsedNumber = new RegExp(/^\+/).test(telephone)
         ? libphonenumber.parse(telephone)
         : libphonenumber.parse(telephone, 'JP');
-    format = (format === undefined) ? 'International' : format;
+    format = format === undefined ? 'International' : format;
 
     return libphonenumber.format(parsedNumber, format).replace(/\s/g, '');
 }
@@ -82,7 +88,6 @@ export async function sleep(time: number = 100) {
     });
 }
 
-
 /**
  * クエリストリング変換
  */
@@ -92,7 +97,10 @@ export function buildQueryString(data: Object) {
     let query = '';
     for (key of Object.keys(data)) {
         value = (<any>data)[key];
-        type = typeof (value) === 'object' && value instanceof Array ? 'array' : typeof (value);
+        type =
+            typeof value === 'object' && value instanceof Array
+                ? 'array'
+                : typeof value;
         switch (type) {
             case 'undefined':
                 break;
@@ -144,12 +152,15 @@ export function iOSDatepickerTapBugFix(
     const dayHoverHandler = container.dayHoverHandler;
     const hoverWrapper = (event: CellHoverEvent) => {
         const { cell, isHovered } = event;
-        if ((isHovered &&
+        if (
+            isHovered &&
             !!navigator.platform &&
-            /iPad|iPhone|iPod/.test(navigator.platform)) &&
+            /iPad|iPhone|iPod/.test(navigator.platform) &&
             'ontouchstart' in window
         ) {
-            datepickerDirectives.forEach(d => (<any>d)._datepickerRef.instance.daySelectHandler(cell));
+            datepickerDirectives.forEach((d) =>
+                (<any>d)._datepickerRef.instance.daySelectHandler(cell)
+            );
         }
 
         return dayHoverHandler(event);
@@ -185,7 +196,7 @@ export function iOSDatepickerTapBugFix(
  * 文字列をBLOB変換
  */
 export function string2blob(value: string, options?: BlobPropertyBag) {
-    const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
     return new Blob([bom, value], options);
 }
 
@@ -211,17 +222,29 @@ export function getParameter<T>() {
  */
 export function getProject() {
     const project = sessionStorage.getItem('PROJECT');
-    const defaultProject = { projectId: '', projectName: '', storageUrl: '' };
+    const defaultProject = {
+        projectId: '',
+        projectName: '',
+        storageUrl: {
+            common: '',
+            application: '',
+        },
+    };
     if (project === null || project === '') {
         return defaultProject;
     }
     return {
         ...defaultProject,
-        ...<{
-            projectId: string;
-            projectName: string;
-            storageUrl: string;
-        }>JSON.parse(project)
+        ...(<
+            {
+                projectId: string;
+                projectName: string;
+                storageUrl: {
+                    common: string;
+                    application: string;
+                };
+            }
+        >JSON.parse(project)),
     };
 }
 
@@ -229,7 +252,11 @@ export function getProject() {
  * ランダム英数字生成
  */
 export function createRandomString(length: number, regExp: RegExp) {
-    const str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.replace(regExp, '');
+    const str =
+        '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.replace(
+            regExp,
+            ''
+        );
     let result = '';
     for (let i = 0; i < length; i++) {
         result += str[Math.floor(Math.random() * str.length)];
@@ -245,10 +272,10 @@ export async function isFile(url: string) {
         method: 'GET',
         cache: 'no-cache',
         headers: {
-            'Content-Type': 'charset=utf-8'
+            'Content-Type': 'charset=utf-8',
         },
     });
-    return (fetchResult.ok);
+    return fetchResult.ok;
 }
 
 /**
@@ -264,15 +291,14 @@ export function deepCopy<T>(obj: any) {
 export function changeViewport() {
     const base = {
         width: 1920,
-        height: 1080
+        height: 1080,
     };
     const scale = {
         width: window.innerWidth / base.width,
         height: window.innerHeight / base.height,
     };
-    const currentScale = (scale.width < scale.height)
-        ? scale.width
-        : scale.height;
+    const currentScale =
+        scale.width < scale.height ? scale.width : scale.height;
     // const viewport = 'width=device-width, initial-scale=' + scale + ', maximum-scale=1, user-scalable=no, minimal-ui';
     // document.querySelector('meta[name=viewport]').setAttribute('content', viewport);
     const target = document.body;

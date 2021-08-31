@@ -20,21 +20,36 @@ router.post('/project', async (req, res) => {
             gmoTokenUrl: process.env.GMO_TOKEN_URL,
             env: process.env.APP_ENV,
             gtmId: process.env.GTM_ID,
-            analyticsId: process.env.ANALYTICS_ID
+            analyticsId: process.env.ANALYTICS_ID,
         };
         const projectId = req.body.projectId;
         if (projectId !== undefined) {
             res.json({
                 projectId: projectId,
-                storageUrl: `${process.env.STORAGE_URL}/${projectId}`,
-                ...response
+                storageUrl: {
+                    application: `${process.env.STORAGE_URL}/${projectId}`,
+                    common: `${process.env.COMMON_STORAGE_URL}/${projectId}`,
+                },
+                ...response,
             });
             return;
         }
         res.json({
-            projectId: (process.env.PROJECT_ID === undefined) ? '' : process.env.PROJECT_ID,
-            storageUrl: (process.env.PROJECT_STORAGE_URL === undefined) ? '' : process.env.PROJECT_STORAGE_URL,
-            ...response
+            projectId:
+                process.env.PROJECT_ID === undefined
+                    ? ''
+                    : process.env.PROJECT_ID,
+            storageUrl:
+                process.env.PROJECT_STORAGE_URL === undefined
+                    ? {
+                          application: '',
+                          common: `${process.env.COMMON_STORAGE_URL}`,
+                      }
+                    : {
+                          application: process.env.PROJECT_STORAGE_URL,
+                          common: `${process.env.COMMON_STORAGE_URL}`,
+                      },
+            ...response,
         });
     } catch (error) {
         log('project', error.message);
@@ -70,7 +85,7 @@ router.get('/health', (_req, res) => {
 /**
  * パスワード検証
  */
- router.post('/password', (req, res) => {
+router.post('/password', (req, res) => {
     log('password');
     if (req.body.password !== process.env.APP_PASSWORD) {
         res.statusCode = 401;

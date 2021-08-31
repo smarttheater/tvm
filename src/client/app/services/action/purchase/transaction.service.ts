@@ -155,9 +155,13 @@ export class ActionTransactionService {
                 // 完了メールをカスタマイズ
                 const path = `/ejs/mail/complete/${language}.ejs`;
                 const url = (await Functions.Util.isFile(
-                    `${Functions.Util.getProject().storageUrl}${path}`
+                    `${
+                        Functions.Util.getProject().storageUrl.application
+                    }${path}`
                 ))
-                    ? `${Functions.Util.getProject().storageUrl}${path}`
+                    ? `${
+                          Functions.Util.getProject().storageUrl.application
+                      }${path}`
                     : `/default${path}`;
                 const view = await this.utilService.getText(url);
                 email.template = await (<any>window).ejs.render(

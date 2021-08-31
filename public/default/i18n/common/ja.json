@@ -132,8 +132,8 @@
             "AuthorizeSeatReservation": "仮予約しています",
             "VoidSeatReservation": "仮予約をキャンセルしています",
             "SetProfile": "購入者情報を登録しています",
-            "AuthorizeMovieTicket": "ムビチケ情報を承認しています",
-            "CheckMovieTicket": "ムビチケ情報を確認しています",
+            "AuthorizeMovieTicket": "チケット情報を承認しています",
+            "CheckMovieTicket": "チケット情報を確認しています",
             "CheckProduct": "プロダクト情報を確認しています",
             "ConfirmTransaction": "取引を確定しています",
             "AuthorizeAnyPayment": "決済情報を承認しています"

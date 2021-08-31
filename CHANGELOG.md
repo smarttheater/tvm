@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.8.0 - 2021-08-31
+
+### Fixed
+
+-   座席無しイベントでムビチケ使用できないように修正
+
 ## 3.7.0 - 2021-08-26
 
 ### Changed

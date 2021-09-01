@@ -30,14 +30,27 @@ router.post('/project', (req, res) => __awaiter(void 0, void 0, void 0, function
             gmoTokenUrl: process.env.GMO_TOKEN_URL,
             env: process.env.APP_ENV,
             gtmId: process.env.GTM_ID,
-            analyticsId: process.env.ANALYTICS_ID
+            analyticsId: process.env.ANALYTICS_ID,
         };
         const projectId = req.body.projectId;
         if (projectId !== undefined) {
-            res.json(Object.assign({ projectId: projectId, storageUrl: `${process.env.STORAGE_URL}/${projectId}` }, response));
+            res.json(Object.assign({ projectId: projectId, storageUrl: {
+                    application: `${process.env.STORAGE_URL}/${projectId}`,
+                    common: `${process.env.COMMON_STORAGE_URL}/${projectId}`,
+                } }, response));
             return;
         }
-        res.json(Object.assign({ projectId: (process.env.PROJECT_ID === undefined) ? '' : process.env.PROJECT_ID, storageUrl: (process.env.PROJECT_STORAGE_URL === undefined) ? '' : process.env.PROJECT_STORAGE_URL }, response));
+        res.json(Object.assign({ projectId: process.env.PROJECT_ID === undefined
+                ? ''
+                : process.env.PROJECT_ID, storageUrl: process.env.PROJECT_STORAGE_URL === undefined
+                ? {
+                    application: '',
+                    common: `${process.env.COMMON_STORAGE_URL}`,
+                }
+                : {
+                    application: process.env.PROJECT_STORAGE_URL,
+                    common: `${process.env.COMMON_STORAGE_URL}`,
+                } }, response));
     }
     catch (error) {
         log('project', error.message);

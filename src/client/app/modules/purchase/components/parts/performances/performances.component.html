@@ -51,13 +51,18 @@
     </div>
     <div class="container px-0 py-2">
         <ul *ngIf="animation" class="row animation">
-            <li *ngFor="let performance of screeningEventsGroup.data" class="my-2 col-3" [class]="{
-                'col-3': environment.VIEW_TYPE === viewType.Cinema,
-                'col-3 col-md-4': environment.VIEW_TYPE === viewType.Event
-            }">
-                <app-purchase-performance [performance]="performance" (select)="select.emit($event)" class="mb-3">
-                </app-purchase-performance>
-            </li>
+            <ng-container *ngIf="environment.VIEW_TYPE === viewType.Cinema">
+                <li *ngFor="let performance of screeningEventsGroup.data" class="my-2 col-3">
+                    <app-purchase-performance [performance]="performance" (select)="select.emit($event)" class="mb-3">
+                    </app-purchase-performance>
+                </li>
+            </ng-container>
+            <ng-container *ngIf="environment.VIEW_TYPE === viewType.Event">
+                <li *ngFor="let performance of screeningEventsGroup.data" class="my-2 col-3 col-md-4">
+                    <app-purchase-performance [performance]="performance" (select)="select.emit($event)" class="mb-3">
+                    </app-purchase-performance>
+                </li>
+            </ng-container>
         </ul>
     </div>
 </div>

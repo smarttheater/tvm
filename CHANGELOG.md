@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.9.0 - 2021-09-01
+
+### Changed
+
+-   座席表ストレージを共通化
+
 ## 3.8.0 - 2021-08-31
 
 ### Fixed

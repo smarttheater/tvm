@@ -1,6 +1,6 @@
 <div *ngIf="availableMovieTicketpaymentMethods.length || isMembership" class="py-4 px-3 bg-light-gray">
     <p class=" mb-4">{{ 'common.inputTicket.read' | translate }}</p>
-    <div class="row justify-content-center">
+    <div class="row">
         <ng-container *ngIf="availableMovieTicketpaymentMethods.length">
             <div *ngFor="let paymentMethod of availableMovieTicketpaymentMethods" class="my-2 col-4">
                 <button type="button" (click)="openMovieTicket(paymentMethod.paymentMethodType.codeValue)"

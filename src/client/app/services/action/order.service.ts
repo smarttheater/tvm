@@ -182,9 +182,11 @@ export class OrderService {
             const url = testFlg
                 ? '/default//ejs/print/test.ejs'
                 : (await Functions.Util.isFile(
-                      `${Functions.Util.getProject().storageUrl}${path}`
+                      `${
+                          Functions.Util.getProject().storageUrl.application
+                      }${path}`
                   ))
-                ? `${Functions.Util.getProject().storageUrl}${path}`
+                ? `${Functions.Util.getProject().storageUrl.application}${path}`
                 : `/default${path}`;
             const printData = await this.utilService.getText<string>(url);
             const canvasList: HTMLCanvasElement[] = [];
@@ -257,7 +259,6 @@ export class OrderService {
                 this.utilService.openAlert({
                     title: '',
                     body: `<div class="px-5">${domList.join('\n')}</div>`,
-                    className: 'modal-dialog-centered modal-sm',
                 });
                 break;
             case Models.Util.Printer.ConnectionType.EpsonEPOS:

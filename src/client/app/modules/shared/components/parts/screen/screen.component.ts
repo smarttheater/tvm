@@ -162,20 +162,24 @@ export class ScreenComponent
         const now = moment().toISOString();
         const settingPath = 'json/theater/setting.json';
         const setting = (await Functions.Util.isFile(
-            `${Functions.Util.getProject().storageUrl}/${settingPath}`
+            `${Functions.Util.getProject().storageUrl.common}/${settingPath}`
         ))
             ? await this.utilService.getJson<IScreen>(
-                  `${Functions.Util.getProject().storageUrl}/${settingPath}`
+                  `${
+                      Functions.Util.getProject().storageUrl.common
+                  }/${settingPath}`
               )
             : await this.utilService.getJson<IScreen>(
                   `/default/${settingPath}`
               );
         const screenPath = `json/theater/${this.theaterCode}/${this.screenCode}.json?date=${now}`;
         const screen = (await Functions.Util.isFile(
-            `${Functions.Util.getProject().storageUrl}/${screenPath}`
+            `${Functions.Util.getProject().storageUrl.common}/${screenPath}`
         ))
             ? await this.utilService.getJson<IScreen>(
-                  `${Functions.Util.getProject().storageUrl}/${screenPath}`
+                  `${
+                      Functions.Util.getProject().storageUrl.common
+                  }/${screenPath}`
               )
             : this.generateScreenMap(setting);
         const objects = screen.objects.map((o) => {
@@ -183,7 +187,7 @@ export class ScreenComponent
                 ...o,
                 image: o.image.replace(
                     '/storage',
-                    Functions.Util.getProject().storageUrl
+                    Functions.Util.getProject().storageUrl.common
                 ),
             };
         });

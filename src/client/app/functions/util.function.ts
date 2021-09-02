@@ -222,7 +222,14 @@ export function getParameter<T>() {
  */
 export function getProject() {
     const project = sessionStorage.getItem('PROJECT');
-    const defaultProject = { projectId: '', projectName: '', storageUrl: '' };
+    const defaultProject = {
+        projectId: '',
+        projectName: '',
+        storageUrl: {
+            common: '',
+            application: '',
+        },
+    };
     if (project === null || project === '') {
         return defaultProject;
     }
@@ -232,7 +239,10 @@ export function getProject() {
             {
                 projectId: string;
                 projectName: string;
-                storageUrl: string;
+                storageUrl: {
+                    common: string;
+                    application: string;
+                };
             }
         >JSON.parse(project)),
     };

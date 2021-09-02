@@ -45,11 +45,11 @@ async function main() {
         return;
     }
     const config = await setProject({ projectId });
-    if (Functions.Util.getProject().storageUrl === undefined) {
+    if (Functions.Util.getProject().storageUrl.application === undefined) {
         return;
     }
     await setProjectConfig({
-        storageUrl: Functions.Util.getProject().storageUrl,
+        storageUrl: Functions.Util.getProject().storageUrl.application,
         gtmId: config.gtmId,
         analyticsId: config.analyticsId,
     });
@@ -76,7 +76,10 @@ async function setProject(params: { projectId?: string }) {
     const result: {
         projectId: string;
         projectName?: string;
-        storageUrl: string;
+        storageUrl: {
+            application: string;
+            common: string;
+        };
         gmoTokenUrl: string;
         env: string;
         gtmId?: string;

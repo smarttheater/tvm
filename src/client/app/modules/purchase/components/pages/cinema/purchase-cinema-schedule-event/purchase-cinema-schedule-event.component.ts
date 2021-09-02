@@ -113,15 +113,13 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             this.actionService.purchase.selectScreeningEventSeries(
                 screeningEventSeries
             );
-            await this.actionService.purchase.event.getScreeningEvent(
-                screeningEvent
-            );
+            await this.actionService.event.getScreeningEvent(screeningEvent);
             const { authorizeSeatReservations } =
                 await this.actionService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {
-                await this.actionService.purchase.transaction.voidSeatReservation(
-                    { authorizeSeatReservations }
-                );
+                await this.actionService.transaction.voidSeatReservation({
+                    authorizeSeatReservations,
+                });
             }
             this.router.navigate(['/purchase/cinema/seat']);
         } catch (error) {

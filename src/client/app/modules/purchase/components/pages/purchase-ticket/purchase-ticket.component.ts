@@ -165,14 +165,12 @@ export class PurchaseTicketComponent implements OnInit {
         try {
             const additionalTicketText = this.additionalTicketText;
             const screeningEventSeats =
-                await this.actionService.purchase.event.getScreeningEventSeats();
-            await this.actionService.purchase.transaction.authorizeSeatReservation(
-                {
-                    reservations,
-                    additionalTicketText,
-                    screeningEventSeats,
-                }
-            );
+                await this.actionService.event.getScreeningEventSeats();
+            await this.actionService.transaction.authorizeSeatReservation({
+                reservations,
+                additionalTicketText,
+                screeningEventSeats,
+            });
             const navigate =
                 this.environment.VIEW_TYPE === 'cinema'
                     ? '/purchase/payment'

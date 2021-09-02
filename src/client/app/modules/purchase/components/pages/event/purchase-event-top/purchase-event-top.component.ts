@@ -42,7 +42,7 @@ export class PurchaseEventTopComponent implements OnInit {
         try {
             this.user = this.store.pipe(select(reducers.getUser));
             this.actionService.user.updateLanguage('ja');
-            await this.actionService.purchase.transaction.cancel();
+            await this.actionService.transaction.cancel();
             this.actionService.purchase.delete();
             if (!this.epsonEPOSService.cashchanger.isConnected()) {
                 await this.actionService.user.checkVersion();
@@ -119,7 +119,7 @@ export class PurchaseEventTopComponent implements OnInit {
         }
         try {
             const { pos } = await this.actionService.user.getData();
-            await this.actionService.purchase.transaction.start({ pos });
+            await this.actionService.transaction.start({ pos });
             const { routerLink } = params;
             this.router.navigate([routerLink]);
         } catch (error) {

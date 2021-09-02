@@ -103,7 +103,7 @@ export class MembershipCheckModalComponent implements OnInit {
         this.errorMessage = '';
         this.successMessage = '';
         try {
-            await this.actionService.purchase.payment.checkProduct({
+            await this.actionService.payment.checkProduct({
                 input: {
                     identifier: this.inputForm.controls.code.value,
                     accessCode: this.inputForm.controls.password.value,

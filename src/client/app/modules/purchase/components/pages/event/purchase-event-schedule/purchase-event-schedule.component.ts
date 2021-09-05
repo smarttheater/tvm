@@ -130,12 +130,10 @@ export class PurchaseEventScheduleComponent implements OnInit {
             return;
         }
         try {
-            await this.actionService.purchase.event.getScreeningEvent(
-                screeningEvent
-            );
+            await this.actionService.event.getScreeningEvent(screeningEvent);
             this.screeningEventSeats =
-                await this.actionService.purchase.event.getScreeningEventSeats();
-            await this.actionService.purchase.event.searchTicketOffers();
+                await this.actionService.event.getScreeningEventSeats();
+            await this.actionService.event.searchTicketOffers();
             await this.actionService.purchase.getScreeningRoom({
                 branchCode: { $eq: screeningEvent.location.branchCode },
                 containedInPlace: {
@@ -240,7 +238,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
         }
         try {
             this.screeningEventSeats =
-                await this.actionService.purchase.event.getScreeningEventSeats();
+                await this.actionService.event.getScreeningEventSeats();
             const { screeningEvent } =
                 await this.actionService.purchase.getData();
             if (
@@ -273,13 +271,11 @@ export class PurchaseEventScheduleComponent implements OnInit {
         }
 
         try {
-            await this.actionService.purchase.transaction.authorizeSeatReservation(
-                {
-                    reservations,
-                    additionalTicketText,
-                    screeningEventSeats: this.screeningEventSeats,
-                }
-            );
+            await this.actionService.transaction.authorizeSeatReservation({
+                reservations,
+                additionalTicketText,
+                screeningEventSeats: this.screeningEventSeats,
+            });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
                 body: this.translate.instant(

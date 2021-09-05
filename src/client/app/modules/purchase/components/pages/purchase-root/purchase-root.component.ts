@@ -29,7 +29,7 @@ export class PurchaseRootComponent implements OnInit {
         try {
             const purchase = await this.actionService.purchase.getData();
             if (purchase.transaction !== undefined) {
-                await this.actionService.purchase.transaction.cancel();
+                await this.actionService.transaction.cancel();
             }
             this.actionService.purchase.delete();
             if (this.environment.VIEW_TYPE === Models.Util.ViewType.Cinema) {

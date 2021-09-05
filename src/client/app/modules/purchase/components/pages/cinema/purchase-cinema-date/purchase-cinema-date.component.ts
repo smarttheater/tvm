@@ -40,7 +40,7 @@ export class PurchaseCinemaDateComponent implements OnInit {
             }
             this.scheduleDates = this.cteateScheduleDate({ theater });
             this.preScheduleDates =
-                await this.actionService.purchase.event.getPreScheduleDates({
+                await this.actionService.event.getPreScheduleDates({
                     theater,
                 });
         } catch (error) {

@@ -7,9 +7,6 @@ import { purchaseAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
-import { ActionEventService } from './purchase/event.service';
-import { ActionPaymentService } from './purchase/payment.service';
-import { ActionTransactionService } from './purchase/transaction.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,10 +18,7 @@ export class PurchaseService {
     constructor(
         private store: Store<reducers.IState>,
         private utilService: UtilService,
-        private cinerinoService: CinerinoService,
-        public payment: ActionPaymentService,
-        public transaction: ActionTransactionService,
-        public event: ActionEventService
+        private cinerinoService: CinerinoService
     ) {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.error = this.store.pipe(select(reducers.getError));

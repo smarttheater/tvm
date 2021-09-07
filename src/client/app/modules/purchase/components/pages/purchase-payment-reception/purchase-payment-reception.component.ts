@@ -309,7 +309,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 throw new Error('profile or seller undefined');
             }
             if (pendingMovieTickets.length > 0) {
-                await this.actionService.purchase.payment.authorizeMovieTicket();
+                await this.actionService.payment.authorizeMovieTicket();
             }
             if (paymentMethod !== undefined) {
                 const additionalProperty: { name: string; value: string }[] =
@@ -335,12 +335,12 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                         value: orderId,
                     });
                 }
-                await this.actionService.purchase.payment.authorizeAnyPayment({
+                await this.actionService.payment.authorizeAnyPayment({
                     amount: this.amount,
                     additionalProperty,
                 });
             }
-            await this.actionService.purchase.transaction.setProfile(profile);
+            await this.actionService.transaction.setProfile(profile);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -353,7 +353,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             if (seller === undefined || theater === undefined) {
                 throw new Error('seller or theater undefined');
             }
-            await this.actionService.purchase.transaction.confirm({
+            await this.actionService.transaction.confirm({
                 theater,
                 language,
             });

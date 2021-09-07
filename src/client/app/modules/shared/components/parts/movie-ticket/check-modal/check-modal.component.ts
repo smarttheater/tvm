@@ -105,7 +105,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
         this.successMessage = '';
         try {
             const checkMovieTicket =
-                await this.actionService.purchase.payment.checkMovieTicket({
+                await this.actionService.payment.checkMovieTicket({
                     movieTicket: {
                         code: this.inputForm.controls.code.value,
                         password: this.inputForm.controls.password.value,

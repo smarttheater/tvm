@@ -88,9 +88,9 @@ export class PurchaseCartComponent implements OnInit, OnChanges {
                     const authorizeSeatReservations = [
                         authorizeSeatReservation,
                     ];
-                    await this.actionService.purchase.transaction.voidSeatReservation(
-                        { authorizeSeatReservations }
-                    );
+                    await this.actionService.transaction.voidSeatReservation({
+                        authorizeSeatReservations,
+                    });
                 } catch (error) {
                     console.error(error);
                     this.utilService.openAlert({

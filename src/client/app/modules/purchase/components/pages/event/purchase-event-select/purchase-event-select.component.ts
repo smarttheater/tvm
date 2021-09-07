@@ -63,9 +63,9 @@ export class PurchaseEventSelectComponent implements OnInit {
                 authorizeSeatReservations,
             } = await this.actionService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {
-                await this.actionService.purchase.transaction.voidSeatReservation(
-                    { authorizeSeatReservations }
-                );
+                await this.actionService.transaction.voidSeatReservation({
+                    authorizeSeatReservations,
+                });
             }
             if (screeningEvent === undefined) {
                 throw new Error(
@@ -75,7 +75,7 @@ export class PurchaseEventSelectComponent implements OnInit {
             this.screeningEvent = screeningEvent;
             this.screeningEventTicketOffers = screeningEventTicketOffers;
             this.screeningEventSeats =
-                await this.actionService.purchase.event.getScreeningEventSeats();
+                await this.actionService.event.getScreeningEventSeats();
             this.performance = new Models.Purchase.Performance({
                 screeningEvent,
             });
@@ -285,7 +285,7 @@ export class PurchaseEventSelectComponent implements OnInit {
                 return;
             }
             this.screeningEventSeats =
-                await this.actionService.purchase.event.getScreeningEventSeats();
+                await this.actionService.event.getScreeningEventSeats();
             if (
                 screeningEvent !== undefined &&
                 new Models.Purchase.Performance({
@@ -314,13 +314,11 @@ export class PurchaseEventSelectComponent implements OnInit {
         }
 
         try {
-            await this.actionService.purchase.transaction.authorizeSeatReservation(
-                {
-                    reservations,
-                    additionalTicketText,
-                    screeningEventSeats: this.screeningEventSeats,
-                }
-            );
+            await this.actionService.transaction.authorizeSeatReservation({
+                reservations,
+                additionalTicketText,
+                screeningEventSeats: this.screeningEventSeats,
+            });
         } catch (error) {
             console.error(error);
             this.utilService.openAlert({
@@ -345,7 +343,7 @@ export class PurchaseEventSelectComponent implements OnInit {
         const { authorizeSeatReservations } =
             await this.actionService.purchase.getData();
         if (authorizeSeatReservations.length > 0) {
-            await this.actionService.purchase.transaction.voidSeatReservation({
+            await this.actionService.transaction.voidSeatReservation({
                 authorizeSeatReservations,
             });
         }

@@ -18,7 +18,7 @@ export class ExpiredComponent implements OnInit, OnDestroy {
     public async ngOnInit() {
         try {
             const { payment } = await this.actionService.user.getData();
-            await this.actionService.purchase.payment.voidDevicePayment({
+            await this.actionService.payment.voidDevicePayment({
                 payment,
             });
         } catch (error) {
@@ -29,7 +29,7 @@ export class ExpiredComponent implements OnInit, OnDestroy {
         try {
             const { transaction } = await this.actionService.purchase.getData();
             if (transaction !== undefined) {
-                await this.actionService.purchase.transaction.cancel();
+                await this.actionService.transaction.cancel();
             }
         } catch (error) {
             console.error(error);

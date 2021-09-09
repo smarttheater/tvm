@@ -225,22 +225,21 @@ export class ScreenComponent
         const lineMaxArray = array.reduce((a, b) =>
             a[a.length - 1].line > b[b.length - 1].line ? a : b
         );
-        const lineMax = lineMaxArray[lineMaxArray.length - 1].line;
+        const maxLineLabel = lineMaxArray[lineMaxArray.length - 1].line;
         const columnMaxArray = array.reduce((a, b) =>
-            a[a.length - 1].column > b[b.length - 1].column ? a : b
+            Number(a[a.length - 1].column) > Number(b[b.length - 1].column)
+                ? a
+                : b
         );
-        const columnMax = Number(
+        const maxColumnNumber = Number(
             columnMaxArray[columnMaxArray.length - 1].column
         );
         const map: number[][] = [];
-        const lineLabels = this.createLineLabel();
+        const lineLabels = this.createLineLabel({ maxLineLabel });
         for (const lineLabel of lineLabels) {
-            if (lineLabel > lineMax) {
-                break;
-            }
             const findResult = array.find((a) => a[0].line === lineLabel);
             const lineMap = [];
-            for (let i = 0; i < columnMax; i++) {
+            for (let i = 0; i < maxColumnNumber; i++) {
                 const column = String(i + 1);
                 const result =
                     findResult === undefined ||
@@ -397,14 +396,31 @@ export class ScreenComponent
     /**
      * 行ラベル作成
      */
-    public createLineLabel() {
+    public createLineLabel(params: { maxLineLabel?: string }) {
+        const { maxLineLabel } = params;
         const labels: string[] = [];
+        const single: string[] = [];
+        const double: string[] = [];
         const startLabelNo = 65;
         const endLabelNo = 91;
         for (let i = startLabelNo; i < endLabelNo; i++) {
             labels.push(String.fromCharCode(i));
         }
-        return labels;
+        labels.forEach((first) => {
+            single.push(first);
+            labels.forEach((second) => {
+                double.push(`${first}${second}`);
+            });
+        });
+        let result = [...single, ...double];
+        if (maxLineLabel !== undefined) {
+            const index = result.findIndex((r) => r === maxLineLabel);
+            if (index !== undefined) {
+                result = result.slice(0, index + 1);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -412,7 +428,7 @@ export class ScreenComponent
      */
     public createScreen() {
         // y軸ラベル
-        const labels = this.createLineLabel();
+        const labels = this.createLineLabel({});
         // 行ラベル
         this.lineLabels = [];
         // 列ラベル

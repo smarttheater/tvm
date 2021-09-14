@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.11.0 - 2021-09-14
+
+### Changed
+
+-   2 桁の座席コードに対応（AA-ZZ）
+
 ## 3.10.0 - 2021-09-07
 
 ### Changed

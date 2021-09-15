@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 3.12.0 - 2021-09-15
+
+### Changed
+
+-   ChangeDetectionStrategy.OnPush 設定
+
 ## 3.11.0 - 2021-09-14
 
 ### Changed

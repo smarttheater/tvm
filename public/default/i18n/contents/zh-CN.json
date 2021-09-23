@@ -172,6 +172,7 @@
         "unselected": "未选",
         "pos": "POS",
         "signOut": "注销",
+        "reload": "更新",
         "alert": {
             "connection": "连接成功了",
             "customer": "不正确的买家信息",

@@ -1,14 +1,17 @@
-<div class="p-3 scroll-vertical">
+<div class="px-4 py-5 scroll-vertical">
     <div class="mb-3">
         <div class="mb-1">
-            <p class="font-weight-bold text-large">{{ screeningEvent.name | changeLanguage }}</p>
+            <p class="font-weight-bold text-large">
+                {{ screeningEvent.name | changeLanguage }}
+            </p>
             <p class="text-small"
                 *ngIf="screeningEvent.superEvent.headline && (screeningEvent.superEvent.headline | changeLanguage)">
-                {{ screeningEvent.superEvent.headline | changeLanguage }}</p>
-            <p class="text-small"
+                {{ screeningEvent.superEvent.headline | changeLanguage }}
+            </p>
+            <p class="text-x-small"
                 *ngIf="screeningEvent.superEvent.description && (screeningEvent.superEvent.description | changeLanguage)">
-                {{
-                screeningEvent.superEvent.description | changeLanguage }}</p>
+                {{ screeningEvent.superEvent.description | changeLanguage }}
+            </p>
         </div>
         <p class="mb-1">
             {{ moment(screeningEvent.startDate).format('MM/DD(ddd) HH:mm') }}-{{
@@ -42,7 +45,7 @@
             [class.text-danger]="ticket.capacityValue === 0">
             <div class="container px-0">
                 <div class="row justify-content-between align-items-center">
-                    <div class="col-8 text-left">
+                    <div class="col-7 col-md-8 text-left">
                         <p *ngFor="let priceComponent of ticket.offer.priceSpecification.priceComponent">
                             <span>{{ priceComponent.name | changeLanguage }}</span>
                             <!--
@@ -53,10 +56,10 @@
                                 'common.referenceQuantityValue' |
                                 translate: { value: priceComponent?.referenceQuantity?.value } }}</span>
                         </p>
-                        <p *ngIf="ticket.offer.description" class="text-small text-left mt-1">
+                        <p *ngIf="ticket.offer.description" class="text-x-small text-left mt-1">
                             {{ ticket.description | changeLanguage }}</p>
                     </div>
-                    <div class="col-4 text-right">
+                    <div class="col-5 col-md-4 text-right">
                         <app-quantity-input [value]="selectedTickets[i].count"
                             (valueChange)="changeSelect(ticket.offer.id, $event)" [maxValue]="ticket.capacityValue">
                         </app-quantity-input>
@@ -68,7 +71,7 @@
                 <li class="my-1" *ngFor="let addOn of ticket.offer.addOn; let i2 = index">
                     <div class="container px-0">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-8 text-left">
+                            <div class="col-7 col-md-8 text-left">
                                 <div class="pl-4">
                                     <p *ngFor="let priceComponent of ticket.offer.priceSpecification.priceComponent">
                                         <span>{{ addOn.priceSpecification?.name | changeLanguage }}</span>
@@ -80,11 +83,11 @@
                                             'common.referenceQuantityValue' | translate: { value:
                                             addOn.priceSpecification?.referenceQuantity?.value } }}</span>
                                     </p>
-                                    <p *ngIf="addOn.description" class="text-small text-left mt-1">
+                                    <p *ngIf="addOn.description" class="text-x-small text-left mt-1">
                                         {{ addOn.description | changeLanguage }}</p>
                                 </div>
                             </div>
-                            <div class="col-4 text-right">
+                            <div class="col-5 col-md-4 text-right">
                                 <app-quantity-input [(value)]="selectedTickets[i].addOn[i2].count"
                                     [maxValue]="remainingAttendeeCapacityAddOnValue(ticket.offer).length">
                                 </app-quantity-input>
@@ -104,9 +107,11 @@
 
     <div class="buttons mx-auto text-center text-center w-75">
         <button [disabled]="selectedTickets && createReservations().length === 0" type="button"
-            class="btn btn-primary btn-block py-3 mb-3" (click)="close()">{{ 'purchase.event.schedule.next' | translate
-            }}</button>
-        <button type="button" class="btn btn-outline-primary btn-block py-3" (click)="modal.hide()">{{ 'common.close' |
-            translate }}</button>
+            class="btn btn-block btn-custom-primary py-3 mb-3" (click)="close()">
+            {{ 'purchase.event.schedule.next' | translate }}
+        </button>
+        <button type="button" class="btn btn-block btn-custom-secondary py-3 shadow-sm" (click)="modal.hide()">
+            {{ 'common.close' | translate }}
+        </button>
     </div>
 </div>

@@ -1,90 +1,86 @@
 <form [formGroup]="inquiryForm">
-    <app-header></app-header>
-    <app-page-title title="{{ 'inquiry.input.title' | translate }}"></app-page-title>
-    <div class="contents">
-        <div class="container h-100 px-3 pb-3">
-            <div class="row h-100">
-                <div class="col-3 h-100">
-                    <img class="w-100 p-3 border border-gray" src="/default/images/inquiry/input.svg">
-                </div>
-                <div class="col-6">
-                    <div class="mb-4">
-                        <div class="inquiry-form mx-auto p-3 bg-white">
+    <app-header>
+        <app-page-title title="{{ 'inquiry.input.title' | translate }}"></app-page-title>
+    </app-header>
 
-                            <div class="form-group">
-                                <label class="mb-3 font-weight-bold" for="">{{ 'common.confirmationNumber' | translate
-                                    }}</label>
-                                <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
-                                    [inputValue]="inquiryForm.controls.confirmationNumber.value"
-                                    (change)="changeConfirmationNumber($event)">
-                                    <input type="text" class="form-control" formControlName="confirmationNumber"
-                                        id="confirmationNumber"
-                                        [placeholder]="'form.placeholder.confirmationNumber' | translate" readonly>
-                                </app-numeric-keypad>
-                                <input *ngIf="!environment.INPUT_KEYPAD" type="text" class="form-control"
-                                    formControlName="confirmationNumber" id="confirmationNumber"
-                                    [placeholder]="'form.placeholder.confirmationNumber' | translate">
-                                <div *ngIf="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched"
-                                    class="mt-2">
-                                    <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.required"
-                                        class="text-danger">
-                                        {{ 'form.validation.required' | translate }}</p>
-                                    <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.pattern"
-                                        class="text-danger">
-                                        {{ 'form.validation.number' | translate }}</p>
-                                </div>
+    <div class="contents mh-100 scroll-vertical">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100">
+                <div class="col-8 col-md-6">
+                    <div class="py-4">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold" for="">
+                                {{ 'common.confirmationNumber' | translate }}
+                            </label>
+                            <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
+                                [inputValue]="inquiryForm.controls.confirmationNumber.value"
+                                (change)="changeConfirmationNumber($event)">
+                                <input type="text" class="form-control" formControlName="confirmationNumber"
+                                    id="confirmationNumber"
+                                    [placeholder]="'form.placeholder.confirmationNumber' | translate" readonly>
+                            </app-numeric-keypad>
+                            <input *ngIf="!environment.INPUT_KEYPAD" type="text" class="form-control"
+                                formControlName="confirmationNumber" id="confirmationNumber"
+                                [placeholder]="'form.placeholder.confirmationNumber' | translate">
+                            <div *ngIf="inquiryForm.controls.confirmationNumber.invalid && inquiryForm.controls.confirmationNumber.touched"
+                                class="mt-2">
+                                <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.required" class="text-danger">
+                                    {{ 'form.validation.required' | translate }}</p>
+                                <p *ngIf="inquiryForm.controls.confirmationNumber.errors?.pattern" class="text-danger">
+                                    {{ 'form.validation.number' | translate }}</p>
                             </div>
-                            <div class="form-group mb-0">
-                                <label class="mb-3 font-weight-bold" for="">{{ 'common.telephone' | translate }}</label>
-                                <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="telephone"
-                                    [inputValue]="inquiryForm.controls.telephone.value"
-                                    (change)="changeTelephone($event)">
-                                    <input type="password" class="form-control" formControlName="telephone"
-                                        id="telephone" [placeholder]="'form.placeholder.telephone' | translate"
-                                        readonly>
-                                </app-numeric-keypad>
-                                <input *ngIf="!environment.INPUT_KEYPAD" type="password" class="form-control"
-                                    formControlName="telephone" id="telephone"
-                                    [placeholder]="'form.placeholder.telephone' | translate">
-                                <div *ngIf="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched"
-                                    class="mt-2">
-                                    <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="text-danger">
-                                        {{ 'form.validation.required' | translate }}</p>
-                                    <p *ngIf="inquiryForm.controls.telephone.errors?.minlength" class="text-danger">
-                                        {{ 'form.validation.minlength' | translate: { value:
-                                        inquiryForm.controls.telephone.errors?.minlength.requiredLength } }}
-                                    </p>
-                                    <p *ngIf="inquiryForm.controls.telephone.errors?.maxlength" class="text-danger">
-                                        {{ 'form.validation.maxlength' | translate: { value:
-                                        inquiryForm.controls.telephone.errors?.maxlength.requiredLength } }}
-                                    </p>
-                                    <p *ngIf="inquiryForm.controls.telephone.errors?.telephone" class="text-danger">
-                                        {{ 'form.validation.telephone' | translate }}</p>
-                                </div>
+                        </div>
+                        <div class="form-group mb-0">
+                            <label class="mb-3 font-weight-bold" for="">
+                                {{ 'common.telephone' | translate }}
+                            </label>
+                            <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="telephone"
+                                [inputValue]="inquiryForm.controls.telephone.value" (change)="changeTelephone($event)">
+                                <input type="password" class="form-control" formControlName="telephone" id="telephone"
+                                    [placeholder]="'form.placeholder.telephone' | translate" readonly>
+                            </app-numeric-keypad>
+                            <input *ngIf="!environment.INPUT_KEYPAD" type="password" class="form-control"
+                                formControlName="telephone" id="telephone"
+                                [placeholder]="'form.placeholder.telephone' | translate">
+                            <div *ngIf="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched"
+                                class="mt-2">
+                                <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="text-danger">
+                                    {{ 'form.validation.required' | translate }}</p>
+                                <p *ngIf="inquiryForm.controls.telephone.errors?.minlength" class="text-danger">
+                                    {{ 'form.validation.minlength' | translate: { value:
+                                    inquiryForm.controls.telephone.errors?.minlength.requiredLength } }}
+                                </p>
+                                <p *ngIf="inquiryForm.controls.telephone.errors?.maxlength" class="text-danger">
+                                    {{ 'form.validation.maxlength' | translate: { value:
+                                    inquiryForm.controls.telephone.errors?.maxlength.requiredLength } }}
+                                </p>
+                                <p *ngIf="inquiryForm.controls.telephone.errors?.telephone" class="text-danger">
+                                    {{ 'form.validation.telephone' | translate }}</p>
                             </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="col-3">
-
                 </div>
             </div>
         </div>
     </div>
     <app-footer>
-        <div class="container h-100">
-            <div class="row align-items-center justify-content-center h-100">
-                <div class="col-3">
-                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                        routerLink="/">{{ 'inquiry.input.prev' | translate }}</button>
-                </div>
-                <div class="col-3">
-                    <button type="submit" [disabled]="isLoading | async"
-                        class="text-large btn btn-primary btn-block font-weight-bold py-2" (click)="onSubmit()">{{
-                        'inquiry.input.next' | translate }}</button>
-                </div>
-            </div>
+        <div class="col-3 col-md-2 mr-auto mr-md-0">
+            <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
+                {{ 'common.clear' | translate }}
+            </button>
+        </div>
+        <div class="col-3 col-md-2">
+            <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+                routerLink="/">
+                {{ 'inquiry.input.prev' | translate }}
+            </button>
+        </div>
+        <div class="col-3 col-md-2">
+            <button type="submit" [disabled]="isLoading | async"
+                class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+                (click)="onSubmit()">
+                {{ 'inquiry.input.next' | translate }}
+            </button>
         </div>
     </app-footer>
 </form>

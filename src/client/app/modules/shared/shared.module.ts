@@ -26,6 +26,7 @@ import { PageTitleComponent } from './components/parts/page-title/page-title.com
 import { PrintResultComponent } from './components/parts/print-result/print-result.component';
 import { PurchaseEventTicketModalComponent } from './components/parts/purchase/event/ticket-modal/ticket-modal.component';
 import { PurchaseSeatTicketModalComponent } from './components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
+import { PurchaseStepComponent } from './components/parts/purchase/step/step.component';
 import { QRCodeReaderModalComponent } from './components/parts/qrcode/reader-modal/reader-modal.component';
 import { QRCodeViewerModalComponent } from './components/parts/qrcode/viewer-modal/viewer-modal.component';
 import { QuantityInputComponent } from './components/parts/quantity-input/quantity-input.component';
@@ -50,6 +51,7 @@ const components = [
     QuantityInputComponent,
     LanguageComponent,
     PageTitleComponent,
+    PurchaseStepComponent,
 ];
 
 const entryComponents = [

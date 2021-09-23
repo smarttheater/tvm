@@ -1,32 +1,34 @@
 <app-header>
+    <app-page-title title="{{ 'inquiry.print.title' | translate }}"></app-page-title>
 </app-header>
-<app-page-title title="{{ 'inquiry.print.title' | translate }}"></app-page-title>
-<div class="contents">
-    <div class="container h-100 px-3 pb-3">
-        <div class="row h-100">
-            <div class="col-3 h-100">
-                <div class="h-100"></div>
-            </div>
-            <div class="col-6">
-                <app-print-result *ngIf="(order | async)?.order" [order]="(order | async)?.order"></app-print-result>
-            </div>
-            <div class="col-3">
-
+<div class="contents mh-100 scroll-vertical">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-8 col-md-6">
+                <div class="py-4 px-3">
+                    <app-print-result *ngIf="(order | async)?.order" [order]="(order | async)?.order">
+                    </app-print-result>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                    disabled>{{ 'inquiry.print.prev' | translate }}</button>
-            </div>
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    routerLink="/">{{ 'inquiry.print.next' | translate }}</button>
-            </div>
-        </div>
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            disabled>
+            {{ 'inquiry.print.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/">
+            {{ 'inquiry.print.next' | translate }}
+        </button>
     </div>
 </app-footer>

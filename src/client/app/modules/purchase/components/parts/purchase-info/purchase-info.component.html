@@ -1,42 +1,65 @@
-<div class="min-h-100 border border-gray">
-    <div class="p-3">
-        <div class="container px-0 mb-2">
-            <div class="row">
-                <div class="col-4">
-                    <div class="image">
-                        <!-- <div class="loading d-flex justify-content-center align-items-center">
+<div class="min-h-100 bg-dark-gray text-white">
+    <div class="py-3">
+        <div class="px-3">
+            <div class="container px-0 mb-2">
+                <div class="row">
+                    <div class="col-2 col-md-4">
+                        <div class="image">
+                            <!-- <div class="loading d-flex justify-content-center align-items-center">
                         <div class="loader"></div>
                     </div> -->
-                        <div class="poster" *ngIf="image" [style.backgroundImage]="'url('+ image +')'"></div>
-                        <div class="poster-no" *ngIf="!image"></div>
+                            <div class="poster" *ngIf="image" [style.backgroundImage]="'url('+ image +')'"></div>
+                            <div class="poster-no" *ngIf="!image"></div>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-8">
+                        <div class="row">
+                            <div class="col-6 col-md-12">
+                                <p class="font-weight-bold">
+                                    {{ purchase.screeningEvent?.name | changeLanguage }}
+                                </p>
+                                <p class="text-small"
+                                    *ngIf="purchase.screeningEvent?.superEvent.headline && (purchase.screeningEvent?.superEvent.headline | changeLanguage)">
+                                    {{ purchase.screeningEvent?.superEvent.headline | changeLanguage }}</p>
+                                <div class="d-md-none">
+                                    <ng-container *ngTemplateOutlet="info"></ng-container>
+                                </div>
+                            </div>
+                            <div class="col-6 d-md-none">
+                                <app-item-list [reservations]="purchase.reservations"></app-item-list>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-8">
-                    <p class="font-weight-bold">{{ purchase.screeningEvent?.name | changeLanguage }}</p>
-                    <p class="text-small"
-                        *ngIf="purchase.screeningEvent?.superEvent.headline && (purchase.screeningEvent?.superEvent.headline | changeLanguage)">
-                        {{ purchase.screeningEvent?.superEvent.headline | changeLanguage }}</p>
-                </div>
+            </div>
+            <div class="d-none d-md-block">
+                <ng-container *ngTemplateOutlet="info"></ng-container>
             </div>
         </div>
-        <p class="text-small"
-            *ngIf="purchase.screeningEvent?.superEvent.description && (purchase.screeningEvent?.superEvent.description | changeLanguage)">{{
-                        purchase.screeningEvent?.superEvent.description | changeLanguage }}</p>
-        <p class="font-weight-bold text-small">
-            {{ purchase.screeningEvent?.startDate | formatDate: 'YYYY/MM/DD(ddd) HH:mm' }}-{{ purchase.screeningEvent?.endDate | formatDate: 'HH:mm' }}
-        </p>
-        <p class="screen-name text-small font-weight-bold">
-            <span *ngIf="purchase.screeningEvent?.location.address | changeLanguage"
-                class="mr-2">{{ purchase.screeningEvent?.location.address | changeLanguage }}</span>{{ purchase.screeningEvent?.location.name | changeLanguage }}
-        </p>
+        <div class="px-2 d-none d-md-block">
+            <app-item-list [reservations]="purchase.reservations"></app-item-list>
+        </div>
     </div>
-    <div class="d-flex justify-content-between p-3 bg-light-gray">
+    <div class="d-flex justify-content-between p-3 border-top border-white">
         <p class="font-weight-bold">{{ 'common.amount' | translate }}</p>
         <p *ngIf="isAmount" class="font-weight-bold">{{ amount | currency : 'JPY' }}</p>
         <p *ngIf="!isAmount" class="font-weight-bold">¥-</p>
     </div>
-    <div class="py-3 px-2">
-        <app-item-list [reservations]="purchase.reservations"></app-item-list>
-    </div>
-
 </div>
+
+<ng-template #info>
+    <p class="text-x-small"
+        *ngIf="purchase.screeningEvent?.superEvent.description && (purchase.screeningEvent?.superEvent.description | changeLanguage)">
+        {{
+        purchase.screeningEvent?.superEvent.description | changeLanguage }}
+    </p>
+    <p class="font-weight-bold text-small">
+        {{ purchase.screeningEvent?.startDate | formatDate: 'YYYY/MM/DD(ddd) HH:mm' }}-{{
+        purchase.screeningEvent?.endDate | formatDate: 'HH:mm' }}
+    </p>
+    <p class="screen-name text-small font-weight-bold">
+        <span *ngIf="purchase.screeningEvent?.location.address | changeLanguage" class="mr-2">{{
+            purchase.screeningEvent?.location.address | changeLanguage }}</span>{{
+        purchase.screeningEvent?.location.name | changeLanguage }}
+    </p>
+</ng-template>

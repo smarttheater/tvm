@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
@@ -23,6 +23,9 @@ export class PurchaseSeatComponent implements OnInit {
     public translateName: string;
     public reservationCount: number;
     public Number = Number;
+    public outerHeight: number;
+    @ViewChild('screenContainer')
+    public screenContainer: { nativeElement: HTMLElement };
 
     constructor(
         private store: Store<reducers.IState>,
@@ -71,6 +74,8 @@ export class PurchaseSeatComponent implements OnInit {
             this.screeningEventSeats =
                 await this.actionService.event.getScreeningEventSeats();
             await this.actionService.event.searchTicketOffers();
+            this.outerHeight =
+                this.screenContainer.nativeElement.clientHeight - 100;
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);

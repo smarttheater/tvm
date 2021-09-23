@@ -1,70 +1,76 @@
 <app-header>
+    <app-page-title title="{{ 'inquiry.confirm.title' | translate }}"></app-page-title>
 </app-header>
-<app-page-title title="{{ 'inquiry.confirm.title' | translate }}"></app-page-title>
-<div class="contents">
-    <div class="container h-100 px-3 pb-3">
-        <div class="row h-100">
-            <div class="col-3 h-100">
-            </div>
-            <div class="col-6 mh-100 scroll-horizontal">
-                <div class="mb-4">
-                    <div class="row align-items-center">
-                        <p class="col-4">
-                            {{ 'common.confirmationNumber' | translate }}</p>
-                        <p class="col-8 text-large font-weight-bold">
-                            {{ (order | async)?.order.confirmationNumber }}
-                        </p>
-                    </div>
-                </div>
-                <div *ngFor="let eventOrder of eventOrders" class="mb-4 bg-light-gray p-3">
-                    <div class="mb-3">
-                        <div class="mb-1">
-                            <p class="font-weight-bold text-large">{{ eventOrder.event.name | changeLanguage }}</p>
-                            <p class="text-small"
-                                *ngIf="eventOrder.event.superEvent.headline && (eventOrder.event.superEvent.headline | changeLanguage)">
-                                {{ eventOrder.event.superEvent.headline | changeLanguage }}</p>
-                            <p class="text-small"
-                                *ngIf="eventOrder.event.superEvent.description && (eventOrder.event.superEvent.description | changeLanguage)">{{
-                                eventOrder.event.superEvent.description | changeLanguage }}</p>
+<div class="contents mh-100 scroll-vertical">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-8 col-md-6">
+                <div class="py-4 px-3">
+                    <div class="mb-4">
+                        <div class="row align-items-center">
+                            <p class="col-4">
+                                {{ 'common.confirmationNumber' | translate }}</p>
+                            <p class="col-8 text-large font-weight-bold">
+                                {{ (order | async)?.order.confirmationNumber }}
+                            </p>
                         </div>
-                        <p class="mb-1">
-                            {{ eventOrder.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{ eventOrder.event.endDate | formatDate: 'HH:mm' }}
-                        </p>
-                        <p class="text-small mb-1">
-                            <span
-                                class="theater-name">{{ eventOrder.event.superEvent.location.name | changeLanguage }}</span>
-                            <span class="screen-name">&nbsp;/&nbsp;<span
-                                    *ngIf="eventOrder.event.location.address | changeLanguage"
-                                    class="mr-2">{{ eventOrder.event.location.address | changeLanguage }}</span>{{ eventOrder.event.location.name | changeLanguage }}</span>
-                            <span
-                                *ngIf="eventOrder.event.workPerformed?.duration && moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() > 0">
-                                &nbsp;/&nbsp;<span
-                                    class="mr-1">{{ 'common.duration' | translate }}</span>{{ moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() }}{{ 'common.date.minute' | translate }}
-                            </span>
-                        </p>
                     </div>
-                    <hr class="border-top border-gray mb-3">
-                    <app-item-list [acceptedOffers]="eventOrder.data"></app-item-list>
+                    <div *ngFor="let eventOrder of eventOrders" class="mb-4 bg-light-gray p-3">
+                        <div class="mb-3">
+                            <div class="mb-1">
+                                <p class="font-weight-bold text-large">{{ eventOrder.event.name | changeLanguage }}</p>
+                                <p class="text-small"
+                                    *ngIf="eventOrder.event.superEvent.headline && (eventOrder.event.superEvent.headline | changeLanguage)">
+                                    {{ eventOrder.event.superEvent.headline | changeLanguage }}</p>
+                                <p class="text-x-small"
+                                    *ngIf="eventOrder.event.superEvent.description && (eventOrder.event.superEvent.description | changeLanguage)">
+                                    {{
+                                    eventOrder.event.superEvent.description | changeLanguage }}</p>
+                            </div>
+                            <p class="mb-1">
+                                {{ eventOrder.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{
+                                eventOrder.event.endDate | formatDate: 'HH:mm' }}
+                            </p>
+                            <p class="text-small mb-1">
+                                <span class="theater-name">{{ eventOrder.event.superEvent.location.name | changeLanguage
+                                    }}</span>
+                                <span class="screen-name">&nbsp;/&nbsp;<span
+                                        *ngIf="eventOrder.event.location.address | changeLanguage" class="mr-2">{{
+                                        eventOrder.event.location.address | changeLanguage }}</span>{{
+                                    eventOrder.event.location.name | changeLanguage }}</span>
+                                <span
+                                    *ngIf="eventOrder.event.workPerformed?.duration && moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() > 0">
+                                    &nbsp;/&nbsp;<span class="mr-1">{{ 'common.duration' | translate }}</span>{{
+                                    moment.duration(eventOrder.event.workPerformed?.duration).asMinutes() }}{{
+                                    'common.date.minute' | translate }}
+                                </span>
+                            </p>
+                        </div>
+                        <hr class="border-top border-gray mb-3">
+                        <app-item-list [acceptedOffers]="eventOrder.data"></app-item-list>
+                    </div>
                 </div>
-            </div>
-            <div class="col-3">
-
             </div>
         </div>
     </div>
 </div>
 <app-footer>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                    routerLink="/inquiry/input">{{ 'inquiry.confirm.prev' | translate }}</button>
-            </div>
-            <div class="col-3">
-                <button *ngIf="environment.INQUIRY_PRINT"
-                    [disabled]="(order | async)?.order.orderStatus !== orderStatus.OrderDelivered" type="button"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2" (click)="print()">{{ 'inquiry.confirm.next' | translate }}</button>
-            </div>
-        </div>
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/inquiry/input">
+            {{ 'inquiry.confirm.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button *ngIf="environment.INQUIRY_PRINT"
+            [disabled]="(order | async)?.order.orderStatus !== orderStatus.OrderDelivered" type="button"
+            class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3" (click)="print()">
+            {{ 'inquiry.confirm.next' | translate }}
+        </button>
     </div>
 </app-footer>

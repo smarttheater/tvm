@@ -1,4 +1,4 @@
-<div class="p-4 scroll-vertical">
+<div class="px-4 py-5 scroll-vertical">
     <form [formGroup]="inputForm">
         <p class="text-large font-weight-bold mb-3">{{ 'modal.movieTicket.check.title' | translate }}</p>
         <div class="mb-4">
@@ -15,7 +15,6 @@
                     </app-numeric-keypad>
                     <input *ngIf="!environment.INPUT_KEYPAD" type="text" class="form-control" formControlName="code"
                         id="code" autocomplete="off" placeholder="012345789" maxlength="10">
-                    <!-- <button type="button" class="btn btn-primary" (click)="openQRReader()"></button> -->
                 </div>
                 <div *ngIf="inputForm.controls.code.invalid && inputForm.controls.code.touched" class="mt-2">
                     <p *ngIf="inputForm.controls.code.errors?.required" class="text-danger">
@@ -51,11 +50,13 @@
             </div>
         </div>
         <div class="buttons mx-auto text-center">
-            <button type="button" class="btn btn-primary btn-block py-3 mb-3"
-                [disabled]="(isLoading | async) || this.inputForm.invalid" (click)="checkMovieTicket()">{{
-                'modal.movieTicket.check.next' | translate }}</button>
-            <button type="button" class="btn btn-outline-primary btn-block py-3" (click)="modal.hide()">{{
-                'common.close' | translate }}</button>
+            <button type="button" class="btn btn-block btn-custom-primary py-3 mb-3"
+                [disabled]="(isLoading | async) || this.inputForm.invalid" (click)="checkMovieTicket()">
+                {{ 'modal.movieTicket.check.next' | translate }}
+            </button>
+            <button type="button" class="btn btn-block btn-custom-secondary py-3 shadow-sm" (click)="modal.hide()">
+                {{ 'common.close' | translate }}
+            </button>
         </div>
 
     </form>

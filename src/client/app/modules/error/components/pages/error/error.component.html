@@ -1,28 +1,28 @@
-<app-header></app-header>
-<app-page-title title="{{ 'error.title' | translate }}"></app-page-title>
+<app-header>
+    <app-page-title title="{{ 'error.title' | translate }}"></app-page-title>
+</app-header>
+
 <div class="contents">
-    <div class="container h-100 px-3 pb-3">
-        <div class="row h-100">
-            <div class="col-3 h-100">
-
-            </div>
-            <div class="col-6">
-                <p class="mb-4 text-center" [innerHTML]="'error.read' | translate"></p>
-
-                <div *ngIf="error | async" class="mb-4 p-3 bg-dark-gray text-white">
-                    <code class="text-white">{{ (error | async) }}</code>
+    <div class="container h-100">
+        <div class="row justify-content-center">
+            <div class="col-8 col-md-6">
+                <div class="py-4 px-3">
+                    <p class="mb-4 text-center" [innerHTML]="'error.read' | translate"></p>
+                    <div *ngIf="error | async" class="mb-4 p-3 bg-dark-gray text-white">
+                        <code class="text-white">{{ (error | async) }}</code>
+                    </div>
                 </div>
-
-                <div class="buttons mx-auto text-center">
-                    <button type="button" class="btn btn-outline-primary btn-block py-3" routerLink="/">
-                        {{ 'error.prev' | translate }}
-                    </button>
-                </div>
-            </div>
-            <div class="col-3">
-
             </div>
         </div>
 
     </div>
 </div>
+
+<app-footer>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/">
+            {{ 'error.prev' | translate }}
+        </button>
+    </div>
+</app-footer>

@@ -1,52 +1,81 @@
 <app-header>
+    <app-page-title title="{{ 'setting.title' | translate }}"></app-page-title>
 </app-header>
-<app-page-title title="{{ 'setting.title' | translate }}"></app-page-title>
 <div class="contents">
-    <div class="container h-100 px-3 pb-3">
+    <div class="container h-100">
         <div class="row h-100">
-            <div class="col-2 h-100">
+            <div class="col-12 col-md-9 mh-100 scroll-vertical px-0">
+                <div class="p-3">
+                    <div class="border-bottom pb-3 mb-4">
+                        <p class="font-weight-bold mb-3">
+                            {{ 'setting.application.title' | translate }}
+                        </p>
+                        <app-input-app *ngIf="inputData?.app" [theaters]="theaters" [data]="inputData?.app"
+                            (valueChanges)="appForm = $event"></app-input-app>
+                    </div>
+                    <div class="border-bottom pb-3 mb-4">
+                        <p class="font-weight-bold mb-3">
+                            {{ 'setting.device.title' | translate }}
+                        </p>
+                        <app-input-device *ngIf="inputData?.device" [data]="inputData?.device"
+                            [isConnected]="epsonEPOSService.cashchanger.isConnected()"
+                            (valueChanges)="deviceForm = $event" (print)="print()" (payment)="payment()"
+                            (cashchanger)="cashchanger($event)">
+                        </app-input-device>
+                    </div>
+                    <div class="border-bottom pb-3 mb-4">
+                        <p class="font-weight-bold mb-3">
+                            {{ 'setting.basic.title' | translate }}
+                        </p>
+                        <app-input-customer *ngIf="inputData" [profile]="inputData.profile"
+                            [language]="(user | async)?.language" (valueChanges)="profileForm = $event">
+                        </app-input-customer>
+                    </div>
+                </div>
             </div>
-            <div class="col-8 h-100 scroll-horizontal">
-                <p
-                    class="text-large font-weight-bold bg-light-gray border-left border-white-bold border-primary p-3 mb-4">
-                    {{ 'setting.application.title' | translate }}
-                </p>
-                <app-input-app *ngIf="inputData?.app" [theaters]="theaters" [data]="inputData?.app"
-                    (valueChanges)="appForm = $event"></app-input-app>
-                <p
-                    class="text-large font-weight-bold bg-light-gray border-left border-white-bold border-primary p-3 mb-4">
-                    {{ 'setting.device.title' | translate }}
-                </p>
-                <app-input-device *ngIf="inputData?.device" [data]="inputData?.device"
-                    [isConnected]="epsonEPOSService.cashchanger.isConnected()" (valueChanges)="deviceForm = $event"
-                    (print)="print()" (payment)="payment()" (cashchanger)="cashchanger($event)">
-                </app-input-device>
-                <p
-                    class="text-large font-weight-bold bg-light-gray border-left border-white-bold border-primary p-3 mb-4">
-                    {{ 'setting.basic.title' | translate }}
-                </p>
-                <app-input-customer *ngIf="inputData" [profile]="inputData.profile"
-                    [language]="(user | async)?.language" (valueChanges)="profileForm = $event">
-                </app-input-customer>
+            <div class="col-12 col-md-3">
+                <div class="p-3">
+                    <div class="row">
+                        <div class="col-6 col-md-12 mb-3">
+                            <button type="button" class="btn btn-custom-primary btn-block py-3 py-md-2"
+                                (click)="signOut()">
+                                {{ 'setting.signOut' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-6 col-md-12 mb-3">
+                            <button type="button" class="btn btn-custom-primary btn-block py-3 py-md-2"
+                                (click)="reload()">
+                                {{ 'setting.reload' | translate }}
+                            </button>
+                        </div>
+                    </div>
 
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-primary btn-block" (click)="signOut()">{{ 'setting.signOut' |
-                    translate }}</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <app-footer>
     <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="btn btn-outline-light btn-block font-weight-bold py-2"
-                    [routerLink]="environment.BASE_URL">{{ 'setting.prev' | translate }}</button>
+        <div class="row align-items-center justify-content-end h-100">
+            <div class="col-3 col-md-2 mr-auto mr-md-0">
+                <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
+                    {{ 'common.clear' | translate }}
+                </button>
             </div>
-            <div class="col-3">
-                <button type="submit" class="btn btn-primary btn-block font-weight-bold py-2"
-                    [disabled]="isLoading | async" (click)="onSubmit()">{{ 'setting.next' | translate }}</button>
+            <div class="col-3 col-md-2">
+                <button type="button"
+                    class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+                    [routerLink]="environment.BASE_URL">
+                    {{ 'setting.prev' | translate }}
+                </button>
+            </div>
+            <div class="col-3 col-md-2">
+                <button type="submit"
+                    class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+                    [disabled]="isLoading | async" (click)="onSubmit()">
+                    {{ 'setting.next' | translate }}
+                </button>
             </div>
         </div>
     </div>

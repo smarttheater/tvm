@@ -1,34 +1,33 @@
-<app-header>
-    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Cinema" [currentStep]="4"></app-purchase-step>
-    <app-purchase-step *ngIf="environment.VIEW_TYPE === viewType.Event" [currentStep]="2"></app-purchase-step>
+<app-header [step]="environment.VIEW_TYPE === viewType.Cinema ? 4 : 2">
+    <app-page-title *ngIf="amount > 0" title="{{ 'purchase.payment.title' | translate }}"></app-page-title>
+    <app-page-title *ngIf="amount === 0" title="{{ 'purchase.payment.notPayment' | translate }}"></app-page-title>
+    <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
-<app-page-title *ngIf="amount > 0" title="{{ 'purchase.payment.title' | translate }}"></app-page-title>
-<app-page-title *ngIf="amount === 0" title="{{ 'purchase.payment.notPayment' | translate }}"></app-page-title>
+
 <div class="contents">
-    <div class="container h-100 px-3 pb-3">
+    <div class="container h-100">
         <div class="row h-100">
-            <div class="col-3 h-100">
-            </div>
-            <div class="col-6">
-                <div *ngIf="amount > 0">
-                    <ng-container *ngFor="let payment of payments">
-                        <button type="button" [disabled]="isLoading | async"
-                            class="btn btn-block border border-gray p-4 mb-3"
-                            [class]="payment.paymentAccepted.paymentMethodType"
-                            (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
-                            <div class="d-flex align-items-center">
-                                <img *ngIf="payment.image" width="50" class="mr-3" [src]="payment.image" alt="">
-                                <p class="text-large">{{ payment.categoryCode?.name | changeLanguage }}</p>
+            <div class="col-12 col-md-9 px-0">
+                <div *ngIf="amount > 0" class="py-4">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-8">
+                                <button *ngFor="let payment of payments" type="button" [disabled]="isLoading | async"
+                                    class="btn btn-block btn-custom-success py-3 px-4 mb-3"
+                                    [class]="payment.paymentAccepted.paymentMethodType"
+                                    (click)="selectPaymentMethodType(payment.paymentAccepted.paymentMethodType)">
+                                    <div class="d-flex align-items-center">
+                                        <p class="text-large font-weight-bold">{{ payment.categoryCode?.name |
+                                            changeLanguage }}</p>
+                                    </div>
+                                </button>
                             </div>
-                        </button>
-
-                    </ng-container>
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="amount === 0">
-
-                </div>
+                <div *ngIf="amount === 0"></div>
             </div>
-            <div class="col-3 mh-100 scroll-horizontal">
+            <div class="col-12 col-md-3 mh-100 scroll-vertical px-0">
                 <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async"
                     [isAmount]="true"></app-purchase-info>
                 <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async"
@@ -37,32 +36,30 @@
         </div>
     </div>
 </div>
-<app-footer>
-    <div class="position-absolute d-flex align-items-center h-100">
-        <app-transaction-remaining-time></app-transaction-remaining-time>
+<app-footer [step]="environment.VIEW_TYPE === viewType.Cinema ? 4 : 2">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
     </div>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <div *ngIf="environment.VIEW_TYPE === viewType.Cinema">
-                    <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                        routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
-                </div>
-                <div *ngIf="environment.VIEW_TYPE === viewType.Event">
-                    <button *ngIf="environment.PURCHASE_CART" type="button"
-                        class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                        routerLink="/purchase/event/schedule">{{ 'purchase.payment.prev' | translate }}</button>
-                    <button *ngIf="!environment.PURCHASE_CART" type="button"
-                        class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                        routerLink="/purchase/event/select">{{ 'purchase.payment.prev' | translate }}</button>
-                </div>
-            </div>
-            <div class="col-3">
-                <button type="submit" [disabled]="amount > 0" routerLink="/purchase/payment/reception"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2">
-                    {{ 'purchase.payment.next' | translate }}
-                </button>
-            </div>
-        </div>
+    <div class="col-3 col-md-2">
+        <ng-container *ngIf="environment.VIEW_TYPE === viewType.Cinema">
+            <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+                routerLink="/purchase/cinema/ticket">{{ 'purchase.payment.prev' | translate }}</button>
+        </ng-container>
+        <ng-container *ngIf="environment.VIEW_TYPE === viewType.Event">
+            <button *ngIf="environment.PURCHASE_CART" type="button"
+                class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+                routerLink="/purchase/event/schedule">{{ 'purchase.payment.prev' | translate }}</button>
+            <button *ngIf="!environment.PURCHASE_CART" type="button"
+                class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+                routerLink="/purchase/event/select">{{ 'purchase.payment.prev' | translate }}</button>
+        </ng-container>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="submit" [disabled]="amount > 0" routerLink="/purchase/payment/reception"
+            class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3">
+            {{ 'purchase.payment.next' | translate }}
+        </button>
     </div>
 </app-footer>

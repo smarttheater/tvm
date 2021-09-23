@@ -41,6 +41,7 @@ export class ScreenComponent
     @Input() public reservations: Models.Purchase.Reservation.IReservation[];
     @Input()
     public authorizeSeatReservation?: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
+    @Input() public outerHeight?: number;
     @Output() public select = new EventEmitter<{
         seat: Models.Purchase.Reservation.IReservationSeat;
         status: SeatStatus;
@@ -367,7 +368,7 @@ export class ScreenComponent
         this.zoomState = false;
         const base = {
             width: screen.offsetWidth,
-            height: 732,
+            height: this.outerHeight === undefined ? 732 : this.outerHeight,
         };
         const scale = {
             width: base.width / this.screenData.size.w,

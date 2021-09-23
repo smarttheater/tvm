@@ -123,7 +123,7 @@
     "setting": {
         "title": "設定",
         "read": "設定を変更できます。",
-        "next": "設定を変更",
+        "next": "保存",
         "prev": "戻る",
         "basic": {
             "title": "基本情報"
@@ -173,6 +173,7 @@
         "unselected": "未選択",
         "pos": "POS",
         "signOut": "ログアウト",
+        "reload": "更新",
         "alert": {
             "connection": "接続に成功しました。",
             "customer": "購入者情報に誤りがあります。",

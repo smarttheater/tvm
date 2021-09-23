@@ -76,7 +76,7 @@ export class InputTicketsComponent implements OnInit {
             initialState: {
                 codeValue,
             },
-            class: 'modal-dialog-centered modal-lg',
+            class: 'modal-dialog-centered',
         });
     }
 
@@ -86,7 +86,7 @@ export class InputTicketsComponent implements OnInit {
     public openMembership() {
         this.modal.show(MembershipCheckModalComponent, {
             initialState: {},
-            class: 'modal-dialog-centered modal-lg',
+            class: 'modal-dialog-centered',
         });
     }
 }

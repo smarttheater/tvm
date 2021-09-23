@@ -17,7 +17,6 @@ html,
 body {
     height: 100%;
     font-family: $font-family;
-    font-size: $body-font-size;
     font-display: swap;
     touch-action: none;
 }
@@ -34,14 +33,12 @@ body {
     background-color: $body-bg;
 }
 
-body,
 app-root {
     display: block;
     transform-origin: 0 0;
-    width: 1920px;
-    height: 1080px;
     overflow: hidden;
     position: relative;
+    height: 100%;
 }
 
 .wrapper {
@@ -78,6 +75,7 @@ a {
     }
 }
 p {
+    margin-bottom: 0;
     word-break: break-all;
     line-height: 1.4;
     a {
@@ -89,6 +87,15 @@ p {
         }
     }
 }
+
+ul {
+    padding-left: 0;
+}
+
+li {
+    list-style: none;
+}
+
 div {
     line-height: 1;
 }
@@ -113,6 +120,10 @@ textarea {
 button {
     cursor: pointer;
     white-space: normal !important;
+}
+
+.line-height-1 {
+    line-height: 1;
 }
 
 .overflow-hidden {
@@ -190,7 +201,7 @@ button {
 }
 
 .border-white-bold {
-    border-width: 10px !important;
+    border-width: 1rem !important;
 }
 
 // color
@@ -277,28 +288,31 @@ button {
     max-width: 100%;
 }
 
-.btn {
-    border-radius: 0;
-}
-
-.btn:disabled {
-    opacity: 1 !important;
-    background-color: #666 !important;
-    border-color: #666 !important;
-    color: #eee !important;
-}
-
 .page-title {
     height: 100px;
 }
 
+.header {
+    height: 4rem;
+}
+
+.footer {
+    height: 7rem;
+}
+
 .contents {
     position: absolute;
-    top: 200px;
+    top: 4rem;
     left: 0;
     right: 0;
-    bottom: 0px;
-    padding-bottom: 120px;
+    bottom: 7rem;
+    @include media-breakpoint-down(sm) {
+        top: 8rem;
+    }
+}
+
+.min-h-100 {
+    min-height: 100%;
 }
 
 .modal-backdrop {
@@ -312,4 +326,78 @@ button {
 
 .video-format {
     display: none;
+}
+
+.buttons {
+    max-width: 600px;
+}
+
+.btn {
+    border-radius: 0.5em;
+    &:hover {
+        color: #fff !important;
+        text-decoration: none;
+    }
+}
+
+.btn:disabled {
+    opacity: 1 !important;
+    background: linear-gradient(0deg, #999 0%, #ccc 100%);
+    border: 2px solid #999;
+    color: #fff !important;
+    box-shadow: none !important;
+    &:hover {
+        color: #fff !important;
+    }
+}
+
+.btn-custom-primary {
+    background: linear-gradient(0deg, #385bb2 0%, #042d92 100%);
+    border: 2px solid #042d92;
+    color: #fff;
+}
+
+.btn-custom-secondary {
+    background: linear-gradient(0deg, #eee 0%, #fff 100%);
+    border: 2px solid #fff;
+    color: #333;
+    &:hover {
+        color: #333 !important;
+    }
+}
+
+.btn-custom-success {
+    background: linear-gradient(0deg, #eee 0%, #fff 100%);
+    border: 2px solid theme-color('success');
+    color: #333;
+    &:hover {
+        color: #333 !important;
+    }
+}
+
+.btn-custom-warning {
+    background: linear-gradient(0deg, #eee 0%, #fff 100%);
+    border: 2px solid theme-color('warning');
+    color: #333;
+    &:hover {
+        color: #333 !important;
+    }
+}
+
+app-purchase-base,
+app-setting {
+    @include media-breakpoint-down(sm) {
+        .col-12.col-md-9 {
+            height: 70%;
+        }
+        .col-12.col-md-3 {
+            height: 30%;
+        }
+    }
+}
+
+ngx-intl-tel-input {
+    .iti {
+        display: block;
+    }
 }

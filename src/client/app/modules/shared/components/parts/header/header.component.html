@@ -1,16 +1,24 @@
-<div class="header d-flex align-items-center px-3 bg-light-gray shadow-sm">
-    <div class="mr-3 py-3">
-        <app-current-date-time class="py-3"></app-current-date-time>
-    </div>
-    <div class="h-100">
-        <ng-content></ng-content>
-    </div>
-    <div class="ml-auto">
-        <!-- <button *ngIf="isDate" class="btn btn-dark px-4 rounded-pill" routerLink="/purchase/cinema/date">{{ 'purchase.cinema.scheduleMovie.date' | translate }}</button> -->
-        <app-language *ngIf="languageSelect"></app-language>
-        <button *ngIf="topButton" class="btn btn-dark ml-3 px-4 rounded-pill" routerLink="/">
-            {{ 'common.clear' | translate }}
-        </button>
+<div class="header">
+    <div class="container h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-12 col-md-2 h-100 bg-dark-gray text-white d-md-none">
+                <div class="d-flex align-items-center h-100">
+                    <div *ngIf="step" class="d-flex align-items-center">
+                        <app-purchase-step [currentStep]="step" class="mr-100"></app-purchase-step>
+                    </div>
+                    <app-current-date-time class="ml-auto"></app-current-date-time>
+                </div>
+            </div>
+            <div class="col-12 col-md-10 h-100 px-0 bg-light-gray">
+                <div class="d-flex align-items-center h-100">
+                    <ng-content></ng-content>
+                </div>
+            </div>
+            <div class="col-12 col-md-2 h-100 bg-gray d-none d-md-block">
+                <div class="d-md-flex align-items-center justify-content-center h-100">
+                    <app-current-date-time></app-current-date-time>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<button type="button" class="btn admin" (press)="openInputModal()"></button>

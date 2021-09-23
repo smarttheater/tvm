@@ -208,7 +208,7 @@ export class PurchaseTicketComponent implements OnInit {
             pendingMovieTickets,
         } = await this.actionService.purchase.getData();
         this.modal.show(PurchaseSeatTicketModalComponent, {
-            class: 'modal-dialog-centered modal-lg',
+            class: 'modal-dialog-centered',
             initialState: {
                 authorizeSeatReservation,
                 screeningEventTicketOffers,

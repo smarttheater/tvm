@@ -1,37 +1,32 @@
-<app-header>
-    <app-purchase-step [currentStep]="3"></app-purchase-step>
+<app-header [step]="3">
+    <app-page-title title="{{ 'purchase.cinema.ticket.title' | translate }}"></app-page-title>
+    <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
-<app-page-title title="{{ 'purchase.cinema.ticket.title' | translate }}"></app-page-title>
+
 <div class="contents">
-    <div class="container h-100 px-3 pb-3">
+    <div class="container h-100">
         <div class="row h-100">
-            <div class="col-3 mh-100 scroll-horizontal">
-                <app-input-tickets
-                    *ngIf="(purchase | async)?.screeningEventTicketOffers && (purchase | async)?.screeningEvent && movieTicketPaymentMethods"
-                    [screeningEvent]="(purchase | async)?.screeningEvent"
-                    [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
-                    [movieTicketPaymentMethods]="movieTicketPaymentMethods"></app-input-tickets>
-            </div>
-            <div class="col-6 mh-100 scroll-horizontal">
-                <div>
-                    <ul class="py-2 bg-white">
-                        <li *ngFor="let reservation of (purchase | async)?.reservations">
-                            <div class="container px-3 py-2">
+            <div class="col-12 col-md-9 mh-100 scroll-vertical px-0">
+                <div class="container py-4 px-3">
+                    <ul class="row align-items-center mb-4 px-5 px-md-3">
+                        <li *ngFor="let reservation of (purchase | async)?.reservations" class="col-12 col-md-6">
+                            <div class="py-2">
                                 <div class="row align-items-center">
-                                    <div class="col-2">
-                                        <p *ngIf="reservation.seat?.seatNumber" class="font-weight-bold text-large">
+                                    <div class="col-2 col-md-3">
+                                        <p *ngIf="reservation.seat?.seatNumber" class="text-large">
                                             {{ reservation.seat?.seatNumber }}
                                         </p>
                                     </div>
-                                    <div class="col-10">
+                                    <div class="col-10 col-md-9">
                                         <div>
                                             <button *ngIf="reservation.ticket === undefined" type="button"
                                                 (click)="openTicketList(reservation)"
-                                                class="btn btn-block border border-gray py-3">{{
-                                                'purchase.cinema.ticket.unselected' | translate }}</button>
+                                                class="btn btn-block btn-custom-secondary py-3 shadow-sm">
+                                                {{ 'purchase.cinema.ticket.unselected' | translate }}
+                                            </button>
                                             <button *ngIf="reservation.ticket !== undefined" type="button"
                                                 (click)="openTicketList(reservation)"
-                                                class="btn btn-block btn-outline-primary py-3">
+                                                class="btn btn-block btn-custom-success py-3">
                                                 <div class="d-flex justify-content-between align-items-center"
                                                     *ngFor="let priceComponent of reservation.ticket?.ticketOffer.priceSpecification.priceComponent">
                                                     <p class="w-50 text-left">{{ priceComponent.name | changeLanguage }}
@@ -61,7 +56,7 @@
                                                     </p>
                                                 </div>
                                                 <div>
-                                                    <!-- <p *ngIf="reservation.ticket.ticketOffer.description" class="text-small text-left">
+                                                    <!-- <p *ngIf="reservation.ticket.ticketOffer.description" class="text-x-small text-left">
                                                         {{ reservation.ticket.ticketOffer.description | changeLanguage }}
                                                     </p> -->
                                                     <p *ngIf="reservation.ticket.movieTicket"
@@ -77,29 +72,35 @@
                             </div>
                         </li>
                     </ul>
+                    <app-input-tickets
+                        *ngIf="(purchase | async)?.screeningEventTicketOffers && (purchase | async)?.screeningEvent && movieTicketPaymentMethods"
+                        [screeningEvent]="(purchase | async)?.screeningEvent"
+                        [screeningEventTicketOffers]="(purchase | async)?.screeningEventTicketOffers"
+                        [movieTicketPaymentMethods]="movieTicketPaymentMethods"></app-input-tickets>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-horizontal">
+            <div class="col-12 col-md-3 mh-100 scroll-vertical px-0">
                 <app-purchase-info [purchase]="purchase | async" [isAmount]="false"></app-purchase-info>
             </div>
         </div>
     </div>
 </div>
-<app-footer>
-    <div class="position-absolute d-flex align-items-center h-100">
-        <app-transaction-remaining-time></app-transaction-remaining-time>
+<app-footer [step]="3">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
     </div>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                    routerLink="/purchase/cinema/seat">{{ 'purchase.cinema.ticket.prev' | translate }}</button>
-            </div>
-            <div class="col-3">
-                <button type="submit" class="text-large btn btn-primary btn-block font-weight-bold py-2"
-                    [disabled]="(isLoading | async) || !isSelectedTicket" (click)="onSubmit()">{{
-                    'purchase.cinema.ticket.next' | translate }}</button>
-            </div>
-        </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/purchase/cinema/seat">
+            {{ 'purchase.cinema.ticket.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button type="submit" class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            [disabled]="(isLoading | async) || !isSelectedTicket" (click)="onSubmit()">
+            {{ 'purchase.cinema.ticket.next' | translate }}
+        </button>
     </div>
 </app-footer>

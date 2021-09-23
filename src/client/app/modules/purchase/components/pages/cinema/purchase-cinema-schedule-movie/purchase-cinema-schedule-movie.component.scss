@@ -1,8 +1,4 @@
 .item {
-    flex: 0 0 16.6%;
-    max-width: 16.6%;
-    padding-right: 15px;
-    padding-left: 15px;
     position: relative;
     &.not-sales {
         .position-relative {
@@ -68,4 +64,3 @@
         }
     }
 }
-

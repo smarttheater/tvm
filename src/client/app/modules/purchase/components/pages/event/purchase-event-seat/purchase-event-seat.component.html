@@ -1,48 +1,56 @@
-<app-header>
-    <app-purchase-step [currentStep]="1"></app-purchase-step>
+<app-header [step]="1">
+    <app-page-title *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)"
+        title="{{ 'purchase.event.seat.title' | translate }}"></app-page-title>
+    <app-page-title *ngIf="(purchase | async)?.screen?.openSeatingAllowed"
+        title="{{ 'purchase.event.seat.openSeating.title' | translate }}"></app-page-title>
+    <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
-<app-page-title *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)"
-    title="{{ 'purchase.event.seat.title' | translate }}"></app-page-title>
-<app-page-title *ngIf="(purchase | async)?.screen?.openSeatingAllowed"
-    title="{{ 'purchase.event.seat.openSeating.title' | translate }}"></app-page-title>
+
 <div class="contents">
-    <div class="container h-100 px-3 pb-3">
+    <div class="container h-100">
         <div class="row h-100">
-            <div class="col-3 h-100">
-                <app-seat-info *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)"></app-seat-info>
-            </div>
-            <div class="col-6">
+            <div #screenContainer class="col-12 col-md-9 mh-100 scroll-vertical px-0">
                 <div *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)">
                     <app-screen *ngIf="(user | async)?.theater 
                 && screeningEventSeats.length > 0 
-                && (purchase | async)?.screen" [theaterCode]="(user | async)?.theater.branchCode"
+                && (purchase | async)?.screen
+                && outerHeight" [theaterCode]="(user | async)?.theater.branchCode"
                         [screenCode]="(purchase | async)?.screen.branchCode" [screeningEventSeats]="screeningEventSeats"
                         [openSeatingAllowed]="(purchase | async)?.screen.openSeatingAllowed"
                         [reservations]="(purchase | async)?.reservations"
                         [authorizeSeatReservation]="(purchase | async)?.authorizeSeatReservation"
-                        (select)="selectSeat($event)">
+                        [outerHeight]="outerHeight" (select)="selectSeat($event)">
                     </app-screen>
+                    <app-seat-info #seatInfo
+                        *ngIf="(purchase | async)?.screen && !((purchase | async)?.screen?.openSeatingAllowed)">
+                    </app-seat-info>
                 </div>
                 <div *ngIf="(purchase | async)?.screen?.openSeatingAllowed" class="mb-4">
                     <div class="container p-3">
-                        <div class="row align-items-center">
-                            <div class="col-5">
-                                <p class="mb-2 mb-md-0 font-weight-bold text-large">
-                                    {{ 'purchase.event.seat.openSeating.seat' | translate }}
-                                </p>
-                            </div>
-                            <div class="col-7">
-                                <app-quantity-input class="pl-3" [(value)]="reservationCount" [maxValue]="remainingAttendeeCapacityValue({
-                                    screeningEventSeats: screeningEventSeats,
-                                    screeningEvent: (purchase | async)?.screeningEvent,
-                                    authorizeSeatReservations: (purchase | async)?.authorizeSeatReservations
-                                }).length"></app-quantity-input>
+                        <div class="row justify-content-center border-top border-bottom w-100 mx-auto">
+                            <div class="col-12">
+                                <div class="container p-3">
+                                    <div class="row align-items-center">
+                                        <div class="col-6 col-md-7">
+                                            <p class="mb-2 mb-md-0 font-weight-bold text-large">
+                                                {{ 'purchase.event.seat.openSeating.seat' | translate }}
+                                            </p>
+                                        </div>
+                                        <div class="col-6 col-md-5 text-right">
+                                            <app-quantity-input class="pl-3" [(value)]="reservationCount" [maxValue]="remainingAttendeeCapacityValue({
+                                                        screeningEventSeats: screeningEventSeats,
+                                                        screeningEvent: (purchase | async)?.screeningEvent,
+                                                        authorizeSeatReservations: (purchase | async)?.authorizeSeatReservations
+                                                    }).length"></app-quantity-input>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-3 mh-100 scroll-horizontal">
+            <div class="col-12 col-md-3 mh-100 scroll-vertical px-0">
                 <app-purchase-info *ngIf="environment.VIEW_TYPE === viewType.Cinema" [purchase]="purchase | async"
                     [isAmount]="true"></app-purchase-info>
                 <app-purchase-cart *ngIf="environment.VIEW_TYPE === viewType.Event" [purchase]="purchase | async"
@@ -51,28 +59,28 @@
         </div>
     </div>
 </div>
-<app-footer>
-    <div class="position-absolute d-flex align-items-center h-100">
-        <app-transaction-remaining-time></app-transaction-remaining-time>
+<app-footer [step]="1">
+    <div class="col-3 col-md-2 mr-auto mr-md-0">
+        <button type="button" class="btn btn-custom-secondary btn-block py-3 shadow-sm" routerLink="/">
+            {{ 'common.clear' | translate }}
+        </button>
     </div>
-    <div class="container h-100">
-        <div class="row align-items-center justify-content-center h-100">
-            <div class="col-3">
-                <button type="button" class="text-large btn btn-outline-light btn-block font-weight-bold py-2"
-                    (click)="prev()">{{ 'purchase.event.seat.prev' | translate }}</button>
-            </div>
-            <div class="col-3">
-                <button *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)" type="submit"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2" [disabled]="(isLoading | async) 
-                || (purchase | async)?.reservations.length === 0" (click)="onSubmit()">
-                {{ 'purchase.event.seat.next' | translate }}
-                </button>
-                <button *ngIf="(purchase | async)?.screen?.openSeatingAllowed" type="submit"
-                    class="text-large btn btn-primary btn-block font-weight-bold py-2" [disabled]="(isLoading | async) 
-                || Number(reservationCount) === 0" (click)="onSubmit()">
-                {{ 'purchase.event.seat.next' | translate }}
-                </button>
-            </div>
-        </div>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            (click)="prev()">{{
+            'purchase.event.seat.prev' | translate }}
+        </button>
+    </div>
+    <div class="col-3 col-md-2">
+        <button *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)" type="submit"
+            class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            [disabled]="(isLoading | async)  || (purchase | async)?.reservations.length === 0" (click)="onSubmit()">
+            {{ 'purchase.event.seat.next' | translate }}
+        </button>
+        <button *ngIf="(purchase | async)?.screen?.openSeatingAllowed" type="submit"
+            class="text-large btn btn-custom-primary btn-block font-weight-bold shadow-sm py-3"
+            [disabled]="(isLoading | async)  || Number(reservationCount) === 0" (click)="onSubmit()">
+            {{ 'purchase.event.seat.next' | translate }}
+        </button>
     </div>
 </app-footer>

@@ -4,24 +4,19 @@ import { QRCodeReaderModalComponent } from '../modules/shared/components/parts/q
 import { QRCodeViewerModalComponent } from '../modules/shared/components/parts/qrcode/viewer-modal/viewer-modal.component';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class QRCodeService {
-
-    constructor(
-        private modal: BsModalService
-    ) { }
+    constructor(private modal: BsModalService) {}
 
     /**
      * QRコードリーダー表示
      */
-    public openQRCodeReader(args: {
-        cb: Function;
-    }) {
+    public openQRCodeReader(args: { cb: Function }) {
         this.modal.show(QRCodeReaderModalComponent, {
             initialState: { cb: args.cb },
-            class: 'modal-dialog-centered modal-lg',
-            animated: false
+            class: 'modal-dialog-centered',
+            animated: false,
         });
     }
 
@@ -38,8 +33,7 @@ export class QRCodeService {
         const code = args.code;
         this.modal.show(QRCodeViewerModalComponent, {
             initialState: { title, body, code },
-            class: 'modal-dialog-centered modal-lg'
+            class: 'modal-dialog-centered',
         });
     }
-
 }

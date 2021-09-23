@@ -284,34 +284,3 @@ export async function isFile(url: string) {
 export function deepCopy<T>(obj: any) {
     return <T>JSON.parse(JSON.stringify(obj));
 }
-
-/**
- * ビューポート変更
- */
-export function changeViewport() {
-    const base = {
-        width: 1920,
-        height: 1080,
-    };
-    const scale = {
-        width: window.innerWidth / base.width,
-        height: window.innerHeight / base.height,
-    };
-    const currentScale =
-        scale.width < scale.height ? scale.width : scale.height;
-    // const viewport = 'width=device-width, initial-scale=' + scale + ', maximum-scale=1, user-scalable=no, minimal-ui';
-    // document.querySelector('meta[name=viewport]').setAttribute('content', viewport);
-    const target = document.body;
-    target.style.transform = 'scale(' + currentScale + ')';
-    target.style.opacity = '1';
-    target.setAttribute('data-scale', String(currentScale));
-}
-
-/**
- * ビューポートリセット
- */
-export function resetViewport() {
-    const target = document.body;
-    target.style.transform = 'scale(' + 1 + ')';
-    // target.style.opacity = '0';
-}

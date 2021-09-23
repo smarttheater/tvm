@@ -175,6 +175,7 @@
         "unselected": "unselected",
         "pos": "POS",
         "signOut": "Logout",
+        "reload": "update",
         "alert": {
             "connection": "The connection was successful.",
             "customer": "Incorrect buyer information.",

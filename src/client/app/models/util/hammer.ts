@@ -5,7 +5,7 @@ import { HammerGestureConfig } from '@angular/platform-browser';
 export class HammerConfig extends HammerGestureConfig {
     public overrides = {
         press: {
-            time: 5000,
+            time: 3000,
         }, // override default settings
     };
 }

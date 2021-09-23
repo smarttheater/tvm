@@ -175,6 +175,7 @@
         "unselected": "선택하지 않음",
         "pos": "POS",
         "signOut": "로그 아웃",
+        "reload": "업데이트",
         "alert": {
             "connection": "연결에 성공했습니다.",
             "customer": "잘못된 구매자 정보입니다.",

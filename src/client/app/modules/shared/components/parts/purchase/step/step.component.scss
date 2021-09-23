@@ -1,0 +1,85 @@
+@import '../../../../../../../assets/scss/theme';
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+.triangle {
+    position: relative;
+    &::after,
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 0.8rem;
+        z-index: 100;
+    }
+    &.active {
+        &::after {
+            background: linear-gradient(
+                        to bottom left,
+                        rgba(255, 255, 255, 0) 50%,
+                        #fff 50.5%
+                    )
+                    no-repeat top left/100% 50%,
+                linear-gradient(
+                        to top left,
+                        rgba(255, 255, 255, 0) 50%,
+                        #fff 50.5%
+                    )
+                    no-repeat bottom right/100% 50%;
+        }
+    }
+    &::after {
+        right: -0.8rem;
+        background: linear-gradient(
+                    to bottom left,
+                    rgba(255, 255, 255, 0) 50%,
+                    #eee 50.5%
+                )
+                no-repeat top left/100% 50%,
+            linear-gradient(to top left, rgba(255, 255, 255, 0) 50%, #eee 50.5%)
+                no-repeat bottom right/100% 50%;
+        @include media-breakpoint-down(sm) {
+            background: linear-gradient(
+                        to bottom left,
+                        rgba(255, 255, 255, 0) 50%,
+                        $dark-gray 50.5%
+                    )
+                    no-repeat top left/100% 50%,
+                linear-gradient(
+                        to top left,
+                        rgba(255, 255, 255, 0) 50%,
+                        $dark-gray 50.5%
+                    )
+                    no-repeat bottom right/100% 50%;
+        }
+    }
+    &::before {
+        right: calc(-0.8rem - 2px);
+        background: linear-gradient(
+                    to bottom left,
+                    rgba(255, 255, 255, 0) 50%,
+                    #bbb 50.5%
+                )
+                no-repeat top left/100% 50%,
+            linear-gradient(to top left, rgba(255, 255, 255, 0) 50%, #bbb 50.5%)
+                no-repeat bottom right/100% 50%;
+        // @include media-breakpoint-down(sm) {
+        //     background: linear-gradient(
+        //                 to bottom left,
+        //                 rgba(255, 255, 255, 0) 50%,
+        //                 #fff 50.5%
+        //             )
+        //             no-repeat top left/100% 50%,
+        //         linear-gradient(
+        //                 to top left,
+        //                 rgba(255, 255, 255, 0) 50%,
+        //                 #fff 50.5%
+        //             )
+        //             no-repeat bottom right/100% 50%;
+        // }
+    }
+}

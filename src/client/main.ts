@@ -3,6 +3,7 @@
  */
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import * as chroma from 'chroma-js';
 import 'hammerjs';
 import * as momentTimezone from 'moment-timezone';
 import { defineLocale } from 'ngx-bootstrap/chronos';
@@ -188,21 +189,24 @@ function applyColor(params: { primaryColor: string }) {
     const style = document.createElement('style');
     style.id = 'applyColor';
     style.innerHTML = `
-.btn-primary,
-.btn-outline-primary:hover,
-.btn-outline-primary:active,
-header::after,
-.wrapper .bg-primary { background-color: ${primaryColor} !important; }
-
-.btn-primary,
-.btn-outline-primary,
-.wrapper .border-primary { border-color: ${primaryColor} !important; }
-
-.btn-outline-primary,
-.wrapper .text-primary { color: ${primaryColor} !important; }
-
-.btn-outline-primary:hover,
-.btn-outline-primary:active { color: #FFF !important; }
+.wrapper .bg-primary {
+    background-color: ${primaryColor} !important;
+}
+.wrapper .text-primary {
+    color: ${primaryColor} !important;
+}
+.wrapper .border-primary {
+    border-color: ${primaryColor} !important;
+}
+.btn-custom-primary {
+    background: linear-gradient(
+        0deg,
+        ${primaryColor} 0%,
+        ${chroma(primaryColor).brighten(1)} 100%
+    );
+    border: 2px solid ${primaryColor};
+    color: #fff;
+}
     `;
     document.head.appendChild(style);
 }

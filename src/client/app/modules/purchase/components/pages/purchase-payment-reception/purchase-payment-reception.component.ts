@@ -83,7 +83,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         } catch (error) {
             console.error(error);
             this.utilService.loadEnd();
-            // this.router.navigate(['/stop']);
+            this.router.navigate(['/stop']);
         }
     }
 

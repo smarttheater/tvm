@@ -86,7 +86,12 @@ export class SettingComponent implements OnInit {
                 customerContact,
             } = await this.actionService.user.getData();
             this.inputData = {
-                app: { theater, pos, applicationType, applicationPassword },
+                app: {
+                    theater,
+                    pos,
+                    applicationType,
+                    applicationPassword,
+                },
                 device: {
                     printerType: printer?.connectionType,
                     printerIpAddress: printer?.ipAddress,
@@ -277,7 +282,7 @@ export class SettingComponent implements OnInit {
                     initialState: {
                         counts,
                     },
-                    class: 'modal-dialog-centered modal-lg',
+                    class: 'modal-dialog-centered',
                 });
             }
             if (method === 'collectAll' || method === 'collectPart') {
@@ -352,6 +357,9 @@ export class SettingComponent implements OnInit {
         }
     }
 
+    /**
+     * サインアウト
+     */
     public async signOut() {
         try {
             await this.cinerinoService.getServices();
@@ -359,5 +367,12 @@ export class SettingComponent implements OnInit {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    /**
+     * リロード
+     */
+    public reload() {
+        location.reload();
     }
 }

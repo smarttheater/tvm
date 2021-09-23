@@ -1,21 +1,24 @@
-<app-header></app-header>
-<app-page-title title="{{ 'notfound.title' | translate }}"></app-page-title>
-<div class="contents">
-    <div class="container h-100 px-3 pb-3">
-        <div class="row h-100">
-            <div class="col-3 h-100">
-            </div>
-            <div class="col-6">
-                <p class="mb-4 text-center" [innerHTML]="'notfound.read' | translate"></p>
+<app-header>
+    <app-page-title title="{{ 'notfound.title' | translate }}"></app-page-title>
+</app-header>
 
-                <div class="buttons mx-auto text-center">
-                    <button type="button" class="btn btn-outline-primary btn-block py-3" routerLink="/">
-                        {{ 'notfound.prev' | translate }}
-                    </button>
+<div class="contents">
+    <div class="container h-100">
+        <div class="row justify-content-center">
+            <div class="col-8 col-md-6">
+                <div class="py-4 px-3">
+                    <p class="mb-4 text-center" [innerHTML]="'notfound.read' | translate"></p>
                 </div>
-            </div>
-            <div class="col-3">
             </div>
         </div>
     </div>
 </div>
+
+<app-footer>
+    <div class="col-3 col-md-2">
+        <button type="button" class="text-large btn btn-custom-secondary btn-block font-weight-bold shadow-sm py-3"
+            routerLink="/">
+            {{ 'notfound.prev' | translate }}
+        </button>
+    </div>
+</app-footer>

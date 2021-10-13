@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.1.0 - 2021-10-13
+
+### Fixed
+
+-   sort 関数のブラウザ差異を修正
+
 ## 4.0.0 - 2021-09-23
 
 ### Changed

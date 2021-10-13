@@ -142,56 +142,36 @@ export class MasterService {
             if (screeningEventSeries !== undefined) {
                 result = result.sort((a, b) => {
                     const KEY_NAME = 'sortNumber';
-                    const sortNumberA = screeningEventSeries
-                        .find((s) => s.id === a.superEvent.id)
-                        ?.additionalProperty?.find(
-                            (p) => p.name === KEY_NAME
-                        )?.value;
-                    const sortNumberB = screeningEventSeries
-                        .find((s) => s.id === b.superEvent.id)
-                        ?.additionalProperty?.find(
-                            (p) => p.name === KEY_NAME
-                        )?.value;
-                    if (sortNumberA === undefined) {
-                        return 1;
-                    }
-                    if (sortNumberB === undefined) {
-                        return -1;
-                    }
-                    if (Number(sortNumberA) > Number(sortNumberB)) {
-                        return -1;
-                    }
-                    if (Number(sortNumberA) < Number(sortNumberB)) {
-                        return 1;
-                    }
-                    return 0;
+                    const sortNumberA =
+                        screeningEventSeries
+                            .find((s) => s.id === a.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    const sortNumberB =
+                        screeningEventSeries
+                            .find((s) => s.id === b.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    return Number(sortNumberB) - Number(sortNumberA);
                 });
             } else if (screeningRooms !== undefined) {
                 result = result.sort((a, b) => {
                     const KEY_NAME = 'sortNumber';
-                    const sortNumberA = screeningRooms
-                        .find((s) => s.id === a.superEvent.id)
-                        ?.additionalProperty?.find(
-                            (p) => p.name === KEY_NAME
-                        )?.value;
-                    const sortNumberB = screeningRooms
-                        .find((s) => s.id === b.superEvent.id)
-                        ?.additionalProperty?.find(
-                            (p) => p.name === KEY_NAME
-                        )?.value;
-                    if (sortNumberA === undefined) {
-                        return 1;
-                    }
-                    if (sortNumberB === undefined) {
-                        return -1;
-                    }
-                    if (Number(sortNumberA) > Number(sortNumberB)) {
-                        return -1;
-                    }
-                    if (Number(sortNumberA) < Number(sortNumberB)) {
-                        return 1;
-                    }
-                    return 0;
+                    const sortNumberA =
+                        screeningRooms
+                            .find((s) => s.id === a.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    const sortNumberB =
+                        screeningRooms
+                            .find((s) => s.id === b.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    return Number(sortNumberB) - Number(sortNumberA);
                 });
             }
             this.utilService.loadEnd();
@@ -245,29 +225,17 @@ export class MasterService {
             }
             const sortResult = result.sort((a, b) => {
                 const KEY_NAME = 'sortNumber';
-                const sortNumberA = result
-                    .find((s) => s.id === a.id)
-                    ?.additionalProperty?.find(
-                        (p) => p.name === KEY_NAME
-                    )?.value;
-                const sortNumberB = result
-                    .find((s) => s.id === b.id)
-                    ?.additionalProperty?.find(
-                        (p) => p.name === KEY_NAME
-                    )?.value;
-                if (sortNumberA === undefined) {
-                    return 1;
-                }
-                if (sortNumberB === undefined) {
-                    return -1;
-                }
-                if (Number(sortNumberA) > Number(sortNumberB)) {
-                    return -1;
-                }
-                if (Number(sortNumberA) < Number(sortNumberB)) {
-                    return 1;
-                }
-                return 0;
+                const sortNumberA =
+                    result
+                        .find((s) => s.id === a.id)
+                        ?.additionalProperty?.find((p) => p.name === KEY_NAME)
+                        ?.value || '0';
+                const sortNumberB =
+                    result
+                        .find((s) => s.id === b.id)
+                        ?.additionalProperty?.find((p) => p.name === KEY_NAME)
+                        ?.value || '0';
+                return Number(sortNumberB) - Number(sortNumberA);
             });
             this.utilService.loadEnd();
             return sortResult;

@@ -392,27 +392,15 @@ export function order2EventOrders(params: { order: factory.order.IOrder }) {
 
     // 公開日順（降順）へソート
     const sortResult = results.sort((a, b) => {
-        if (
-            a.event.workPerformed === undefined ||
-            a.event.workPerformed.datePublished === undefined
-        ) {
-            return 1;
-        }
-        if (
-            b.event.workPerformed === undefined ||
-            b.event.workPerformed.datePublished === undefined
-        ) {
-            return -1;
-        }
-        const unixA = moment(a.event.workPerformed.datePublished).unix();
-        const unixB = moment(b.event.workPerformed.datePublished).unix();
-        if (unixA > unixB) {
-            return -1;
-        }
-        if (unixA < unixB) {
-            return 1;
-        }
-        return 0;
+        const unixA =
+            a.event.workPerformed?.datePublished === undefined
+                ? 0
+                : moment(a.event.workPerformed.datePublished).unix();
+        const unixB =
+            b.event.workPerformed?.datePublished === undefined
+                ? 0
+                : moment(b.event.workPerformed.datePublished).unix();
+        return unixB - unixA;
     });
 
     return sortResult;

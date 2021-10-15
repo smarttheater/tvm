@@ -11,11 +11,7 @@ import {
     IReservation,
     IReservationTicket,
 } from '../../../../../models/purchase/reservation';
-import {
-    ActionService,
-    MasterService,
-    UtilService,
-} from '../../../../../services';
+import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 import { PurchaseSeatTicketModalComponent } from '../../../../shared/components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 
@@ -42,7 +38,6 @@ export class PurchaseTicketComponent implements OnInit {
         private router: Router,
         private modal: BsModalService,
         private actionService: ActionService,
-        private masterService: MasterService,
         private utilService: UtilService,
         private translate: TranslateService
     ) {}
@@ -66,10 +61,13 @@ export class PurchaseTicketComponent implements OnInit {
         if (seller === undefined) {
             throw new Error('seller undefined');
         }
-        const paymentMethodTypes = await this.masterService.searchCategoryCode({
-            categorySetIdentifier:
-                factory.categoryCode.CategorySetIdentifier.PaymentMethodType,
-        });
+        const paymentMethodTypes = await this.actionService.categoryCode.search(
+            {
+                categorySetIdentifier:
+                    factory.categoryCode.CategorySetIdentifier
+                        .PaymentMethodType,
+            }
+        );
         const products = await this.actionService.product.search({
             typeOf: {
                 $eq: factory.service.paymentService.PaymentServiceType

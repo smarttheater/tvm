@@ -10,7 +10,6 @@ import { getEnvironment } from '../../../../../../../environments/environment';
 import {
     ActionService,
     EpsonEPOSService,
-    MasterService,
     UtilService,
 } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
@@ -27,7 +26,6 @@ export class PurchaseCinemaTopComponent implements OnInit {
 
     constructor(
         private store: Store<reducers.IState>,
-        private masterService: MasterService,
         private actionService: ActionService,
         private router: Router,
         private utilService: UtilService,
@@ -93,7 +91,7 @@ export class PurchaseCinemaTopComponent implements OnInit {
                 throw new Error('theater undefined');
             }
             const screeningEvents =
-                await this.masterService.searchScreeningEvent({
+                await this.actionService.event.searchScreeningEvent({
                     superEvent: {
                         locationBranchCodes: [theater.branchCode],
                     },

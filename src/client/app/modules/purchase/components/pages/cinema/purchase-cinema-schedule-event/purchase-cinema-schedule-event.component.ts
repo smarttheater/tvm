@@ -4,11 +4,7 @@ import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import {
-    ActionService,
-    MasterService,
-    UtilService,
-} from '../../../../../../services';
+import { ActionService, UtilService } from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-cinema-schedule-event',
@@ -24,7 +20,6 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
     public videoFormatTypes: factory.chevre.categoryCode.ICategoryCode[];
     constructor(
         private router: Router,
-        private masterService: MasterService,
         private actionService: ActionService,
         private utilService: UtilService
     ) {}
@@ -50,15 +45,14 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                     'scheduleDate or creativeWork or theater undefined'
                 );
             }
-            this.videoFormatTypes = await this.masterService.searchCategoryCode(
-                {
+            this.videoFormatTypes =
+                await this.actionService.categoryCode.search({
                     categorySetIdentifier:
                         factory.chevre.categoryCode.CategorySetIdentifier
                             .VideoFormatType,
-                }
-            );
+                });
             this.screeningEventSeries =
-                await this.masterService.searchScreeningEventSeries({
+                await this.actionService.event.searchScreeningEventSeries({
                     workPerformed: {
                         identifiers: [creativeWork.identifier],
                     },
@@ -69,7 +63,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                     },
                 });
             const screeningEvents =
-                await this.masterService.searchScreeningEvent({
+                await this.actionService.event.searchScreeningEvent({
                     superEvent: {
                         locationBranchCodes: [theater.branchCode],
                         workPerformedIdentifiers: [creativeWork.identifier],
@@ -82,7 +76,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                     screeningEventSeries: this.screeningEventSeries,
                 });
             const now = moment(
-                (await this.utilService.getServerTime()).date
+                (await this.utilService.getServerTime(true)).date
             ).toDate();
             this.screeningEventsGroup =
                 Functions.Purchase.screeningEvents2ScreeningEventSeries({
@@ -113,7 +107,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             this.actionService.purchase.selectScreeningEventSeries(
                 screeningEventSeries
             );
-            await this.actionService.event.getScreeningEvent(screeningEvent);
+            await this.actionService.event.findById(screeningEvent);
             const { authorizeSeatReservations } =
                 await this.actionService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {

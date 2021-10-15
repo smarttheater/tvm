@@ -1,41 +1,38 @@
 import { Component, OnInit } from '@angular/core';
+import { factory } from '@cinerino/api-abstract-client';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { CinerinoService, MasterService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    CinerinoService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
     selector: 'app-auth-signin',
     templateUrl: './auth-signin.component.html',
-    styleUrls: ['./auth-signin.component.scss']
+    styleUrls: ['./auth-signin.component.scss'],
 })
 export class AuthSigninComponent implements OnInit {
     public isLoading: Observable<boolean>;
-    public master: Observable<reducers.IMasterState>;
-    public projects: {
-        projectId: string;
-        projectName: string;
-        storageUrl: string;
-    }[];
+    public projects: factory.project.IProject[];
 
     constructor(
         private store: Store<reducers.IState>,
-        private masterService: MasterService,
         private utilService: UtilService,
-        private cinerinoService: CinerinoService
-    ) { }
+        private cinerinoService: CinerinoService,
+        private actionService: ActionService
+    ) {}
 
     public async ngOnInit() {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
-        this.master = this.store.pipe(select(reducers.getMaster));
         this.projects = [];
-        await this.masterService.getProjects();
+        this.projects = await this.actionService.project.search();
         this.utilService.loadStart({ process: 'load' });
-        // const masterData = await this.masterService.getData();
-        // const projects = masterData.projects;
-        // if (projects.length === 1) {
+        // if (this.projects.length === 1) {
         //     // プロジェクトが一つの場合自動遷移
-        //     location.href = `/?projectId=${projects[0].id}`;
+        //     location.href = `/?projectId=${this.projects[0].id}`;
         //     return;
         // }
         this.utilService.loadEnd();
@@ -49,5 +46,4 @@ export class AuthSigninComponent implements OnInit {
             console.error(error);
         }
     }
-
 }

@@ -2,10 +2,10 @@
     <app-page-title title="プロジェクト選択"></app-page-title>
 </app-header>
 <div class="contents scroll-vertical">
-    <div class="p-3" *ngIf="(master | async)?.projects.length > 0">
+    <div class="p-3" *ngIf="projects.length > 0">
         <div class="container px-0">
             <ul class="row">
-                <li *ngFor="let project of (master | async)?.projects" class="col-6 col-md-3 mb-3">
+                <li *ngFor="let project of projects" class="col-6 col-md-3 mb-3">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
@@ -30,4 +30,4 @@
 </app-footer>
 
 
-<app-loading [isLoading]="isLoading | async" process="process.masterAction.GetProjects"></app-loading>
+<app-loading [isLoading]="isLoading | async" process="process.action.Project.search"></app-loading>

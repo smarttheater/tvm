@@ -9,7 +9,6 @@ import { getEnvironment } from '../../../../../../environments/environment';
 import {
     ActionService,
     EpsonEPOSService,
-    MasterService,
     UtilService,
 } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
@@ -38,7 +37,6 @@ export class PurchasePaymentComponent implements OnInit {
         private router: Router,
         private utilService: UtilService,
         private actionService: ActionService,
-        private masterService: MasterService,
         private translate: TranslateService,
         private epsonEPOSService: EpsonEPOSService
     ) {}
@@ -77,7 +75,7 @@ export class PurchasePaymentComponent implements OnInit {
                 );
             });
             const categoryCodePayment =
-                await this.masterService.searchCategoryCode({
+                await this.actionService.categoryCode.search({
                     categorySetIdentifier:
                         factory.chevre.categoryCode.CategorySetIdentifier
                             .PaymentMethodType,

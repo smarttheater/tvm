@@ -94,23 +94,40 @@
     },
     "process": {
         "load": "로드 중",
-        "authAction": {
-            "CheckLogin": "로그인 확인 중",
-            "Logout": "로그 아웃"
+        "action": {
+            "Auth": {
+                "checkLogin": "로그인 확인 중",
+                "logout": "로그 아웃"
+            },
+            "CategoryCode": {
+                "search": "분류 정보 가져 오기"
+            },
+            "Event": {
+                "search": "이벤트 정보 가져 오기"
+            },
+            "CreativeWork": {
+                "searchMovies": "콘텐츠 정보 가져 오기"
+            },
+            "Place": {
+                "searchMovieTheaters": "시설 정보 가져 오기",
+                "searchScreeningRooms": "방 정보 가져 오기"
+            },
+            "Seller": {
+                "search": "판매자 정보 가져 오기"
+            },
+            "Order": {
+                "search": "주문 정보 가져 오기"
+            },
+            "Product": {
+                "search": "제품을 검색하고 있습니다",
+                "searchOffers": "제안을 검색합니다"
+            },
+            "Project": {
+                "search": "프로젝트 가져 오기"
+            }
         },
         "admissionAction": {
             "Check": "QR 코드 확인 중"
-        },
-        "masterAction": {
-            "SearchSellers": "판매자 정보 가져 오기",
-            "SearchMovieTheaters": "시설 정보 가져 오기",
-            "SearchScreeningEvent": "이벤트 정보 가져 오기",
-            "SearchMovies": "콘텐츠 정보 가져 오기",
-            "SearchScreeningEventSeries": "시설 콘텐츠 정보 가져 오기",
-            "SearchScreeningRooms": "방 정보 가져 오기",
-            "SearchCategoryCode": "분류 정보 가져 오기",
-            "GetProjects": "프로젝트 가져 오기",
-            "GetTheaters": "시설 정보 가져 오기"
         },
         "orderAction": {
             "Search": "주문 정보 가져 오기",
@@ -137,10 +154,6 @@
             "CheckProduct": "제품 정보를 확인하고 있습니다",
             "ConfirmTransaction": "확인 된 거래",
             "AuthorizeAnyPayment": "결제 정보 승인"
-        },
-        "productAction": {
-            "SearchOffers": "제안을 검색합니다",
-            "Search": "제품을 검색하고 있습니다"
         }
     },
     "qrcode": {

@@ -338,6 +338,12 @@ export class ActionEventService {
                     await Functions.Util.sleep();
                 }
             }
+            result = result.filter((r) => {
+                return (
+                    r.offers !== undefined &&
+                    moment(r.offers.availabilityStarts).toDate() < now
+                );
+            });
             if (screeningEventSeries !== undefined) {
                 result = result.sort((a, b) => {
                     const KEY_NAME = 'sortNumber';

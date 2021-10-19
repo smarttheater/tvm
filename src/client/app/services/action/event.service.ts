@@ -284,17 +284,31 @@ export class ActionEventService {
             availableFrom?: Date;
             availableThrough?: Date;
         };
+        roop?: boolean;
     }) {
         try {
             this.utilService.loadStart({
                 process: 'action.Event.search',
             });
-            const { screeningEventSeries, screeningRooms } = params;
+            const {
+                screeningEventSeries,
+                screeningRooms,
+                superEvent,
+                startFrom,
+                startThrough,
+            } = params;
             const limit = 100;
             let page = 1;
             let roop = true;
             let result: factory.chevre.event.screeningEvent.IEvent[] = [];
             await this.cinerinoService.getServices();
+            const now = moment(
+                (await this.utilService.getServerTime()).date
+            ).toDate();
+            const today = moment(
+                moment(now).format('YYYYMMDD'),
+                'YYYYMMDD'
+            ).toDate();
             while (roop) {
                 const searchResult = await this.cinerinoService.event.search({
                     page,
@@ -303,18 +317,33 @@ export class ActionEventService {
                     eventStatuses: [
                         factory.chevre.eventStatusType.EventScheduled,
                     ],
-                    superEvent: params.superEvent,
-                    startFrom: params.startFrom,
-                    startThrough: params.startThrough,
-                    offers: params.offers,
+                    superEvent,
+                    startFrom,
+                    startThrough,
+                    offers: {
+                        availableFrom: today,
+                        availableThrough: moment(today)
+                            .add(1, 'day')
+                            .add(-1, 'millisecond')
+                            .toDate(),
+                    },
                 });
                 result = [...result, ...searchResult.data];
                 page++;
+                if (params.roop !== undefined && !params.roop) {
+                    break;
+                }
                 roop = searchResult.data.length === limit;
                 if (roop) {
                     await Functions.Util.sleep();
                 }
             }
+            result = result.filter((r) => {
+                return (
+                    r.offers !== undefined &&
+                    moment(r.offers.availabilityStarts).toDate() < now
+                );
+            });
             if (screeningEventSeries !== undefined) {
                 result = result.sort((a, b) => {
                     const KEY_NAME = 'sortNumber';

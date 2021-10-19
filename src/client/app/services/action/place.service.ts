@@ -28,7 +28,7 @@ export class ActionPlaceService {
     ) {
         try {
             this.utilService.loadStart({
-                process: 'sction.Place.searchMovieTheaters',
+                process: 'action.Place.searchMovieTheaters',
             });
             await this.cinerinoService.getServices();
             const searchResult =
@@ -59,7 +59,7 @@ export class ActionPlaceService {
     }) {
         try {
             this.utilService.loadStart({
-                process: 'sction.Place.searchScreeningRooms',
+                process: 'action.Place.searchScreeningRooms',
             });
             const limit = 100;
             let page = 1;

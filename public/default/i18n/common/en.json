@@ -94,23 +94,40 @@
     },
     "process": {
         "load": "loading",
-        "authAction": {
-            "CheckLogin": "Checking login",
-            "Logout": "Logout"
+        "action": {
+            "Auth": {
+                "checkLogin": "Checking login",
+                "logout": "Logout"
+            },
+            "CategoryCode": {
+                "search": "Getting classification information"
+            },
+            "Event": {
+                "search": "Getting event information"
+            },
+            "CreativeWork": {
+                "searchMovies": "Getting content information"
+            },
+            "Place": {
+                "searchMovieTheaters": "Getting facility information",
+                "searchScreeningRooms": "Getting room information"
+            },
+            "Seller": {
+                "search": "Getting seller information"
+            },
+            "Order": {
+                "search": "Getting order information"
+            },
+            "Product": {
+                "search": "Searching for products",
+                "searchOffers": "Searching for an offer"
+            },
+            "Project": {
+                "search": "Getting projects"
+            }
         },
         "admissionAction": {
             "Check": "Checking QR code"
-        },
-        "masterAction": {
-            "SearchSellers": "Getting seller information",
-            "SearchMovieTheaters": "Getting facility information",
-            "SearchScreeningEvent": "Getting event information",
-            "SearchMovies": "Getting content information",
-            "SearchScreeningEventSeries": "Getting facility content information",
-            "SearchScreeningRooms": "Getting room information",
-            "SearchCategoryCode": "Getting classification information",
-            "GetProjects": "Getting projects",
-            "GetTheaters": "Getting facility information"
         },
         "orderAction": {
             "Search": "Getting order information",
@@ -137,10 +154,6 @@
             "CheckProduct": "Checking product information",
             "ConfirmTransaction": "Confirmed transaction",
             "AuthorizeAnyPayment": "Approving payment information"
-        },
-        "productAction": {
-            "SearchOffers": "Searching for an offer",
-            "Search": "Searching for products"
         }
     },
     "qrcode": {

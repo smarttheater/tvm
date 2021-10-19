@@ -93,23 +93,44 @@
     },
     "process": {
         "load": "加载",
+        "action": {
+            "Auth": {
+                "checkLogin": "检查登录",
+                "logout": "注销"
+            },
+            "CategoryCode": {
+                "search": "获取分类信息"
+            },
+            "Event": {
+                "search": "获取事件信息"
+            },
+            "CreativeWork": {
+                "searchMovies": "获取内容信息"
+            },
+            "Place": {
+                "searchMovieTheaters": "获取设施信息",
+                "searchScreeningRooms": "获取房间信息"
+            },
+            "Seller": {
+                "search": "获取卖方信息"
+            },
+            "Order": {
+                "search": "获取订单信息"
+            },
+            "Product": {
+                "search": "搜索产品",
+                "searchOffers": "搜索报价"
+            },
+            "Project": {
+                "search": "获取项目"
+            }
+        },
         "authAction": {
-            "CheckLogin": "检查登录",
-            "Logout": "注销"
+            "CheckLogin": "",
+            "Logout": ""
         },
         "admissionAction": {
             "Check": "检查 QR 代码"
-        },
-        "masterAction": {
-            "SearchSellers": "获取卖方信息",
-            "SearchMovieTheaters": "获取设施信息",
-            "SearchScreeningEvent": "获取事件信息",
-            "SearchMovies": "获取内容信息",
-            "SearchScreeningEventSeries": "获取设施内容信息",
-            "SearchScreeningRooms": "获取房间信息",
-            "SearchCategoryCode": "获取分类信息",
-            "GetProjects": "获取项目",
-            "GetTheaters": "获取设施信息"
         },
         "orderAction": {
             "Search": "获取订单信息",
@@ -136,10 +157,6 @@
             "CheckProduct": "检查产品信息",
             "ConfirmTransaction": "已确认交易",
             "AuthorizeAnyPayment": "批准付款信息"
-        },
-        "productAction": {
-            "SearchOffers": "搜索报价",
-            "Search": "搜索产品"
         }
     },
     "qrcode": {

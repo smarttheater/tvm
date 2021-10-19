@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AlertModalComponent } from '../modules/shared/components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from '../modules/shared/components/parts/confirm-modal/confirm-modal.component';
@@ -70,13 +71,17 @@ export class UtilService {
         return modalRef;
     }
 
-    /**
-     * サーバータイム取得
-     */
-    public async getServerTime() {
+    public async getServerTime(loadind = false) {
+        if (loadind) {
+            this.loadStart({ process: 'load' });
+        }
+        const query = `?date=${moment().toISOString()}`;
         const result = await this.http
-            .get<{ date: string }>('/api/serverTime')
+            .get<{ date: string }>(`/api/serverTime${query}`)
             .toPromise();
+        if (loadind) {
+            this.loadEnd();
+        }
 
         return result;
     }

@@ -1,6 +1,5 @@
 export * from './cinerino.service';
 export * from './action.service';
-export * from './master.service';
 export * from './action/order.service';
 export * from './reservation.service';
 export * from './util.service';

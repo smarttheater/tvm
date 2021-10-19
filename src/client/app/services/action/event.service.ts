@@ -27,16 +27,15 @@ export class ActionEventService {
     /**
      * イベント取得
      */
-    public async getScreeningEvent(params: { id: string }) {
+    public async findById(params: { id: string }) {
         try {
             this.utilService.loadStart({
                 process: 'purchaseAction.GetScreeningEvent',
             });
-            const { id } = params;
             await this.cinerinoService.getServices();
             const screeningEvent =
                 await this.cinerinoService.event.findById<factory.chevre.eventType.ScreeningEvent>(
-                    { id }
+                    params
                 );
             const workPerformed = (
                 await this.cinerinoService.creativeWork.searchMovies({
@@ -259,6 +258,187 @@ export class ActionEventService {
                 })
             );
             this.utilService.loadEnd();
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
+    }
+
+    /**
+     * スケジュール一覧検索
+     */
+    public async searchScreeningEvent(params: {
+        superEvent: {
+            ids?: string[];
+            locationBranchCodes?: string[];
+            workPerformedIdentifiers?: string[];
+        };
+        startFrom: Date;
+        startThrough?: Date;
+        screeningEventSeries?: factory.chevre.event.screeningEventSeries.IEvent[];
+        screeningRooms?: factory.chevre.place.screeningRoom.IPlace[];
+        offers?: {
+            validFrom?: Date;
+            validThrough?: Date;
+            availableFrom?: Date;
+            availableThrough?: Date;
+        };
+    }) {
+        try {
+            this.utilService.loadStart({
+                process: 'action.Event.search',
+            });
+            const { screeningEventSeries, screeningRooms } = params;
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.event.screeningEvent.IEvent[] = [];
+            await this.cinerinoService.getServices();
+            while (roop) {
+                const searchResult = await this.cinerinoService.event.search({
+                    page,
+                    limit,
+                    typeOf: factory.chevre.eventType.ScreeningEvent,
+                    eventStatuses: [
+                        factory.chevre.eventStatusType.EventScheduled,
+                    ],
+                    superEvent: params.superEvent,
+                    startFrom: params.startFrom,
+                    startThrough: params.startThrough,
+                    offers: params.offers,
+                });
+                result = [...result, ...searchResult.data];
+                page++;
+                roop = searchResult.data.length === limit;
+                if (roop) {
+                    await Functions.Util.sleep();
+                }
+            }
+            if (screeningEventSeries !== undefined) {
+                result = result.sort((a, b) => {
+                    const KEY_NAME = 'sortNumber';
+                    const sortNumberA =
+                        screeningEventSeries
+                            .find((s) => s.id === a.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    const sortNumberB =
+                        screeningEventSeries
+                            .find((s) => s.id === b.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    return Number(sortNumberB) - Number(sortNumberA);
+                });
+            } else if (screeningRooms !== undefined) {
+                result = result.sort((a, b) => {
+                    const KEY_NAME = 'sortNumber';
+                    const sortNumberA =
+                        screeningRooms
+                            .find((s) => s.id === a.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    const sortNumberB =
+                        screeningRooms
+                            .find((s) => s.id === b.superEvent.id)
+                            ?.additionalProperty?.find(
+                                (p) => p.name === KEY_NAME
+                            )?.value || '0';
+                    return Number(sortNumberB) - Number(sortNumberA);
+                });
+            }
+            this.utilService.loadEnd();
+            return result;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
+        }
+    }
+
+    /**
+     * 施設コンテンツ検索
+     */
+    public async searchScreeningEventSeries(params: {
+        location?: {
+            branchCode?: {
+                $eq?: string;
+            };
+            branchCodes?: string[];
+        };
+        workPerformed: {
+            identifiers: string[];
+        };
+    }) {
+        try {
+            this.utilService.loadStart({
+                process: 'action.Event.search',
+            });
+            const limit = 100;
+            let page = 1;
+            let roop = true;
+            let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
+            const workPerformedIdentifiers: string[][] = [];
+            const splitNumber = 50;
+            let splitCount = 0;
+            params.workPerformed.identifiers.forEach((identifier, index) => {
+                if (workPerformedIdentifiers[splitCount] === undefined) {
+                    workPerformedIdentifiers[splitCount] = <string[]>[];
+                }
+                workPerformedIdentifiers[splitCount].push(identifier);
+                index++;
+                if (index % splitNumber === 0) {
+                    splitCount++;
+                }
+            });
+            await this.cinerinoService.getServices();
+            if (workPerformedIdentifiers.length === 0) {
+                while (roop) {
+                    const searchResult =
+                        await this.cinerinoService.event.search({
+                            ...params,
+                            page,
+                            limit,
+                            typeOf: factory.chevre.eventType
+                                .ScreeningEventSeries,
+                        });
+                    result = [...result, ...searchResult.data];
+                    page++;
+                    roop = searchResult.data.length === limit;
+                    if (roop) {
+                        await Functions.Util.sleep();
+                    }
+                }
+            } else {
+                for (let i = 0; i < workPerformedIdentifiers.length; i++) {
+                    page = 1;
+                    roop = true;
+                    while (roop) {
+                        const searchResult =
+                            await this.cinerinoService.event.search({
+                                ...params,
+                                workPerformed: {
+                                    identifiers: workPerformedIdentifiers[i],
+                                },
+                                page,
+                                limit,
+                                typeOf: factory.chevre.eventType
+                                    .ScreeningEventSeries,
+                            });
+                        result = [...result, ...searchResult.data];
+                        page++;
+                        roop = searchResult.data.length === limit;
+                        if (roop) {
+                            await Functions.Util.sleep();
+                        }
+                    }
+                }
+            }
+            this.utilService.loadEnd();
+            return result;
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();

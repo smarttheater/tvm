@@ -94,23 +94,44 @@
     },
     "process": {
         "load": "読み込み中です",
+        "action": {
+            "Auth": {
+                "checkLogin": "ログインを確認しています",
+                "logout": "ログアウトしています"
+            },
+            "CategoryCode": {
+                "search": "区分情報を取得しています"
+            },
+            "Event": {
+                "search": "イベント情報を取得しています"
+            },
+            "CreativeWork": {
+                "searchMovies": "コンテンツ情報を取得しています"
+            },
+            "Place": {
+                "searchMovieTheaters": "施設情報を取得しています",
+                "searchScreeningRooms": "ルーム情報を取得しています"
+            },
+            "Seller": {
+                "search": "販売者情報を取得しています"
+            },
+            "Order": {
+                "search": "注文情報を取得しています"
+            },
+            "Product": {
+                "search": "プロダクトを検索しています",
+                "searchOffers": "オファーを検索しています"
+            },
+            "Project": {
+                "search": "プロジェクトを取得しています"
+            }
+        },
         "authAction": {
             "CheckLogin": "ログインを確認しています",
             "Logout": "ログアウトしています"
         },
         "admissionAction": {
             "Check": "QRコードを確認しています"
-        },
-        "masterAction": {
-            "SearchSellers": "販売者情報を取得しています",
-            "SearchMovieTheaters": "施設情報を取得しています",
-            "SearchScreeningEvent": "イベント情報を取得しています",
-            "SearchMovies": "コンテンツ情報を取得しています",
-            "SearchScreeningEventSeries": "施設コンテンツ情報を取得しています",
-            "SearchScreeningRooms": "ルーム情報を取得しています",
-            "SearchCategoryCode": "区分情報を取得しています",
-            "GetProjects": "プロジェクトを取得しています",
-            "GetTheaters": "施設情報を取得しています"
         },
         "orderAction": {
             "Search": "注文情報を取得しています",
@@ -137,10 +158,6 @@
             "CheckProduct": "プロダクト情報を確認しています",
             "ConfirmTransaction": "取引を確定しています",
             "AuthorizeAnyPayment": "決済情報を承認しています"
-        },
-        "productAction": {
-            "SearchOffers": "オファーを検索しています",
-            "Search": "プロダクトを検索しています"
         }
     },
     "qrcode": {

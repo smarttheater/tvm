@@ -4,15 +4,14 @@ import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../../services';
+import { ActionService, UtilService } from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-cinema-schedule-movie',
     templateUrl: './purchase-cinema-schedule-movie.component.html',
-    styleUrls: ['./purchase-cinema-schedule-movie.component.scss']
+    styleUrls: ['./purchase-cinema-schedule-movie.component.scss'],
 })
 export class PurchaseCinemaScheduleMovieComponent implements OnInit {
-
     public moment = moment;
     public environment = getEnvironment();
     public creativeWorks: factory.chevre.creativeWork.movie.ICreativeWork[];
@@ -24,10 +23,9 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private masterService: MasterService,
         private actionService: ActionService,
         private utilService: UtilService
-    ) { }
+    ) {}
 
     /**
      * 初期化
@@ -38,36 +36,48 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
         this.animations = [];
         try {
             const { theater } = await this.actionService.user.getData();
-            const { scheduleDate } = await this.actionService.purchase.getData();
-            if (scheduleDate === undefined
-                || theater === undefined) {
+            const { scheduleDate } =
+                await this.actionService.purchase.getData();
+            if (scheduleDate === undefined || theater === undefined) {
                 throw new Error('scheduleDate or theater undefined');
             }
-            this.now = moment((await this.utilService.getServerTime()).date).toDate();
-            this.contentRatingTypes = await this.masterService.searchCategoryCode({
-                categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier.ContentRatingType
-            });
-            this.screeningEvents = await this.masterService.searchScreeningEvent({
-                superEvent: {
-                    locationBranchCodes: [theater.branchCode],
-                },
-                startFrom: moment(scheduleDate).toDate(),
-                startThrough: moment(scheduleDate).add(1, 'day').add(-1, 'millisecond').toDate(),
-            });
-            const creativeWorks = await this.masterService.searchMovies({
-                offers: {
-                    availableFrom: moment(scheduleDate).toDate(),
-                },
-            });
-            this.creativeWorks = creativeWorks.filter(c =>
-                this.screeningEvents.find(s =>
-                    s.workPerformed?.identifier === c.identifier) !== undefined);
+            this.now = moment(
+                (await this.utilService.getServerTime(true)).date
+            ).toDate();
+            this.contentRatingTypes =
+                await this.actionService.categoryCode.search({
+                    categorySetIdentifier:
+                        factory.chevre.categoryCode.CategorySetIdentifier
+                            .ContentRatingType,
+                });
+            this.screeningEvents =
+                await this.actionService.event.searchScreeningEvent({
+                    superEvent: {
+                        locationBranchCodes: [theater.branchCode],
+                    },
+                    startFrom: moment(scheduleDate).toDate(),
+                    startThrough: moment(scheduleDate)
+                        .add(1, 'day')
+                        .add(-1, 'millisecond')
+                        .toDate(),
+                });
+            const creativeWorks =
+                await this.actionService.creativeWork.searchMovies({
+                    offers: {
+                        availableFrom: moment(scheduleDate).toDate(),
+                    },
+                });
+            this.creativeWorks = creativeWorks.filter(
+                (c) =>
+                    this.screeningEvents.find(
+                        (s) => s.workPerformed?.identifier === c.identifier
+                    ) !== undefined
+            );
             await this.addAnimationClass();
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
         }
-
     }
 
     /**
@@ -92,23 +102,29 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
      * 販売判定
      */
     public isSales(identifier: string) {
-        const findResult = this.screeningEvents.find(s => {
-            return (s.workPerformed?.identifier === identifier
-                && new Models.Purchase.Performance({ screeningEvent: s, now: this.now }).isSales());
+        const findResult = this.screeningEvents.find((s) => {
+            return (
+                s.workPerformed?.identifier === identifier &&
+                new Models.Purchase.Performance({
+                    screeningEvent: s,
+                    now: this.now,
+                }).isSales()
+            );
         });
-        return (findResult !== undefined);
+        return findResult !== undefined;
     }
 
     /**
      * レイティング区分取得
      */
     public getContentRatingType(code?: string) {
-        return this.contentRatingTypes.find(c => c.codeValue === code);
+        return this.contentRatingTypes.find((c) => c.codeValue === code);
     }
 
-    public selectCreativeWork(creativeWork: factory.chevre.creativeWork.movie.ICreativeWork) {
+    public selectCreativeWork(
+        creativeWork: factory.chevre.creativeWork.movie.ICreativeWork
+    ) {
         this.actionService.purchase.selectCreativeWork(creativeWork);
         this.router.navigate(['/purchase/cinema/schedule/event']);
     }
-
 }

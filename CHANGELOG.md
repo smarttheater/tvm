@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.3.0 - 2021-10-19
+
+### Fixed
+
+-   イベント検索修正（オンライン表示開始日条件追加）
+
 ## 4.2.0 - 2021-10-19
 
 ### Changed

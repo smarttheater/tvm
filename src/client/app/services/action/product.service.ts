@@ -26,7 +26,7 @@ export class ActionProductService {
     public async search(params: factory.product.ISearchConditions) {
         try {
             this.utilService.loadStart({
-                process: 'productAction.Search',
+                process: 'action.Product.search',
             });
             const limit = 100;
             let page = 1;
@@ -68,7 +68,7 @@ export class ActionProductService {
     }) {
         try {
             this.utilService.loadStart({
-                process: 'productAction.SearchOffers',
+                process: 'action.Product.searchOffers',
             });
             await this.cinerinoService.getServices();
             const searchResult =

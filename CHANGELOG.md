@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.2.0 - 2021-10-19
+
+### Changed
+
+-   ActionService 整理（MasterService 削除）
+
 ## 4.1.0 - 2021-10-13
 
 ### Fixed

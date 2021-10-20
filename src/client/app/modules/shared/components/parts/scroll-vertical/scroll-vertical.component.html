@@ -1,0 +1,14 @@
+<div class="position-relative h-100">
+    <div #scroll class="mh-100 scroll-vertical" [ngClass]="{'btn-space': isScroll}">
+        <ng-content></ng-content>
+    </div>
+
+    <div *ngIf="isScroll" class="scroll-btn">
+        <button class="btn btn-custom-secondary btn-block shadow-sm py-3 mb-3 text-large" (click)="scrollUp()">
+            <i class="bi bi-arrow-up"></i>
+        </button>
+        <button class="btn btn-custom-secondary btn-block shadow-sm py-3 text-large" (click)="scrollDown()">
+            <i class="bi bi-arrow-down"></i>
+        </button>
+    </div>
+</div>

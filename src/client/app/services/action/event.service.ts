@@ -305,10 +305,6 @@ export class ActionEventService {
             const now = moment(
                 (await this.utilService.getServerTime()).date
             ).toDate();
-            const today = moment(
-                moment(now).format('YYYYMMDD'),
-                'YYYYMMDD'
-            ).toDate();
             while (roop) {
                 const searchResult = await this.cinerinoService.event.search({
                     page,
@@ -321,11 +317,10 @@ export class ActionEventService {
                     startFrom,
                     startThrough,
                     offers: {
-                        availableFrom: today,
-                        availableThrough: moment(today)
-                            .add(1, 'day')
-                            .add(-1, 'millisecond')
-                            .toDate(),
+                        availableFrom: now,
+                        availableThrough: now,
+                        validFrom: now,
+                        validThrough: now,
                     },
                 });
                 result = [...result, ...searchResult.data];
@@ -338,12 +333,6 @@ export class ActionEventService {
                     await Functions.Util.sleep();
                 }
             }
-            result = result.filter((r) => {
-                return (
-                    r.offers !== undefined &&
-                    moment(r.offers.availabilityStarts).toDate() < now
-                );
-            });
             if (screeningEventSeries !== undefined) {
                 result = result.sort((a, b) => {
                     const KEY_NAME = 'sortNumber';

@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.4.0 - 2021-10-20
+
+### Changed
+
+-   スケジュール取得条件変更（現在公開中かつ販売中）
+
 ## 4.3.0 - 2021-10-19
 
 ### Fixed

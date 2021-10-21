@@ -195,6 +195,14 @@ export interface IEnvironment {
      * スクロールボタン距離
      */
     SCROLL_BUTTON_MOVE: string;
+    /**
+     * 設定遷移カウント
+     */
+    SETTING_TRANSITION_COUNT: string;
+    /**
+     * 設定遷移制限時間(ms)
+     */
+    SETTING_TRANSITION_LIMIT_TIME: string;
 }
 
 export const isProduction = document.querySelector('body.production') !== null;
@@ -267,6 +275,8 @@ const defaultEnvironment: IEnvironment = {
     TOP_IMAGE: '',
     SCROLL_BUTTON: true,
     SCROLL_BUTTON_MOVE: '200',
+    SETTING_TRANSITION_COUNT: '5',
+    SETTING_TRANSITION_LIMIT_TIME: '10000',
 };
 
 export function getEnvironment(): IEnvironment {

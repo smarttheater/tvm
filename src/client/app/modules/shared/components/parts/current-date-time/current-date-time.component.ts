@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { getEnvironment } from '../../../../../../environments/environment';
 import { ActionService, UtilService } from '../../../../../services';
 
 @Component({
@@ -10,8 +11,11 @@ import { ActionService, UtilService } from '../../../../../services';
     styleUrls: ['./current-date-time.component.scss'],
 })
 export class CurrentDateTimeComponent implements OnInit, OnDestroy {
-    public timer: any;
+    public environment = getEnvironment();
     public date: string;
+    private timer: any;
+    private countTimer: any;
+    private count: number;
     constructor(
         private translate: TranslateService,
         private utilService: UtilService,
@@ -20,11 +24,17 @@ export class CurrentDateTimeComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit() {
+        this.count = 0;
         this.update();
     }
 
     public ngOnDestroy() {
-        clearTimeout(this.timer);
+        if (this.timer !== undefined) {
+            clearTimeout(this.timer);
+        }
+        if (this.countTimer !== undefined) {
+            clearTimeout(this.countTimer);
+        }
     }
 
     private update() {
@@ -36,6 +46,25 @@ export class CurrentDateTimeComponent implements OnInit, OnDestroy {
     }
 
     public async openInputModal() {
+        const transitionCount = Number(
+            this.environment.SETTING_TRANSITION_COUNT
+        );
+        const transitionLimitTime = Number(
+            this.environment.SETTING_TRANSITION_LIMIT_TIME
+        );
+        if (this.count === 0) {
+            this.countTimer = setTimeout(() => {
+                this.count = 0;
+            }, transitionLimitTime);
+        }
+        this.count++;
+        if (this.count < transitionCount) {
+            return;
+        }
+        if (this.countTimer !== undefined) {
+            clearTimeout(this.countTimer);
+        }
+        this.count = 0;
         const { applicationPassword } = await this.actionService.user.getData();
         if (applicationPassword === undefined || applicationPassword === '') {
             return;

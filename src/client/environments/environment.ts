@@ -187,6 +187,14 @@ export interface IEnvironment {
      * TOP画像
      */
     TOP_IMAGE: string;
+    /**
+     * スクロールボタン
+     */
+    SCROLL_BUTTON: boolean;
+    /**
+     * スクロールボタン距離
+     */
+    SCROLL_BUTTON_MOVE: string;
 }
 
 export const isProduction = document.querySelector('body.production') !== null;
@@ -257,6 +265,8 @@ const defaultEnvironment: IEnvironment = {
     PRINT_SUCCESS_WAIT_TIME: '10000',
     ERROR_WAIT_TIME: '10000',
     TOP_IMAGE: '',
+    SCROLL_BUTTON: true,
+    SCROLL_BUTTON_MOVE: '200',
 };
 
 export function getEnvironment(): IEnvironment {

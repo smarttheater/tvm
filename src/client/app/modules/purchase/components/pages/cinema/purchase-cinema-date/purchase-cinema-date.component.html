@@ -3,44 +3,46 @@
     <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
 
-<div class="contents scroll-vertical">
-    <div class="p-3">
-        <div class="mb-4">
-            <div class="p-4 bg-light-gray mb-3 font-weight-bold">
-                {{ 'purchase.cinema.date.schedule' | translate }}
-            </div>
-            <div class="container px-0">
-                <div class="row">
-                    <div class="col-4 col-md-3" *ngFor="let scheduleDate of scheduleDates">
-                        <button type="button" class="btn btn-block btn-custom-secondary py-4 shadow-sm mb-3"
-                            (click)="searchMovie(scheduleDate)">
-                            <div class="text-large">
-                                {{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
-                            </div>
-                        </button>
+<div class="contents mh-100">
+    <app-scroll-vertical>
+        <div class="p-3">
+            <div class="mb-4">
+                <div class="p-4 bg-light-gray mb-3 font-weight-bold">
+                    {{ 'purchase.cinema.date.schedule' | translate }}
+                </div>
+                <div class="container px-0">
+                    <div class="row">
+                        <div class="col-4 col-md-3" *ngFor="let scheduleDate of scheduleDates">
+                            <button type="button" class="btn btn-block btn-custom-secondary py-4 shadow-sm mb-3"
+                                (click)="searchMovie(scheduleDate)">
+                                <div class="text-large">
+                                    {{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div *ngIf="preScheduleDates.length > 0">
-            <div class="p-4 bg-light-gray mb-3 font-weight-bold">
-                {{ 'purchase.cinema.date.preSchedule' | translate }}
-            </div>
-            <div class="container px-0">
-                <div class="row">
-                    <div class="col-4 col-md-3" *ngFor="let scheduleDate of preScheduleDates">
-                        <button type="button" class="btn btn-block btn-custom-secondary py-4 shadow-sm mb-3"
-                            (click)="searchMovie(scheduleDate)">
-                            <div class="text-large">
-                                {{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
-                            </div>
-                        </button>
+            <div *ngIf="preScheduleDates.length > 0">
+                <div class="p-4 bg-light-gray mb-3 font-weight-bold">
+                    {{ 'purchase.cinema.date.preSchedule' | translate }}
+                </div>
+                <div class="container px-0">
+                    <div class="row">
+                        <div class="col-4 col-md-3" *ngFor="let scheduleDate of preScheduleDates">
+                            <button type="button" class="btn btn-block btn-custom-secondary py-4 shadow-sm mb-3"
+                                (click)="searchMovie(scheduleDate)">
+                                <div class="text-large">
+                                    {{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
+    </app-scroll-vertical>
 </div>
 <app-footer [step]="1">
     <div class="col-3 col-md-2 mr-auto mr-md-0">

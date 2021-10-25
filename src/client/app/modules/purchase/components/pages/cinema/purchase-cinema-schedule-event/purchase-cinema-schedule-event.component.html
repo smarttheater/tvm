@@ -2,15 +2,17 @@
     <app-page-title title="{{ 'purchase.cinema.scheduleEvent.title' | translate }}"></app-page-title>
     <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
-<div class="contents scroll-vertical">
-    <div class="p-3">
-        <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index"
-            [screeningEventsGroup]="group"
-            [screeningEventSeries]="getScreeningEventSeries(group.screeningEvent.superEvent.id)"
-            [videoFormatTypes]="videoFormatTypes" [animation]="animations[index]" (select)="selectSchedule($event)"
-            class="">
-        </app-purchase-performances>
-    </div>
+<div class="contents mh-100">
+    <app-scroll-vertical>
+        <div class="p-3">
+            <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index"
+                [screeningEventsGroup]="group"
+                [screeningEventSeries]="getScreeningEventSeries(group.screeningEvent.superEvent.id)"
+                [videoFormatTypes]="videoFormatTypes" [animation]="animations[index]" (select)="selectSchedule($event)"
+                class="">
+            </app-purchase-performances>
+        </div>
+    </app-scroll-vertical>
 </div>
 <app-footer [step]="1">
     <div class="col-3 col-md-2 mr-auto mr-md-0">

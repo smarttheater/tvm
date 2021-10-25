@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.5.0 - 2021-10-25
+
+### Added
+
+-   スクロールボタン追加
+
 ## 4.4.0 - 2021-10-20
 
 ### Changed

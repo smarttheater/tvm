@@ -318,11 +318,27 @@ export class ActionTransactionService {
             const { additionalTicketText, screeningEventSeats } = params;
             const {
                 transaction,
+                temporarilyReserved,
                 authorizeSeatReservation,
+                authorizeSeatReservations,
+                pendingMovieTickets,
                 screeningEvent,
                 screeningEventTicketOffers,
                 checkProducts,
             } = await this.storeService.getPurchaseData();
+            const actionParams = {
+                authorizeSeatReservations: Functions.Util.deepCopy<
+                    factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[]
+                >(authorizeSeatReservations),
+                pendingMovieTickets:
+                    Functions.Util.deepCopy<
+                        Models.Purchase.MovieTicket.IMovieTicket[]
+                    >(pendingMovieTickets),
+                temporarilyReserved:
+                    Functions.Util.deepCopy<
+                        Models.Purchase.Reservation.ITemporarilyReserved[]
+                    >(temporarilyReserved),
+            };
             const reservations = params.reservations.map((r) => {
                 const defaultTicketOffers = screeningEventTicketOffers.filter(
                     (t) => {
@@ -340,9 +356,7 @@ export class ActionTransactionService {
                     seat: r.seat,
                     ticket:
                         r.ticket === undefined
-                            ? {
-                                  ticketOffer: defaultTicketOffers[0],
-                              }
+                            ? { ticketOffer: defaultTicketOffers[0] }
                             : r.ticket,
                 };
             });
@@ -354,18 +368,18 @@ export class ActionTransactionService {
                 await this.cinerinoService.transaction.placeOrder.voidSeatReservation(
                     authorizeSeatReservation
                 );
-            }
-            // サーバータイムを使用して販売期間判定
-            const serverTime = await this.utilService.getServerTime();
-            const nowDate = moment(serverTime.date).toDate();
-            if (screeningEvent.offers === undefined) {
-                throw new Error('screeningEvent.offers undefined');
-            }
-            if (
-                screeningEvent.offers.validFrom > nowDate ||
-                screeningEvent.offers.validThrough < nowDate
-            ) {
-                throw new Error('Outside sales period');
+                actionParams.authorizeSeatReservations =
+                    actionParams.authorizeSeatReservations.filter(
+                        (a) => a.id !== authorizeSeatReservation.id
+                    );
+                actionParams.pendingMovieTickets =
+                    actionParams.pendingMovieTickets.filter(
+                        (p) => p.id !== authorizeSeatReservation.id
+                    );
+                actionParams.temporarilyReserved =
+                    actionParams.temporarilyReserved.filter(
+                        (t) => t.id !== authorizeSeatReservation.id
+                    );
             }
             const availableSeats = Functions.Purchase.selectAvailableSeat({
                 reservations,
@@ -380,89 +394,146 @@ export class ActionTransactionService {
             ) {
                 throw new Error('Out of stock');
             }
-            const authorizeResult =
-                await this.cinerinoService.transaction.placeOrder.authorizeSeatReservation(
-                    {
-                        object: {
-                            reservationFor: { id: screeningEvent.id },
-                            acceptedOffer: reservations.map((r, index) => {
-                                if (
-                                    r.ticket === undefined ||
-                                    r.ticket.ticketOffer.id === undefined
-                                ) {
-                                    throw new Error(
-                                        'ticket or ticket.ticketOffer.id is undefined'
-                                    );
-                                }
+            const authorizeResult = <
+                factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>
+            >await this.cinerinoService.transaction.placeOrder.authorizeSeatReservation(
+                {
+                    object: {
+                        reservationFor: { id: screeningEvent.id },
+                        acceptedOffer: reservations.map((r, index) => {
+                            if (
+                                r.ticket === undefined ||
+                                r.ticket.ticketOffer.id === undefined
+                            ) {
+                                throw new Error(
+                                    'ticket or ticket.ticketOffer.id is undefined'
+                                );
+                            }
+                            const reservedTicket = {
+                                typeOf: <any>'Ticket',
+                                ticketedSeat: isTicketedSeat
+                                    ? availableSeats[index]
+                                    : undefined,
+                            };
 
-                                const reservedTicket = {
-                                    typeOf: <any>'Ticket',
-                                    ticketedSeat: isTicketedSeat
-                                        ? availableSeats[index]
-                                        : undefined,
-                                };
+                            const subReservation = isTicketedSeat
+                                ? availableSeats[index].subReservations.map(
+                                      (ticketedSeat) => ({
+                                          reservedTicket: {
+                                              typeOf: <any>'Ticket',
+                                              ticketedSeat,
+                                          },
+                                      })
+                                  )
+                                : undefined;
 
-                                const subReservation = isTicketedSeat
-                                    ? availableSeats[index].subReservations.map(
-                                          (ticketedSeat) => ({
-                                              reservedTicket: {
-                                                  typeOf: <any>'Ticket',
-                                                  ticketedSeat,
-                                              },
-                                          })
-                                      )
-                                    : undefined;
+                            const programMembershipUsed = Array.isArray(
+                                r.ticket.ticketOffer.eligibleMembershipType
+                            )
+                                ? checkProducts[0].token
+                                : undefined;
 
-                                const programMembershipUsed = Array.isArray(
-                                    r.ticket.ticketOffer.eligibleMembershipType
-                                )
-                                    ? checkProducts[0].token
-                                    : undefined;
-
-                                return {
-                                    id: r.ticket.ticketOffer.id,
-                                    addOn:
-                                        r.ticket.addOn === undefined
-                                            ? undefined
-                                            : r.ticket.addOn.map((a) => ({
-                                                  id: a.id,
+                            return {
+                                id: r.ticket.ticketOffer.id,
+                                addOn:
+                                    r.ticket.addOn === undefined
+                                        ? undefined
+                                        : r.ticket.addOn
+                                              .filter((a) => a.id !== undefined)
+                                              .map((a) => ({
+                                                  id: <string>a.id,
                                               })),
-                                    additionalProperty: [],
-                                    itemOffered: {
-                                        serviceOutput: {
-                                            typeOf: factory.chevre
-                                                .reservationType
-                                                .EventReservation,
-                                            additionalProperty:
-                                                screeningEvent.workPerformed ===
-                                                    undefined ||
-                                                screeningEvent.workPerformed
-                                                    .additionalProperty ===
-                                                    undefined
-                                                    ? []
-                                                    : [
-                                                          ...screeningEvent.workPerformed.additionalProperty.filter(
-                                                              (a) =>
-                                                                  a.value !== ''
-                                                          ),
-                                                      ],
-                                            additionalTicketText:
-                                                additionalTicketText,
-                                            reservedTicket,
-                                            subReservation,
-                                            programMembershipUsed,
-                                        },
+                                additionalProperty: [],
+                                itemOffered: {
+                                    serviceOutput: {
+                                        typeOf: factory.chevre.reservationType
+                                            .EventReservation,
+                                        additionalProperty:
+                                            screeningEvent.workPerformed ===
+                                                undefined ||
+                                            screeningEvent.workPerformed
+                                                .additionalProperty ===
+                                                undefined
+                                                ? []
+                                                : [
+                                                      ...screeningEvent.workPerformed.additionalProperty.filter(
+                                                          (a) => a.value !== ''
+                                                      ),
+                                                  ],
+                                        additionalTicketText:
+                                            additionalTicketText,
+                                        reservedTicket,
+                                        subReservation,
+                                        programMembershipUsed,
                                     },
-                                };
-                            }),
-                        },
-                        purpose: transaction,
-                    }
-                );
+                                },
+                            };
+                        }),
+                    },
+                    purpose: transaction,
+                }
+            );
+            actionParams.authorizeSeatReservations.push(authorizeResult);
+            const movieTicketReservations = reservations.filter(
+                (r) =>
+                    r.ticket !== undefined && r.ticket.movieTicket !== undefined
+            );
+            if (
+                movieTicketReservations.length > 0 &&
+                authorizeResult.result !== undefined &&
+                authorizeResult.result.responseBody.object.reservations !==
+                    undefined
+            ) {
+                const pendingReservations =
+                    authorizeResult.result.responseBody.object.reservations;
+                actionParams.pendingMovieTickets.push({
+                    id: authorizeResult.id,
+                    movieTickets: movieTicketReservations.map((r) => {
+                        const pendingReservation = pendingReservations.find(
+                            (p) => {
+                                return (
+                                    p.reservedTicket.ticketedSeat !==
+                                        undefined &&
+                                    r.seat !== undefined &&
+                                    p.reservedTicket.ticketedSeat.seatNumber ===
+                                        r.seat.seatNumber &&
+                                    p.reservedTicket.ticketedSeat
+                                        .seatSection === r.seat.seatSection
+                                );
+                            }
+                        );
+                        if (
+                            pendingReservation?.reservedTicket.ticketedSeat ===
+                                undefined ||
+                            r.ticket.movieTicket === undefined
+                        ) {
+                            throw new Error('pendingReservation is undefined');
+                        }
+                        const serviceOutput = {
+                            reservationFor: {
+                                typeOf: <any>factory.eventType.ScreeningEvent,
+                                id: pendingReservation.reservationFor.id,
+                            },
+                            reservedTicket: {
+                                ticketedSeat:
+                                    pendingReservation.reservedTicket
+                                        .ticketedSeat,
+                            },
+                        };
+
+                        return { ...r.ticket.movieTicket, serviceOutput };
+                    }),
+                });
+            }
+            actionParams.temporarilyReserved.push({
+                id: authorizeResult.id,
+                screeningEvent,
+                reservations,
+            });
             this.store.dispatch(
                 purchaseAction.setAuthorizeSeatReservation({
-                    addAuthorizeSeatReservation: authorizeResult,
-                    removeAuthorizeSeatReservation: authorizeSeatReservation,
+                    ...actionParams,
+                    authorizeSeatReservation: authorizeResult,
                 })
             );
             this.utilService.loadEnd();
@@ -474,7 +545,7 @@ export class ActionTransactionService {
     }
 
     /**
-     * 座席仮予約解除
+     * 座席仮予約取り消し
      */
     public async voidSeatReservation(params: {
         authorizeSeatReservations: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[];
@@ -483,18 +554,39 @@ export class ActionTransactionService {
             this.utilService.loadStart({
                 process: 'purchaseAction.VoidSeatReservation',
             });
-            const { authorizeSeatReservations } = params;
+            const purchaseData = await this.storeService.getPurchaseData();
+            const actionParams = {
+                authorizeSeatReservations: Functions.Util.deepCopy<
+                    factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[]
+                >(purchaseData.authorizeSeatReservations),
+                pendingMovieTickets: Functions.Util.deepCopy<
+                    Models.Purchase.MovieTicket.IMovieTicket[]
+                >(purchaseData.pendingMovieTickets),
+                temporarilyReserved: Functions.Util.deepCopy<
+                    Models.Purchase.Reservation.ITemporarilyReserved[]
+                >(purchaseData.temporarilyReserved),
+            };
             await this.cinerinoService.getServices();
-            for (const authorizeSeatReservation of authorizeSeatReservations) {
+            for (const authorizeSeatReservation of params.authorizeSeatReservations) {
                 await this.cinerinoService.transaction.placeOrder.voidSeatReservation(
                     authorizeSeatReservation
                 );
+                actionParams.authorizeSeatReservations =
+                    actionParams.authorizeSeatReservations.filter(
+                        (a) => a.id !== authorizeSeatReservation.id
+                    );
+                actionParams.pendingMovieTickets =
+                    actionParams.pendingMovieTickets.filter(
+                        (p) => p.id !== authorizeSeatReservation.id
+                    );
+                actionParams.temporarilyReserved =
+                    actionParams.temporarilyReserved.filter(
+                        (t) => t.id !== authorizeSeatReservation.id
+                    );
             }
 
             this.store.dispatch(
-                purchaseAction.voidSeatReservation({
-                    authorizeSeatReservations,
-                })
+                purchaseAction.setAuthorizeSeatReservation(actionParams)
             );
             this.utilService.loadEnd();
         } catch (error) {

@@ -1,4 +1,4 @@
-<div *ngIf="availableMovieTicketpaymentMethods.length || isMembership" class="py-4 px-3 bg-light-gray">
+<div *ngIf="availableMovieTicketpaymentMethods.length" class="py-4 px-3 bg-light-gray">
     <p class=" mb-4">{{ 'common.inputTicket.read' | translate }}</p>
     <div class="row">
         <ng-container *ngIf="availableMovieTicketpaymentMethods.length">
@@ -16,7 +16,7 @@
                 </button>
             </div>
         </ng-container>
-        <ng-container *ngIf="isMembership">
+        <!-- <ng-container *ngIf="isMembership">
             <div class="my-2 col-4">
                 <button type="button" (click)="openMembership()"
                     class="btn btn-block btn-custom-secondary py-3 shadow-sm membership">
@@ -25,6 +25,6 @@
                     </div>
                 </button>
             </div>
-        </ng-container>
+        </ng-container> -->
     </div>
 </div>

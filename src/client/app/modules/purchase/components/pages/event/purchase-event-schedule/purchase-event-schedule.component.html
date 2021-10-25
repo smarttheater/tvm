@@ -6,21 +6,23 @@
 <div class="contents">
     <div class="container h-100">
         <div class="row h-100">
-            <div class="col-12 col-md-9 mh-100 scroll-vertical px-0">
-                <div class="p-3">
-                    <p *ngIf="(purchase | async)?.scheduleDate" class="text-large mb-3">
-                        {{ (purchase | async)?.scheduleDate | formatDate: 'YYYY/MM/DD (ddd)' }}
-                    </p>
-                    <p *ngIf="screeningEventsGroup.length === 0" class="mb-3">
-                        {{ 'purchase.event.schedule.notfound' | translate }}
-                    </p>
-                    <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index"
-                        [screeningEventsGroup]="group"
-                        [screeningEventSeries]="getScreeningEventSeries(group.screeningEvent.superEvent.id)"
-                        [videoFormatTypes]="videoFormatTypes" [animation]="animations[index]"
-                        (select)="selectSchedule($event)" class="mb-3">
-                    </app-purchase-performances>
-                </div>
+            <div class="col-12 col-md-9 px-0 mh-100">
+                <app-scroll-vertical>
+                    <div class="p-3">
+                        <p *ngIf="(purchase | async)?.scheduleDate" class="text-large mb-3">
+                            {{ (purchase | async)?.scheduleDate | formatDate: 'YYYY/MM/DD (ddd)' }}
+                        </p>
+                        <p *ngIf="screeningEventsGroup.length === 0" class="mb-3">
+                            {{ 'purchase.event.schedule.notfound' | translate }}
+                        </p>
+                        <app-purchase-performances *ngFor="let group of screeningEventsGroup; let index = index"
+                            [screeningEventsGroup]="group"
+                            [screeningEventSeries]="getScreeningEventSeries(group.screeningEvent.superEvent.id)"
+                            [videoFormatTypes]="videoFormatTypes" [animation]="animations[index]"
+                            (select)="selectSchedule($event)" class="mb-3">
+                        </app-purchase-performances>
+                    </div>
+                </app-scroll-vertical>
             </div>
             <div class="col-12 col-md-3 mh-100 scroll-vertical px-0">
                 <app-purchase-cart [purchase]="purchase | async" [isAmount]="true" [cancel]="true"></app-purchase-cart>

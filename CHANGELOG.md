@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.6.0 - 2021-10-27
+
+### Changed
+
+-   設定へ遷移ボタンのイベント変更
+
 ## 4.5.0 - 2021-10-25
 
 ### Added

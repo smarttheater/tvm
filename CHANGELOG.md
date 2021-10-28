@@ -14,6 +14,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.6.1 - 2021-10-28
+
+### Fixed
+
+-   テンキー修正
+
+## 4.6.0 - 2021-10-27
+
+### Changed
+
+-   設定へ遷移ボタンのイベント変更
+
+## 4.5.0 - 2021-10-25
+
+### Added
+
+-   スクロールボタン追加
+
 ## 4.4.0 - 2021-10-20
 
 ### Changed

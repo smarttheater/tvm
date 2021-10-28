@@ -3,24 +3,26 @@
     <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
 
-<div class="contents scroll-vertical">
-    <div class="p-3">
-        <div class="mb-4">
-            <div class="container px-0">
-                <div class="row">
-                    <div class="col-4 col-md-3" *ngFor="let scheduleDate of scheduleDates">
-                        <button type="button" class="btn btn-block btn-custom-secondary shadow-sm py-4 mb-3"
-                            (click)="toPurchase(scheduleDate)">
-                            <div class="text-large">
-                                {{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
-                            </div>
-                        </button>
+<div class="contents mh-100">
+    <app-scroll-vertical>
+        <div class="p-3">
+            <div class="mb-4">
+                <div class="container px-0">
+                    <div class="row">
+                        <div class="col-4 col-md-3" *ngFor="let scheduleDate of scheduleDates">
+                            <button type="button" class="btn btn-block btn-custom-secondary shadow-sm py-4 mb-3"
+                                (click)="toPurchase(scheduleDate)">
+                                <div class="text-large">
+                                    {{ moment(scheduleDate, 'YYYYMMDD').format('YYYY/MM/DD (ddd)') }}
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
+    </app-scroll-vertical>
 </div>
 <app-footer [step]="1">
     <div class="col-3 col-md-2 mr-auto mr-md-0">

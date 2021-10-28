@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.6.1 - 2021-10-28
+
+### Fixed
+
+-   テンキー修正
+
 ## 4.6.0 - 2021-10-27
 
 ### Changed

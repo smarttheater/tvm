@@ -192,7 +192,7 @@ export interface IEnvironment {
      */
     SCROLL_BUTTON: boolean;
     /**
-     * スクロールボタン距離
+     * スクロールボタン距離(px)
      */
     SCROLL_BUTTON_MOVE: string;
     /**
@@ -274,7 +274,7 @@ const defaultEnvironment: IEnvironment = {
     ERROR_WAIT_TIME: '10000',
     TOP_IMAGE: '',
     SCROLL_BUTTON: true,
-    SCROLL_BUTTON_MOVE: '200',
+    SCROLL_BUTTON_MOVE: '400',
     SETTING_TRANSITION_COUNT: '5',
     SETTING_TRANSITION_LIMIT_TIME: '10000',
 };

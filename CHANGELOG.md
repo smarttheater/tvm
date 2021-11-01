@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.6.2 - 2021-11-01
+
+### Changed
+
+-   スクロールボタンのスクロール量変更
+
 ## 4.6.1 - 2021-10-28
 
 ### Fixed

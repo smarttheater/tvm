@@ -1,13 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+} from '@angular/core';
 
 @Component({
     selector: 'app-numeric-keypad',
     templateUrl: './numeric-keypad.component.html',
-    styleUrls: ['./numeric-keypad.component.scss']
+    styleUrls: ['./numeric-keypad.component.scss'],
 })
 export class NumericKeypadComponent implements OnInit {
     public isOpen: boolean;
-    public position: { y: number; x: number; };
+    public position: { y: number; x: number };
     @Input() public inputValue: string;
     @Input() public viewPosition?: 'Top';
     @Input() public maxlength?: number;
@@ -16,7 +23,8 @@ export class NumericKeypadComponent implements OnInit {
     @Output() public hidden = new EventEmitter<string>();
     @ViewChild('trigger') private trigger: { nativeElement: HTMLElement };
     @ViewChild('keypad') private keypad: { nativeElement: HTMLElement };
-    constructor() { }
+
+    constructor() {}
 
     public ngOnInit() {
         this.isOpen = false;
@@ -24,26 +32,29 @@ export class NumericKeypadComponent implements OnInit {
         if (this.inputValue === '0') {
             this.inputValue = '';
         }
-        this.maxlength = (this.maxlength === undefined) ? 20 : this.maxlength;
+        this.maxlength = this.maxlength === undefined ? 20 : this.maxlength;
     }
 
     public show() {
         const target = document.body;
-        const scale = (target.getAttribute('data-scale') === null)
-            ? 1 : Number(target.getAttribute('data-scale'));
+        const scale =
+            target.getAttribute('data-scale') === null
+                ? 1
+                : Number(target.getAttribute('data-scale'));
         const height = this.trigger.nativeElement.clientHeight;
         const rect = this.trigger.nativeElement.getBoundingClientRect();
         // const scrollTop = window.pageYOffset || (<HTMLElement>document.documentElement).scrollTop;
         // const scrollLeft = window.pageXOffset || (<HTMLElement>document.documentElement).scrollLeft;
         this.position = {
             y: rect.top / scale + height,
-            x: rect.left / scale
+            x: rect.left / scale,
         };
         this.isOpen = true;
 
         setTimeout(() => {
             if (this.viewPosition === 'Top') {
-                this.position.y = rect.top - this.keypad.nativeElement.clientHeight;
+                this.position.y =
+                    rect.top - this.keypad.nativeElement.clientHeight;
             }
         }, 0);
     }
@@ -68,5 +79,4 @@ export class NumericKeypadComponent implements OnInit {
         }
         this.change.emit(this.inputValue.slice(0, -1));
     }
-
 }

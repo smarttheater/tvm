@@ -12,7 +12,6 @@ import {
     ActionService,
     CinerinoService,
     EpsonEPOSService,
-    MasterService,
     PaymentService,
     UtilService,
 } from '../../../../../services';
@@ -26,7 +25,6 @@ import { CaschcangerCountModalComponent } from '../../../../shared/components/pa
 })
 export class SettingComponent implements OnInit {
     public user: Observable<reducers.IUserState>;
-    public master: Observable<reducers.IMasterState>;
     public error: Observable<string | null>;
     public isLoading: Observable<boolean>;
     public posList: { id: string; name: string; typeOf: string }[];
@@ -56,7 +54,6 @@ export class SettingComponent implements OnInit {
         private store: Store<reducers.IState>,
         private utilService: UtilService,
         private actionService: ActionService,
-        private masterService: MasterService,
         private translate: TranslateService,
         private router: Router,
         private paymentService: PaymentService,
@@ -74,7 +71,8 @@ export class SettingComponent implements OnInit {
         this.posList = [];
         this.theaters = [];
         try {
-            this.theaters = await this.masterService.searchMovieTheaters();
+            this.theaters =
+                await this.actionService.place.searchMovieTheaters();
             const {
                 theater,
                 pos,

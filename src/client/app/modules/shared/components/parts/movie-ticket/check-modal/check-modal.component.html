@@ -1,6 +1,6 @@
 <div class="px-4 py-5 scroll-vertical">
     <form [formGroup]="inputForm">
-        <p class="text-large font-weight-bold mb-3">{{ 'modal.movieTicket.check.title' | translate }}</p>
+        <p class="font-weight-bold mb-3">{{ 'modal.movieTicket.check.title' | translate }}</p>
         <div class="mb-4">
             <p *ngIf="errorMessage !== '' && !isSuccess" class="mb-3 p-2 alert alert-danger" [innerHTML]="errorMessage">
             </p>

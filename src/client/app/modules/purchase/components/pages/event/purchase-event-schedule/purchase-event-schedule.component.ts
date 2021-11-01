@@ -8,11 +8,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import {
-    ActionService,
-    MasterService,
-    UtilService,
-} from '../../../../../../services';
+import { ActionService, UtilService } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 import { PurchaseEventTicketModalComponent } from '../../../../../shared/components/parts/purchase/event/ticket-modal/ticket-modal.component';
 
@@ -24,7 +20,6 @@ import { PurchaseEventTicketModalComponent } from '../../../../../shared/compone
 export class PurchaseEventScheduleComponent implements OnInit {
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
-    public master: Observable<reducers.IMasterState>;
     public error: Observable<string | null>;
     public isLoading: Observable<boolean>;
     public screeningEventsGroup: Functions.Purchase.IScreeningEventsGroup[];
@@ -41,14 +36,12 @@ export class PurchaseEventScheduleComponent implements OnInit {
         private utilService: UtilService,
         private translate: TranslateService,
         private actionService: ActionService,
-        private masterService: MasterService,
         private modal: BsModalService
     ) {}
 
     public async ngOnInit() {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         this.user = this.store.pipe(select(reducers.getUser));
-        this.master = this.store.pipe(select(reducers.getMaster));
         this.error = this.store.pipe(select(reducers.getError));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.actionService.purchase.unsettledDelete();
@@ -63,15 +56,14 @@ export class PurchaseEventScheduleComponent implements OnInit {
             if (theater === undefined || scheduleDate === undefined) {
                 throw new Error('scheduleDate or theater undefined');
             }
-            this.videoFormatTypes = await this.masterService.searchCategoryCode(
-                {
+            this.videoFormatTypes =
+                await this.actionService.categoryCode.search({
                     categorySetIdentifier:
                         factory.chevre.categoryCode.CategorySetIdentifier
                             .VideoFormatType,
-                }
-            );
+                });
             this.screeningEventSeries =
-                await this.masterService.searchScreeningEventSeries({
+                await this.actionService.event.searchScreeningEventSeries({
                     workPerformed: {
                         identifiers: [],
                     },
@@ -82,7 +74,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
                     },
                 });
             const screeningEvents =
-                await this.masterService.searchScreeningEvent({
+                await this.actionService.event.searchScreeningEvent({
                     superEvent: { locationBranchCodes: [theater.branchCode] },
                     startFrom: moment(scheduleDate).toDate(),
                     startThrough: moment(scheduleDate)
@@ -92,7 +84,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
                     screeningEventSeries: this.screeningEventSeries,
                 });
             const now = moment(
-                (await this.utilService.getServerTime()).date
+                (await this.utilService.getServerTime(true)).date
             ).toDate();
             this.screeningEventsGroup =
                 Functions.Purchase.screeningEvents2ScreeningEventSeries({
@@ -130,7 +122,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
             return;
         }
         try {
-            await this.actionService.event.getScreeningEvent(screeningEvent);
+            await this.actionService.event.findById(screeningEvent);
             this.screeningEventSeats =
                 await this.actionService.event.getScreeningEventSeats();
             await this.actionService.event.searchTicketOffers();

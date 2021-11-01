@@ -81,7 +81,7 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
             const orders = [order];
             const pos = user.pos;
             const printer = user.printer;
-            const now = (await this.utilService.getServerTime()).date;
+            const now = (await this.utilService.getServerTime(true)).date;
             const today = moment(now).format('YYYYMMDD');
             const eventOrders = Functions.Purchase.order2EventOrders({ order });
             const findResult = eventOrders.find((o) => {

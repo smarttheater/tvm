@@ -10,7 +10,7 @@ import { UtilService } from '../util.service';
 @Injectable({
     providedIn: 'root',
 })
-export class ActionProductService {
+export class ActionProjectService {
     public error: Observable<string | null>;
     constructor(
         private store: Store<reducers.IState>,
@@ -21,26 +21,22 @@ export class ActionProductService {
     }
 
     /**
-     * 検索
+     * プロジェクト一覧取得
      */
-    public async search(params: factory.product.ISearchConditions) {
+    public async search() {
         try {
             this.utilService.loadStart({
-                process: 'action.Product.search',
+                process: 'action.Project.search',
             });
+            await this.cinerinoService.getServices();
             const limit = 100;
             let page = 1;
             let roop = true;
-            let result: (
-                | factory.product.IProduct
-                | factory.service.paymentService.IService
-            )[] = [];
-            await this.cinerinoService.getServices();
+            let result: factory.project.IProject[] = [];
             while (roop) {
-                const searchResult = await this.cinerinoService.product.search({
+                const searchResult = await this.cinerinoService.project.search({
                     page,
                     limit,
-                    ...params,
                 });
                 result = [...result, ...searchResult.data];
                 page++;
@@ -49,32 +45,9 @@ export class ActionProductService {
                     await Functions.Util.sleep();
                 }
             }
+
             this.utilService.loadEnd();
             return result;
-        } catch (error) {
-            this.utilService.setError(error);
-            this.utilService.loadEnd();
-            throw error;
-        }
-    }
-
-    /**
-     * オファー検索
-     */
-    public async searchOffers(params: {
-        itemOffered: { id: string };
-        seller?: { id: string };
-        availableAtOrFrom?: { id: string };
-    }) {
-        try {
-            this.utilService.loadStart({
-                process: 'action.Product.searchOffers',
-            });
-            await this.cinerinoService.getServices();
-            const searchResult =
-                await this.cinerinoService.product.searchOffers(params);
-            this.utilService.loadEnd();
-            return searchResult;
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();

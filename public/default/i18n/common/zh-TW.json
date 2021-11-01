@@ -93,23 +93,40 @@
     },
     "process": {
         "load": "載入",
-        "authAction": {
-            "CheckLogin": "檢查登錄",
-            "Logout": "註銷"
+        "action": {
+            "Auth": {
+                "checkLogin": "檢查登錄",
+                "logout": "註銷"
+            },
+            "CategoryCode": {
+                "search": "獲取分類資訊"
+            },
+            "Event": {
+                "search": "獲取事件資訊"
+            },
+            "CreativeWork": {
+                "searchMovies": "獲取內容資訊"
+            },
+            "Place": {
+                "searchMovieTheaters": "獲取設施資訊",
+                "searchScreeningRooms": "獲取房間資訊"
+            },
+            "Seller": {
+                "search": "獲取賣方資訊"
+            },
+            "Order": {
+                "search": "獲取訂單資訊"
+            },
+            "Product": {
+                "search": "搜索產品",
+                "searchOffers": "搜索報價"
+            },
+            "Project": {
+                "search": "獲取專案"
+            }
         },
         "admissionAction": {
             "Check": "檢查 QR 代碼"
-        },
-        "masterAction": {
-            "SearchSellers": "獲取賣方資訊",
-            "SearchMovieTheaters": "獲取設施資訊",
-            "SearchScreeningEvent": "獲取事件資訊",
-            "SearchMovies": "獲取內容資訊",
-            "SearchScreeningEventSeries": "獲取設施內容資訊",
-            "SearchScreeningRooms": "獲取房間資訊",
-            "SearchCategoryCode": "獲取分類資訊",
-            "GetProjects": "獲取專案",
-            "GetTheaters": "獲取設施資訊"
         },
         "orderAction": {
             "Search": "獲取訂單資訊",
@@ -136,10 +153,6 @@
             "CheckProduct": "檢查產品信息",
             "ConfirmTransaction": "已確認交易",
             "AuthorizeAnyPayment": "批准付款資訊"
-        },
-        "productAction": {
-            "SearchOffers": "搜索報價",
-            "Search": "搜索產品"
         }
     },
     "qrcode": {

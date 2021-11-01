@@ -4,11 +4,7 @@ import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import {
-    ActionService,
-    MasterService,
-    UtilService,
-} from '../../../../../../services';
+import { ActionService, UtilService } from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-cinema-schedule',
@@ -27,8 +23,7 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
     constructor(
         private router: Router,
         private utilService: UtilService,
-        private actionService: ActionService,
-        private masterService: MasterService
+        private actionService: ActionService
     ) {}
 
     /**
@@ -48,25 +43,25 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
                 throw new Error('scheduleDate or theater undefined');
             }
             this.contentRatingTypes =
-                await this.masterService.searchCategoryCode({
+                await this.actionService.categoryCode.search({
                     categorySetIdentifier:
                         factory.chevre.categoryCode.CategorySetIdentifier
                             .ContentRatingType,
                 });
-            this.videoFormatTypes = await this.masterService.searchCategoryCode(
-                {
+            this.videoFormatTypes =
+                await this.actionService.categoryCode.search({
                     categorySetIdentifier:
                         factory.chevre.categoryCode.CategorySetIdentifier
                             .VideoFormatType,
-                }
-            );
-            this.creativeWorks = await this.masterService.searchMovies({
-                offers: {
-                    availableFrom: moment(scheduleDate).toDate(),
-                },
-            });
+                });
+            this.creativeWorks =
+                await this.actionService.creativeWork.searchMovies({
+                    offers: {
+                        availableFrom: moment(scheduleDate).toDate(),
+                    },
+                });
             this.screeningEventSeries =
-                await this.masterService.searchScreeningEventSeries({
+                await this.actionService.event.searchScreeningEventSeries({
                     workPerformed: {
                         identifiers: this.creativeWorks.map(
                             (c) => c.identifier
@@ -79,7 +74,7 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
                     },
                 });
             const screeningEvents =
-                await this.masterService.searchScreeningEvent({
+                await this.actionService.event.searchScreeningEvent({
                     superEvent: {
                         locationBranchCodes: [theater.branchCode],
                     },
@@ -96,7 +91,7 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
                 return !performance.isSales('end');
             });
             const now = moment(
-                (await this.utilService.getServerTime()).date
+                (await this.utilService.getServerTime(true)).date
             ).toDate();
             this.screeningEventsGroup =
                 Functions.Purchase.screeningEvents2ScreeningEventSeries({
@@ -138,7 +133,7 @@ export class PurchaseCinemaScheduleComponent implements OnInit {
             this.actionService.purchase.selectScreeningEventSeries(
                 screeningEventSeries
             );
-            await this.actionService.event.getScreeningEvent(screeningEvent);
+            await this.actionService.event.findById(screeningEvent);
             const { authorizeSeatReservations } =
                 await this.actionService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {

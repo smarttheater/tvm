@@ -34,14 +34,28 @@
                             <label class="mb-3 font-weight-bold" for="">
                                 {{ 'common.telephone' | translate }}
                             </label>
-                            <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="telephone"
-                                [inputValue]="inquiryForm.controls.telephone.value" (change)="changeTelephone($event)">
-                                <input type="password" class="form-control" formControlName="telephone" id="telephone"
-                                    [placeholder]="'form.placeholder.telephone' | translate" readonly>
-                            </app-numeric-keypad>
-                            <input *ngIf="!environment.INPUT_KEYPAD" type="password" class="form-control"
-                                formControlName="telephone" id="telephone"
-                                [placeholder]="'form.placeholder.telephone' | translate">
+                            <div class="position-relative" *ngIf="environment.INPUT_KEYPAD">
+                                <app-numeric-keypad inputType="telephone"
+                                    [inputValue]="inquiryForm.controls.telephone.value"
+                                    (change)="changeTelephone($event)">
+                                    <input [type]="(isPasswordMask) ? 'password' : 'text'" class="form-control"
+                                        formControlName="telephone" id="telephone"
+                                        [placeholder]="'form.placeholder.telephone' | translate" readonly>
+                                </app-numeric-keypad>
+                                <button type="button" class="btn password-mask" (click)="changePassWordMask()">
+                                    <i *ngIf="isPasswordMask" class="bi bi-eye-fill"></i>
+                                    <i *ngIf="!isPasswordMask" class="bi bi-eye-slash-fill"></i>
+                                </button>
+                            </div>
+                            <div class="position-relative" *ngIf="!environment.INPUT_KEYPAD">
+                                <input [type]="(isPasswordMask) ? 'password' : 'text'" class="form-control"
+                                    formControlName="telephone" id="telephone"
+                                    [placeholder]="'form.placeholder.telephone' | translate">
+                                <button type="button" class="btn password-mask" (click)="changePassWordMask()">
+                                    <i *ngIf="isPasswordMask" class="bi bi-eye-fill"></i>
+                                    <i *ngIf="!isPasswordMask" class="bi bi-eye-slash-fill"></i>
+                                </button>
+                            </div>
                             <div *ngIf="inquiryForm.controls.telephone.invalid && inquiryForm.controls.telephone.touched"
                                 class="mt-2">
                                 <p *ngIf="inquiryForm.controls.telephone.errors?.required" class="text-danger">

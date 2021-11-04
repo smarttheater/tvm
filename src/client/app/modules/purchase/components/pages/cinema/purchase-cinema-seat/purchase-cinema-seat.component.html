@@ -40,7 +40,7 @@
                                             <app-quantity-input class="pl-3" [(value)]="reservationCount" [maxValue]="remainingAttendeeCapacityValue({
                                                         screeningEventSeats: screeningEventSeats,
                                                         screeningEvent: (purchase | async)?.screeningEvent,
-                                                        authorizeSeatReservations: (purchase | async)?.authorizeSeatReservations
+                                                        reservations: (purchase | async)?.reservations
                                                     }).length"></app-quantity-input>
                                         </div>
                                     </div>

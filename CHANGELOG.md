@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.7.0 - 2021-11-04
+
+### Changed
+
+-   iPad 横型対応
+
 ## 4.6.2 - 2021-11-01
 
 ### Changed

@@ -88,6 +88,9 @@
                 "movieTicket": {
                     "code": "穆比奇克購買號"
                 }
+            },
+            "ticket": {
+                "notfound": "沒有門票類型可供出售"
             }
         }
     },

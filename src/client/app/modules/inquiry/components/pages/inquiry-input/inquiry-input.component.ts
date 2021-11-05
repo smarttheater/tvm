@@ -38,6 +38,7 @@ export class InquiryInputComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
+        this.isPasswordMask = true;
         this.createInquiryForm();
         if (this.environment.INQUIRY_PRINT_WAIT_TIME !== '') {
             const time = Number(this.environment.INQUIRY_PRINT_WAIT_TIME);

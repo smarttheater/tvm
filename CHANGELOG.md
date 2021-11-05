@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.8.0 - 2021-11-05
+
+### Added
+
+-   照会でパスワード入力にマスク ON・OFF ボタン追加
+
 ## 4.7.0 - 2021-11-04
 
 ### Changed

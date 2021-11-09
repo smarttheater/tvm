@@ -14,6 +14,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.8.1 - 2021-11-09
+
+### Fixed
+
+-   販売可能券種なし文言修正
+
+## 4.8.0 - 2021-11-05
+
+### Added
+
+-   照会でパスワード入力にマスク ON・OFF ボタン追加
+
+## 4.7.0 - 2021-11-04
+
+### Changed
+
+-   iPad 横型対応
+
+## 4.6.2 - 2021-11-01
+
+### Changed
+
+-   スクロールボタンのスクロール量変更
+
 ## 4.6.1 - 2021-10-28
 
 ### Fixed

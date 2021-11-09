@@ -89,6 +89,9 @@
                 "movieTicket": {
                     "code": "購入番号"
                 }
+            },
+            "ticket": {
+                "notfound": "販売可能券種がありません。"
             }
         }
     },

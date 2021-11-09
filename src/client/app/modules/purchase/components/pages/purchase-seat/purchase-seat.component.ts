@@ -184,10 +184,9 @@ export class PurchaseSeatComponent implements OnInit {
     public remainingAttendeeCapacityValue(params: {
         screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
         screeningEvent: factory.chevre.event.screeningEvent.IEvent;
-        authorizeSeatReservations: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[];
+        reservations: Models.Purchase.Reservation.IReservation[];
     }) {
-        const screeningEventSeats = params.screeningEventSeats;
-        const screeningEvent = params.screeningEvent;
+        const { screeningEventSeats, screeningEvent, reservations } = params;
         const values = [];
         let limit = Number(this.environment.PURCHASE_ITEM_MAX_LENGTH);
         if (
@@ -205,7 +204,7 @@ export class PurchaseSeatComponent implements OnInit {
                 Functions.Purchase.getRemainingSeatLength({
                     screeningEventSeats,
                     screeningEvent,
-                });
+                }) + reservations.length;
             if (limit > screeningEventLimit) {
                 limit = screeningEventLimit;
             }

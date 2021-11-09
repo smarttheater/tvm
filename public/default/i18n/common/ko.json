@@ -89,6 +89,9 @@
                 "movieTicket": {
                     "code": "Mubichike 구매 번호"
                 }
+            },
+            "ticket": {
+                "notfound": "판매 가능한 티켓 유형이 없습니다."
             }
         }
     },

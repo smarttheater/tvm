@@ -1,0 +1,12 @@
+.password-mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    &:hover {
+        color: #333 !important;
+    }
+    &:focus {
+        box-shadow: none;
+    }
+}

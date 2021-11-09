@@ -39,7 +39,7 @@ $input-border-color: $gray;
 
 $grid-breakpoints: (
     xs: 0,
-    sm: 769px,
+    sm: 811px,
     md: 1081px,
     lg: 1392px,
     xl: 1920px,
@@ -68,9 +68,12 @@ body {
     }
     @include media-breakpoint-down(sm) {
         font-size: 24px;
+        @media (max-height: 810.98px) {
+            font-size: 16px;
+        }
     }
     @include media-breakpoint-down(xs) {
-        font-size: 16px;
+        font-size: 18px;
     }
     @media screen and (max-width: 450px) {
         font-size: 8px;

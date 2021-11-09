@@ -89,6 +89,9 @@
                 "movieTicket": {
                     "code": "Mubichike purchase number"
                 }
+            },
+            "ticket": {
+                "notfound": "No ticket types available for sale."
             }
         }
     },

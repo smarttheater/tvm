@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.8.1 - 2021-11-09
+
+### Fixed
+
+-   販売可能券種なし文言修正
+
 ## 4.8.0 - 2021-11-05
 
 ### Added

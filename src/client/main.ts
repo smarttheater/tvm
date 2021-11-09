@@ -217,15 +217,18 @@ function applyColor(params: { primaryColor: string }) {
  * documentイベント設定
  */
 function setDocumentEvent() {
-    document.documentElement.addEventListener(
-        'touchstart',
-        (event) => {
-            if (event.touches.length >= 2) {
-                event.preventDefault();
-            }
-        },
-        { passive: false }
-    );
+    const touch = (event: TouchEvent) => {
+        if (event.touches.length >= 2) {
+            event.preventDefault();
+        }
+    };
+    const useCapture = {
+        passive: false,
+    };
+    document.documentElement.addEventListener('touchstart', touch, useCapture);
+    document.documentElement.addEventListener('touchend', touch, useCapture);
+    document.documentElement.addEventListener('touchcancel', touch, useCapture);
+    document.documentElement.addEventListener('touchmove', touch, useCapture);
 }
 
 main()

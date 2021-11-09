@@ -19,6 +19,8 @@ async function main() {
     // 言語設定
     defineLocale('ja', jaLocale);
 
+    setDocumentEvent();
+
     // パラメータ設定
     const params = Functions.Util.getParameter<{
         projectId?: string;
@@ -209,6 +211,21 @@ function applyColor(params: { primaryColor: string }) {
 }
     `;
     document.head.appendChild(style);
+}
+
+/**
+ * documentイベント設定
+ */
+function setDocumentEvent() {
+    document.documentElement.addEventListener(
+        'touchstart',
+        (event) => {
+            if (event.touches.length >= 2) {
+                event.preventDefault();
+            }
+        },
+        { passive: false }
+    );
 }
 
 main()

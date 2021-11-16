@@ -83,15 +83,10 @@ export const selectTickets = createAction(
 export const setAuthorizeSeatReservation = createAction(
     `${LABEL} setAuthorizeSeatReservation`,
     props<{
-        addAuthorizeSeatReservation: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier>;
-        removeAuthorizeSeatReservation?: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier>;
-    }>()
-);
-
-export const voidSeatReservation = createAction(
-    `${LABEL} voidSeatReservation`,
-    props<{
+        authorizeSeatReservation?: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
         authorizeSeatReservations: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[];
+        pendingMovieTickets: Models.Purchase.MovieTicket.IMovieTicket[];
+        temporarilyReserved: Models.Purchase.Reservation.ITemporarilyReserved[];
     }>()
 );
 

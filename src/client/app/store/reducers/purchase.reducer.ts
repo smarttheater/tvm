@@ -41,6 +41,10 @@ export interface IPurchaseState {
      */
     reservations: Models.Purchase.Reservation.IReservation[];
     /**
+     * 仮予約済み
+     */
+    temporarilyReserved: Models.Purchase.Reservation.ITemporarilyReserved[];
+    /**
      * 券種
      */
     screeningEventTicketOffers: factory.chevre.event.screeningEvent.ITicketOffer[];
@@ -114,6 +118,7 @@ export interface IPurchaseState {
 
 export const purchaseInitialState: IPurchaseState = {
     reservations: [],
+    temporarilyReserved: [],
     screeningEventTicketOffers: [],
     orderCount: 0,
     checkMovieTickets: [],
@@ -133,6 +138,7 @@ export function reducer(initialState: IState, action: Action) {
                 ...state,
                 purchaseData: {
                     reservations: [],
+                    temporarilyReserved: [],
                     screeningEventTicketOffers: [],
                     orderCount: 0,
                     checkMovieTickets: [],
@@ -212,6 +218,7 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeAnyPayments: [],
                     authorizeMovieTicketPayments: [],
                     authorizeSeatReservations: [],
+                    temporarilyReserved: [],
                     pendingMovieTickets: [],
                     checkMovieTickets: [],
                     checkProducts: [],
@@ -230,6 +237,7 @@ export function reducer(initialState: IState, action: Action) {
                     authorizeAnyPayments: [],
                     authorizeMovieTicketPayments: [],
                     authorizeSeatReservations: [],
+                    temporarilyReserved: [],
                     pendingMovieTickets: [],
                     checkMovieTickets: [],
                     checkProducts: [],
@@ -329,148 +337,23 @@ export function reducer(initialState: IState, action: Action) {
             };
         }),
         on(purchaseAction.setAuthorizeSeatReservation, (state, payload) => {
-            const authorizeSeatReservation = Functions.Util.deepCopy<
-                factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>
-            >(payload.addAuthorizeSeatReservation);
-            const removeAuthorizeSeatReservation =
-                payload.removeAuthorizeSeatReservation;
-            const reservations = Functions.Util.deepCopy<
-                Models.Purchase.Reservation.IReservation[]
-            >(state.purchaseData.reservations);
-            const authorizeSeatReservations = Functions.Util.deepCopy<
-                factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[]
-            >(state.purchaseData.authorizeSeatReservations);
-            const pendingMovieTickets = Functions.Util.deepCopy<
-                Models.Purchase.MovieTicket.IMovieTicket[]
-            >(state.purchaseData.pendingMovieTickets);
-            if (removeAuthorizeSeatReservation !== undefined) {
-                // 削除
-                const findAuthorizeSeatReservation =
-                    authorizeSeatReservations.findIndex(
-                        (r) => r.id === removeAuthorizeSeatReservation.id
-                    );
-                if (findAuthorizeSeatReservation > -1) {
-                    authorizeSeatReservations.splice(
-                        findAuthorizeSeatReservation,
-                        1
-                    );
-                }
-                const findPendingMovieTicket = pendingMovieTickets.findIndex(
-                    (t) => t.id === removeAuthorizeSeatReservation.id
-                );
-                if (findPendingMovieTicket > -1) {
-                    pendingMovieTickets.splice(findPendingMovieTicket, 1);
-                }
-            }
-            // 追加
-            authorizeSeatReservations.push(authorizeSeatReservation);
-            const movieTicketReservations = reservations.filter(
-                (r) =>
-                    r.ticket !== undefined && r.ticket.movieTicket !== undefined
-            );
-            if (
-                movieTicketReservations.length > 0 &&
-                authorizeSeatReservation.result !== undefined &&
-                authorizeSeatReservation.result.responseBody.object
-                    .reservations !== undefined
-            ) {
-                const pendingReservations =
-                    authorizeSeatReservation.result.responseBody.object
-                        .reservations;
-                pendingMovieTickets.push({
-                    id: authorizeSeatReservation.id,
-                    movieTickets: movieTicketReservations.map((r) => {
-                        const pendingReservation = pendingReservations.find(
-                            (p) => {
-                                return (
-                                    p.reservedTicket.ticketedSeat !==
-                                        undefined &&
-                                    r.seat !== undefined &&
-                                    p.reservedTicket.ticketedSeat.seatNumber ===
-                                        r.seat.seatNumber &&
-                                    p.reservedTicket.ticketedSeat
-                                        .seatSection === r.seat.seatSection
-                                );
-                            }
-                        );
-                        if (
-                            pendingReservation === undefined ||
-                            pendingReservation.reservedTicket.ticketedSeat ===
-                                undefined
-                        ) {
-                            throw new Error('pendingReservation is undefined');
-                        }
-                        const movieTicket = <
-                            factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket
-                        >(<Models.Purchase.Reservation.IReservationTicket>(
-                            r.ticket
-                        )).movieTicket;
-                        movieTicket.serviceOutput = {
-                            reservationFor: {
-                                typeOf: factory.chevre.eventType.ScreeningEvent,
-                                id: pendingReservation.reservationFor.id,
-                            },
-                            reservedTicket: {
-                                ticketedSeat:
-                                    pendingReservation.reservedTicket
-                                        .ticketedSeat,
-                            },
-                        };
-                        return movieTicket;
-                    }),
-                });
-            }
-            return {
-                ...state,
-                purchaseData: {
-                    ...state.purchaseData,
-                    authorizeSeatReservation,
-                    reservations,
-                    authorizeSeatReservations,
-                    pendingMovieTickets,
-                },
-                process: '',
-                error: null,
-            };
-        }),
-        on(purchaseAction.voidSeatReservation, (state, payload) => {
-            const authorizeSeatReservations = Functions.Util.deepCopy<
-                factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[]
-            >(state.purchaseData.authorizeSeatReservations);
-            const pendingMovieTickets = Functions.Util.deepCopy<
-                Models.Purchase.MovieTicket.IMovieTicket[]
-            >(state.purchaseData.pendingMovieTickets);
-            payload.authorizeSeatReservations.forEach(
-                (authorizeSeatReservation) => {
-                    const findAuthorizeSeatReservation =
-                        Functions.Util.deepCopy<
-                            factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[]
-                        >(authorizeSeatReservations).findIndex(
-                            (target) =>
-                                target.id === authorizeSeatReservation.id
-                        );
-                    if (findAuthorizeSeatReservation > -1) {
-                        authorizeSeatReservations.splice(
-                            findAuthorizeSeatReservation,
-                            1
-                        );
-                    }
-                    const findPendingMovieTicket =
-                        pendingMovieTickets.findIndex(
-                            (target) =>
-                                target.id === authorizeSeatReservation.id
-                        );
-                    if (findPendingMovieTicket > -1) {
-                        pendingMovieTickets.splice(findPendingMovieTicket, 1);
-                    }
-                }
-            );
+            const {
+                authorizeSeatReservation,
+                authorizeSeatReservations,
+                pendingMovieTickets,
+                temporarilyReserved,
+            } = payload;
             return {
                 ...state,
                 purchaseData: {
                     ...state.purchaseData,
                     authorizeSeatReservations,
                     pendingMovieTickets,
+                    authorizeSeatReservation:
+                        authorizeSeatReservation === undefined
+                            ? state.purchaseData.authorizeSeatReservation
+                            : authorizeSeatReservation,
+                    temporarilyReserved,
                 },
                 process: '',
                 error: null,
@@ -533,6 +416,7 @@ export function reducer(initialState: IState, action: Action) {
                 ...state,
                 purchaseData: {
                     reservations: [],
+                    temporarilyReserved: [],
                     screeningEventTicketOffers: [],
                     orderCount: 0,
                     authorizeSeatReservations: [],

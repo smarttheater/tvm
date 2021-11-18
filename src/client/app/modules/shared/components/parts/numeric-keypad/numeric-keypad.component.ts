@@ -15,6 +15,7 @@ import {
 export class NumericKeypadComponent implements OnInit {
     public isOpen: boolean;
     public position: { y: number; x: number };
+    public codeList: string[];
     @Input() public inputValue: string;
     @Input() public viewPosition?: 'Top';
     @Input() public maxlength?: number;
@@ -29,6 +30,19 @@ export class NumericKeypadComponent implements OnInit {
     public ngOnInit() {
         this.isOpen = false;
         this.position = { y: 0, x: 0 };
+        this.codeList = [
+            '7',
+            '8',
+            '9',
+            '4',
+            '5',
+            '6',
+            '1',
+            '2',
+            '3',
+            '0',
+            '00',
+        ];
         if (this.inputValue === '0') {
             this.inputValue = '';
         }

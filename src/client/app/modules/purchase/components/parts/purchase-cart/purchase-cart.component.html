@@ -9,55 +9,50 @@
         <p class="text-md-center">{{ 'purchase.event.cart.notfound' | translate }}</p>
     </div>
     <ul>
-        <li *ngFor="let authorizeSeatReservation of purchase.authorizeSeatReservations"
+        <li *ngFor="let temporarilyReservation of purchase.temporarilyReserved"
             class="border-bottom border-white position-relative">
             <div class="p-3">
                 <button *ngIf="cancel" type="button" class="close text-white text-small opacity-100" aria-label="Close"
-                    (click)="removeItem(authorizeSeatReservation)">
+                    (click)="removeItem(temporarilyReservation.id)">
                     <i class="bi bi-x-circle"></i>
                 </button>
                 <div class="mb-3">
                     <div class="mb-1">
                         <p class="font-weight-bold text-small pr-3">
-                            {{ authorizeSeatReservation.object.event.name | changeLanguage }}</p>
+                            {{ temporarilyReservation.screeningEvent.name | changeLanguage }}</p>
                         <p class="text-small"
-                            *ngIf="authorizeSeatReservation.object.event.superEvent.headline && (authorizeSeatReservation.object.event.superEvent.headline | changeLanguage)">
-                            {{ authorizeSeatReservation.object.event.superEvent.headline | changeLanguage }}</p>
+                            *ngIf="temporarilyReservation.screeningEvent.superEvent.headline && (temporarilyReservation.screeningEvent.superEvent.headline | changeLanguage)">
+                            {{ temporarilyReservation.screeningEvent.superEvent.headline | changeLanguage }}</p>
                         <p class="text-x-small"
-                            *ngIf="authorizeSeatReservation.object.event.superEvent.description && (authorizeSeatReservation.object.event.superEvent.description | changeLanguage)">
-                            {{
-                            authorizeSeatReservation.object.event.superEvent.description | changeLanguage }}</p>
+                            *ngIf="temporarilyReservation.screeningEvent.superEvent.description && (temporarilyReservation.screeningEvent.superEvent.description | changeLanguage)">
+                            {{ temporarilyReservation.screeningEvent.superEvent.description | changeLanguage }}</p>
                     </div>
                     <p class="mb-1">
-                        {{ authorizeSeatReservation.object.event.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{
-                        authorizeSeatReservation.object.event.endDate | formatDate: 'HH:mm' }}
+                        {{ temporarilyReservation.screeningEvent.startDate | formatDate: 'MM/DD(ddd) HH:mm' }}-{{
+                        temporarilyReservation.screeningEvent.endDate | formatDate: 'HH:mm' }}
                     </p>
                     <p class="text-small mb-1">
                         <span class="theater-name">
-                            {{ authorizeSeatReservation.object.event.superEvent.location.name | changeLanguage }}
+                            {{ temporarilyReservation.screeningEvent.superEvent.location.name | changeLanguage }}
                         </span>
                         <span class="screen-name">
                             &nbsp;/&nbsp;<span
-                                *ngIf="authorizeSeatReservation.object.event.location.address | changeLanguage"
-                                class="mr-2">{{ authorizeSeatReservation.object.event.location.address | changeLanguage
-                                }}</span>{{ authorizeSeatReservation.object.event.location.name | changeLanguage }}
+                                *ngIf="temporarilyReservation.screeningEvent.location.address | changeLanguage"
+                                class="mr-2">{{ temporarilyReservation.screeningEvent.location.address | changeLanguage
+                                }}</span>{{ temporarilyReservation.screeningEvent.location.name | changeLanguage }}
                         </span>
                         <span
-                            *ngIf="authorizeSeatReservation.object.event.workPerformed?.duration && moment.duration(authorizeSeatReservation.object.event.workPerformed?.duration).asMinutes() > 0">
+                            *ngIf="temporarilyReservation.screeningEvent.workPerformed?.duration && moment.duration(temporarilyReservation.screeningEvent.workPerformed?.duration).asMinutes() > 0">
                             &nbsp;/&nbsp;<span class="mr-1">{{ 'common.duration' | translate }}</span>{{
-                            moment.duration(authorizeSeatReservation.object.event.workPerformed?.duration).asMinutes()
+                            moment.duration(temporarilyReservation.screeningEvent.workPerformed?.duration).asMinutes()
                             }}{{
                             'common.date.minute' | translate }}
                         </span>
                     </p>
-                    <!-- <button type="button" class="btn btn-outline-primary btn-block py-3 ml-auto p-0"
-            (click)="removeItem(authorizeSeatReservation)">{{ 'common.remove' | translate }}</button> -->
                 </div>
                 <ng-container
-                    *ngIf="authorizeSeatReservation.id !== purchase.authorizeSeatReservation?.id || purchase.reservations.length === 0">
-                    <app-item-list
-                        [authorizeSeatReservations]="authorizeSeatReservation?.result?.responseBody.object.reservations">
-                    </app-item-list>
+                    *ngIf="temporarilyReservation.id !== purchase.authorizeSeatReservation?.id || purchase.reservations.length === 0">
+                    <app-item-list [reservations]="temporarilyReservation.reservations"></app-item-list>
                 </ng-container>
             </div>
         </li>

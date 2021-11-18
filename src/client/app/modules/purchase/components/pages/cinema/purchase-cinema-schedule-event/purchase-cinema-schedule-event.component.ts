@@ -112,7 +112,7 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                 await this.actionService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {
                 await this.actionService.transaction.voidSeatReservation({
-                    authorizeSeatReservations,
+                    ids: authorizeSeatReservations.map((a) => a.id),
                 });
             }
             this.router.navigate(['/purchase/cinema/seat']);

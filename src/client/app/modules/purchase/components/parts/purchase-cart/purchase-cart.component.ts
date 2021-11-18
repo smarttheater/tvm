@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { factory } from '@cinerino/sdk';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Functions } from '../../../../..';
@@ -77,19 +76,14 @@ export class PurchaseCartComponent implements OnInit, OnChanges {
     /**
      * カート削除確認
      */
-    public removeItem(
-        authorizeSeatReservation: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>
-    ) {
+    public removeItem(id: string) {
         this.utilService.openConfirm({
             title: this.translate.instant('common.confirm'),
             body: this.translate.instant('purchase.event.cart.confirm.cancel'),
             cb: async () => {
                 try {
-                    const authorizeSeatReservations = [
-                        authorizeSeatReservation,
-                    ];
                     await this.actionService.transaction.voidSeatReservation({
-                        authorizeSeatReservations,
+                        ids: [id],
                     });
                 } catch (error) {
                     console.error(error);

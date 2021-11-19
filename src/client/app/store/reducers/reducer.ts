@@ -49,6 +49,9 @@ export function getInitialState(): IState {
         ...sessionData.App,
     };
     (<any>data).userData.seller = undefined;
+    if (data.purchaseData.temporarilyReserved === undefined) {
+        data.purchaseData.temporarilyReserved = [];
+    }
     data.loading = false;
 
     return data;

@@ -7,15 +7,14 @@
             <p *ngIf="isSuccess" class="mb-3 p-2 alert alert-success" [innerHTML]="successMessage"></p>
             <div class="form-group">
                 <label class="mb-2" for="">{{ 'modal.movieTicket.check.code' | translate }}</label>
-                <div>
-                    <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
-                        [inputValue]="inputForm.controls.code.value" (change)="changeCode($event)">
-                        <input type="text" class="form-control" formControlName="code" id="code" placeholder="012345789"
-                            readonly>
-                    </app-numeric-keypad>
-                    <input *ngIf="!environment.INPUT_KEYPAD" type="text" class="form-control" formControlName="code"
-                        id="code" autocomplete="off" placeholder="012345789" maxlength="10">
-                </div>
+                <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
+                    [inputValue]="inputForm.controls.code.value" (change)="changeCode($event)"
+                    (click)="errorMessage = ''">
+                    <input type="text" class="form-control" formControlName="code" id="code" placeholder="012345789"
+                        readonly>
+                </app-numeric-keypad>
+                <input *ngIf="!environment.INPUT_KEYPAD" type="text" class="form-control" formControlName="code"
+                    id="code" autocomplete="off" placeholder="012345789" maxlength="10">
                 <div *ngIf="inputForm.controls.code.invalid && inputForm.controls.code.touched" class="mt-2">
                     <p *ngIf="inputForm.controls.code.errors?.required" class="text-danger">
                         {{ 'form.validation.required' | translate }}</p>
@@ -37,7 +36,8 @@
             <div class="form-group">
                 <label class="mb-2" for="">{{ 'modal.movieTicket.check.password' | translate }}</label>
                 <app-numeric-keypad *ngIf="environment.INPUT_KEYPAD" inputType="string"
-                    [inputValue]="inputForm.controls.password.value" (change)="changePassword($event)">
+                    [inputValue]="inputForm.controls.password.value" (change)="changePassword($event)"
+                    (click)="errorMessage = ''">
                     <input type="password" class="form-control" formControlName="password" id="password"
                         placeholder="0123" readonly>
                 </app-numeric-keypad>

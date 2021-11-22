@@ -226,6 +226,26 @@ function setDocumentEvent() {
     document.documentElement.addEventListener('touchstart', marchiTap, options);
     let time = 0;
     const doubleTap = (event: TouchEvent) => {
+        try {
+            if (event.target === null) {
+                return;
+            }
+            const target =
+                (<HTMLElement>event.target).tagName.toUpperCase() === 'I'
+                    ? (<HTMLElement>event.target).parentElement
+                    : <HTMLElement>event.target;
+            if (
+                target !== null &&
+                (target.id === 'currentDateTime' ||
+                    target.tagName.toUpperCase() === 'BUTTON' ||
+                    target.tagName.toUpperCase() === 'INPUT' ||
+                    target.tagName.toUpperCase() === 'A')
+            ) {
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+        }
         const now = new Date().getTime();
         if (now - time < 350) {
             event.preventDefault();

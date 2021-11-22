@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.10.0 - 2021-11-18
+
+### Changed
+
+-   テンキーをタッチ非対応ディスプレイへ対応
+
 ## 4.9.0 - 2021-11-16
 
 ### Changed

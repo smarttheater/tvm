@@ -19,6 +19,8 @@ async function main() {
     // 言語設定
     defineLocale('ja', jaLocale);
 
+    setDocumentEvent();
+
     // パラメータ設定
     const params = Functions.Util.getParameter<{
         projectId?: string;
@@ -209,6 +211,48 @@ function applyColor(params: { primaryColor: string }) {
 }
     `;
     document.head.appendChild(style);
+}
+
+/**
+ * documentイベント設定
+ */
+function setDocumentEvent() {
+    const marchiTap = (event: TouchEvent) => {
+        if (event.touches.length >= 2) {
+            event.preventDefault();
+        }
+    };
+    const options = { passive: false };
+    document.documentElement.addEventListener('touchstart', marchiTap, options);
+    let time = 0;
+    const doubleTap = (event: TouchEvent) => {
+        try {
+            if (event.target === null) {
+                return;
+            }
+            const target =
+                (<HTMLElement>event.target).tagName.toUpperCase() === 'I'
+                    ? (<HTMLElement>event.target).parentElement
+                    : <HTMLElement>event.target;
+            if (
+                target !== null &&
+                (target.id === 'currentDateTime' ||
+                    target.tagName.toUpperCase() === 'BUTTON' ||
+                    target.tagName.toUpperCase() === 'INPUT' ||
+                    target.tagName.toUpperCase() === 'A')
+            ) {
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        const now = new Date().getTime();
+        if (now - time < 350) {
+            event.preventDefault();
+        }
+        time = now;
+    };
+    document.documentElement.addEventListener('touchend', doubleTap, false);
 }
 
 main()

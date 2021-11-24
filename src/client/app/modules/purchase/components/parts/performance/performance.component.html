@@ -12,11 +12,15 @@
                     </div>
                     <div class="text-right">-{{ moment(performance.screeningEvent.endDate).format('HH:mm') }}</div>
                 </div>
-                <div class="mb-1 text-small screen-name text-overflow-ellipsis">
-                    <p *ngIf="performance.screeningEvent.location.address | changeLanguage" class="mr-2 d-inline-block">
-                        {{ performance.screeningEvent.location.address | changeLanguage }}</p>
-                    <p class="d-inline-block">
-                        {{ performance.screeningEvent.location.name | changeLanguage }}</p>
+                <div class="mb-1 text-small screen-name">
+                    <div class="text-overflow-ellipsis">
+                        <p *ngIf="performance.screeningEvent.location.address | changeLanguage" class="mr-2 d-inline">
+                            {{ performance.screeningEvent.location.address | changeLanguage }}
+                        </p>
+                        <p class="d-inline">
+                            {{ performance.screeningEvent.location.name | changeLanguage }}
+                        </p>
+                    </div>
                     <p *ngIf="performance.screeningEvent.maximumAttendeeCapacity">
                         {{ 'common.seatValue' | translate: { value: performance.screeningEvent.maximumAttendeeCapacity }
                         }}

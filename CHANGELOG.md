@@ -14,6 +14,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.11.0 - 2021-11-24
+
+### Added
+
+-   ピンチ、ダブルタップ操作制御追加
+
+### Fixed
+
+-   ムビチケ入力でエラーが出ているとテンキーが画面からきれる不具合修正
+-   ルーム名称が長いと表示されない不具合修正
+
 ## 4.10.0 - 2021-11-18
 
 ### Changed

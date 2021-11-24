@@ -252,7 +252,12 @@ function setDocumentEvent() {
         }
         time = now;
     };
-    document.documentElement.addEventListener('touchend', doubleTap, false);
+    if (
+        /iPad|Macintosh/i.test(navigator.userAgent) &&
+        'ontouchend' in document
+    ) {
+        document.documentElement.addEventListener('touchend', doubleTap, false);
+    }
 }
 
 main()

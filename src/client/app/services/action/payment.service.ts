@@ -38,7 +38,7 @@ export class ActionPaymentService {
                 authorizeMovieTicketPayments,
                 transaction,
                 pendingMovieTickets,
-                authorizeSeatReservations,
+                temporarilyReserved,
                 seller,
             } = await this.storeService.getPurchaseData();
             if (transaction === undefined || seller === undefined) {
@@ -53,11 +53,11 @@ export class ActionPaymentService {
             }
             const authorizeResults: factory.action.authorize.paymentMethod.any.IAction[] =
                 [];
-            for (const authorizeSeatReservation of authorizeSeatReservations) {
+            for (const temporarilyReservation of temporarilyReserved) {
                 const movieTickets =
                     Functions.Purchase.createMovieTicketsFromAuthorizeSeatReservation(
                         {
-                            authorizeSeatReservation,
+                            temporarilyReservation,
                             pendingMovieTickets,
                             seller,
                         }

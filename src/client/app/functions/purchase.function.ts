@@ -1,5 +1,6 @@
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
+import { Models } from '..';
 import { getEnvironment } from '../../environments/environment';
 import { Purchase } from '../models';
 
@@ -118,29 +119,24 @@ export function isAvailabilityMovieTicket(
  *  予約情報からムビチケ情報作成
  */
 export function createMovieTicketsFromAuthorizeSeatReservation(params: {
-    authorizeSeatReservation: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
+    temporarilyReservation: Models.Purchase.Reservation.ITemporarilyReserved;
     pendingMovieTickets: Purchase.MovieTicket.IMovieTicket[];
     seller: factory.chevre.seller.ISeller;
 }) {
     const results: factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket[] =
         [];
-    const { authorizeSeatReservation, pendingMovieTickets, seller } = params;
-    if (authorizeSeatReservation.result === undefined) {
-        return [];
-    }
-    const pendingReservations = <
-        factory.chevre.reservation.IReservation<factory.chevre.reservationType.EventReservation>[]
-    >authorizeSeatReservation.result.responseBody.object.reservations;
+    const { temporarilyReservation, pendingMovieTickets, seller } = params;
+    const pendingReservations = temporarilyReservation.reservations;
 
     pendingReservations.forEach((pendingReservation) => {
         if (
-            pendingReservation.price === undefined ||
-            typeof pendingReservation.price === 'number'
+            pendingReservation.ticket?.ticketOffer.priceSpecification
+                .priceComponent === undefined
         ) {
             return;
         }
         const findMovieTicketTypeChargeSpecification =
-            pendingReservation.price.priceComponent.find(
+            pendingReservation.ticket?.ticketOffer.priceSpecification.priceComponent.find(
                 (p) =>
                     p.typeOf ===
                     factory.chevre.priceSpecificationType
@@ -151,7 +147,7 @@ export function createMovieTicketsFromAuthorizeSeatReservation(params: {
         }
         const findPendingMovieTicket = pendingMovieTickets.find(
             (pendingMovieTicket) => {
-                return pendingMovieTicket.id === authorizeSeatReservation.id;
+                return pendingMovieTicket.id === temporarilyReservation.id;
             }
         );
         if (findPendingMovieTicket === undefined) {
@@ -166,14 +162,9 @@ export function createMovieTicketsFromAuthorizeSeatReservation(params: {
                     movieTicket.serviceOutput.reservedTicket.ticketedSeat
                         .seatSection;
                 return (
-                    pendingReservation.reservedTicket.ticketedSeat !==
-                        undefined &&
-                    seatNumber ===
-                        pendingReservation.reservedTicket.ticketedSeat
-                            .seatNumber &&
-                    seatSection ===
-                        pendingReservation.reservedTicket.ticketedSeat
-                            .seatSection
+                    pendingReservation.seat !== undefined &&
+                    seatNumber === pendingReservation.seat.seatNumber &&
+                    seatSection === pendingReservation.seat.seatSection
                 );
             }
         );
@@ -407,32 +398,127 @@ export function order2EventOrders(params: { order: factory.order.IOrder }) {
 }
 
 /**
- * 座席予約をイベントごとに変換
+ * 予約をイベントごとの予約に変換
  */
-export function authorizeSeatReservation2Event(params: {
-    authorizeSeatReservations: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[];
+export function temporarilyReserved2EventReservation(params: {
+    temporarilyReserved: Models.Purchase.Reservation.ITemporarilyReserved[];
 }) {
     const results: {
         event: factory.chevre.event.screeningEvent.IEvent;
-        reservations: factory.chevre.reservation.IReservation<factory.chevre.reservationType.EventReservation>[];
+        reservations: {
+            reservedTicket: {
+                ticketType: {
+                    description?: string | factory.multilingualString;
+                    id?: string;
+                    identifier: string;
+                    name?: string | factory.multilingualString;
+                    priceCurrency: factory.chevre.priceCurrency;
+                    project: factory.chevre.project.IProject;
+                    typeOf: factory.chevre.offerType;
+                    additionalProperty?: factory.chevre.propertyValue.IPropertyValue<string>[];
+                    category?: factory.chevre.offer.ICategory;
+                    color?: string;
+                };
+                ticketedSeat?: {
+                    seatNumber: string;
+                    seatRow: string;
+                    seatSection: string;
+                };
+            };
+            price: {
+                priceComponent: {
+                    typeOf: factory.chevre.priceSpecificationType;
+                    name?: string | factory.multilingualString;
+                    price: number;
+                    priceCurrency: factory.chevre.priceCurrency;
+                    referenceQuantity?: factory.chevre.quantitativeValue.IQuantitativeValue<factory.chevre.unitCode>;
+                }[];
+            };
+        }[];
     }[] = [];
-    const authorizeSeatReservations = params.authorizeSeatReservations;
-    authorizeSeatReservations.forEach((authorizeSeatReservation) => {
-        if (authorizeSeatReservation.result === undefined) {
+    const { temporarilyReserved } = params;
+    temporarilyReserved.forEach((temporarilyReservation) => {
+        if (temporarilyReservation.screeningEvent === undefined) {
             return;
         }
-        const reservations =
-            authorizeSeatReservation.result.responseBody.object.reservations;
-        if (reservations === undefined) {
-            return;
-        }
-        reservations.forEach((reservation) => {
+        const { screeningEvent, reservations } = temporarilyReservation;
+        reservations.forEach((r) => {
+            if (r.ticket === undefined) {
+                return;
+            }
+            const { seat, ticket } = r;
+            const priceComponents: factory.chevre.priceSpecification.IPriceSpecification<factory.chevre.priceSpecificationType>[] =
+                [];
+            if (seat !== undefined && seat.offers !== undefined) {
+                // 座席料金
+                seat.offers.forEach((o) => {
+                    if (o.priceSpecification !== undefined) {
+                        o.priceSpecification.priceComponent.forEach((p) =>
+                            priceComponents.push(p)
+                        );
+                    }
+                });
+            }
+            // 券種料金
+            ticket.ticketOffer.priceSpecification.priceComponent.forEach((p) =>
+                priceComponents.push(p)
+            );
+            if (ticket.addOn !== undefined) {
+                // 券種オプション料金
+                ticket.addOn.forEach((a) => {
+                    if (a.priceSpecification === undefined) {
+                        return;
+                    }
+                    priceComponents.push(a.priceSpecification);
+                });
+            }
+            const reservation = {
+                reservedTicket: {
+                    ticketType: {
+                        description: ticket.ticketOffer.description,
+                        id: ticket.ticketOffer.id,
+                        identifier: ticket.ticketOffer.identifier,
+                        name: ticket.ticketOffer.name,
+                        priceCurrency: ticket.ticketOffer.priceCurrency,
+                        project: ticket.ticketOffer.project,
+                        typeOf: ticket.ticketOffer.typeOf,
+                        additionalProperty:
+                            ticket.ticketOffer.additionalProperty,
+                        category: ticket.ticketOffer.category,
+                        color: ticket.ticketOffer.color,
+                    },
+                    ticketedSeat:
+                        seat === undefined
+                            ? undefined
+                            : {
+                                  seatNumber: seat.seatNumber,
+                                  seatRow: seat.seatRow,
+                                  seatSection: seat.seatSection,
+                              },
+                },
+                price: {
+                    priceComponent: priceComponents.map((p) => {
+                        return {
+                            typeOf: p.typeOf,
+                            name: p.name,
+                            price: p.price === undefined ? 0 : p.price,
+                            priceCurrency: p.priceCurrency,
+                            referenceQuantity:
+                                p.typeOf ===
+                                factory.chevre.priceSpecificationType
+                                    .UnitPriceSpecification
+                                    ? (<any>p).referenceQuantity
+                                    : undefined,
+                        };
+                    }),
+                },
+            };
             const registered = results.find((result) => {
-                return result.event.id === reservation.reservationFor.id;
+                return result.event.id === screeningEvent.id;
             });
             if (registered === undefined) {
                 results.push({
-                    event: reservation.reservationFor,
+                    event: screeningEvent,
                     reservations: [reservation],
                 });
             } else {

@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.12.0 - 2021-12-01
+
+### Changed
+
+-   予約承認レスポンスの result.responseBody への依存を削除
+
 ## 4.11.0 - 2021-11-24
 
 ### Added

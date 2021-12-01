@@ -39,8 +39,6 @@ export class ScreenComponent
     @Input()
     public screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
     @Input() public reservations: Models.Purchase.Reservation.IReservation[];
-    @Input()
-    public authorizeSeatReservation?: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
     @Input() public outerHeight?: number;
     @Output() public select = new EventEmitter<{
         seat: Models.Purchase.Reservation.IReservationSeat;
@@ -564,28 +562,17 @@ export class ScreenComponent
                         if (findSeat === undefined) {
                             className.push('space');
                         }
-                        if (
-                            this.authorizeSeatReservation !== undefined &&
-                            this.authorizeSeatReservation.result !==
-                                undefined &&
-                            this.authorizeSeatReservation.result.responseBody
-                                .object.reservations !== undefined
-                        ) {
+                        if (this.reservations !== undefined) {
                             // chevre
-                            const findResult =
-                                this.authorizeSeatReservation.result.responseBody.object.reservations.find(
-                                    (r) => {
-                                        const ticketedSeat =
-                                            r.reservedTicket.ticketedSeat;
-                                        return (
-                                            ticketedSeat !== undefined &&
-                                            ticketedSeat.seatNumber === code &&
-                                            ticketedSeat.seatSection ===
-                                                section &&
-                                            ticketedSeat.seatRow === row
-                                        );
-                                    }
+                            const findResult = this.reservations.find((r) => {
+                                const ticketedSeat = r.seat;
+                                return (
+                                    ticketedSeat !== undefined &&
+                                    ticketedSeat.seatNumber === code &&
+                                    ticketedSeat.seatSection === section &&
+                                    ticketedSeat.seatRow === row
                                 );
+                            });
                             if (findResult !== undefined) {
                                 status = SeatStatus.Default;
                             }

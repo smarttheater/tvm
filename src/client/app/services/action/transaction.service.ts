@@ -131,7 +131,7 @@ export class ActionTransactionService {
             const environment = getEnvironment();
             const { theater } = params;
             const language = 'ja';
-            const { transaction, authorizeSeatReservations, seller } =
+            const { transaction, seller, temporarilyReserved } =
                 await this.storeService.getPurchaseData();
             if (
                 transaction === undefined ||
@@ -142,8 +142,8 @@ export class ActionTransactionService {
             }
 
             const authorizeEventSeatReservations =
-                Functions.Purchase.authorizeSeatReservation2Event({
-                    authorizeSeatReservations,
+                Functions.Purchase.temporarilyReserved2EventReservation({
+                    temporarilyReserved,
                 });
             await this.cinerinoService.getServices();
 
@@ -478,33 +478,20 @@ export class ActionTransactionService {
                 (r) =>
                     r.ticket !== undefined && r.ticket.movieTicket !== undefined
             );
-            if (
-                movieTicketReservations.length > 0 &&
-                authorizeResult.result !== undefined &&
-                authorizeResult.result.responseBody.object.reservations !==
-                    undefined
-            ) {
-                const pendingReservations =
-                    authorizeResult.result.responseBody.object.reservations;
+            if (movieTicketReservations.length > 0) {
                 actionParams.pendingMovieTickets.push({
                     id: authorizeResult.id,
                     movieTickets: movieTicketReservations.map((r) => {
-                        const pendingReservation = pendingReservations.find(
-                            (p) => {
-                                return (
-                                    p.reservedTicket.ticketedSeat !==
-                                        undefined &&
-                                    r.seat !== undefined &&
-                                    p.reservedTicket.ticketedSeat.seatNumber ===
-                                        r.seat.seatNumber &&
-                                    p.reservedTicket.ticketedSeat
-                                        .seatSection === r.seat.seatSection
-                                );
-                            }
-                        );
+                        const pendingReservation = reservations.find((r2) => {
+                            return (
+                                r2.seat !== undefined &&
+                                r.seat !== undefined &&
+                                r2.seat.seatNumber === r.seat.seatNumber &&
+                                r2.seat.seatSection === r.seat.seatSection
+                            );
+                        });
                         if (
-                            pendingReservation?.reservedTicket.ticketedSeat ===
-                                undefined ||
+                            pendingReservation?.seat === undefined ||
                             r.ticket.movieTicket === undefined
                         ) {
                             throw new Error('pendingReservation is undefined');
@@ -512,12 +499,19 @@ export class ActionTransactionService {
                         const serviceOutput = {
                             reservationFor: {
                                 typeOf: <any>factory.eventType.ScreeningEvent,
-                                id: pendingReservation.reservationFor.id,
+                                id: screeningEvent.id,
                             },
                             reservedTicket: {
-                                ticketedSeat:
-                                    pendingReservation.reservedTicket
-                                        .ticketedSeat,
+                                ticketedSeat: {
+                                    typeOf: pendingReservation.seat.typeOf,
+                                    seatingType:
+                                        pendingReservation.seat.seatingType,
+                                    seatNumber:
+                                        pendingReservation.seat.seatNumber,
+                                    seatRow: pendingReservation.seat.seatRow,
+                                    seatSection:
+                                        pendingReservation.seat.seatSection,
+                                },
                             },
                         };
 
@@ -547,9 +541,7 @@ export class ActionTransactionService {
     /**
      * 座席仮予約取り消し
      */
-    public async voidSeatReservation(params: {
-        authorizeSeatReservations: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[];
-    }) {
+    public async voidSeatReservation(params: { ids: string[] }) {
         try {
             this.utilService.loadStart({
                 process: 'purchaseAction.VoidSeatReservation',
@@ -567,7 +559,14 @@ export class ActionTransactionService {
                 >(purchaseData.temporarilyReserved),
             };
             await this.cinerinoService.getServices();
-            for (const authorizeSeatReservation of params.authorizeSeatReservations) {
+            for (const id of params.ids) {
+                const authorizeSeatReservation =
+                    actionParams.authorizeSeatReservations.find(
+                        (a) => a.id === id
+                    );
+                if (authorizeSeatReservation === undefined) {
+                    continue;
+                }
                 await this.cinerinoService.transaction.placeOrder.voidSeatReservation(
                     authorizeSeatReservation
                 );

@@ -118,52 +118,6 @@ export class PurchaseSeatComponent implements OnInit {
     }
 
     /**
-     * 全席選択
-     */
-    public async allSelectSeats() {
-        const seats: Models.Purchase.Reservation.IReservationSeat[] = [];
-        const purchase = await this.actionService.purchase.getData();
-        const screeningEventSeats = this.screeningEventSeats;
-        screeningEventSeats.forEach((s) => {
-            if (
-                s.offers === undefined ||
-                s.offers[0].availability !==
-                    factory.chevre.itemAvailability.InStock ||
-                s.containedInPlace === undefined
-            ) {
-                return;
-            }
-            seats.push({
-                typeOf: s.typeOf,
-                seatingType: s.seatingType === undefined ? '' : s.seatingType,
-                seatNumber: s.branchCode,
-                seatRow: '',
-                seatSection:
-                    s.containedInPlace.branchCode === undefined
-                        ? ''
-                        : s.containedInPlace.branchCode,
-                offers: s.offers,
-            });
-        });
-        if (
-            purchase.authorizeSeatReservation !== undefined &&
-            purchase.authorizeSeatReservation.result !== undefined &&
-            purchase.authorizeSeatReservation.result.responseBody.object
-                .reservations !== undefined
-        ) {
-            purchase.authorizeSeatReservation.result.responseBody.object.reservations.forEach(
-                (r) => {
-                    if (r.reservedTicket.ticketedSeat === undefined) {
-                        return;
-                    }
-                    seats.push(r.reservedTicket.ticketedSeat);
-                }
-            );
-        }
-        this.actionService.purchase.selectSeats(seats);
-    }
-
-    /**
      * 全席選択解除
      */
     public async resetSeats() {

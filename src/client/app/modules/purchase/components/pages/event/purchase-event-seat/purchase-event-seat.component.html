@@ -17,9 +17,8 @@
                 && outerHeight" [theaterCode]="(user | async)?.theater.branchCode"
                         [screenCode]="(purchase | async)?.screen.branchCode" [screeningEventSeats]="screeningEventSeats"
                         [openSeatingAllowed]="(purchase | async)?.screen.openSeatingAllowed"
-                        [reservations]="(purchase | async)?.reservations"
-                        [authorizeSeatReservation]="(purchase | async)?.authorizeSeatReservation"
-                        [outerHeight]="outerHeight" (select)="selectSeat($event)">
+                        [reservations]="(purchase | async)?.reservations" [outerHeight]="outerHeight"
+                        (select)="selectSeat($event)">
                     </app-screen>
                     <app-seat-info #seatInfo
                         *ngIf="(purchase | async)?.screen && !((purchase | async)?.screen?.openSeatingAllowed)">

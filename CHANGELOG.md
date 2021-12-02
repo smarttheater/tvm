@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.13.0 - 2021-12-02
+
+### Changed
+
+-   座席総数を非表示に変更
+
+### Fixed
+
+-   メールテンプレート修正
+
 ## 4.12.0 - 2021-12-01
 
 ### Changed

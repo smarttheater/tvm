@@ -19,10 +19,19 @@ router.post('/getCredentials', async (req, res) => {
         const authModel = new Auth2Model((<Express.Session>req.session).auth);
         const options = { endpoint, auth: authModel.create(req) };
         const accessToken = await options.auth.getAccessToken();
+        authModel.credentials = options.auth.credentials;
+        authModel.save(req.session);
         const expiryDate = options.auth.credentials.expiry_date;
         const userName = options.auth.verifyIdToken(<any>{}).getUsername();
         const clientId = options.auth.options.clientId;
-        res.json({ accessToken, expiryDate, userName, clientId, endpoint, waiterServerUrl });
+        res.json({
+            accessToken,
+            expiryDate,
+            userName,
+            clientId,
+            endpoint,
+            waiterServerUrl,
+        });
     } catch (error) {
         errorProsess(res, error);
     }
@@ -39,7 +48,7 @@ router.get('/signIn', async (req, res) => {
     const url = auth.generateAuthUrl({
         scopes: authModel.scopes,
         state: authModel.state,
-        codeVerifier: authModel.codeVerifier
+        codeVerifier: authModel.codeVerifier,
     });
     delete req.session.auth;
     res.json({ url });

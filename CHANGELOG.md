@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.14.0 - 2021-12-09
+
+### Changed
+
+-   ログイン時アクセストークン更新の最適化
+
 ## 4.13.0 - 2021-12-02
 
 ### Changed

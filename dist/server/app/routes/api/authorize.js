@@ -30,10 +30,19 @@ router.post('/getCredentials', (req, res) => __awaiter(void 0, void 0, void 0, f
         const authModel = new auth2_model_1.Auth2Model(req.session.auth);
         const options = { endpoint, auth: authModel.create(req) };
         const accessToken = yield options.auth.getAccessToken();
+        authModel.credentials = options.auth.credentials;
+        authModel.save(req.session);
         const expiryDate = options.auth.credentials.expiry_date;
         const userName = options.auth.verifyIdToken({}).getUsername();
         const clientId = options.auth.options.clientId;
-        res.json({ accessToken, expiryDate, userName, clientId, endpoint, waiterServerUrl });
+        res.json({
+            accessToken,
+            expiryDate,
+            userName,
+            clientId,
+            endpoint,
+            waiterServerUrl,
+        });
     }
     catch (error) {
         base_1.errorProsess(res, error);
@@ -50,7 +59,7 @@ router.get('/signIn', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const url = auth.generateAuthUrl({
         scopes: authModel.scopes,
         state: authModel.state,
-        codeVerifier: authModel.codeVerifier
+        codeVerifier: authModel.codeVerifier,
     });
     delete req.session.auth;
     res.json({ url });

@@ -400,7 +400,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             } catch (error2) {
                 console.error(error2);
             }
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.router.navigate(['/stop']);
             return;
         }

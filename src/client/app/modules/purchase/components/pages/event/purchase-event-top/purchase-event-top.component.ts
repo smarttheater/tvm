@@ -118,12 +118,11 @@ export class PurchaseEventTopComponent implements OnInit {
             const { routerLink } = params;
             this.router.navigate([routerLink]);
         } catch (error) {
-            const errorObject = JSON.parse(error);
-            if (errorObject.status === TOO_MANY_REQUESTS) {
+            if (error.status === TOO_MANY_REQUESTS) {
                 this.router.navigate(['/congestion']);
                 return;
             }
-            if (errorObject.status === BAD_REQUEST) {
+            if (error.status === BAD_REQUEST) {
                 this.router.navigate(['/maintenance']);
                 return;
             }

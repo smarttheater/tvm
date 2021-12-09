@@ -57,7 +57,7 @@ export class ActionEventService {
             );
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -164,7 +164,7 @@ export class ActionEventService {
             this.utilService.loadEnd();
             return sheduleDates;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -213,7 +213,7 @@ export class ActionEventService {
             this.utilService.loadEnd();
             return result;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -259,7 +259,7 @@ export class ActionEventService {
             );
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -371,7 +371,7 @@ export class ActionEventService {
             this.utilService.loadEnd();
             return result;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -458,7 +458,7 @@ export class ActionEventService {
             this.utilService.loadEnd();
             return result;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

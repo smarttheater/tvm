@@ -93,4 +93,13 @@ router.post('/password', (req, res) => {
     res.json();
 });
 
+/**
+ * パスワード検証
+ */
+router.post('/logging', (req, res) => {
+    log('logging');
+    console.error(req.body);
+    res.json();
+});
+
 export const utilRouter = router;

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Functions } from '..';
 import { AlertModalComponent } from '../modules/shared/components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from '../modules/shared/components/parts/confirm-modal/confirm-modal.component';
 import { StaticModalComponent } from '../modules/shared/components/parts/static-modal/static-modal.component';
@@ -218,7 +219,29 @@ export class UtilService {
     /**
      * エラー設定
      */
-    public setError(error: any) {
-        this.store.dispatch(utilAction.setError({ error }));
+    public setError(params: any) {
+        try {
+            const log =
+                params.error === undefined
+                    ? JSON.stringify(params)
+                    : JSON.stringify({
+                          ...params.error,
+                          message: params.error.message,
+                      });
+            this.postLog({ log });
+        } catch (error) {
+            console.error(error);
+        }
+
+        this.store.dispatch(utilAction.setError(params));
+    }
+
+    public async postLog(params: { log: string }) {
+        await this.http
+            .post('/api/logging', {
+                log: params.log,
+                project: Functions.Util.getProject().projectId,
+            })
+            .toPromise();
     }
 }

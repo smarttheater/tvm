@@ -34,7 +34,7 @@ export class ActionSellerService {
             this.utilService.loadEnd();
             return searchResult.data;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

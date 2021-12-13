@@ -12,6 +12,7 @@ import {
     TFuncCode,
     TResponseData,
 } from '../models/purchase/payment';
+import { UtilService } from './util.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +23,7 @@ export class PaymentService {
     private delayTime: number;
     private offline: string;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private utilService: UtilService) {}
 
     public init(params: {
         ipAddress: string;
@@ -46,47 +47,53 @@ export class PaymentService {
         options?: IExecOptions;
         timeout?: number;
     }): Promise<TResponseData> {
-        const func = params.func;
-        const time = params.timeout === undefined ? 60000 : params.timeout;
-        const execReqestData = this.createExecReqestData(params);
-        // console.log('execReqestData', execReqestData);
-        const execResult = await this.request<IResponseData>({
-            requestData: execReqestData,
-            methodName: 'Exec',
-        });
-        // console.log('Exec', func, execResult);
-        if (!this.isResult({ func, status: execResult.FUNC_STATUS })) {
-            return execResult;
-        }
-        // 結果取得
-        let isTimeout = false;
-        const timer = setTimeout(() => {
-            isTimeout = true;
-        }, time);
-        let count = 0;
-        const resultReqestData = this.createResultReqestData({ func });
-        let requestResult: TResponseData = await this.request<TResponseData>({
-            requestData: resultReqestData,
-            methodName: 'Result',
-        });
-        // console.log('Result:' + count, func, requestResult);
-        let roop = true;
-        while (roop) {
-            count = count + 1;
-            if (isTimeout) {
-                roop = false;
-                break;
-            }
-            await Functions.Util.sleep(this.delayTime);
-            requestResult = await this.request<TResponseData>({
-                requestData: resultReqestData,
-                methodName: 'Result',
+        try {
+            const func = params.func;
+            const time = params.timeout === undefined ? 60000 : params.timeout;
+            const execReqestData = this.createExecReqestData(params);
+            // console.log('execReqestData', execReqestData);
+            const execResult = await this.request<IResponseData>({
+                requestData: execReqestData,
+                methodName: 'Exec',
             });
+            // console.log('Exec', func, execResult);
+            if (!this.isResult({ func, status: execResult.FUNC_STATUS })) {
+                return execResult;
+            }
+            // 結果取得
+            let isTimeout = false;
+            const timer = setTimeout(() => {
+                isTimeout = true;
+            }, time);
+            let count = 0;
+            const resultReqestData = this.createResultReqestData({ func });
+            let requestResult: TResponseData =
+                await this.request<TResponseData>({
+                    requestData: resultReqestData,
+                    methodName: 'Result',
+                });
             // console.log('Result:' + count, func, requestResult);
-            roop = this.isProcessing({ status: requestResult.FUNC_STATUS });
+            let roop = true;
+            while (roop) {
+                count = count + 1;
+                if (isTimeout) {
+                    roop = false;
+                    break;
+                }
+                await Functions.Util.sleep(this.delayTime);
+                requestResult = await this.request<TResponseData>({
+                    requestData: resultReqestData,
+                    methodName: 'Result',
+                });
+                // console.log('Result:' + count, func, requestResult);
+                roop = this.isProcessing({ status: requestResult.FUNC_STATUS });
+            }
+            clearTimeout(timer);
+            return requestResult;
+        } catch (error) {
+            this.utilService.setError({ error });
+            throw error;
         }
-        clearTimeout(timer);
-        return requestResult;
     }
 
     /**

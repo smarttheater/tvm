@@ -49,7 +49,7 @@ export class ActionProjectService {
             this.utilService.loadEnd();
             return result;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

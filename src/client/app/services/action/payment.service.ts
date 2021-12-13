@@ -109,7 +109,7 @@ export class ActionPaymentService {
             );
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -184,7 +184,7 @@ export class ActionPaymentService {
             this.utilService.loadEnd();
             return checkMovieTicket;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -225,7 +225,7 @@ export class ActionPaymentService {
             this.utilService.loadEnd();
             return checkProduct;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -269,7 +269,7 @@ export class ActionPaymentService {
             );
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

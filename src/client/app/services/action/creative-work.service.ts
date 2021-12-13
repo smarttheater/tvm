@@ -77,7 +77,7 @@ export class ActionCreativeWorkService {
             this.utilService.loadEnd();
             return sortResult;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

@@ -65,7 +65,7 @@ export class PurchaseService {
             this.store.dispatch(purchaseAction.setSeller({ seller }));
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -132,7 +132,7 @@ export class PurchaseService {
             );
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

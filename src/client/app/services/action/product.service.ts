@@ -52,7 +52,7 @@ export class ActionProductService {
             this.utilService.loadEnd();
             return result;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -76,7 +76,7 @@ export class ActionProductService {
             this.utilService.loadEnd();
             return searchResult;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

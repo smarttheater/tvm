@@ -103,7 +103,7 @@ export class EpsonCaschCangerService {
             await this.connect();
             this.device = (await this.createDevice()).data;
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             throw error;
         }
     }
@@ -300,7 +300,7 @@ export class EpsonCaschCangerService {
             await Functions.Util.sleep(1000);
         } catch (error) {
             this.disconnect();
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             throw error;
         }
         this.device.ondeposit = (data: IDeposit) => {
@@ -451,7 +451,7 @@ export class EpsonCaschCangerService {
             await Functions.Util.sleep(1000);
         } catch (error) {
             this.disconnect();
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             throw error;
         }
     }
@@ -501,7 +501,7 @@ export class EpsonCaschCangerService {
             await dispenseChange();
         } catch (error) {
             this.disconnect();
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             throw error;
         }
     }
@@ -589,7 +589,7 @@ export class EpsonCaschCangerService {
             return await readCashCounts();
         } catch (error) {
             this.disconnect();
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             throw error;
         }
     }
@@ -641,7 +641,7 @@ export class EpsonCaschCangerService {
             await collect();
         } catch (error) {
             this.disconnect();
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             throw error;
         }
     }

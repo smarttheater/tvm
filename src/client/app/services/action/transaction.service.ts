@@ -86,7 +86,7 @@ export class ActionTransactionService {
             this.store.dispatch(purchaseAction.setTransaction({ transaction }));
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -111,7 +111,7 @@ export class ActionTransactionService {
             this.store.dispatch(purchaseAction.cancelTransaction());
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -210,7 +210,7 @@ export class ActionTransactionService {
             this.store.dispatch(purchaseAction.setOrder({ order }));
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -297,7 +297,7 @@ export class ActionTransactionService {
             this.store.dispatch(purchaseAction.setProfile({ profile }));
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -532,7 +532,7 @@ export class ActionTransactionService {
             );
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }
@@ -589,7 +589,7 @@ export class ActionTransactionService {
             );
             this.utilService.loadEnd();
         } catch (error) {
-            this.utilService.setError(error);
+            this.utilService.setError({ error });
             this.utilService.loadEnd();
             throw error;
         }

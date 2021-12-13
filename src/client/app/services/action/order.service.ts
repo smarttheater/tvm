@@ -227,6 +227,7 @@ export class OrderService {
             if (environment.PRINT_LOADING) {
                 this.utilService.loadEnd();
             }
+            this.utilService.setError({ error });
             throw error;
         }
     }

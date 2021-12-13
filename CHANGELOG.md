@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.15.1 - 2021-12-13
+
+### Fixed
+
+-   決済端末エラーログ取得修正
+
 ## 4.15.0 - 2021-12-13
 
 ### Added

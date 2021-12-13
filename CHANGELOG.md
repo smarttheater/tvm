@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.15.0 - 2021-12-13
+
+### Added
+
+-   ログをサーバーへ送信
+
 ## 4.14.0 - 2021-12-09
 
 ### Changed

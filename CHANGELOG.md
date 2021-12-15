@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.16.0 - 2021-12-15
+
+### Changed
+
+-   印刷エラーハンドリング調整
+
 ## 4.15.1 - 2021-12-13
 
 ### Fixed

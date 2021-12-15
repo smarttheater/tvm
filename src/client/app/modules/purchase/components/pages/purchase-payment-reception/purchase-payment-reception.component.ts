@@ -137,45 +137,53 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.creditcard.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/creditcard.svg" alt="">',
         });
-        const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
-        this.actionService.purchase.setOrderId({ id: orderId });
-        await this.paymentService.init({ ipAddress: payment });
-        const execResult = await this.paymentService.exec({
-            func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
-            options: {
-                JOB: Models.Purchase.Payment.JOB.CAPTURE,
-                ORDERID: orderId,
-                AMOUNT: String(this.amount),
-                // MACHINE_CODE: '',
-                // TRANID: '',
-                // CANTRANID: ''
-            },
-            timeout,
-        });
-        if (
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
-        ) {
-            modal.hide();
-            this.router.navigate(['/purchase/payment']);
-            return;
-        }
-        if (
-            execResult.FUNC_STATUS !==
-            Models.Purchase.Payment.FUNC_STATUS.SUCCESS
-        ) {
-            await this.paymentService.exec({
-                func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.INTERRUPTION,
+        try {
+            const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
+            this.actionService.purchase.setOrderId({ id: orderId });
+            await this.paymentService.init({ ipAddress: payment });
+            const execResult = await this.paymentService.exec({
+                func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
+                options: {
+                    JOB: Models.Purchase.Payment.JOB.CAPTURE,
+                    ORDERID: orderId,
+                    AMOUNT: String(this.amount),
+                    // MACHINE_CODE: '',
+                    // TRANID: '',
+                    // CANTRANID: ''
+                },
+                timeout,
             });
+            if (
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
+            ) {
+                modal.hide();
+                this.router.navigate(['/purchase/payment']);
+                return;
+            }
+            if (
+                execResult.FUNC_STATUS !==
+                Models.Purchase.Payment.FUNC_STATUS.SUCCESS
+            ) {
+                await this.paymentService.exec({
+                    func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD
+                        .INTERRUPTION,
+                });
+                modal.hide();
+                throw new Error(JSON.stringify(execResult));
+            }
             modal.hide();
-            throw new Error(JSON.stringify(execResult));
+            this.onSubmit();
+        } catch (error) {
+            if (modal !== undefined) {
+                modal.hide();
+            }
+            throw error;
         }
-        modal.hide();
-        this.onSubmit();
     }
 
     /**
@@ -196,45 +204,52 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
         });
-        const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
-        this.actionService.purchase.setOrderId({ id: orderId });
-        await this.paymentService.init({ ipAddress: payment });
-        const execResult = await this.paymentService.exec({
-            func: Models.Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
-            options: {
-                JOB: Models.Purchase.Payment.JOB.CAPTURE,
-                ORDERID: orderId,
-                AMOUNT: String(this.amount),
-                // MACHINE_CODE: '',
-                // TRANID: '',
-                // CANTRANID: ''
-            },
-            timeout,
-        });
-        if (
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
-        ) {
-            modal.hide();
-            this.router.navigate(['/purchase/payment']);
-            return;
-        }
-        if (
-            execResult.FUNC_STATUS !==
-            Models.Purchase.Payment.FUNC_STATUS.SUCCESS
-        ) {
-            await this.paymentService.exec({
-                func: Models.Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION,
+        try {
+            const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
+            this.actionService.purchase.setOrderId({ id: orderId });
+            await this.paymentService.init({ ipAddress: payment });
+            const execResult = await this.paymentService.exec({
+                func: Models.Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
+                options: {
+                    JOB: Models.Purchase.Payment.JOB.CAPTURE,
+                    ORDERID: orderId,
+                    AMOUNT: String(this.amount),
+                    // MACHINE_CODE: '',
+                    // TRANID: '',
+                    // CANTRANID: ''
+                },
+                timeout,
             });
+            if (
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
+            ) {
+                modal.hide();
+                this.router.navigate(['/purchase/payment']);
+                return;
+            }
+            if (
+                execResult.FUNC_STATUS !==
+                Models.Purchase.Payment.FUNC_STATUS.SUCCESS
+            ) {
+                await this.paymentService.exec({
+                    func: Models.Purchase.Payment.FUNC_CODE.EMONEY.INTERRUPTION,
+                });
+                modal.hide();
+                throw new Error(JSON.stringify(execResult));
+            }
             modal.hide();
-            throw new Error(JSON.stringify(execResult));
+            this.onSubmit();
+        } catch (error) {
+            if (modal !== undefined) {
+                modal.hide();
+            }
+            throw error;
         }
-        modal.hide();
-        this.onSubmit();
     }
 
     /**
@@ -255,45 +270,52 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             title: '', // this.translate.instant('purchase.paymentReception.eMoney.title'),
             body: '<img class="w-100" src="/default/images/purchase/payment/reception/eMoney.svg" alt="">',
         });
-        const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
-        this.actionService.purchase.setOrderId({ id: orderId });
-        await this.paymentService.init({ ipAddress: payment });
-        const execResult = await this.paymentService.exec({
-            func: Models.Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
-            options: {
-                JOB: Models.Purchase.Payment.JOB.CAPTURE,
-                ORDERID: orderId,
-                AMOUNT: String(this.amount),
-                MACHINE_CODE: '',
-                // TRANID: '',
-                // CANTRANID: ''
-            },
-            timeout,
-        });
-        if (
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
-            execResult.FUNC_STATUS ===
-                Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
-        ) {
-            modal.hide();
-            this.router.navigate(['/purchase/payment']);
-            return;
-        }
-        if (
-            execResult.FUNC_STATUS !==
-            Models.Purchase.Payment.FUNC_STATUS.SUCCESS
-        ) {
-            await this.paymentService.exec({
-                func: Models.Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION,
+        try {
+            const orderId = Functions.Purchase.createRemiseOrderId(pos?.id);
+            this.actionService.purchase.setOrderId({ id: orderId });
+            await this.paymentService.init({ ipAddress: payment });
+            const execResult = await this.paymentService.exec({
+                func: Models.Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,
+                options: {
+                    JOB: Models.Purchase.Payment.JOB.CAPTURE,
+                    ORDERID: orderId,
+                    AMOUNT: String(this.amount),
+                    MACHINE_CODE: '',
+                    // TRANID: '',
+                    // CANTRANID: ''
+                },
+                timeout,
             });
+            if (
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.APP_CANCEL ||
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.MACHINE_CANCEL ||
+                execResult.FUNC_STATUS ===
+                    Models.Purchase.Payment.FUNC_STATUS.APP_ERROR
+            ) {
+                modal.hide();
+                this.router.navigate(['/purchase/payment']);
+                return;
+            }
+            if (
+                execResult.FUNC_STATUS !==
+                Models.Purchase.Payment.FUNC_STATUS.SUCCESS
+            ) {
+                await this.paymentService.exec({
+                    func: Models.Purchase.Payment.FUNC_CODE.CODE.INTERRUPTION,
+                });
+                modal.hide();
+                throw new Error(JSON.stringify(execResult));
+            }
             modal.hide();
-            throw new Error(JSON.stringify(execResult));
+            this.onSubmit();
+        } catch (error) {
+            if (modal !== undefined) {
+                modal.hide();
+            }
+            throw error;
         }
-        modal.hide();
-        this.onSubmit();
     }
 
     /**
@@ -343,7 +365,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             await this.actionService.transaction.setProfile(profile);
         } catch (error) {
             console.error(error);
-            this.router.navigate(['/error']);
+            this.router.navigate(['/stop']);
             return;
         }
         try {
@@ -359,7 +381,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             });
         } catch (error) {
             console.error(error);
-            this.router.navigate(['/error']);
+            this.router.navigate(['/stop']);
             return;
         }
         try {

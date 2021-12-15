@@ -241,6 +241,7 @@ export class UtilService {
             .post('/api/logging', {
                 log: params.log,
                 project: Functions.Util.getProject().projectId,
+                page: location.href,
             })
             .toPromise();
     }

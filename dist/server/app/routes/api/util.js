@@ -100,7 +100,7 @@ router.post('/logging', (req, res) => {
         format: winston.format.json(),
         transports: [new winston.transports.Console()],
     });
-    logger.info('client log', req.body);
+    logger.info('[log] client log', req.body);
     res.json();
 });
 exports.utilRouter = router;

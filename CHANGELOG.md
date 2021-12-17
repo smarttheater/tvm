@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.17.0 - 2021-12-17
+
+### Changed
+
+-   log 出力を winston へ変更
+
 ## 4.16.0 - 2021-12-15
 
 ### Changed

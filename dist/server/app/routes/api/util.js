@@ -18,6 +18,7 @@ const express = require("express");
 const http_status_1 = require("http-status");
 const httpStatus = require("http-status");
 const moment = require("moment");
+const winston = require("winston");
 const log = debug('application: /api/util');
 const router = express.Router();
 /**
@@ -90,11 +91,16 @@ router.post('/password', (req, res) => {
     res.json();
 });
 /**
- * パスワード検証
+ * ログ出力
  */
 router.post('/logging', (req, res) => {
     log('logging');
-    console.error(req.body);
+    const logger = winston.createLogger({
+        level: 'info',
+        format: winston.format.json(),
+        transports: [new winston.transports.Console()],
+    });
+    logger.info('[log] client log', req.body);
     res.json();
 });
 exports.utilRouter = router;

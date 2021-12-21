@@ -55,6 +55,7 @@
                 "alert": {
                     "validation": "请检查您的输入",
                     "used": "已经用过了",
+                    "notfound": "没有门票",
                     "error": "出现了错误"
                 }
             }

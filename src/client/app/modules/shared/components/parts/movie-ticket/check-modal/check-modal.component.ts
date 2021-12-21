@@ -164,9 +164,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
                 Functions.Purchase.getMovieTicketTypeOffers({
                     screeningEventTicketOffers,
                 });
-            this.successMessage = this.translate.instant(
-                'modal.movieTicket.check.success'
-            );
+            const successTickets: { name?: string; value: string }[] = [];
             knyknrNoInfoOut.forEach((k) => {
                 if (k.ykknInfo === null) {
                     return;
@@ -207,9 +205,21 @@ export class MovieTicketCheckModalComponent implements OnInit {
                             'modal.movieTicket.check.value',
                             { value: y.ykknKnshbtsmiNum }
                         );
-                        this.successMessage += `<br>${name} ${value}`;
+                        successTickets.push({ name, value });
                     });
                 });
+            });
+            if (successTickets.length === 0) {
+                this.errorMessage = `${this.translate.instant(
+                    'modal.movieTicket.check.alert.notfound'
+                )}`;
+                return;
+            }
+            this.successMessage = this.translate.instant(
+                'modal.movieTicket.check.success'
+            );
+            successTickets.forEach((s) => {
+                this.successMessage += `<br>${s.name} ${s.value}`;
             });
             this.isSuccess = true;
         } catch (error) {

@@ -56,6 +56,7 @@
                 "alert": {
                     "validation": "Please check your input.",
                     "used": "Already used.",
+                    "notfound": "No tickets available.",
                     "error": "An error has occurred"
                 }
             }

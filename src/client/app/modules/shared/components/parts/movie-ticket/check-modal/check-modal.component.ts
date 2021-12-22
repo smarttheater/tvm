@@ -101,6 +101,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
         if (this.inputForm.invalid) {
             return;
         }
+        this.isSuccess = false;
         this.errorMessage = '';
         this.successMessage = '';
         try {
@@ -118,7 +119,6 @@ export class MovieTicketCheckModalComponent implements OnInit {
                 checkMovieTicket.result.purchaseNumberAuthResult
                     .knyknrNoInfoOut === null
             ) {
-                this.isSuccess = false;
                 this.errorMessage = this.translate.instant(
                     'modal.movieTicket.check.alert.validation'
                 );
@@ -130,7 +130,6 @@ export class MovieTicketCheckModalComponent implements OnInit {
                     .knyknrNoInfoOut;
 
             if (knyknrNoInfoOut[0].ykknmiNum === '0') {
-                this.isSuccess = false;
                 this.errorMessage = this.translate.instant(
                     'modal.movieTicket.check.alert.used'
                 );
@@ -147,7 +146,6 @@ export class MovieTicketCheckModalComponent implements OnInit {
                         knyknrNoMkujyuCd
                     )
                 );
-                this.isSuccess = false;
                 this.errorMessage = `${this.translate.instant(
                     'modal.movieTicket.check.alert.validation'
                 )}<br>
@@ -164,9 +162,7 @@ export class MovieTicketCheckModalComponent implements OnInit {
                 Functions.Purchase.getMovieTicketTypeOffers({
                     screeningEventTicketOffers,
                 });
-            this.successMessage = this.translate.instant(
-                'modal.movieTicket.check.success'
-            );
+            const successTickets: { name?: string; value: string }[] = [];
             knyknrNoInfoOut.forEach((k) => {
                 if (k.ykknInfo === null) {
                     return;
@@ -207,14 +203,25 @@ export class MovieTicketCheckModalComponent implements OnInit {
                             'modal.movieTicket.check.value',
                             { value: y.ykknKnshbtsmiNum }
                         );
-                        this.successMessage += `<br>${name} ${value}`;
+                        successTickets.push({ name, value });
                     });
                 });
+            });
+            if (successTickets.length === 0) {
+                this.errorMessage = `${this.translate.instant(
+                    'modal.movieTicket.check.alert.notfound'
+                )}`;
+                return;
+            }
+            this.successMessage = this.translate.instant(
+                'modal.movieTicket.check.success'
+            );
+            successTickets.forEach((s) => {
+                this.successMessage += `<br>${s.name} ${s.value}`;
             });
             this.isSuccess = true;
         } catch (error) {
             console.error(error);
-            this.isSuccess = false;
             this.errorMessage = this.translate.instant(
                 'modal.movieTicket.check.alert.error'
             );

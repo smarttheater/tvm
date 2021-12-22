@@ -82,7 +82,6 @@ async function setProject(params: { projectId?: string }) {
             application: string;
             common: string;
         };
-        gmoTokenUrl: string;
         env: string;
         gtmId?: string;
         analyticsId?: string;
@@ -95,9 +94,6 @@ async function setProject(params: { projectId?: string }) {
             storageUrl: result.storageUrl,
         })
     );
-    const script = document.createElement('script');
-    script.src = result.gmoTokenUrl;
-    document.body.appendChild(script);
     document.body.classList.add(result.env);
     return result;
 }

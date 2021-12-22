@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.19.0 - 2021-12-22
+
+### Changed
+
+-   ムビチケ認証で対象の券種がないエラー対応
+
 ## 4.18.0 - 2021-12-21
 
 ### Changed

@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.20.0 - 2021-12-23
+
+### Changed
+
+-   本日以外の日付選択をイベントがない日を非表示に変更
+
 ## 4.19.0 - 2021-12-22
 
 ### Changed

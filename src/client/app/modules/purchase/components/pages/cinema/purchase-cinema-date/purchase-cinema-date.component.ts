@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService } from '../../../../../../services';
+import { ActionService, UtilService } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 
 @Component({
@@ -23,7 +23,8 @@ export class PurchaseCinemaDateComponent implements OnInit {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private actionService: ActionService
+        private actionService: ActionService,
+        private utilService: UtilService
     ) {}
 
     /**
@@ -38,23 +39,25 @@ export class PurchaseCinemaDateComponent implements OnInit {
             if (theater === undefined) {
                 throw new Error('theater undefined');
             }
-            this.scheduleDates = this.cteateScheduleDate({ theater });
-            this.preScheduleDates =
-                await this.actionService.event.getPreScheduleDates({
-                    theater,
-                });
+            this.scheduleDates = await this.cteateScheduleDate({
+                theater,
+                pre: false,
+            });
+            this.preScheduleDates = await this.cteateScheduleDate({
+                theater,
+                pre: true,
+            });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
         }
     }
 
-    public cteateScheduleDate(params: {
+    public async cteateScheduleDate(params: {
         theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+        pre: boolean;
     }) {
-        const { theater } = params;
-        const now = moment().toDate();
-        const today = moment(moment(now).format('YYYYMMDD')).toDate();
+        const { theater, pre } = params;
         if (
             theater.offers === undefined ||
             theater.offers.availabilityStartsGraceTime === undefined ||
@@ -64,19 +67,55 @@ export class PurchaseCinemaDateComponent implements OnInit {
         ) {
             return [];
         }
-        const limitDate = moment(today).add(
-            theater.offers.availabilityStartsGraceTime.value * -1,
-            'days'
+        const { value, unitCode } = theater.offers.availabilityStartsGraceTime;
+        const availabilityStartsGraceTime: {
+            value: number;
+            unit: 'day' | 'year' | 'second';
+        } = {
+            value: value * -1 + 1,
+            unit:
+                unitCode === factory.chevre.unitCode.Day
+                    ? 'day'
+                    : unitCode === factory.chevre.unitCode.Ann
+                    ? 'year'
+                    : unitCode === factory.chevre.unitCode.Sec
+                    ? 'second'
+                    : 'second',
+        };
+        const now = moment(
+            (await this.utilService.getServerTime()).date
+        ).toDate();
+        const today = moment(moment(now).format('YYYYMMDD')).toDate();
+        const startFrom = pre
+            ? moment(today, 'YYYYMMDD')
+                  .add(
+                      availabilityStartsGraceTime.value,
+                      availabilityStartsGraceTime.unit
+                  )
+                  .toDate()
+            : moment(today, 'YYYYMMDD').add(1, 'days').toDate();
+        const startThrough = pre
+            ? undefined
+            : moment(today, 'YYYYMMDD')
+                  .add(
+                      availabilityStartsGraceTime.value,
+                      availabilityStartsGraceTime.unit
+                  )
+                  .add(-1, 'milliseconds')
+                  .toDate();
+        const searchResult =
+            await this.actionService.event.searchScreeningEvent({
+                superEvent: {
+                    locationBranchCodes: [theater.branchCode],
+                },
+                startFrom,
+                startThrough,
+            });
+        const mapResult = searchResult.map((s) =>
+            moment(s.startDate).format('YYYY-MM-DD')
         );
-        const limit = limitDate.diff(moment(today), 'days');
-        const result = [];
-        for (let i = 0; i < limit; i++) {
-            const date = moment(moment(today).add(i + 1, 'day')).format(
-                'YYYY-MM-DD'
-            );
-            result.push(date);
-        }
-        return result;
+        const setResult = Array.from(new Set(mapResult));
+        return setResult;
     }
 
     /**

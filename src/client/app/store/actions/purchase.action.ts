@@ -32,11 +32,6 @@ export const setSeller = createAction(
     }>()
 );
 
-export const getPreScheduleDatesFail = createAction(
-    `${LABEL} getSellerFail`,
-    props<{ error: Error }>()
-);
-
 export const setScreeningEvent = createAction(
     `${LABEL} setScreeningEvent`,
     props<{

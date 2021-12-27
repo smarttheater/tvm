@@ -180,6 +180,14 @@ export interface IEnvironment {
      */
     PRINT_SUCCESS_WAIT_TIME: string;
     /**
+     * 印刷を許可しない施設コンテンツ
+     */
+    PRINT_NOT_ALLOW_SUPER_EVENTS: string;
+    /**
+     * 印刷を許可しないコンテンツ
+     */
+    PRINT_NOT_ALLOW_WORKPERFORMEDS: string;
+    /**
      * エラー待機時間(ms)
      */
     ERROR_WAIT_TIME: string;
@@ -271,6 +279,8 @@ const defaultEnvironment: IEnvironment = {
     PRINT_QRCODE_CUSTOM: '',
     PRINT_LOADING: true,
     PRINT_SUCCESS_WAIT_TIME: '10000',
+    PRINT_NOT_ALLOW_SUPER_EVENTS: '',
+    PRINT_NOT_ALLOW_WORKPERFORMEDS: '',
     ERROR_WAIT_TIME: '10000',
     TOP_IMAGE: '',
     SCROLL_BUTTON: true,

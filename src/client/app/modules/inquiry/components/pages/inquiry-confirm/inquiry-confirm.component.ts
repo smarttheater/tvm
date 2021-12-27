@@ -78,6 +78,44 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
                 throw new Error('printer undefined');
             }
             const order = orderData.order;
+            const filterResult = order.acceptedOffers.filter((a) => {
+                const itemOffered = a.itemOffered;
+                if (
+                    itemOffered.typeOf !==
+                    factory.chevre.reservationType.EventReservation
+                ) {
+                    return false;
+                }
+                const reservationFor = itemOffered.reservationFor;
+                const superEvent =
+                    this.environment.PRINT_NOT_ALLOW_SUPER_EVENTS.split(
+                        ','
+                    ).find((s) => {
+                        const id = s.trim();
+                        return id === reservationFor.superEvent.id;
+                    });
+                const workPerformed =
+                    this.environment.PRINT_NOT_ALLOW_WORKPERFORMEDS.split(
+                        ','
+                    ).find((s) => {
+                        const identifier = s.trim();
+                        return (
+                            identifier ===
+                            reservationFor.workPerformed?.identifier
+                        );
+                    });
+                return superEvent !== undefined || workPerformed !== undefined;
+            });
+            if (filterResult.length > 0) {
+                this.utilService.openAlert({
+                    title: this.translate.instant('common.error'),
+                    body: this.translate.instant(
+                        'inquiry.confirm.alert.notAllow'
+                    ),
+                });
+                return;
+            }
+
             const orders = [order];
             const pos = user.pos;
             const printer = user.printer;

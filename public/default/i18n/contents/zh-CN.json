@@ -76,7 +76,8 @@
                 "authorize": "无法显示 QR 代码显示",
                 "print": "打印失败",
                 "printSuccess": "打印完成",
-                "doubleTicketing": "已经打印的票"
+                "doubleTicketing": "已经打印的票",
+                "notAllow": "包含不允许打印的预订"
             },
             "confirm": {
                 "printExpired": "如果包括当天以外的预订，可以吗？",

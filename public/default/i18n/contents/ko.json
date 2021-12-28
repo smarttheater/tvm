@@ -76,7 +76,8 @@
                 "authorize": "QR 코드 표시를 표시 할 수 없습니다.",
                 "print": "인쇄 실패",
                 "printSuccess": "인쇄 완료",
-                "doubleTicketing": "이미 인쇄 된 티켓"
+                "doubleTicketing": "이미 인쇄 된 티켓",
+                "notAllow": "인쇄가 허용되지 않는 예약이 포함되어 있습니다."
             },
             "confirm": {
                 "printExpired": "당일 이외의 예약이 포함되어 있지만시겠습니까?",

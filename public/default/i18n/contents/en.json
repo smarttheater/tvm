@@ -76,7 +76,8 @@
                 "authorize": "The QR code display cannot be displayed.",
                 "print": "Print failed",
                 "printSuccess": "Print completed",
-                "doubleTicketing": "Already printed ticket"
+                "doubleTicketing": "Already printed ticket",
+                "notAllow": "Contains reservations that are not allowed to print."
             },
             "confirm": {
                 "printExpired": "Is it okay if reservations other than the same day are included?",

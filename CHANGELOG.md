@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.21.0 - 2021-12-28
+
+### Added
+
+-   印刷を許可しない設定追加
+
 ## 4.20.0 - 2021-12-23
 
 ### Changed

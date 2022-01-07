@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.22.0 - 2022-01-07
+
+### Changed
+
+-   node.js v16 へ変更
+
 ## 4.21.0 - 2021-12-28
 
 ### Added

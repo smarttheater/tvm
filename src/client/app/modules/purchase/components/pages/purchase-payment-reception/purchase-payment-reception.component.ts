@@ -386,7 +386,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         }
         try {
             if (this.epsonEPOSService.cashchanger.isConnected()) {
+                this.utilService.loadStart({ process: 'load' });
                 await this.epsonEPOSService.cashchanger.disconnect();
+                this.utilService.loadEnd();
             }
             const { order } = await this.actionService.purchase.getData();
             const { printer, pos } = await this.actionService.user.getData();
@@ -398,27 +400,17 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         } catch (error) {
             try {
                 const { order } = await this.actionService.purchase.getData();
-                const { language, pos } =
-                    await this.actionService.user.getData();
                 if (order === undefined) {
-                    throw new Error('order or printer undefined');
+                    throw new Error('order undefined');
                 }
-                await this.actionService.order.cancel({
-                    orders: [order],
-                    language,
-                    pos,
-                });
-            } catch (error2) {
-                console.error(error2);
-            }
-            try {
-                const { cashchanger } = await this.actionService.user.getData();
-                if (cashchanger === undefined) {
-                    throw new Error('cashchanger undefined');
+                const findResult = order.paymentMethods.find(
+                    (p) =>
+                        p.typeOf ===
+                        Models.Purchase.Payment.PaymentMethodType.Cash
+                );
+                if (findResult !== undefined) {
+                    await this.dispenseChange();
                 }
-                await this.epsonEPOSService.cashchanger.init({
-                    ipAddress: cashchanger,
-                });
             } catch (error2) {
                 console.error(error2);
             }
@@ -436,28 +428,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                     p.typeOf === Models.Purchase.Payment.PaymentMethodType.Cash
             );
             if (findResult !== undefined) {
-                // 入金処理終了
-                this.utilService.loadStart({ process: 'load' });
-                const { cashchanger } = await this.actionService.user.getData();
-                if (cashchanger === undefined) {
-                    throw new Error('cashchanger undefined');
-                }
-                await this.epsonEPOSService.cashchanger.init({
-                    ipAddress: cashchanger,
-                });
-                await this.epsonEPOSService.cashchanger.endDeposit({
-                    endDepositType: 'DEPOSIT_NOCHANGE',
-                });
-                const deposit = this.epsonEPOSService.cashchanger.getDeposit();
-                const change = deposit.amount - this.amount;
-                if (!Number.isNaN(change) && change > 0) {
-                    // 現金おつり
-                    await this.epsonEPOSService.cashchanger.dispenseChange({
-                        change,
-                    });
-                }
-                await this.epsonEPOSService.cashchanger.disconnect();
-                this.utilService.loadEnd();
+                await this.dispenseChange();
             }
         } catch (error) {
             this.utilService.loadEnd();
@@ -466,6 +437,34 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             return;
         }
         this.router.navigate(['/purchase/complete']);
+    }
+
+    /**
+     * おつり処理
+     */
+    private async dispenseChange() {
+        // 入金処理終了
+        this.utilService.loadStart({ process: 'load' });
+        const { cashchanger } = await this.actionService.user.getData();
+        if (cashchanger === undefined) {
+            throw new Error('cashchanger undefined');
+        }
+        await this.epsonEPOSService.cashchanger.init({
+            ipAddress: cashchanger,
+        });
+        await this.epsonEPOSService.cashchanger.endDeposit({
+            endDepositType: 'DEPOSIT_NOCHANGE',
+        });
+        const deposit = this.epsonEPOSService.cashchanger.getDeposit();
+        const change = deposit.amount - this.amount;
+        if (!Number.isNaN(change) && change > 0) {
+            // 現金おつり
+            await this.epsonEPOSService.cashchanger.dispenseChange({
+                change,
+            });
+        }
+        await this.epsonEPOSService.cashchanger.disconnect();
+        this.utilService.loadEnd();
     }
 
     /**

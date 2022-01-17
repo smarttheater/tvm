@@ -291,9 +291,12 @@ export class ActionPaymentService {
         }
         const amount = Functions.Purchase.getAmount(authorizeSeatReservations);
         await this.paymentService.init({ ipAddress: payment });
+        const paymentMethodCode = Functions.Payment.findPaymentMethodType2Code({
+            paymentMethodType: paymentMethod.typeOf,
+        });
         if (
-            paymentMethod.typeOf ===
-            Models.Purchase.Payment.PaymentMethodType.CreditCard
+            paymentMethodCode ===
+            Models.Purchase.Payment.PaymentMethodCode.CreditCard
         ) {
             const execResult = await this.paymentService.exec({
                 func: Models.Purchase.Payment.FUNC_CODE.CREDITCARD.SETTLEMENT,
@@ -315,8 +318,8 @@ export class ActionPaymentService {
             }
         }
         if (
-            paymentMethod.typeOf ===
-            Models.Purchase.Payment.PaymentMethodType.EMoney
+            paymentMethodCode ===
+            Models.Purchase.Payment.PaymentMethodCode.EMoney
         ) {
             const execResult = await this.paymentService.exec({
                 func: Models.Purchase.Payment.FUNC_CODE.EMONEY.SETTLEMENT,
@@ -337,8 +340,7 @@ export class ActionPaymentService {
             }
         }
         if (
-            paymentMethod.typeOf ===
-            Models.Purchase.Payment.PaymentMethodType.Code
+            paymentMethodCode === Models.Purchase.Payment.PaymentMethodCode.Code
         ) {
             const execResult = await this.paymentService.exec({
                 func: Models.Purchase.Payment.FUNC_CODE.CODE.SETTLEMENT,

@@ -1,22 +1,10 @@
 /**
- * 決済方法タイプ
+ * 支払い方法コード
  */
-export enum PaymentMethodType {
-    /**
-     * 現金
-     */
+export enum PaymentMethodCode {
     Cash = 'Cash',
-    /**
-     * クレジットカード
-     */
     CreditCard = 'CreditCard',
-    /**
-     * 電子マネー
-     */
     EMoney = 'EMoney',
-    /**
-     * コード決済
-     */
     Code = 'Code',
 }
 

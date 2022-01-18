@@ -61,36 +61,27 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 Functions.Payment.findPaymentMethodType2Code({
                     paymentMethodType,
                 });
-            if (
-                paymentMethodCode ===
-                Models.Purchase.Payment.PaymentMethodCode.Cash
-            ) {
-                this.isCash = true;
-                await this.paymentCash();
-                this.utilService.loadEnd();
+            switch (paymentMethodCode) {
+                case Models.Purchase.Payment.PaymentMethodCode.Cash:
+                    this.isCash = true;
+                    await this.paymentCash();
+                    this.utilService.loadEnd();
+                    break;
+                case Models.Purchase.Payment.PaymentMethodCode.CreditCard:
+                    this.utilService.loadEnd();
+                    await this.paymentCreditcard();
+                    break;
+                case Models.Purchase.Payment.PaymentMethodCode.EMoney:
+                    this.utilService.loadEnd();
+                    await this.paymentEMoney();
+                    break;
+                case Models.Purchase.Payment.PaymentMethodCode.Code:
+                    this.utilService.loadEnd();
+                    await this.paymentCode();
+                    break;
+                default:
+                    throw new Error('paymentMethod not supported');
             }
-            if (
-                paymentMethodCode ===
-                Models.Purchase.Payment.PaymentMethodCode.CreditCard
-            ) {
-                this.utilService.loadEnd();
-                await this.paymentCreditcard();
-            }
-            if (
-                paymentMethodCode ===
-                Models.Purchase.Payment.PaymentMethodCode.EMoney
-            ) {
-                this.utilService.loadEnd();
-                await this.paymentEMoney();
-            }
-            if (
-                paymentMethodCode ===
-                Models.Purchase.Payment.PaymentMethodCode.Code
-            ) {
-                this.utilService.loadEnd();
-                await this.paymentCode();
-            }
-            throw new Error('paymentMethod not supported');
         } catch (error) {
             console.error(error);
             this.utilService.loadEnd();

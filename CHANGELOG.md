@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.24.0 - 2022-01-19
+
+### Added
+
+-   決済方法区分コードマッピング追加
+
+### Changed
+
+-   npm scripts 変更
+
 ## 4.23.0 - 2022-01-12
 
 ### Fixed

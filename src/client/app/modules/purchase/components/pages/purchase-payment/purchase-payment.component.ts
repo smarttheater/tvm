@@ -22,7 +22,6 @@ export class PurchasePaymentComponent implements OnInit {
     public isLoading: Observable<boolean>;
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
-    public paymentMethodType = Models.Purchase.Payment.PaymentMethodType;
     public payments: {
         paymentAccepted: factory.chevre.seller.IPaymentAccepted;
         categoryCode: factory.chevre.categoryCode.ICategoryCode;
@@ -59,18 +58,23 @@ export class PurchasePaymentComponent implements OnInit {
                 authorizeSeatReservations
             );
             const paymentAccepted = seller.paymentAccepted.filter((p) => {
+                const { paymentMethodType } = p;
+                const paymentMethodCode =
+                    Functions.Payment.findPaymentMethodType2Code({
+                        paymentMethodType,
+                    });
                 return (
-                    (p.paymentMethodType ===
-                        Models.Purchase.Payment.PaymentMethodType.Cash &&
+                    (paymentMethodCode ===
+                        Models.Purchase.Payment.PaymentMethodCode.Cash &&
                         cashchanger) ||
-                    (p.paymentMethodType ===
-                        Models.Purchase.Payment.PaymentMethodType.CreditCard &&
+                    (paymentMethodCode ===
+                        Models.Purchase.Payment.PaymentMethodCode.CreditCard &&
                         payment) ||
-                    (p.paymentMethodType ===
-                        Models.Purchase.Payment.PaymentMethodType.EMoney &&
+                    (paymentMethodCode ===
+                        Models.Purchase.Payment.PaymentMethodCode.EMoney &&
                         payment) ||
-                    (p.paymentMethodType ===
-                        Models.Purchase.Payment.PaymentMethodType.Code &&
+                    (paymentMethodCode ===
+                        Models.Purchase.Payment.PaymentMethodCode.Code &&
                         payment)
                 );
             });
@@ -89,19 +93,20 @@ export class PurchasePaymentComponent implements OnInit {
                 }
                 const imageTable = [
                     {
-                        paymentMethodType: this.paymentMethodType.Cash,
+                        code: Models.Purchase.Payment.PaymentMethodCode.Cash,
                         image: '/default/images/purchase/payment/icon/cash.svg',
                     },
                     {
-                        paymentMethodType: this.paymentMethodType.CreditCard,
+                        code: Models.Purchase.Payment.PaymentMethodCode
+                            .CreditCard,
                         image: '/default/images/purchase/payment/icon/creditcard.svg',
                     },
                     {
-                        paymentMethodType: this.paymentMethodType.EMoney,
+                        code: Models.Purchase.Payment.PaymentMethodCode.EMoney,
                         image: '/default/images/purchase/payment/icon/eMoney.svg',
                     },
                     {
-                        paymentMethodType: this.paymentMethodType.Code,
+                        code: Models.Purchase.Payment.PaymentMethodCode.Code,
                         image: '/default/images/purchase/payment/icon/code.svg',
                     },
                 ];
@@ -109,9 +114,14 @@ export class PurchasePaymentComponent implements OnInit {
                 this.payments.push({
                     paymentAccepted: p,
                     categoryCode,
-                    image: imageTable.find(
-                        (i) => i.paymentMethodType === p.paymentMethodType
-                    )?.image,
+                    image: imageTable.find(({ code }) => {
+                        const { paymentMethodType } = p;
+                        const paymentMethodCode =
+                            Functions.Payment.findPaymentMethodType2Code({
+                                paymentMethodType,
+                            });
+                        return code === paymentMethodCode;
+                    })?.image,
                 });
             });
             this.actionService.purchase.setPaymentMethodType({});

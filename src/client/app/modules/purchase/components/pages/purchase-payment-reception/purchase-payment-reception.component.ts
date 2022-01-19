@@ -31,10 +31,10 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
     public isLoading: Observable<boolean>;
-    public paymentMethodType = Models.Purchase.Payment.PaymentMethodType;
     public viewType = Models.Util.ViewType;
     public amount: number;
     public environment = getEnvironment();
+    public isCash: boolean;
 
     public async ngOnInit() {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
@@ -43,6 +43,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         this.amount = 0;
         try {
             this.utilService.loadStart({ process: 'load' });
+            this.isCash = false;
             const purchase = await this.actionService.purchase.getData();
             this.amount = Functions.Purchase.getAmount(
                 purchase.authorizeSeatReservations
@@ -52,33 +53,34 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 this.utilService.loadEnd();
                 return;
             }
-            if (
-                purchase.paymentMethod?.typeOf ===
-                Models.Purchase.Payment.PaymentMethodType.Cash
-            ) {
-                // 現金
-                await this.cash();
-                this.utilService.loadEnd();
-            } else if (
-                purchase.paymentMethod?.typeOf ===
-                this.paymentMethodType.CreditCard
-            ) {
-                // クレジットカード
-                this.utilService.loadEnd();
-                await this.creditcard();
-            } else if (
-                purchase.paymentMethod?.typeOf ===
-                Models.Purchase.Payment.PaymentMethodType.EMoney
-            ) {
-                // 電子マネー
-                this.utilService.loadEnd();
-                await this.eMoney();
-            } else if (purchase.paymentMethod?.typeOf === 'Code') {
-                // コード
-                this.utilService.loadEnd();
-                await this.code();
-            } else {
-                throw new Error('paymentMethod not supported');
+            const paymentMethodType = purchase.paymentMethod?.typeOf;
+            if (paymentMethodType === undefined) {
+                throw new Error('paymentMethodType === undefined');
+            }
+            const paymentMethodCode =
+                Functions.Payment.findPaymentMethodType2Code({
+                    paymentMethodType,
+                });
+            switch (paymentMethodCode) {
+                case Models.Purchase.Payment.PaymentMethodCode.Cash:
+                    this.isCash = true;
+                    await this.paymentCash();
+                    this.utilService.loadEnd();
+                    break;
+                case Models.Purchase.Payment.PaymentMethodCode.CreditCard:
+                    this.utilService.loadEnd();
+                    await this.paymentCreditcard();
+                    break;
+                case Models.Purchase.Payment.PaymentMethodCode.EMoney:
+                    this.utilService.loadEnd();
+                    await this.paymentEMoney();
+                    break;
+                case Models.Purchase.Payment.PaymentMethodCode.Code:
+                    this.utilService.loadEnd();
+                    await this.paymentCode();
+                    break;
+                default:
+                    throw new Error('paymentMethod not supported');
             }
         } catch (error) {
             console.error(error);
@@ -106,9 +108,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * 現金
+     * 現金決済
      */
-    private async cash() {
+    private async paymentCash() {
         const { cashchanger } = await this.actionService.user.getData();
         if (cashchanger === undefined) {
             throw new Error('cashchanger undefined');
@@ -120,9 +122,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * クレジットカード
+     * クレジットカード決済
      */
-    private async creditcard() {
+    private async paymentCreditcard() {
         const { transaction } = await this.actionService.purchase.getData();
         const { payment, pos } = await this.actionService.user.getData();
         if (transaction === undefined || payment === undefined) {
@@ -187,9 +189,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * 電子マネー
+     * 電子マネー決済
      */
-    private async eMoney() {
+    private async paymentEMoney() {
         const { transaction } = await this.actionService.purchase.getData();
         const { payment, pos } = await this.actionService.user.getData();
         if (transaction === undefined || payment === undefined) {
@@ -253,9 +255,9 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * コード
+     * コード決済
      */
-    private async code() {
+    private async paymentCode() {
         const { transaction } = await this.actionService.purchase.getData();
         const { payment, pos } = await this.actionService.user.getData();
         if (transaction === undefined || payment === undefined) {
@@ -334,11 +336,19 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 await this.actionService.payment.authorizeMovieTicket();
             }
             if (paymentMethod !== undefined) {
+                const paymentMethodType = paymentMethod?.typeOf;
+                if (paymentMethodType === undefined) {
+                    throw new Error('paymentMethodType === undefined');
+                }
+                const paymentMethodCode =
+                    Functions.Payment.findPaymentMethodType2Code({
+                        paymentMethodType,
+                    });
                 const additionalProperty: { name: string; value: string }[] =
                     [];
                 if (
-                    paymentMethod.typeOf ===
-                    Models.Purchase.Payment.PaymentMethodType.Cash
+                    paymentMethodCode ===
+                    Models.Purchase.Payment.PaymentMethodCode.Cash
                 ) {
                     // 現金
                     const deposit = this.getDeposit();
@@ -406,7 +416,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 const findResult = order.paymentMethods.find(
                     (p) =>
                         p.typeOf ===
-                        Models.Purchase.Payment.PaymentMethodType.Cash
+                        Models.Purchase.Payment.PaymentMethodCode.Cash
                 );
                 if (findResult !== undefined) {
                     await this.dispenseChange();
@@ -425,7 +435,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             }
             const findResult = order.paymentMethods.find(
                 (p) =>
-                    p.typeOf === Models.Purchase.Payment.PaymentMethodType.Cash
+                    p.typeOf === Models.Purchase.Payment.PaymentMethodCode.Cash
             );
             if (findResult !== undefined) {
                 await this.dispenseChange();

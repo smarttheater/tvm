@@ -1,6 +1,5 @@
 <app-header [step]="environment.VIEW_TYPE === viewType.Cinema ? 4 : 2">
-    <app-page-title *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash"
-        title="{{ 'purchase.paymentReception.cash.title' | translate }}"></app-page-title>
+    <app-page-title *ngIf="isCash" title="{{ 'purchase.paymentReception.cash.title' | translate }}"></app-page-title>
     <app-transaction-remaining-time class="ml-auto"></app-transaction-remaining-time>
 </app-header>
 
@@ -8,7 +7,7 @@
     <div class="container h-100">
         <div class="row h-100">
             <div class="col-12 col-md-9 px-0">
-                <ng-container *ngIf="(purchase | async)?.paymentMethod?.typeOf === paymentMethodType.Cash">
+                <ng-container *ngIf="isCash">
                     <div class="py-4">
                         <div class="container">
                             <div class="row justify-content-center">

@@ -81,16 +81,6 @@ router.get('/health', (_req, res) => {
     res.send(`${httpStatus.OK} ${httpStatus[200]}`);
 });
 /**
- * パスワード検証
- */
-router.post('/password', (req, res) => {
-    log('password');
-    if (req.body.password !== process.env.APP_PASSWORD) {
-        res.statusCode = 401;
-    }
-    res.json();
-});
-/**
  * ログ出力
  */
 router.post('/logging', (req, res) => {

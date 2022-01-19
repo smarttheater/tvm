@@ -211,6 +211,13 @@ export interface IEnvironment {
      * 設定遷移制限時間(ms)
      */
     SETTING_TRANSITION_LIMIT_TIME: string;
+    /**
+     * 決済方法コードマッピング
+     */
+    PAYMENT_METHOD_CODE_MAPPING: {
+        key: string;
+        value: string[];
+    }[];
 }
 
 export const isProduction = document.querySelector('body.production') !== null;
@@ -287,6 +294,12 @@ const defaultEnvironment: IEnvironment = {
     SCROLL_BUTTON_MOVE: '400',
     SETTING_TRANSITION_COUNT: '5',
     SETTING_TRANSITION_LIMIT_TIME: '10000',
+    PAYMENT_METHOD_CODE_MAPPING: [
+        { key: 'Cash', value: ['Cash'] },
+        { key: 'CreditCard', value: ['CreditCard'] },
+        { key: 'EMoney', value: ['EMoney'] },
+        { key: 'Code', value: ['Code'] },
+    ],
 };
 
 export function getEnvironment(): IEnvironment {

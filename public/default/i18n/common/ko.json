@@ -199,6 +199,7 @@
         "seat": "좌석",
         "seatValue": "({{value}} 좌석)",
         "ticket": "티켓 유형",
+        "sheets": "{{value}} 시트",
         "referenceQuantityValue": "[{{value}} 시트]",
         "customer": "구매자",
         "customerName": "이름",

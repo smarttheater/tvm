@@ -212,8 +212,9 @@ export class ActionPaymentService {
             const { token } = await this.cinerinoService.token.getToken({
                 code,
             });
-            const { typeOfGood } =
-                jwtDecode<{ typeOfGood: factory.product.IProduct }>(token);
+            const { typeOfGood } = jwtDecode<{
+                typeOfGood: factory.permit.IPermit;
+            }>(token);
             const checkProduct = {
                 code,
                 token,

@@ -26,12 +26,15 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
     public checkProducts: {
         code: string;
         token: string;
-        typeOfGood: factory.product.IProduct;
+        typeOfGood: factory.permit.IPermit;
     }[];
     @Input() public cb: (
         ticket: Models.Purchase.Reservation.IReservationTicket
     ) => void;
-    public tickets: Models.Purchase.Reservation.IReservationTicket[];
+    public tickets: {
+        data: Models.Purchase.Reservation.IReservationTicket;
+        count: number;
+    }[];
     public selectedTicket?: Models.Purchase.Reservation.IReservationTicket;
     public addOnList: string[];
 
@@ -40,7 +43,10 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
     public ngOnInit() {
         this.tickets = [];
         this.addOnList = [];
-        let movieTickets: Models.Purchase.Reservation.IReservationTicket[] = [];
+        let movieTickets: {
+            data: Models.Purchase.Reservation.IReservationTicket;
+            count: number;
+        }[] = [];
         this.screeningEventTicketOffers.forEach((ticketOffer) => {
             if (
                 this.reservation?.seat !== undefined &&
@@ -59,27 +65,54 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
 
             if (movieTicketPriceComponent !== undefined) {
                 // ムビチケオファー
+                const availableMovieTickets =
+                    this.getAvailableMovieTickets(ticketOffer);
+                if (availableMovieTickets.length === 0) {
+                    return;
+                }
                 movieTickets = [
                     ...movieTickets,
-                    ...this.getavailableMovieTickets(ticketOffer),
+                    ...[
+                        {
+                            data: availableMovieTickets[0],
+                            count: availableMovieTickets.length,
+                        },
+                    ],
                 ];
                 return;
             }
 
             if (ticketOffer.eligibleMembershipType !== undefined) {
                 // メンバーシップオファー
-                const isMembership = this.checkProducts.length > 0;
-                if (isMembership) {
-                    this.tickets.push({ ticketOffer });
-                }
-                return;
+                // const isMembership = this.checkProducts.length > 0;
+                // if (isMembership) {
+                //     this.tickets.push({ ticketOffer });
+                // }
+                // return;
             }
 
             // 通常オファー
-            this.tickets.push({ ticketOffer });
+            this.tickets.push({
+                data: { ticketOffer },
+                count: 1,
+            });
         });
 
         this.tickets = [...movieTickets, ...this.tickets];
+    }
+
+    /**
+     * メンバーシップの有無
+     */
+    public hasMembership() {
+        const filterResult = this.checkProducts.filter((p) => {
+            return (
+                p.typeOfGood.issuedThrough?.serviceType?.inCodeSet
+                    .identifier ===
+                factory.chevre.categoryCode.CategorySetIdentifier.MembershipType
+            );
+        });
+        return filterResult.length > 0;
     }
 
     public close(ticket: Models.Purchase.Reservation.IReservationTicket) {
@@ -163,7 +196,7 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
     /**
      * 有効なムビチケオファー取得
      */
-    private getavailableMovieTickets(
+    private getAvailableMovieTickets(
         ticketOffer: factory.chevre.event.screeningEvent.ITicketOffer
     ) {
         const movieTickets: Models.Purchase.Reservation.IReservationTicket[] =

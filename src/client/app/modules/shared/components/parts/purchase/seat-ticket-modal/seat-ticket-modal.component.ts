@@ -72,12 +72,12 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
                 }
                 movieTickets = [
                     ...movieTickets,
-                    ...[
-                        {
-                            data: availableMovieTickets[0],
-                            count: availableMovieTickets.length,
-                        },
-                    ],
+                    ...availableMovieTickets.map((a) => {
+                        return {
+                            data: a.tickets[0],
+                            count: a.tickets.length,
+                        };
+                    }),
                 ];
                 return;
             }
@@ -199,13 +199,19 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
     private getAvailableMovieTickets(
         ticketOffer: factory.chevre.event.screeningEvent.ITicketOffer
     ) {
+        const result: {
+            identifier?: string;
+            typeOf?: string;
+            serviceType?: string;
+            tickets: Models.Purchase.Reservation.IReservationTicket[];
+        }[] = [];
         const movieTickets: Models.Purchase.Reservation.IReservationTicket[] =
             [];
         const movieTicketPriceComponent =
             this.getMovieTicketPriceComponent(ticketOffer);
 
         if (movieTicketPriceComponent === undefined) {
-            return movieTickets;
+            return result;
         }
 
         // 対象ムビチケ券
@@ -231,19 +237,16 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
         });
 
         // 選択中の対象ムビチケ券
-        const reservations = this.reservations.filter((reservation) => {
-            if (
-                reservation.ticket === undefined ||
-                reservation.ticket.movieTicket === undefined
-            ) {
+        const reservations = this.reservations.filter((r) => {
+            if (r.ticket === undefined || r.ticket.movieTicket === undefined) {
                 return false;
             }
             return (
                 movieTicketPriceComponent.appliesToMovieTicket?.serviceType ===
-                reservation.ticket.movieTicket.serviceType
+                    r.ticket.movieTicket.serviceType &&
+                this.reservation?.seat?.seatNumber !== r.seat?.seatNumber
             );
         });
-
         // 予約待ちのムビチケ券
         const pendingMovieTickets: factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket[] =
             [];
@@ -285,6 +288,26 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
             movieTickets.push({ ticketOffer, movieTicket });
         });
 
-        return movieTickets;
+        movieTickets.forEach((m) => {
+            const findResult = result.find((r) => {
+                return (
+                    r.typeOf === m.movieTicket?.typeOf &&
+                    r.identifier === m.movieTicket?.identifier &&
+                    r.serviceType === m.movieTicket?.serviceType
+                );
+            });
+            if (findResult === undefined) {
+                result.push({
+                    identifier: m.movieTicket?.identifier,
+                    typeOf: m.movieTicket?.typeOf,
+                    serviceType: m.movieTicket?.serviceType,
+                    tickets: [m],
+                });
+                return;
+            }
+            findResult.tickets.push(m);
+        });
+
+        return result;
     }
 }

@@ -78,23 +78,23 @@ export function sameMovieTicketFilter(params: {
         return [];
     }
     const result: factory.action.check.paymentMethod.movieTicket.IAction[] = [];
-    checkMovieTickets.forEach((action) => {
+    checkMovieTickets.forEach((c) => {
         if (
-            action.result === undefined ||
-            action.result.purchaseNumberAuthResult.knyknrNoInfoOut === null ||
-            action.result.purchaseNumberAuthResult.knyknrNoInfoOut[0]
-                .ykknInfo === null
+            c.result === undefined ||
+            c.result.purchaseNumberAuthResult.knyknrNoInfoOut === null ||
+            c.result.purchaseNumberAuthResult.knyknrNoInfoOut[0].ykknInfo ===
+                null
         ) {
             return;
         }
         if (
-            checkMovieTicket.result === undefined ||
-            action.result.movieTickets[0].identifier !==
-                checkMovieTicket.result.movieTickets[0].identifier
+            c.result.movieTickets[0].identifier ===
+                checkMovieTicket.result?.movieTickets[0].identifier &&
+            c.result.movieTickets[0].typeOf ===
+                checkMovieTicket.result?.movieTickets[0].typeOf
         ) {
-            return;
+            result.push(c);
         }
-        result.push(action);
     });
 
     return result;

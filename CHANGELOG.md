@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.25.0 - 2022-01-24
+
+### Changed
+
+-   ムビチケ選択 UI 改善
+
 ## 4.24.0 - 2022-01-19
 
 ### Added

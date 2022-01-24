@@ -199,6 +199,7 @@
         "seat": "seat",
         "seatValue": "({{value}} seats)",
         "ticket": "ticket type",
+        "sheets": "{{value}} sheets",
         "referenceQuantityValue": "[{{value}} sheets]",
         "customer": "buyer",
         "customerName": "name",

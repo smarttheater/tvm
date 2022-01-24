@@ -201,6 +201,7 @@
         "seat": "座位",
         "seatValue": "（{{value}}座位）",
         "ticket": "票型",
+        "sheets": "{{value}}床单",
         "referenceQuantityValue": "[{{value}}床单]",
         "customer": "买家",
         "customerName": "名称",

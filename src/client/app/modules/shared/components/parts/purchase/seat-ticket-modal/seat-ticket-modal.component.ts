@@ -26,12 +26,15 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
     public checkProducts: {
         code: string;
         token: string;
-        typeOfGood: factory.product.IProduct;
+        typeOfGood: factory.permit.IPermit;
     }[];
     @Input() public cb: (
         ticket: Models.Purchase.Reservation.IReservationTicket
     ) => void;
-    public tickets: Models.Purchase.Reservation.IReservationTicket[];
+    public tickets: {
+        data: Models.Purchase.Reservation.IReservationTicket;
+        count: number;
+    }[];
     public selectedTicket?: Models.Purchase.Reservation.IReservationTicket;
     public addOnList: string[];
 
@@ -40,7 +43,10 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
     public ngOnInit() {
         this.tickets = [];
         this.addOnList = [];
-        let movieTickets: Models.Purchase.Reservation.IReservationTicket[] = [];
+        let movieTickets: {
+            data: Models.Purchase.Reservation.IReservationTicket;
+            count: number;
+        }[] = [];
         this.screeningEventTicketOffers.forEach((ticketOffer) => {
             if (
                 this.reservation?.seat !== undefined &&
@@ -59,27 +65,54 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
 
             if (movieTicketPriceComponent !== undefined) {
                 // ムビチケオファー
+                const availableMovieTickets =
+                    this.getAvailableMovieTickets(ticketOffer);
+                if (availableMovieTickets.length === 0) {
+                    return;
+                }
                 movieTickets = [
                     ...movieTickets,
-                    ...this.getavailableMovieTickets(ticketOffer),
+                    ...availableMovieTickets.map((a) => {
+                        return {
+                            data: a.tickets[0],
+                            count: a.tickets.length,
+                        };
+                    }),
                 ];
                 return;
             }
 
             if (ticketOffer.eligibleMembershipType !== undefined) {
                 // メンバーシップオファー
-                const isMembership = this.checkProducts.length > 0;
-                if (isMembership) {
-                    this.tickets.push({ ticketOffer });
-                }
-                return;
+                // const isMembership = this.checkProducts.length > 0;
+                // if (isMembership) {
+                //     this.tickets.push({ ticketOffer });
+                // }
+                // return;
             }
 
             // 通常オファー
-            this.tickets.push({ ticketOffer });
+            this.tickets.push({
+                data: { ticketOffer },
+                count: 1,
+            });
         });
 
         this.tickets = [...movieTickets, ...this.tickets];
+    }
+
+    /**
+     * メンバーシップの有無
+     */
+    public hasMembership() {
+        const filterResult = this.checkProducts.filter((p) => {
+            return (
+                p.typeOfGood.issuedThrough?.serviceType?.inCodeSet
+                    .identifier ===
+                factory.chevre.categoryCode.CategorySetIdentifier.MembershipType
+            );
+        });
+        return filterResult.length > 0;
     }
 
     public close(ticket: Models.Purchase.Reservation.IReservationTicket) {
@@ -163,16 +196,22 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
     /**
      * 有効なムビチケオファー取得
      */
-    private getavailableMovieTickets(
+    private getAvailableMovieTickets(
         ticketOffer: factory.chevre.event.screeningEvent.ITicketOffer
     ) {
+        const result: {
+            identifier?: string;
+            typeOf?: string;
+            serviceType?: string;
+            tickets: Models.Purchase.Reservation.IReservationTicket[];
+        }[] = [];
         const movieTickets: Models.Purchase.Reservation.IReservationTicket[] =
             [];
         const movieTicketPriceComponent =
             this.getMovieTicketPriceComponent(ticketOffer);
 
         if (movieTicketPriceComponent === undefined) {
-            return movieTickets;
+            return result;
         }
 
         // 対象ムビチケ券
@@ -198,19 +237,16 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
         });
 
         // 選択中の対象ムビチケ券
-        const reservations = this.reservations.filter((reservation) => {
-            if (
-                reservation.ticket === undefined ||
-                reservation.ticket.movieTicket === undefined
-            ) {
+        const reservations = this.reservations.filter((r) => {
+            if (r.ticket === undefined || r.ticket.movieTicket === undefined) {
                 return false;
             }
             return (
                 movieTicketPriceComponent.appliesToMovieTicket?.serviceType ===
-                reservation.ticket.movieTicket.serviceType
+                    r.ticket.movieTicket.serviceType &&
+                this.reservation?.seat?.seatNumber !== r.seat?.seatNumber
             );
         });
-
         // 予約待ちのムビチケ券
         const pendingMovieTickets: factory.chevre.paymentMethod.paymentCard.movieTicket.IMovieTicket[] =
             [];
@@ -252,6 +288,26 @@ export class PurchaseSeatTicketModalComponent implements OnInit {
             movieTickets.push({ ticketOffer, movieTicket });
         });
 
-        return movieTickets;
+        movieTickets.forEach((m) => {
+            const findResult = result.find((r) => {
+                return (
+                    r.typeOf === m.movieTicket?.typeOf &&
+                    r.identifier === m.movieTicket?.identifier &&
+                    r.serviceType === m.movieTicket?.serviceType
+                );
+            });
+            if (findResult === undefined) {
+                result.push({
+                    identifier: m.movieTicket?.identifier,
+                    typeOf: m.movieTicket?.typeOf,
+                    serviceType: m.movieTicket?.serviceType,
+                    tickets: [m],
+                });
+                return;
+            }
+            findResult.tickets.push(m);
+        });
+
+        return result;
     }
 }

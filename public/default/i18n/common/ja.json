@@ -203,6 +203,7 @@
         "seat": "座席",
         "seatValue": "({{value}}席)",
         "ticket": "券種",
+        "sheets": "{{value}}枚",
         "referenceQuantityValue": "[{{value}}枚]",
         "customer": "購入者",
         "customerName": "お名前",

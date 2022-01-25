@@ -112,7 +112,7 @@ export interface IPurchaseState {
     checkProducts: {
         code: string;
         token: string;
-        typeOfGood: factory.product.IProduct;
+        typeOfGood: factory.permit.IPermit;
     }[];
 }
 

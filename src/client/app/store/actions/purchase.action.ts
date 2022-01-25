@@ -143,7 +143,7 @@ export const setCheckProduct = createAction(
         checkProduct: {
             code: string;
             token: string;
-            typeOfGood: factory.product.IProduct;
+            typeOfGood: factory.permit.IPermit;
         };
     }>()
 );

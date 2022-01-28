@@ -33,12 +33,12 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             this.screeningEventSeries = [];
             this.screeningEventsGroup = [];
             this.animations = [];
-            const { theater } = await this.actionService.user.getData();
+            const { application } = await this.actionService.user.getData();
             const { scheduleDate, creativeWork } =
                 await this.actionService.purchase.getData();
             if (
                 scheduleDate === undefined ||
-                theater === undefined ||
+                application?.theater === undefined ||
                 creativeWork === undefined
             ) {
                 throw new Error(
@@ -58,14 +58,14 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
                     },
                     location: {
                         branchCode: {
-                            $eq: theater.branchCode,
+                            $eq: application.theater.branchCode,
                         },
                     },
                 });
             const screeningEvents =
                 await this.actionService.event.searchScreeningEvent({
                     superEvent: {
-                        locationBranchCodes: [theater.branchCode],
+                        locationBranchCodes: [application.theater.branchCode],
                         workPerformedIdentifiers: [creativeWork.identifier],
                     },
                     startFrom: moment(scheduleDate).toDate(),

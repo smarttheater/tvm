@@ -31,7 +31,7 @@ export const initialState: IState = {
 
 export function getInitialState(): IState {
     const environment = getEnvironment();
-    const saveJson = (<Storage>(<any>window)[environment.STORAGE_TYPE]).getItem(
+    const saveJson = window[environment.STORAGE_TYPE].getItem(
         environment.STORAGE_NAME
     );
     if (saveJson === undefined || saveJson === null) {
@@ -48,10 +48,37 @@ export function getInitialState(): IState {
         ...saveData.App,
         ...sessionData.App,
     };
-    (<any>data).userData.seller = undefined;
+
     if (data.purchaseData.temporarilyReserved === undefined) {
         data.purchaseData.temporarilyReserved = [];
     }
+    if (
+        (<any>data).userData.seller !== undefined ||
+        (<any>data).userData.theater !== undefined
+    ) {
+        // データを新しい形式に変更
+        data.userData = {
+            application: {
+                theater: (<any>data).userData.theater,
+                pos: (<any>data).userData.pos,
+                applicationType: (<any>data).userData.applicationType,
+                applicationPassword: (<any>data).userData.applicationPassword,
+            },
+            device: {
+                printer: (<any>data).userData.printer,
+                cashchanger: {
+                    ipAddress: (<any>data).userData.cashchanger,
+                },
+                payment: {
+                    ipAddress: (<any>data).userData.payment,
+                },
+            },
+            profile: (<any>data).userData.customerContact,
+            language: data.userData.language,
+            version: data.userData.version,
+        };
+    }
+
     data.loading = false;
 
     return data;

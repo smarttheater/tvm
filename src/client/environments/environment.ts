@@ -53,7 +53,7 @@ export interface IEnvironment {
     /**
      * ストレージの種類
      */
-    STORAGE_TYPE: string;
+    STORAGE_TYPE: 'sessionStorage' | 'localStorage';
     /**
      * ベースURL
      */

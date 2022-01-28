@@ -62,7 +62,7 @@ export function storageSync(state: { App: rootReducers.IState }) {
             admissionData: undefined,
         },
     };
-    (<Storage>(<any>window)[environment.STORAGE_TYPE]).setItem(
+    window[environment.STORAGE_TYPE].setItem(
         environment.STORAGE_NAME,
         JSON.stringify(saveData)
     );

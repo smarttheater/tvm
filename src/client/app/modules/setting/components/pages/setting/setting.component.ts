@@ -73,40 +73,29 @@ export class SettingComponent implements OnInit {
         try {
             this.theaters =
                 await this.actionService.place.searchMovieTheaters();
-            const {
-                theater,
-                pos,
-                applicationType,
-                applicationPassword,
-                printer,
-                cashchanger,
-                payment,
-                customerContact,
-            } = await this.actionService.user.getData();
+            const { application, device, profile } =
+                await this.actionService.user.getData();
             this.inputData = {
                 app: {
-                    theater,
-                    pos,
-                    applicationType,
-                    applicationPassword,
+                    ...application,
                 },
                 device: {
-                    printerType: printer?.connectionType,
-                    printerIpAddress: printer?.ipAddress,
-                    cashchanger,
-                    payment,
+                    printerType: device?.printer?.connectionType,
+                    printerIpAddress: device?.printer?.ipAddress,
+                    cashchanger: device?.cashchanger?.ipAddress,
+                    payment: device?.payment?.ipAddress,
                 },
-                profile: customerContact,
+                profile,
             };
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
         }
         try {
-            const { cashchanger } = await this.actionService.user.getData();
-            if (cashchanger !== undefined) {
+            const { device } = await this.actionService.user.getData();
+            if (device?.cashchanger !== undefined) {
                 await this.epsonEPOSService.cashchanger.init({
-                    ipAddress: cashchanger,
+                    ipAddress: device.cashchanger.ipAddress,
                 });
                 await this.epsonEPOSService.cashchanger.endDeposit({
                     endDepositType: 'DEPOSIT_REPAY',
@@ -153,9 +142,15 @@ export class SettingComponent implements OnInit {
                 theater.hasPOS === undefined
                     ? theater.hasPOS
                     : theater.hasPOS.find((p) => p.id === posId);
-            this.actionService.user.updateAll({
-                pos,
-                theater,
+            this.actionService.user.update({
+                application: {
+                    pos,
+                    theater,
+                    applicationType:
+                        this.appForm.controls.applicationType.value,
+                    applicationPassword:
+                        this.appForm.controls.applicationPassword.value,
+                },
                 profile: {
                     familyName:
                         this.profileForm.controls.familyName === undefined
@@ -188,21 +183,27 @@ export class SettingComponent implements OnInit {
                             ? undefined
                             : this.profileForm.controls.gender.value,
                 },
-                printer: {
-                    ipAddress: this.deviceForm.controls.printerIpAddress.value,
-                    connectionType: this.deviceForm.controls.printerType.value,
+                device: {
+                    printer: {
+                        ipAddress:
+                            this.deviceForm.controls.printerIpAddress.value,
+                        connectionType:
+                            this.deviceForm.controls.printerType.value,
+                    },
+                    cashchanger: {
+                        ipAddress:
+                            this.deviceForm.controls.cashchanger.value ===
+                            undefined
+                                ? undefined
+                                : this.deviceForm.controls.cashchanger.value,
+                    },
+                    payment: {
+                        ipAddress:
+                            this.deviceForm.controls.payment.value === undefined
+                                ? undefined
+                                : this.deviceForm.controls.payment.value,
+                    },
                 },
-                cashchanger:
-                    this.deviceForm.controls.cashchanger.value === undefined
-                        ? undefined
-                        : this.deviceForm.controls.cashchanger.value,
-                payment:
-                    this.deviceForm.controls.payment.value === undefined
-                        ? undefined
-                        : this.deviceForm.controls.payment.value,
-                applicationType: this.appForm.controls.applicationType.value,
-                applicationPassword:
-                    this.appForm.controls.applicationPassword.value,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),

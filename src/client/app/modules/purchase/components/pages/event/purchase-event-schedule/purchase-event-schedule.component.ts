@@ -49,11 +49,13 @@ export class PurchaseEventScheduleComponent implements OnInit {
         this.videoFormatTypes = [];
         this.animations = [];
         try {
-            const user = await this.actionService.user.getData();
+            const { application } = await this.actionService.user.getData();
             const purchase = await this.actionService.purchase.getData();
-            const theater = user.theater;
             const scheduleDate = purchase.scheduleDate;
-            if (theater === undefined || scheduleDate === undefined) {
+            if (
+                application?.theater === undefined ||
+                scheduleDate === undefined
+            ) {
                 throw new Error('scheduleDate or theater undefined');
             }
             this.videoFormatTypes =
@@ -69,13 +71,15 @@ export class PurchaseEventScheduleComponent implements OnInit {
                     },
                     location: {
                         branchCode: {
-                            $eq: theater.branchCode,
+                            $eq: application.theater.branchCode,
                         },
                     },
                 });
             const screeningEvents =
                 await this.actionService.event.searchScreeningEvent({
-                    superEvent: { locationBranchCodes: [theater.branchCode] },
+                    superEvent: {
+                        locationBranchCodes: [application.theater.branchCode],
+                    },
                     startFrom: moment(scheduleDate).toDate(),
                     startThrough: moment(scheduleDate)
                         .add(1, 'day')

@@ -25,9 +25,9 @@ export class ErrorComponent implements OnInit, OnDestroy {
     public async ngOnInit() {
         this.error = this.store.pipe(select(reducers.getError));
         try {
-            const { payment } = await this.actionService.user.getData();
+            const { device } = await this.actionService.user.getData();
             await this.actionService.payment.voidDevicePayment({
-                payment,
+                payment: device?.payment?.ipAddress,
             });
         } catch (error) {
             console.error(error);

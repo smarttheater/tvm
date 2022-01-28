@@ -35,10 +35,13 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
         this.screeningEvents = [];
         this.animations = [];
         try {
-            const { theater } = await this.actionService.user.getData();
+            const { application } = await this.actionService.user.getData();
             const { scheduleDate } =
                 await this.actionService.purchase.getData();
-            if (scheduleDate === undefined || theater === undefined) {
+            if (
+                scheduleDate === undefined ||
+                application?.theater === undefined
+            ) {
                 throw new Error('scheduleDate or theater undefined');
             }
             this.now = moment(
@@ -53,7 +56,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
             this.screeningEvents =
                 await this.actionService.event.searchScreeningEvent({
                     superEvent: {
-                        locationBranchCodes: [theater.branchCode],
+                        locationBranchCodes: [application.theater.branchCode],
                     },
                     startFrom: moment(scheduleDate).toDate(),
                     startThrough: moment(scheduleDate)

@@ -69,12 +69,13 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
     public async print() {
         try {
             const orderData = await this.actionService.order.getData();
-            const user = await this.actionService.user.getData();
+            const { application, device } =
+                await this.actionService.user.getData();
             if (orderData.order === undefined) {
                 this.router.navigate(['/error']);
                 return;
             }
-            if (user.printer === undefined) {
+            if (device?.printer === undefined) {
                 throw new Error('printer undefined');
             }
             const order = orderData.order;
@@ -117,8 +118,8 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
             }
 
             const orders = [order];
-            const pos = user.pos;
-            const printer = user.printer;
+            const pos = application?.pos;
+            const printer = device?.printer;
             const now = (await this.utilService.getServerTime(true)).date;
             const today = moment(now).format('YYYYMMDD');
             const eventOrders = Functions.Purchase.order2EventOrders({ order });

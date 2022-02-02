@@ -65,14 +65,17 @@ export class CurrentDateTimeComponent implements OnInit, OnDestroy {
             clearTimeout(this.countTimer);
         }
         this.count = 0;
-        const { applicationPassword } = await this.actionService.user.getData();
-        if (applicationPassword === undefined || applicationPassword === '') {
+        const { application } = await this.actionService.user.getData();
+        if (
+            application?.applicationPassword === undefined ||
+            application?.applicationPassword === ''
+        ) {
             return;
         }
         this.utilService.openConfirm({
             title: this.translate.instant('admin.title'),
             body: this.translate.instant('admin.read'),
-            code: applicationPassword,
+            code: application.applicationPassword,
             cb: () => {
                 this.router.navigate(['/setting']);
             },

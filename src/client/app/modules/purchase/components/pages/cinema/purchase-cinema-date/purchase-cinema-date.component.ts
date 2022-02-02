@@ -35,16 +35,16 @@ export class PurchaseCinemaDateComponent implements OnInit {
         try {
             this.scheduleDates = [];
             this.preScheduleDates = [];
-            const { theater } = await this.actionService.user.getData();
-            if (theater === undefined) {
+            const { application } = await this.actionService.user.getData();
+            if (application?.theater === undefined) {
                 throw new Error('theater undefined');
             }
             this.scheduleDates = await this.cteateScheduleDate({
-                theater,
+                theater: application.theater,
                 pre: false,
             });
             this.preScheduleDates = await this.cteateScheduleDate({
-                theater,
+                theater: application.theater,
                 pre: true,
             });
         } catch (error) {

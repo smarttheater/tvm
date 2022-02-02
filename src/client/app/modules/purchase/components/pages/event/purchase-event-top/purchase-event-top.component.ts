@@ -72,14 +72,14 @@ export class PurchaseEventTopComponent implements OnInit {
         const today = moment(now).format('YYYY-MM-DD');
         this.actionService.purchase.selectScheduleDate(today);
         try {
-            const { theater } = await this.actionService.user.getData();
-            if (theater === undefined) {
+            const { application } = await this.actionService.user.getData();
+            if (application?.theater === undefined) {
                 throw new Error('theater undefined');
             }
             const screeningEvents =
                 await this.actionService.event.searchScreeningEvent({
                     superEvent: {
-                        locationBranchCodes: [theater.branchCode],
+                        locationBranchCodes: [application.theater.branchCode],
                     },
                     startFrom: moment(today, 'YYYY-MM-DD').toDate(),
                     roop: false,
@@ -113,8 +113,10 @@ export class PurchaseEventTopComponent implements OnInit {
             return;
         }
         try {
-            const { pos } = await this.actionService.user.getData();
-            await this.actionService.transaction.start({ pos });
+            const { application } = await this.actionService.user.getData();
+            await this.actionService.transaction.start({
+                pos: application?.pos,
+            });
             const { routerLink } = params;
             this.router.navigate([routerLink]);
         } catch (error) {

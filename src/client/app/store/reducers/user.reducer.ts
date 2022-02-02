@@ -5,38 +5,45 @@ import { Models } from '../..';
 import { userAction } from '../actions';
 
 export interface IUserState {
+    application?: {
+        /**
+         * 劇場
+         */
+        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+        /**
+         * POS
+         */
+        pos?: factory.chevre.place.movieTheater.IPOS;
+        /**
+         * アプリケーションタイプ
+         */
+        applicationType?: Models.Util.Application.ApplicationType;
+        /**
+         * アプリケーションパスワード
+         */
+        applicationPassword?: string;
+    };
     /**
-     * 劇場
+     * プロフィール
      */
-    theater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+    profile?: factory.person.IProfile;
     /**
-     * POS
+     * デバイス
      */
-    pos?: factory.chevre.place.movieTheater.IPOS;
-    /**
-     * アプリケーションタイプ
-     */
-    applicationType?: Models.Util.Application.ApplicationType;
-    /**
-     * アプリケーションパスワード
-     */
-    applicationPassword?: string;
-    /**
-     * 購入者情報
-     */
-    customerContact?: factory.person.IProfile;
-    /**
-     * プリンター
-     */
-    printer?: Models.Util.Printer.IPrinter;
-    /**
-     * 決済端末
-     */
-    payment?: string;
-    /**
-     * 釣銭機
-     */
-    cashchanger?: string;
+    device?: {
+        /**
+         * プリンター
+         */
+        printer?: Models.Util.Printer.IPrinter;
+        /**
+         * 決済端末
+         */
+        payment?: { ipAddress: string };
+        /**
+         * 釣銭機
+         */
+        cashchanger?: { ipAddress: string };
+    };
     /**
      * 言語
      */
@@ -64,28 +71,16 @@ export function reducer(initialState: IState, action: Action) {
                 process: '',
             };
         }),
-        on(userAction.updateAll, (state, payload) => {
-            const customerContact = payload.profile;
-            const pos = payload.pos;
-            const theater = payload.theater;
-            const printer = payload.printer;
-            const cashchanger = payload.cashchanger;
-            const payment = payload.payment;
-            const applicationType = payload.applicationType;
-            const applicationPassword = payload.applicationPassword;
+        on(userAction.update, (state, payload) => {
+            const { application, device, profile } = payload;
 
             return {
                 ...state,
                 userData: {
                     ...state.userData,
-                    customerContact,
-                    pos,
-                    theater,
-                    printer,
-                    cashchanger,
-                    payment,
-                    applicationType,
-                    applicationPassword,
+                    profile,
+                    application,
+                    device,
                 },
                 loading: false,
                 process: '',

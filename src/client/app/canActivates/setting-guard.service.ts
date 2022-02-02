@@ -8,14 +8,14 @@ import { Observable } from 'rxjs';
 import * as reducers from '../store/reducers';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class SettingGuardService implements CanActivate {
     public user: Observable<reducers.IUserState>;
     constructor(
         private router: Router,
         private store: Store<reducers.IState>
-    ) { }
+    ) {}
 
     /**
      * 認証
@@ -25,12 +25,12 @@ export class SettingGuardService implements CanActivate {
     public async canActivate(): Promise<boolean> {
         try {
             this.user = this.store.pipe(select(reducers.getUser));
-            const user = await this.getUser();
-            if (user.theater === undefined) {
+            const { application, profile } = await this.getUser();
+            if (application?.theater === undefined) {
                 throw new Error('theater not found');
             }
-            if (user.customerContact === undefined) {
-                throw new Error('customerContact not found');
+            if (profile === undefined) {
+                throw new Error('profile not found');
             }
 
             return true;
@@ -44,9 +44,11 @@ export class SettingGuardService implements CanActivate {
 
     private async getUser() {
         return new Promise<reducers.IUserState>((resolve) => {
-            this.user.subscribe((user) => {
-                resolve(user);
-            }).unsubscribe();
+            this.user
+                .subscribe((user) => {
+                    resolve(user);
+                })
+                .unsubscribe();
         });
     }
 }

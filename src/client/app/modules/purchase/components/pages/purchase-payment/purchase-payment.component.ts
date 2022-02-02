@@ -47,8 +47,7 @@ export class PurchasePaymentComponent implements OnInit {
         this.amount = 0;
         this.payments = [];
         try {
-            const { cashchanger, payment } =
-                await this.actionService.user.getData();
+            const { device } = await this.actionService.user.getData();
             const { authorizeSeatReservations, seller } =
                 await this.actionService.purchase.getData();
             if (seller === undefined || seller.paymentAccepted === undefined) {
@@ -66,16 +65,16 @@ export class PurchasePaymentComponent implements OnInit {
                 return (
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.Cash &&
-                        cashchanger) ||
+                        device?.cashchanger?.ipAddress !== undefined) ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.CreditCard &&
-                        payment) ||
+                        device?.payment?.ipAddress !== undefined) ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.EMoney &&
-                        payment) ||
+                        device?.payment?.ipAddress !== undefined) ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.Code &&
-                        payment)
+                        device?.payment?.ipAddress !== undefined)
                 );
             });
             const categoryCodePayment =

@@ -6,16 +6,20 @@ const LABEL = '[User]';
 
 export const remove = createAction(`${LABEL} remove`);
 
-export const updateAll = createAction(
-    `${LABEL} updateAll`,
+export const update = createAction(
+    `${LABEL} update`,
     props<{
-        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
-        pos?: factory.chevre.place.movieTheater.IPOS;
-        applicationType: Models.Util.Application.ApplicationType;
-        applicationPassword?: string;
-        printer: Models.Util.Printer.IPrinter;
-        cashchanger?: string;
-        payment?: string;
+        application: {
+            theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+            pos?: factory.chevre.place.movieTheater.IPOS;
+            applicationType: Models.Util.Application.ApplicationType;
+            applicationPassword?: string;
+        };
+        device: {
+            printer: Models.Util.Printer.IPrinter;
+            cashchanger?: { ipAddress: string };
+            payment?: { ipAddress: string };
+        };
         profile: factory.person.IProfile;
     }>()
 );

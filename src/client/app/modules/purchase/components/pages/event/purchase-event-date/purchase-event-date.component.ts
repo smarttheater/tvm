@@ -33,11 +33,13 @@ export class PurchaseEventDateComponent implements OnInit {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         try {
             this.scheduleDates = [];
-            const { theater } = await this.actionService.user.getData();
-            if (theater === undefined) {
+            const { application } = await this.actionService.user.getData();
+            if (application?.theater === undefined) {
                 throw new Error('theater undefined');
             }
-            this.scheduleDates = await this.cteateScheduleDate({ theater });
+            this.scheduleDates = await this.cteateScheduleDate({
+                theater: application.theater,
+            });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);

@@ -11,10 +11,10 @@
         <div class="row h-100">
             <div #screenContainer class="col-12 col-md-9 mh-100 scroll-vertical px-0">
                 <div *ngIf="!((purchase | async)?.screen?.openSeatingAllowed)">
-                    <app-screen *ngIf="(user | async)?.theater 
+                    <app-screen *ngIf="(user | async)?.application?.theater 
                 && screeningEventSeats.length > 0 
                 && (purchase | async)?.screen
-                && outerHeight" [theaterCode]="(user | async)?.theater.branchCode"
+                && outerHeight" [theaterCode]="(user | async)?.application?.theater.branchCode"
                         [screenCode]="(purchase | async)?.screen.branchCode" [screeningEventSeats]="screeningEventSeats"
                         [openSeatingAllowed]="(purchase | async)?.screen.openSeatingAllowed"
                         [reservations]="(purchase | async)?.reservations" [outerHeight]="outerHeight"

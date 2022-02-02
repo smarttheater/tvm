@@ -46,17 +46,25 @@ export class UserService {
     /**
      * すべて更新
      */
-    public updateAll(params: {
-        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
-        pos?: factory.chevre.place.movieTheater.IPOS;
-        applicationType: Models.Util.Application.ApplicationType;
-        applicationPassword?: string;
-        printer: Models.Util.Printer.IPrinter;
-        cashchanger?: string;
-        payment?: string;
+    public update(params: {
+        application: {
+            theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+            pos?: factory.chevre.place.movieTheater.IPOS;
+            applicationType: Models.Util.Application.ApplicationType;
+            applicationPassword?: string;
+        };
+        device: {
+            printer: Models.Util.Printer.IPrinter;
+            cashchanger?: {
+                ipAddress: string;
+            };
+            payment?: {
+                ipAddress: string;
+            };
+        };
         profile: factory.person.IProfile;
     }) {
-        this.store.dispatch(userAction.updateAll(params));
+        this.store.dispatch(userAction.update(params));
     }
 
     /**

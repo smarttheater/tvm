@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.26.0 - 2022-02-02
+
+### Changed
+
+-   device 関連の state 形式変更
+
 ## 4.25.0 - 2022-01-24
 
 ### Changed

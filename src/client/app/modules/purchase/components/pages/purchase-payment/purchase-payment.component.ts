@@ -73,9 +73,11 @@ export class PurchasePaymentComponent implements OnInit {
                         device?.payment?.ipAddress !== '') ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.EMoney &&
+                        device?.payment?.ipAddress !== undefined &&
                         device?.payment?.ipAddress !== '') ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.Code &&
+                        device?.payment?.ipAddress !== undefined &&
                         device?.payment?.ipAddress !== '')
                 );
             });

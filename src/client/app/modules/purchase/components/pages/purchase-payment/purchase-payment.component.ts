@@ -65,16 +65,18 @@ export class PurchasePaymentComponent implements OnInit {
                 return (
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.Cash &&
-                        device?.cashchanger?.ipAddress !== undefined) ||
+                        device?.cashchanger?.ipAddress !== undefined &&
+                        device?.cashchanger?.ipAddress !== '') ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.CreditCard &&
-                        device?.payment?.ipAddress !== undefined) ||
+                        device?.payment?.ipAddress !== undefined &&
+                        device?.payment?.ipAddress !== '') ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.EMoney &&
-                        device?.payment?.ipAddress !== undefined) ||
+                        device?.payment?.ipAddress !== '') ||
                     (paymentMethodCode ===
                         Models.Purchase.Payment.PaymentMethodCode.Code &&
-                        device?.payment?.ipAddress !== undefined)
+                        device?.payment?.ipAddress !== '')
                 );
             });
             const categoryCodePayment =

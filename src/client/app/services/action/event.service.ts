@@ -141,9 +141,6 @@ export class ActionEventService {
                         typeOf: seller.typeOf,
                         id: seller.id,
                     },
-                    store: {
-                        id: clientId,
-                    },
                 });
             this.store.dispatch(
                 purchaseAction.setTicketOffers({

@@ -72,7 +72,7 @@ export class PurchaseCinemaDateComponent implements OnInit {
             value: number;
             unit: 'day' | 'year' | 'second';
         } = {
-            value: value * -1 + 1,
+            value: typeof value === 'number' ? value * -1 + 1 : 9999,
             unit:
                 unitCode === factory.chevre.unitCode.Day
                     ? 'day'

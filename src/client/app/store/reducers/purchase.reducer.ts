@@ -67,7 +67,13 @@ export interface IPurchaseState {
     /**
      * ムビチケ決済
      */
-    authorizeMovieTicketPayments: factory.action.authorize.paymentMethod.any.IAction[];
+    authorizeMovieTicketPayments: {
+        id: string;
+        object: {
+            typeOf: factory.service.paymentService.PaymentServiceType;
+        };
+        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+    }[];
     /**
      * GMOオブジェクト
      */
@@ -91,7 +97,10 @@ export interface IPurchaseState {
     /**
      * 決済
      */
-    authorizeAnyPayments: factory.action.authorize.paymentMethod.any.IAction[];
+    authorizeAnyPayments: {
+        id: string;
+        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+    }[];
     /**
      * 支払い方法
      */
@@ -435,7 +444,10 @@ export function reducer(initialState: IState, action: Action) {
         on(purchaseAction.setAuthorizeAnyPayment, (state, payload) => {
             const authorizeAnyPayment = payload.authorizeResult;
             const authorizeAnyPayments = Functions.Util.deepCopy<
-                factory.action.authorize.paymentMethod.any.IAction[]
+                {
+                    id: string;
+                    purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+                }[]
             >(state.purchaseData.authorizeAnyPayments);
             authorizeAnyPayments.push(authorizeAnyPayment);
             return {

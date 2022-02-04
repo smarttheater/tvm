@@ -104,10 +104,9 @@ export class MembershipCheckModalComponent implements OnInit {
         this.successMessage = '';
         try {
             await this.actionService.payment.checkProduct({
-                input: {
-                    identifier: this.inputForm.controls.code.value,
-                    accessCode: this.inputForm.controls.password.value,
-                },
+                identifier: this.inputForm.controls.code.value,
+                accessCode: this.inputForm.controls.password.value,
+                issuedThrough: { id: 'xxx' },
             });
             this.createForm();
             this.successMessage = this.translate.instant(

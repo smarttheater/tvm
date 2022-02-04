@@ -93,7 +93,13 @@ export const setProfile = createAction(
 export const setAuthorizeMovieTicket = createAction(
     `${LABEL} authorizeResults`,
     props<{
-        authorizeResults: factory.action.authorize.paymentMethod.any.IAction[];
+        authorizeResults: {
+            id: string;
+            object: {
+                typeOf: factory.service.paymentService.PaymentServiceType;
+            };
+            purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+        }[];
     }>()
 );
 
@@ -112,7 +118,10 @@ export const setOrder = createAction(
 export const setAuthorizeAnyPayment = createAction(
     `${LABEL} setAuthorizeAnyPayment`,
     props<{
-        authorizeResult: factory.action.authorize.paymentMethod.any.IAction;
+        authorizeResult: {
+            id: string;
+            purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+        };
     }>()
 );
 

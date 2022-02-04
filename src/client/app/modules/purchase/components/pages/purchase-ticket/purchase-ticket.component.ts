@@ -142,7 +142,10 @@ export class PurchaseTicketComponent implements OnInit {
                             UnitPriceSpecification &&
                         unitPriceSpecification.referenceQuantity.value !==
                             undefined
-                            ? unitPriceSpecification.referenceQuantity.value
+                            ? typeof unitPriceSpecification.referenceQuantity
+                                  .value === 'number'
+                                ? unitPriceSpecification.referenceQuantity.value
+                                : 1
                             : 1;
 
                     return filterResult.length % value !== 0;

@@ -45,7 +45,7 @@
         "@angular/platform-browser": "^12.2.15",
         "@angular/platform-browser-dynamic": "^12.2.15",
         "@angular/router": "^12.2.15",
-        "@cinerino/sdk": "^3.18.2",
+        "@cinerino/sdk": "^3.33.0",
         "@ngrx/effects": "^12.5.1",
         "@ngrx/store": "^12.5.1",
         "@ngx-translate/core": "^13.0.0",

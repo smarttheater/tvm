@@ -3,10 +3,14 @@ import { createAction, props } from '@ngrx/store';
 import { Models } from '../..';
 const LABEL = '[Order]';
 
-export const remove = createAction(
-    `${LABEL} remove`,
-);
+export const remove = createAction(`${LABEL} remove`);
 
+export const setOrder = createAction(
+    `${LABEL} setOrder`,
+    props<{
+        order: factory.order.IOrder;
+    }>()
+);
 
 export const cancel = createAction(
     `${LABEL} cancel`,
@@ -19,9 +23,7 @@ export const cancel = createAction(
     }>()
 );
 
-export const cancelSuccess = createAction(
-    `${LABEL} cancelSuccess`,
-);
+export const cancelSuccess = createAction(`${LABEL} cancelSuccess`);
 
 export const cancelFail = createAction(
     `${LABEL} cancelFail`,
@@ -59,12 +61,9 @@ export const print = createAction(
     }>()
 );
 
-export const printSuccess = createAction(
-    `${LABEL} printSuccess`,
-);
+export const printSuccess = createAction(`${LABEL} printSuccess`);
 
 export const printFail = createAction(
     `${LABEL} printFail`,
     props<{ error: Error }>()
 );
-

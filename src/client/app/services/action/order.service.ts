@@ -52,49 +52,6 @@ export class OrderService {
     }
 
     /**
-     * 注文キャンセル
-     */
-    public async cancel(params: {
-        orders: factory.order.IOrder[];
-        language: string;
-        pos?: factory.chevre.place.movieTheater.IPOS;
-    }) {
-        const identifier =
-            params.pos === undefined
-                ? []
-                : [
-                      { name: 'posId', value: params.pos.id },
-                      { name: 'posName', value: params.pos.name },
-                  ];
-        return new Promise<void>((resolve, reject) => {
-            this.store.dispatch(
-                orderAction.cancel({
-                    orders: params.orders,
-                    language: params.language,
-                    agent: { identifier },
-                })
-            );
-            const success = this.actions.pipe(
-                ofType(orderAction.cancelSuccess.type),
-                tap(() => {
-                    resolve();
-                })
-            );
-            const fail = this.actions.pipe(
-                ofType(orderAction.cancelFail.type),
-                tap(() => {
-                    this.error
-                        .subscribe((error) => {
-                            reject(error);
-                        })
-                        .unsubscribe();
-                })
-            );
-            race(success, fail).pipe(take(1)).subscribe();
-        });
-    }
-
-    /**
      * 注文照会
      */
     public async inquiry(params: {

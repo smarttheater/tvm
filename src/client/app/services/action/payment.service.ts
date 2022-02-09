@@ -51,8 +51,7 @@ export class ActionPaymentService {
                     );
                 }
             }
-            const authorizeResults: factory.action.authorize.paymentMethod.any.IAction[] =
-                [];
+            const authorizeResults = [];
             for (const temporarilyReservation of temporarilyReserved) {
                 const movieTickets =
                     Functions.Purchase.createMovieTicketsFromAuthorizeSeatReservation(
@@ -101,7 +100,14 @@ export class ActionPaymentService {
                                 purpose: transaction,
                             }
                         );
-                    authorizeResults.push(authorizeResult);
+                    authorizeResults.push({
+                        id: authorizeResult.id,
+                        object: {
+                            typeOf: factory.service.paymentService
+                                .PaymentServiceType.MovieTicket,
+                        },
+                        purpose: authorizeResult.purpose,
+                    });
                 }
             }
             this.store.dispatch(
@@ -194,9 +200,10 @@ export class ActionPaymentService {
      * プロダクト認証
      */
     public async checkProduct(params: {
-        input: {
-            identifier: string;
-            accessCode: string;
+        identifier: string;
+        accessCode: string;
+        issuedThrough: {
+            id: string;
         };
     }) {
         try {
@@ -206,7 +213,7 @@ export class ActionPaymentService {
             await this.cinerinoService.getServices();
             const { code } = await this.cinerinoService.serviceOutput.authorize(
                 {
-                    object: params.input,
+                    object: params,
                 }
             );
             const { token } = await this.cinerinoService.token.getToken({

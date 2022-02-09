@@ -236,7 +236,10 @@ export function getTicketPrice(
         const referenceQuantityValue =
             unitPriceSpecification.referenceQuantity.value === undefined
                 ? 1
-                : unitPriceSpecification.referenceQuantity.value;
+                : typeof unitPriceSpecification.referenceQuantity.value ===
+                  'number'
+                ? unitPriceSpecification.referenceQuantity.value
+                : NaN;
         result.single = result.total / referenceQuantityValue;
     }
 
@@ -260,7 +263,9 @@ export function getItemPrice(params: {
     priceComponents.forEach((p) => {
         if (p.typeOf === priceSpecificationType.UnitPriceSpecification) {
             const value = p.referenceQuantity.value
-                ? p.referenceQuantity.value
+                ? typeof p.referenceQuantity.value === 'number'
+                    ? p.referenceQuantity.value
+                    : NaN
                 : 1;
             price += p.price / value;
             return;

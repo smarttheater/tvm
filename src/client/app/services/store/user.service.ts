@@ -10,10 +10,10 @@ import * as reducers from '../../store/reducers';
     providedIn: 'root',
 })
 export class StoreUserService {
-    public user: Observable<reducers.IUserState>;
+    public data: Observable<reducers.IUserState>;
 
     constructor(private store: Store<reducers.IState>) {
-        this.user = this.store.pipe(select(reducers.getUser));
+        this.data = this.store.pipe(select(reducers.getUser));
     }
 
     /**
@@ -21,9 +21,9 @@ export class StoreUserService {
      */
     public async getData() {
         return new Promise<reducers.IUserState>((resolve) => {
-            this.user
-                .subscribe((user) => {
-                    resolve(user);
+            this.data
+                .subscribe((data) => {
+                    resolve(data);
                 })
                 .unsubscribe();
         });
@@ -70,7 +70,7 @@ export class StoreUserService {
     /**
      * バージョン確認
      */
-    public async updateVersion(params: { version: string }) {
+    public async setVersion(params: { version: string }) {
         this.store.dispatch(userAction.setVersion(params));
     }
 }

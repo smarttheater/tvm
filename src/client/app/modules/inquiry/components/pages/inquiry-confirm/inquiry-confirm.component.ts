@@ -7,7 +7,11 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -30,6 +34,7 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
         private store: Store<reducers.IState>,
         private router: Router,
         private actionService: ActionService,
+        private storeService: StoreService,
         private utilService: UtilService,
         private translate: TranslateService
     ) {}
@@ -40,7 +45,7 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
         this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.error = this.store.pipe(select(reducers.getError));
-        const { order } = await this.actionService.order.getData();
+        const { order } = await this.storeService.order.getData();
         if (order === undefined) {
             this.router.navigate(['/error']);
             return;
@@ -68,9 +73,9 @@ export class InquiryConfirmComponent implements OnInit, OnDestroy {
      */
     public async print() {
         try {
-            const orderData = await this.actionService.order.getData();
+            const orderData = await this.storeService.order.getData();
             const { application, device } =
-                await this.actionService.user.getData();
+                await this.storeService.user.getData();
             if (orderData.order === undefined) {
                 this.router.navigate(['/error']);
                 return;

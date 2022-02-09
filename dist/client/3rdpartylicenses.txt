@@ -50,9 +50,6 @@ ISC
 @cinerino/sdk
 ISC
 
-@ngrx/effects
-MIT
-
 @ngrx/store
 MIT
 

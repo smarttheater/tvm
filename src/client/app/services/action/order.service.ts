@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
-import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable, race } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { StoreService } from '..';
 import { Functions, Models } from '../..';
 import { getEnvironment } from '../../../environments/environment';
-import { orderAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { EpsonEPOSService } from '../epson-epos.service';
@@ -21,66 +20,64 @@ export class OrderService {
     public error: Observable<string | null>;
     constructor(
         private store: Store<reducers.IState>,
-        private actions: Actions,
         private cinerinoService: CinerinoService,
         private utilService: UtilService,
         private starPrintService: StarPrintService,
-        private epsonEPOSService: EpsonEPOSService
+        private epsonEPOSService: EpsonEPOSService,
+        private storeService: StoreService
     ) {
         this.order = this.store.pipe(select(reducers.getOrder));
         this.error = this.store.pipe(select(reducers.getError));
     }
 
     /**
-     * 注文データ取得
-     */
-    public async getData() {
-        return new Promise<reducers.IOrderState>((resolve) => {
-            this.order
-                .subscribe((order) => {
-                    resolve(order);
-                })
-                .unsubscribe();
-        });
-    }
-
-    /**
-     * 注文データ削除
-     */
-    public delete() {
-        this.store.dispatch(orderAction.remove());
-    }
-
-    /**
      * 注文照会
      */
-    public async inquiry(params: {
+    public async findByConfirmationNumber(params: {
         confirmationNumber: string;
         customer: {
             email?: string;
             telephone?: string;
         };
     }) {
-        return new Promise<void>((resolve, reject) => {
-            this.store.dispatch(orderAction.inquiry(params));
-            const success = this.actions.pipe(
-                ofType(orderAction.inquirySuccess.type),
-                tap(() => {
-                    resolve();
-                })
-            );
-            const fail = this.actions.pipe(
-                ofType(orderAction.inquiryFail.type),
-                tap(() => {
-                    this.error
-                        .subscribe((error) => {
-                            reject(error);
-                        })
-                        .unsubscribe();
-                })
-            );
-            race(success, fail).pipe(take(1)).subscribe();
-        });
+        try {
+            const { confirmationNumber, customer } = params;
+            this.storeService.util.loadStart({
+                process: 'action.Order.search',
+            });
+            const environment = getEnvironment();
+            await this.cinerinoService.getServices();
+            const now = (await this.utilService.getServerTime()).date;
+            const today = moment(moment(now).format('YYYYMMDD')).toISOString();
+            const telephone =
+                customer.telephone === undefined
+                    ? ''
+                    : Functions.Util.formatTelephone(customer.telephone);
+            const orderDateFrom = {
+                value: environment.INQUIRY_ORDER_DATE_FROM_VALUE,
+                unit: environment.INQUIRY_ORDER_DATE_FROM_UNIT,
+            };
+            const findResult =
+                await this.cinerinoService.order.findByConfirmationNumber({
+                    confirmationNumber,
+                    customer: {
+                        telephone,
+                    },
+                    orderDateFrom: moment(today)
+                        .add(orderDateFrom.value, orderDateFrom.unit)
+                        .toDate(),
+                    orderDateThrough: moment(now).toDate(),
+                });
+            const order = Array.isArray(findResult)
+                ? findResult[0]
+                : findResult;
+            this.storeService.util.loadEnd();
+            return order;
+        } catch (error) {
+            this.utilService.setError({ error });
+            this.storeService.util.loadEnd();
+            throw error;
+        }
     }
 
     /**
@@ -104,7 +101,9 @@ export class OrderService {
                 return;
             }
             if (environment.PRINT_LOADING) {
-                this.utilService.loadStart({ process: 'orderAction.Print' });
+                this.storeService.util.loadStart({
+                    process: 'orderAction.Print',
+                });
             }
             await this.cinerinoService.getServices();
             const authorizeOrders: {
@@ -178,11 +177,11 @@ export class OrderService {
             }
             await this.printProcess({ printer, canvasList, pos });
             if (environment.PRINT_LOADING) {
-                this.utilService.loadEnd();
+                this.storeService.util.loadEnd();
             }
         } catch (error) {
             if (environment.PRINT_LOADING) {
-                this.utilService.loadEnd();
+                this.storeService.util.loadEnd();
             }
             this.utilService.setError({ error });
             throw error;

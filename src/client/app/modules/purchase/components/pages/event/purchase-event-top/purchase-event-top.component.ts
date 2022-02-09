@@ -10,6 +10,7 @@ import { getEnvironment } from '../../../../../../../environments/environment';
 import {
     ActionService,
     EpsonEPOSService,
+    StoreService,
     UtilService,
 } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
@@ -30,7 +31,8 @@ export class PurchaseEventTopComponent implements OnInit {
         private router: Router,
         private utilService: UtilService,
         private translate: TranslateService,
-        private epsonEPOSService: EpsonEPOSService
+        private epsonEPOSService: EpsonEPOSService,
+        private storeService: StoreService
     ) {}
 
     /**
@@ -41,7 +43,7 @@ export class PurchaseEventTopComponent implements OnInit {
             this.user = this.store.pipe(select(reducers.getUser));
             this.actionService.user.updateLanguage('ja');
             await this.actionService.transaction.cancel();
-            this.actionService.purchase.delete();
+            this.storeService.purchase.remove();
             if (!this.epsonEPOSService.cashchanger.isConnected()) {
                 await this.actionService.user.checkVersion();
             }
@@ -70,9 +72,9 @@ export class PurchaseEventTopComponent implements OnInit {
     public async startTransaction(params: { routerLink: string }) {
         const now = moment().toDate();
         const today = moment(now).format('YYYY-MM-DD');
-        this.actionService.purchase.selectScheduleDate(today);
+        this.storeService.purchase.setScheduleDate({ scheduleDate: today });
         try {
-            const { application } = await this.actionService.user.getData();
+            const { application } = await this.storeService.user.getData();
             if (application?.theater === undefined) {
                 throw new Error('theater undefined');
             }
@@ -104,19 +106,21 @@ export class PurchaseEventTopComponent implements OnInit {
                 });
                 return;
             }
-            await this.actionService.purchase.getSeller({
+            const seller = await this.actionService.seller.findById({
                 id: screeningEvent.offers.seller.id,
             });
+            this.storeService.purchase.setSeller({ seller });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
             return;
         }
         try {
-            const { application } = await this.actionService.user.getData();
-            await this.actionService.transaction.start({
+            const { application } = await this.storeService.user.getData();
+            const transaction = await this.actionService.transaction.start({
                 pos: application?.pos,
             });
+            this.storeService.purchase.setTransaction({ transaction });
             const { routerLink } = params;
             this.router.navigate([routerLink]);
         } catch (error) {

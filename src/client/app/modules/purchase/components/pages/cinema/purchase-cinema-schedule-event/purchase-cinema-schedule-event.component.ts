@@ -4,7 +4,11 @@ import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-cinema-schedule-event',
@@ -21,7 +25,8 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
     constructor(
         private router: Router,
         private actionService: ActionService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private storeService: StoreService
     ) {}
 
     /**
@@ -33,9 +38,9 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             this.screeningEventSeries = [];
             this.screeningEventsGroup = [];
             this.animations = [];
-            const { application } = await this.actionService.user.getData();
+            const { application } = await this.storeService.user.getData();
             const { scheduleDate, creativeWork } =
-                await this.actionService.purchase.getData();
+                await this.storeService.purchase.getData();
             if (
                 scheduleDate === undefined ||
                 application?.theater === undefined ||
@@ -103,17 +108,25 @@ export class PurchaseCinemaScheduleEventComponent implements OnInit {
             if (screeningEventSeries === undefined) {
                 throw new Error('screeningEventSeries === undefined');
             }
-            this.actionService.purchase.unsettledDelete();
-            this.actionService.purchase.selectScreeningEventSeries(
+            this.storeService.purchase.unsettledDelete();
+            this.storeService.purchase.setScreeningEventSeries(
                 screeningEventSeries
             );
-            await this.actionService.event.findById(screeningEvent);
+            const screeningEventResult =
+                await this.actionService.event.findById(screeningEvent);
+            this.storeService.purchase.setScreeningEvent({
+                screeningEvent: screeningEventResult,
+            });
             const { authorizeSeatReservations } =
-                await this.actionService.purchase.getData();
+                await this.storeService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {
-                await this.actionService.transaction.voidSeatReservation({
-                    ids: authorizeSeatReservations.map((a) => a.id),
-                });
+                const voidSeatReservation =
+                    await this.actionService.transaction.voidSeatReservation({
+                        ids: authorizeSeatReservations.map((a) => a.id),
+                    });
+                this.storeService.purchase.setAuthorizeSeatReservation(
+                    voidSeatReservation
+                );
             }
             this.router.navigate(['/purchase/cinema/seat']);
         } catch (error) {

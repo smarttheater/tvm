@@ -9,9 +9,9 @@ import * as reducers from '../../store/reducers';
     providedIn: 'root',
 })
 export class StoreOrderService {
-    public order: Observable<reducers.IOrderState>;
+    public data: Observable<reducers.IOrderState>;
     constructor(private store: Store<reducers.IState>) {
-        this.order = this.store.pipe(select(reducers.getOrder));
+        this.data = this.store.pipe(select(reducers.getOrder));
     }
 
     /**
@@ -19,9 +19,9 @@ export class StoreOrderService {
      */
     public async getData() {
         return new Promise<reducers.IOrderState>((resolve) => {
-            this.order
-                .subscribe((order) => {
-                    resolve(order);
+            this.data
+                .subscribe((data) => {
+                    resolve(data);
                 })
                 .unsubscribe();
         });

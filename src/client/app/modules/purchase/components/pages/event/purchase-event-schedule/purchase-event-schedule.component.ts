@@ -8,7 +8,11 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 import { PurchaseEventTicketModalComponent } from '../../../../../shared/components/parts/purchase/event/ticket-modal/ticket-modal.component';
 
@@ -36,7 +40,8 @@ export class PurchaseEventScheduleComponent implements OnInit {
         private utilService: UtilService,
         private translate: TranslateService,
         private actionService: ActionService,
-        private modal: BsModalService
+        private modal: BsModalService,
+        private storeService: StoreService
     ) {}
 
     public async ngOnInit() {
@@ -44,13 +49,13 @@ export class PurchaseEventScheduleComponent implements OnInit {
         this.user = this.store.pipe(select(reducers.getUser));
         this.error = this.store.pipe(select(reducers.getError));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
-        this.actionService.purchase.unsettledDelete();
+        this.storeService.purchase.unsettledDelete();
         this.screeningEventsGroup = [];
         this.videoFormatTypes = [];
         this.animations = [];
         try {
-            const { application } = await this.actionService.user.getData();
-            const purchase = await this.actionService.purchase.getData();
+            const { application } = await this.storeService.user.getData();
+            const purchase = await this.storeService.purchase.getData();
             const scheduleDate = purchase.scheduleDate;
             if (
                 application?.theater === undefined ||
@@ -108,7 +113,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
     public async selectSchedule(
         screeningEvent: factory.event.screeningEvent.IEvent
     ) {
-        const purchase = await this.actionService.purchase.getData();
+        const purchase = await this.storeService.purchase.getData();
         if (purchase.seller === undefined) {
             this.router.navigate(['/error']);
             return;
@@ -126,18 +131,30 @@ export class PurchaseEventScheduleComponent implements OnInit {
             return;
         }
         try {
-            await this.actionService.event.findById(screeningEvent);
+            const screeningEventResult =
+                await this.actionService.event.findById(screeningEvent);
+            this.storeService.purchase.setScreeningEvent({
+                screeningEvent: screeningEventResult,
+            });
             this.screeningEventSeats =
                 await this.actionService.event.getScreeningEventSeats();
-            await this.actionService.event.searchTicketOffers();
-            await this.actionService.purchase.getScreeningRoom({
-                branchCode: { $eq: screeningEvent.location.branchCode },
-                containedInPlace: {
-                    branchCode: {
-                        $eq: screeningEvent.superEvent.location.branchCode,
+            const ticketOffers =
+                await this.actionService.event.searchTicketOffers();
+            this.storeService.purchase.setTicketOffers({ ticketOffers });
+            const screeningRooms =
+                await this.actionService.place.searchScreeningRooms({
+                    branchCode: { $eq: screeningEvent.location.branchCode },
+                    containedInPlace: {
+                        branchCode: {
+                            $eq: screeningEvent.superEvent.location.branchCode,
+                        },
                     },
-                },
-            });
+                });
+            const screeningRoom = screeningRooms[0];
+            if (screeningRoom === undefined) {
+                throw new Error('screeningRoom undefined');
+            }
+            this.storeService.purchase.setScreeningRoom({ screeningRoom });
             this.openTicketList();
         } catch (error) {
             console.error(error);
@@ -152,7 +169,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
      * 券種表示
      */
     private async openTicketList() {
-        const purchase = await this.actionService.purchase.getData();
+        const purchase = await this.storeService.purchase.getData();
         const screeningEvent = purchase.screeningEvent;
         const screeningEventTicketOffers = purchase.screeningEventTicketOffers;
         const screeningEventSeats = this.screeningEventSeats;
@@ -236,7 +253,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
             this.screeningEventSeats =
                 await this.actionService.event.getScreeningEventSeats();
             const { screeningEvent } =
-                await this.actionService.purchase.getData();
+                await this.storeService.purchase.getData();
             if (
                 screeningEvent !== undefined &&
                 new Models.Purchase.Performance({
@@ -267,18 +284,22 @@ export class PurchaseEventScheduleComponent implements OnInit {
         }
 
         try {
-            await this.actionService.transaction.authorizeSeatReservation({
-                reservations,
-                additionalTicketText,
-                screeningEventSeats: this.screeningEventSeats,
-            });
+            const authorizeSeatReservation =
+                await this.actionService.transaction.authorizeSeatReservation({
+                    reservations,
+                    additionalTicketText,
+                    screeningEventSeats: this.screeningEventSeats,
+                });
+            this.storeService.purchase.setAuthorizeSeatReservation(
+                authorizeSeatReservation
+            );
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
                 body: this.translate.instant(
                     'purchase.event.schedule.success.temporaryReservation'
                 ),
             });
-            this.actionService.purchase.unsettledDelete();
+            this.storeService.purchase.unsettledDelete();
         } catch (error) {
             console.error(error);
             this.utilService.openAlert({
@@ -299,7 +320,7 @@ export class PurchaseEventScheduleComponent implements OnInit {
      */
     public async onSubmit() {
         const { authorizeSeatReservations } =
-            await this.actionService.purchase.getData();
+            await this.storeService.purchase.getData();
         // チケット未選択判定
         if (authorizeSeatReservations.length === 0) {
             this.utilService.openAlert({

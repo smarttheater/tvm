@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { StoreService } from '..';
 import { Functions } from '../..';
-import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
 
@@ -11,14 +9,11 @@ import { UtilService } from '../util.service';
     providedIn: 'root',
 })
 export class ActionPlaceService {
-    public error: Observable<string | null>;
     constructor(
-        private store: Store<reducers.IState>,
         private cinerinoService: CinerinoService,
-        private utilService: UtilService
-    ) {
-        this.error = this.store.pipe(select(reducers.getError));
-    }
+        private utilService: UtilService,
+        private storeService: StoreService
+    ) {}
 
     /**
      * 劇場一覧検索
@@ -27,7 +22,7 @@ export class ActionPlaceService {
         params?: factory.chevre.place.movieTheater.ISearchConditions
     ) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'action.Place.searchMovieTheaters',
             });
             await this.cinerinoService.getServices();
@@ -35,11 +30,11 @@ export class ActionPlaceService {
                 await this.cinerinoService.place.searchMovieTheaters(
                     params === undefined ? {} : params
                 );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return searchResult.data;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -58,7 +53,7 @@ export class ActionPlaceService {
         };
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'action.Place.searchScreeningRooms',
             });
             const limit = 100;
@@ -78,11 +73,11 @@ export class ActionPlaceService {
                 roop = searchResult.data.length === limit;
                 await Functions.Util.sleep();
             }
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return result;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }

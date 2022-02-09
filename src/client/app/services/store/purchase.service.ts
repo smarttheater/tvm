@@ -10,10 +10,10 @@ import * as reducers from '../../store/reducers';
     providedIn: 'root',
 })
 export class StorePurchaseService {
-    public purchase: Observable<reducers.IPurchaseState>;
+    public data: Observable<reducers.IPurchaseState>;
 
     constructor(private store: Store<reducers.IState>) {
-        this.purchase = this.store.pipe(select(reducers.getPurchase));
+        this.data = this.store.pipe(select(reducers.getPurchase));
     }
 
     /**
@@ -21,9 +21,9 @@ export class StorePurchaseService {
      */
     public async getData() {
         return new Promise<reducers.IPurchaseState>((resolve) => {
-            this.purchase
-                .subscribe((purchase) => {
-                    resolve(purchase);
+            this.data
+                .subscribe((data) => {
+                    resolve(data);
                 })
                 .unsubscribe();
         });
@@ -134,5 +134,114 @@ export class StorePurchaseService {
      */
     public setOrderId(params: { id: string }) {
         this.store.dispatch(purchaseAction.setOrderId(params));
+    }
+
+    /**
+     * イベント設定
+     */
+    public setScreeningEvent(params: {
+        screeningEvent: factory.chevre.event.screeningEvent.IEvent;
+    }) {
+        this.store.dispatch(purchaseAction.setScreeningEvent(params));
+    }
+
+    /**
+     * オファー設定
+     */
+    public setTicketOffers(params: {
+        ticketOffers: factory.chevre.event.screeningEvent.ITicketOffer[];
+    }) {
+        this.store.dispatch(purchaseAction.setTicketOffers(params));
+    }
+
+    /**
+     * ムビチケ承認設定
+     */
+    public setAuthorizeMovieTicket(params: {
+        authorizeResults: {
+            id: string;
+            object: {
+                typeOf: factory.service.paymentService.PaymentServiceType;
+            };
+            purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+        }[];
+    }) {
+        this.store.dispatch(purchaseAction.setAuthorizeMovieTicket(params));
+    }
+
+    /**
+     * ムビチケ認証設定
+     */
+    public setCheckMovieTicket(params: {
+        checkMovieTicket: factory.action.check.paymentMethod.movieTicket.IAction;
+    }) {
+        this.store.dispatch(purchaseAction.setCheckMovieTicket(params));
+    }
+
+    /**
+     * プロダクト認証設定
+     */
+    public setCheckProduct(params: {
+        checkProduct: {
+            code: string;
+            token: string;
+            typeOfGood: factory.permit.IPermit;
+        };
+    }) {
+        this.store.dispatch(purchaseAction.setCheckProduct(params));
+    }
+
+    /**
+     * 決済承認
+     */
+    public async setAuthorizeAnyPayment(params: {
+        authorizeResult: {
+            id: string;
+            purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+        };
+    }) {
+        this.store.dispatch(purchaseAction.setAuthorizeAnyPayment(params));
+    }
+
+    /**
+     * 取引設定
+     */
+    public setTransaction(params: {
+        transaction: factory.transaction.placeOrder.ITransaction;
+    }) {
+        this.store.dispatch(purchaseAction.setTransaction(params));
+    }
+
+    /**
+     * 取引削除
+     */
+    public cancelTransaction() {
+        this.store.dispatch(purchaseAction.cancelTransaction());
+    }
+
+    /**
+     * プロフィール設定
+     */
+    public setProfile(params: { profile: factory.person.IProfile }) {
+        this.store.dispatch(purchaseAction.setProfile(params));
+    }
+
+    /**
+     * 取引更新
+     */
+    public setOrder(params: { order: factory.order.IOrder }) {
+        this.store.dispatch(purchaseAction.setOrder(params));
+    }
+
+    /**
+     * 座席承認設定
+     */
+    public setAuthorizeSeatReservation(params: {
+        authorizeSeatReservation?: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
+        authorizeSeatReservations: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[];
+        pendingMovieTickets: Models.Purchase.MovieTicket.IMovieTicket[];
+        temporarilyReserved: Models.Purchase.Reservation.ITemporarilyReserved[];
+    }) {
+        this.store.dispatch(purchaseAction.setAuthorizeSeatReservation(params));
     }
 }

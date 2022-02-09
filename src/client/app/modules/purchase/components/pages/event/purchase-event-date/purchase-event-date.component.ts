@@ -5,7 +5,11 @@ import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 
 @Component({
@@ -23,6 +27,7 @@ export class PurchaseEventDateComponent implements OnInit {
         private store: Store<reducers.IState>,
         private router: Router,
         private actionService: ActionService,
+        private storeService: StoreService,
         private utilService: UtilService
     ) {}
 
@@ -33,7 +38,7 @@ export class PurchaseEventDateComponent implements OnInit {
         this.purchase = this.store.pipe(select(reducers.getPurchase));
         try {
             this.scheduleDates = [];
-            const { application } = await this.actionService.user.getData();
+            const { application } = await this.storeService.user.getData();
             if (application?.theater === undefined) {
                 throw new Error('theater undefined');
             }
@@ -73,7 +78,7 @@ export class PurchaseEventDateComponent implements OnInit {
      * 購入する
      */
     public async toPurchase(scheduleDate: string) {
-        this.actionService.purchase.selectScheduleDate(scheduleDate);
+        this.storeService.purchase.setScheduleDate({ scheduleDate });
         this.router.navigate(['/purchase/event/schedule']);
     }
 }

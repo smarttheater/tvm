@@ -10,6 +10,7 @@ import {
     ActionService,
     EpsonEPOSService,
     PaymentService,
+    StoreService,
     UtilService,
 } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
@@ -26,7 +27,8 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         private actionService: ActionService,
         private utilService: UtilService,
         private epsonEPOSService: EpsonEPOSService,
-        private paymentService: PaymentService
+        private paymentService: PaymentService,
+        private storeService: StoreService
     ) {}
     public purchase: Observable<reducers.IPurchaseState>;
     public user: Observable<reducers.IUserState>;
@@ -42,15 +44,15 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         this.user = this.store.pipe(select(reducers.getUser));
         this.amount = 0;
         try {
-            this.utilService.loadStart({ process: 'load' });
+            this.storeService.util.loadStart({ process: 'load' });
             this.isCash = false;
-            const purchase = await this.actionService.purchase.getData();
+            const purchase = await this.storeService.purchase.getData();
             this.amount = Functions.Purchase.getAmount(
                 purchase.authorizeSeatReservations
             );
             if (this.amount === 0) {
                 await this.onSubmit();
-                this.utilService.loadEnd();
+                this.storeService.util.loadEnd();
                 return;
             }
             const paymentMethodType = purchase.paymentMethod?.typeOf;
@@ -65,18 +67,18 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 case Models.Purchase.Payment.PaymentMethodCode.Cash:
                     this.isCash = true;
                     await this.paymentCash();
-                    this.utilService.loadEnd();
+                    this.storeService.util.loadEnd();
                     break;
                 case Models.Purchase.Payment.PaymentMethodCode.CreditCard:
-                    this.utilService.loadEnd();
+                    this.storeService.util.loadEnd();
                     await this.paymentCreditcard();
                     break;
                 case Models.Purchase.Payment.PaymentMethodCode.EMoney:
-                    this.utilService.loadEnd();
+                    this.storeService.util.loadEnd();
                     await this.paymentEMoney();
                     break;
                 case Models.Purchase.Payment.PaymentMethodCode.Code:
-                    this.utilService.loadEnd();
+                    this.storeService.util.loadEnd();
                     await this.paymentCode();
                     break;
                 default:
@@ -84,7 +86,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             }
         } catch (error) {
             console.error(error);
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             this.router.navigate(['/stop']);
         }
     }
@@ -111,7 +113,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      * 現金決済
      */
     private async paymentCash() {
-        const { device } = await this.actionService.user.getData();
+        const { device } = await this.storeService.user.getData();
         if (device?.cashchanger === undefined) {
             throw new Error('cashchanger undefined');
         }
@@ -125,8 +127,8 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      * クレジットカード決済
      */
     private async paymentCreditcard() {
-        const { transaction } = await this.actionService.purchase.getData();
-        const { device, application } = await this.actionService.user.getData();
+        const { transaction } = await this.storeService.purchase.getData();
+        const { device, application } = await this.storeService.user.getData();
         if (transaction === undefined || device?.payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
@@ -143,7 +145,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             const orderId = Functions.Purchase.createRemiseOrderId(
                 application?.pos?.id
             );
-            this.actionService.purchase.setOrderId({ id: orderId });
+            this.storeService.purchase.setOrderId({ id: orderId });
             await this.paymentService.init({
                 ipAddress: device?.payment?.ipAddress,
             });
@@ -196,8 +198,8 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      * 電子マネー決済
      */
     private async paymentEMoney() {
-        const { transaction } = await this.actionService.purchase.getData();
-        const { device, application } = await this.actionService.user.getData();
+        const { transaction } = await this.storeService.purchase.getData();
+        const { device, application } = await this.storeService.user.getData();
         if (transaction === undefined || device?.payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
@@ -214,7 +216,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             const orderId = Functions.Purchase.createRemiseOrderId(
                 application?.pos?.id
             );
-            this.actionService.purchase.setOrderId({ id: orderId });
+            this.storeService.purchase.setOrderId({ id: orderId });
             await this.paymentService.init({
                 ipAddress: device.payment.ipAddress,
             });
@@ -266,8 +268,8 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      * コード決済
      */
     private async paymentCode() {
-        const { transaction } = await this.actionService.purchase.getData();
-        const { device, application } = await this.actionService.user.getData();
+        const { transaction } = await this.storeService.purchase.getData();
+        const { device, application } = await this.storeService.user.getData();
         if (transaction === undefined || device?.payment === undefined) {
             throw new Error('transaction or payment undefined');
         }
@@ -284,7 +286,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             const orderId = Functions.Purchase.createRemiseOrderId(
                 application?.pos?.id
             );
-            this.actionService.purchase.setOrderId({ id: orderId });
+            this.storeService.purchase.setOrderId({ id: orderId });
             await this.paymentService.init({
                 ipAddress: device.payment.ipAddress,
             });
@@ -338,13 +340,17 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
     public async onSubmit() {
         try {
             const { pendingMovieTickets, paymentMethod, orderId, seller } =
-                await this.actionService.purchase.getData();
-            const { profile } = await this.actionService.user.getData();
+                await this.storeService.purchase.getData();
+            const { profile } = await this.storeService.user.getData();
             if (profile === undefined || seller === undefined) {
                 throw new Error('profile or seller undefined');
             }
             if (pendingMovieTickets.length > 0) {
-                await this.actionService.payment.authorizeMovieTicket();
+                const authorizeResults =
+                    await this.actionService.payment.authorizeMovieTicket();
+                this.storeService.purchase.setAuthorizeMovieTicket({
+                    authorizeResults,
+                });
             }
             if (paymentMethod !== undefined) {
                 const paymentMethodType = paymentMethod?.typeOf;
@@ -378,28 +384,35 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                         value: orderId,
                     });
                 }
-                await this.actionService.payment.authorizeAnyPayment({
-                    amount: this.amount,
-                    additionalProperty,
+                const authorizeResult =
+                    await this.actionService.payment.authorizeAnyPayment({
+                        amount: this.amount,
+                        additionalProperty,
+                    });
+                this.storeService.purchase.setAuthorizeAnyPayment({
+                    authorizeResult,
                 });
             }
-            await this.actionService.transaction.setProfile(profile);
+            const profileResult =
+                await this.actionService.transaction.setProfile(profile);
+            this.storeService.purchase.setProfile({ profile: profileResult });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/stop']);
             return;
         }
         try {
-            const { seller } = await this.actionService.purchase.getData();
+            const { seller } = await this.storeService.purchase.getData();
             const { language, application } =
-                await this.actionService.user.getData();
+                await this.storeService.user.getData();
             if (seller === undefined || application?.theater === undefined) {
                 throw new Error('seller or theater undefined');
             }
-            await this.actionService.transaction.confirm({
+            const order = await this.actionService.transaction.confirm({
                 theater: application.theater,
                 language,
             });
+            this.storeService.purchase.setOrder({ order });
         } catch (error) {
             console.error(error);
             this.router.navigate(['/stop']);
@@ -407,13 +420,13 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
         }
         try {
             if (this.epsonEPOSService.cashchanger.isConnected()) {
-                this.utilService.loadStart({ process: 'load' });
+                this.storeService.util.loadStart({ process: 'load' });
                 await this.epsonEPOSService.cashchanger.disconnect();
-                this.utilService.loadEnd();
+                this.storeService.util.loadEnd();
             }
-            const { order } = await this.actionService.purchase.getData();
+            const { order } = await this.storeService.purchase.getData();
             const { device, application } =
-                await this.actionService.user.getData();
+                await this.storeService.user.getData();
             if (order === undefined || device?.printer === undefined) {
                 throw new Error('order or printer undefined');
             }
@@ -425,7 +438,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             });
         } catch (error) {
             try {
-                const { order } = await this.actionService.purchase.getData();
+                const { order } = await this.storeService.purchase.getData();
                 if (order === undefined) {
                     throw new Error('order undefined');
                 }
@@ -445,7 +458,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             return;
         }
         try {
-            const { order } = await this.actionService.purchase.getData();
+            const { order } = await this.storeService.purchase.getData();
             if (order === undefined) {
                 throw new Error('order undefined');
             }
@@ -457,7 +470,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
                 await this.dispenseChange();
             }
         } catch (error) {
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             console.error(error);
             this.router.navigate(['/stop']);
             return;
@@ -470,8 +483,8 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      */
     private async dispenseChange() {
         // 入金処理終了
-        this.utilService.loadStart({ process: 'load' });
-        const { device } = await this.actionService.user.getData();
+        this.storeService.util.loadStart({ process: 'load' });
+        const { device } = await this.storeService.user.getData();
         if (device?.cashchanger === undefined) {
             throw new Error('cashchanger undefined');
         }
@@ -490,7 +503,7 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
             });
         }
         await this.epsonEPOSService.cashchanger.disconnect();
-        this.utilService.loadEnd();
+        this.storeService.util.loadEnd();
     }
 
     /**
@@ -515,14 +528,14 @@ export class PurchasePaymentReceptionComponent implements OnInit, OnDestroy {
      */
     private async endDepositRepay() {
         try {
-            this.utilService.loadStart({ process: 'load' });
+            this.storeService.util.loadStart({ process: 'load' });
             await this.epsonEPOSService.cashchanger.endDeposit({
                 endDepositType: 'DEPOSIT_REPAY',
             });
             await this.epsonEPOSService.cashchanger.disconnect();
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
         } catch (error) {
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw new Error(error);
         }
     }

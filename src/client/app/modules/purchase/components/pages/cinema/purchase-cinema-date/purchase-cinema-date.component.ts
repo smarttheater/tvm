@@ -5,7 +5,11 @@ import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 
 @Component({
@@ -24,6 +28,7 @@ export class PurchaseCinemaDateComponent implements OnInit {
         private store: Store<reducers.IState>,
         private router: Router,
         private actionService: ActionService,
+        private storeService: StoreService,
         private utilService: UtilService
     ) {}
 
@@ -35,7 +40,7 @@ export class PurchaseCinemaDateComponent implements OnInit {
         try {
             this.scheduleDates = [];
             this.preScheduleDates = [];
-            const { application } = await this.actionService.user.getData();
+            const { application } = await this.storeService.user.getData();
             if (application?.theater === undefined) {
                 throw new Error('theater undefined');
             }
@@ -122,8 +127,8 @@ export class PurchaseCinemaDateComponent implements OnInit {
      * 作品からさがす
      */
     public async searchMovie(scheduleDate: string) {
-        this.actionService.purchase.selectScheduleDate(scheduleDate);
-        this.actionService.purchase.selectSearchType({ searchType: 'movie' });
+        this.storeService.purchase.setScheduleDate({ scheduleDate });
+        this.storeService.purchase.setSearchType({ searchType: 'movie' });
         this.router.navigate(['/purchase/cinema/schedule/movie']);
     }
 }

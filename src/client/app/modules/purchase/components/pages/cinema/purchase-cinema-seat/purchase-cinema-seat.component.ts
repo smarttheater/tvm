@@ -4,15 +4,20 @@ import { PurchaseSeatComponent } from '../../purchase-seat/purchase-seat.compone
 @Component({
     selector: 'app-purchase-cinema-seat',
     templateUrl: './purchase-cinema-seat.component.html',
-    styleUrls: ['./purchase-cinema-seat.component.scss']
+    styleUrls: ['./purchase-cinema-seat.component.scss'],
 })
 export class PurchaseCinemaSeatComponent extends PurchaseSeatComponent {
     public async prev() {
-        const { screeningEvent, searchType } = await this.actionService.purchase.getData();
-        if (screeningEvent === undefined
-            || screeningEvent.workPerformed === undefined
-            || searchType === undefined) {
-            console.error('screeningEvent.workPerformed or searchType undefined');
+        const { screeningEvent, searchType } =
+            await this.storeService.purchase.getData();
+        if (
+            screeningEvent === undefined ||
+            screeningEvent.workPerformed === undefined ||
+            searchType === undefined
+        ) {
+            console.error(
+                'screeningEvent.workPerformed or searchType undefined'
+            );
             this.router.navigate(['/error']);
             return;
         }

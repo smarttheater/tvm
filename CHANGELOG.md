@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 4.28.0 - 2022-02-16
+
+### Added
+
+-   storeService を追加
+
 ## 4.27.0 - 2022-02-09
 
 ### Changed

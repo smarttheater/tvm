@@ -7,7 +7,11 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 
 type IMovieTicketTypeChargeSpecification =
@@ -47,7 +51,8 @@ export class PurchaseEventSelectComponent implements OnInit {
         private router: Router,
         private utilService: UtilService,
         private translate: TranslateService,
-        private actionService: ActionService
+        private actionService: ActionService,
+        private storeService: StoreService
     ) {}
 
     public async ngOnInit() {
@@ -61,11 +66,15 @@ export class PurchaseEventSelectComponent implements OnInit {
                 screeningEvent,
                 screeningEventTicketOffers,
                 authorizeSeatReservations,
-            } = await this.actionService.purchase.getData();
+            } = await this.storeService.purchase.getData();
             if (authorizeSeatReservations.length > 0) {
-                await this.actionService.transaction.voidSeatReservation({
-                    ids: authorizeSeatReservations.map((a) => a.id),
-                });
+                const voidSeatReservation =
+                    await this.actionService.transaction.voidSeatReservation({
+                        ids: authorizeSeatReservations.map((a) => a.id),
+                    });
+                this.storeService.purchase.setAuthorizeSeatReservation(
+                    voidSeatReservation
+                );
             }
             if (screeningEvent === undefined) {
                 throw new Error(
@@ -266,7 +275,7 @@ export class PurchaseEventSelectComponent implements OnInit {
         const additionalTicketText = this.additionalTicketText;
         try {
             const { screeningEvent } =
-                await this.actionService.purchase.getData();
+                await this.storeService.purchase.getData();
             // チケット枚数上限判定
             const limit =
                 screeningEvent === undefined ||
@@ -314,11 +323,15 @@ export class PurchaseEventSelectComponent implements OnInit {
         }
 
         try {
-            await this.actionService.transaction.authorizeSeatReservation({
-                reservations,
-                additionalTicketText,
-                screeningEventSeats: this.screeningEventSeats,
-            });
+            const authorizeSeatReservation =
+                await this.actionService.transaction.authorizeSeatReservation({
+                    reservations,
+                    additionalTicketText,
+                    screeningEventSeats: this.screeningEventSeats,
+                });
+            this.storeService.purchase.setAuthorizeSeatReservation(
+                authorizeSeatReservation
+            );
         } catch (error) {
             console.error(error);
             this.utilService.openAlert({
@@ -341,7 +354,7 @@ export class PurchaseEventSelectComponent implements OnInit {
      */
     public async prev() {
         const { authorizeSeatReservations } =
-            await this.actionService.purchase.getData();
+            await this.storeService.purchase.getData();
         if (authorizeSeatReservations.length > 0) {
             await this.actionService.transaction.voidSeatReservation({
                 ids: authorizeSeatReservations.map((a) => a.id),

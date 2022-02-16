@@ -7,7 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { Functions } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService } from '../../../../../../services';
+import { ActionService, StoreService } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 import { ChangeLanguagePipe } from '../../../../pipes/change-language.pipe';
 
@@ -34,7 +34,8 @@ export class MovieTicketCheckModalComponent implements OnInit {
         private store: Store<reducers.IState>,
         private formBuilder: FormBuilder,
         private translate: TranslateService,
-        private actionService: ActionService
+        private actionService: ActionService,
+        private storeService: StoreService
     ) {}
 
     public ngOnInit() {
@@ -113,6 +114,9 @@ export class MovieTicketCheckModalComponent implements OnInit {
                     },
                     paymentMethodType: this.codeValue,
                 });
+            this.storeService.purchase.setCheckMovieTicket({
+                checkMovieTicket,
+            });
             if (
                 checkMovieTicket === undefined ||
                 checkMovieTicket.result === undefined ||
@@ -155,9 +159,9 @@ export class MovieTicketCheckModalComponent implements OnInit {
             }
 
             this.createInputForm();
-            const { language } = await this.actionService.user.getData();
+            const { language } = await this.storeService.user.getData();
             const { screeningEventTicketOffers } =
-                await this.actionService.purchase.getData();
+                await this.storeService.purchase.getData();
             const movieTicketTypeOffers =
                 Functions.Purchase.getMovieTicketTypeOffers({
                     screeningEventTicketOffers,

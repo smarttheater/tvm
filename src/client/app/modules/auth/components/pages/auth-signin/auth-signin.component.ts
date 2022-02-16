@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import {
     ActionService,
     CinerinoService,
-    UtilService,
+    StoreService,
 } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
@@ -20,7 +20,7 @@ export class AuthSigninComponent implements OnInit {
 
     constructor(
         private store: Store<reducers.IState>,
-        private utilService: UtilService,
+        private storeService: StoreService,
         private cinerinoService: CinerinoService,
         private actionService: ActionService
     ) {}
@@ -29,13 +29,13 @@ export class AuthSigninComponent implements OnInit {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.projects = [];
         this.projects = await this.actionService.project.search();
-        this.utilService.loadStart({ process: 'load' });
+        this.storeService.util.loadStart({ process: 'load' });
         // if (this.projects.length === 1) {
         //     // プロジェクトが一つの場合自動遷移
         //     location.href = `/?projectId=${this.projects[0].id}`;
         //     return;
         // }
-        this.utilService.loadEnd();
+        this.storeService.util.loadEnd();
     }
 
     public async signOut() {

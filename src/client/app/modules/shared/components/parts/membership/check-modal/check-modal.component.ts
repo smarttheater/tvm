@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService } from '../../../../../../services';
+import { ActionService, StoreService } from '../../../../../../services';
 import * as reducers from '../../../../../../store/reducers';
 
 @Component({
@@ -28,7 +28,8 @@ export class MembershipCheckModalComponent implements OnInit {
         private store: Store<reducers.IState>,
         private formBuilder: FormBuilder,
         private translate: TranslateService,
-        private actionService: ActionService
+        private actionService: ActionService,
+        private storeService: StoreService
     ) {}
 
     public ngOnInit() {
@@ -103,11 +104,12 @@ export class MembershipCheckModalComponent implements OnInit {
         this.errorMessage = '';
         this.successMessage = '';
         try {
-            await this.actionService.payment.checkProduct({
+            const checkProduct = await this.actionService.payment.checkProduct({
                 identifier: this.inputForm.controls.code.value,
                 accessCode: this.inputForm.controls.password.value,
                 issuedThrough: { id: 'xxx' },
             });
+            this.storeService.purchase.setCheckProduct({ checkProduct });
             this.createForm();
             this.successMessage = this.translate.instant(
                 'modal.membership.check.success'

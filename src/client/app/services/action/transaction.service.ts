@@ -1,31 +1,23 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { StoreService } from '..';
 import { Functions, Models } from '../..';
 import { getEnvironment } from '../../../environments/environment';
-import { purchaseAction } from '../../store/actions';
-import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
-import { ActionStoreService } from './store.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ActionTransactionService {
-    public error: Observable<string | null>;
     constructor(
-        private store: Store<reducers.IState>,
         private cinerinoService: CinerinoService,
         private utilService: UtilService,
-        private storeService: ActionStoreService,
+        private storeService: StoreService,
         private translateService: TranslateService
-    ) {
-        this.error = this.store.pipe(select(reducers.getError));
-    }
+    ) {}
 
     /**
      * 取引開始
@@ -34,12 +26,12 @@ export class ActionTransactionService {
         pos?: factory.chevre.place.movieTheater.IPOS;
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.StartTransaction',
             });
             const environment = getEnvironment();
             const { pos } = params;
-            const { seller } = await this.storeService.getPurchaseData();
+            const { seller } = await this.storeService.purchase.getData();
             if (seller === undefined || seller.id === undefined) {
                 throw new Error('seller or seller.id undefined');
             }
@@ -83,11 +75,11 @@ export class ActionTransactionService {
                     object: { passport },
                     agent,
                 });
-            this.store.dispatch(purchaseAction.setTransaction({ transaction }));
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return transaction;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -97,22 +89,21 @@ export class ActionTransactionService {
      */
     public async cancel() {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.CancelTransaction',
             });
-            const { transaction } = await this.storeService.getPurchaseData();
+            const { transaction } = await this.storeService.purchase.getData();
             if (transaction === undefined) {
-                this.utilService.loadEnd();
+                this.storeService.util.loadEnd();
                 return;
             }
             await this.cinerinoService.transaction.placeOrder.cancel({
                 id: transaction.id,
             });
-            this.store.dispatch(purchaseAction.cancelTransaction());
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -125,14 +116,14 @@ export class ActionTransactionService {
         theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.ConfirmTransaction',
             });
             const environment = getEnvironment();
             const { theater } = params;
             const language = 'ja';
             const { transaction, seller, temporarilyReserved } =
-                await this.storeService.getPurchaseData();
+                await this.storeService.purchase.getData();
             if (
                 transaction === undefined ||
                 seller === undefined ||
@@ -206,12 +197,11 @@ export class ActionTransactionService {
             } catch (error) {
                 console.error(error);
             }
-
-            this.store.dispatch(purchaseAction.setOrder({ order }));
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return order;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -276,10 +266,10 @@ export class ActionTransactionService {
      */
     public async setProfile(profile: factory.person.IProfile) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.SetProfile',
             });
-            const { transaction } = await this.storeService.getPurchaseData();
+            const { transaction } = await this.storeService.purchase.getData();
             if (transaction === undefined) {
                 throw new Error('transaction undefined');
             }
@@ -294,11 +284,11 @@ export class ActionTransactionService {
                             : Functions.Util.formatTelephone(profile.telephone),
                 },
             });
-            this.store.dispatch(purchaseAction.setProfile({ profile }));
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return profile;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -312,7 +302,7 @@ export class ActionTransactionService {
         screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.AuthorizeSeatReservation',
             });
             const { additionalTicketText, screeningEventSeats } = params;
@@ -325,7 +315,7 @@ export class ActionTransactionService {
                 screeningEvent,
                 screeningEventTicketOffers,
                 checkProducts,
-            } = await this.storeService.getPurchaseData();
+            } = await this.storeService.purchase.getData();
             const actionParams = {
                 authorizeSeatReservations: Functions.Util.deepCopy<
                     factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[]
@@ -524,16 +514,14 @@ export class ActionTransactionService {
                 screeningEvent,
                 reservations,
             });
-            this.store.dispatch(
-                purchaseAction.setAuthorizeSeatReservation({
-                    ...actionParams,
-                    authorizeSeatReservation: authorizeResult,
-                })
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return {
+                ...actionParams,
+                authorizeSeatReservation: authorizeResult,
+            };
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -543,10 +531,10 @@ export class ActionTransactionService {
      */
     public async voidSeatReservation(params: { ids: string[] }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.VoidSeatReservation',
             });
-            const purchaseData = await this.storeService.getPurchaseData();
+            const purchaseData = await this.storeService.purchase.getData();
             const actionParams = {
                 authorizeSeatReservations: Functions.Util.deepCopy<
                     factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>[]
@@ -583,14 +571,11 @@ export class ActionTransactionService {
                         (t) => t.id !== authorizeSeatReservation.id
                     );
             }
-
-            this.store.dispatch(
-                purchaseAction.setAuthorizeSeatReservation(actionParams)
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return actionParams;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }

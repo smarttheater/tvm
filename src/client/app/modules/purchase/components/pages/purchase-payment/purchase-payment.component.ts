@@ -9,6 +9,7 @@ import { getEnvironment } from '../../../../../../environments/environment';
 import {
     ActionService,
     EpsonEPOSService,
+    StoreService,
     UtilService,
 } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
@@ -35,6 +36,7 @@ export class PurchasePaymentComponent implements OnInit {
         private store: Store<reducers.IState>,
         private router: Router,
         private utilService: UtilService,
+        private storeService: StoreService,
         private actionService: ActionService,
         private translate: TranslateService,
         private epsonEPOSService: EpsonEPOSService
@@ -47,9 +49,9 @@ export class PurchasePaymentComponent implements OnInit {
         this.amount = 0;
         this.payments = [];
         try {
-            const { device } = await this.actionService.user.getData();
+            const { device } = await this.storeService.user.getData();
             const { authorizeSeatReservations, seller } =
-                await this.actionService.purchase.getData();
+                await this.storeService.purchase.getData();
             if (seller === undefined || seller.paymentAccepted === undefined) {
                 throw new Error('seller or seller.paymentAccepted undefined');
             }
@@ -127,7 +129,7 @@ export class PurchasePaymentComponent implements OnInit {
                     })?.image,
                 });
             });
-            this.actionService.purchase.setPaymentMethodType({});
+            this.storeService.purchase.setPaymentMethodType({});
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -142,7 +144,7 @@ export class PurchasePaymentComponent implements OnInit {
             if (this.epsonEPOSService.cashchanger.isConnected()) {
                 return;
             }
-            const seller = (await this.actionService.purchase.getData()).seller;
+            const seller = (await this.storeService.purchase.getData()).seller;
             if (seller === undefined || seller.paymentAccepted === undefined) {
                 throw new Error(
                     'seller is undefined or paymentAccepted is undefined'
@@ -161,7 +163,7 @@ export class PurchasePaymentComponent implements OnInit {
                 });
                 return;
             }
-            this.actionService.purchase.setPaymentMethodType({
+            this.storeService.purchase.setPaymentMethodType({
                 paymentMethod: { typeOf },
             });
             this.router.navigate(['/purchase/payment/reception']);

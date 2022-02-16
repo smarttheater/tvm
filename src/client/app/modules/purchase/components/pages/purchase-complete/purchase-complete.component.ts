@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService } from '../../../../../services';
+import { StoreService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -29,7 +29,7 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private actionService: ActionService
+        private storeService: StoreService
     ) {}
 
     public async ngOnInit() {
@@ -38,7 +38,7 @@ export class PurchaseCompleteComponent implements OnInit, OnDestroy {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.error = this.store.pipe(select(reducers.getError));
         try {
-            const { order } = await this.actionService.purchase.getData();
+            const { order } = await this.storeService.purchase.getData();
             if (order === undefined) {
                 throw new Error('order not found');
             }

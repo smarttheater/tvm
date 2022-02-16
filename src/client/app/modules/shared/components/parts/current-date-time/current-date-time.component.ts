@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../services';
+import { StoreService, UtilService } from '../../../../../services';
 
 @Component({
     selector: 'app-current-date-time',
@@ -19,7 +19,7 @@ export class CurrentDateTimeComponent implements OnInit, OnDestroy {
     constructor(
         private translate: TranslateService,
         private utilService: UtilService,
-        private actionService: ActionService,
+        private storeService: StoreService,
         private router: Router
     ) {}
 
@@ -65,7 +65,7 @@ export class CurrentDateTimeComponent implements OnInit, OnDestroy {
             clearTimeout(this.countTimer);
         }
         this.count = 0;
-        const { application } = await this.actionService.user.getData();
+        const { application } = await this.storeService.user.getData();
         if (
             application?.applicationPassword === undefined ||
             application?.applicationPassword === ''

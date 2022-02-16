@@ -1,35 +1,27 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { StoreService } from '..';
 import { Functions, Models } from '../..';
-import { purchaseAction } from '../../store/actions';
-import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
-import { ActionStoreService } from './store.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ActionEventService {
-    public error: Observable<string | null>;
     constructor(
-        private store: Store<reducers.IState>,
         private cinerinoService: CinerinoService,
         private utilService: UtilService,
-        private storeService: ActionStoreService
-    ) {
-        this.error = this.store.pipe(select(reducers.getError));
-    }
+        private storeService: StoreService
+    ) {}
 
     /**
      * イベント取得
      */
     public async findById(params: { id: string }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.GetScreeningEvent',
             });
             await this.cinerinoService.getServices();
@@ -52,13 +44,11 @@ export class ActionEventService {
                 screeningEvent.workPerformed.additionalProperty =
                     workPerformed.additionalProperty;
             }
-            this.store.dispatch(
-                purchaseAction.setScreeningEvent({ screeningEvent })
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return screeningEvent;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -68,10 +58,10 @@ export class ActionEventService {
      */
     public async getScreeningEventSeats() {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.GetScreeningEventSeats',
             });
-            const purchase = await this.storeService.getPurchaseData();
+            const purchase = await this.storeService.purchase.getData();
             if (purchase.screeningEvent === undefined) {
                 throw new Error('purchase.screeningEvent === undefined');
             }
@@ -85,7 +75,7 @@ export class ActionEventService {
                     screeningEvent,
                 }).isTicketedSeat()
             ) {
-                this.utilService.loadEnd();
+                this.storeService.util.loadEnd();
                 return result;
             }
             await this.cinerinoService.getServices();
@@ -103,11 +93,11 @@ export class ActionEventService {
                     await Functions.Util.sleep();
                 }
             }
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return result;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -117,11 +107,11 @@ export class ActionEventService {
      */
     public async searchTicketOffers() {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.SearchTicketOffers',
             });
             const { screeningEvent, seller } =
-                await this.storeService.getPurchaseData();
+                await this.storeService.purchase.getData();
             const clientId = this.cinerinoService.auth.options.clientId;
             if (
                 screeningEvent === undefined ||
@@ -142,15 +132,11 @@ export class ActionEventService {
                         id: seller.id,
                     },
                 });
-            this.store.dispatch(
-                purchaseAction.setTicketOffers({
-                    ticketOffers,
-                })
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return ticketOffers;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -177,7 +163,7 @@ export class ActionEventService {
         roop?: boolean;
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'action.Event.search',
             });
             const {
@@ -258,11 +244,11 @@ export class ActionEventService {
                     return Number(sortNumberB) - Number(sortNumberA);
                 });
             }
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return result;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -282,7 +268,7 @@ export class ActionEventService {
         };
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'action.Event.search',
             });
             const limit = 100;
@@ -345,11 +331,11 @@ export class ActionEventService {
                     }
                 }
             }
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return result;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }

@@ -1,14 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { StoreService } from '.';
 import { Functions } from '..';
 import { AlertModalComponent } from '../modules/shared/components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from '../modules/shared/components/parts/confirm-modal/confirm-modal.component';
 import { StaticModalComponent } from '../modules/shared/components/parts/static-modal/static-modal.component';
-import { utilAction } from '../store/actions';
-import * as reducers from '../store/reducers';
 
 @Injectable({
     providedIn: 'root',
@@ -17,7 +15,7 @@ export class UtilService {
     constructor(
         private modal: BsModalService,
         private http: HttpClient,
-        private store: Store<reducers.IState>
+        private storeService: StoreService
     ) {}
 
     public openStaticModal(args: { title: string; body: string }) {
@@ -74,14 +72,14 @@ export class UtilService {
 
     public async getServerTime(loadind = false) {
         if (loadind) {
-            this.loadStart({ process: 'load' });
+            this.storeService.util.loadStart({ process: 'load' });
         }
         const query = `?date=${moment().toISOString()}`;
         const result = await this.http
             .get<{ date: string }>(`/api/serverTime${query}`)
             .toPromise();
         if (loadind) {
-            this.loadEnd();
+            this.storeService.util.loadEnd();
         }
 
         return result;
@@ -203,20 +201,6 @@ export class UtilService {
     }
 
     /**
-     * ローディング開始
-     */
-    public loadStart(params: { process: string }) {
-        this.store.dispatch(utilAction.loadStart(params));
-    }
-
-    /**
-     * ローディング終了
-     */
-    public loadEnd() {
-        this.store.dispatch(utilAction.loadEnd());
-    }
-
-    /**
      * エラー設定
      */
     public setError(params: any) {
@@ -233,7 +217,7 @@ export class UtilService {
             console.error(error);
         }
 
-        this.store.dispatch(utilAction.setError(params));
+        this.storeService.util.setError(params);
     }
 
     public async postLog(params: { log: string }) {

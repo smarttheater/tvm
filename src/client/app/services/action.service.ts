@@ -7,9 +7,7 @@ import { ActionPaymentService } from './action/payment.service';
 import { ActionPlaceService } from './action/place.service';
 import { ActionProductService } from './action/product.service';
 import { ActionProjectService } from './action/project.service';
-import { PurchaseService } from './action/purchase.service';
 import { ActionSellerService } from './action/seller.service';
-import { ActionStoreService } from './action/store.service';
 import { ActionTransactionService } from './action/transaction.service';
 import { UserService } from './action/user.service';
 
@@ -19,9 +17,7 @@ import { UserService } from './action/user.service';
 export class ActionService {
     constructor(
         public order: OrderService,
-        public purchase: PurchaseService,
         public user: UserService,
-        public store: ActionStoreService,
         public product: ActionProductService,
         public payment: ActionPaymentService,
         public transaction: ActionTransactionService,

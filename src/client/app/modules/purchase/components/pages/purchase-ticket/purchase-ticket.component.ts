@@ -11,7 +11,11 @@ import {
     IReservation,
     IReservationTicket,
 } from '../../../../../models/purchase/reservation';
-import { ActionService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 import { PurchaseSeatTicketModalComponent } from '../../../../shared/components/parts/purchase/seat-ticket-modal/seat-ticket-modal.component';
 
@@ -38,6 +42,7 @@ export class PurchaseTicketComponent implements OnInit {
         private router: Router,
         private modal: BsModalService,
         private actionService: ActionService,
+        private storeService: StoreService,
         private utilService: UtilService,
         private translate: TranslateService
     ) {}
@@ -57,7 +62,7 @@ export class PurchaseTicketComponent implements OnInit {
         this.additionalTicketText = '';
         this.isSelectedTicket =
             (await this.getUnselectedTicketReservations()).length === 0;
-        const { seller } = await this.actionService.purchase.getData();
+        const { seller } = await this.storeService.purchase.getData();
         if (seller === undefined) {
             throw new Error('seller undefined');
         }
@@ -104,7 +109,7 @@ export class PurchaseTicketComponent implements OnInit {
      * 券種未選択の予約取得
      */
     public async getUnselectedTicketReservations() {
-        const { reservations } = await this.actionService.purchase.getData();
+        const { reservations } = await this.storeService.purchase.getData();
         return reservations.filter((reservation) => {
             return reservation.ticket === undefined;
         });
@@ -114,7 +119,7 @@ export class PurchaseTicketComponent implements OnInit {
      * 確定
      */
     public async onSubmit() {
-        const { reservations } = await this.actionService.purchase.getData();
+        const { reservations } = await this.storeService.purchase.getData();
         const validResult = reservations.filter((reservation) => {
             if (reservation.ticket === undefined) {
                 return false;
@@ -167,11 +172,15 @@ export class PurchaseTicketComponent implements OnInit {
             const additionalTicketText = this.additionalTicketText;
             const screeningEventSeats =
                 await this.actionService.event.getScreeningEventSeats();
-            await this.actionService.transaction.authorizeSeatReservation({
-                reservations,
-                additionalTicketText,
-                screeningEventSeats,
-            });
+            const authorizeSeatReservation =
+                await this.actionService.transaction.authorizeSeatReservation({
+                    reservations,
+                    additionalTicketText,
+                    screeningEventSeats,
+                });
+            this.storeService.purchase.setAuthorizeSeatReservation(
+                authorizeSeatReservation
+            );
             const navigate =
                 this.environment.VIEW_TYPE === 'cinema'
                     ? '/purchase/payment'
@@ -207,7 +216,7 @@ export class PurchaseTicketComponent implements OnInit {
             checkProducts,
             reservations,
             pendingMovieTickets,
-        } = await this.actionService.purchase.getData();
+        } = await this.storeService.purchase.getData();
         this.modal.show(PurchaseSeatTicketModalComponent, {
             class: 'modal-dialog-centered',
             initialState: {
@@ -219,9 +228,9 @@ export class PurchaseTicketComponent implements OnInit {
                 reservation,
                 pendingMovieTickets,
                 cb: async (ticket: IReservationTicket) => {
-                    this.actionService.purchase.selectTickets([
-                        { ...reservation, ticket },
-                    ]);
+                    this.storeService.purchase.setTickets({
+                        reservations: [{ ...reservation, ticket }],
+                    });
                     this.isSelectedTicket =
                         (await this.getUnselectedTicketReservations())
                             .length === 0;

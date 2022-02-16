@@ -2,7 +2,11 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Functions } from '../../../../..';
-import { ActionService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -21,7 +25,8 @@ export class PurchaseCartComponent implements OnInit, OnChanges {
     constructor(
         private utilService: UtilService,
         private translate: TranslateService,
-        private actionService: ActionService
+        private actionService: ActionService,
+        private storeService: StoreService
     ) {}
 
     public ngOnInit() {}
@@ -82,9 +87,15 @@ export class PurchaseCartComponent implements OnInit, OnChanges {
             body: this.translate.instant('purchase.event.cart.confirm.cancel'),
             cb: async () => {
                 try {
-                    await this.actionService.transaction.voidSeatReservation({
-                        ids: [id],
-                    });
+                    const voidSeatReservation =
+                        await this.actionService.transaction.voidSeatReservation(
+                            {
+                                ids: [id],
+                            }
+                        );
+                    this.storeService.purchase.setAuthorizeSeatReservation(
+                        voidSeatReservation
+                    );
                 } catch (error) {
                     console.error(error);
                     this.utilService.openAlert({

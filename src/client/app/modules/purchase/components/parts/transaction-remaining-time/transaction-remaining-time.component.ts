@@ -3,25 +3,22 @@ import { Router } from '@angular/router';
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService } from '../../../../../services';
+import { StoreService } from '../../../../../services';
 
 @Component({
     selector: 'app-transaction-remaining-time',
     templateUrl: './transaction-remaining-time.component.html',
-    styleUrls: ['./transaction-remaining-time.component.scss']
+    styleUrls: ['./transaction-remaining-time.component.scss'],
 })
 export class TransactionRemainingTimeComponent implements OnInit, OnDestroy {
     public transaction?: factory.transaction.placeOrder.ITransaction;
     public isExpired: boolean;
-    public diff: { hours: string; minutes: string; seconds: string; };
+    public diff: { hours: string; minutes: string; seconds: string };
     public timer: any;
     public width: number;
     public environment = getEnvironment();
 
-    constructor(
-        private router: Router,
-        private actionService: ActionService
-    ) { }
+    constructor(private router: Router, private storeService: StoreService) {}
 
     public ngOnInit() {
         this.update();
@@ -32,7 +29,7 @@ export class TransactionRemainingTimeComponent implements OnInit, OnDestroy {
     }
 
     private async update() {
-        const { transaction } = await this.actionService.purchase.getData();
+        const { transaction } = await this.storeService.purchase.getData();
         if (transaction === undefined) {
             return;
         }
@@ -43,14 +40,19 @@ export class TransactionRemainingTimeComponent implements OnInit, OnDestroy {
         this.diff = {
             hours: `00${expires.diff(now, 'hours')}`.slice(-2),
             minutes: `00${expires.diff(now, 'minutes') % 60}`.slice(-2),
-            seconds: `00${expires.diff(now, 'seconds') % 60 % 60}`.slice(-2)
+            seconds: `00${(expires.diff(now, 'seconds') % 60) % 60}`.slice(-2),
         };
-        this.width = Math.floor(expires.diff(now, 'seconds') / (Number(this.environment.PURCHASE_TRANSACTION_TIME) * 60) * 100);
+        this.width = Math.floor(
+            (expires.diff(now, 'seconds') /
+                (Number(this.environment.PURCHASE_TRANSACTION_TIME) * 60)) *
+                100
+        );
         if (this.isExpired) {
             this.router.navigate(['/expired']);
         }
         const time = 1000;
-        this.timer = setTimeout(() => { this.update(); }, time);
+        this.timer = setTimeout(() => {
+            this.update();
+        }, time);
     }
-
 }

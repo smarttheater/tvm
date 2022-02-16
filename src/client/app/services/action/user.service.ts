@@ -1,71 +1,18 @@
 import { Injectable } from '@angular/core';
-import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { Models } from '../..';
-import { userAction } from '../../store/actions';
-import * as reducers from '../../store/reducers';
+import { StoreService } from '..';
 import { UtilService } from '../util.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService {
-    public user: Observable<reducers.IUserState>;
-
     constructor(
-        private store: Store<reducers.IState>,
         private translate: TranslateService,
-        private utilService: UtilService
-    ) {
-        this.user = this.store.pipe(select(reducers.getUser));
-    }
-
-    /**
-     * ユーザーデータ取得
-     */
-    public async getData() {
-        return new Promise<reducers.IUserState>((resolve) => {
-            this.user
-                .subscribe((user) => {
-                    resolve(user);
-                })
-                .unsubscribe();
-        });
-    }
-
-    /**
-     * ユーザーデータ削除
-     */
-    public delete() {
-        this.store.dispatch(userAction.remove());
-    }
-
-    /**
-     * すべて更新
-     */
-    public update(params: {
-        application: {
-            theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
-            pos?: factory.chevre.place.movieTheater.IPOS;
-            applicationType: Models.Util.Application.ApplicationType;
-            applicationPassword?: string;
-        };
-        device: {
-            printer: Models.Util.Printer.IPrinter;
-            cashchanger?: {
-                ipAddress: string;
-            };
-            payment?: {
-                ipAddress: string;
-            };
-        };
-        profile: factory.person.IProfile;
-    }) {
-        this.store.dispatch(userAction.update(params));
-    }
+        private utilService: UtilService,
+        private storeService: StoreService
+    ) {}
 
     /**
      * 言語更新
@@ -79,7 +26,7 @@ export class UserService {
         const html = <HTMLElement>document.querySelector('html');
         html.setAttribute('lang', language);
         moment.locale(language);
-        this.store.dispatch(userAction.updateLanguage({ language }));
+        this.storeService.user.updateLanguage({ language });
     }
 
     /**
@@ -90,12 +37,12 @@ export class UserService {
         const { version } = await this.utilService.getJson<{ version: string }>(
             `/api/version${query}`
         );
-        const data = await this.getData();
+        const data = await this.storeService.user.getData();
         if (data.version === undefined) {
-            this.store.dispatch(userAction.setVersion({ version }));
+            this.storeService.user.setVersion({ version });
         }
         if (data.version !== undefined && data.version !== version) {
-            this.store.dispatch(userAction.setVersion({ version }));
+            this.storeService.user.setVersion({ version });
             location.reload();
         }
     }

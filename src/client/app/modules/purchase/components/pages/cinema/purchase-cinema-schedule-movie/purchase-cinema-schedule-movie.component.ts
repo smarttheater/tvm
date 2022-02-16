@@ -4,7 +4,11 @@ import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import { Functions, Models } from '../../../../../..';
 import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../../services';
 
 @Component({
     selector: 'app-purchase-cinema-schedule-movie',
@@ -24,7 +28,8 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     constructor(
         private router: Router,
         private actionService: ActionService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private storeService: StoreService
     ) {}
 
     /**
@@ -35,9 +40,8 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
         this.screeningEvents = [];
         this.animations = [];
         try {
-            const { application } = await this.actionService.user.getData();
-            const { scheduleDate } =
-                await this.actionService.purchase.getData();
+            const { application } = await this.storeService.user.getData();
+            const { scheduleDate } = await this.storeService.purchase.getData();
             if (
                 scheduleDate === undefined ||
                 application?.theater === undefined
@@ -127,7 +131,7 @@ export class PurchaseCinemaScheduleMovieComponent implements OnInit {
     public selectCreativeWork(
         creativeWork: factory.chevre.creativeWork.movie.ICreativeWork
     ) {
-        this.actionService.purchase.selectCreativeWork(creativeWork);
+        this.storeService.purchase.setCreativeWork({ creativeWork });
         this.router.navigate(['/purchase/cinema/schedule/event']);
     }
 }

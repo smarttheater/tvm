@@ -10,13 +10,17 @@ export class PurchaseEventSeatComponent extends PurchaseSeatComponent {
     public async prev() {
         try {
             const authorizeSeatReservation = (
-                await this.actionService.purchase.getData()
+                await this.storeService.purchase.getData()
             ).authorizeSeatReservation;
             if (authorizeSeatReservation !== undefined) {
                 const authorizeSeatReservations = [authorizeSeatReservation];
-                await this.actionService.transaction.voidSeatReservation({
-                    ids: authorizeSeatReservations.map((a) => a.id),
-                });
+                const voidSeatReservation =
+                    await this.actionService.transaction.voidSeatReservation({
+                        ids: authorizeSeatReservations.map((a) => a.id),
+                    });
+                this.storeService.purchase.setAuthorizeSeatReservation(
+                    voidSeatReservation
+                );
             }
             this.router.navigate(['/purchase/event/schedule']);
         } catch (error) {

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService } from '../../../../../services';
+import { ActionService, StoreService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -19,13 +19,14 @@ export class ErrorComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<reducers.IState>,
         private actionService: ActionService,
+        private storeService: StoreService,
         private router: Router
     ) {}
 
     public async ngOnInit() {
         this.error = this.store.pipe(select(reducers.getError));
         try {
-            const { device } = await this.actionService.user.getData();
+            const { device } = await this.storeService.user.getData();
             await this.actionService.payment.voidDevicePayment({
                 payment: device?.payment?.ipAddress,
             });
@@ -35,14 +36,15 @@ export class ErrorComponent implements OnInit, OnDestroy {
             return;
         }
         try {
-            const { transaction } = await this.actionService.purchase.getData();
+            const { transaction } = await this.storeService.purchase.getData();
             if (transaction !== undefined) {
                 await this.actionService.transaction.cancel();
+                this.storeService.purchase.cancelTransaction();
             }
         } catch (error) {
             console.error(error);
         }
-        this.actionService.purchase.delete();
+        this.storeService.purchase.remove();
         if (this.environment.ERROR_WAIT_TIME === '') {
             return;
         }

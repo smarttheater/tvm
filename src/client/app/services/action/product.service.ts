@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { StoreService } from '..';
 import { Functions } from '../..';
-import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
 
@@ -11,21 +9,18 @@ import { UtilService } from '../util.service';
     providedIn: 'root',
 })
 export class ActionProductService {
-    public error: Observable<string | null>;
     constructor(
-        private store: Store<reducers.IState>,
         private cinerinoService: CinerinoService,
-        private utilService: UtilService
-    ) {
-        this.error = this.store.pipe(select(reducers.getError));
-    }
+        private utilService: UtilService,
+        private storeService: StoreService
+    ) {}
 
     /**
      * 検索
      */
     public async search(params: factory.product.ISearchConditions) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'action.Product.search',
             });
             const limit = 100;
@@ -49,11 +44,11 @@ export class ActionProductService {
                     await Functions.Util.sleep();
                 }
             }
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return result;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -67,17 +62,17 @@ export class ActionProductService {
         availableAtOrFrom?: { id: string };
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'action.Product.searchOffers',
             });
             await this.cinerinoService.getServices();
             const searchResult =
                 await this.cinerinoService.product.searchOffers(params);
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return searchResult;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }

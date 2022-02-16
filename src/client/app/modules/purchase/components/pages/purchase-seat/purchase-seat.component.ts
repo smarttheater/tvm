@@ -6,7 +6,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    StoreService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -32,7 +36,8 @@ export class PurchaseSeatComponent implements OnInit {
         private utilService: UtilService,
         private translate: TranslateService,
         protected router: Router,
-        protected actionService: ActionService
+        protected actionService: ActionService,
+        protected storeService: StoreService
     ) {}
 
     public async ngOnInit() {
@@ -47,7 +52,7 @@ export class PurchaseSeatComponent implements OnInit {
         this.reservationCount = 0;
         try {
             const { screeningEvent, reservations, seller } =
-                await this.actionService.purchase.getData();
+                await this.storeService.purchase.getData();
             if (screeningEvent === undefined || seller === undefined) {
                 this.router.navigate(['/error']);
                 return;
@@ -63,17 +68,25 @@ export class PurchaseSeatComponent implements OnInit {
                     status: Models.Purchase.Screen.SeatStatus.Default,
                 });
             });
-            await this.actionService.purchase.getScreeningRoom({
-                branchCode: { $eq: screeningEvent.location.branchCode },
-                containedInPlace: {
-                    branchCode: {
-                        $eq: screeningEvent.superEvent.location.branchCode,
+            const screeningRooms =
+                await this.actionService.place.searchScreeningRooms({
+                    branchCode: { $eq: screeningEvent.location.branchCode },
+                    containedInPlace: {
+                        branchCode: {
+                            $eq: screeningEvent.superEvent.location.branchCode,
+                        },
                     },
-                },
-            });
+                });
+            const screeningRoom = screeningRooms[0];
+            if (screeningRoom === undefined) {
+                throw new Error('screeningRoom undefined');
+            }
+            this.storeService.purchase.setScreeningRoom({ screeningRoom });
             this.screeningEventSeats =
                 await this.actionService.event.getScreeningEventSeats();
-            await this.actionService.event.searchTicketOffers();
+            const ticketOffers =
+                await this.actionService.event.searchTicketOffers();
+            this.storeService.purchase.setTicketOffers({ ticketOffers });
             this.outerHeight =
                 this.screenContainer.nativeElement.clientHeight - 100;
         } catch (error) {
@@ -90,7 +103,7 @@ export class PurchaseSeatComponent implements OnInit {
         status: Models.Purchase.Screen.SeatStatus;
     }) {
         const { screeningEvent, reservations } =
-            await this.actionService.purchase.getData();
+            await this.storeService.purchase.getData();
         if (data.status === Models.Purchase.Screen.SeatStatus.Default) {
             if (
                 screeningEvent !== undefined &&
@@ -111,9 +124,9 @@ export class PurchaseSeatComponent implements OnInit {
                 });
                 return;
             }
-            this.actionService.purchase.selectSeats([data.seat]);
+            this.storeService.purchase.setSeats({ seats: [data.seat] });
         } else {
-            this.actionService.purchase.cancelSeats([data.seat]);
+            this.storeService.purchase.removeSeats({ seats: [data.seat] });
         }
     }
 
@@ -122,14 +135,14 @@ export class PurchaseSeatComponent implements OnInit {
      */
     public async resetSeats() {
         const seats: Models.Purchase.Reservation.IReservationSeat[] = [];
-        const purchase = await this.actionService.purchase.getData();
+        const purchase = await this.storeService.purchase.getData();
         purchase.reservations.forEach((reservation) => {
             if (reservation.seat === undefined) {
                 return;
             }
             seats.push(reservation.seat);
         });
-        this.actionService.purchase.cancelSeats(seats);
+        this.storeService.purchase.removeSeats({ seats });
     }
 
     /**
@@ -173,7 +186,7 @@ export class PurchaseSeatComponent implements OnInit {
      * 自由席選択
      */
     public async selectOpenSeating() {
-        const { reservations } = await this.actionService.purchase.getData();
+        const { reservations } = await this.storeService.purchase.getData();
         this.screeningEventSeats =
             await this.actionService.event.getScreeningEventSeats();
         const screeningEventSeats = this.screeningEventSeats;
@@ -195,7 +208,7 @@ export class PurchaseSeatComponent implements OnInit {
                     : seats[i];
             selectSeats.push(seat);
         }
-        this.actionService.purchase.selectSeats(selectSeats);
+        this.storeService.purchase.setSeats({ seats: selectSeats });
     }
 
     /**
@@ -203,7 +216,7 @@ export class PurchaseSeatComponent implements OnInit {
      */
     public async onSubmit() {
         const { screeningEventTicketOffers, screen } =
-            await this.actionService.purchase.getData();
+            await this.storeService.purchase.getData();
         try {
             if (screeningEventTicketOffers.length === 0) {
                 this.utilService.openAlert({
@@ -218,12 +231,15 @@ export class PurchaseSeatComponent implements OnInit {
                 // 自由席
                 await this.selectOpenSeating();
             }
-            const { reservations } =
-                await this.actionService.purchase.getData();
-            await this.actionService.transaction.authorizeSeatReservation({
-                reservations,
-                screeningEventSeats: this.screeningEventSeats,
-            });
+            const { reservations } = await this.storeService.purchase.getData();
+            const authorizeSeatReservation =
+                await this.actionService.transaction.authorizeSeatReservation({
+                    reservations,
+                    screeningEventSeats: this.screeningEventSeats,
+                });
+            this.storeService.purchase.setAuthorizeSeatReservation(
+                authorizeSeatReservation
+            );
             const navigate =
                 this.environment.VIEW_TYPE === 'cinema'
                     ? '/purchase/cinema/ticket'

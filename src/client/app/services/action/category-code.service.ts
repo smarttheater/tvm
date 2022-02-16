@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { StoreService } from '..';
 import { Functions } from '../..';
-import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
 
@@ -11,14 +9,11 @@ import { UtilService } from '../util.service';
     providedIn: 'root',
 })
 export class ActionCategoryCodeService {
-    public error: Observable<string | null>;
     constructor(
-        private store: Store<reducers.IState>,
         private cinerinoService: CinerinoService,
-        private utilService: UtilService
-    ) {
-        this.error = this.store.pipe(select(reducers.getError));
-    }
+        private utilService: UtilService,
+        private storeService: StoreService
+    ) {}
 
     /**
      * 区分情報取得
@@ -27,7 +22,7 @@ export class ActionCategoryCodeService {
         categorySetIdentifier: factory.chevre.categoryCode.CategorySetIdentifier;
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'action.CategoryCode.search',
             });
             const { categorySetIdentifier } = params;
@@ -54,11 +49,11 @@ export class ActionCategoryCodeService {
                     await Functions.Util.sleep();
                 }
             }
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return result;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }

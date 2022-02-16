@@ -1,37 +1,29 @@
 import { Injectable } from '@angular/core';
 import { factory } from '@cinerino/sdk';
-import { select, Store } from '@ngrx/store';
 import jwtDecode from 'jwt-decode';
-import { Observable } from 'rxjs';
+import { StoreService } from '..';
 import { Functions, Models } from '../..';
-import { purchaseAction } from '../../store/actions';
-import * as reducers from '../../store/reducers';
 import { CinerinoService } from '../cinerino.service';
 import { PaymentService } from '../payment.service';
 import { UtilService } from '../util.service';
-import { ActionStoreService } from './store.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ActionPaymentService {
-    public error: Observable<string | null>;
     constructor(
-        private store: Store<reducers.IState>,
         private cinerinoService: CinerinoService,
         private utilService: UtilService,
-        private storeService: ActionStoreService,
+        private storeService: StoreService,
         private paymentService: PaymentService
-    ) {
-        this.error = this.store.pipe(select(reducers.getError));
-    }
+    ) {}
 
     /**
      * ムビチケ承認
      */
     public async authorizeMovieTicket() {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.AuthorizeMovieTicket',
             });
             const {
@@ -40,7 +32,7 @@ export class ActionPaymentService {
                 pendingMovieTickets,
                 temporarilyReserved,
                 seller,
-            } = await this.storeService.getPurchaseData();
+            } = await this.storeService.purchase.getData();
             if (transaction === undefined || seller === undefined) {
                 throw new Error('transaction or seller undefined');
             }
@@ -110,13 +102,11 @@ export class ActionPaymentService {
                     });
                 }
             }
-            this.store.dispatch(
-                purchaseAction.setAuthorizeMovieTicket({ authorizeResults })
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return authorizeResults;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -132,7 +122,7 @@ export class ActionPaymentService {
         paymentMethodType: string;
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.CheckMovieTicket',
             });
             const movieTickets = [
@@ -143,7 +133,7 @@ export class ActionPaymentService {
                 },
             ];
             const { transaction, screeningEvent } =
-                await this.storeService.getPurchaseData();
+                await this.storeService.purchase.getData();
             if (
                 transaction === undefined ||
                 transaction.seller.id === undefined ||
@@ -183,15 +173,11 @@ export class ActionPaymentService {
                         id: transaction.seller.id,
                     },
                 });
-
-            this.store.dispatch(
-                purchaseAction.setCheckMovieTicket({ checkMovieTicket })
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return checkMovieTicket;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -207,7 +193,7 @@ export class ActionPaymentService {
         };
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.CheckProduct',
             });
             await this.cinerinoService.getServices();
@@ -227,14 +213,11 @@ export class ActionPaymentService {
                 token,
                 typeOfGood,
             };
-            this.store.dispatch(
-                purchaseAction.setCheckProduct({ checkProduct })
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             return checkProduct;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -247,12 +230,12 @@ export class ActionPaymentService {
         additionalProperty?: { name: string; value: any }[];
     }) {
         try {
-            this.utilService.loadStart({
+            this.storeService.util.loadStart({
                 process: 'purchaseAction.AuthorizeAnyPayment',
             });
             const { amount, additionalProperty } = params;
             const { transaction, paymentMethod } =
-                await this.storeService.getPurchaseData();
+                await this.storeService.purchase.getData();
             if (transaction === undefined || paymentMethod === undefined) {
                 throw new Error('transaction undefined');
             }
@@ -272,13 +255,11 @@ export class ActionPaymentService {
                         id: transaction.id,
                     },
                 });
-            this.store.dispatch(
-                purchaseAction.setAuthorizeAnyPayment({ authorizeResult })
-            );
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
+            return authorizeResult;
         } catch (error) {
             this.utilService.setError({ error });
-            this.utilService.loadEnd();
+            this.storeService.util.loadEnd();
             throw error;
         }
     }
@@ -289,7 +270,7 @@ export class ActionPaymentService {
     public async voidDevicePayment(params: { payment?: string }) {
         const { payment } = params;
         const { authorizeSeatReservations, orderId, paymentMethod } =
-            await this.storeService.getPurchaseData();
+            await this.storeService.purchase.getData();
         if (
             payment === undefined ||
             orderId === undefined ||

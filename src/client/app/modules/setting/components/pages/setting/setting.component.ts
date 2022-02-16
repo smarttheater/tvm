@@ -13,6 +13,7 @@ import {
     CinerinoService,
     EpsonEPOSService,
     PaymentService,
+    StoreService,
     UtilService,
 } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
@@ -58,7 +59,8 @@ export class SettingComponent implements OnInit {
         private router: Router,
         private paymentService: PaymentService,
         private cinerinoService: CinerinoService,
-        private modal: BsModalService
+        private modal: BsModalService,
+        private storeService: StoreService
     ) {}
 
     /**
@@ -74,7 +76,7 @@ export class SettingComponent implements OnInit {
             this.theaters =
                 await this.actionService.place.searchMovieTheaters();
             const { application, device, profile } =
-                await this.actionService.user.getData();
+                await this.storeService.user.getData();
             this.inputData = {
                 app: {
                     ...application,
@@ -92,7 +94,7 @@ export class SettingComponent implements OnInit {
             this.router.navigate(['/error']);
         }
         try {
-            const { device } = await this.actionService.user.getData();
+            const { device } = await this.storeService.user.getData();
             if (device?.cashchanger !== undefined) {
                 await this.epsonEPOSService.cashchanger.init({
                     ipAddress: device.cashchanger.ipAddress,
@@ -142,7 +144,7 @@ export class SettingComponent implements OnInit {
                 theater.hasPOS === undefined
                     ? theater.hasPOS
                     : theater.hasPOS.find((p) => p.id === posId);
-            this.actionService.user.update({
+            this.storeService.user.update({
                 application: {
                     pos,
                     theater,

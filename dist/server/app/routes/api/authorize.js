@@ -16,7 +16,7 @@ exports.authorizeRouter = void 0;
 const debug = require("debug");
 const express = require("express");
 const base_1 = require("../../functions/base");
-const auth2_model_1 = require("../../models/auth2/auth2.model");
+const oAuth2_1 = require("../../models/session/oAuth2");
 const router = express.Router();
 const log = debug('application: /api/authorize');
 /**
@@ -27,7 +27,7 @@ router.post('/getCredentials', (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const endpoint = process.env.API_ENDPOINT;
         const waiterServerUrl = process.env.WAITER_SERVER_URL;
-        const authModel = new auth2_model_1.Auth2Model(req.session.auth);
+        const authModel = new oAuth2_1.OAuth2(req.session.auth);
         const options = { endpoint, auth: authModel.create(req) };
         const accessToken = yield options.auth.getAccessToken();
         authModel.credentials = options.auth.credentials;
@@ -54,7 +54,7 @@ router.get('/signIn', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         throw new Error('session is undefined');
     }
     delete req.session.auth;
-    const authModel = new auth2_model_1.Auth2Model(req.session.auth);
+    const authModel = new oAuth2_1.OAuth2(req.session.auth);
     const auth = authModel.create(req);
     const url = auth.generateAuthUrl({
         scopes: authModel.scopes,
@@ -66,7 +66,7 @@ router.get('/signIn', (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 router.get('/signOut', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     log('signOut');
-    const authModel = new auth2_model_1.Auth2Model(req.session.auth);
+    const authModel = new oAuth2_1.OAuth2(req.session.auth);
     const auth = authModel.create(req);
     const url = auth.generateLogoutUrl();
     log('url:', url);

@@ -5,14 +5,14 @@ import * as debug from 'debug';
 import * as express from 'express';
 import { NOT_FOUND } from 'http-status';
 import * as path from 'path';
-import { Auth2Model } from '../models/auth2/auth2.model';
+import { OAuth2 } from '../models/session/oAuth2';
 import { authorizeRouter } from './api/authorize';
 import { utilRouter } from './api/util';
 const log = debug('application: router');
 
 export default (app: express.Application) => {
     app.use((req, res, next) => {
-        if ((/\.(css|js|svg|jpg|png|gif|ico|json|html|txt)/).test(req.path)) {
+        if (/\.(css|js|svg|jpg|png|gif|ico|json|html|txt)/.test(req.path)) {
             res.status(404);
             res.end();
             return;
@@ -29,10 +29,14 @@ export default (app: express.Application) => {
             if (req.session === undefined) {
                 throw new Error('session is undefined');
             }
-            const authModel = new Auth2Model(req.session.auth);
-            if (req.query.state !== undefined
-                && req.query.state !== authModel.state) {
-                throw (new Error(`state not matched ${req.query.state} !== ${authModel.state}`));
+            const authModel = new OAuth2(req.session.auth);
+            if (
+                req.query.state !== undefined &&
+                req.query.state !== authModel.state
+            ) {
+                throw new Error(
+                    `state not matched ${req.query.state} !== ${authModel.state}`
+                );
             }
             const auth = authModel.create(req);
             const credentials = await auth.getToken(
@@ -69,7 +73,10 @@ export default (app: express.Application) => {
             next();
             return;
         }
-        res.sendFile(path.resolve(`${__dirname}/../../../client/index.html`), { lastModified: false, etag: false });
+        res.sendFile(path.resolve(`${__dirname}/../../../client/index.html`), {
+            lastModified: false,
+            etag: false,
+        });
     });
 
     app.all('*', (req, res, _next) => {

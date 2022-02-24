@@ -192,6 +192,7 @@ export class ActionTransactionService {
                 await this.cinerinoService.delivery.sendOrder({
                     object: {
                         orderNumber: order.orderNumber,
+                        confirmationNumber: order.confirmationNumber,
                     },
                 });
             } catch (error) {

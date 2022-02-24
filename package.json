@@ -1,6 +1,6 @@
 {
     "name": "smart-theater-tvm",
-    "version": "4.28.1",
+    "version": "4.29.0",
     "license": "MIT",
     "author": {
         "name": "Motionpicture co.,ltd."
@@ -45,7 +45,7 @@
         "@angular/platform-browser": "^12.2.15",
         "@angular/platform-browser-dynamic": "^12.2.15",
         "@angular/router": "^12.2.15",
-        "@cinerino/sdk": "^3.33.0",
+        "@cinerino/sdk": "^3.36.0",
         "@ngrx/effects": "^12.5.1",
         "@ngrx/store": "^12.5.1",
         "@ngx-translate/core": "^13.0.0",

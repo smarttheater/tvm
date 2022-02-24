@@ -4,7 +4,7 @@
 import * as debug from 'debug';
 import * as express from 'express';
 import { errorProsess } from '../../functions/base';
-import { Auth2Model } from '../../models/auth2/auth2.model';
+import { OAuth2 } from '../../models/session/oAuth2';
 const router = express.Router();
 const log = debug('application: /api/authorize');
 
@@ -16,7 +16,7 @@ router.post('/getCredentials', async (req, res) => {
     try {
         const endpoint = <string>process.env.API_ENDPOINT;
         const waiterServerUrl = <string>process.env.WAITER_SERVER_URL;
-        const authModel = new Auth2Model((<Express.Session>req.session).auth);
+        const authModel = new OAuth2((<Express.Session>req.session).auth);
         const options = { endpoint, auth: authModel.create(req) };
         const accessToken = await options.auth.getAccessToken();
         authModel.credentials = options.auth.credentials;
@@ -43,7 +43,7 @@ router.get('/signIn', async (req, res) => {
         throw new Error('session is undefined');
     }
     delete req.session.auth;
-    const authModel = new Auth2Model(req.session.auth);
+    const authModel = new OAuth2(req.session.auth);
     const auth = authModel.create(req);
     const url = auth.generateAuthUrl({
         scopes: authModel.scopes,
@@ -56,7 +56,7 @@ router.get('/signIn', async (req, res) => {
 
 router.get('/signOut', async (req, res) => {
     log('signOut');
-    const authModel = new Auth2Model((<Express.Session>req.session).auth);
+    const authModel = new OAuth2((<Express.Session>req.session).auth);
     const auth = authModel.create(req);
     const url = auth.generateLogoutUrl();
     log('url:', url);

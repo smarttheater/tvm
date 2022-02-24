@@ -3,9 +3,9 @@ import * as express from 'express';
 
 /**
  * 認証セッション
- * @interface IAuth2Session
+ * @interface IAuthSession
  */
-export interface IAuth2Session {
+export interface IAuthSession {
     /**
      * 状態
      */
@@ -26,9 +26,9 @@ export interface IAuth2Session {
 
 /**
  * 認証モデル
- * @class Auth2Model
+ * @class OAuth2
  */
-export class Auth2Model {
+export class OAuth2 {
     /**
      * 状態（固定値）
      */
@@ -64,8 +64,8 @@ export class Auth2Model {
         }
         this.scopes = [];
         this.credentials = session.credentials;
-        this.state = Auth2Model.STATE;
-        this.codeVerifier = Auth2Model.CODE_VERIFIER;
+        this.state = OAuth2.STATE;
+        this.codeVerifier = OAuth2.CODE_VERIFIER;
     }
 
     /**
@@ -80,7 +80,7 @@ export class Auth2Model {
             redirectUri: `${req.protocol}://${req.hostname}/signIn`,
             logoutUri: `${req.protocol}://${req.hostname}/signOut`,
             state: this.state,
-            scopes: <any>this.scopes.join(' ')
+            scopes: <any>this.scopes.join(' '),
         });
         if (this.credentials !== undefined) {
             auth.setCredentials(this.credentials);
@@ -96,11 +96,11 @@ export class Auth2Model {
      * @returns {Object}
      */
     public save(session: any): void {
-        const authSession: IAuth2Session = {
+        const authSession: IAuthSession = {
             state: this.state,
             scopes: this.scopes,
             credentials: this.credentials,
-            codeVerifier: this.codeVerifier
+            codeVerifier: this.codeVerifier,
         };
         session.auth = authSession;
     }

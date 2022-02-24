@@ -15,13 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const debug = require("debug");
 const http_status_1 = require("http-status");
 const path = require("path");
-const auth2_model_1 = require("../models/auth2/auth2.model");
+const oAuth2_1 = require("../models/session/oAuth2");
 const authorize_1 = require("./api/authorize");
 const util_1 = require("./api/util");
 const log = debug('application: router');
 exports.default = (app) => {
     app.use((req, res, next) => {
-        if ((/\.(css|js|svg|jpg|png|gif|ico|json|html|txt)/).test(req.path)) {
+        if (/\.(css|js|svg|jpg|png|gif|ico|json|html|txt)/.test(req.path)) {
             res.status(404);
             res.end();
             return;
@@ -36,10 +36,10 @@ exports.default = (app) => {
             if (req.session === undefined) {
                 throw new Error('session is undefined');
             }
-            const authModel = new auth2_model_1.Auth2Model(req.session.auth);
-            if (req.query.state !== undefined
-                && req.query.state !== authModel.state) {
-                throw (new Error(`state not matched ${req.query.state} !== ${authModel.state}`));
+            const authModel = new oAuth2_1.OAuth2(req.session.auth);
+            if (req.query.state !== undefined &&
+                req.query.state !== authModel.state) {
+                throw new Error(`state not matched ${req.query.state} !== ${authModel.state}`);
             }
             const auth = authModel.create(req);
             const credentials = yield auth.getToken(req.query.code, authModel.codeVerifier);
@@ -72,7 +72,10 @@ exports.default = (app) => {
             next();
             return;
         }
-        res.sendFile(path.resolve(`${__dirname}/../../../client/index.html`), { lastModified: false, etag: false });
+        res.sendFile(path.resolve(`${__dirname}/../../../client/index.html`), {
+            lastModified: false,
+            etag: false,
+        });
     }));
     app.all('*', (req, res, _next) => {
         res.status(http_status_1.NOT_FOUND);
